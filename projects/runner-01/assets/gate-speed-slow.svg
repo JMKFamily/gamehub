@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300" width="100" height="300">
-  <!-- 속도 변경 게이트(G8) slow: 1x3 타일 캡슐 테. 둥근 꺾쇠 개수 = 속도 단계(느림1/보통2/빠름3). 통과형, 충돌 없음 -->
-  <rect x="18" y="6" width="64" height="288" rx="32" fill="#7A3FB0" fill-opacity="0.12" stroke="#7A3FB0" stroke-width="8"/>
-  <circle cx="50" cy="40" r="7" fill="#7A3FB0"/>
-  <circle cx="50" cy="260" r="7" fill="#7A3FB0"/>
-  <polyline points="40,126 60,150 40,174" fill="none" stroke="#7A3FB0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 속도 변경 게이트(G8 템포 문) slow: 1x3 타일 캡슐 테. 색(gateSlow) + 둥근 꺾쇠 개수(느림1/보통2/빠름3)로 이중 구분. 통과형, 충돌 없음 -->
+  <rect x="18" y="6" width="64" height="288" rx="32" fill="#8FB8FF" fill-opacity="0.12" stroke="#8FB8FF" stroke-width="8"/>
+  <circle cx="50" cy="40" r="7" fill="#8FB8FF"/>
+  <circle cx="50" cy="260" r="7" fill="#8FB8FF"/>
+  <polyline points="40,126 60,150 40,174" fill="none" stroke="#8FB8FF" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

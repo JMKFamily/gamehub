@@ -1,15 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="512" height="512">
-  <!-- 앱 아이콘: 5x5 타일. 풀블리드 배경(적응형 아이콘 마스크 대응), 주요 형상은 중앙 330 안전 원 안 -->
-  <rect width="500" height="500" fill="#2E2A44"/>
-  <circle cx="250" cy="230" r="190" fill="#3A3454"/>
-  <path d="M95 330 Q190 120 330 205" fill="none" stroke="#FFE07A" stroke-opacity="0.55" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 26"/>
+  <!-- 앱 아이콘: 5x5 타일, level2(줄다리 야시장) 배경 + 공통 플레이어 색(player.svg와 동일). 주요 형상은 중앙 330 안전 원 안 -->
+  <rect width="500" height="500" fill="#1D1B36"/>
+  <circle cx="250" cy="230" r="190" fill="#2A2650"/>
+  <path d="M95 330 Q190 120 330 205" fill="none" stroke="#FFD66B" stroke-opacity="0.55" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 26"/>
   <rect x="0" y="340" width="500" height="160" fill="#8C7FBC"/>
-  <rect x="0" y="340" width="500" height="14" fill="#FBF8FF"/>
-  <rect x="0" y="337" width="500" height="6" fill="#17131F"/>
-  <polygon points="300,340 330,272 360,340" fill="#FF9466" stroke="#17131F" stroke-width="8" stroke-linejoin="miter"/>
+  <rect x="0" y="340" width="500" height="14" fill="#F4EEDF"/>
+  <rect x="0" y="337" width="500" height="6" fill="#0D0F14"/>
+  <polygon points="300,340 330,272 360,340" fill="#FF8C6E" stroke="#0D0F14" stroke-width="8" stroke-linejoin="miter"/>
   <g transform="translate(250 205) rotate(22)">
-    <polygon points="-48,-80 48,-80 80,-48 80,48 48,80 -48,80 -80,48 -80,-48" fill="#FFE07A" stroke="#17131F" stroke-width="10" stroke-linejoin="round"/>
-    <polygon points="-36,-58 36,-58 58,-36 58,36 36,58 -36,58 -58,36 -58,-36" fill="none" stroke="#17131F" stroke-opacity="0.3" stroke-width="5" stroke-linejoin="round"/>
-    <circle cx="26" cy="-26" r="21" fill="#2E2A44" stroke="#17131F" stroke-width="6"/>
+    <polygon points="-48,-80 48,-80 80,-48 80,48 48,80 -48,80 -80,48 -80,-48" fill="#FFD66B" stroke="#0D0F14" stroke-width="10" stroke-linejoin="round"/>
+    <polygon points="-35,-56 35,-56 56,-35 56,35 35,56 -35,56 -56,35 -56,-35" fill="#FFF0BE" stroke="#0D0F14" stroke-opacity="0.3" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="26" cy="-26" r="21" fill="#2A2140" stroke="#0D0F14" stroke-width="6"/>
   </g>
 </svg>

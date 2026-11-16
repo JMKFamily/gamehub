@@ -1,6 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <!-- 플레이어: 팔각 조약돌. 판정 1.0x1.0 타일 = viewBox 전체. 색은 level1 팔레트 -->
-  <polygon points="21,3 79,3 97,21 97,79 79,97 21,97 3,79 3,21" fill="#3563D8" stroke="#100D14" stroke-width="6" stroke-linejoin="round"/>
-  <polygon points="28,16 72,16 84,28 84,72 72,84 28,84 16,72 16,28" fill="none" stroke="#100D14" stroke-opacity="0.3" stroke-width="3" stroke-linejoin="round"/>
-  <circle cx="66" cy="34" r="13" fill="#F7C948" stroke="#100D14" stroke-width="4"/>
+  <!-- 플레이어 핑(울림돌): 팔각 조약돌, 얼굴 없음. 판정 1.0x1.0 타일 = viewBox 전체. 색은 세 레벨 공통(player/playerCore/playerAccent) -->
+  <polygon points="21,3 79,3 97,21 97,79 79,97 21,97 3,79 3,21" fill="#FFD66B" stroke="#0D0F14" stroke-width="6" stroke-linejoin="round"/>
+  <!-- 코어: 안쪽 팔각 면. 박자마다 1.0→1.12배 맥동 (속이 비치는 돌 느낌) -->
+  <polygon points="28,16 72,16 84,28 84,72 72,84 28,84 16,72 16,28" fill="#FFF0BE" stroke="#0D0F14" stroke-opacity="0.3" stroke-width="3" stroke-linejoin="round"/>
+  <!-- 회전 표식 = 울림 구멍. 중심에서 벗어나 있어 회전이 읽힘 -->
+  <circle cx="66" cy="34" r="13" fill="#2A2140" stroke="#0D0F14" stroke-width="4"/>
 </svg>
