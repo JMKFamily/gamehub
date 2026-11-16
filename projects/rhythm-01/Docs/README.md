@@ -4,4 +4,5 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | benchmark-analyst | 1-0 | [코어 설계: 박자 시계 추천](benchmark-analyst/2026-11-17-1-0-core-design.md) |
 | 2026-11-17 | orchestrator | 1-0 | [배리에이션 착수와 지시 전파](orchestrator/2026-11-17-1-0-variation-kickoff.md) |

@@ -2,7 +2,7 @@
 
 - 성격: runner-01(Reverbound, Geometry Dash 장르 벤치마크)의 **배리에이션** 프로젝트. 새 외부 레퍼런스를 베끼지 않고, runner-01의 핵심 재미를 유지한 채 새 코어를 설계합니다.
 - 게임 이름: 미정 (lore-writer가 1-1에서 제안) · slug: rhythm-01 (임시)
-- 현재 단계: 1-0 코어 설계·적합성 판정 (benchmark-analyst)
+- 현재 단계: 1-1 기획 (lore-writer, balance-designer, art-director 병렬) · 1-0 완료: 추천 코어 A "박자 시계 + 보여 주기 마디"
 - 라운드: 0
 
 ## 요청자 지시 (2026-11-17)
