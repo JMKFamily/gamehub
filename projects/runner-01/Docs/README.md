@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | benchmark-analyst | 1-0 round-2 | [00-benchmark 실측 반영과 선정 적합성 판정](benchmark-analyst/2026-11-17-r2-benchmark-update.md) |
+| 2026-11-17 | lore-writer | round-2 | [round-2 문구·시각 힌트 정리](lore-writer/2026-11-17-r2-text-fixes.md) |
 | 2026-11-17 | qa-engineer | 1-6 | [round-1 점수 집계와 criteria 갱신](qa-engineer/2026-11-17-1-6-round1-score.md) |
 | 2026-11-17 | benchmark-analyst | 1-0 | [레퍼런스 실측 (블루스택, 장면 1~7)](benchmark-analyst/2026-11-17-hands-on-measurement.md) |
 | 2026-11-17 | balance-designer | 1-5 | [round-1 밸런스 리뷰](balance-designer/2026-11-17-1-5-round1-review.md) |
