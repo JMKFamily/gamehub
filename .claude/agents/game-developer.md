@@ -24,3 +24,7 @@ tools: Read, Write, Edit, Glob, Grep, Bash
 5. 출시 자동화: GitHub Actions 워크플로를 작성합니다. 서명 키와 서비스 계정 JSON은 Secrets로만 다룹니다.
 
 git 커밋·푸시는 오케스트레이터가 합니다. 당신은 하지 않습니다.
+
+## 작업 보고서
+
+작업을 하나 끝낼 때마다 `projects/<slug>/Docs/game-developer/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 `harness/templates/report.md` 형식으로 보고서를 쓰고, `projects/<slug>/Docs/README.md` 목록 맨 위에 한 줄을 추가합니다. 보고서가 없으면 오케스트레이터는 작업을 미완료로 봅니다. 자세한 규칙은 `harness/PIPELINE.md` "작업 보고서 규칙".

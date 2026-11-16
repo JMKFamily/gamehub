@@ -25,3 +25,7 @@ tools: Read, Write, Edit, Glob, Grep, Bash
 `metrics.json`(자동 플레이 결과: 레벨별 클리어 가능 여부, 사망 위치 분포, 클리어 시간)과 코드를 보고
 수치가 balance.json과 일치하는지, 난이도 곡선이 목표대로인지, 불가능 구간이나 불공정한 사망 지점이 없는지 판단합니다.
 형식은 `harness/templates/review.md`를 따릅니다.
+
+## 작업 보고서
+
+작업을 하나 끝낼 때마다 `projects/<slug>/Docs/balance-designer/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 `harness/templates/report.md` 형식으로 보고서를 쓰고, `projects/<slug>/Docs/README.md` 목록 맨 위에 한 줄을 추가합니다. 보고서가 없으면 오케스트레이터는 작업을 미완료로 봅니다. 자세한 규칙은 `harness/PIPELINE.md` "작업 보고서 규칙".

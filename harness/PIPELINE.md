@@ -84,10 +84,25 @@ projects/<slug>/
   DEV_NOTES.md          # 기획과 다르게 구현한 점, 포팅 판단 근거
   tools/                # verify-levels.mjs 등 게임 전용 도구
   reviews/round-N/      # shots/, metrics.json, qa.md, <역할>.md, dev-response.md, score.md
+  Docs/                 # 에이전트별 작업 보고서 (아래 "작업 보고서 규칙")
+    README.md           # 보고서 목록 (최신이 위). 보고서를 쓴 에이전트가 한 줄 추가
+    orchestrator/  benchmark-analyst/  lore-writer/  balance-designer/
+    art-director/  game-developer/  qa-engineer/
 games/<slug>/           # 웹 빌드 (Pages 배포)
 mobile/<slug>/          # 모바일 프로젝트
 harness/                # PIPELINE.md, criteria.md, templates/, qa/, guides/
 ```
+
+- 게임(프로젝트)마다 `projects/<slug>/` 폴더 하나로 따로 관리합니다. 한 프로젝트의 문서·데이터·도구·보고서는 다른 프로젝트 폴더에 섞지 않습니다. 여러 게임이 같이 쓰는 것만 `harness/`에 둡니다.
+
+## 작업 보고서 규칙 (모든 역할 공통)
+
+- 모든 에이전트(오케스트레이터 포함)는 작업 하나를 끝낼 때마다 `projects/<slug>/Docs/<역할>/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 보고서를 씁니다. 예: `Docs/qa-engineer/2026-11-17-1-4-round1-qa.md`
+- 형식은 `harness/templates/report.md`를 따릅니다 (요청 받은 일, 한 일, 산출물, 검증 결과, 규칙 준수 확인, 문제·남은 일).
+- 보고서를 쓴 에이전트가 `Docs/README.md` 목록 맨 위에 한 줄(날짜, 역할, 단계, 제목, 링크)을 추가합니다.
+- 산출물(기획 문서, 리뷰, metrics 등)은 원래 위치에 두고, 보고서에는 링크와 요약만 씁니다.
+- 오케스트레이터는 `Docs/orchestrator/`에 요청자 지시 전파 내역과 에이전트 감시 결과(확인한 항목, 위반과 되돌려 보낸 피드백)를 남깁니다.
+- 오케스트레이터는 에이전트 결과를 받을 때 보고서가 있는지 확인하고, 없으면 작업 미완료로 보고 되돌려 보냅니다.
 
 ## 리뷰 형식 (모든 역할 공통)
 

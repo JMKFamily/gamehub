@@ -36,3 +36,7 @@ tools: Read, Write, Edit, Glob, Grep, Bash
 - 재현 절차 없는 이슈는 쓰지 않습니다. 모든 이슈에 재현 방법이나 스크립트 출력, 스크린샷 경로를 붙입니다.
 - 점수를 후하게 주지 않습니다. 근거가 되는 체크 항목 통과율로 계산합니다.
 - git 커밋·푸시는 오케스트레이터가 합니다.
+
+## 작업 보고서
+
+작업을 하나 끝낼 때마다 `projects/<slug>/Docs/qa-engineer/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 `harness/templates/report.md` 형식으로 보고서를 쓰고, `projects/<slug>/Docs/README.md` 목록 맨 위에 한 줄을 추가합니다. 보고서가 없으면 오케스트레이터는 작업을 미완료로 봅니다. 자세한 규칙은 `harness/PIPELINE.md` "작업 보고서 규칙".

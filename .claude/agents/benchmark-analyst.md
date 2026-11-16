@@ -41,3 +41,7 @@ tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 빌드 코드, 스크린샷, `metrics.json`을 보고 00-benchmark.md의 감각 수치·핵심 루프·재시작 속도가 재현됐는지 판단합니다.
 원작과 너무 닮은 요소(이름, 모양, 배치)가 보이면 blocker로 지적합니다.
 형식은 `harness/templates/review.md`를 따릅니다.
+
+## 작업 보고서
+
+작업을 하나 끝낼 때마다 `projects/<slug>/Docs/benchmark-analyst/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 `harness/templates/report.md` 형식으로 보고서를 쓰고, `projects/<slug>/Docs/README.md` 목록 맨 위에 한 줄을 추가합니다. 보고서가 없으면 오케스트레이터는 작업을 미완료로 봅니다. 자세한 규칙은 `harness/PIPELINE.md` "작업 보고서 규칙".
