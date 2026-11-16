@@ -1,0 +1,118 @@
+/* Reverbound UI. 색은 main.js가 data/art.json 값으로 CSS 변수에 넣는다. 시스템 폰트만 사용. */
+:root {
+  --bg: #1D1B36; --bgFar: #2A2650; --hud: #F4F0E8; --outline: #0D0F14; --player: #FFD66B; --trigger: #5FE0C0;
+  --ground: #8C7FBC; --groundEdge: #F4EEDF; --hazard: #FF8C6E; --gateSlow: #8FB8FF;
+  --sat: env(safe-area-inset-top, 0px); --sar: env(safe-area-inset-right, 0px); --sab: env(safe-area-inset-bottom, 0px); --sal: env(safe-area-inset-left, 0px);
+  --tile: 36px;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--hud);
+  font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  touch-action: none; user-select: none; -webkit-user-select: none; overscroll-behavior: none; }
+canvas { position: fixed; inset: 0; display: block; touch-action: none; }
+.hidden { display: none !important; }
+button { font: inherit; color: inherit; touch-action: manipulation; cursor: pointer; }
+.ico { width: 24px; height: 24px; flex: none; display: inline-block; vertical-align: middle; }
+.ico.lg { width: 40px; height: 40px; }
+
+/* HUD: 위쪽 띠 */
+#hud { position: fixed; left: 0; right: 0; top: 0; padding: calc(var(--sat) + 6px) calc(var(--sar) + 8px) 0 calc(var(--sal) + 8px);
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; pointer-events: none; z-index: 5; }
+.att { font-weight: 800; font-size: 14px; min-width: 64px; line-height: 48px; transition: font-size .35s, transform .35s; transform-origin: left top; white-space: nowrap; text-shadow: 0 1px 0 var(--outline); }
+.att.big { font-size: 26px; }
+#barWrap { position: absolute; left: 50%; top: calc(var(--sat) + 21px); transform: translateX(-50%); display: flex; align-items: center; gap: 8px;
+  width: max(160px, 40vw); }
+#bar { position: relative; flex: 1; height: max(7px, calc(var(--tile) * 0.18)); border: 2px solid var(--hud); border-radius: 99px; overflow: visible; }
+#barFill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--hud); border-radius: 99px; }
+#barBest { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--hud); border-radius: 2px; left: 0; opacity: .75; }
+#pct { font-weight: 800; font-size: 14px; min-width: 40px; text-align: left; text-shadow: 0 1px 0 var(--outline); }
+.hudRight { display: flex; gap: 8px; pointer-events: auto; }
+.hudBtn { min-width: 48px; height: 48px; padding: 0 10px; border-radius: 14px; border: 2px solid var(--hud); background: rgba(13,15,20,.45);
+  display: inline-flex; align-items: center; gap: 6px; font-weight: 800; font-size: 14px; }
+.hudBtn .lbl { white-space: nowrap; }
+.iconBtn { width: 48px; height: 48px; border-radius: 14px; border: 2px solid var(--hud); background: rgba(13,15,20,.45); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.iconBtn span { width: 6px; height: 20px; border-radius: 3px; background: var(--hud); }
+/* 튜토리얼 카드 (아이콘 + 짧은 글) */
+.cue { position: fixed; left: 50%; top: calc(var(--sat) + 64px); transform: translateX(-50%); z-index: 4; pointer-events: none;
+  display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-radius: 16px; background: rgba(13,15,20,.6); border: 2px solid var(--hud);
+  font-weight: 800; font-size: 16px; max-width: calc(100vw - 32px); }
+.cue svg { width: 48px; height: 48px; flex: none; }
+.clearIco { width: 72px; height: 72px; color: var(--player); filter: drop-shadow(0 3px 0 var(--outline)); }
+.toast { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 6; pointer-events: none; font-weight: 900; font-size: 22px;
+  text-align: center; text-shadow: 0 2px 0 var(--outline); max-width: calc(100vw - 32px); }
+.toast small { display: block; font-size: 15px; font-weight: 700; margin-top: 4px; }
+
+/* 손가락 시연 (월드 좌표에 붙음, main.js가 위치 갱신) */
+#demo { position: fixed; z-index: 3; pointer-events: none; width: 72px; height: 72px; margin: -8px 0 0 -36px; }
+
+/* 화면 */
+.screen { position: fixed; inset: 0; z-index: 10; display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+  padding: calc(var(--sat) + 12px) calc(var(--sar) + 16px) calc(var(--sab) + 12px) calc(var(--sal) + 16px); text-align: center; }
+.screen.show { display: flex; }
+.screen.dim { background: rgba(13,15,20,.72); }
+.screen.clear { background: transparent; pointer-events: none; }
+h1 { margin: 0; font-size: clamp(34px, 8vmin, 64px); font-weight: 900; letter-spacing: .02em; text-shadow: 0 3px 0 var(--outline); }
+h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shadow: 0 2px 0 var(--outline); }
+.titleAlt { margin: 0; font-weight: 800; font-size: 16px; opacity: .85; letter-spacing: .2em; }
+.sub { margin: 4px 0 0; font-weight: 700; font-size: 16px; opacity: .9; }
+.small { font-size: 14px; font-weight: 600; opacity: .9; margin: 0; }
+.big { font-size: 72px; font-weight: 900; margin: 0; text-shadow: 0 4px 0 var(--outline); }
+.pulse { animation: pulse 1s ease-in-out infinite; font-weight: 800; font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; justify-content: center; }
+@keyframes pulse { 50% { opacity: .55; transform: scale(.97); } }
+.tapStart { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.menu { display: flex; flex-direction: column; gap: 10px; align-items: stretch; min-width: 220px; }
+.menu.row2 { flex-direction: row; justify-content: center; }
+.btn { min-height: 52px; min-width: 52px; padding: 8px 20px; border-radius: 16px; border: 3px solid var(--outline); background: var(--hud); color: var(--outline);
+  font-weight: 900; font-size: 18px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 0 var(--outline); }
+.btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--outline); }
+.btn.primary { background: var(--player); font-size: 22px; min-height: 64px; }
+.btn.danger { background: var(--hazard); }
+.btn.small { min-height: 48px; font-size: 15px; padding: 6px 14px; }
+.btn.back { position: absolute; left: calc(var(--sal) + 12px); top: calc(var(--sat) + 10px); padding: 0; width: 52px; font-size: 26px; }
+.topRow { position: relative; width: 100%; display: flex; align-items: center; justify-content: center; min-height: 56px; }
+.seg { display: inline-flex; border: 3px solid var(--outline); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 0 var(--outline); }
+.seg button { min-height: 48px; padding: 6px 16px; border: 0; background: var(--bgFar); color: var(--hud); font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; }
+.seg button.on { background: var(--hud); color: var(--outline); }
+.cards { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; overflow-y: auto; max-height: calc(100% - 80px); padding: 4px 4px 12px; touch-action: pan-y; }
+.card { width: 200px; min-height: 150px; border-radius: 18px; border: 3px solid var(--outline); padding: 12px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; text-align: left;
+  box-shadow: 0 5px 0 var(--outline); position: relative; color: var(--hud); }
+.card .num { font-size: 34px; font-weight: 900; line-height: 1; }
+.card .nm { font-size: 17px; font-weight: 900; }
+.card .tag { font-size: 14px; font-weight: 600; opacity: .9; }
+.card .best { font-size: 14px; font-weight: 800; }
+.card .badge { position: absolute; right: 10px; top: 10px; background: var(--trigger); color: var(--outline); border-radius: 99px; padding: 2px 10px; font-size: 14px; font-weight: 900; display: inline-flex; align-items: center; gap: 4px; }
+.card.locked { opacity: .6; }
+.card .lockIco { position: absolute; right: 12px; top: 12px; }
+.card .starRow { display: flex; gap: 3px; }
+.panel { display: flex; flex-direction: column; gap: 10px; width: min(560px, 100%); background: rgba(13,15,20,.55); border: 2px solid var(--hud); border-radius: 18px; padding: 14px;
+  overflow-y: auto; max-height: calc(100% - 70px); touch-action: pan-y; text-align: left; }
+.row { display: flex; align-items: center; gap: 12px; min-height: 48px; font-weight: 800; font-size: 15px; }
+.row > span:first-child { flex: 1; }
+.row input[type=range] { flex: 2; min-width: 100px; height: 48px; accent-color: var(--player); }
+.val { min-width: 64px; text-align: right; }
+.tog { min-width: 72px; min-height: 48px; border-radius: 99px; border: 3px solid var(--outline); background: var(--bgFar); color: var(--hud); font-weight: 900; font-size: 15px; }
+.tog.on { background: var(--trigger); color: var(--outline); }
+.rotate { position: fixed; left: 50%; bottom: calc(var(--sab) + 16px); transform: translateX(-50%); z-index: 20; display: flex; align-items: center; gap: 10px;
+  background: var(--hud); color: var(--outline); border: 3px solid var(--outline); border-radius: 16px; padding: 6px 6px 6px 14px; font-weight: 800; font-size: 15px; max-width: calc(100vw - 32px); }
+.rotate .x { width: 48px; height: 48px; border-radius: 12px; border: 0; background: var(--outline); color: var(--hud); font-size: 26px; font-weight: 900; }
+.hubLink { position: absolute; left: calc(var(--sal) + 12px); top: calc(var(--sat) + 10px); min-width: 48px; min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--hud); text-decoration: none; font-weight: 800; font-size: 14px; border: 2px solid var(--hud); border-radius: 14px; padding: 0 12px; opacity: .8; }
+
+/* 반응형 (맨 끝에 두어 기본 규칙을 덮음) */
+@media (max-width: 900px) { .hudBtn .lbl { display: none; } }
+@media (max-width: 760px) { #barWrap { width: max(140px, 30vw); } }
+/* 좁은 화면(세로 등): 진행도 바를 둘째 줄로 */
+@media (max-width: 560px) {
+  #barWrap { top: calc(var(--sat) + 62px); width: calc(100vw - 32px - var(--sal) - var(--sar)); }
+  .att { font-size: 14px; } .att.big { font-size: 20px; }
+  .cue { top: calc(var(--sat) + 86px); font-size: 14px; width: calc(100vw - 32px); }
+}
+@media (orientation: landscape) and (max-height: 480px) {
+  .cards { flex-wrap: nowrap; }
+  .card { width: min(200px, calc((100vw - 72px) / 3)); min-height: 0; padding: 10px; }
+  .card .num { font-size: 26px; }
+  .card .nm { font-size: 15px; }
+  .screen { gap: 8px; }
+  .btn.primary { min-height: 56px; }
+}
+

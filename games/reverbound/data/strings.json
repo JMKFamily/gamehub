@@ -1,0 +1,337 @@
+{
+ "_source": "projects/runner-01/10-lore.md 5절 (sync-data.mjs 생성, 직접 고치지 말 것)",
+ "strings": {
+  "title": {
+   "ko": "잔향 질주",
+   "en": "Reverbound"
+  },
+  "subtitle": {
+   "ko": "마지막 소절이 끝나기 전에",
+   "en": "Before the last note fades"
+  },
+  "tap_to_start": {
+   "ko": "탭해서 시작",
+   "en": "Tap to start"
+  },
+  "menu_play": {
+   "ko": "달리기",
+   "en": "Play"
+  },
+  "menu_levels": {
+   "ko": "레벨 선택",
+   "en": "Levels"
+  },
+  "menu_settings": {
+   "ko": "설정",
+   "en": "Settings"
+  },
+  "level_locked": {
+   "ko": "이전 레벨을 클리어하면 열려요",
+   "en": "Clear the previous level to unlock"
+  },
+  "mode_normal": {
+   "ko": "일반 모드",
+   "en": "Normal"
+  },
+  "mode_practice": {
+   "ko": "연습 모드",
+   "en": "Practice"
+  },
+  "best_normal": {
+   "ko": "최고 {pct}%",
+   "en": "Best {pct}%"
+  },
+  "best_practice": {
+   "ko": "연습 최고 {pct}%",
+   "en": "Practice best {pct}%"
+  },
+  "cleared_badge": {
+   "ko": "클리어",
+   "en": "Cleared"
+  },
+  "level1_name": {
+   "ko": "새벽 조율장",
+   "en": "Dawn Tuning Yard"
+  },
+  "level2_name": {
+   "ko": "줄다리 야시장",
+   "en": "Wirebridge Night Market"
+  },
+  "level3_name": {
+   "ko": "폭풍 종탑",
+   "en": "Storm Belfry"
+  },
+  "level1_tag": {
+   "ko": "첫 박을 울려라",
+   "en": "Ring the first beat"
+  },
+  "level2_tag": {
+   "ko": "등불이 꺼지기 전에",
+   "en": "Before the lanterns go dark"
+  },
+  "level3_tag": {
+   "ko": "종을 다시 울려라",
+   "en": "Ring the bell again"
+  },
+  "attempt": {
+   "ko": "{n}번째 시도",
+   "en": "Attempt {n}"
+  },
+  "progress": {
+   "ko": "{pct}%",
+   "en": "{pct}%"
+  },
+  "new_best": {
+   "ko": "최고 기록!",
+   "en": "New best!"
+  },
+  "practice_checkpoint_placed": {
+   "ko": "울림 지점 표시",
+   "en": "Checkpoint set"
+  },
+  "practice_checkpoint_removed": {
+   "ko": "울림 지점 지움",
+   "en": "Checkpoint removed"
+  },
+  "practice_place_btn": {
+   "ko": "지점 찍기",
+   "en": "Set point"
+  },
+  "practice_remove_btn": {
+   "ko": "지점 지우기",
+   "en": "Remove point"
+  },
+  "pause_title": {
+   "ko": "잠깐 숨 고르기",
+   "en": "Taking a breath"
+  },
+  "pause_resume": {
+   "ko": "계속",
+   "en": "Resume"
+  },
+  "pause_restart": {
+   "ko": "처음부터",
+   "en": "Restart"
+  },
+  "pause_practice_toggle": {
+   "ko": "연습 모드 켜기/끄기",
+   "en": "Toggle practice"
+  },
+  "pause_quit": {
+   "ko": "레벨 선택으로",
+   "en": "Back to levels"
+  },
+  "resume_countdown": {
+   "ko": "3 · 2 · 1",
+   "en": "3 · 2 · 1"
+  },
+  "settings_music": {
+   "ko": "음악 볼륨",
+   "en": "Music volume"
+  },
+  "settings_sfx": {
+   "ko": "효과음 볼륨",
+   "en": "SFX volume"
+  },
+  "settings_offset": {
+   "ko": "박자 보정",
+   "en": "Audio offset"
+  },
+  "settings_offset_help": {
+   "ko": "박자가 화면보다 늦게 들리면 +, 빠르면 − 로 맞추세요",
+   "en": "If the beat sounds late, slide to +. If early, slide to −"
+  },
+  "settings_offset_unit": {
+   "ko": "{ms} ms",
+   "en": "{ms} ms"
+  },
+  "settings_offset_test": {
+   "ko": "탭해서 맞춰 보기",
+   "en": "Tap along to test"
+  },
+  "settings_shake": {
+   "ko": "화면 흔들림",
+   "en": "Screen shake"
+  },
+  "settings_trigger_sfx": {
+   "ko": "발판·고리 효과음",
+   "en": "Pad & ring sounds"
+  },
+  "settings_on": {
+   "ko": "켜기",
+   "en": "On"
+  },
+  "settings_off": {
+   "ko": "끄기",
+   "en": "Off"
+  },
+  "settings_reset": {
+   "ko": "기록 초기화",
+   "en": "Reset progress"
+  },
+  "settings_reset_confirm": {
+   "ko": "모든 기록이 사라져요. 정말 지울까요?",
+   "en": "All progress will be erased. Are you sure?"
+  },
+  "confirm_yes": {
+   "ko": "지우기",
+   "en": "Erase"
+  },
+  "confirm_no": {
+   "ko": "취소",
+   "en": "Cancel"
+  },
+  "clear_title_l1": {
+   "ko": "첫 박이 울렸다",
+   "en": "The first beat rings"
+  },
+  "clear_title_l2": {
+   "ko": "시장에 불이 켜졌다",
+   "en": "The market lights up"
+  },
+  "clear_title_l3": {
+   "ko": "노래가 돌아왔다",
+   "en": "The song is back"
+  },
+  "clear_attempts": {
+   "ko": "{n}번 만에 클리어",
+   "en": "Cleared in {n} attempts"
+  },
+  "clear_next": {
+   "ko": "다음 레벨",
+   "en": "Next level"
+  },
+  "clear_retry": {
+   "ko": "다시 달리기",
+   "en": "Run again"
+  },
+  "clear_levels": {
+   "ko": "레벨 선택",
+   "en": "Levels"
+  },
+  "clear_all": {
+   "ko": "세 소절을 모두 울렸어요. 다음 노래를 기다려 주세요",
+   "en": "All three bars are ringing. More songs coming soon"
+  },
+  "tut_tap": {
+   "ko": "탭하면 뛰어요",
+   "en": "Tap to jump"
+  },
+  "tut_shard": {
+   "ko": "잡음 결정은 피하세요",
+   "en": "Avoid the Static Shards"
+  },
+  "tut_beat": {
+   "ko": "박자에 맞춰 뛰어 봐요",
+   "en": "Jump on the beat"
+  },
+  "tut_low": {
+   "ko": "잔잡음은 조금 늦게 뛰어도 넘어요",
+   "en": "Low Hiss is short. You can jump late"
+  },
+  "tut_crate": {
+   "ko": "상자 위로 올라타요. 정면으로 박으면 깨져요",
+   "en": "Hop onto crates. Don't hit them head-on"
+  },
+  "tut_hold": {
+   "ko": "누르고 있으면 착지할 때마다 다시 뛰어요",
+   "en": "Hold to keep jumping"
+  },
+  "tut_restart": {
+   "ko": "깨져도 바로 다시 시작해요",
+   "en": "Shatter? You're back in a beat"
+  },
+  "tut_drum": {
+   "ko": "북 발판은 높이 튕겨 줘요",
+   "en": "Drum Pads bounce you high"
+  },
+  "tut_hanging": {
+   "ko": "위에도 잡음이 있어요. 그땐 뛰지 마세요",
+   "en": "Watch above. Sometimes, don't jump"
+  },
+  "tut_string": {
+   "ko": "현 발판은 위에서만 밟을 수 있어요",
+   "en": "String Ledges hold you from above"
+  },
+  "tut_ring": {
+   "ko": "공중의 울림 고리에 닿으면 탭!",
+   "en": "Tap inside an Echo Ring to jump again"
+  },
+  "tut_tempo": {
+   "ko": "템포 문을 지나면 빠르기가 바뀌어요",
+   "en": "Tempo Gates change your speed"
+  },
+  "loading": {
+   "ko": "조율 중…",
+   "en": "Tuning…"
+  },
+  "audio_unlock": {
+   "ko": "화면을 탭하면 소리가 켜져요",
+   "en": "Tap to turn on sound"
+  },
+  "rotate_hint": {
+   "ko": "가로로 돌리면 더 넓게 보여요",
+   "en": "Turn sideways for a wider view"
+  },
+  "paused_background": {
+   "ko": "잠깐 멈췄어요. 탭하면 이어서 달려요",
+   "en": "Paused. Tap to keep running"
+  },
+  "load_error": {
+   "ko": "노래를 불러오지 못했어요. 다시 시도해 주세요",
+   "en": "Couldn't load the song. Please try again"
+  }
+ },
+ "death_messages": [
+  {
+   "ko": "다시, 한 소절",
+   "en": "Again, one more bar"
+  },
+  {
+   "ko": "울림은 끝나지 않아",
+   "en": "The echo never ends"
+  },
+  {
+   "ko": "박자를 다시 세자",
+   "en": "Count it in again"
+  },
+  {
+   "ko": "조금 더 멀리",
+   "en": "A little further"
+  },
+  {
+   "ko": "흩어졌다 모인다",
+   "en": "Scatter. Gather. Go"
+  },
+  {
+   "ko": "정적은 잠깐뿐",
+   "en": "Silence won't last"
+  },
+  {
+   "ko": "하나, 둘, 다시",
+   "en": "One, two, again"
+  },
+  {
+   "ko": "아직 노래 중",
+   "en": "Still singing"
+  }
+ ],
+ "clear_subtitles": [
+  {
+   "ko": "색이 돌아왔어요",
+   "en": "Color returns"
+  },
+  {
+   "ko": "박자가 이어졌어요",
+   "en": "The beat goes on"
+  },
+  {
+   "ko": "정적이 한 걸음 물러났어요",
+   "en": "The Hush steps back"
+  },
+  {
+   "ko": "끝까지 울렸어요",
+   "en": "Rang true to the end"
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1D1B36">
+<title>Reverbound</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cv" aria-label="game"></canvas>
+
+<!-- HUD (화면 위쪽 1.2타일 띠, 안전 영역 안쪽) -->
+<div id="hud" class="hidden">
+  <div id="att" class="att"></div>
+  <div id="barWrap"><div id="bar"><div id="barFill"></div><div id="barBest"></div></div><span id="pct">0%</span></div>
+  <div class="hudRight">
+    <button id="cpPlace" class="hudBtn practiceOnly" type="button"></button>
+    <button id="cpRemove" class="hudBtn practiceOnly" type="button"></button>
+    <button id="pauseBtn" class="iconBtn" type="button" aria-label="pause"><span></span><span></span></button>
+  </div>
+</div>
+<div id="cue" class="cue hidden"></div>
+<div id="toast" class="toast hidden"></div>
+
+<!-- 화면들 -->
+<div id="loading" class="screen show"><p id="loadingText">…</p><button id="retryLoad" class="btn hidden" type="button">↻</button></div>
+
+<div id="title" class="screen">
+  <a id="hubLink" class="hubLink" href="../../" aria-label="hub">⌂</a>
+  <div class="titleBlock">
+    <p id="titleAlt" class="titleAlt"></p>
+    <h1 id="titleMain"></h1>
+    <p id="subtitle" class="sub"></p>
+  </div>
+  <div id="tapStart" class="tapStart"><p id="tapStartText" class="pulse"></p><p id="audioUnlock" class="small"></p></div>
+  <div id="menu" class="menu hidden">
+    <button id="btnPlay" class="btn primary" type="button"></button>
+    <button id="btnLevels" class="btn" type="button"></button>
+    <button id="btnSettings" class="btn" type="button"></button>
+  </div>
+</div>
+
+<div id="levels" class="screen">
+  <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button>
+    <div id="modeSeg" class="seg"><button id="modeNormal" type="button"></button><button id="modePractice" type="button"></button></div></div>
+  <div id="cards" class="cards"></div>
+</div>
+
+<div id="settings" class="screen">
+  <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button><h2 id="setTitle"></h2></div>
+  <div class="panel">
+    <label class="row"><span id="lMusic"></span><input id="sMusic" type="range" min="0" max="100" step="1"><button id="bMute" class="tog" type="button"></button></label>
+    <label class="row"><span id="lSfx"></span><input id="sSfx" type="range" min="0" max="100" step="1"></label>
+    <label class="row"><span id="lOffset"></span><input id="sOffset" type="range" min="-200" max="200" step="5"><span id="vOffset" class="val"></span></label>
+    <p id="offsetHelp" class="small"></p>
+    <div class="row"><button id="bOffsetTest" class="btn small" type="button"></button><span id="offsetTestOut" class="small"></span></div>
+    <div class="row"><span id="lShake"></span><button id="bShake" class="tog" type="button"></button></div>
+    <div class="row"><span id="lTrig"></span><button id="bTrig" class="tog" type="button"></button></div>
+    <div class="row"><button id="bReset" class="btn danger small" type="button"></button></div>
+  </div>
+</div>
+
+<div id="pause" class="screen dim">
+  <h2 id="pauseTitle"></h2>
+  <p id="pauseBg" class="small hidden"></p>
+  <div class="menu">
+    <button id="pResume" class="btn primary" type="button"></button>
+    <button id="pRestart" class="btn" type="button"></button>
+    <button id="pPractice" class="btn" type="button"></button>
+    <button id="pQuit" class="btn" type="button"></button>
+  </div>
+</div>
+
+<div id="countdown" class="screen clear"><p id="cdNum" class="big"></p></div>
+
+<div id="clearS" class="screen dim">
+  <svg class="clearIco" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2 15,9 22.5,9.5 16.8,14.3 18.6,21.8 12,17.7 5.4,21.8 7.2,14.3 1.5,9.5 9,9" fill="currentColor" stroke-width="1.2" style="stroke:var(--outline)"/></svg>
+  <h2 id="clearTitle"></h2>
+  <p id="clearSub" class="sub"></p>
+  <p id="clearAtt" class="small"></p>
+  <p id="clearAll" class="small hidden"></p>
+  <div class="menu">
+    <button id="cNext" class="btn primary" type="button"></button>
+    <button id="cRetry" class="btn" type="button"></button>
+    <button id="cLevels" class="btn" type="button"></button>
+  </div>
+</div>
+
+<div id="confirm" class="screen dim">
+  <p id="confirmText"></p>
+  <div class="menu row2"><button id="cfNo" class="btn" type="button"></button><button id="cfYes" class="btn danger" type="button"></button></div>
+</div>
+
+<div id="rotate" class="rotate hidden"><span id="rotateText"></span><button id="rotateClose" class="x" type="button" aria-label="close">×</button></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

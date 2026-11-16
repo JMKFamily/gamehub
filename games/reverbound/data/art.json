@@ -1,0 +1,52 @@
+{
+ "_source": "projects/runner-01/30-art.md 2절·6절 (sync-data.mjs 생성, 직접 고치지 말 것)",
+ "palette": {
+  "level1": {
+   "bg": "#222B37",
+   "bgFar": "#2A3341",
+   "bgPulse": "#31343F",
+   "bgAccent": "#3C302C",
+   "ground": "#8A7F70"
+  },
+  "level2": {
+   "bg": "#1D1B36",
+   "bgFar": "#2A2650",
+   "bgPulse": "#30294F",
+   "bgAccent": "#45264E",
+   "ground": "#8C7FBC"
+  },
+  "level3": {
+   "bg": "#121820",
+   "bgFar": "#1F2833",
+   "bgPulse": "#2B3644",
+   "bgAccent": "#302F25",
+   "ground": "#6F8597"
+  }
+ },
+ "common": {
+  "outline": "#0D0F14",
+  "groundEdge": "#F4EEDF",
+  "hazard": "#FF8C6E",
+  "player": "#FFD66B",
+  "playerCore": "#FFF0BE",
+  "playerAccent": "#2A2140",
+  "trigger": "#5FE0C0",
+  "gateSlow": "#8FB8FF",
+  "gateNormal": "#ECE6D8",
+  "gateFast": "#F28AD0",
+  "hud": "#F4F0E8"
+ },
+ "clear": {
+  "level1": [
+   "#F2C38B"
+  ],
+  "level2": [
+   "#F28AD0",
+   "#5FE0C0"
+  ],
+  "level3": [
+   "#FFD66B",
+   "#8FB8FF"
+  ]
+ }
+}

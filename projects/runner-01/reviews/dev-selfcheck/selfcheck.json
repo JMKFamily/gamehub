@@ -1,0 +1,124 @@
+{
+  "base": "http://localhost:8123/games/reverbound/",
+  "channel": "msedge",
+  "runs": [
+    {
+      "level": 1,
+      "set": "taps",
+      "holdTicks": 1,
+      "frame_hz": 60,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 1,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "holdTicks": 19,
+      "frame_hz": 144,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 2,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "holdTicks": 1,
+      "frame_hz": 60,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 1,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "holdTicks": 19,
+      "frame_hz": 144,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 2,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "holdTicks": 1,
+      "frame_hz": 60,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 1,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "holdTicks": 19,
+      "frame_hz": 144,
+      "state": "clear",
+      "progress": 100,
+      "attempts": 2,
+      "death": null
+    }
+  ],
+  "console_errors": [],
+  "external_requests": [],
+  "shots": [
+    "1280x720-level3-clear-fx.png",
+    "1280x720-clear-screen.png",
+    "1280x720-title.png",
+    "1280x720-levels.png",
+    "1280x720-level1-play.png",
+    "1280x720-level2-play.png",
+    "1280x720-level3-play.png",
+    "1280x720-death.png",
+    "1280x720-pause.png",
+    "1280x720-settings.png",
+    "1280x720-practice-hud.png",
+    "640x360-title.png",
+    "640x360-levels.png",
+    "640x360-level1-play.png",
+    "640x360-level2-play.png",
+    "640x360-level3-play.png",
+    "640x360-death.png",
+    "640x360-pause.png",
+    "640x360-settings.png",
+    "640x360-practice-hud.png",
+    "360x640-title.png",
+    "360x640-levels.png",
+    "360x640-level1-play.png",
+    "360x640-level2-play.png",
+    "360x640-level3-play.png",
+    "360x640-death.png",
+    "360x640-pause.png",
+    "360x640-settings.png",
+    "360x640-practice-hud.png",
+    "1280x720-title-normal.png",
+    "1280x720-normal-play.png"
+  ],
+  "hud_1280x720": {
+    "outside": [],
+    "under48": [],
+    "overlaps": []
+  },
+  "hud_640x360": {
+    "outside": [],
+    "under48": [],
+    "overlaps": []
+  },
+  "hud_360x640": {
+    "outside": [],
+    "under48": [],
+    "overlaps": []
+  },
+  "normal_jump_y_after_100ms": 1.5191840277777768,
+  "normal_audio": "running",
+  "normal_mode": {
+    "state": "playing",
+    "progress": 5.060763888888858,
+    "attempts": 1
+  },
+  "pass": true
+}
