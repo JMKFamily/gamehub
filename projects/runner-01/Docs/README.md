@@ -4,4 +4,5 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | 1-3 | [웹 빌드 (Reverbound)](game-developer/2026-11-17-1-3-web-build.md) |
 | 2026-11-17 | orchestrator | 1-3 | [하네스 규칙 전파와 에이전트 감시 기록](orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md) |
