@@ -1,0 +1,1123 @@
+{
+ "schema_version": 1,
+ "id": "03",
+ "theme_id": "level3",
+ "name": null,
+ "bpm": 140,
+ "beats_per_bar": 4,
+ "audio_first_beat_s": 0,
+ "start_speed": "normal",
+ "player_start": {
+  "x": 0,
+  "y": 0
+ },
+ "length_beats": 160,
+ "length_tiles": 750.86,
+ "duration_s": 68.57,
+ "difficulty": {
+  "stars": 3,
+  "expected_attempts": [
+   20,
+   60
+  ],
+  "first_try_reach_pct": 10,
+  "clear_rate_10_tries": 0.1
+ },
+ "design_intent": "공중 재점프 트리거, 속도 변경(느림→보통→빠름→보통). 앞 레벨 기믹 전부 조합.",
+ "speed_changes": [
+  {
+   "x": 178.79,
+   "speed": "slow",
+   "beat": 40
+  },
+  {
+   "x": 236.39,
+   "speed": "normal",
+   "beat": 56
+  },
+  {
+   "x": 343.36,
+   "speed": "fast",
+   "beat": 80
+  },
+  {
+   "x": 608.73,
+   "speed": "normal",
+   "beat": 128
+  }
+ ],
+ "sections": [
+  {
+   "name": "intro",
+   "start_beat": 0,
+   "x": 0,
+   "intensity": 0
+  },
+  {
+   "name": "review",
+   "start_beat": 8,
+   "x": 35.66,
+   "intensity": 1
+  },
+  {
+   "name": "learn_orb",
+   "start_beat": 24,
+   "x": 106.97,
+   "intensity": 2
+  },
+  {
+   "name": "slow",
+   "start_beat": 40,
+   "x": 178.29,
+   "intensity": 2
+  },
+  {
+   "name": "normal",
+   "start_beat": 56,
+   "x": 235.89,
+   "intensity": 2
+  },
+  {
+   "name": "breath",
+   "start_beat": 62,
+   "x": 262.63,
+   "intensity": 0
+  },
+  {
+   "name": "combo",
+   "start_beat": 64,
+   "x": 271.54,
+   "intensity": 3
+  },
+  {
+   "name": "fast_drop",
+   "start_beat": 80,
+   "x": 342.86,
+   "intensity": 4
+  },
+  {
+   "name": "breath",
+   "start_beat": 104,
+   "x": 475.54,
+   "intensity": 1
+  },
+  {
+   "name": "breath",
+   "start_beat": 124,
+   "x": 586.11,
+   "intensity": 1
+  },
+  {
+   "name": "finale",
+   "start_beat": 128,
+   "x": 608.23,
+   "intensity": 3
+  },
+  {
+   "name": "outro",
+   "start_beat": 144,
+   "x": 679.54,
+   "intensity": 0
+  }
+ ],
+ "objects": [
+  {
+   "type": "spike",
+   "x": 37.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 46.15,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 47.15,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 56.29,
+   "y": 0,
+   "w": 10.57,
+   "h": 1
+  },
+  {
+   "type": "spike",
+   "x": 60.03,
+   "y": 1
+  },
+  {
+   "type": "pad",
+   "x": 72.21,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 74.59,
+   "y": 0,
+   "w": 10.1,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 90.73,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 91.73,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 95.68,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 98.06,
+   "y": 2
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 99.06,
+   "y": 2
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 100.06,
+   "y": 2
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 101.06,
+   "y": 2
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 102.06,
+   "y": 2
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 103.06,
+   "y": 2
+  },
+  {
+   "type": "orb",
+   "x": 109.2,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 118.05,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 118.12,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 119.05,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 120.05,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 121.05,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 126.46,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 127.03,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 127.46,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 128.46,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 129.46,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 130.46,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 144.86,
+   "y": 2.25
+  },
+  {
+   "type": "block",
+   "x": 147.66,
+   "y": 0,
+   "w": 12.79,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 153.63,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 166.5,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 167.5,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 171.45,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 183.57,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 187.17,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 190.27,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 191.27,
+   "y": 0
+  },
+  {
+   "type": "platform",
+   "x": 193.81,
+   "y": 1,
+   "w": 9.68
+  },
+  {
+   "type": "spike",
+   "x": 195.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 195.31,
+   "y": 4
+  },
+  {
+   "type": "spike",
+   "x": 196.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 196.31,
+   "y": 4
+  },
+  {
+   "type": "spike",
+   "x": 197.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 197.31,
+   "y": 4
+  },
+  {
+   "type": "spike",
+   "x": 198.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 198.31,
+   "y": 4
+  },
+  {
+   "type": "spike",
+   "x": 199.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 199.31,
+   "y": 4
+  },
+  {
+   "type": "spike",
+   "x": 200.31,
+   "y": 0
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 200.31,
+   "y": 4
+  },
+  {
+   "type": "spike_low",
+   "x": 208.77,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 212.37,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 215.74,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 216.09,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 216.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 217.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 218.74,
+   "y": 0
+  },
+  {
+   "type": "pad",
+   "x": 222.39,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 224.29,
+   "y": 0,
+   "w": 8,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 230.37,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 241.93,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 242.93,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 246.88,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 251.34,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 254.8,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 255.8,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 256.8,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 273.21,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 273.77,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 274.21,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 275.21,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 276.21,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 277.21,
+   "y": 0
+  },
+  {
+   "type": "pad",
+   "x": 281.36,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 282.69,
+   "y": 3.25
+  },
+  {
+   "type": "platform",
+   "x": 284.74,
+   "y": 4,
+   "w": 13.54
+  },
+  {
+   "type": "spike",
+   "x": 285.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 286.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 287.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 288.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 289.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 290.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 291.45,
+   "y": 5
+  },
+  {
+   "type": "spike",
+   "x": 291.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 292.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 293.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 294.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 295.74,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 306.55,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 307.55,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 312.23,
+   "y": 0,
+   "w": 10.57,
+   "h": 1
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 313.89,
+   "y": 3
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 314.89,
+   "y": 3
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 315.89,
+   "y": 3
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 316.89,
+   "y": 3
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 317.89,
+   "y": 3
+  },
+  {
+   "type": "spike_ceiling",
+   "x": 318.89,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 328.84,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 329.84,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 335.61,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 336.17,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 336.61,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 337.61,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 338.61,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 339.61,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 350.97,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 356,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 357,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 361.03,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 362.03,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 363.03,
+   "y": 0
+  },
+  {
+   "type": "spike_low",
+   "x": 367.05,
+   "y": 0
+  },
+  {
+   "type": "spike_low",
+   "x": 368.05,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 372.58,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 373.58,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 379.3,
+   "y": 0,
+   "w": 11.06,
+   "h": 1
+  },
+  {
+   "type": "spike",
+   "x": 384.14,
+   "y": 1
+  },
+  {
+   "type": "block",
+   "x": 390.36,
+   "y": 0,
+   "w": 7.78,
+   "h": 2
+  },
+  {
+   "type": "spike",
+   "x": 405.75,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 406.75,
+   "y": 0
+  },
+  {
+   "type": "pad",
+   "x": 410.1,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 413.06,
+   "y": 0,
+   "w": 12.72,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 422.34,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 423.34,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 433.36,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 434.08,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 434.36,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 435.36,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 436.36,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 437.36,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 438.36,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 444.95,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 450.48,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 455.51,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 456.51,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 461.04,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 462.04,
+   "y": 0
+  },
+  {
+   "type": "spike_low",
+   "x": 467.07,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 471.6,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 472.6,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 473.6,
+   "y": 0
+  },
+  {
+   "type": "platform",
+   "x": 499.92,
+   "y": 1,
+   "w": 14.32
+  },
+  {
+   "type": "spike",
+   "x": 501.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 502.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 503.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 504.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 505.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 506.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 507.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 508.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 509.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 510.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 511.3,
+   "y": 2
+  },
+  {
+   "type": "spike",
+   "x": 511.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 512.92,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 513.92,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 517.52,
+   "y": 0,
+   "w": 13.31,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 527.88,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 538.44,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 539.44,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 544.43,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 544.65,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 545.43,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 546.43,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 547.43,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 548.43,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 555.53,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 561.05,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 566.08,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 567.08,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 572.11,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 576.64,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 577.64,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 578.64,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 583.17,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 614.27,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 615.27,
+   "y": 0
+  },
+  {
+   "type": "spike_low",
+   "x": 619.23,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 623.68,
+   "y": 0
+  },
+  {
+   "type": "pad",
+   "x": 626.96,
+   "y": 0
+  },
+  {
+   "type": "block",
+   "x": 629.33,
+   "y": 0,
+   "w": 10.1,
+   "h": 3
+  },
+  {
+   "type": "spike",
+   "x": 637.05,
+   "y": 3
+  },
+  {
+   "type": "spike",
+   "x": 645.47,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 646.47,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 650.01,
+   "y": 0
+  },
+  {
+   "type": "orb",
+   "x": 650.57,
+   "y": 2.25
+  },
+  {
+   "type": "spike",
+   "x": 651.01,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 652.01,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 653.01,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 654.01,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 659.34,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 663.3,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 664.3,
+   "y": 0
+  },
+  {
+   "type": "spike",
+   "x": 668.25,
+   "y": 0
+  }
+ ]
+}

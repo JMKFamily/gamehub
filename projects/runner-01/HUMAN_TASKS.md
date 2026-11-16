@@ -20,5 +20,6 @@
 
 ## [나중] 출시 단계 (지금은 안 하셔도 됩니다)
 
-- AppLovin·AdMob 계정: `harness/guides/applovin-setup.md`
+- AdMob(선택, 지금 가능) / AppLovin(Play URL 생긴 뒤): `harness/guides/applovin-setup.md`의 "가입 순서"
+- 개발자 웹사이트: `JMKFamily/jmkfamily.github.io` 레포 생성 (app-ads.txt·개인정보처리방침용)
 - Google Play 개발자 계정, 업로드 키, 서비스 계정: 4단계 시작 시 별도 안내
