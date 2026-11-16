@@ -91,22 +91,23 @@ class LevelBuilder {
     return c0;
   }
   // 점프해서 올라타는 블록 기둥(바닥부터 높이 h). 끝은 endBeat에 플레이어가 걸어 내려가는 지점
-  blockUp(beat, endBeat, h, { y0 = 0, traj } = {}) {
+  // ext: 끝 박에 그 위에서 점프해도 되도록 끝을 조금 늘림 (걸어 내려가는 시점도 ext만큼 늦어짐)
+  blockUp(beat, endBeat, h, { y0 = 0, traj, ext = 0.8 } = {}) {
     const pts = traj ?? this.traj(beat, { y0 });
     const land = this.landX(pts, h);
     const inner0 = 0.5 - BAL.player_inner_hitbox_t / 2;
     const min = y0 >= h - inner0 ? -Infinity : this.riseX(pts, h - inner0) + (1 - inner0);
     const max = land + 1;
     const bx = Number.isFinite(min) ? (min + max) / 2 : max - 1.5;
-    const end = endBeat == null ? null : this.X(endBeat);
+    const end = endBeat == null ? null : this.X(endBeat) + ext;
     const o = this.add({ type: 'block', x: r2(bx), y: 0, w: end == null ? 1 : r2(end - bx), h });
     return o;
   }
-  platformUp(beat, endBeat, cellY, { y0 = 0, traj } = {}) {
+  platformUp(beat, endBeat, cellY, { y0 = 0, traj, ext = 0.8 } = {}) {
     const pts = traj ?? this.traj(beat, { y0 });
     const land = this.landX(pts, cellY + 1);
     const x0 = land - 1;
-    return this.add({ type: 'platform', x: r2(x0), y: cellY, w: r2(this.X(endBeat) - x0) });
+    return this.add({ type: 'platform', x: r2(x0), y: cellY, w: r2(this.X(endBeat) + ext - x0) });
   }
   pad(beat, y = 0) {
     this.add({ type: 'pad', x: r2(this.X(beat) + 1 - BAL.pad_trigger_inset_x_t), y });
@@ -143,7 +144,16 @@ class LevelBuilder {
     };
   }
   get path() { return join(PROJECT, this.file); }
-  write() { writeFileSync(this.path, JSON.stringify(this.toJSON(), null, 1) + '\n'); }
+  write() {
+    // 배열 안의 작은 객체는 한 줄에 하나씩 (사람이 읽고 diff 보기 쉽게)
+    const j = this.toJSON();
+    const line = (o) => '    ' + JSON.stringify(o);
+    const arr = (k) => `  "${k}": [\n${j[k].map(line).join(',\n')}\n  ]`;
+    const head = Object.keys(j).filter((k) => !['speed_changes', 'sections', 'objects'].includes(k))
+      .map((k) => `  ${JSON.stringify(k)}: ${JSON.stringify(j[k])}`);
+    const empty = (k) => (j[k].length ? arr(k) : `  "${k}": []`);
+    writeFileSync(this.path, `{\n${[...head, empty('speed_changes'), empty('sections'), empty('objects')].join(',\n')}\n}\n`);
+  }
 }
 
 // ============================================================ 레벨 1 (120 BPM, 보통 속도)
@@ -151,7 +161,7 @@ function level1() {
   const L = new LevelBuilder({
     id: '01', file: 'levels/01-level1.json', bpm: 120, lengthBeats: 96,
     intent: '탭 점프, 낮은 장애물, 블록 올라타기·내려오기. 첫 30초 안에 전부 한 번씩 안전하게 경험.',
-    target: { stars: 1, expected_attempts: [3, 12], first_try_reach_pct: 25, clear_rate_10_tries: 0.6 },
+    target: { stars: 1, expected_attempts: [3, 15], first_try_reach_pct: 25, clear_rate_10_tries: 0.6 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'learn_tap', 1);
@@ -175,7 +185,7 @@ function level1() {
   L.blockUp(72, 76, 1); L.hazard(74, 1, { y: 1 });
   L.hazard(77, 1); L.hazard(78, 2);
   const a = L.blockUp(80, null, 1);                           // 블록 → 틈(바닥 장애물) → 블록
-  a.w = r2(L.X(81) + 0.6 - a.x);
+  a.w = r2(L.X(81) + 0.8 - a.x);
   const bb = L.blockUp(81, 84, 1, { y0: 1 });
   L.fill('spike', a.x + a.w, bb.x, 0);
   L.hazard(82, 1, { y: 1 });
@@ -250,10 +260,12 @@ function level3() {
   L.hazard(20, 2); L.hazard(21, 1);
   L.fill('spike_ceiling', L.X(22), L.X(23.5), 2);
   L.section(24, 'learn_orb', 2);
-  { const t = L.traj(24, { orbs: [24.5] }); L.orb(t, 24.5); }  // 안전한 첫 등장 (안 눌러도 됨)
-  { const t = L.traj(26, { orbs: [26.5] }); L.orb(t, 26.5); L.hazard(26, 4, { traj: t }); }
-  { const t = L.traj(28, { orbs: [28.5] }); L.orb(t, 28.5); L.hazard(28, 5, { traj: t }); }
-  { const t = L.traj(32, { orbs: [32.5] }); L.orb(t, 32.5); L.blockUp(32, 36, 3, { traj: t }); L.hazard(34, 1, { y: 3 }); }
+  // 안전한 첫 등장: 단일 장애물 위에 트리거. 눌러도 안 눌러도 산다 (verify의 optional 검사)
+  { const t = L.traj(24, { orbs: [24.5] }); L.orb(t, 24.5); L.hazard(24, 1); }
+  { const t = L.traj(27, { orbs: [27.5] }); L.orb(t, 27.5); L.hazard(27, 4, { traj: t }); }
+  { const t = L.traj(29, { orbs: [29.5] }); L.orb(t, 29.5); L.hazard(29, 5, { traj: t }); }
+  { const t = L.traj(32, { orbs: [32.5] }); L.orb(t, 32.5); const p = L.platformUp(32, 36, 2, { traj: t }); L.hazard(34, 1, { y: 3 });
+    L.fill('spike', p.x + 1, p.x + p.w - 1.5, 0); }
   L.hazard(37, 2); L.hazard(38, 1);
   L.section(40, 'slow', 2);
   L.hazard(41, 1); L.hazard(42, 1); L.hazard(43, 2);
@@ -261,10 +273,10 @@ function level3() {
     L.fill('spike_ceiling', p.x + 1.5, L.X(46.5), 4);
     L.fill('spike', p.x + 1.5, p.x + p.w - 1.5, 0); }
   L.hazard(48, 1, { type: 'spike_low' }); L.hazard(49, 1);
-  { const t = L.traj(50, { orbs: [50.5] }); L.orb(t, 50.5); L.hazard(50, 4, { traj: t }); }
+  { const t = L.traj(50, { orbs: [50.5] }); L.orb(t, 50.5); L.hazard(50, 3, { traj: t }); }
   { const t = L.pad(52); L.blockUp(52, 55, 3, { traj: t }); L.hazard(54, 1, { y: 3 }); }
   L.section(56, 'normal', 2);
-  L.hazard(57, 2); L.hazard(58, 1); L.hazard(59, 1); L.hazard(60, 3);
+  L.hazard(57, 2); L.hazard(58, 1); L.hazard(60, 3);           // 3연속 앞은 1박 비움
   L.section(62, 'breath', 0);
   L.section(64, 'combo', 3);
   { const t = L.traj(64, { orbs: [64.5] }); L.orb(t, 64.5); L.hazard(64, 5, { traj: t }); }
@@ -276,23 +288,21 @@ function level3() {
   L.hazard(76.5, 2);
   { const t = L.traj(78, { orbs: [78.5] }); L.orb(t, 78.5); L.hazard(78, 5, { traj: t }); }
   L.section(80, 'fast_drop', 4);
-  L.hazard(81, 1); L.hazard(82, 2); L.hazard(83, 3); L.hazard(84, 2, { type: 'spike_low' }); L.hazard(85, 2);
-  { const b1 = L.blockUp(86, null, 1); L.hazard(87, 1, { y: 1 });
-    const b2 = L.blockUp(88, 90, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
-  L.hazard(91, 2);
-  { const t = L.pad(92); L.blockUp(92, 95, 3, { traj: t }); L.hazard(94, 2, { y: 3 }); }
-  { const t = L.traj(96, { orbs: [96.5] }); L.orb(t, 96.5); L.hazard(96, 6, { traj: t }); }
-  L.hazard(98, 1); L.hazard(99, 1); L.hazard(100, 2); L.hazard(101, 2); L.hazard(102, 1, { type: 'spike_low' }); L.hazard(103, 3);
-  L.section(104, 'breath', 1);
-  { const p = L.platformUp(108, 111, 1); L.hazard(110, 1, { y: 2 });
-    L.blockUp(111, 114, 3, { y0: 2 }); L.hazard(113, 1, { y: 3 });
+  L.hazard(81, 1); L.hazard(82, 1); L.hazard(84, 3); L.hazard(86, 2, { type: 'spike_low' });
+  { const b1 = L.blockUp(88, null, 1); L.hazard(90, 1, { y: 1 });
+    const b2 = L.blockUp(92, 94, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
+  { const t = L.pad(96); L.blockUp(96, 99, 3, { traj: t }); L.hazard(98, 2, { y: 3 }); }
+  { const t = L.traj(100, { orbs: [100.5] }); L.orb(t, 100.5); L.hazard(100, 6, { traj: t }); }
+  L.hazard(102, 1); L.hazard(103, 1); L.hazard(105, 2); L.hazard(107, 3);
+  L.section(108, 'breath', 1);
+  { const p = L.platformUp(112, 115, 1); L.hazard(114, 1, { y: 2 });
+    L.blockUp(115, 118, 3, { y0: 2 }); L.hazard(117, 1, { y: 3 });
     L.fill('spike', p.x + 2, p.x + p.w + 1.5, 0); }
-  L.hazard(115, 2);
-  { const t = L.traj(116, { orbs: [116.5] }); L.orb(t, 116.5); L.hazard(116, 5, { traj: t }); }
-  L.hazard(118, 1); L.hazard(119, 1); L.hazard(120, 2); L.hazard(121, 1); L.hazard(122, 3); L.hazard(123, 1);
-  L.section(124, 'breath', 1);
+  L.hazard(120, 2);
+  { const t = L.traj(121, { orbs: [121.5] }); L.orb(t, 121.5); L.hazard(121, 5, { traj: t }); }
+  L.hazard(124, 2); L.hazard(126, 3);
   L.section(128, 'finale', 3);
-  L.hazard(129, 2); L.hazard(130, 1, { type: 'spike_low' }); L.hazard(131, 1);
+  L.hazard(129, 2); L.hazard(131, 1, { type: 'spike_low' });
   { const t = L.pad(132); L.blockUp(132, 135, 3, { traj: t }); L.hazard(134, 1, { y: 3 }); }
   L.hazard(136, 2);
   { const t = L.traj(137, { orbs: [137.5] }); L.orb(t, 137.5); L.hazard(137, 5, { traj: t }); }

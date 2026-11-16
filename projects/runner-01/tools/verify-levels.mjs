@@ -299,12 +299,40 @@ export function analyze(L, presses) {
   const hz = L.bal.physics_hz;
   const maxD = Math.round(0.25 * hz);
   let p = presses.slice();
-  // 1차: 앞에서부터 창 가운데로 이동
+  const beatTicks = (60 / L.level.bpm) * hz;
+  // 0차: 박자 맞추기. 탭을 가장 가까운 정박(안 되면 반박)으로 옮겨도 클리어되면 옮긴다.
+  //      지면 점프 + 공중 재점프처럼 붙어 있는 두 탭은 함께 옮겨 본다.
+  const ints = (t) => { const b = t / beatTicks, r = Math.round(b); return [r, b < r ? r - 1 : r + 1].map((v) => Math.round(v * beatTicks)); };
+  const halves = (t) => { const b = t / beatTicks; return [Math.floor(b * 2) / 2, Math.ceil(b * 2) / 2].map((v) => Math.round(v * beatTicks)); };
+  const tryQ = (i, q) => (i === 0 || q[i] > q[i - 1]) && simulate(L, q).ok;
+  const snapped = new Set();
   for (let i = 0; i < p.length; i++) {
+    const trySingle = (cands) => { for (const c of cands) { const q = p.slice(); q[i] = c; if (tryQ(i, q)) { p = q; snapped.add(i); return true; } } return false; };
+    if (trySingle(ints(p[i]))) continue;
+    let paired = false;
+    if (i + 1 < p.length && p[i + 1] - p[i] <= 0.6 * hz) {
+      const c1s = [...ints(p[i]), ...halves(p[i])], c2s = [...ints(p[i + 1]), ...halves(p[i + 1])];
+      outer: for (const c1 of c1s) for (const c2 of c2s) {
+        if (c2 <= c1) continue;
+        const q = p.slice(); q[i] = c1; q[i + 1] = c2;
+        if (tryQ(i, q)) { p = q; snapped.add(i); snapped.add(i + 1); paired = true; break outer; }
+      }
+    }
+    if (paired) { i++; continue; }
+    trySingle(halves(p[i]));
+  }
+  // 1차: 박자에 못 맞춘 탭만 창 가운데로 이동
+  for (let i = 0; i < p.length; i++) {
+    if (snapped.has(i)) continue;
     const base = simulate(L, p, { trace: true });
     if (!base.ok) throw new Error('기준 입력열이 클리어되지 않음');
     const [lo, hi] = windowOf(L, p, base, i, maxD);
-    p[i] += Math.round((lo + hi) / 2);
+    const half = beatTicks / 2;
+    const c = p[i] + Math.round((lo + hi) / 2);
+    const inWin = (t) => t >= p[i] + lo && t <= p[i] + hi;
+    const onBeat = Math.round(Math.round(c / beatTicks) * beatTicks);   // 정박 우선
+    const onHalf = Math.round(Math.round(c / half) * half);            // 다음은 반박
+    p[i] = inWin(onBeat) ? onBeat : inWin(onHalf) ? onHalf : c;
   }
   // 쓸모없는 탭 제거 (빼도 클리어되면 제거)
   for (let i = p.length - 1; i >= 0; i--) {
@@ -326,6 +354,8 @@ export function analyze(L, presses) {
       window_ms: +(((hi - lo + 1) / hz) * 1000).toFixed(1),
       early_ms: +((-lo / hz) * 1000).toFixed(1), late_ms: +((hi / hz) * 1000).toFixed(1),
       kind: base.states[t].g ? 'ground' : 'orb',
+      // 가장 가까운 반박에 정확히 탭해도 창 안에 드는가 (리듬 일치)
+      on_beat_ok: (nearestHalf - beat) * beatS * 1000 >= -(-lo / hz) * 1000 - 1e-6 && (nearestHalf - beat) * beatS * 1000 <= (hi / hz) * 1000 + 1e-6,
       capped: lo <= -maxD || hi >= maxD,
     };
   });
@@ -335,6 +365,7 @@ export function analyze(L, presses) {
 export function verifyLevel(levelPath, bal) {
   const level = JSON.parse(readFileSync(levelPath, 'utf8'));
   const L = compileLevel(level, bal);
+  const beatSec = 60 / level.bpm;
   const t0 = Date.now();
   const res = { file: levelPath, id: level.id, bpm: level.bpm, length_tiles: level.length_tiles,
     duration_s: +(L.nTicks / bal.physics_hz).toFixed(2), objects: level.objects.length, problems: [] };
@@ -363,9 +394,16 @@ export function verifyLevel(levelPath, bal) {
     res.tightest = a.rows.slice().sort((x, y) => x.window_ms - y.window_ms).slice(0, 5);
     res.mean_abs_off_beat_ms = +(a.rows.reduce((s, r) => s + Math.abs(r.off_beat_ms), 0) / a.rows.length).toFixed(1);
     res.first_tap_s = a.rows[0]?.time_s ?? null;
+    // 모든 탭을 가장 가까운 반박으로 옮긴 "박자대로 친 입력열"도 클리어되는가
+    const beatTicks = a.rows.map((r) => Math.round((Math.round(r.beat * 2) / 2) * beatSec * bal.physics_hz));
+    const onBeat = simulate(L, beatTicks);
+    res.on_beat_input_clears = onBeat.ok;
+    if (!onBeat.ok) res.on_beat_fail = { x: +onBeat.x.toFixed(2), cause: onBeat.cause };
+    res.off_beat_taps = a.rows.filter((r) => !r.on_beat_ok).map((r) => ({ beat: r.beat, x: r.x, off_beat_ms: r.off_beat_ms, window_ms: r.window_ms }));
     res.inputs = a.rows;
     const need = bal.verify_min_window_ms?.[level.id];
     res.required_min_window_ms = need ?? null;
+    if (!res.on_beat_input_clears) res.problems.push(`박자대로 친 입력열이 실패 (x=${res.on_beat_fail.x}, ${res.on_beat_fail.cause})`);
     if (need != null && res.min_window_ms < need)
       res.problems.push(`최소 타이밍 창 ${res.min_window_ms}ms < 목표 ${need}ms (x=${res.tightest[0].x})`);
   }
@@ -393,6 +431,8 @@ if (isMain) {
       console.log(`  클리어 가능: ${r.clearable ? '예' : '아니오'} | 무입력 클리어: ${r.no_input_clears ? '예' : '아니오'} (사망 x=${r.no_input_death_x}) | 홀드만 클리어: ${r.hold_only_clears ? '예' : '아니오'}`);
       if (r.clearable) {
         console.log(`  탭 ${r.taps}회 (공중 재점프 ${r.orb_taps}회), 첫 탭 ${r.first_tap_s}s, 타이밍 창 최소 ${r.min_window_ms}ms / 중앙값 ${r.median_window_ms}ms (목표 최소 ${r.required_min_window_ms}ms), 박자 어긋남 평균 ${r.mean_abs_off_beat_ms}ms`);
+        console.log(`  모든 탭을 박자(반박)에 맞춰 치면: ${r.on_beat_input_clears ? '클리어' : `실패 x=${r.on_beat_fail.x} (${r.on_beat_fail.cause})`}`);
+        console.log(`  (개별) 박자에 정확히 탭하면 창 밖인 탭: ${r.off_beat_taps.length}개` + (r.off_beat_taps.length ? ' → ' + r.off_beat_taps.map((t) => `beat ${t.beat}(${t.off_beat_ms}ms)`).join(', ') : ''));
         console.log('  가장 빡빡한 탭:');
         for (const t of r.tightest) console.log(`    x=${t.x} beat=${t.beat} 창 ${t.window_ms}ms (-${t.early_ms}/+${t.late_ms}) ${t.kind}`);
         if (showInputs) for (const t of r.inputs) console.log(`    tap t=${t.time_s}s x=${t.x} beat=${t.beat} 창 ${t.window_ms}ms ${t.kind}`);

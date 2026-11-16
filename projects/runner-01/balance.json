@@ -57,7 +57,8 @@
     "pad_apex_t": 3.39,
     "pad_airtime_s": 0.502,
     "spike_clear_window_single_normal_ms": 235,
-    "spike_clear_window_triple_normal_ms": 43
+    "spike_clear_window_double_normal_ms": 146,
+    "spike_clear_window_triple_normal_ms": 46
   },
 
   "levels": [
