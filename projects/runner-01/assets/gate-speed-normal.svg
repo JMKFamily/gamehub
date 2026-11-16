@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 300" width="100" height="300">
+  <!-- 속도 변경 게이트(G8) normal: 1x3 타일 캡슐 테. 둥근 꺾쇠 개수 = 속도 단계(느림1/보통2/빠름3). 통과형, 충돌 없음 -->
+  <rect x="18" y="6" width="64" height="288" rx="32" fill="#7A3FB0" fill-opacity="0.12" stroke="#7A3FB0" stroke-width="8"/>
+  <circle cx="50" cy="40" r="7" fill="#7A3FB0"/>
+  <circle cx="50" cy="260" r="7" fill="#7A3FB0"/>
+  <polyline points="29,126 49,150 29,174" fill="none" stroke="#7A3FB0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <polyline points="51,126 71,150 51,174" fill="none" stroke="#7A3FB0" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
