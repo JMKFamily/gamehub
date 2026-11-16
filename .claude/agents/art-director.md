@@ -21,6 +21,7 @@ tools: Read, Write, Edit, Glob, Grep, Bash
 2. `assets/*.svg`: 플레이어, 장애물, 아이콘 등. 외부 이미지·폰트 없이 SVG만 사용
 
 원작의 캐릭터·아이콘·장애물 디자인을 따라 그리지 않습니다.
+아트 컨셉을 강하게 넣지 않습니다 (`harness/PIPELINE.md` "게임 선정·설계 원칙"). 기본 도형, 또렷한 단색, 평면 그래픽 위주로 하고, 5~6세가 색과 모양만 보고 "닿으면 안 되는 것 / 밟아도 되는 것 / 나"를 구분할 수 있게 합니다.
 
 ## 리뷰 모드: `projects/<slug>/reviews/round-N/art-director.md`
 
