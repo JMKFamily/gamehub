@@ -1,7 +1,7 @@
 # runner-01 진행 상태
 
 - 레퍼런스: Geometry Dash (장르·메커닉 벤치마크만, 리소스는 자체 제작)
-- 게임 이름(안): Reverbound (slug 후보: reverbound, 교차 리뷰 후 확정)
+- 게임 이름: Reverbound (잔향 질주) · slug: reverbound (웹 빌드 경로 games/reverbound/)
 - 현재 단계: 1-2 기획 교차 리뷰 진행 중 (기획 3역할 완료, 레벨 검증 3/3 PASS)
 - 라운드: -
 - 미해결 이슈: 벤치마크 수치(점프·중력·히트박스)는 원 출처 미확인 추정치 → 빌드 후 자동 플레이 지표로 재보정 필요
