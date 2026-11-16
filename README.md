@@ -22,3 +22,7 @@ scripts/validate.mjs     매니페스트 검증 (CI에서 실행)
 ## 최초 설정
 
 저장소 Settings → Pages → Source를 **GitHub Actions**로 지정해야 배포됩니다.
+
+## 하네스
+
+에이전트 역할 정의는 `.claude/agents/`, 파이프라인은 `harness/PIPELINE.md`, 게임별 기획·리뷰 기록은 `projects/<slug>/`에 있습니다.
