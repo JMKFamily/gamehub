@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Orbit Dodge</title>
+<style>
+  html, body { margin:0; height:100%; background:#07080c; overflow:hidden; touch-action:none; }
+  canvas { display:block; width:100vw; height:100vh; }
+  a.back { position:fixed; top:12px; left:12px; color:#9aa0ad; font:14px system-ui, sans-serif; text-decoration:none; }
+</style>
+</head>
+<body>
+<a class="back" href="../../">← 목록</a>
+<canvas id="c"></canvas>
+<script>
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+let W, H, DPR, cx, cy, R;
+function resize() {
+  DPR = window.devicePixelRatio || 1;
+  W = innerWidth; H = innerHeight;
+  cv.width = W * DPR; cv.height = H * DPR;
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  cx = W / 2; cy = H / 2; R = Math.min(W, H) * 0.28;
+}
+addEventListener('resize', resize); resize();
+
+const BEST_KEY = 'orbit-dodge-best';
+let best = 0; try { best = +localStorage.getItem(BEST_KEY) || 0; } catch {}
+
+let state = 'title', angle, dir, speed, rocks, sparks, score, spawnT, t;
+function reset() {
+  angle = -Math.PI / 2; dir = 1; speed = 1.8; rocks = []; sparks = [];
+  score = 0; spawnT = 0; t = 0;
+}
+reset();
+
+function press() {
+  if (state === 'play') dir *= -1;
+  else { reset(); state = 'play'; }
+}
+addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); press(); } });
+cv.addEventListener('pointerdown', e => { e.preventDefault(); press(); });
+
+function spawn() {
+  const a = Math.random() * Math.PI * 2;
+  const dist = Math.hypot(W, H) / 2 + 30;
+  const target = Math.random() * Math.PI * 2;
+  const tx = cx + Math.cos(target) * R * (0.6 + Math.random() * 0.8);
+  const ty = cy + Math.sin(target) * R * (0.6 + Math.random() * 0.8);
+  const x = cx + Math.cos(a) * dist, y = cy + Math.sin(a) * dist;
+  const v = 90 + Math.min(score, 60) * 3 + Math.random() * 60;
+  const d = Math.hypot(tx - x, ty - y);
+  rocks.push({ x, y, vx: (tx - x) / d * v, vy: (ty - y) / d * v, r: 8 + Math.random() * 10, passed: false });
+}
+
+function burst(x, y, color, n) {
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * Math.PI * 2, s = 40 + Math.random() * 200;
+    sparks.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 0.6 + Math.random() * 0.5, color });
+  }
+}
+
+let last = performance.now();
+function loop(now) {
+  const dt = Math.min(0.033, (now - last) / 1000); last = now;
+  update(dt); draw();
+  requestAnimationFrame(loop);
+}
+
+function update(dt) {
+  for (const s of sparks) { s.x += s.vx * dt; s.y += s.vy * dt; s.vx *= 0.96; s.vy *= 0.96; s.life -= dt; }
+  sparks = sparks.filter(s => s.life > 0);
+  if (state !== 'play') return;
+  t += dt;
+  speed = 1.8 + Math.min(t * 0.03, 1.6);
+  angle += dir * speed * dt;
+  const px = cx + Math.cos(angle) * R, py = cy + Math.sin(angle) * R;
+
+  spawnT -= dt;
+  if (spawnT <= 0) { spawn(); spawnT = Math.max(0.28, 1.1 - t * 0.015); }
+
+  for (const r of rocks) {
+    r.x += r.vx * dt; r.y += r.vy * dt;
+    if (Math.hypot(r.x - px, r.y - py) < r.r + 7) {
+      state = 'over';
+      burst(px, py, '#7cc4ff', 60);
+      if (score > best) { best = score; try { localStorage.setItem(BEST_KEY, best); } catch {} }
+      return;
+    }
+    if (!r.passed && Math.hypot(r.x - cx, r.y - cy) < R * 0.3) { r.passed = true; }
+  }
+  const before = rocks.length;
+  rocks = rocks.filter(r => Math.hypot(r.x - cx, r.y - cy) < Math.hypot(W, H) / 2 + 80);
+  score += before - rocks.length;
+}
+
+function draw() {
+  ctx.fillStyle = '#07080c'; ctx.fillRect(0, 0, W, H);
+  // orbit
+  ctx.strokeStyle = '#1e2430'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI * 2); ctx.stroke();
+  // planet
+  const g = ctx.createRadialGradient(cx - R * 0.1, cy - R * 0.1, 2, cx, cy, R * 0.35);
+  g.addColorStop(0, '#ffcf7a'); g.addColorStop(1, '#c8613a');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, R * 0.3, 0, Math.PI * 2); ctx.fill();
+  // rocks
+  ctx.fillStyle = '#b9a8a0';
+  for (const r of rocks) { ctx.beginPath(); ctx.arc(r.x, r.y, r.r, 0, Math.PI * 2); ctx.fill(); }
+  // ship
+  if (state === 'play' || state === 'title') {
+    const px = cx + Math.cos(angle) * R, py = cy + Math.sin(angle) * R;
+    ctx.save(); ctx.translate(px, py); ctx.rotate(angle + dir * Math.PI / 2);
+    ctx.fillStyle = '#7cc4ff';
+    ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-7, 7); ctx.lineTo(-4, 0); ctx.lineTo(-7, -7); ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+  for (const s of sparks) { ctx.globalAlpha = Math.max(0, s.life); ctx.fillStyle = s.color; ctx.fillRect(s.x - 2, s.y - 2, 4, 4); }
+  ctx.globalAlpha = 1;
+  // UI
+  ctx.fillStyle = '#e8eaf0'; ctx.textAlign = 'center';
+  ctx.font = '600 28px system-ui, sans-serif';
+  if (state === 'play') ctx.fillText(score, cx, 56);
+  ctx.font = '14px system-ui, sans-serif'; ctx.fillStyle = '#9aa0ad';
+  ctx.fillText('BEST ' + best, cx, state === 'play' ? 78 : 56);
+  if (state !== 'play') {
+    ctx.fillStyle = '#e8eaf0'; ctx.font = '700 36px system-ui, sans-serif';
+    ctx.fillText(state === 'title' ? 'ORBIT DODGE' : 'SCORE ' + score, cx, cy + R + 70);
+    ctx.font = '16px system-ui, sans-serif'; ctx.fillStyle = '#9aa0ad';
+    ctx.fillText('탭 / 스페이스: ' + (state === 'title' ? '시작 · 방향 전환' : '다시 시작'), cx, cy + R + 100);
+  }
+}
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

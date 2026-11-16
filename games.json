@@ -1,0 +1,9 @@
+[
+  {
+    "slug": "orbit-dodge",
+    "title": "Orbit Dodge",
+    "description": "궤도를 돌며 날아오는 운석을 피하세요. 탭/스페이스로 회전 방향 전환.",
+    "tags": ["arcade", "one-button"],
+    "released": "2026-11-16"
+  }
+]
