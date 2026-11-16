@@ -162,166 +162,124 @@ class LevelBuilder {
   }
 }
 
-// ============================================================ 레벨 1 (120 BPM, 보통 속도)
+// ============================================================ 레벨 1 (120 BPM, 보통 속도) — round-2
+// 규칙(오케스트레이터 결정 5): 바닥 장애물·낮은 장애물만, 필수 탭 12~16회, 모든 탭 2박(1 s) 이상 간격, 2연속 없음, 창 200 ms 이상
 function level1() {
   const L = new LevelBuilder({
     id: '01', file: 'levels/01-level1.json', bpm: 120, lengthBeats: 96,
-    intent: '탭 점프, 낮은 장애물, 블록 올라타기·내려오기. 첫 30초 안에 전부 한 번씩 안전하게 경험.',
-    target: { stars: 1, expected_attempts: [3, 15], first_try_reach_pct: 25, clear_rate_10_tries: 0.6 },
+    intent: '탭 한 번으로 장애물 하나 넘기. 바닥 장애물과 낮은 장애물만, 탭 15회, 모든 탭 사이 2박 이상. 5~6세가 몇 번 만에 깨는 첫 레벨.',
+    target: { stars: 1, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 2, child_sd70: 5 }, expected_attempts_sd50: [1, 2], expected_attempts_sd70: [1, 8] },
   });
   L.section(0, 'intro', 0);
-  L.cue('tut_tap', 0); L.cue('tut_shard', 5); L.cue('tut_beat', 13); L.cue('tut_crate', 37);
+  L.cue('tut_tap', 0); L.cue('tut_shard', 4);
   L.section(8, 'learn_tap', 1);
-  for (const b of [8, 12, 16]) L.hazard(b, 1);            // 4박 간격 단일 (첫 10초)
-  L.hazard(18, 1); L.hazard(20, 1); L.hazard(22, 2);
-  L.section(24, 'learn_low', 1);
-  L.hazard(24, 1, { type: 'spike_low' }); L.hazard(26, 1, { type: 'spike_low' });
-  L.hazard(28, 2); L.hazard(30, 2, { type: 'spike_low' }); L.hazard(32, 2);
-  L.hazard(34, 1); L.hazard(35, 1);
-  L.section(36, 'breath', 0);
-  L.section(40, 'learn_block', 2);
-  L.blockUp(40, 44, 1); L.hazard(42, 1, { y: 1 });
-  L.hazard(46, 1);
-  const b1 = L.blockUp(48, null, 1);                          // 계단 1 → 2
-  const b2 = L.blockUp(50, 54, 2, { y0: 1 });
-  b1.w = r2(b2.x - b1.x);
-  L.hazard(56, 2);
-  L.section(58, 'breath', 0);
-  L.section(62, 'build', 1);                                  // 드롭 앞 2박 픽업 (30-art 숨 고르기 2~4박)
+  for (const b of [8, 12, 16, 20]) L.hazard(b, 1);            // 4박 간격 단일 (첫 10초)
+  L.section(22, 'learn_low', 1);
+  L.hazard(24, 1, { type: 'spike_low' }); L.hazard(28, 1, { type: 'spike_low' }); L.hazard(32, 1);
+  L.section(34, 'breath', 0);
+  L.section(40, 'build', 1);
+  L.hazard(44, 1); L.hazard(48, 1, { type: 'spike_low' }); L.hazard(52, 1);
+  L.section(54, 'breath', 0);
+  L.section(60, 'build', 1);                                   // 드롭 앞 픽업
   L.section(64, 'drop', 3);
-  L.hazard(64, 1); L.hazard(65, 1); L.hazard(66, 2); L.hazard(68, 1, { type: 'spike_low' }); L.hazard(69, 1); L.hazard(70, 2);
-  L.blockUp(72, 76, 1); L.hazard(74, 1, { y: 1 });
-  L.hazard(77, 1); L.hazard(78, 2);
-  const a = L.blockUp(80, null, 1);                           // 블록 → 틈(바닥 장애물) → 블록
-  a.w = r2(L.X(81) + 0.8 - a.x);
-  const bb = L.blockUp(81, 84, 1, { y0: 1 });
-  L.fill('spike', a.x + a.w, bb.x, 0);
-  L.hazard(82, 1, { y: 1 });
-  L.hazard(85, 2); L.hazard(86, 2, { type: 'spike_low' }); L.hazard(87, 1);
-  L.section(88, 'outro', 0);
+  L.hazard(64, 1); L.hazard(66, 1); L.hazard(68, 1, { type: 'spike_low' }); L.hazard(72, 1); L.hazard(76, 1);
+  L.section(80, 'outro', 0);
   return L;
 }
 
-// ============================================================ 레벨 2 (128 BPM, 보통 속도)
+// ============================================================ 레벨 2 (128 BPM, 보통 속도) — round-2
+// 새 기믹 1개: 블록 올라타기(계단·내려오기 포함). 배치 변형으로 2연속 등장(16박 낮은 장애물 2연속 → 37박 바닥 장애물 2연속).
 function level2() {
   const L = new LevelBuilder({
     id: '02', file: 'levels/02-level2.json', bpm: 128, lengthBeats: 128,
-    intent: '발판 자동 점프, 천장 장애물(뛰지 말 것), 얇은 발판 위 달리기. 끝부분에 첫 3연속 장애물.',
-    target: { stars: 2, expected_attempts: [10, 30], first_try_reach_pct: 15, clear_rate_10_tries: 0.3 },
+    intent: '새 기믹: 공명 상자(블록) 올라타기·계단·내려오기. 바닥 장애물 2연속을 처음 배움. 3연속 없음, 모든 탭 2박 이상 간격.',
+    target: { stars: 2, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 4, child_sd70: 25 }, expected_attempts_sd50: [2, 10], skilled_clear_rate_min: 0.7 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
-  L.hazard(8, 1); L.hazard(10, 2);
-  L.blockUp(12, 15, 1); L.hazard(13, 1, { y: 1 });
-  L.hazard(16, 2, { type: 'spike_low' }); L.hazard(18, 2); L.hazard(20, 1); L.hazard(21, 1); L.hazard(22, 2);
-  L.cue('tut_drum', 22.5);
-  L.section(24, 'learn_pad', 2);
-  L.pad(24);                                                   // 안전한 첫 등장
-  { const t = L.pad(26); L.blockUp(26, 30, 3, { traj: t }); L.hazard(28, 1, { y: 3 }); }
-  { const t = L.pad(32); L.hazard(32, 3, { traj: t }); }       // 발판 믿고 넘기
-  { const t = L.pad(34); L.blockUp(34, 36, 3, { traj: t }); }
-  L.hazard(37, 2); L.hazard(38, 1);
+  L.hazard(8, 1); L.hazard(10, 1); L.hazard(12, 1, { type: 'spike_low' }); L.hazard(16, 2, { type: 'spike_low' });   // 단일 → 2박 간격 → 첫 2연속(낮은 장애물, 창 204 ms)
+  L.section(18, 'breath', 0);
+  L.cue('tut_crate', 20);
+  L.section(24, 'learn_block', 2);
+  L.blockUp(24, 27, 1);                                        // 안전한 첫 등장: 올라타고 걸어 내려오기만
+  L.blockUp(30, 34, 1); L.hazard(32, 1, { y: 1 });             // 블록 위 장애물
+  L.hazard(37, 2);                                             // 바닥 장애물 2연속 첫 등장 (뒤에 숨 고르기)
   L.section(40, 'breath', 0);
-  L.cue('tut_hanging', 41);
-  L.section(44, 'learn_ceiling', 2);
-  L.fill('spike_ceiling', L.X(44), L.X(47), 2);                // 그냥 지나가면 안전
-  L.hazard(48, 1); L.fill('spike_ceiling', L.X(49), L.X(51), 2);
-  L.hazard(51, 2);
-  L.blockUp(52, 56, 1); L.fill('spike_ceiling', L.X(53), L.X(55.5), 3);   // 블록 위, 뛰면 죽음
-  L.hazard(57, 1); L.hazard(58, 2);
-  L.section(60, 'breath', 0);
-  L.cue('tut_string', 61);
-  L.section(64, 'learn_platform', 2);
-  { const p1 = L.platformUp(64, 67, 1);
-    const p2 = L.platformUp(67, 70, 1, { y0: 2 });
-    L.hazard(69, 1, { y: 2 });
-    L.fill('spike', p1.x + 2, p2.x + p2.w - 2, 0); }
-  { const t = L.pad(72); const p3 = L.platformUp(72, 75, 2, { traj: t }); L.hazard(74, 1, { y: 3 });
-    L.fill('spike', p3.x + 1.5, p3.x + p3.w - 2.5, 0); }
-  L.hazard(77, 2); L.hazard(78, 2, { type: 'spike_low' });
-  L.section(80, 'drop', 3);
-  L.hazard(80, 1); L.hazard(81, 1); L.hazard(82, 2); L.hazard(83, 1);
-  L.blockUp(84, 88, 1); L.fill('spike_ceiling', L.X(85), L.X(87.5), 3);
-  { const t = L.pad(89); L.blockUp(89, 92, 3, { traj: t }); L.hazard(91, 1, { y: 3 }); }
-  L.hazard(93.5, 3);                                           // 첫 3연속
-  L.section(95, 'build', 1);                                   // 장애물 있는 저강도 구간 (숨 고르기 아님)
-  { const p = L.platformUp(96, 98, 1);
-    L.blockUp(98, 101, 3, { y0: 2 }); L.hazard(100, 1, { y: 3 });
-    L.fill('spike', p.x + 2, p.x + p.w + 1.5, 0); }
-  L.hazard(102, 2); L.hazard(103, 1); L.hazard(104, 1, { type: 'spike_low' }); L.hazard(105, 2);
-  { const t = L.pad(106); L.hazard(106, 3, { traj: t }); }
-  L.hazard(108, 2); L.hazard(109, 1); L.hazard(110, 3);
-  L.section(112, 'outro', 0);
+  L.section(44, 'learn_stairs', 2);
+  { const b1 = L.blockUp(44, null, 1); const b2 = L.blockUp(46, 50, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
+  L.hazard(53, 1);
+  L.blockUp(56, 60, 1); L.hazard(58, 1, { y: 1 });
+  L.section(61, 'breath', 0);
+  L.section(64, 'drop', 3);
+  L.hazard(64, 2); L.hazard(68, 2, { type: 'spike_low' });
+  L.blockUp(70, 74, 1); L.hazard(72, 1, { y: 1 });
+  L.hazard(76, 2);
+  { const b1 = L.blockUp(78, null, 1); const b2 = L.blockUp(80, 84, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); L.hazard(82, 1, { y: 2 }); }
+  L.hazard(86, 2);
+  L.section(88, 'build', 1);
+  { const a = L.blockUp(90, null, 1);                          // 블록 → 틈(바닥 장애물) → 블록
+    a.w = r2(L.X(92) + 0.8 - a.x);
+    const bb = L.blockUp(92, 96, 1, { y0: 1 });
+    L.fill('spike', a.x + a.w, bb.x, 0);
+    L.hazard(94, 1, { y: 1 }); }
+  L.section(96, 'drop', 3);
+  L.hazard(98, 2); L.hazard(100, 1, { type: 'spike_low' }); L.hazard(102, 1); L.hazard(106, 2);
+  L.section(110, 'outro', 0);
   return L;
 }
 
-// ============================================================ 레벨 3 (140 BPM, 속도 변화)
+// ============================================================ 레벨 3 (140 BPM, 보통 속도) — round-2
+// 새 기믹 1개: 북 발판(점프 발판, 밟으면 자동으로 높이 뜀). 속도 변경 없음. 지면 3연속 없음(발판으로만 넘김).
 function level3() {
   const L = new LevelBuilder({
     id: '03', file: 'levels/03-level3.json', bpm: 140, lengthBeats: 160,
-    intent: '공중 재점프 트리거, 속도 변경(느림→보통→빠름→보통). 앞 레벨 기믹 전부 조합.',
-    target: { stars: 3, expected_attempts: [20, 60], first_try_reach_pct: 10, clear_rate_10_tries: 0.1 },
+    intent: '새 기믹: 북 발판(자동 높이 점프). 발판으로 3연속 장애물 넘기·높이 3 상자 오르기. 앞 레벨 어휘(블록, 2연속) 조합. 속도 변경 없음.',
+    target: { stars: 3, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 8 }, expected_attempts_sd50: [4, 20], skilled_clear_rate_min: 0.5 },
   });
-  L.speed(40, 'slow'); L.speed(56, 'normal'); L.speed(80, 'fast'); L.speed(128, 'normal');
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
   L.hazard(8, 1); L.hazard(10, 2);
-  L.blockUp(12, 15, 1); L.hazard(13, 1, { y: 1 });
-  { const t = L.pad(16); L.blockUp(16, 19, 3, { traj: t }); }
-  L.hazard(20, 2); L.hazard(21, 1);
-  L.fill('spike_ceiling', L.X(22), L.X(23.5), 2);
-  L.cue('tut_ring', 22);
-  L.section(24, 'learn_orb', 2);
-  // 안전한 첫 등장: 단일 장애물 위에 트리거. 눌러도 안 눌러도 산다 (verify의 optional 검사)
-  { const t = L.traj(24, { orbs: [24.5] }); L.orb(t, 24.5); L.hazard(24, 1); }
-  { const t = L.traj(27, { orbs: [27.5] }); L.orb(t, 27.5); L.hazard(27, 4, { traj: t }); }
-  { const t = L.traj(29, { orbs: [29.5] }); L.orb(t, 29.5); L.hazard(29, 5, { traj: t }); }
-  { const t = L.traj(32, { orbs: [32.5] }); L.orb(t, 32.5); const p = L.platformUp(32, 36, 2, { traj: t }); L.hazard(34, 1, { y: 3 });
-    L.fill('spike', p.x + 1, p.x + p.w - 1.5, 0); }
-  L.hazard(37, 2); L.hazard(38, 1);
-  L.cue('tut_tempo', 38.5);
-  L.section(40, 'slow', 2);
-  L.hazard(41, 1); L.hazard(42, 1); L.hazard(43, 2);
-  { const p = L.platformUp(44, 47, 1);
-    L.fill('spike_ceiling', p.x + 1.5, L.X(46.5), 4);
-    L.fill('spike', p.x + 1.5, p.x + p.w - 1.5, 0); }
-  L.hazard(48, 1, { type: 'spike_low' }); L.hazard(49, 1);
-  { const t = L.traj(50, { orbs: [50.5] }); L.orb(t, 50.5); L.hazard(50, 3, { traj: t }); }
-  { const t = L.pad(52); L.blockUp(52, 55, 3, { traj: t }); L.hazard(54, 1, { y: 3 }); }
-  L.section(56, 'normal', 2);
-  L.hazard(57, 2); L.hazard(58, 1); L.hazard(60, 3);           // 3연속 앞은 1박 비움
+  L.blockUp(12, 16, 1); L.hazard(14, 1, { y: 1 });
+  L.hazard(18, 1, { type: 'spike_low' }); L.hazard(20, 2);
+  L.cue('tut_drum', 21);
+  L.section(24, 'learn_pad', 2);
+  L.pad(24);                                                   // 안전한 첫 등장: 밟고 튀기만
+  { const t = L.pad(28); L.blockUp(28, 32, 3, { traj: t }); } // 발판으로 높이 3 상자
+  { const t = L.pad(35); L.hazard(35, 3, { traj: t }); }       // 발판 믿고 3연속 넘기 (입력 없음)
+  L.hazard(38, 1);
+  L.section(40, 'breath', 0);
+  L.section(44, 'build', 2);
+  L.hazard(44, 2);
+  { const t = L.pad(46); L.blockUp(46, 50, 3, { traj: t }); L.hazard(48, 1, { y: 3 }); }
+  L.hazard(52, 1); L.hazard(54, 1, { type: 'spike_low' });
+  { const t = L.pad(56); L.hazard(56, 3, { traj: t }); }
+  L.hazard(58, 2); L.hazard(60, 1);
   L.section(62, 'breath', 0);
-  L.section(64, 'combo', 3);
-  { const t = L.traj(64, { orbs: [64.5] }); L.orb(t, 64.5); L.hazard(64, 5, { traj: t }); }
-  { const t = L.pad(66); const t2 = L.traj(66, { kind: 'pad', orbs: [66.5] }); void t;
-    // 높이 4 발판(윗면 4). 위에서 뛰면 머리 7.15로 HUD 띠에 걸리므로 발판 위에는 장애물을 두지 않는다 (20-balance 12장 화면 높이 예산)
-    L.orb(t2, 66.5); const p = L.platformUp(66, 70, 3, { traj: t2 });
-    L.fill('spike', p.x + 1, p.x + p.w - 1, 0); }
-  L.hazard(71.5, 2);
-  L.blockUp(72.5, 75.5, 1); L.fill('spike_ceiling', L.X(73.5), L.X(75), 3);
-  L.hazard(76.5, 2);
-  { const t = L.traj(78, { orbs: [78.5] }); L.orb(t, 78.5); L.hazard(78, 5, { traj: t }); }
-  L.section(80, 'fast_drop', 4);
-  // 빠름 문(80박) 직후 2박 비움 (속도 감각 재조정, 10-lore 레벨 3 기믹 힌트)
-  L.hazard(82, 1); L.hazard(84, 3); L.hazard(86, 2, { type: 'spike_low' });
-  { const b1 = L.blockUp(88, null, 1); L.hazard(90, 1, { y: 1 });
-    const b2 = L.blockUp(92, 94, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
-  { const t = L.pad(96); L.blockUp(96, 99, 3, { traj: t }); L.hazard(98, 2, { y: 3 }); }
-  { const t = L.traj(100, { orbs: [100.5] }); L.orb(t, 100.5); L.hazard(100, 6, { traj: t }); }
-  L.hazard(102, 1); L.hazard(103, 1); L.hazard(105, 2); L.hazard(107, 3);
-  L.section(108, 'build', 1);                                  // 장애물 있는 저강도 구간 (숨 고르기 아님)
-  { const p = L.platformUp(112, 115, 1); L.hazard(114, 1, { y: 2 });
-    L.blockUp(115, 118, 3, { y0: 2 }); L.hazard(117, 1, { y: 3 });
-    L.fill('spike', p.x + 2, p.x + p.w + 1.5, 0); }
-  L.hazard(120, 2);
-  { const t = L.traj(121, { orbs: [121.5] }); L.orb(t, 121.5); L.hazard(121, 5, { traj: t }); }
-  L.hazard(124, 2); L.hazard(126, 3);
+  L.section(64, 'drop', 3);
+  L.hazard(64, 2); L.hazard(66, 1);
+  L.blockUp(68, 72, 1); L.hazard(70, 1, { y: 1 });
+  { const t = L.pad(74); L.hazard(74, 3, { traj: t }); }
+  L.hazard(76, 2);
+  { const b1 = L.blockUp(78, null, 1); const b2 = L.blockUp(80, 84, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); L.hazard(82, 1, { y: 2 }); }
+  L.hazard(86, 2);
+  { const t = L.pad(88); L.blockUp(88, 92, 3, { traj: t }); L.hazard(90, 2, { y: 3 }); }
+  L.hazard(94, 1, { type: 'spike_low' }); L.hazard(96, 2); L.hazard(98, 1);
+  L.section(100, 'build', 1);
+  { const t = L.pad(100); L.hazard(100, 3, { traj: t }); }
+  L.hazard(102, 2);
+  { const a = L.blockUp(104, null, 1);
+    a.w = r2(L.X(106) + 0.8 - a.x);
+    const bb = L.blockUp(106, 110, 1, { y0: 1 });
+    L.fill('spike', a.x + a.w, bb.x, 0);
+    L.hazard(108, 1, { y: 1 }); }
+  L.section(112, 'drop', 3);
+  L.hazard(112, 2); L.hazard(114, 1);
+  { const t = L.pad(116); L.blockUp(116, 120, 3, { traj: t }); L.hazard(118, 1, { y: 3 }); }
+  L.hazard(122, 2); L.hazard(124, 1, { type: 'spike_low' }); L.hazard(126, 1);
   L.section(128, 'finale', 3);
-  L.hazard(129, 2); L.hazard(131, 1, { type: 'spike_low' });
-  { const t = L.pad(132); L.blockUp(132, 135, 3, { traj: t }); L.hazard(134, 1, { y: 3 }); }
-  L.hazard(136, 2);
-  { const t = L.traj(137, { orbs: [137.5] }); L.orb(t, 137.5); L.hazard(137, 5, { traj: t }); }
-  L.hazard(139, 1); L.hazard(140, 2); L.hazard(141, 1);
+  L.hazard(128, 2); L.hazard(130, 1);
+  { const t = L.pad(132); L.hazard(132, 3, { traj: t }); }
+  L.hazard(134, 2); L.hazard(136, 1); L.hazard(138, 2); L.hazard(140, 1, { type: 'spike_low' });
   L.section(144, 'outro', 0);
   return L;
 }
