@@ -1,0 +1,95 @@
+{
+  "shots": [
+    "360x640-title-normal-first.png",
+    "360x640-title-normal-menu.png",
+    "360x640-01-title.png",
+    "360x640-02-levels.png",
+    "360x640-03-play-level1.png",
+    "360x640-03-play-level2.png",
+    "360x640-03-play-level3.png",
+    "360x640-04-death.png",
+    "360x640-05-clear-fx.png",
+    "360x640-06-clear-screen.png",
+    "360x640-07-pause.png",
+    "360x640-08-settings.png",
+    "412x915-title-normal-first.png",
+    "412x915-title-normal-menu.png",
+    "412x915-01-title.png",
+    "412x915-02-levels.png",
+    "412x915-03-play-level1.png",
+    "412x915-03-play-level2.png",
+    "412x915-03-play-level3.png",
+    "412x915-04-death.png",
+    "412x915-05-clear-fx.png",
+    "412x915-06-clear-screen.png",
+    "412x915-07-pause.png",
+    "412x915-08-settings.png",
+    "640x360-title-normal-first.png",
+    "640x360-title-normal-menu.png",
+    "640x360-01-title.png",
+    "640x360-02-levels.png",
+    "640x360-03-play-level1.png",
+    "640x360-03-play-level2.png",
+    "640x360-03-play-level3.png",
+    "640x360-04-death.png",
+    "640x360-05-clear-fx.png",
+    "640x360-06-clear-screen.png",
+    "640x360-07-pause.png",
+    "640x360-08-settings.png",
+    "1280x720-title-normal-first.png",
+    "1280x720-title-normal-menu.png",
+    "1280x720-01-title.png",
+    "1280x720-02-levels.png",
+    "1280x720-03-play-level1.png",
+    "1280x720-03-play-level2.png",
+    "1280x720-03-play-level3.png",
+    "1280x720-04-death.png",
+    "1280x720-05-clear-fx.png",
+    "1280x720-06-clear-screen.png",
+    "1280x720-07-pause.png",
+    "1280x720-08-settings.png"
+  ],
+  "overflow": {
+    "360x640": {
+      "title": [],
+      "levels": [
+        "SPAN:종을 다시 울려라",
+        "SPAN:최고 0%",
+        "SPAN:연습 최고 0%"
+      ],
+      "settings": [],
+      "pause": [],
+      "clearS": []
+    },
+    "412x915": {
+      "title": [],
+      "levels": [],
+      "settings": [],
+      "pause": [],
+      "clearS": []
+    },
+    "640x360": {
+      "title": [],
+      "levels": [],
+      "settings": [
+        "bShake:켜기",
+        "bTrig:끄기"
+      ],
+      "pause": [],
+      "clearS": []
+    },
+    "1280x720": {
+      "title": [],
+      "levels": [],
+      "settings": [],
+      "pause": [],
+      "clearS": []
+    }
+  },
+  "outside": {
+    "360x640": [],
+    "412x915": [],
+    "640x360": [],
+    "1280x720": []
+  }
+}

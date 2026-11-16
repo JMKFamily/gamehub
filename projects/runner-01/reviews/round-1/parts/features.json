@@ -1,0 +1,113 @@
+{
+  "practice": {
+    "placed": true,
+    "cp_tick": 4800,
+    "cp_x": 207.99999999998664,
+    "dead_x": 235.473333333313,
+    "after_restart": {
+      "state": "playing",
+      "tick": 4801,
+      "x": 208.04333333331996,
+      "attempts": 2
+    },
+    "restart_at_checkpoint": false,
+    "practice_end_state": "clear",
+    "save_02": {
+      "best": 0,
+      "bestPractice": 100,
+      "cleared": false,
+      "attempts": 0
+    },
+    "counts_as_clear": false
+  },
+  "save": {
+    "best_after_death": 8.628472222222346,
+    "after_clear": {
+      "best": 100,
+      "bestPractice": 0,
+      "cleared": true,
+      "attempts": 2,
+      "clearAttempts": 2
+    },
+    "after_reload": {
+      "02": {
+        "best": 0,
+        "bestPractice": 100,
+        "cleared": false,
+        "attempts": 0
+      },
+      "01": {
+        "best": 100,
+        "bestPractice": 0,
+        "cleared": true,
+        "attempts": 2,
+        "clearAttempts": 2
+      }
+    },
+    "persisted": true
+  },
+  "locks_fresh": [
+    {
+      "cls": "card",
+      "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+      "disabled": false
+    },
+    {
+      "cls": "card locked",
+      "text": "2줄다리 야시장등불이 꺼지기 전에이전 레벨을 클리어하면 열려요",
+      "disabled": false
+    },
+    {
+      "cls": "card locked",
+      "text": "3폭풍 종탑종을 다시 울려라이전 레벨을 클리어하면 열려요",
+      "disabled": false
+    }
+  ],
+  "pause_button": {
+    "state": "paused",
+    "player": {
+      "x": 11.223333333333287,
+      "y": 0,
+      "vy": 0,
+      "grounded": true
+    }
+  },
+  "resume_countdown_ms": 1243,
+  "background": {
+    "state": "paused",
+    "tick_advanced": 0,
+    "audio": "suspended",
+    "bgText": true,
+    "after_visible": {
+      "state": "paused",
+      "audio": "suspended"
+    }
+  },
+  "blur": "paused",
+  "mute": {
+    "gains_before": [
+      0.8,
+      0.8,
+      0.8,
+      0.158,
+      0
+    ],
+    "gains_after": [
+      0.8,
+      0,
+      0,
+      0.158,
+      0,
+      0.158,
+      0
+    ],
+    "settings_after_reload": {
+      "music": 80,
+      "sfx": 80,
+      "offset": 0,
+      "shake": true,
+      "triggerSfx": false,
+      "muted": true
+    }
+  }
+}

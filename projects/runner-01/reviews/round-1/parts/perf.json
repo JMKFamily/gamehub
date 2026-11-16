@@ -1,0 +1,193 @@
+{
+  "1280x720@1x": {
+    "throttle": 6,
+    "level1_run": {
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 35,
+      "taps_total": 35,
+      "send_err_ms": {
+        "mean": 4.85,
+        "max": 19.47
+      }
+    },
+    "fps_level1": {
+      "frames": 2881,
+      "seconds": 48.15,
+      "avg_fps": 59.8,
+      "low1_fps": 46,
+      "p99_ms": 17,
+      "max_ms": 83.3,
+      "over_33ms": 2
+    },
+    "level3_30s_run": {
+      "state": "playing",
+      "progress": 39.58816113079225,
+      "taps_sent": 31,
+      "taps_total": 67,
+      "send_err_ms": {
+        "mean": 7.01,
+        "max": 19.07
+      }
+    },
+    "fps_level3": {
+      "frames": 1797,
+      "seconds": 30.02,
+      "avg_fps": 59.9,
+      "low1_fps": 47.8,
+      "p99_ms": 17,
+      "max_ms": 33.4,
+      "over_33ms": 3
+    },
+    "input_to_jump_frames": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      1,
+      1
+    ],
+    "restart": [
+      {
+        "dead_to_new_attempt_ms": 591,
+        "dead_to_moving_ms": 720
+      },
+      {
+        "dead_to_new_attempt_ms": 788,
+        "dead_to_moving_ms": 894
+      },
+      {
+        "dead_to_new_attempt_ms": 662,
+        "dead_to_moving_ms": 760
+      },
+      {
+        "dead_to_new_attempt_ms": 602,
+        "dead_to_moving_ms": 730
+      },
+      {
+        "dead_to_new_attempt_ms": 597,
+        "dead_to_moving_ms": 727
+      }
+    ]
+  },
+  "640x360@3x": {
+    "throttle": 6,
+    "level1_run": {
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 35,
+      "taps_total": 35,
+      "send_err_ms": {
+        "mean": 4.05,
+        "max": 9.03
+      }
+    },
+    "fps_level1": {
+      "frames": 2874,
+      "seconds": 48.17,
+      "avg_fps": 59.7,
+      "low1_fps": 37.8,
+      "p99_ms": 16.9,
+      "max_ms": 116.7,
+      "over_33ms": 6
+    },
+    "level3_30s_run": {
+      "state": "playing",
+      "progress": 39.57661881043071,
+      "taps_sent": 31,
+      "taps_total": 67,
+      "send_err_ms": {
+        "mean": 6.98,
+        "max": 16.17
+      }
+    },
+    "fps_level3": {
+      "frames": 1800,
+      "seconds": 30.02,
+      "avg_fps": 60,
+      "low1_fps": 56.1,
+      "p99_ms": 16.8,
+      "max_ms": 33.4,
+      "over_33ms": 1
+    },
+    "input_to_jump_frames": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "restart": [
+      {
+        "dead_to_new_attempt_ms": 592,
+        "dead_to_moving_ms": 722
+      },
+      {
+        "dead_to_new_attempt_ms": 600,
+        "dead_to_moving_ms": 728
+      },
+      {
+        "dead_to_new_attempt_ms": 598,
+        "dead_to_moving_ms": 719
+      },
+      {
+        "dead_to_new_attempt_ms": 602,
+        "dead_to_moving_ms": 726
+      },
+      {
+        "dead_to_new_attempt_ms": 606,
+        "dead_to_moving_ms": 730
+      }
+    ]
+  },
+  "1280x720@1x_nothrottle": {
+    "fps_level1_20s": {
+      "frames": 1201,
+      "seconds": 20.02,
+      "avg_fps": 60,
+      "low1_fps": 59.4,
+      "p99_ms": 16.8,
+      "max_ms": 16.9,
+      "over_33ms": 0
+    },
+    "run": {
+      "state": "playing",
+      "progress": 41.44965277777516,
+      "taps_sent": 13,
+      "taps_total": 35,
+      "send_err_ms": {
+        "mean": 0.93,
+        "max": 3.87
+      }
+    }
+  }
+}

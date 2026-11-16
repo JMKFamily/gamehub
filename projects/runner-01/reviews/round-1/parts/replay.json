@@ -1,0 +1,600 @@
+{
+  "runs": [
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 2,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 1,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "60Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "144Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "30Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "20Hz",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 3,
+      "set": "on_beat_taps",
+      "hold_ticks": 24,
+      "frame": "10Hz(상한 24틱)",
+      "state": "clear",
+      "progress": 100,
+      "death": null
+    },
+    {
+      "level": 1,
+      "set": "none",
+      "state": "dead",
+      "progress": 8.63
+    },
+    {
+      "level": 1,
+      "set": "hold_all",
+      "state": "dead",
+      "progress": 19.12
+    },
+    {
+      "level": 2,
+      "set": "none",
+      "state": "dead",
+      "progress": 6.49
+    },
+    {
+      "level": 2,
+      "set": "hold_all",
+      "state": "dead",
+      "progress": 6.63
+    },
+    {
+      "level": 3,
+      "set": "none",
+      "state": "dead",
+      "progress": 4.95
+    },
+    {
+      "level": 3,
+      "set": "hold_all",
+      "state": "dead",
+      "progress": 4.96
+    }
+  ],
+  "sensitivity": {
+    "01": {
+      "global_shift_ok_ms": [
+        -70.8,
+        70.8
+      ]
+    },
+    "02": {
+      "global_shift_ok_ms": [
+        -20.8,
+        20.8
+      ]
+    },
+    "03": {
+      "global_shift_ok_ms": [
+        -20.8,
+        20.8
+      ]
+    }
+  }
+}

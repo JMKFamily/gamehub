@@ -1,0 +1,41 @@
+{
+  "runs": [
+    {
+      "level": 1,
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 35,
+      "taps_total": 35,
+      "send_err_ms": {
+        "mean": 2.34,
+        "max": 7.07
+      }
+    },
+    {
+      "level": 2,
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 40,
+      "taps_total": 40,
+      "send_err_ms": {
+        "mean": 1.83,
+        "max": 4.5
+      }
+    },
+    {
+      "level": 3,
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 67,
+      "taps_total": 67,
+      "send_err_ms": {
+        "mean": 1.89,
+        "max": 4.9
+      }
+    }
+  ],
+  "audio": "running"
+}

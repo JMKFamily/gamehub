@@ -1,0 +1,3091 @@
+{
+  "game": "reverbound",
+  "round": 1,
+  "generated": "2026-11-16T17:02:06.037Z",
+  "tool": "projects/runner-01/tools/qa-round.mjs",
+  "browser": "Microsoft Edge (playwright-core, channel msedge, headless)",
+  "age": {
+    "targets": {
+      "360x640": {
+        "title": [
+          {
+            "id": "hubLink",
+            "tag": "a",
+            "cls": "hubLink",
+            "text": "⌂",
+            "x": 12,
+            "y": 10,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "btnPlay",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "달리기",
+            "x": 70,
+            "y": 279,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "btnLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 70,
+            "y": 353,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "btnSettings",
+            "tag": "button",
+            "cls": "btn",
+            "text": "설정",
+            "x": 70,
+            "y": 415,
+            "w": 220,
+            "h": 52
+          }
+        ],
+        "levels": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 27,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "modeNormal",
+            "tag": "button",
+            "cls": "on",
+            "text": "일반 모드",
+            "x": 51,
+            "y": 21,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": "modePractice",
+            "tag": "button",
+            "cls": "",
+            "text": "연습 모드",
+            "x": 180,
+            "y": 21,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+            "x": 80,
+            "y": 91,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "2줄다리 야시장등불이 꺼지기 전에최고 0%연습 최고 0",
+            "x": 80,
+            "y": 300,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "3폭풍 종탑종을 다시 울려라최고 0%연습 최고 0%",
+            "x": 80,
+            "y": 509,
+            "w": 200,
+            "h": 195
+          }
+        ],
+        "settings": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 52,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "sMusic",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 111,
+            "y": 130,
+            "w": 130.7,
+            "h": 48
+          },
+          {
+            "id": "bMute",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "",
+            "x": 256,
+            "y": 130,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "sSfx",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 139,
+            "y": 192,
+            "w": 186.7,
+            "h": 48
+          },
+          {
+            "id": "sOffset",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 114,
+            "y": 254,
+            "w": 136,
+            "h": 48
+          },
+          {
+            "id": "bOffsetTest",
+            "tag": "button",
+            "cls": "btn small",
+            "text": "탭해서 맞춰 보기",
+            "x": 32,
+            "y": 361,
+            "w": 183.5,
+            "h": 48
+          },
+          {
+            "id": "bShake",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "켜기",
+            "x": 256,
+            "y": 419,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bTrig",
+            "tag": "button",
+            "cls": "tog",
+            "text": "끄기",
+            "x": 256,
+            "y": 477,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bReset",
+            "tag": "button",
+            "cls": "btn danger small",
+            "text": "기록 초기화",
+            "x": 32,
+            "y": 535,
+            "w": 148.3,
+            "h": 48
+          }
+        ],
+        "play_practice": [
+          {
+            "id": "cpPlace",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 찍기",
+            "x": 192,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "cpRemove",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 지우기",
+            "x": 248,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 304,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          }
+        ],
+        "pause": [
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 304,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pResume",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "계속",
+            "x": 31,
+            "y": 217,
+            "w": 297.9,
+            "h": 64
+          },
+          {
+            "id": "pRestart",
+            "tag": "button",
+            "cls": "btn",
+            "text": "처음부터",
+            "x": 31,
+            "y": 291,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pPractice",
+            "tag": "button",
+            "cls": "btn",
+            "text": "연습 모드 켜기/끄기 · 끄기",
+            "x": 31,
+            "y": 353,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pQuit",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택으로",
+            "x": 31,
+            "y": 415,
+            "w": 297.9,
+            "h": 52
+          }
+        ],
+        "clear": [
+          {
+            "id": "cNext",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "다음 레벨",
+            "x": 70,
+            "y": 326,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "cRetry",
+            "tag": "button",
+            "cls": "btn",
+            "text": "다시 달리기",
+            "x": 70,
+            "y": 400,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "cLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 70,
+            "y": 462,
+            "w": 220,
+            "h": 52
+          }
+        ]
+      },
+      "412x915": {
+        "title": [
+          {
+            "id": "hubLink",
+            "tag": "a",
+            "cls": "hubLink",
+            "text": "⌂",
+            "x": 12,
+            "y": 10,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "btnPlay",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "달리기",
+            "x": 96,
+            "y": 416,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "btnLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 96,
+            "y": 490,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "btnSettings",
+            "tag": "button",
+            "cls": "btn",
+            "text": "설정",
+            "x": 96,
+            "y": 552,
+            "w": 220,
+            "h": 52
+          }
+        ],
+        "levels": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 118,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "modeNormal",
+            "tag": "button",
+            "cls": "on",
+            "text": "일반 모드",
+            "x": 77,
+            "y": 112,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": "modePractice",
+            "tag": "button",
+            "cls": "",
+            "text": "연습 모드",
+            "x": 206,
+            "y": 112,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+            "x": 106,
+            "y": 182,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "2줄다리 야시장등불이 꺼지기 전에최고 0%연습 최고 0",
+            "x": 106,
+            "y": 391,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "3폭풍 종탑종을 다시 울려라최고 0%연습 최고 0%",
+            "x": 106,
+            "y": 600,
+            "w": 200,
+            "h": 195
+          }
+        ],
+        "settings": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 198,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "sMusic",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 129,
+            "y": 276,
+            "w": 165.3,
+            "h": 48
+          },
+          {
+            "id": "bMute",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "",
+            "x": 308,
+            "y": 276,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "sSfx",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 157,
+            "y": 338,
+            "w": 221.3,
+            "h": 48
+          },
+          {
+            "id": "sOffset",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 131,
+            "y": 400,
+            "w": 170.7,
+            "h": 48
+          },
+          {
+            "id": "bOffsetTest",
+            "tag": "button",
+            "cls": "btn small",
+            "text": "탭해서 맞춰 보기",
+            "x": 32,
+            "y": 489,
+            "w": 183.5,
+            "h": 48
+          },
+          {
+            "id": "bShake",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "켜기",
+            "x": 308,
+            "y": 547,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bTrig",
+            "tag": "button",
+            "cls": "tog",
+            "text": "끄기",
+            "x": 308,
+            "y": 605,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bReset",
+            "tag": "button",
+            "cls": "btn danger small",
+            "text": "기록 초기화",
+            "x": 32,
+            "y": 663,
+            "w": 148.3,
+            "h": 48
+          }
+        ],
+        "play_practice": [
+          {
+            "id": "cpPlace",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 찍기",
+            "x": 244,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "cpRemove",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 지우기",
+            "x": 300,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 356,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          }
+        ],
+        "pause": [
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 356,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pResume",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "계속",
+            "x": 57,
+            "y": 354,
+            "w": 297.9,
+            "h": 64
+          },
+          {
+            "id": "pRestart",
+            "tag": "button",
+            "cls": "btn",
+            "text": "처음부터",
+            "x": 57,
+            "y": 428,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pPractice",
+            "tag": "button",
+            "cls": "btn",
+            "text": "연습 모드 켜기/끄기 · 끄기",
+            "x": 57,
+            "y": 490,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pQuit",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택으로",
+            "x": 57,
+            "y": 552,
+            "w": 297.9,
+            "h": 52
+          }
+        ],
+        "clear": [
+          {
+            "id": "cNext",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "다음 레벨",
+            "x": 96,
+            "y": 464,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "cRetry",
+            "tag": "button",
+            "cls": "btn",
+            "text": "다시 달리기",
+            "x": 96,
+            "y": 538,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "cLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 96,
+            "y": 600,
+            "w": 220,
+            "h": 52
+          }
+        ]
+      },
+      "640x360": {
+        "title": [
+          {
+            "id": "hubLink",
+            "tag": "a",
+            "cls": "hubLink",
+            "text": "⌂",
+            "x": 12,
+            "y": 10,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "btnPlay",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "달리기",
+            "x": 210,
+            "y": 140,
+            "w": 220,
+            "h": 56
+          },
+          {
+            "id": "btnLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 210,
+            "y": 206,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "btnSettings",
+            "tag": "button",
+            "cls": "btn",
+            "text": "설정",
+            "x": 210,
+            "y": 268,
+            "w": 220,
+            "h": 52
+          }
+        ],
+        "levels": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 60,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "modeNormal",
+            "tag": "button",
+            "cls": "on",
+            "text": "일반 모드",
+            "x": 191,
+            "y": 54,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": "modePractice",
+            "tag": "button",
+            "cls": "",
+            "text": "연습 모드",
+            "x": 320,
+            "y": 54,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+            "x": 22,
+            "y": 118,
+            "w": 189.3,
+            "h": 180
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "2줄다리 야시장등불이 꺼지기 전에최고 0%연습 최고 0",
+            "x": 225,
+            "y": 118,
+            "w": 189.3,
+            "h": 180
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "3폭풍 종탑종을 다시 울려라최고 0%연습 최고 0%",
+            "x": 429,
+            "y": 118,
+            "w": 189.3,
+            "h": 180
+          }
+        ],
+        "settings": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 25,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "sMusic",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 213,
+            "y": 95,
+            "w": 285.3,
+            "h": 48
+          },
+          {
+            "id": "bMute",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "",
+            "x": 512,
+            "y": 95,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "sSfx",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 241,
+            "y": 153,
+            "w": 341.3,
+            "h": 48
+          },
+          {
+            "id": "sOffset",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 215,
+            "y": 211,
+            "w": 290.7,
+            "h": 48
+          },
+          {
+            "id": "bOffsetTest",
+            "tag": "button",
+            "cls": "btn small",
+            "text": "탭해서 맞춰 보기",
+            "x": 56,
+            "y": 298,
+            "w": 183.5,
+            "h": 48
+          },
+          {
+            "id": "bShake",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "켜기",
+            "x": 512,
+            "y": 356,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bTrig",
+            "tag": "button",
+            "cls": "tog",
+            "text": "끄기",
+            "x": 512,
+            "y": 414,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bReset",
+            "tag": "button",
+            "cls": "btn danger small",
+            "text": "기록 초기화",
+            "x": 56,
+            "y": 472,
+            "w": 148.3,
+            "h": 48
+          }
+        ],
+        "play_practice": [
+          {
+            "id": "cpPlace",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 찍기",
+            "x": 472,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "cpRemove",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 지우기",
+            "x": 528,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 584,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          }
+        ],
+        "pause": [
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 584,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pResume",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "계속",
+            "x": 171,
+            "y": 78,
+            "w": 297.9,
+            "h": 56
+          },
+          {
+            "id": "pRestart",
+            "tag": "button",
+            "cls": "btn",
+            "text": "처음부터",
+            "x": 171,
+            "y": 144,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pPractice",
+            "tag": "button",
+            "cls": "btn",
+            "text": "연습 모드 켜기/끄기 · 끄기",
+            "x": 171,
+            "y": 206,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pQuit",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택으로",
+            "x": 171,
+            "y": 268,
+            "w": 297.9,
+            "h": 52
+          }
+        ],
+        "clear": [
+          {
+            "id": "cNext",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "다음 레벨",
+            "x": 210,
+            "y": 168,
+            "w": 220,
+            "h": 56
+          },
+          {
+            "id": "cRetry",
+            "tag": "button",
+            "cls": "btn",
+            "text": "다시 달리기",
+            "x": 210,
+            "y": 234,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "cLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 210,
+            "y": 296,
+            "w": 220,
+            "h": 52
+          }
+        ]
+      },
+      "1280x720": {
+        "title": [
+          {
+            "id": "hubLink",
+            "tag": "a",
+            "cls": "hubLink",
+            "text": "⌂",
+            "x": 12,
+            "y": 10,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "btnPlay",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "달리기",
+            "x": 530,
+            "y": 335,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "btnLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 530,
+            "y": 409,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "btnSettings",
+            "tag": "button",
+            "cls": "btn",
+            "text": "설정",
+            "x": 530,
+            "y": 471,
+            "w": 220,
+            "h": 52
+          }
+        ],
+        "levels": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 230,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "modeNormal",
+            "tag": "button",
+            "cls": "on",
+            "text": "일반 모드",
+            "x": 511,
+            "y": 224,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": "modePractice",
+            "tag": "button",
+            "cls": "",
+            "text": "연습 모드",
+            "x": 640,
+            "y": 224,
+            "w": 129.3,
+            "h": 48
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+            "x": 326,
+            "y": 294,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "2줄다리 야시장등불이 꺼지기 전에최고 0%연습 최고 0",
+            "x": 540,
+            "y": 294,
+            "w": 200,
+            "h": 195
+          },
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "card",
+            "text": "3폭풍 종탑종을 다시 울려라최고 0%연습 최고 0%",
+            "x": 754,
+            "y": 294,
+            "w": 200,
+            "h": 195
+          }
+        ],
+        "settings": [
+          {
+            "id": null,
+            "tag": "button",
+            "cls": "btn back",
+            "text": "←",
+            "x": 28,
+            "y": 101,
+            "w": 52,
+            "h": 52
+          },
+          {
+            "id": "sMusic",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 533,
+            "y": 179,
+            "w": 285.3,
+            "h": 48
+          },
+          {
+            "id": "bMute",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "",
+            "x": 832,
+            "y": 179,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "sSfx",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 561,
+            "y": 241,
+            "w": 341.3,
+            "h": 48
+          },
+          {
+            "id": "sOffset",
+            "tag": "input",
+            "cls": "",
+            "text": "",
+            "x": 535,
+            "y": 303,
+            "w": 290.7,
+            "h": 48
+          },
+          {
+            "id": "bOffsetTest",
+            "tag": "button",
+            "cls": "btn small",
+            "text": "탭해서 맞춰 보기",
+            "x": 376,
+            "y": 392,
+            "w": 183.5,
+            "h": 48
+          },
+          {
+            "id": "bShake",
+            "tag": "button",
+            "cls": "tog on",
+            "text": "켜기",
+            "x": 832,
+            "y": 450,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bTrig",
+            "tag": "button",
+            "cls": "tog",
+            "text": "끄기",
+            "x": 832,
+            "y": 508,
+            "w": 72,
+            "h": 48
+          },
+          {
+            "id": "bReset",
+            "tag": "button",
+            "cls": "btn danger small",
+            "text": "기록 초기화",
+            "x": 376,
+            "y": 566,
+            "w": 148.3,
+            "h": 48
+          }
+        ],
+        "play_practice": [
+          {
+            "id": "cpPlace",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 찍기",
+            "x": 964,
+            "y": 6,
+            "w": 114.9,
+            "h": 48
+          },
+          {
+            "id": "cpRemove",
+            "tag": "button",
+            "cls": "hudBtn practiceOnly",
+            "text": "지점 지우기",
+            "x": 1087,
+            "y": 6,
+            "w": 128.9,
+            "h": 48
+          },
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 1224,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          }
+        ],
+        "pause": [
+          {
+            "id": "pauseBtn",
+            "tag": "button",
+            "cls": "iconBtn",
+            "text": "",
+            "x": 1224,
+            "y": 6,
+            "w": 48,
+            "h": 48
+          },
+          {
+            "id": "pResume",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "계속",
+            "x": 491,
+            "y": 265,
+            "w": 297.9,
+            "h": 64
+          },
+          {
+            "id": "pRestart",
+            "tag": "button",
+            "cls": "btn",
+            "text": "처음부터",
+            "x": 491,
+            "y": 339,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pPractice",
+            "tag": "button",
+            "cls": "btn",
+            "text": "연습 모드 켜기/끄기 · 끄기",
+            "x": 491,
+            "y": 401,
+            "w": 297.9,
+            "h": 52
+          },
+          {
+            "id": "pQuit",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택으로",
+            "x": 491,
+            "y": 463,
+            "w": 297.9,
+            "h": 52
+          }
+        ],
+        "clear": [
+          {
+            "id": "cNext",
+            "tag": "button",
+            "cls": "btn primary",
+            "text": "다음 레벨",
+            "x": 530,
+            "y": 374,
+            "w": 220,
+            "h": 64
+          },
+          {
+            "id": "cRetry",
+            "tag": "button",
+            "cls": "btn",
+            "text": "다시 달리기",
+            "x": 530,
+            "y": 448,
+            "w": 220,
+            "h": 52
+          },
+          {
+            "id": "cLevels",
+            "tag": "button",
+            "cls": "btn",
+            "text": "레벨 선택",
+            "x": 530,
+            "y": 510,
+            "w": 220,
+            "h": 52
+          }
+        ]
+      }
+    },
+    "small": {
+      "360x640": {},
+      "412x915": {},
+      "640x360": {},
+      "1280x720": {}
+    },
+    "cues_level1": [
+      {
+        "key": "tut_tap",
+        "beat": 0,
+        "x": 0
+      },
+      {
+        "key": "tut_shard",
+        "beat": 5,
+        "x": 26
+      },
+      {
+        "key": "tut_beat",
+        "beat": 13,
+        "x": 67.6
+      },
+      {
+        "key": "tut_crate",
+        "beat": 37,
+        "x": 192.4
+      }
+    ]
+  },
+  "basic": {
+    "?test=1": {
+      "console": 0,
+      "pageerrors": 0,
+      "failed": 0,
+      "external": 0
+    },
+    "(normal)": {
+      "console": 0,
+      "pageerrors": 0,
+      "failed": 0,
+      "external": 0
+    },
+    "?lang=en": {
+      "console": 0,
+      "pageerrors": 0,
+      "failed": 0,
+      "external": 0
+    },
+    "log": {
+      "console": [],
+      "pageerrors": [],
+      "failed": [],
+      "external": [],
+      "requests": 53
+    }
+  },
+  "bots": {
+    "profiles": {
+      "skilled_sd25": {
+        "sd": 25,
+        "miss": 0,
+        "extra": 0
+      },
+      "novice_sd50": {
+        "sd": 50,
+        "miss": 0.01,
+        "extra": 0.01
+      },
+      "child_sd70": {
+        "sd": 70,
+        "miss": 0.03,
+        "extra": 0.02
+      },
+      "child_sd90": {
+        "sd": 90,
+        "miss": 0.05,
+        "extra": 0.03
+      }
+    },
+    "by_profile": {
+      "skilled_sd25": {
+        "01": {
+          "n": 200,
+          "clear_rate": 0.955,
+          "mean_progress": 99,
+          "median_progress": 100,
+          "death_hist_5pct": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            3,
+            4,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 407,
+              "share": 0.222
+            },
+            {
+              "x": 443,
+              "share": 0.222
+            },
+            {
+              "x": 445,
+              "share": 0.222
+            },
+            {
+              "x": 149,
+              "share": 0.111
+            },
+            {
+              "x": 346,
+              "share": 0.111
+            }
+          ],
+          "expected_attempts_to_clear": 1
+        },
+        "02": {
+          "n": 200,
+          "clear_rate": 0.44,
+          "mean_progress": 86.7,
+          "median_progress": 86.5,
+          "death_hist_5pct": [
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            1,
+            0,
+            1,
+            0,
+            67,
+            0,
+            1,
+            39,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 456,
+              "share": 0.393
+            },
+            {
+              "x": 540,
+              "share": 0.179
+            },
+            {
+              "x": 537,
+              "share": 0.17
+            },
+            {
+              "x": 459,
+              "share": 0.125
+            },
+            {
+              "x": 460,
+              "share": 0.08
+            }
+          ],
+          "expected_attempts_to_clear": 2.3
+        },
+        "03": {
+          "n": 200,
+          "clear_rate": 0.51,
+          "mean_progress": 70.2,
+          "median_progress": 100,
+          "death_hist_5pct": [
+            0,
+            1,
+            0,
+            1,
+            4,
+            7,
+            61,
+            0,
+            3,
+            7,
+            0,
+            0,
+            0,
+            8,
+            0,
+            3,
+            1,
+            2,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 254,
+              "share": 0.347
+            },
+            {
+              "x": 257,
+              "share": 0.276
+            },
+            {
+              "x": 190,
+              "share": 0.061
+            },
+            {
+              "x": 493,
+              "share": 0.051
+            },
+            {
+              "x": 166,
+              "share": 0.031
+            }
+          ],
+          "expected_attempts_to_clear": 2
+        }
+      },
+      "novice_sd50": {
+        "01": {
+          "n": 200,
+          "clear_rate": 0.1,
+          "mean_progress": 47.4,
+          "median_progress": 33.5,
+          "death_hist_5pct": [
+            0,
+            10,
+            8,
+            14,
+            23,
+            26,
+            29,
+            6,
+            2,
+            3,
+            1,
+            11,
+            0,
+            14,
+            9,
+            1,
+            12,
+            9,
+            2,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 147,
+              "share": 0.072
+            },
+            {
+              "x": 157,
+              "share": 0.061
+            },
+            {
+              "x": 167,
+              "share": 0.061
+            },
+            {
+              "x": 115,
+              "share": 0.056
+            },
+            {
+              "x": 43,
+              "share": 0.05
+            }
+          ],
+          "expected_attempts_to_clear": 10
+        },
+        "02": {
+          "n": 200,
+          "clear_rate": 0.015,
+          "mean_progress": 31.4,
+          "median_progress": 17.3,
+          "death_hist_5pct": [
+            0,
+            29,
+            54,
+            21,
+            5,
+            18,
+            0,
+            10,
+            10,
+            7,
+            3,
+            2,
+            15,
+            1,
+            17,
+            2,
+            2,
+            1,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 89,
+              "share": 0.081
+            },
+            {
+              "x": 91,
+              "share": 0.071
+            },
+            {
+              "x": 52,
+              "share": 0.066
+            },
+            {
+              "x": 108,
+              "share": 0.066
+            },
+            {
+              "x": 181,
+              "share": 0.056
+            }
+          ],
+          "expected_attempts_to_clear": 66.7
+        },
+        "03": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 19,
+          "median_progress": 17.6,
+          "death_hist_5pct": [
+            7,
+            34,
+            41,
+            36,
+            21,
+            28,
+            22,
+            4,
+            5,
+            2,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 190,
+              "share": 0.09
+            },
+            {
+              "x": 46,
+              "share": 0.08
+            },
+            {
+              "x": 90,
+              "share": 0.07
+            },
+            {
+              "x": 98,
+              "share": 0.055
+            },
+            {
+              "x": 166,
+              "share": 0.045
+            }
+          ],
+          "expected_attempts_to_clear": null
+        }
+      },
+      "child_sd70": {
+        "01": {
+          "n": 200,
+          "clear_rate": 0.005,
+          "mean_progress": 26.5,
+          "median_progress": 23.1,
+          "death_hist_5pct": [
+            0,
+            24,
+            18,
+            26,
+            55,
+            32,
+            17,
+            5,
+            2,
+            2,
+            0,
+            7,
+            0,
+            4,
+            3,
+            0,
+            4,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 43,
+              "share": 0.095
+            },
+            {
+              "x": 115,
+              "share": 0.09
+            },
+            {
+              "x": 85,
+              "share": 0.065
+            },
+            {
+              "x": 117,
+              "share": 0.065
+            },
+            {
+              "x": 106,
+              "share": 0.06
+            }
+          ],
+          "expected_attempts_to_clear": 200
+        },
+        "02": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 15.3,
+          "median_progress": 10.6,
+          "death_hist_5pct": [
+            0,
+            90,
+            55,
+            25,
+            2,
+            10,
+            0,
+            5,
+            3,
+            4,
+            1,
+            0,
+            2,
+            0,
+            2,
+            1,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 50,
+              "share": 0.145
+            },
+            {
+              "x": 41,
+              "share": 0.11
+            },
+            {
+              "x": 52,
+              "share": 0.105
+            },
+            {
+              "x": 79,
+              "share": 0.065
+            },
+            {
+              "x": 51,
+              "share": 0.045
+            }
+          ],
+          "expected_attempts_to_clear": null
+        },
+        "03": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 10.8,
+          "median_progress": 12,
+          "death_hist_5pct": [
+            12,
+            86,
+            59,
+            31,
+            9,
+            2,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 46,
+              "share": 0.195
+            },
+            {
+              "x": 90,
+              "share": 0.09
+            },
+            {
+              "x": 92,
+              "share": 0.09
+            },
+            {
+              "x": 37,
+              "share": 0.06
+            },
+            {
+              "x": 47,
+              "share": 0.06
+            }
+          ],
+          "expected_attempts_to_clear": null
+        }
+      },
+      "child_sd90": {
+        "01": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 18.3,
+          "median_progress": 17.1,
+          "death_hist_5pct": [
+            0,
+            40,
+            38,
+            44,
+            42,
+            28,
+            5,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 64,
+              "share": 0.135
+            },
+            {
+              "x": 43,
+              "share": 0.11
+            },
+            {
+              "x": 85,
+              "share": 0.11
+            },
+            {
+              "x": 44,
+              "share": 0.09
+            },
+            {
+              "x": 106,
+              "share": 0.08
+            }
+          ],
+          "expected_attempts_to_clear": null
+        },
+        "02": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 10.8,
+          "median_progress": 8.3,
+          "death_hist_5pct": [
+            0,
+            119,
+            57,
+            17,
+            1,
+            3,
+            0,
+            1,
+            1,
+            0,
+            0,
+            0,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 41,
+              "share": 0.195
+            },
+            {
+              "x": 50,
+              "share": 0.175
+            },
+            {
+              "x": 52,
+              "share": 0.085
+            },
+            {
+              "x": 51,
+              "share": 0.07
+            },
+            {
+              "x": 79,
+              "share": 0.07
+            }
+          ],
+          "expected_attempts_to_clear": null
+        },
+        "03": {
+          "n": 200,
+          "clear_rate": 0,
+          "mean_progress": 8.6,
+          "median_progress": 6.3,
+          "death_hist_5pct": [
+            29,
+            109,
+            47,
+            11,
+            3,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "top_death_x": [
+            {
+              "x": 46,
+              "share": 0.185
+            },
+            {
+              "x": 37,
+              "share": 0.145
+            },
+            {
+              "x": 59,
+              "share": 0.105
+            },
+            {
+              "x": 90,
+              "share": 0.075
+            },
+            {
+              "x": 47,
+              "share": 0.07
+            }
+          ],
+          "expected_attempts_to_clear": null
+        }
+      }
+    },
+    "level1_attempts_to_first_clear": {
+      "novice_sd50": {
+        "sessions": 60,
+        "median": 5,
+        "p25": 2,
+        "p75": 9,
+        "p90": 14,
+        "over_200": 0
+      },
+      "child_sd70": {
+        "sessions": 60,
+        "median": 201,
+        "p25": 118,
+        "p75": 201,
+        "p90": 201,
+        "over_200": 32
+      },
+      "child_sd90": {
+        "sessions": 60,
+        "median": 201,
+        "p25": 201,
+        "p75": 201,
+        "p90": 201,
+        "over_200": 60
+      }
+    },
+    "random_bot": {
+      "01": {
+        "n": 200,
+        "mean_progress": 10.1,
+        "median_progress": 8.6,
+        "max_progress": 19
+      },
+      "02": {
+        "n": 200,
+        "mean_progress": 7.1,
+        "median_progress": 6.5,
+        "max_progress": 12.7
+      },
+      "03": {
+        "n": 200,
+        "mean_progress": 5.4,
+        "median_progress": 4.9,
+        "max_progress": 12
+      }
+    }
+  },
+  "features": {
+    "practice": {
+      "placed": true,
+      "cp_tick": 4800,
+      "cp_x": 207.99999999998664,
+      "dead_x": 235.473333333313,
+      "after_restart": {
+        "state": "playing",
+        "tick": 4801,
+        "x": 208.04333333331996,
+        "attempts": 2
+      },
+      "restart_at_checkpoint": false,
+      "practice_end_state": "clear",
+      "save_02": {
+        "best": 0,
+        "bestPractice": 100,
+        "cleared": false,
+        "attempts": 0
+      },
+      "counts_as_clear": false
+    },
+    "save": {
+      "best_after_death": 8.628472222222346,
+      "after_clear": {
+        "best": 100,
+        "bestPractice": 0,
+        "cleared": true,
+        "attempts": 2,
+        "clearAttempts": 2
+      },
+      "after_reload": {
+        "02": {
+          "best": 0,
+          "bestPractice": 100,
+          "cleared": false,
+          "attempts": 0
+        },
+        "01": {
+          "best": 100,
+          "bestPractice": 0,
+          "cleared": true,
+          "attempts": 2,
+          "clearAttempts": 2
+        }
+      },
+      "persisted": true
+    },
+    "locks_fresh": [
+      {
+        "cls": "card",
+        "text": "1새벽 조율장첫 박을 울려라최고 0%연습 최고 0%",
+        "disabled": false
+      },
+      {
+        "cls": "card locked",
+        "text": "2줄다리 야시장등불이 꺼지기 전에이전 레벨을 클리어하면 열려요",
+        "disabled": false
+      },
+      {
+        "cls": "card locked",
+        "text": "3폭풍 종탑종을 다시 울려라이전 레벨을 클리어하면 열려요",
+        "disabled": false
+      }
+    ],
+    "pause_button": {
+      "state": "paused",
+      "player": {
+        "x": 11.223333333333287,
+        "y": 0,
+        "vy": 0,
+        "grounded": true
+      }
+    },
+    "resume_countdown_ms": 1243,
+    "background": {
+      "state": "paused",
+      "tick_advanced": 0,
+      "audio": "suspended",
+      "bgText": true,
+      "after_visible": {
+        "state": "paused",
+        "audio": "suspended"
+      }
+    },
+    "blur": "paused",
+    "mute": {
+      "gains_before": [
+        0.8,
+        0.8,
+        0.8,
+        0.158,
+        0
+      ],
+      "gains_after": [
+        0.8,
+        0,
+        0,
+        0.158,
+        0,
+        0.158,
+        0
+      ],
+      "settings_after_reload": {
+        "music": 80,
+        "sfx": 80,
+        "offset": 0,
+        "shake": true,
+        "triggerSfx": false,
+        "muted": true
+      }
+    }
+  },
+  "log-age": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 174
+  },
+  "log-basic_replay": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 70
+  },
+  "log-perf": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 54
+  },
+  "log-realtime": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 18
+  },
+  "log-shots_features_age_bots": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 342
+  },
+  "perf": {
+    "1280x720@1x": {
+      "throttle": 6,
+      "level1_run": {
+        "state": "clear",
+        "progress": 100,
+        "taps_sent": 35,
+        "taps_total": 35,
+        "send_err_ms": {
+          "mean": 4.85,
+          "max": 19.47
+        }
+      },
+      "fps_level1": {
+        "frames": 2881,
+        "seconds": 48.15,
+        "avg_fps": 59.8,
+        "low1_fps": 46,
+        "p99_ms": 17,
+        "max_ms": 83.3,
+        "over_33ms": 2
+      },
+      "level3_30s_run": {
+        "state": "playing",
+        "progress": 39.58816113079225,
+        "taps_sent": 31,
+        "taps_total": 67,
+        "send_err_ms": {
+          "mean": 7.01,
+          "max": 19.07
+        }
+      },
+      "fps_level3": {
+        "frames": 1797,
+        "seconds": 30.02,
+        "avg_fps": 59.9,
+        "low1_fps": 47.8,
+        "p99_ms": 17,
+        "max_ms": 33.4,
+        "over_33ms": 3
+      },
+      "input_to_jump_frames": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        1,
+        1
+      ],
+      "restart": [
+        {
+          "dead_to_new_attempt_ms": 591,
+          "dead_to_moving_ms": 720
+        },
+        {
+          "dead_to_new_attempt_ms": 788,
+          "dead_to_moving_ms": 894
+        },
+        {
+          "dead_to_new_attempt_ms": 662,
+          "dead_to_moving_ms": 760
+        },
+        {
+          "dead_to_new_attempt_ms": 602,
+          "dead_to_moving_ms": 730
+        },
+        {
+          "dead_to_new_attempt_ms": 597,
+          "dead_to_moving_ms": 727
+        }
+      ]
+    },
+    "640x360@3x": {
+      "throttle": 6,
+      "level1_run": {
+        "state": "clear",
+        "progress": 100,
+        "taps_sent": 35,
+        "taps_total": 35,
+        "send_err_ms": {
+          "mean": 4.05,
+          "max": 9.03
+        }
+      },
+      "fps_level1": {
+        "frames": 2874,
+        "seconds": 48.17,
+        "avg_fps": 59.7,
+        "low1_fps": 37.8,
+        "p99_ms": 16.9,
+        "max_ms": 116.7,
+        "over_33ms": 6
+      },
+      "level3_30s_run": {
+        "state": "playing",
+        "progress": 39.57661881043071,
+        "taps_sent": 31,
+        "taps_total": 67,
+        "send_err_ms": {
+          "mean": 6.98,
+          "max": 16.17
+        }
+      },
+      "fps_level3": {
+        "frames": 1800,
+        "seconds": 30.02,
+        "avg_fps": 60,
+        "low1_fps": 56.1,
+        "p99_ms": 16.8,
+        "max_ms": 33.4,
+        "over_33ms": 1
+      },
+      "input_to_jump_frames": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "restart": [
+        {
+          "dead_to_new_attempt_ms": 592,
+          "dead_to_moving_ms": 722
+        },
+        {
+          "dead_to_new_attempt_ms": 600,
+          "dead_to_moving_ms": 728
+        },
+        {
+          "dead_to_new_attempt_ms": 598,
+          "dead_to_moving_ms": 719
+        },
+        {
+          "dead_to_new_attempt_ms": 602,
+          "dead_to_moving_ms": 726
+        },
+        {
+          "dead_to_new_attempt_ms": 606,
+          "dead_to_moving_ms": 730
+        }
+      ]
+    },
+    "1280x720@1x_nothrottle": {
+      "fps_level1_20s": {
+        "frames": 1201,
+        "seconds": 20.02,
+        "avg_fps": 60,
+        "low1_fps": 59.4,
+        "p99_ms": 16.8,
+        "max_ms": 16.9,
+        "over_33ms": 0
+      },
+      "run": {
+        "state": "playing",
+        "progress": 41.44965277777516,
+        "taps_sent": 13,
+        "taps_total": 35,
+        "send_err_ms": {
+          "mean": 0.93,
+          "max": 3.87
+        }
+      }
+    }
+  },
+  "realtime": {
+    "runs": [
+      {
+        "level": 1,
+        "throttle": 1,
+        "state": "clear",
+        "progress": 100,
+        "taps_sent": 35,
+        "taps_total": 35,
+        "send_err_ms": {
+          "mean": 2.34,
+          "max": 7.07
+        }
+      },
+      {
+        "level": 2,
+        "throttle": 1,
+        "state": "clear",
+        "progress": 100,
+        "taps_sent": 40,
+        "taps_total": 40,
+        "send_err_ms": {
+          "mean": 1.83,
+          "max": 4.5
+        }
+      },
+      {
+        "level": 3,
+        "throttle": 1,
+        "state": "clear",
+        "progress": 100,
+        "taps_sent": 67,
+        "taps_total": 67,
+        "send_err_ms": {
+          "mean": 1.89,
+          "max": 4.9
+        }
+      }
+    ],
+    "audio": "running"
+  },
+  "replay": {
+    "runs": [
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 2,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 1,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "60Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "144Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "30Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "20Hz",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 3,
+        "set": "on_beat_taps",
+        "hold_ticks": 24,
+        "frame": "10Hz(상한 24틱)",
+        "state": "clear",
+        "progress": 100,
+        "death": null
+      },
+      {
+        "level": 1,
+        "set": "none",
+        "state": "dead",
+        "progress": 8.63
+      },
+      {
+        "level": 1,
+        "set": "hold_all",
+        "state": "dead",
+        "progress": 19.12
+      },
+      {
+        "level": 2,
+        "set": "none",
+        "state": "dead",
+        "progress": 6.49
+      },
+      {
+        "level": 2,
+        "set": "hold_all",
+        "state": "dead",
+        "progress": 6.63
+      },
+      {
+        "level": 3,
+        "set": "none",
+        "state": "dead",
+        "progress": 4.95
+      },
+      {
+        "level": 3,
+        "set": "hold_all",
+        "state": "dead",
+        "progress": 4.96
+      }
+    ],
+    "sensitivity": {
+      "01": {
+        "global_shift_ok_ms": [
+          -70.8,
+          70.8
+        ]
+      },
+      "02": {
+        "global_shift_ok_ms": [
+          -20.8,
+          20.8
+        ]
+      },
+      "03": {
+        "global_shift_ok_ms": [
+          -20.8,
+          20.8
+        ]
+      }
+    }
+  },
+  "shots": {
+    "shots": [
+      "360x640-title-normal-first.png",
+      "360x640-title-normal-menu.png",
+      "360x640-01-title.png",
+      "360x640-02-levels.png",
+      "360x640-03-play-level1.png",
+      "360x640-03-play-level2.png",
+      "360x640-03-play-level3.png",
+      "360x640-04-death.png",
+      "360x640-05-clear-fx.png",
+      "360x640-06-clear-screen.png",
+      "360x640-07-pause.png",
+      "360x640-08-settings.png",
+      "412x915-title-normal-first.png",
+      "412x915-title-normal-menu.png",
+      "412x915-01-title.png",
+      "412x915-02-levels.png",
+      "412x915-03-play-level1.png",
+      "412x915-03-play-level2.png",
+      "412x915-03-play-level3.png",
+      "412x915-04-death.png",
+      "412x915-05-clear-fx.png",
+      "412x915-06-clear-screen.png",
+      "412x915-07-pause.png",
+      "412x915-08-settings.png",
+      "640x360-title-normal-first.png",
+      "640x360-title-normal-menu.png",
+      "640x360-01-title.png",
+      "640x360-02-levels.png",
+      "640x360-03-play-level1.png",
+      "640x360-03-play-level2.png",
+      "640x360-03-play-level3.png",
+      "640x360-04-death.png",
+      "640x360-05-clear-fx.png",
+      "640x360-06-clear-screen.png",
+      "640x360-07-pause.png",
+      "640x360-08-settings.png",
+      "1280x720-title-normal-first.png",
+      "1280x720-title-normal-menu.png",
+      "1280x720-01-title.png",
+      "1280x720-02-levels.png",
+      "1280x720-03-play-level1.png",
+      "1280x720-03-play-level2.png",
+      "1280x720-03-play-level3.png",
+      "1280x720-04-death.png",
+      "1280x720-05-clear-fx.png",
+      "1280x720-06-clear-screen.png",
+      "1280x720-07-pause.png",
+      "1280x720-08-settings.png"
+    ],
+    "overflow": {
+      "360x640": {
+        "title": [],
+        "levels": [
+          "SPAN:종을 다시 울려라",
+          "SPAN:최고 0%",
+          "SPAN:연습 최고 0%"
+        ],
+        "settings": [],
+        "pause": [],
+        "clearS": []
+      },
+      "412x915": {
+        "title": [],
+        "levels": [],
+        "settings": [],
+        "pause": [],
+        "clearS": []
+      },
+      "640x360": {
+        "title": [],
+        "levels": [],
+        "settings": [
+          "bShake:켜기",
+          "bTrig:끄기"
+        ],
+        "pause": [],
+        "clearS": []
+      },
+      "1280x720": {
+        "title": [],
+        "levels": [],
+        "settings": [],
+        "pause": [],
+        "clearS": []
+      }
+    },
+    "outside": {
+      "360x640": [],
+      "412x915": [],
+      "640x360": [],
+      "1280x720": []
+    }
+  }
+}
