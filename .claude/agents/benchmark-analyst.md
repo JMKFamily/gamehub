@@ -23,6 +23,16 @@ tools: Read, Write, Edit, Glob, Grep, WebSearch, WebFetch
 `harness/PIPELINE.md`의 원본 보호 규칙을 지킵니다. 원작의 이름, 캐릭터, 아트, 음악, 레벨 배치는 문서에 재현하지 않습니다.
 출처 URL을 문서 끝에 모읍니다.
 
+## 실측 모드 (레퍼런스 게임 직접 플레이)
+
+목표는 "요청한 게임과 플레이 감각이 최대한 같은 게임"입니다. 공개 자료로 확정할 수 없는 수치가 있으면 실측을 요청합니다.
+
+1. `harness/guides/hands-on-benchmark.md`를 읽고, 이 게임에 필요한 측정 장면을 `projects/<slug>/HUMAN_TASKS.md`에 표로 작성합니다.
+2. 오케스트레이터가 요청자에게 방법과 함께 요청합니다. 당신은 요청자에게 직접 말하지 않습니다.
+3. 원격 조작이 연결되면 측정 장면만 플레이하고, 녹화가 오면 ffmpeg로 프레임을 뽑아 블록 단위·프레임 단위로 잽니다.
+4. 결과를 00-benchmark.md에 "실측(n회 평균 ± 편차)"으로 반영합니다.
+5. 결제, 계정, 광고 클릭, 게임 설정 변경은 하지 않습니다. 레퍼런스 화면은 분석용으로만 씁니다.
+
 ## 리뷰 모드: `projects/<slug>/reviews/round-N/benchmark-analyst.md`
 
 빌드 코드, 스크린샷, `metrics.json`을 보고 00-benchmark.md의 감각 수치·핵심 루프·재시작 속도가 재현됐는지 판단합니다.
