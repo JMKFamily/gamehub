@@ -4,5 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | 1-1 | [밸런스 기획: 판정 창·10레벨 곡선·레벨 1~3 데이터](balance-designer/2026-11-17-1-1-balance.md) |
+| 2026-11-17 | art-director | 1-1 | [아트·사운드 디렉션: 박자 시계 10레벨](art-director/2026-11-17-1-1-art.md) |
+| 2026-11-17 | lore-writer | 1-1 | [세계관·텍스트 기획: 똑딱북](lore-writer/2026-11-17-1-1-lore.md) |
 | 2026-11-17 | benchmark-analyst | 1-0 | [코어 설계: 박자 시계 추천](benchmark-analyst/2026-11-17-1-0-core-design.md) |
 | 2026-11-17 | orchestrator | 1-0 | [배리에이션 착수와 지시 전파](orchestrator/2026-11-17-1-0-variation-kickoff.md) |

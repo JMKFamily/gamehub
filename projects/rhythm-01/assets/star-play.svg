@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -60 120 120" width="128" height="128">
+<!-- 진한 별(따라 치기, 판정 있음): star 면 + outline 테두리. 외접원 반지름 50 = 0.15R -->
+<polygon points="0,-50 14.7,-20.3 47.5,-15.4 23.8,7.8 29.4,40.5 0,25 -29.4,40.5 -23.8,7.8 -47.5,-15.4 -14.7,-20.3" fill="#FFD43B" stroke="#0B0D12" stroke-width="7" stroke-linejoin="round" opacity="1"/>
+</svg>

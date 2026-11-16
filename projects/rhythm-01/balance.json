@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "_units": "시간은 ms 또는 s(키 이름에 표기), 박자는 beat, 마디는 bar, 자리는 slot(8분음표 단위, 0 = 12시 = 마디 첫 박, 0~7). 판정 시각은 오디오 시계 기준이며 지연 보정을 뺀 뒤의 값. 레벨 시간 0 = 카운트인 마디의 첫 박.",
+
+  "input": {
+    "controls": ["tap_anywhere"],
+    "event": "pointerdown",
+    "use_event_timestamp": true,
+    "_note": "탭 1가지. 홀드·드래그·방향 없음. pointerdown 의 event.timeStamp 를 오디오 시간으로 바꿔 판정한다 (20-balance.md 8장)."
+  },
+
+  "judge_defaults": {
+    "perfect_ms": 50,
+    "good_ms": 100,
+    "pass_early_ms": 150,
+    "pass_late_ms": 170,
+    "miss_zone_ms": 140,
+    "_note": "레벨 파일의 judge 블록이 이 값을 덮어쓴다. 딱·좋아는 대칭, 통과 창만 늦은 쪽 +20 ms (20-balance.md 4-2). 놓침 구역 = 통과 창 바로 앞 miss_zone_ms, 앞 별의 통과 창 끝보다 앞으로는 넓히지 않음. 늦은 쪽 놓침 구역은 없음(창 끝이 지나면 그대로 놓침)."
+  },
+
+  "stars_rule": {
+    "one": "clear",
+    "two_good_ratio": 0.75,
+    "three_perfect_ratio": 0.6,
+    "_note": "등급 = 클리어 후 별(판정 별 전체) 중 좋아 이상 비율 / 딱 비율. 등급 모양은 art 결정 (lore Q3: 치는 별과 다른 모양 제안)."
+  },
+
+  "restart": {
+    "restart_delay_s": 1.08,
+    "allowed_range_s": [0.94, 1.2],
+    "music_fade_out_s": 0.06,
+    "fail_fx_s": 0.4,
+    "settle_s": 0.4,
+    "rewind_s": 0.28,
+    "count_in_bars": 1,
+    "count_in_ticks": "every_beat",
+    "_note": "실패 순간(깨진 별 시각) → 공이 다시 움직이는 첫 프레임 = 1.08 s, 입력·버튼 없이 자동. 0~0.06 음악 페이드, 0~0.40 깨짐 연출·실패음, 0.40~0.80 정지(진행도 막대 최고 기록 표시), 0.80~1.08 공이 12시로 돌아옴. 1.08 s 에 곡을 레벨 시간 0(카운트인 첫 박)부터 오디오 시계에 예약 재생."
+  },
+
+  "practice": {
+    "checkpoint_rule": "rest_bar_start",
+    "count_in_bars": 1,
+    "_note": "연습 모드: 레벨 파일 sections 의 checkpoint:true 구간 시작(쉬는 마디)에서 재시작. 그 쉬는 마디가 곧 카운트인이므로 따로 마디를 넣지 않는다. 일반 모드는 항상 레벨 처음."
+  },
+
+  "preview": {
+    "star_lead_bars": 1,
+    "fade_in_beats": 0.25,
+    "show_bar_style": "faint_and_auto_hit",
+    "_note": "공이 지나간 자리에 다음 마디 별이 0.25박 동안 서서히 나타남 → 모든 별은 정확히 1마디 전에 보인다. 보여 주기 마디의 별은 흐리게, 가운데 북이 대신 침(판정 없음)."
+  },
+
+  "audio_latency": {
+    "compensate": ["outputLatency", "baseLatency", "manual_offset_ms"],
+    "manual_offset_range_ms": [-200, 300],
+    "calibration_taps": 8,
+    "assumed_residual_after_auto_ms": [-20, 40],
+    "l1_child_tolerated_bias_ms": [-40, 40],
+    "_note": "판정 = (탭 시각을 오디오 시간으로 바꾼 값) - (출력 지연 + 수동 오프셋) - 별 시각. 남는 오차가 봇 기준으로 레벨 1 σ70 첫 클리어 중앙값 5회 이하를 지키는 범위가 l1_child_tolerated_bias_ms (20-balance.md 8장, verify-levels 출력)."
+  },
+
+  "bots": {
+    "extra_tap_after_s": [0.15, 0.45],
+    "profiles": {
+      "skilled_sd25": { "sd_ms": 25, "miss": 0, "extra": 0 },
+      "novice_sd50": { "sd_ms": 50, "miss": 0.01, "extra": 0.01 },
+      "child_sd70": { "sd_ms": 70, "miss": 0.03, "extra": 0.02 },
+      "child_sd90": { "sd_ms": 90, "miss": 0.05, "extra": 0.03 }
+    },
+    "_note": "criteria.md 정의와 같음: 박 시각 + N(0, σ) 탭, 별마다 놓침 확률 miss(탭 안 함), 헛탭 확률 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 보여 주기·쉬는 마디에서는 치지 않음(따라 치기 변형은 --along)."
+  },
+
+  "verify": {
+    "max_gap_in_pattern_ms": 1000,
+    "mash_periods_ms": [40, 200, 10],
+    "mash_phase_step_ms": 2,
+    "eighth_spam_must_fail": true,
+    "miss_zone_must_cover_eighth_early_margin_ms": 10,
+    "quarter_early_tap_ignored_margin_ms": 50,
+    "min_window_ratio_vs_prev": 0.5,
+    "max_new_gimmicks_per_level": 1,
+    "l1_first_star_min_progress": 0.1,
+    "l1_star_count_range": [16, 20],
+    "l1_child_sd70_median_max": 5,
+    "child_sd70_median_max_by_level": { "01": 5, "02": 8, "03": 12 },
+    "bias_sweep_ms": [-80, -60, -40, -20, 0, 20, 40, 60, 80, 100]
+  },
+
+  "levels": [
+    "levels/01-level1.json",
+    "levels/02-level2.json",
+    "levels/03-level3.json"
+  ],
+
+  "curve_planned": {
+    "_note": "레벨 4~10 은 곡선 계획만(데이터 없음). verify-levels 가 이 표로 해석적 봇 예측을 같이 출력한다. stars = 판정 별 수 계획값, bars = 카운트인 제외 마디 수.",
+    "04": { "bpm": 124, "bars": 20, "stars": 30, "pass_early_ms": 125, "pass_late_ms": 145, "good_ms": 90, "patterns": "정박·반박 쌍·쉼 복습 (숨 고르기 레벨)", "new_gimmick": null },
+    "05": { "bpm": 126, "bars": 20, "stars": 32, "pass_early_ms": 120, "pass_late_ms": 140, "good_ms": 90, "patterns": "반박 쌍 + 쉼 섞기(한 마디 안)", "new_gimmick": null },
+    "06": { "bpm": 128, "bars": 22, "stars": 36, "pass_early_ms": 120, "pass_late_ms": 140, "good_ms": 90, "patterns": "두 마디 무늬(앞 마디·뒷 마디가 다름)", "new_gimmick": "two_bar_pattern" },
+    "07": { "bpm": 130, "bars": 22, "stars": 40, "pass_early_ms": 115, "pass_late_ms": 135, "good_ms": 90, "patterns": "반박 4연속(둥두둥두) 포함, 마디당 별 최대 6", "new_gimmick": "eighth_run4" },
+    "08": { "bpm": 132, "bars": 24, "stars": 42, "pass_early_ms": 115, "pass_late_ms": 135, "good_ms": 90, "patterns": "보여 주기 없는 복습 마디 비율 증가", "new_gimmick": null },
+    "09": { "bpm": 136, "bars": 24, "stars": 44, "pass_early_ms": 110, "pass_late_ms": 130, "good_ms": 90, "patterns": "빠른 템포 무늬 섞기", "new_gimmick": null },
+    "10": { "bpm": 140, "bars": 26, "stars": 48, "pass_early_ms": 110, "pass_late_ms": 130, "good_ms": 90, "patterns": "1~9 무늬 모음, 끝 2마디 쉬운 무늬", "new_gimmick": null }
+  }
+}

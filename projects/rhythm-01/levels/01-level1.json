@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "id": "01",
+  "theme_id": "level1",
+  "name_key": "level1_name",
+  "name": "아침 마당",
+  "name_en": "Morning Yard",
+  "bpm": 110,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 18,
+  "duration_s": 41.455,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 100,
+    "pass_early_ms": 150,
+    "pass_late_ms": 170,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "even",
+  "known_patterns": [],
+  "design_intent": "정박(4분음표)만. 별이 12시부터 시계 방향으로 하나씩 늘어나는 무늬 4개(1개→2개→3개→4개). 새 무늬마다 가운데 북이 한 바퀴 먼저 쳐 줌. 별 사이 최대 1박(545 ms), 판정 별 20개. 박마다 치기만 해도 깰 수 있는 \"박 배우기\" 레벨.",
+  "new_gimmicks": [
+    {
+      "id": "quarter_star",
+      "card_key": "card_star_tap",
+      "first_bar": 0,
+      "_note": "핵심 규칙 자체(공이 별에 닿을 때 톡). 그림 카드 = 손가락이 별 위 공에 맞춰 톡"
+    }
+  ],
+  "cues": [
+    {
+      "key": "tut_tap",
+      "bar": 1,
+      "slot": 0,
+      "show_from_bar": 0,
+      "_note": "첫 진한 별에서 손가락 그림 1회 (lore Q5)"
+    }
+  ],
+  "difficulty": {
+    "target_child_sd70_median_max": 5,
+    "target_novice_sd50_median": [
+      1,
+      2
+    ]
+  },
+  "patterns": {
+    "A": {
+      "slots": [0],
+      "shape": "하나"
+    },
+    "B": {
+      "slots": [0, 2],
+      "shape": "둘"
+    },
+    "C": {
+      "slots": [0, 2, 4],
+      "shape": "셋"
+    },
+    "D": {
+      "slots": [0, 2, 4, 6],
+      "shape": "넷"
+    }
+  },
+  "sections": [
+    {
+      "name": "learn_one",
+      "start_bar": 0,
+      "checkpoint": false
+    },
+    {
+      "name": "learn_two",
+      "start_bar": 3,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 6,
+      "checkpoint": true
+    },
+    {
+      "name": "learn_three",
+      "start_bar": 7,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 9,
+      "checkpoint": true
+    },
+    {
+      "name": "learn_four",
+      "start_bar": 10,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 12,
+      "checkpoint": true
+    },
+    {
+      "name": "mix",
+      "start_bar": 13,
+      "checkpoint": false
+    },
+    {
+      "name": "outro",
+      "start_bar": 16,
+      "checkpoint": false
+    }
+  ],
+  "bars": [
+    {"mode":"show","pattern":"A"},
+    {"mode":"play","pattern":"A"},
+    {"mode":"play","pattern":"A"},
+    {"mode":"show","pattern":"B"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"C"},
+    {"mode":"play","pattern":"C"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"D"},
+    {"mode":"play","pattern":"D"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"D"},
+    {"mode":"play","pattern":"A"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}

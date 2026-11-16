@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "id": "02",
+  "theme_id": "level2",
+  "name_key": "level2_name",
+  "name": "꽃밭",
+  "name_en": "Flower Patch",
+  "bpm": 116,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 19,
+  "duration_s": 41.379,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 100,
+    "pass_early_ms": 135,
+    "pass_late_ms": 155,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "D"
+  ],
+  "design_intent": "반박(8분음표) 별 도입. 반박은 정박 바로 뒤에만, 반박 연속은 쌍(둥두)까지. 레벨 1 무늬(넷) 복습으로 시작해 둥두 → 둥두 둥 → 둥두 둥두. 박마다 치기로는 깰 수 없음(반박 별).",
+  "new_gimmicks": [
+    {
+      "id": "half_beat_star",
+      "card_key": "card_half_star",
+      "first_bar": 2,
+      "_note": "박과 박 사이에 생긴 별. 그림 카드 = 별 두 개가 붙어 있고 손가락이 톡톡"
+    }
+  ],
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 8,
+    "target_novice_sd50_median": [
+      1,
+      3
+    ]
+  },
+  "patterns": {
+    "D": {
+      "slots": [0, 2, 4, 6],
+      "shape": "넷"
+    },
+    "E": {
+      "slots": [0, 1],
+      "shape": "둥두"
+    },
+    "F": {
+      "slots": [0, 1, 4],
+      "shape": "둥두 둥"
+    },
+    "G": {
+      "slots": [0, 1, 4, 5],
+      "shape": "둥두 둥두"
+    }
+  },
+  "sections": [
+    {
+      "name": "review",
+      "start_bar": 0,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 1,
+      "checkpoint": true
+    },
+    {
+      "name": "learn_pair",
+      "start_bar": 2,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 5,
+      "checkpoint": true
+    },
+    {
+      "name": "learn_pair_one",
+      "start_bar": 6,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 9,
+      "checkpoint": true
+    },
+    {
+      "name": "learn_pair_pair",
+      "start_bar": 10,
+      "checkpoint": false
+    },
+    {
+      "name": "breath",
+      "start_bar": 12,
+      "checkpoint": true
+    },
+    {
+      "name": "mix",
+      "start_bar": 13,
+      "checkpoint": false
+    },
+    {
+      "name": "outro",
+      "start_bar": 16,
+      "checkpoint": false
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"D"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"E"},
+    {"mode":"play","pattern":"E"},
+    {"mode":"play","pattern":"E"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"F"},
+    {"mode":"play","pattern":"F"},
+    {"mode":"play","pattern":"F"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"G"},
+    {"mode":"play","pattern":"G"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"E"},
+    {"mode":"play","pattern":"G"},
+    {"mode":"play","pattern":"F"},
+    {"mode":"rest"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}
