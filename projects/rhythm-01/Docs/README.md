@@ -4,6 +4,9 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | 1-2 | [교차 리뷰 2차: 결정 반영·곡선 재설계(σ70 L10 24회)](balance-designer/2026-11-17-1-2-revision.md) |
+| 2026-11-17 | art-director | 1-2 | [교차 리뷰 2차: 30-art 결정 반영, 대비 230쌍 통과, 카드 5장](art-director/2026-11-17-1-2-revision.md) |
+| 2026-11-17 | lore-writer | 1-2 | [교차 리뷰 2차: 10-lore 수정(키 38개)](lore-writer/2026-11-17-1-2-revision.md) |
 | 2026-11-17 | orchestrator | 1-2 | [교차 리뷰 결정](orchestrator/2026-11-17-1-2-cross-review-decisions.md) |
 | 2026-11-17 | balance-designer | 1-2 | [교차 리뷰 1차: lore·art 대조 지적](balance-designer/2026-11-17-1-2-cross-review.md) |
 | 2026-11-17 | art-director | 1-2 | [교차 리뷰 1차: 지적 18개(major 6)](art-director/2026-11-17-1-2-cross-review.md) |

@@ -1,7 +1,7 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "id": "01",
-  "theme_id": "level1",
+  "theme_id": "level01",
   "name_key": "level1_name",
   "name": "아침 마당",
   "name_en": "Morning Yard",
@@ -21,22 +21,28 @@
   },
   "allowed_slots": "even",
   "known_patterns": [],
-  "design_intent": "정박(4분음표)만. 별이 12시부터 시계 방향으로 하나씩 늘어나는 무늬 4개(1개→2개→3개→4개). 새 무늬마다 가운데 북이 한 바퀴 먼저 쳐 줌. 별 사이 최대 1박(545 ms), 판정 별 20개. 박마다 치기만 해도 깰 수 있는 \"박 배우기\" 레벨.",
+  "design_intent": "정박(4분음표)만. 별이 12시부터 시계 방향으로 하나씩 늘어나는 무늬 4개(1개→2개→3개→4개). 새 무늬마다 북채가 보여 주기 마디(속 빈 별)를 먼저 쳐 줌: 북채가 보이면 볼 차례, 없으면 내 차례. 별 사이 최대 1박(545 ms), 판정 별 20개. 박마다 치기만 해도 깰 수 있는 \"박 배우기\" 레벨.",
   "new_gimmicks": [
     {
       "id": "quarter_star",
-      "card_key": "card_star_tap",
       "first_bar": 0,
-      "_note": "핵심 규칙 자체(공이 별에 닿을 때 톡). 그림 카드 = 손가락이 별 위 공에 맞춰 톡"
+      "_note": "핵심 규칙 자체(공이 꽉 찬 별에 닿을 때 톡 + 북채가 먼저 침). first_bar = 이 기믹이 처음 나오는 마디(정보). 카드 표시 시점이 아님"
     }
   ],
+  "card": {
+    "id": "card_star_tap",
+    "timing": "pre_level_first_play",
+    "_note": "레벨을 처음 할 때 카운트인 앞에 1회. 3칸 한 장: 북채가 속 빈 별을 침 → 화살표 → 공이 꽉 찬 별에 닿을 때 손가락 톡. 보조 문구 없음, aria-label 키 card_star_tap (20-balance.md 10-6)"
+  },
   "cues": [
     {
       "key": "tut_tap",
       "bar": 1,
       "slot": 0,
-      "show_from_bar": 0,
-      "_note": "첫 진한 별에서 손가락 그림 1회 (lore Q5)"
+      "show_from_beats_before": 1,
+      "press_from_beats_before": 0.5,
+      "hide_after": "first_star_judged",
+      "_note": "첫 꽉 찬 별(마디 1 자리 0) 1박 전 = 보여 주기 마디 자리 6 에 나타남. 마디 0 의 북채 타격(자리 0)과 겹치지 않음"
     }
   ],
   "difficulty": {
@@ -48,19 +54,33 @@
   },
   "patterns": {
     "A": {
-      "slots": [0],
+      "slots": [
+        0
+      ],
       "shape": "하나"
     },
     "B": {
-      "slots": [0, 2],
+      "slots": [
+        0,
+        2
+      ],
       "shape": "둘"
     },
     "C": {
-      "slots": [0, 2, 4],
+      "slots": [
+        0,
+        2,
+        4
+      ],
       "shape": "셋"
     },
     "D": {
-      "slots": [0, 2, 4, 6],
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
       "shape": "넷"
     }
   },
@@ -68,47 +88,56 @@
     {
       "name": "learn_one",
       "start_bar": 0,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 1
     },
     {
       "name": "learn_two",
       "start_bar": 3,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 1
     },
     {
       "name": "breath",
       "start_bar": 6,
-      "checkpoint": true
+      "checkpoint": true,
+      "stage": 1
     },
     {
       "name": "learn_three",
       "start_bar": 7,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 2
     },
     {
       "name": "breath",
       "start_bar": 9,
-      "checkpoint": true
+      "checkpoint": true,
+      "stage": 2
     },
     {
       "name": "learn_four",
       "start_bar": 10,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 2
     },
     {
       "name": "breath",
       "start_bar": 12,
-      "checkpoint": true
+      "checkpoint": true,
+      "stage": 2
     },
     {
       "name": "mix",
       "start_bar": 13,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 3
     },
     {
       "name": "outro",
       "start_bar": 16,
-      "checkpoint": false
+      "checkpoint": false,
+      "stage": 3
     }
   ],
   "bars": [

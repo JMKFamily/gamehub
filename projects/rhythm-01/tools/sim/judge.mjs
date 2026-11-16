@@ -5,7 +5,8 @@
 //
 //   compileLevel(level, bal) → 별 목록(시각·판정 구역), 보여 주기 별, 길이
 //   judgeAttempt(L, taps)    → 한 시도 결과 (클리어/실패 위치/판정 목록)
-//   starRating(L, result)    → 클리어 등급 1~3
+//   gradeRating(L, result, rule) → 클리어 등급 1~3 (작은 북 1~3개, balance.json grade_rule)
+//   previewSchedule(L, bal)  → 별마다 '커지며 나타남' 시작·끝 시각 (20-balance.md 6-4)
 //   slotTimeMs(L, bar, slot) → 마디·자리(8분 단위)의 시각
 
 export function slotTimeMs(L, bar, slot) {
@@ -47,7 +48,9 @@ export function compileLevel(level, bal) {
     if (i > 0) zs = Math.max(zs, L.stars[i - 1].passEnd);
     st.zoneStart = Math.min(zs, st.passStart);
   });
+  L.shows.sort((a, b) => a.t - b.t);
   L.durationMs = (L.countInBars + level.bars.length) * L.barMs;
+  L.clearTimeMs = L.stars.length ? L.stars[L.stars.length - 1].passEnd : 0;
   return L;
 }
 
@@ -81,15 +84,17 @@ export function judgeAttempt(L, taps) {
     }
   }
   if (i < stars.length) return fail(L, i, stars[i].passEnd, 'miss', grades, stray);
-  return { clear: true, grades, stray, progress: 1 };
+  return { clear: true, grades, stray, progress: 1, progressTime: 1 };
 }
 
+// progress = 진행도 막대 기준 = 처리한 판정 별 수 / 전체 판정 별 (20-balance.md 6-5). 쉬는 마디에서는 움직이지 않는다.
+// progressTime = 레벨 시간 기준 위치 (criteria '첫 사망 위치가 레벨 10 % 이후' 확인용)
 function fail(L, i, timeMs, reason, grades, stray) {
-  return { clear: false, failIndex: i, failTimeMs: timeMs, reason, grades, stray, progress: Math.min(1, timeMs / L.durationMs) };
+  return { clear: false, failIndex: i, failTimeMs: timeMs, reason, grades, stray, progress: i / L.stars.length, progressTime: Math.min(1, timeMs / L.durationMs) };
 }
 
-// 등급: 1 = 클리어, 2 = 좋아 이상 비율 ≥ two_good_ratio, 3 = 딱 비율 ≥ three_perfect_ratio 이고 2 조건도 만족
-export function starRating(L, result, rule) {
+// 등급(작은 북 1~3개, 별 모양 아님): 1 = 클리어, 2 = 좋아 이상 비율 ≥ two_good_ratio, 3 = 딱 비율 ≥ three_perfect_ratio 이고 2 조건도 만족
+export function gradeRating(L, result, rule) {
   if (!result.clear) return 0;
   const n = result.grades.length;
   const good = result.grades.filter((g) => g.grade !== 'pass').length / n;
@@ -97,4 +102,22 @@ export function starRating(L, result, rule) {
   if (perf >= rule.three_perfect_ratio && good >= rule.two_good_ratio) return 3;
   if (good >= rule.two_good_ratio) return 2;
   return 1;
+}
+
+// 다음 마디 별 '커지며 나타남' 시각 (20-balance.md 6-4, 오케스트레이터 결정 6)
+//   시작 = (한 마디 앞 같은 자리 시각) + pass_late_ms + judge_fx_max_ms
+//        = 앞 별의 늦은 통과 창 끝과 판정 이펙트(가장 긴 딱 220 ms)가 모두 끝난 뒤. 앞 자리에 별이 없어도 같은 식.
+//   끝   = 시작 + grow_in_beats 박
+//   read = 별 시각 - 끝 (다 커진 뒤 별까지 보이는 시간)
+export function previewSchedule(L, bal) {
+  const pv = bal.preview;
+  const lead = pv.star_lead_bars * L.barMs;
+  const after = L.judge.pass_late_ms + pv.judge_fx_max_ms;
+  const grow = pv.grow_in_beats * L.beatMs;
+  return [...L.stars.map((s) => ({ ...s, kind: 'play' })), ...L.shows.map((s) => ({ ...s, kind: 'show' }))]
+    .sort((a, b) => a.t - b.t)
+    .map((s) => {
+      const start = s.t - lead + after;
+      return { t: s.t, bar: s.bar, slot: s.slot, kind: s.kind, growStart: start, growEnd: start + grow, readMs: s.t - (start + grow) };
+    });
 }

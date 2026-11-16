@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -60 120 120" width="128" height="128">
-<!-- 북채(보여 주기 마디의 선생): 둥근 머리 + 막대. 가운데 북 위에만 나타남 -->
+<!-- 북채(둥둥이의 북채): 보여 주기 마디 1박 전에 가운데 북 위에 나타나고 마디가 끝나면 사라짐. 북채가 보이면 볼 차례, 없으면 내 차례 -->
 <g transform="rotate(-30 0 10)" stroke="#0B0D12" stroke-width="5" stroke-linejoin="round"><rect x="-8" y="-14" width="16" height="70" rx="8" fill="#E6E1D3"/><rect x="-26" y="-36" width="52" height="28" rx="10" fill="#F5F1E8"/></g>
 </svg>

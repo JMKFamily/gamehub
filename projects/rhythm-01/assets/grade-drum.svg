@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-60 -25 120 50" width="128" height="128">
+<!-- 등급 북(2개 받음 예): 받음 = hud 면 + 외곽선 + 안쪽 가는 원, 못 받음 = trackEdge 점선 테두리. 노랑(star) 금지 -->
+<circle cx="-36" cy="0" r="15" fill="#F5F1E8" stroke="#0B0D12" stroke-width="2.4"/><circle cx="-36" cy="0" r="9.9" fill="none" stroke="#0B0D12" stroke-width="1.5"/><circle cx="0" cy="0" r="15" fill="#F5F1E8" stroke="#0B0D12" stroke-width="2.4"/><circle cx="0" cy="0" r="9.9" fill="none" stroke="#0B0D12" stroke-width="1.5"/><circle cx="36" cy="0" r="15" fill="none" stroke="#E6E1D3" stroke-width="2" stroke-dasharray="7.5 5.3"/>
+</svg>
