@@ -29,16 +29,17 @@
 
   "spike_hitbox_w_t": 0.25,
   "spike_hitbox_h_t": 0.45,
-  "spike_low_visual_h_t": 0.5,
+  "spike_low_visual_h_t": 0.48,
   "spike_low_hitbox_w_t": 0.25,
   "spike_low_hitbox_h_t": 0.2,
   "spike_ceiling_hitbox_w_t": 0.25,
   "spike_ceiling_hitbox_h_t": 0.45,
 
-  "platform_thickness_t": 0.25,
+  "platform_thickness_t": 0.2,
   "pad_trigger_inset_x_t": 0.1,
   "pad_trigger_h_t": 0.25,
   "orb_trigger_size_t": 1.2,
+  "orb_trigger_shape": "square_centered",
 
   "input_hold_rejump": true,
   "input_orb_requires_new_press": true,
@@ -46,8 +47,8 @@
   "jump_buffer_s": 0.0,
 
   "rotation_deg_per_jump": 180,
-  "restart_delay_s": 0.7,
-  "death_fx_s": 0.4,
+  "restart_delay_s": 0.6,
+  "death_fx_s": 0.5,
 
   "derived_reference": {
     "_note": "빌드가 읽지 않는 참고값. 위 값에서 계산됨.",
@@ -58,7 +59,10 @@
     "pad_airtime_s": 0.502,
     "spike_clear_window_single_normal_ms": 235,
     "spike_clear_window_double_normal_ms": 146,
-    "spike_clear_window_triple_normal_ms": 46
+    "spike_clear_window_triple_normal_ms": 46,
+    "max_player_head_y_t": 6.46,
+    "screen_head_budget_t": 6.8,
+    "_screen_note": "세로 10타일 - 바닥 아래 2타일 - HUD 띠 1.2타일 (30-art 5절). 레벨 데이터는 플레이어 머리가 이 높이를 넘지 않게 만든다."
   },
 
   "levels": [

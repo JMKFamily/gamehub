@@ -2,7 +2,9 @@
   "schema_version": 1,
   "id": "01",
   "theme_id": "level1",
-  "name": null,
+  "name": "새벽 조율장",
+  "name_en": "Dawn Tuning Yard",
+  "name_key": "level1_name",
   "bpm": 120,
   "beats_per_bar": 4,
   "audio_first_beat_s": 0,
@@ -21,8 +23,15 @@
     {"name":"breath","start_beat":36,"x":187.2,"intensity":0},
     {"name":"learn_block","start_beat":40,"x":208,"intensity":2},
     {"name":"breath","start_beat":58,"x":301.6,"intensity":0},
+    {"name":"build","start_beat":62,"x":322.4,"intensity":1},
     {"name":"drop","start_beat":64,"x":332.8,"intensity":3},
     {"name":"outro","start_beat":88,"x":457.6,"intensity":0}
+  ],
+  "cues": [
+    {"key":"tut_tap","beat":0,"x":0},
+    {"key":"tut_shard","beat":5,"x":26},
+    {"key":"tut_beat","beat":13,"x":67.6},
+    {"key":"tut_crate","beat":37,"x":192.4}
   ],
   "objects": [
     {"type":"spike","x":43.68,"y":0},

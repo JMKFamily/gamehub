@@ -2,7 +2,9 @@
   "schema_version": 1,
   "id": "02",
   "theme_id": "level2",
-  "name": null,
+  "name": "줄다리 야시장",
+  "name_en": "Wirebridge Night Market",
+  "name_key": "level2_name",
   "bpm": 128,
   "beats_per_bar": 4,
   "audio_first_beat_s": 0,
@@ -23,8 +25,13 @@
     {"name":"breath","start_beat":60,"x":292.5,"intensity":0},
     {"name":"learn_platform","start_beat":64,"x":312,"intensity":2},
     {"name":"drop","start_beat":80,"x":390,"intensity":3},
-    {"name":"breath","start_beat":95,"x":463.13,"intensity":1},
+    {"name":"build","start_beat":95,"x":463.13,"intensity":1},
     {"name":"outro","start_beat":112,"x":546,"intensity":0}
+  ],
+  "cues": [
+    {"key":"tut_drum","beat":22.5,"x":109.69},
+    {"key":"tut_hanging","beat":41,"x":199.88},
+    {"key":"tut_string","beat":61,"x":297.38}
   ],
   "objects": [
     {"type":"spike","x":41.08,"y":0},
