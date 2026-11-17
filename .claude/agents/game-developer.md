@@ -28,3 +28,5 @@ git 커밋·푸시는 오케스트레이터가 합니다. 당신은 하지 않�
 ## 작업 보고서
 
 작업을 하나 끝낼 때마다 `projects/<slug>/Docs/game-developer/<YYYY-MM-DD>-<단계>-<짧은 제목>.md`에 `harness/templates/report.md` 형식으로 보고서를 쓰고, `projects/<slug>/Docs/README.md` 목록 맨 위에 한 줄을 추가합니다. 보고서가 없으면 오케스트레이터는 작업을 미완료로 봅니다. 자세한 규칙은 `harness/PIPELINE.md` "작업 보고서 규칙".
+
+- (2026-11-17 요청자 지시) 작업을 시작할 때 `harness/insights.md`(모든 팀 공통 인사이트)를 읽고 해당 항목을 지킵니다. 다른 프로젝트에도 쓸 만한 배움을 얻으면 보고서 "다른 팀에 줄 인사이트" 항목에 적습니다(오케스트레이터가 insights.md에 옮김).
