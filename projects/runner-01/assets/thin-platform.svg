@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
-  <!-- 얇은 발판(G12 현 발판): 칸 윗부분 0.25 타일 두께(balance platform_thickness_t, 외곽선 포함 y0~25). 아래 받침 2개는 장식(판정 없음), 위에서만 착지 -->
-  <rect x="22" y="25" width="8" height="10" rx="3" fill="#8A7F70" fill-opacity="0.55"/>
-  <rect x="70" y="25" width="8" height="10" rx="3" fill="#8A7F70" fill-opacity="0.55"/>
-  <rect x="3" y="3" width="94" height="19" rx="4" fill="#8A7F70" stroke="#0D0F14" stroke-width="6"/>
-  <rect x="6" y="6" width="88" height="5" fill="#F4EEDF"/>
+  <!-- 얇은 판(G12 현 발판, 레벨 4부터): 칸 윗부분 0.20 타일 두께(balance platform_thickness_t, 외곽선 포함 y0~20) = 판정과 같음. 위에서만 착지. 받침 장식 없음(30-art 부록 B-3) -->
+  <rect x="3" y="3" width="94" height="14" rx="4" fill="#8A7F70" stroke="#0D0F14" stroke-width="6"/>
+  <rect x="6" y="6" width="88" height="4" fill="#F4EEDF"/>
 </svg>

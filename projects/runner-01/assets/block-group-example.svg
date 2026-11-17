@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- 블록 묶음 그리기 예시(30-art 3절 규칙 6). 높이 1칸(x 0~100) + 높이 2칸(x 100~200) 계단, 바닥 y 200.
+       바깥 둘레는 경로 하나로 한 번만 stroke. 볼록 모서리만 r 4, 계단 안쪽 구석(100,100)은 직각.
+       내부 경계(칸 사이 선)는 3 두께 outline 25%. 윗면 띠는 각 높이 구간의 가장 위 칸에만. 색은 level2(블록 첫 등장 레벨) -->
+  <path d="M3 197 V107 Q3 103 7 103 H103 V7 Q103 3 107 3 H193 Q197 3 197 7 V197 Z"
+        fill="#8C7FBC" stroke="#0D0F14" stroke-width="6" stroke-linejoin="miter"/>
+  <g stroke="#0D0F14" stroke-opacity="0.25" stroke-width="3">
+    <line x1="100" y1="106" x2="100" y2="194"/>
+    <line x1="106" y1="100" x2="194" y2="100"/>
+  </g>
+  <rect x="6" y="106" width="94" height="8" fill="#F4EEDF"/>
+  <rect x="106" y="6" width="88" height="8" fill="#F4EEDF"/>
+  <line x1="114" y1="140" x2="140" y2="140" stroke="#0D0F14" stroke-opacity="0.25" stroke-width="3" stroke-linecap="round"/>
+  <line x1="156" y1="176" x2="186" y2="176" stroke="#0D0F14" stroke-opacity="0.25" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="162" cy="148" r="9" fill="#0D0F14" fill-opacity="0.25"/>
+</svg>

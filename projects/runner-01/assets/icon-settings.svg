@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+  <!-- 설정 아이콘: 둥근 톱니바퀴(30-art 5-6). 가운데 구멍 뚫린 고리 + 둥근 이 6개, 한 색(currentColor). 십자선·가운데 점 없음 -->
+  <g fill="currentColor" color="#F4F0E8">
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2"/>
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2" transform="rotate(60 12 12)"/>
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2" transform="rotate(120 12 12)"/>
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2" transform="rotate(180 12 12)"/>
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2" transform="rotate(240 12 12)"/>
+    <rect x="10.25" y="1.75" width="3.5" height="4.5" rx="1.2" transform="rotate(300 12 12)"/>
+  </g>
+  <circle cx="12" cy="12" r="5.25" fill="none" stroke="#F4F0E8" stroke-width="3.5"/>
+</svg>
