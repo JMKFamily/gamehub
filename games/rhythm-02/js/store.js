@@ -7,5 +7,5 @@ export const Store = {
     return fresh();
   },
   save(s) { try { localStorage.setItem(KEY, JSON.stringify(s)); return true; } catch { return false; } },
-  lv(s, id) { return (s.levels[id] ||= { best: 0, grade: 0, cleared: false, practiceCleared: false, seenCard: false }); },
+  lv(s, id) { const o = (s.levels[id] ||= { best: 0, grade: 0, cleared: false, practiceCleared: false, seenCard: false, bestCombo: 0 }); o.bestCombo ??= 0; return o; }, // bestCombo = 일반 모드 최고 콤보(round-2)
 };

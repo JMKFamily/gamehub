@@ -12,13 +12,16 @@
   "levels/10-level10.json"
  ],
  "icons": [
+  "accuracy",
   "back",
+  "best_combo",
   "card_replay",
   "close",
   "language",
   "levels",
   "lock",
   "look_ball",
+  "new_best",
   "next",
   "pause",
   "play",
@@ -31,7 +34,8 @@
   "sound_off",
   "sound_on",
   "sync",
-  "tap"
+  "tap",
+  "unlock_sound"
  ],
  "built": "projects/rhythm-02/tools/build-web-data.mjs"
 }

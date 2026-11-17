@@ -9,6 +9,10 @@
 <!--boot:start (build-web-data.mjs 생성)-->
 <style id="bootStyle">:root{--bg:#ECF6E4;--floor:#C9DDBB;--ink:#23273A;--ball:#A42412;--drum:#234C88;--skin:#FFF3D6;--track:#FFFFFF;--card:#DDF4CD;--accent:#47801E}</style>
 <script id="bootText" type="application/json">{"ko":{"loading":"불러오는 중…","load_error":"다시 해 주세요","load_error_detail":"게임을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.","btn_retry":"다시","title":"높이통통"},"en":{"loading":"Loading…","load_error":"Please try again","load_error_detail":"The game couldn't load. Check your internet connection, then tap to try again.","btn_retry":"Again","title":"Tossaloft"}}</script>
+<template id="bootRetryIcon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+<rect x="0" y="0" width="48" height="48" rx="14" fill="#FFFFFF" stroke="#23273A" stroke-width="2"/><g transform="translate(0 0) scale(1)"><path d="M33 17 A11 11 0 1 0 35 28" fill="none" stroke="#23273A" stroke-linecap="round" stroke-linejoin="round" stroke-width="4.5"/><polygon points="27,12 37,13 34,22" fill="#23273A" stroke="#23273A" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></g>
+</svg></template>
+<script>(function(){var T=JSON.parse(document.getElementById('bootText').textContent),q=new URLSearchParams(location.search).get('lang'),s=null;try{s=(JSON.parse(localStorage.getItem('rhythm02.v1')||'null')||{}).lang}catch(e){}var l=q||s||((navigator.language||'ko').toLowerCase().indexOf('ko')===0?'ko':'en');if(!T[l])l='en';var t=T[l];document.documentElement.lang=l;document.title=t.title;window.__bootLang=l;window.__bootFail=function(){var m=document.getElementById('bootMsg'),e=document.getElementById('bootErr');if(m)m.textContent=t.load_error;if(e)e.hidden=false};document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('bootMsg'),b=document.getElementById('bootRetry'),d=document.getElementById('bootErrDetail');if(m)m.textContent=t.loading;if(d)d.textContent=t.load_error_detail;if(b){b.innerHTML=document.getElementById('bootRetryIcon').innerHTML;b.setAttribute('aria-label',t.btn_retry);b.onclick=function(){location.reload()}}window.__bootTimer=setTimeout(function(){if(!window.__gameBooted)window.__bootFail()},15000)});})();</script>
 <!--boot:end-->
 <link rel="stylesheet" href="style.css">
 </head>
@@ -18,7 +22,7 @@
 <div id="boot" class="screen show col">
   <svg id="bootArt" viewBox="0 0 120 120" width="96" height="96" aria-hidden="true"><rect x="20" y="86" width="80" height="24" rx="8" fill="var(--drum)" stroke="var(--ink)" stroke-width="2.5"/><rect x="20" y="86" width="80" height="7" rx="3.5" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><circle id="bootBall" cx="60" cy="70" r="13" fill="var(--ball)" stroke="var(--ink)" stroke-width="2.5"/></svg>
   <p id="bootMsg" class="txt"></p>
-  <div id="bootErr" hidden class="col"><p id="bootErrDetail" class="txt small"></p><button id="bootRetry" class="ib s64" type="button"></button></div>
+  <div id="bootErr" hidden class="col"><p id="bootErrDetail" class="txt small"></p><button id="bootRetry" class="ib s64" type="button" aria-describedby="bootMsg"></button></div>
 </div>
 
 <div id="title" class="screen col tapzone">
@@ -31,7 +35,7 @@
   <button id="lBack" class="ib s48 abs" type="button"></button>
   <span id="lDrift" class="sign s48 abs" role="img" hidden></span>
   <div id="lGateWrap" class="abs">
-    <button id="lGate" class="ib s48" type="button"></button>
+    <button id="lGate" class="ib s48" type="button" aria-describedby="lHint"></button>
     <div id="lGateBar" class="holdbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
   </div>
   <p id="lHint" class="txt small abs" hidden></p>
@@ -41,14 +45,14 @@
 <div id="start" class="screen col">
   <div id="stPanel" class="panel">
     <button id="stClose" class="ib s48 corner" type="button"></button>
-    <div id="stCard" class="lcard big" aria-hidden="true"></div>
-    <div id="stGrades" class="grades" aria-hidden="true"></div>
+    <div id="stCard" class="lcard big" role="img"></div>
+    <div id="stGrades" class="grades" role="img"></div>
     <div class="row gap24">
       <button id="stPractice" class="ib s64" type="button"></button>
       <button id="stPlay" class="ib s96" type="button"></button>
       <button id="stReplay" class="ib s64" type="button"></button>
     </div>
-    <p id="stUnlock" class="txt small" hidden></p>
+    <p id="stUnlockRow" class="row unlock" hidden><span id="stUnlockIcon" class="sign s48" aria-hidden="true"></span><span id="stUnlock" class="txt small"></span></p>
   </div>
 </div>
 
@@ -66,7 +70,8 @@
   <p id="hTut" class="txt abs" hidden></p>
   <div class="sr" role="progressbar" id="aProg" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
   <div class="sr" role="progressbar" id="aBest" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-  <div class="sr" role="meter" id="aTries" aria-valuemin="0" aria-valuemax="999" aria-valuenow="0"></div>
+  <div class="sr" role="meter" id="aTries" aria-valuemin="0" aria-valuemax="999" aria-valuenow="0" aria-valuetext="0"></div>
+  <div class="sr" role="meter" id="aCombo" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-valuetext="0"></div>
   <div class="sr" role="img" id="aFlag" hidden></div>
 </div>
 <div id="live" class="sr" aria-live="polite"></div>
@@ -87,7 +92,10 @@
   <div id="rText" class="col">
     <p id="rName" class="txt small"></p>
     <p id="rTitle" class="txt big"></p>
+    <div id="rGrade" class="sr" role="img"></div>
   </div>
+  <div id="rAcc" class="rrow" hidden><span id="rAccIcon" class="sign" aria-hidden="true"></span><span id="rAccNum" class="rnum" role="meter" aria-valuemin="0" aria-valuemax="100"></span><span id="rNew" class="sign" role="img" hidden></span></div>
+  <div id="rCombo" class="rrow" hidden><span id="rComboIcon" class="sign" aria-hidden="true"></span><span id="rComboNum" class="rnum small" role="meter" aria-valuemin="0"></span></div>
   <div id="rBtns" class="row gap48" hidden>
     <button id="rLevels" class="ib s64" type="button"></button>
     <button id="rRetry" class="ib s64" type="button"></button>

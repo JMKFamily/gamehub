@@ -16,16 +16,15 @@ export function syncRound(diffs, C) {
 }
 
 // 두 회 끝난 뒤 결과. rounds = [diffs8, diffs8], visualComp = balance judge_clock.visual_comp_ms
-//   {ok, offset(적용할 값, 적용 안 하면 0), raw, apply}
+//   {ok, offset, raw}. round-2(M1·E3): 무시 구간 없음 — raw 를 그대로 [offset_clamp] 로 자름(값이 작아도 적용, 경계 뒤집힘 없음)
 export function syncResult(rounds, C, visualComp) {
   const r = rounds.map((d) => syncRound(d, C));
   if (r.some((x) => !x.ok)) return { ok: false, why: 'iqr' };
   if (Math.abs(r[0].med - r[1].med) > C.round_disagree_max_ms) return { ok: false, why: 'disagree' };
   const all = r.flatMap((x) => x.used);
   const raw = median(all) - (C.subtract_visual_comp ? visualComp : 0);
-  const apply = Math.abs(raw) > C.apply_only_if_abs_over_ms;
-  const off = apply ? Math.min(C.offset_clamp_ms[1], Math.max(C.offset_clamp_ms[0], raw)) : 0;
-  return { ok: true, raw, apply, offset: Math.round(off) };
+  const off = Math.min(C.offset_clamp_ms[1], Math.max(C.offset_clamp_ms[0], raw));
+  return { ok: true, raw, offset: Math.round(off) };
 }
 
 // 밀림 감지: 판정된 탭 부호 오차를 차례로 넣음. 8개 겹치지 않는 창의 중앙값 ≥ +70 이 2창 연속이고 이번 레벨 플레이 시도 ≥ 3 이면 켬

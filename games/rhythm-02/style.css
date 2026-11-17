@@ -95,3 +95,19 @@ body { font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo",
 #sDots i.on { background: var(--drum); }
 #sArt.pop { transform: translateY(-8px); }
 @media (orientation: landscape) and (max-height: 400px) { #sync.col { gap: 6px; } #sArt { width: 150px; height: 82px; } }
+
+/* round-2 */
+.lcell { position: relative; }
+.lover { position: absolute; left: 0; top: 0; pointer-events: none; }
+.lover svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.unlock { gap: 8px; margin: 0; }
+#hTut, #hPrac { padding: 0; line-height: 22px; font-size: 16px; font-weight: 700; }
+#rText { position: absolute; left: 0; right: 0; gap: 4px; }
+#rName { line-height: 20px; height: 20px; }
+#rTitle { line-height: 36px; min-height: 36px; }
+#rBtns { position: absolute; left: 0; right: 0; }
+#hPause { padding: 2px; }
+.rrow { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.rnum { font-weight: 800; font-size: 26px; line-height: 30px; }
+.rnum.small { font-weight: 700; font-size: 18px; line-height: 22px; }
+#rAccIcon { width: 28px; height: 28px; } #rComboIcon { width: 20px; height: 20px; } #rNew { width: 14px; height: 14px; }

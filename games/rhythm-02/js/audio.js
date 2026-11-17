@@ -2,6 +2,8 @@
 // 판정은 화면 시계라 오디오는 결과일 뿐: 곡 음은 "그 레벨 시각이 화면에 그려지는 performance 시각"에 들리도록
 // 오디오 시각 = (performance → AudioContext 시각 변환) − 자동 지연(outputLatency+baseLatency) − 보호자 오프셋 으로 한 번만 앞당김.
 // getOutputTimestamp 는 쓰지 않음(이미 출력 시각이라 지연을 또 빼면 이중 보정, insights 구현·성능).
+import { lcg32Noise } from './music.js';
+export { noteOf } from './music.js'; // 음 높이 원본 = tools/art/music.mjs noteOf (sound.json _synth, N3)
 const dbLin = (db) => Math.pow(10, db / 20);
 
 export class AudioOut {
@@ -18,9 +20,11 @@ export class AudioOut {
       try { this.ctx = new AC({ latencyHint: 'interactive' }); } catch { return false; }
       this._graph();
       this._timer = setInterval(() => this.pump(), 25);
-      // 미리 합성(30-art 12절 10): 모든 소리를 소리 0 버스로 한 번씩 만들어 첫 예약 때 튐을 줄임
+      // 미리 합성(30-art 12절): 모든 소리를 소리 0 버스로 한 번씩. round-1 N1: 탭 처리 안에서 하면 첫 탭 프레임이 길어져 다음 프레임 뒤로 나눠서 함
+      const names = Object.keys(this.S.sounds);
       const warm = this.ctx.createGain(); warm.gain.value = 0; warm.connect(this.ctx.destination);
-      for (const name of Object.keys(this.S.sounds)) this.play(name, null, 220, warm);
+      const step = () => { for (let k = 0; k < 3 && names.length; k++) this.play(names.shift(), null, 220, warm); if (names.length) setTimeout(step, 30); };
+      setTimeout(step, 60);
     }
     if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
     return true;
@@ -35,22 +39,26 @@ export class AudioOut {
     this.musicFade = c.createGain(); this.musicFade.connect(this.bus.music);
     // 흰 잡음 버퍼(시드 고정, noise_seed)
     const n = Math.floor(c.sampleRate * S.noise_buffer_s);
-    this.noise = c.createBuffer(1, n, c.sampleRate);
-    const d = this.noise.getChannelData(0);
-    let s = S.noise_seed >>> 0;
-    for (let i = 0; i < n; i++) { s = (s * 1664525 + 1013904223) >>> 0; d[i] = s / 2147483648 - 1; }
+    // 잡음 버퍼는 첫 탭 프레임 밖에서 만듦(N1). 그 전에 잡음 소리가 필요하면 그 자리에서 만듦
+    this._mkNoise = () => { if (!this.noise) { this.noise = c.createBuffer(1, n, c.sampleRate); this.noise.getChannelData(0).set(lcg32Noise(S.noise_seed, n)); } return this.noise; }; // sound.json noise_gen (music.mjs 와 같은 식)
+    this.noise = null;
+    setTimeout(this._mkNoise, 30);
     this.posts = {};
   }
   setEnabled(on) {
     this.enabled = on;
     if (this.ctx) { const t = this.ctx.currentTime; this.mute.gain.cancelScheduledValues(t); this.mute.gain.setValueAtTime(this.mute.gain.value, t); this.mute.gain.linearRampToValueAtTime(on ? 1 : 0, t + 0.03); }
   }
-  // performance 시계 ↔ 오디오 시계 차이(currentTime 은 계단식이라 큰 쪽을 천천히 따라감)
+  // performance 시계 ↔ 오디오 시계 차이. currentTime 은 오디오 콜백마다 한 칸(Windows Chrome·Edge 약 10 ms)씩 계단으로 올라
+  // dd = currentTime − now 는 톱니 모양. round-1 은 톱니 꼭대기(최댓값)를 따라가 오프셋이 반 칸(+4~8 ms)만큼 늦게 들렸음(M1 후반, QA raw +4.3~8.2 ms).
+  // round-2: 꼭대기(hi)와 바닥(lo)을 천천히 따라가 가운데를 씀 — 계단 시계의 평균 위치(DEV_NOTES R2-M1).
   sample() {
     if (!this.running) return;
     const dd = this.ctx.currentTime - performance.now() / 1000;
-    if (this.off === null || Math.abs(dd - this.off) > 0.05) this.off = dd;
-    else this.off = Math.max(dd, this.off - 0.00002);
+    if (this.hi == null || Math.abs(dd - this.hi) > 0.05) { this.hi = dd; this.lo = dd; }
+    else { this.hi = Math.max(dd, this.hi - 0.00002); this.lo = Math.min(dd, this.lo + 0.00002); if (this.lo > this.hi) this.lo = this.hi; }
+    this.off = (this.hi + this.lo) / 2;
+    this.step = this.hi - this.lo;
   }
   autoLatencyMs() { return this.ctx ? ((this.ctx.outputLatency || 0) + (this.ctx.baseLatency || 0)) * 1000 : 0; }
   // perfMs 에 귀에 들리게 하려면 시작할 오디오 시각(s)
@@ -74,7 +82,7 @@ export class AudioOut {
       const t = t0 + (ly.delayMs || 0) / 1000;
       const peak = dbLin(def.db) * (ly.mul ?? 1);
       let src;
-      if (ly.wave === 'noise') { src = c.createBufferSource(); src.buffer = this.noise; src.loop = true; }
+      if (ly.wave === 'noise') { src = c.createBufferSource(); src.buffer = this._mkNoise(); src.loop = true; }
       else {
         src = c.createOscillator(); src.type = ly.wave;
         const f0 = ly.note ? (note || 440) * (ly.fMul ?? 1) : ly.f;
@@ -119,6 +127,7 @@ export class AudioOut {
       if (at > now + this.lookahead) break;
       this.qi++;
       if (at < now - 0.03) continue; // 이미 지남(멈춤 복귀 등)
+      e.autoUsed = this.autoLatencyMs(); // 소리 맞추기: 들린 박 = 예약 perf − 예약 때 자동 지연 + 탭 순간 자동 지연(insights rhythm-01)
       for (const x of this.play(e.name, at, e.note)) this.live.push(x);
     }
     if (this.live.length > 300) this.live = this.live.filter((x) => x.t > now - 1);
@@ -136,12 +145,3 @@ export class AudioOut {
   resume() { if (this.ctx && this.ctx.state !== 'running') this.ctx.resume().catch(() => {}); }
 }
 
-// 레벨 곡 목록(박 → 음). onsets = music.js musicOnsets(level, S). 멜로디 높이 = root × melody_octave_mul × 2^(음계/12), 5 이상 도수는 한 옥타브 위
-export function noteOf(S, levelId, o) {
-  const M = S.music, lm = M.levels[levelId];
-  if (o.sound === 'bass') return lm.root_hz / 2;
-  if (o.part === 'rest') return lm.root_hz;
-  const sc = lm.scale, deg = o.degree;
-  const semi = sc[deg % sc.length] + 12 * Math.floor(deg / sc.length);
-  return lm.root_hz * M.melody_octave_mul * Math.pow(2, semi / 12);
-}

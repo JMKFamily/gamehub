@@ -9,7 +9,8 @@
 //   data/levelcards/*.svg               tools/art/cards.mjs levelCard·miniCloud·flag 로 레벨 카드 그림·등급 칸·깃발 생성(art 함수 그대로)
 //   js/judge.js                         tools/sim/judge.mjs 그대로 복사(빌드 판정 = 시뮬레이터 판정)
 //   js/music.js                         tools/art/music.mjs 그대로 복사(곡 음 시작 규칙)
-//   index.html                          불러오기 화면 글(strings.json loading·load_error·load_error_detail·btn_retry)과 첫 테마 색
+//   index.html                          부트 블록: 불러오기 화면 글(strings.json title·loading·load_error·load_error_detail·btn_retry 두 언어), 첫 테마 색,
+//                                       ↻ 그림(assets/icons/icon-retry.svg 인라인), 언어를 정한 직후 html lang·document.title 을 바꾸는 작은 스크립트(round-1 N15·N16)
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -72,8 +73,9 @@ for (const f of readdirSync(join(PROJ, 'assets/cards'))) if (f.endsWith('.svg'))
   writeFileSync(join(DATA, 'levelcards', 'locked.svg'), svg(`0 0 ${W} ${H}`, A.levelCard(0, 0, W, H, '01', { locked: true })));
   writeFileSync(join(DATA, 'levelcards', 'grade-empty.svg'), svg('0 0 24 18', A.miniCloud(12, 9, 18, 'none', true)));
   writeFileSync(join(DATA, 'levelcards', 'flag.svg'), svg('0 0 16 20', A.flag(2, 19, 18)));
-  // 카드 안 진행도 막대 자리(levelCard 와 같은 식: bx = x+10, bw = w-20, by = y+h-18, 높이 10)
-  wjson('levelcards/geom.json', { w: W, h: H, bar: { x: 10, y: H - 18, w: W - 20, h: 10 }, dotR: 6 });
+  // 카드 위에 겹쳐 그릴 자리(cards.mjs levelCard 와 같은 식): 진행도 막대 bx = x+10, bw = w-20, by = y+h-16, 높이 10 /
+  // 최고 콤보 금빛 네모 x = w-18-i·13, y = 7, 10×10 (10마다 1개, 0~2개)
+  wjson('levelcards/geom.json', { w: W, h: H, bar: { x: 10, y: H - 16, w: W - 20, h: 10 }, dotR: 6, combo: { x: W - 18, dx: -13, y: 7, size: 10, rx: 2.5, max: 2, per: 10, stroke: 1.6 } });
 }
 
 // 5) index.html 부트 글·색 (strings.json 을 읽기 전 화면)
@@ -84,7 +86,17 @@ for (const f of readdirSync(join(PROJ, 'assets/cards'))) if (f.endsWith('.svg'))
   const txt = { ko: {}, en: {} };
   for (const l of ['ko', 'en']) for (const k of keys) { if (!STR[k]) throw new Error(`strings 키 ${k} 없음`); txt[l][k] = STR[k][l]; }
   const css = `:root{--bg:${t.bg1};--floor:${t.floor};--ink:${C.ink};--ball:${C.ball};--drum:${C.drumBody};--skin:${C.skin};--track:${C.hudTrack};--card:${t.cardBg};--accent:${t.accent}}`;
-  const block = `<!--boot:start (build-web-data.mjs 생성)-->\n<style id="bootStyle">${css}</style>\n<script id="bootText" type="application/json">${JSON.stringify(txt).replace(/</g, '\\u003c')}</script>\n<!--boot:end-->`;
+  const retry = stripComments(readFileSync(join(PROJ, 'assets/icons/icon-retry.svg'), 'utf8')).trim();
+  // 언어 = ?lang → 저장값 → navigator.language(ko 아니면 en). 정한 직후 lang·title·불러오기 글·↻ 이름을 넣음(main.js·데이터를 못 불러와도 보임)
+  const boot = "(function(){var T=JSON.parse(document.getElementById('bootText').textContent),q=new URLSearchParams(location.search).get('lang'),s=null;" +
+    "try{s=(JSON.parse(localStorage.getItem('rhythm02.v1')||'null')||{}).lang}catch(e){}" +
+    "var l=q||s||((navigator.language||'ko').toLowerCase().indexOf('ko')===0?'ko':'en');if(!T[l])l='en';var t=T[l];" +
+    "document.documentElement.lang=l;document.title=t.title;window.__bootLang=l;" +
+    "window.__bootFail=function(){var m=document.getElementById('bootMsg'),e=document.getElementById('bootErr');if(m)m.textContent=t.load_error;if(e)e.hidden=false};" +
+    "document.addEventListener('DOMContentLoaded',function(){var m=document.getElementById('bootMsg'),b=document.getElementById('bootRetry'),d=document.getElementById('bootErrDetail');" +
+    "if(m)m.textContent=t.loading;if(d)d.textContent=t.load_error_detail;if(b){b.innerHTML=document.getElementById('bootRetryIcon').innerHTML;b.setAttribute('aria-label',t.btn_retry);b.onclick=function(){location.reload()}}" +
+    "window.__bootTimer=setTimeout(function(){if(!window.__gameBooted)window.__bootFail()},15000)});})();";
+  const block = `<!--boot:start (build-web-data.mjs 생성)-->\n<style id="bootStyle">${css}</style>\n<script id="bootText" type="application/json">${JSON.stringify(txt).replace(/</g, '\\u003c')}</script>\n<template id="bootRetryIcon">${retry}</template>\n<script>${boot}</script>\n<!--boot:end-->`;
   const ip = join(GAME, 'index.html');
   const html = readFileSync(ip, 'utf8');
   const re = /<!--boot:start[\s\S]*?<!--boot:end-->/;
