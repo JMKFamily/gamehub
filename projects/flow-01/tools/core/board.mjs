@@ -1,0 +1,300 @@
+// flow-01 판정 모듈 (빌드·봇·검증기 공용, 외부 의존 없음, 브라우저·node 모두 import 가능)
+//
+// 규칙 정의: projects/flow-01/20-balance.md 3절(조작·판정), 4절(이동 수·등급·%).
+// 이 파일은 game-developer 가 games/flow-01/ 로 그대로 복사해 씁니다. 고치면 CORE_VERSION 을 올리고
+// tools/verify-levels.mjs 를 다시 돌립니다(빌드 판정 = 시뮬레이터 판정).
+//
+// 칸 번호: idx = y * W + x (x 오른쪽, y 아래). 레벨 JSON 의 좌표는 [x, y].
+// 상태는 모두 일반 배열·숫자라 JSON 으로 저장·복원할 수 있습니다(snapshot/restore).
+
+export const CORE_VERSION = '1.0.0';
+
+// ---------------------------------------------------------------- 판
+export function makePuzzle(level) {
+  const W = level.width, H = level.height, n = W * H;
+  const hole = new Uint8Array(n);
+  for (const [x, y] of level.holes || []) hole[y * W + x] = 1;
+  const pairs = level.pairs.map((p) => ({ id: p.id, a: p.a[1] * W + p.a[0], b: p.b[1] * W + p.b[0] }));
+  const epColor = new Int16Array(n).fill(-1);
+  pairs.forEach((p, i) => { epColor[p.a] = i; epColor[p.b] = i; });
+  const nbrs = [];
+  for (let i = 0; i < n; i++) {
+    const x = i % W, y = (i / W) | 0, l = [];
+    if (!hole[i]) {
+      if (y > 0 && !hole[i - W]) l.push(i - W);
+      if (x < W - 1 && !hole[i + 1]) l.push(i + 1);
+      if (y < H - 1 && !hole[i + W]) l.push(i + W);
+      if (x > 0 && !hole[i - 1]) l.push(i - 1);
+    }
+    nbrs.push(l);
+  }
+  let cellCount = 0;
+  for (let i = 0; i < n; i++) if (!hole[i]) cellCount++;
+  return { W, H, n, hole, pairs, k: pairs.length, epColor, nbrs, cellCount };
+}
+
+export const xyOf = (pz, i) => [i % pz.W, (i / pz.W) | 0];
+export const idxOf = (pz, x, y) => y * pz.W + x;
+export function adjacent(pz, a, b) {
+  const ax = a % pz.W, ay = (a / pz.W) | 0, bx = b % pz.W, by = (b / pz.W) | 0;
+  return Math.abs(ax - bx) + Math.abs(ay - by) === 1;
+}
+const inBoard = (pz, i) => i >= 0 && i < pz.n && !pz.hole[i];
+
+export function isConnected(pz, c, path) {
+  if (!path || path.length < 2) return false;
+  const { a, b } = pz.pairs[c], s = path[0], e = path[path.length - 1];
+  return (s === a && e === b) || (s === b && e === a);
+}
+
+export function ownerGrid(pz, paths) {
+  const own = new Int16Array(pz.n).fill(-1);
+  paths.forEach((p, c) => { for (const x of p) own[x] = c; });
+  return own;
+}
+
+export function isComplete(pz, paths) {
+  let cov = 0;
+  for (let c = 0; c < pz.k; c++) { if (!isConnected(pz, c, paths[c])) return false; cov += paths[c].length; }
+  return cov === pz.cellCount;
+}
+
+// 덮인 칸 수: 선이 지나는 칸 + 아직 선이 없는 점 칸은 세지 않음(점만 있는 칸은 "칠해지지 않음")
+export function coveredCells(pz, paths) {
+  let cov = 0;
+  for (const p of paths) cov += p.length;
+  return cov;
+}
+
+const norm = (p) => (p.length < 2 ? [] : p);
+const samePath = (p, q) => p.length === q.length && p.every((v, i) => v === q[i]);
+export const samePaths = (P, Q) => P.length === Q.length && P.every((p, i) => samePath(p, Q[i]));
+const clonePaths = (P) => P.map((p) => p.slice());
+
+// ---------------------------------------------------------------- 게임 상태
+// rules.cut: 다른 색 선을 지나가면 자름(기본 켬, 20-balance 3-1 R5)
+export function newGame(pz, rules = {}) {
+  return {
+    pz,
+    rules: { cut: true, ...rules },
+    paths: pz.pairs.map(() => []),
+    moves: 0,                         // 이동 수 (20-balance 4-1)
+    colorMoves: pz.pairs.map(() => 0), // 색마다 이동 수 (그 색을 끈 "세는 이동" 수)
+    lastMoveColor: -1,
+    completed: false,
+    undoStack: [],
+    connectLog: [],                   // {color, moves, colorMoves, grade} — 표시층용 기록(판정에 쓰지 않음)
+  };
+}
+
+export function snapshot(g) {
+  return { paths: clonePaths(g.paths), moves: g.moves, colorMoves: g.colorMoves.slice(), lastMoveColor: g.lastMoveColor, completed: g.completed };
+}
+export function restore(g, s) {
+  g.paths = clonePaths(s.paths); g.moves = s.moves; g.colorMoves = s.colorMoves.slice();
+  g.lastMoveColor = s.lastMoveColor; g.completed = s.completed;
+}
+
+// ---------------------------------------------------------------- 드래그
+// press → moveTo(여러 번) → release. 완료되면 moveTo 안에서 자동 release(입력 잠금).
+// 반환 drag 가 null 이면 그 누름은 아무 일도 하지 않음(빈칸·구멍·판 밖·완료 뒤).
+export function press(g, cell) {
+  const pz = g.pz;
+  if (g.completed || !inBoard(pz, cell)) return null;
+  const ep = pz.epColor[cell];
+  if (ep >= 0) return mkDrag(g, ep, 'endpoint', cell, -1);
+  const own = ownerGrid(pz, g.paths);
+  const c = own[cell];
+  if (c < 0) return null;
+  return mkDrag(g, c, 'path', cell, g.paths[c].indexOf(cell));
+}
+
+function mkDrag(g, c, kind, cell, idx) {
+  return { c, kind, pressCell: cell, pressIdx: idx, started: false, P: null, head: cell, done: false, work: g.paths, events: [] };
+}
+
+// 첫 칸 이동에서야 선을 지우거나 자름(우연한 터치 보호, 20-balance 3-1 R2)
+function begin(g, d) {
+  d.started = true;
+  d.P = d.kind === 'endpoint' ? [d.pressCell] : g.paths[d.c].slice(0, d.pressIdx + 1);
+  recompute(g, d);
+}
+
+// 다른 색 선은 "끌고 있는 선 P 가 덮은 첫 칸부터 먼 쪽 끝까지" 잘림. 기준 상태(누르기 전)에서 매번 다시 계산하므로
+// 같은 드래그 안에서 손가락을 되돌리면 잘린 선이 되살아남(R5).
+function recompute(g, d) {
+  const pz = g.pz, mark = new Uint8Array(pz.n);
+  for (const x of d.P) mark[x] = 1;
+  d.work = g.paths.map((Q, e) => {
+    if (e === d.c) return d.P;
+    let i = 0;
+    for (; i < Q.length; i++) if (mark[Q[i]]) break;
+    return i === Q.length ? Q : norm(Q.slice(0, i));
+  });
+}
+
+// 이웃 칸 한 칸 진행. 반환: 'none' | 'extend' | 'retract' | 'connect' | 'blocked' | 'ignored'
+export function step(g, d, x) {
+  const pz = g.pz;
+  if (d.done || g.completed) return 'ignored';
+  if (x === d.head) return 'none';
+  if (!inBoard(pz, x) || !adjacent(pz, d.head, x)) return 'ignored';
+  if (!d.started) begin(g, d);
+  const P = d.P, c = d.c;
+  const j = P.indexOf(x);
+  if (j >= 0) { // 자기 선 위로 되돌아감 → 짧아짐(연결 풀림 포함)
+    const wasConn = isConnected(pz, c, P);
+    P.length = j + 1; d.head = x; recompute(g, d);
+    d.events.push({ type: wasConn ? 'disconnect' : 'retract', cell: x });
+    return 'retract';
+  }
+  if (isConnected(pz, c, P)) return 'ignored'; // 짝 점에 닿은 뒤에는 더 늘지 않음(R7)
+  const ep = pz.epColor[x];
+  if (ep >= 0 && ep !== c) { d.events.push({ type: 'blocked', cell: x, color: ep }); return 'blocked'; } // 다른 색 점(R6)
+  if (ep < 0) {
+    let other = -1;
+    for (let e = 0; e < pz.k; e++) if (e !== c && d.work[e].includes(x)) { other = e; break; }
+    if (other >= 0) {
+      if (!g.rules.cut) { d.events.push({ type: 'blocked', cell: x, color: other }); return 'blocked'; }
+      d.events.push({ type: 'cut', cell: x, color: other });
+    }
+  }
+  P.push(x); d.head = x; recompute(g, d);
+  if (ep === c) {
+    d.events.push({ type: 'connect', cell: x, color: c, previewGrade: previewGrade(g, d) });
+    if (isComplete(pz, d.work)) { release(g, d); return 'connect'; }
+    return 'connect';
+  }
+  d.events.push({ type: 'extend', cell: x });
+  return 'extend';
+}
+
+// 손가락이 여러 칸을 건너뛰면 지나간 칸을 상하좌우 단계로 채움(변화가 큰 축 먼저, 같으면 x 먼저). 막히면 그 자리에서 멈춤.
+export function moveTo(g, d, target) {
+  const pz = g.pz;
+  if (!inBoard(pz, target)) return;
+  let guard = pz.W + pz.H + 4;
+  while (!d.done && d.head !== target && guard-- > 0) {
+    const [hx, hy] = xyOf(pz, d.head), [tx, ty] = xyOf(pz, target);
+    const dx = tx - hx, dy = ty - hy;
+    const nx = Math.abs(dx) >= Math.abs(dy) ? hx + Math.sign(dx) : hx;
+    const ny = Math.abs(dx) >= Math.abs(dy) ? hy : hy + Math.sign(dy);
+    const before = d.head;
+    const r = step(g, d, idxOf(pz, nx, ny));
+    if (d.head === before) break;
+    if (r === 'connect') break;
+  }
+}
+
+// 손을 뗌. 반환 {changed, counted, connected, completed}
+export function release(g, d) {
+  if (d.done) return d.result;
+  d.done = true;
+  const pz = g.pz;
+  const next = d.started ? d.work.map(norm) : g.paths;
+  const changed = d.started && !samePaths(next, g.paths);
+  let counted = false;
+  if (changed) {
+    g.undoStack.push(snapshot(g));
+    g.paths = clonePaths(next);
+    if (d.c !== g.lastMoveColor) { g.moves++; g.colorMoves[d.c]++; g.lastMoveColor = d.c; counted = true; }
+  }
+  const connected = isConnected(pz, d.c, g.paths[d.c]);
+  if (changed && connected) {
+    const cm = g.colorMoves[d.c];
+    g.connectLog.push({ color: d.c, moves: g.moves, colorMoves: cm, grade: gradeForColorMoves(cm) });
+  }
+  if (changed && isComplete(pz, g.paths)) g.completed = true;
+  d.result = { changed, counted, connected, completed: g.completed };
+  return d.result;
+}
+
+// 되돌리기·처음부터: 이동 수를 줄이지도 늘리지도 않음. 다음 드래그는 같은 색이어도 새 이동으로 셈.
+export function undo(g) {
+  if (g.completed || !g.undoStack.length) return false;
+  const s = g.undoStack.pop();
+  g.paths = clonePaths(s.paths);
+  g.lastMoveColor = -1;
+  return true;
+}
+export function resetBoard(g) {
+  if (g.completed) return false;
+  if (g.paths.every((p) => !p.length)) return false;
+  g.undoStack.push(snapshot(g));
+  g.paths = g.pz.pairs.map(() => []);
+  g.lastMoveColor = -1;
+  return true;
+}
+
+// 드래그 하나를 칸 열로 재생(봇·검증기·빌드 재판정 공용). cells[0] = 누른 칸.
+export function playDrag(g, cells) {
+  const d = press(g, cells[0]);
+  if (!d) return { changed: false, counted: false, connected: false, completed: g.completed, pressed: false };
+  for (let i = 1; i < cells.length && !d.done; i++) moveTo(g, d, cells[i]);
+  return { ...release(g, d), pressed: true };
+}
+
+// ---------------------------------------------------------------- 표시층 (판정을 바꾸지 않는 계산만)
+// 등급 경계: 그 색 이동 수 ≤ bounds[0] → 1단, ≤ bounds[1] → 2단, 그 밖 3단 (balance.json judge.grade_max_color_moves)
+export function gradeForColorMoves(m, bounds = [1, 2]) {
+  return m <= bounds[0] ? 1 : m <= bounds[1] ? 2 : 3;
+}
+// 드래그 중 짝 점에 닿은 순간 띄울 등급(이 드래그가 세어질 이동이면 +1)
+export function previewGrade(g, d, bounds) {
+  const cm = g.colorMoves[d.c] + (d.c !== g.lastMoveColor ? 1 : 0);
+  return gradeForColorMoves(cm, bounds);
+}
+export const fillPct = (pz, paths) => Math.floor((100 * coveredCells(pz, paths)) / pz.cellCount);
+export const accuracyPct = (g) => (g.moves > 0 ? Math.floor((100 * g.pz.k) / g.moves) : 0);
+export const isStar = (g) => g.completed && g.moves === g.pz.k;
+
+export function displayLayer(g, d = null, bounds) {
+  const paths = d && d.started && !d.done ? d.work : g.paths;
+  const pz = g.pz;
+  return {
+    pairDots: paths.map((p, c) => isConnected(pz, c, p)),      // 쌍 점 줄(콤보 대응)
+    fillPct: fillPct(pz, paths),                                 // 판 채움 %(플레이 중, 이름 아래)
+    grades: g.colorMoves.map((m) => (m ? gradeForColorMoves(m, bounds) : 0)),
+    accuracyPct: g.completed ? accuracyPct(g) : null,            // 결과 화면
+    star: isStar(g),
+    oneShotPairs: g.completed ? g.colorMoves.filter((m) => m === 1).length : null,
+  };
+}
+
+// ---------------------------------------------------------------- 포인터 → 칸 (빌드 입력용 기하)
+// layout: {originX, originY, cellPx} (판 왼쪽 위 화면 좌표, 칸 한 변 px)
+export function pointToFloat(layout, px, py) {
+  return [(px - layout.originX) / layout.cellPx, (py - layout.originY) / layout.cellPx];
+}
+// 누름 판정: 그 칸이 판 안이면 그 칸. 단, 점 칸은 칸 경계 밖 extend 칸까지 넓혀 잡음(가장 가까운 점).
+export function pressHit(pz, layout, px, py, extend = 0.25) {
+  const [fx, fy] = pointToFloat(layout, px, py);
+  const cx = Math.floor(fx), cy = Math.floor(fy);
+  const inside = cx >= 0 && cy >= 0 && cx < pz.W && cy < pz.H;
+  const here = inside ? cy * pz.W + cx : -1;
+  if (here >= 0 && !pz.hole[here] && pz.epColor[here] >= 0) return here;
+  let best = -1, bd = Infinity;
+  for (const p of pz.pairs) for (const e of [p.a, p.b]) {
+    const [ex, ey] = xyOf(pz, e);
+    const ox = fx < ex ? ex - fx : fx > ex + 1 ? fx - ex - 1 : 0;
+    const oy = fy < ey ? ey - fy : fy > ey + 1 ? fy - ey - 1 : 0;
+    if (ox <= extend && oy <= extend) {
+      const dd = (fx - ex - 0.5) ** 2 + (fy - ey - 0.5) ** 2;
+      if (dd < bd) { bd = dd; best = e; }
+    }
+  }
+  if (best >= 0) return best;
+  return here >= 0 && !pz.hole[here] ? here : -1;
+}
+// 끄는 중 칸 판정: 지금 칸 상자 밖으로 칸 폭의 hyst 넘게 나가야 새 칸(경계 떨림 방지)
+export function trackCell(pz, layout, px, py, cur, hyst = 0.2) {
+  const [fx, fy] = pointToFloat(layout, px, py);
+  const cx = Math.floor(fx), cy = Math.floor(fy);
+  if (cx < 0 || cy < 0 || cx >= pz.W || cy >= pz.H) return cur;
+  const cand = cy * pz.W + cx;
+  if (cand === cur || cur < 0) return cand;
+  const [ux, uy] = xyOf(pz, cur);
+  const ox = fx < ux ? ux - fx : fx > ux + 1 ? fx - ux - 1 : 0;
+  const oy = fy < uy ? uy - fy : fy > uy + 1 ? fy - uy - 1 : 0;
+  return Math.max(ox, oy) > hyst ? cand : cur;
+}

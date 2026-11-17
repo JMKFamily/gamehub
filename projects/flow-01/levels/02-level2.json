@@ -1,0 +1,177 @@
+{
+ "schema_version": 1,
+ "id": "02",
+ "order": 2,
+ "name_key": "level2_name",
+ "name_placeholder": "레벨 2",
+ "width": 4,
+ "height": 4,
+ "holes": [],
+ "pairs": [
+  {
+   "id": "c1",
+   "color_slot": 0,
+   "a": [
+    1,
+    2
+   ],
+   "b": [
+    2,
+    0
+   ]
+  },
+  {
+   "id": "c2",
+   "color_slot": 1,
+   "a": [
+    3,
+    0
+   ],
+   "b": [
+    0,
+    2
+   ]
+  },
+  {
+   "id": "c3",
+   "color_slot": 2,
+   "a": [
+    1,
+    0
+   ],
+   "b": [
+    1,
+    1
+   ]
+  }
+ ],
+ "solution": [
+  {
+   "id": "c1",
+   "path": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "c2",
+   "path": [
+    [
+     3,
+     0
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     2
+    ]
+   ]
+  },
+  {
+   "id": "c3",
+   "path": [
+    [
+     1,
+     0
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     1,
+     1
+    ]
+   ]
+  }
+ ],
+ "new_element": "fill_all_cells",
+ "new_element_ko": "빈칸 채우기(다 이어도 빈칸이 남을 수 있는 판)",
+ "tutorial": null,
+ "fill_card": {
+  "empty_cells": [
+   [
+    0,
+    0
+   ],
+   [
+    0,
+    1
+   ]
+  ],
+  "note": "곧은 길로 모두 이으면 남는 빈칸(아이 봇 함정 순간의 빈칸과 같음). card_fill 그림의 빈칸 자리"
+ },
+ "hole_card": null,
+ "structure": {
+  "size": "4x4",
+  "cells": 16,
+  "pairs": 3,
+  "holes": 0,
+  "min_len": 4,
+  "max_len": 8,
+  "mean_len": 5.33,
+  "bends": 5,
+  "illusion": 1,
+  "detour_cells": 2,
+  "edge_cells": 12,
+  "shortest_trap_combos": 1,
+  "solver_nodes": 13
+ },
+ "generator": {
+  "version": "gen-1.0.0",
+  "core_version": "1.0.0",
+  "seed": 2000322,
+  "candidate_index": 322,
+  "attempts": 1,
+  "params": {
+   "width": 4,
+   "height": 4,
+   "pairs": 3,
+   "holes": 0,
+   "minLen": 3,
+   "allowSelfAdjacent": true
+  },
+  "independent_note": "원작 판을 보지 않고 시드 생성. 같은 시드·생성기 버전이면 같은 판"
+ }
+}
