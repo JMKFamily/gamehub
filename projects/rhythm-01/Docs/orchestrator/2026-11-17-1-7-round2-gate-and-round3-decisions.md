@@ -92,3 +92,6 @@
 - 직접: validate OK, judge.js = judge.mjs, 외부 URL 0, 빌드 data schema_version 2(v3 미혼입).
 - 결과: R11 구현(C2 2000묶음 다름 0), R13 수정, R14~R16 구현(지시 전 완료분 유지), R12 35/36창(640x360 L7 재시작 1창 34~36.6; PC 부하 41~52 %, 대조 페이지도 1창 하락). 보정 오차 자체 확인 1회 +15.8 ms(부하 흔들림 추정) → 공식 판정은 QA firstrun.
 - 판단: 새 코어 빌드가 다음 차례라 옛 코어 QA 전체는 다시 돌리지 않음. 이 빌드는 blocker 수정본으로 허브에 올려 요청자가 중간 플레이할 수 있게 함. R11·R12 공식 확인은 새 코어 빌드 QA(firstrun·perf 3회, 부하 낮은 때)에서.
+
+## 1-2 교차 리뷰 감시 — lore 통과
+- diff: `10-lore.md`, 보고서, README 한 줄. git(--version 포함)·서버 미사용. 키 70 = 사용 65 + 폐기 3 + 쓰지 않음 2(`card_long_row`·`aria_streak_best`), 삭제 0. L6 `card_run3` "붙은 별 셋, 톡톡톡". balance·art에 남긴 키 수정(R24)은 두 역할 교차 리뷰 지시에 이미 포함 — 결과에서 확인.
