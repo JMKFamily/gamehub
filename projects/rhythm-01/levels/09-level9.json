@@ -1,0 +1,199 @@
+{
+  "schema_version": 2,
+  "id": "09",
+  "theme_id": "level09",
+  "name_key": "level9_name",
+  "name": "구름 위",
+  "name_en": "Above the Clouds",
+  "bpm": 136,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 15,
+  "duration_s": 28.235,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "B",
+    "D",
+    "F",
+    "H",
+    "K",
+    "O",
+    "P",
+    "R",
+    "S"
+  ],
+  "design_intent": "새 기믹·보여 주기 없음. 빠른 템포(136)에서 아는 무늬를 레벨 8과 다른 순서로 섞음(둥두 둥·넷 / 둥 _ 둥두·4연속 / P·쉬는 박 / O·S). 4연속이 든 마디 뒤는 쉼. 끝은 둘(B). 판정 별 32개.",
+  "new_gimmicks": [],
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 21,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+  },
+  "patterns": {
+    "F": {
+      "slots": [
+        0,
+        1,
+        4
+      ],
+      "shape": "둥두 둥"
+    },
+    "D": {
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "shape": "넷"
+    },
+    "K": {
+      "slots": [
+        0,
+        4,
+        5
+      ],
+      "shape": "둥 _ 둥두"
+    },
+    "R": {
+      "slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "shape": "둥두둥두"
+    },
+    "P": {
+      "slots": [
+        0,
+        1,
+        4,
+        6
+      ],
+      "shape": "둥두 둥 둥"
+    },
+    "H": {
+      "slots": [
+        0,
+        2,
+        6
+      ],
+      "shape": "둥 둥 _ 둥"
+    },
+    "O": {
+      "slots": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "shape": "둥 둥두 _ 둥"
+    },
+    "S": {
+      "slots": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "shape": "둥두둥두 _ 둥"
+    },
+    "B": {
+      "slots": [
+        0,
+        2
+      ],
+      "shape": "둘"
+    }
+  },
+  "sections": [
+    {
+      "name": "cloud_1",
+      "start_bar": 0,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 2,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "cloud_2",
+      "start_bar": 3,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 5,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "cloud_3",
+      "start_bar": 6,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 8,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "cloud_4",
+      "start_bar": 9,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 11,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "mix",
+      "start_bar": 12,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "outro",
+      "start_bar": 13,
+      "checkpoint": false,
+      "stage": 3
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"F"},
+    {"mode":"play","pattern":"D"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"K"},
+    {"mode":"play","pattern":"R"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"P"},
+    {"mode":"play","pattern":"H"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"O"},
+    {"mode":"play","pattern":"S"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}

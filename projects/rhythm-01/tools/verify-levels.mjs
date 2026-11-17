@@ -2,14 +2,15 @@
 // rhythm-01 레벨 검증기 (node 만 사용)
 //
 // 사용법
-//   node tools/verify-levels.mjs              # levels/ 1~3 + 곡선 계획 4~10 전부 + 봇 지표
-//   node tools/verify-levels.mjs --quick      # 봇 시도 수를 줄여 빠르게 (구조 검사는 같음)
+//   node tools/verify-levels.mjs              # levels/ 01~10 전부 + 봇 지표 (B6·B7 판정은 이 전체 실행 기준)
+//   node tools/verify-levels.mjs --quick      # 봇 시도 수를 줄여 빠르게 (구조 검사는 같음, B6·B7 은 정보로만)
 //   node tools/verify-levels.mjs --json       # 결과 JSON
 //
-// 대상: balance.json levels(데이터, 레벨 1~3) + curve_planned(계획, 레벨 4~10, tools/sim/plan.mjs 로 컴파일).
-// 계획 레벨도 같은 검사를 받는다(표시 [계획]).
+// 대상: balance.json levels(데이터, 레벨 01~10, 1-3 부터). curve_planned 는 _status 가 deprecated 이면 읽지 않는다
+// (1-2 계획 기록. deprecated 가 아니면 예전처럼 tools/sim/plan.mjs 로 컴파일해 [계획] 으로 검사).
 //
 // 검사 (FAIL 이 하나라도 있으면 종료 코드 1)
+//   S0 레벨 파일 수 = verify.level_count(10), id 01~10 이어짐, name_key = level<n>_name
 //   S1 스키마: 필수 키, 자리 0~7, allowed_slots, 무늬 존재, 무늬 자리가 pattern_library 와 같음, theme_id = level<두 자리 id>
 //   S2 박대로 치기 → 클리어, 전부 "딱"
 //   S3 무입력 → 실패 (첫 별에서)
@@ -30,13 +31,15 @@
 //   B3 숙련 봇(σ25) 실패가 한 별에 30 % 넘게 몰리지 않음 (실패 20회 이상일 때만)
 //   B4 레벨 1 σ70 실패 위치 중앙값(레벨 시간 기준) ≥ 10 %
 //   B5 σ70 첫 클리어 중앙값이 직전 레벨의 2배 이하
-// 정보 출력: 박마다 치기, 지연 오차 민감도(1~3), 보정 화면 영향, 따라 치기 변형, 연습 모드, 해석 예측
+//   B6 레벨 10 목표: L1~L3 σ70 중앙값의 기하 평균 배율 r = (m03/m01)^(1/2) 로 L6 을 외삽한 T = m03·r^3, L10 ∈ [0.8T, 1.2T] (요청자 지시)
+//   B7 L3 → L10 σ70 중앙값이 엄격히 단조 증가, L4~L9 는 L10 목표 상한 미만 (L3 와 L10 목표 사이를 나눔)
+// 정보 출력: 박마다 치기, 지연 오차 민감도(1~3), 보정 화면 영향(보호자 보정 포함), 큰 지연 감지, 따라 치기 변형, 연습 모드, 해석 예측
 
 import { readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { compileLevel, judgeAttempt, previewSchedule } from './sim/judge.mjs';
-import { runProfile, runPractice, analyticClear, calibrationBias } from './sim/bots.mjs';
+import { runProfile, runPractice, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng } from './sim/bots.mjs';
 import { buildPlanLevel } from './sim/plan.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -67,12 +70,23 @@ function steadyTaps(L, periodMs, phaseMs) {
 // 대상 목록: 데이터 레벨 + 계획 레벨
 const entries = [];
 for (const f of bal.levels) entries.push({ src: f, lvl: JSON.parse(readFileSync(join(PROJECT, f), 'utf8')) });
-for (const [id, c] of Object.entries(bal.curve_planned)) {
+const planDeprecated = String(bal.curve_planned?._status || '').startsWith('deprecated');
+for (const [id, c] of Object.entries(planDeprecated ? {} : bal.curve_planned || {})) {
   if (id.startsWith('_')) continue;
   if (entries.some((e) => e.lvl.id === id)) continue;
   entries.push({ src: `balance.json curve_planned.${id}`, lvl: buildPlanLevel(id, c, bal) });
 }
 entries.sort((a, b) => a.lvl.id.localeCompare(b.lvl.id));
+{
+  const ids = entries.map((e) => e.lvl.id);
+  const want = Array.from({ length: V.level_count }, (_, k) => String(k + 1).padStart(2, '0'));
+  const badKey = entries.filter((e) => !e.lvl.planned && e.lvl.name_key !== `level${+e.lvl.id}_name`).map((e) => e.lvl.id);
+  const allData = entries.every((e) => !e.lvl.planned);
+  report.levels._all = {};
+  log(`== 레벨 목록 (${entries.length}개, curve_planned ${planDeprecated ? '폐기 표시 → 읽지 않음' : '계획 포함'}) ==`);
+  check('_all', 'S0', ids.join() === want.join() && !badKey.length && allData,
+    `레벨 ${ids.join(',')} (기대 ${want[0]}~${want[want.length - 1]}), 모두 levels/ 데이터 ${allData ? '예' : '아님(!)'}, name_key 어긋남 ${badKey.join(',') || '없음'}`);
+}
 
 const compiled = [];
 for (const { src, lvl } of entries) {
@@ -280,6 +294,29 @@ for (let k = 1; k < compiled.length; k++) {
   const ma = prog[a].child_sd70.median_first_clear_sessions, mc = prog[c].child_sd70.median_first_clear_sessions;
   check(c, 'B5', mc <= V.child_sd70_median_max_growth_vs_prev * ma, `σ70 중앙값 ${a} ${ma}회 → ${c} ${mc}회 (${(mc / ma).toFixed(2)}배 ≤ ${V.child_sd70_median_max_growth_vs_prev})`);
 }
+// B6·B7 레벨 10 목표 (요청자 지시: 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6)
+{
+  const R = V.l10_target_rule;
+  const med = (id) => prog[id]?.child_sd70.median_first_clear_sessions;
+  const b1 = R.base_levels[0], b2 = R.base_levels[1], b3 = R.base_levels[R.base_levels.length - 1];
+  const m1 = med(b1), m2 = med(b2), m3 = med(b3);
+  const steps = +b3 - +b1; // L1→L3 = 2 단계 (기하 평균 배율 = 단계 배율들의 기하 평균)
+  const r = Math.pow(m3 / m1, 1 / steps);
+  const ahead = +R.extrapolate_to_level - +b3; // L3 → L6 = 3 단계
+  const T = m3 * Math.pow(r, ahead);
+  const lo = (1 - R.tolerance_ratio) * T, hi = (1 + R.tolerance_ratio) * T;
+  const m10 = med(R.apply_to_level);
+  report.l10_target = { m01: m1, m02: m2, m03: m3, ratio: +r.toFixed(4), target_L6_extrapolated: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10, quick: QUICK };
+  log(`\n== 레벨 10 목표 (B6) ==\n  r = (${m2}/${m1} × ${m3}/${m2})^(1/${steps}) = (${m3}/${m1})^(1/${steps}) = ${r.toFixed(4)} · T = ${m3} × r^${ahead} = ${T.toFixed(2)} · 범위 ±${100 * R.tolerance_ratio} % = ${lo.toFixed(2)} ~ ${hi.toFixed(2)}${QUICK ? ' (--quick: 참고용, 판정은 전체 실행)' : ''}`);
+  // --quick 은 세션 400개라 L1~L3 중앙값이 흔들려 목표 자체가 달라짐 → 판정하지 않고 정보로만 출력 (판정 = 전체 실행)
+  const chk = QUICK ? (lv, code, ok, msg) => log(`  정보 ${code}(--quick, 판정 안 함) ${ok ? '범위 안' : '범위 밖'}: ${msg}`) : check;
+  chk(R.apply_to_level, 'B6', m10 !== undefined && m10 >= lo && m10 <= hi, `L10 σ70 중앙값 ${m10}회 ∈ [${lo.toFixed(1)}, ${hi.toFixed(1)}] (L1~L3 ${m1}/${m2}/${m3}, 기하 평균 배율 ${r.toFixed(3)}, L6 외삽 ${T.toFixed(2)})`);
+  const seq = R.monotone_levels.map((id) => [id, med(id)]);
+  const bad = [];
+  for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
+  const insideHi = seq.slice(0, -1).every(([, m]) => m < hi);
+  chk(R.apply_to_level, 'B7', !bad.length && insideHi, `σ70 중앙값 ${seq.map(([id, m]) => `L${+id} ${m}`).join(' < ')} → ${bad.length ? `단조 아님: ${bad}` : '엄격 단조 증가'} · L3~L9 가 L10 목표 상한 ${hi.toFixed(1)} 미만 ${insideHi ? '예' : '아님(!)'}`);
+}
 {
   const L = compiled[0];
   const r = prog[L.level.id].child_sd70;
@@ -297,10 +334,10 @@ compiled.forEach((L, k) => {
   report.curve_summary[id] = { sd25: b.skilled_sd25.median_first_clear_sessions, sd50: b.novice_sd50.median_first_clear_sessions, sd70: m, sd90: b.child_sd90.median_first_clear_sessions };
   log(`${id}${L.level.planned ? '*' : ''} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.stars.length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.level.new_gimmicks.map((x) => x.id).join(',') || '-'} | ${b.skilled_sd25.median_first_clear_sessions} | ${b.novice_sd50.median_first_clear_sessions} | ${m} | ${b.child_sd90.median_first_clear_sessions} | ${prev ? (m / prev).toFixed(2) + '배' : '-'}`);
 });
-log('(* = 곡선 계획, tools/sim/plan.mjs 로 컴파일)');
+if (compiled.some((L) => L.level.planned)) log('(* = 곡선 계획, tools/sim/plan.mjs 로 컴파일)');
 
 // 정보: 지연 오차 민감도 (데이터 레벨)
-const dataLv = compiled.filter((L) => !L.level.planned);
+const dataLv = compiled.filter((L) => !L.level.planned && (!V.bias_sweep_levels || V.bias_sweep_levels.includes(L.level.id)));
 log('\n== 남은 지연 오차(bias, +면 늦게 침) 민감도: σ70 첫 클리어 중앙값 (σ50) ==');
 report.bias = {};
 log('bias ms | ' + dataLv.map((L) => 'L' + L.level.id).join(' | '));
@@ -318,6 +355,7 @@ for (const bias of V.bias_sweep_ms) {
 // 정보: 보정 화면 영향 (결정 9)
 log('\n== 정보: 지연 보정 화면 영향 — σ70 첫 클리어 중앙값 (세션마다 남은 오차 1회 추첨) ==');
 const cal = bal.audio_latency.calibration;
+const gcal = bal.audio_latency.guardian_calibration;
 const scen = [
   ['보정 완벽(오차 0)', null],
   ['자동 보정만·건너뜀(기기 -20~+40)', calibrationBias(cal, { device: V.calibration_device_residual_ms, skip: true })],
@@ -325,6 +363,10 @@ const scen = [
   ['보정 화면(어른 σ40 이 8번 톡)', calibrationBias(cal, { device: V.calibration_device_residual_ms, sd: 40 })],
   ['블루투스·건너뜀(+120~+220)', calibrationBias(cal, { device: V.calibration_bluetooth_residual_ms, skip: true })],
   ['블루투스·보정 화면(아이 σ70)', calibrationBias(cal, { device: V.calibration_bluetooth_residual_ms, sd: 70 })],
+  ['[1-3] 보호자 보정(어른 σ40, 2회 12탭)', guardianCalibrationBias(cal, gcal, { device: V.calibration_device_residual_ms, sd: 40 })],
+  ['[1-3] 보호자 흐름을 아이가 침(σ70)', guardianCalibrationBias(cal, gcal, { device: V.calibration_device_residual_ms, sd: 70 })],
+  ['[1-3] 블루투스·보호자 보정(어른 σ40)', guardianCalibrationBias(cal, gcal, { device: V.calibration_bluetooth_residual_ms, sd: 40 })],
+  ['[1-3] 블루투스·보호자 흐름을 아이가 침(σ70)', guardianCalibrationBias(cal, gcal, { device: V.calibration_bluetooth_residual_ms, sd: 70 })],
 ];
 report.calibration = {};
 log('경우 | ' + compiled.map((L) => 'L' + L.level.id).join(' | '));
@@ -336,6 +378,29 @@ for (const [name, fn] of scen) {
     (report.calibration[name] ||= {})[L.level.id] = r.median_first_clear_sessions;
   }
   log(`${name} | ${row.join(' | ')}`);
+}
+
+// 정보: 큰 지연 감지 → 다시 보정 그림 신호 (audio_latency.drift_check)
+{
+  const dc = bal.audio_latency.drift_check;
+  log(`\n== 정보: 큰 지연 감지 그림 신호 (σ70 아이가 침, 창 ${dc.window_taps}탭 |중앙값| ≥ ${dc.trigger_abs_median_ms} ms × ${dc.consecutive_windows}번 연속, 시도 ${dc.min_attempts}번 이상, 20시도 안) ==`);
+  report.drift = {};
+  const rng = makeRng(31);
+  const S = QUICK ? 200 : 500;
+  for (const [name, dev] of [['보통 기기·자동 보정만(-20~+40) = 오경보', V.calibration_device_residual_ms], ['블루투스·건너뜀(+120~+220) = 감지', V.calibration_bluetooth_residual_ms]]) {
+    for (const L of compiled.filter((x) => ['01', '03'].includes(x.level.id))) {
+      const hit = [];
+      for (let k = 0; k < S; k++) {
+        const d = dev[0] + rng.rnd() * (dev[1] - dev[0]);
+        const a = driftDetectAttempt(L, bal.bots.profiles.child_sd70, bal, dc, rng, { bias: d, maxAttempts: 20 });
+        if (a !== null) hit.push(a);
+      }
+      hit.sort((x, y) => x - y);
+      const res = { share: +(hit.length / S).toFixed(3), median_attempt: hit.length ? hit[Math.floor((hit.length - 1) / 2)] : null, p90_attempt: hit.length ? hit[Math.floor(hit.length * 0.9)] : null };
+      (report.drift[name] ||= {})[L.level.id] = res;
+      log(`${name} | L${L.level.id} | 신호 켜진 세션 ${res.share} | 켜진 시도 중앙값 ${res.median_attempt ?? '-'} (90 % ${res.p90_attempt ?? '-'})`);
+    }
+  }
 }
 
 // 정보: 따라 치기 변형

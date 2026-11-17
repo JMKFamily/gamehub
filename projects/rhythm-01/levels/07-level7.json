@@ -1,0 +1,171 @@
+{
+  "schema_version": 2,
+  "id": "07",
+  "theme_id": "level07",
+  "name_key": "level7_name",
+  "name": "등불 골목",
+  "name_en": "Lantern Lane",
+  "bpm": 130,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 15,
+  "duration_s": 29.538,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "B",
+    "D",
+    "G"
+  ],
+  "design_intent": "새 기믹 = 반박 4연속(둥두둥두, 자리 0~3). 4연속은 마디 앞쪽에만 두고 4연속이 든 마디 다음은 항상 쉬는 마디. R(둥두둥두) 보여 주기 → 따라 치기, 둘 뒤 R 한 번 더, S(둥두둥두 _ 둥) 보여 주기 → 따라 치기, 끝은 G·S. 판정 별 28개.",
+  "new_gimmicks": [
+    {
+      "id": "eighth_run4",
+      "first_bar": 2,
+      "_note": "first_bar = 처음 나오는 마디(정보, 카드 시점 아님)"
+    }
+  ],
+  "card": {
+    "id": "card_run4",
+    "timing": "pre_level_first_play",
+    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 붙어 있는 별 4개를 차례로 톡. aria-label 키 card_run4"
+  },
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 15,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+  },
+  "patterns": {
+    "D": {
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "shape": "넷"
+    },
+    "R": {
+      "slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "shape": "둥두둥두"
+    },
+    "B": {
+      "slots": [
+        0,
+        2
+      ],
+      "shape": "둘"
+    },
+    "S": {
+      "slots": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "shape": "둥두둥두 _ 둥"
+    },
+    "G": {
+      "slots": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "shape": "둥두 둥두"
+    }
+  },
+  "sections": [
+    {
+      "name": "review",
+      "start_bar": 0,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 1,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "learn_run",
+      "start_bar": 2,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 4,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "run_again",
+      "start_bar": 5,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 7,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "learn_run_one",
+      "start_bar": 8,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 10,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "mix",
+      "start_bar": 11,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "outro",
+      "start_bar": 13,
+      "checkpoint": false,
+      "stage": 3
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"D"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"R"},
+    {"mode":"play","pattern":"R"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"R"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"S"},
+    {"mode":"play","pattern":"S"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"G"},
+    {"mode":"play","pattern":"S"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}

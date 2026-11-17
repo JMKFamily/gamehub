@@ -1,0 +1,180 @@
+{
+  "schema_version": 2,
+  "id": "06",
+  "theme_id": "level06",
+  "name_key": "level6_name",
+  "name": "노을 언덕",
+  "name_en": "Sunset Hill",
+  "bpm": 128,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 18,
+  "duration_s": 35.625,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 90,
+    "pass_early_ms": 125,
+    "pass_late_ms": 145,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "C",
+    "G"
+  ],
+  "design_intent": "새 기믹 = 두 마디 무늬(앞 마디와 뒤 마디가 다름). 북채가 두 바퀴(보여 주기 2마디)를 먼저 치고, 아이가 같은 순서로 두 바퀴 따라 침. U = 넷 → 둥두 둥, T = 셋 → 둥두 둥두. U를 한 번 더, 끝은 아는 무늬 G 한 마디. 판정 별 28개.",
+  "new_gimmicks": [
+    {
+      "id": "two_bar_pattern",
+      "first_bar": 2,
+      "_note": "first_bar = 처음 나오는 마디(정보, 카드 시점 아님)"
+    }
+  ],
+  "card": {
+    "id": "card_two_bar",
+    "timing": "pre_level_first_play",
+    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 북채가 두 바퀴 쳐 줌 → 아이가 두 바퀴 따라 침. aria-label 키 card_two_bar"
+  },
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 12,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+  },
+  "patterns": {
+    "C": {
+      "slots": [
+        0,
+        2,
+        4
+      ],
+      "shape": "셋"
+    },
+    "U1": {
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "shape": "두 마디 무늬 U 앞(넷)"
+    },
+    "U2": {
+      "slots": [
+        0,
+        1,
+        4
+      ],
+      "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+    },
+    "T1": {
+      "slots": [
+        0,
+        2,
+        4
+      ],
+      "shape": "두 마디 무늬 T 앞(셋)"
+    },
+    "T2": {
+      "slots": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "shape": "두 마디 무늬 T 뒤(둥두 둥두)"
+    },
+    "G": {
+      "slots": [
+        0,
+        1,
+        4,
+        5
+      ],
+      "shape": "둥두 둥두"
+    }
+  },
+  "sections": [
+    {
+      "name": "review",
+      "start_bar": 0,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 1,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "learn_two_u",
+      "start_bar": 2,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 6,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "learn_two_t",
+      "start_bar": 7,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 11,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "replay_u",
+      "start_bar": 12,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "breath",
+      "start_bar": 14,
+      "checkpoint": true,
+      "stage": 3
+    },
+    {
+      "name": "mix",
+      "start_bar": 15,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "outro",
+      "start_bar": 16,
+      "checkpoint": false,
+      "stage": 3
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"C"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"U1"},
+    {"mode":"show","pattern":"U2"},
+    {"mode":"play","pattern":"U1"},
+    {"mode":"play","pattern":"U2"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"T1"},
+    {"mode":"show","pattern":"T2"},
+    {"mode":"play","pattern":"T1"},
+    {"mode":"play","pattern":"T2"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"U1"},
+    {"mode":"play","pattern":"U2"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"G"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}

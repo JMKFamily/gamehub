@@ -132,6 +132,66 @@ export function calibrationBias(cal, { device = [-20, 40], sd = 70, skip = false
   };
 }
 
+// 보호자 보정 흐름(20-balance.md 8-4, balance.json audio_latency.guardian_calibration) 모델.
+//   rounds 번(기본 2) × taps 번 톡. 회마다 use_from_tap 번째부터 쓴다.
+//   회마다 IQR > reject_iqr_ms 이면 그 회를 다시(retry), 두 회 중앙값 차이 > round_disagree_max_ms 이면 전체를 다시.
+//   다시 하기는 max_retries 번까지, 그래도 안 되면 이전 오프셋(여기서는 0) 유지.
+//   최종 m = 모든 회의 쓰는 탭(2 × 6 = 12개) 중앙값. |m| ≤ apply_only_if_abs_over_ms 이면 적용 안 함.
+//   sd = 실제로 친 사람의 탭 오차(어른 40, 아이가 대신 치면 70).
+export function guardianCalibrationBias(cal, g, { device = [-20, 40], sd = 40 } = {}) {
+  const med = (a) => { const s = [...a].sort((x, y) => x - y); const n = s.length; return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2; };
+  const iqr = (a) => { const s = [...a].sort((x, y) => x - y); const q = (f) => s[Math.min(s.length - 1, Math.max(0, Math.round(f * (s.length - 1))))]; return q(0.75) - q(0.25); };
+  return (rng) => {
+    const d = device[0] + rng.rnd() * (device[1] - device[0]);
+    for (let tryN = 0; tryN <= g.max_retries; tryN++) {
+      const rounds = [];
+      let bad = false;
+      for (let r = 0; r < g.rounds; r++) {
+        const used = [];
+        for (let k = 0; k < g.taps_per_round; k++) { const e = d + rng.gauss() * sd; if (k >= g.use_from_tap - 1) used.push(e); }
+        if (iqr(used) > g.reject_iqr_ms) { bad = true; break; }
+        rounds.push(used);
+      }
+      if (bad) continue;
+      const ms = rounds.map(med);
+      if (Math.max(...ms) - Math.min(...ms) > g.round_disagree_max_ms) continue;
+      const m = med(rounds.flat());
+      if (Math.abs(m) <= g.apply_only_if_abs_over_ms) return d;
+      return d - Math.max(cal.offset_clamp_ms[0], Math.min(cal.offset_clamp_ms[1], m));
+    }
+    return d;
+  };
+}
+
+// 플레이 중 큰 지연 감지(20-balance.md 8-5, audio_latency.drift_check) 모델.
+//   판정 별마다 그 별에 가장 가까운 탭(±sample_window_ms 안)의 (탭 - 별) 을 모은다(성공·실패 모두).
+//   window_taps 개가 찰 때마다 창 하나의 중앙값을 보고, |중앙값| ≥ trigger_abs_median_ms 인 창이
+//   consecutive_windows 번 이어지고 시도가 min_attempts 번 이상이면 "다시 보정" 그림 신호를 켠다.
+//   반환: 신호가 켜진 시도 번호(1부터), 상한 maxAttempts 안에 안 켜지면 null.
+export function driftDetectAttempt(L, p, bal, dc, rng, { bias = 0, maxAttempts = 30 } = {}) {
+  const extraAfter = bal.bots.extra_tap_after_s;
+  let buf = [], streak = 0;
+  for (let a = 1; a <= maxAttempts; a++) {
+    const taps = botTaps(L, p, rng, { bias, extraAfter });
+    const r = judgeAttempt(L, taps);
+    const upto = r.clear ? L.stars.length : r.failIndex + 1;
+    for (let i = 0; i < upto; i++) {
+      const t = L.stars[i].t;
+      let best = null;
+      for (const x of taps) if (Math.abs(x - t) <= dc.sample_window_ms && (best === null || Math.abs(x - t) < Math.abs(best - t))) best = x;
+      if (best === null) continue;
+      buf.push(best - t);
+      if (buf.length === dc.window_taps) {
+        streak = Math.abs(median(buf)) >= dc.trigger_abs_median_ms ? streak + 1 : 0;
+        buf = [];
+        if (streak >= dc.consecutive_windows && a >= dc.min_attempts) return a;
+      }
+    }
+    if (streak >= dc.consecutive_windows && a >= dc.min_attempts) return a;
+  }
+  return null;
+}
+
 // 해석값: 별마다 독립이라고 보고 (1-miss) × P(통과 창) 의 곱 (헛탭 무시)
 const ncdf = (z) => {
   const t = 1 / (1 + 0.2316419 * Math.abs(z));

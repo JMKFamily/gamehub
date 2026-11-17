@@ -1,4 +1,6 @@
 // rhythm-01 곡선 계획(레벨 4~10) → 검증용 레벨 객체 (20-balance.md 11장)
+// [폐기 2026-11-17 1-3] 레벨 4~10 은 levels/04~10 실제 데이터로 대체. balance.json curve_planned._status = deprecated 이면
+// 검증기가 이 모듈을 쓰지 않는다. 1-2 계획 기록을 다시 재 볼 때만 쓴다.
 //
 // balance.json curve_planned.<id>.plan 은 마디 토큰 배열이다.
 //   "sX" = 보여 주기 마디(무늬 X), "pX" = 따라 치기 마디(무늬 X), "r" = 쉬는 마디
