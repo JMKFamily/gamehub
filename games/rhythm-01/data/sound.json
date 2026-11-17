@@ -1,0 +1,595 @@
+{
+ "_source": "30-art.md 12-4 합성 파라미터 표 (build-web-data.mjs 에 옮김). 게인 dB = 그 소리 최고 크기",
+ "master": {
+  "comp": {
+   "threshold": -3,
+   "knee": 0,
+   "ratio": 20,
+   "attack": 0.003,
+   "release": 0.1
+  },
+  "bus_ramp_ms": 50
+ },
+ "noise_buffer_s": 1,
+ "sounds": {
+  "tap": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "env": {
+      "a": 1,
+      "decay": 220
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ]
+  },
+  "tap_top": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 150,
+     "fTo": 90,
+     "glideMs": 70,
+     "env": {
+      "a": 1,
+      "decay": 300
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ]
+  },
+  "tap_pass": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "filter": {
+      "type": "lowpass",
+      "f": 1200,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 1,
+      "decay": 220
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.125,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ]
+  },
+  "teacher": {
+   "bus": "sfx",
+   "db": -12,
+   "post": {
+    "type": "lowpass",
+    "f": 600,
+    "Q": 0.7
+   },
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 130,
+     "fTo": 75,
+     "glideMs": 80,
+     "env": {
+      "a": 3,
+      "decay": 280
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 260,
+     "fTo": 150,
+     "glideMs": 80,
+     "mul": 0.15,
+     "env": {
+      "a": 3,
+      "decay": 280
+     }
+    }
+   ]
+  },
+  "stray": {
+   "bus": "sfx",
+   "db": -24,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "filter": {
+      "type": "lowpass",
+      "f": 800,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 1,
+      "decay": 50
+     }
+    }
+   ]
+  },
+  "bell_high": {
+   "bus": "sfx",
+   "db": -14,
+   "note": "fCh",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 2,
+      "decay": 250
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 1.5,
+     "mul": 0.3,
+     "env": {
+      "a": 2,
+      "decay": 250
+     }
+    }
+   ]
+  },
+  "bell_low": {
+   "bus": "sfx",
+   "db": -18,
+   "note": "fCl",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 2,
+      "decay": 150
+     }
+    }
+   ]
+  },
+  "tick": {
+   "bus": "sfx",
+   "db": -12,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1200,
+     "env": {
+      "a": 1,
+      "decay": 30
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 2000,
+      "Q": 2
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 15
+     }
+    }
+   ]
+  },
+  "tick_one": {
+   "bus": "sfx",
+   "db": -10,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1600,
+     "env": {
+      "a": 1,
+      "decay": 30
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 2000,
+      "Q": 2
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 15
+     }
+    }
+   ]
+  },
+  "fail": {
+   "bus": "sfx",
+   "db": -10,
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 330,
+     "fTo": 196,
+     "glideMs": 200,
+     "env": {
+      "a": 8,
+      "linEnd": 280
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.4,
+     "filter": {
+      "type": "lowpass",
+      "f": 900,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 2,
+      "decay": 120
+     }
+    }
+   ]
+  },
+  "best": {
+   "bus": "sfx",
+   "db": -14,
+   "delayMs": 100,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1320,
+     "env": {
+      "a": 5,
+      "decay": 150
+     }
+    }
+   ]
+  },
+  "clear": {
+   "bus": "sfx",
+   "db": -8,
+   "arpeggio": {
+    "major": [
+     0,
+     4,
+     7,
+     12
+    ],
+    "minor": [
+     0,
+     3,
+     7,
+     12
+    ],
+    "stepMs": 90,
+    "octaveMul": 2,
+    "lastDecay": 600
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "filter": {
+      "type": "lowpass",
+      "f": 3000,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 5,
+      "decay": 90
+     }
+    }
+   ]
+  },
+  "menu": {
+   "bus": "sfx",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 660,
+     "env": {
+      "a": 2,
+      "decay": 30
+     }
+    }
+   ]
+  },
+  "kick": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 110,
+     "fTo": 45,
+     "glideMs": 40,
+     "env": {
+      "a": 1,
+      "decay": 120
+     }
+    }
+   ]
+  },
+  "kick_one": {
+   "bus": "music",
+   "db": -13,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 110,
+     "fTo": 45,
+     "glideMs": 40,
+     "env": {
+      "a": 1,
+      "decay": 120
+     }
+    }
+   ]
+  },
+  "bass": {
+   "bus": "music",
+   "db": -14,
+   "post": {
+    "type": "lowpass",
+    "f": 400,
+    "Q": 0.7
+   },
+   "duck": {
+    "mul": 0.5,
+    "downMs": 5,
+    "holdMs": 80
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "env": {
+      "a": 10,
+      "d": 200,
+      "s": 0.5,
+      "r": 80
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 0.5,
+     "mul": 0.4,
+     "env": {
+      "a": 10,
+      "d": 200,
+      "s": 0.5,
+      "r": 80
+     }
+    }
+   ]
+  },
+  "pad": {
+   "bus": "music",
+   "db": -20,
+   "post": {
+    "type": "lowpass",
+    "f": 1500,
+    "Q": 0.7
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "detune": -7,
+     "env": {
+      "a": 300,
+      "d": 0,
+      "s": 1,
+      "r": 600
+     }
+    },
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "detune": 7,
+     "env": {
+      "a": 300,
+      "d": 0,
+      "s": 1,
+      "r": 600
+     }
+    }
+   ]
+  },
+  "shaker": {
+   "bus": "music",
+   "db": -24,
+   "layers": [
+    {
+     "wave": "noise",
+     "filter": {
+      "type": "highpass",
+      "f": 6000,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 2,
+      "decay": 25
+     }
+    }
+   ]
+  },
+  "mel_X": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 350
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 4,
+     "mul": 0.2,
+     "env": {
+      "a": 30,
+      "decay": 350
+     }
+    }
+   ]
+  },
+  "mel_O": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 600
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 3,
+     "mul": 0.15,
+     "env": {
+      "a": 30,
+      "decay": 600
+     }
+    }
+   ]
+  },
+  "mel_F": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "filter": {
+      "type": "lowpass",
+      "f": 2500,
+      "Q": 0.7
+     },
+     "vibrato": {
+      "hz": 5,
+      "cents": 8,
+      "afterMs": 150
+     },
+     "env": {
+      "a": 40,
+      "d": 100,
+      "s": 0.7,
+      "r": 120
+     }
+    }
+   ]
+  },
+  "mel_M": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 400
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 4,
+     "mul": 0.25,
+     "env": {
+      "a": 30,
+      "decay": 80
+     }
+    }
+   ]
+  },
+  "harmony_db": -22
+ },
+ "parts": {
+  "countin": [
+   "kick",
+   "tick"
+  ],
+  "show": [
+   "kick",
+   "bass",
+   "pad",
+   "shaker",
+   "teacher"
+  ],
+  "play": [
+   "kick",
+   "bass",
+   "pad",
+   "shaker",
+   "melody"
+  ],
+  "rest": [
+   "kick",
+   "pad"
+  ],
+  "outro": [
+   "bass",
+   "pad"
+  ],
+  "melody_from_stage": 2,
+  "harmony_from_stage": 3,
+  "shaker_when_allowed_slots_not": "even"
+ }
+}

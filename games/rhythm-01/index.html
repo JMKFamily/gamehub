@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#29230F">
+<title>Tickadrum</title>
+<link rel="icon" href="data/svg/ball.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-state="loading">
+<canvas id="cv" aria-hidden="true"></canvas>
+
+<section id="sLoading" class="screen show">
+  <p class="center" data-t="loading"></p>
+  <p id="loadErr" class="center hidden" data-t="load_error"></p>
+  <button id="bReload" class="ibtn hidden mid" type="button" data-a="load_error"><img src="data/svg/icon-retry.svg" alt=""></button>
+</section>
+
+<section id="sTitle" class="screen">
+  <h1 class="title" data-t="title"></h1>
+  <p class="tapStart"><img src="data/svg/hand-tap.svg" alt="" class="tapHand"><span data-t="tap_to_start"></span></p>
+  <button id="bSoundT" class="ibtn tr" type="button"><img src="data/svg/icon-music.svg" alt=""></button>
+</section>
+
+<section id="sLevels" class="screen">
+  <div class="gateWrap tl">
+    <button id="bGate" class="ibtn" type="button" data-a="guardian_hold"><img src="data/svg/icon-settings.svg" alt=""></button>
+    <svg id="gateRing" class="gateRing hidden" viewBox="-36 -36 72 72" aria-hidden="true"><circle r="31" class="ringBg"/><circle id="gateArc" r="31" class="ringArc" transform="rotate(-90)" stroke-dasharray="0 999"/></svg>
+    <img id="gateBadge" class="badge hidden" src="data/svg/badge-hourglass.svg" role="img" data-a="latency_warn">
+    <span id="gateHint" class="hint hidden" data-t="guardian_hold"></span>
+  </div>
+  <button id="bBack" class="ibtn tr" type="button" data-a="btn_back"><img src="data/svg/icon-next.svg" alt="" class="flipX"></button>
+  <div id="grid" class="grid"></div>
+</section>
+
+<section id="sSettings" class="screen">
+  <button id="bClose" class="ibtn tl" type="button" data-a="btn_close"><img src="data/svg/icon-levels.svg" alt=""></button>
+  <div class="rows">
+    <div class="row"><img src="data/svg/icon-music.svg" alt="" class="ri"><span data-t="settings_music"></span><button id="tMusic" class="tog" type="button" role="switch" data-a="settings_music"><i></i></button></div>
+    <div class="row"><img src="data/svg/icon-sfx.svg" alt="" class="ri"><span data-t="settings_sfx"></span><button id="tSfx" class="tog" type="button" role="switch" data-a="settings_sfx"><i></i></button></div>
+    <button id="bCalib" class="row rowBtn" type="button" data-a="settings_offset"><img src="data/svg/icon-recalibrate.svg" alt="" class="ri"><span class="rl"><span data-t="settings_offset"></span><small id="lateTip" class="hidden" data-t="latency_tip"></small></span><img id="calibBadge" class="badgeRow hidden" src="data/svg/badge-hourglass.svg" role="img" data-a="latency_warn"></button>
+    <button id="bReset" class="row rowBtn" type="button" data-a="settings_reset"><img src="data/svg/icon-reset.svg" alt="" class="ri"><span data-t="settings_reset"></span></button>
+  </div>
+</section>
+
+<section id="sConfirm" class="screen dim">
+  <div class="dialog">
+    <p data-t="confirm_reset"></p>
+    <div class="dbtns"><button id="cfNo" class="tbtn" type="button" data-t="confirm_no"></button><button id="cfYes" class="tbtn warn" type="button" data-t="confirm_yes"></button></div>
+  </div>
+</section>
+
+<section id="sCalib" class="screen" role="application" data-a="calib_screen">
+  <img id="together" class="tl pic hidden" src="data/svg/icon-together.svg" role="img" data-a="calib_with_grownup">
+  <button id="bSkip" class="ibtn tr" type="button" data-a="btn_skip"><img src="data/svg/icon-skip.svg" alt=""></button>
+  <div id="calibProg" class="sr" role="progressbar" data-a="calib_progress" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0"></div>
+  <button id="bRedo" class="ibtn redo hidden" type="button" data-a="calib_redo"><img src="data/svg/icon-recalibrate.svg" alt=""></button>
+  <p id="calibLive" class="sr" aria-live="polite"></p>
+</section>
+
+<section id="sCard" class="screen">
+  <img id="cardImg" class="cardImg" alt="" role="img">
+</section>
+
+<section id="sPlay" class="screen" role="application">
+  <button id="bPause" class="ibtn abs" type="button" data-a="btn_pause"><img src="data/svg/icon-pause.svg" alt=""></button>
+  <div id="progAria" class="abs" role="progressbar" data-a="aria_progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+  <div id="attAria" class="abs" role="img" data-a="aria_attempts"></div>
+  <img id="pracTag" class="abs pracTag hidden" src="data/svg/flag.svg" role="img" data-a="practice_on">
+  <p id="tut" class="abs tut hidden" data-t="tut_tap"></p>
+  <p id="live" class="sr" aria-live="polite"></p>
+</section>
+
+<section id="sPause" class="screen dim" role="dialog" data-a="pause_screen">
+  <p id="pausedBg" class="pausedBg hidden" data-t="paused_background"></p>
+  <div class="btnrow">
+    <button id="pResume" class="ibtn big" type="button" data-a="btn_resume"><img src="data/svg/icon-play.svg" alt=""></button>
+    <button id="pRetry" class="ibtn big" type="button" data-a="btn_retry"><img src="data/svg/icon-retry.svg" alt=""></button>
+    <button id="pLevels" class="ibtn big" type="button" data-a="btn_levels"><img src="data/svg/icon-levels.svg" alt=""></button>
+  </div>
+  <button id="bSoundP" class="ibtn tr" type="button"><img src="data/svg/icon-music.svg" alt=""></button>
+</section>
+
+<section id="sResult" class="screen">
+  <h2 id="clearTitle" class="abs clearTitle" data-t="clear_title"></h2>
+  <div id="resultBtns" class="abs btnrow">
+    <button id="bNext" class="ibtn big" type="button" data-a="btn_next"><img src="data/svg/icon-next.svg" alt=""></button>
+    <button id="bRetry" class="ibtn big" type="button" data-a="btn_retry"><img src="data/svg/icon-retry.svg" alt=""></button>
+    <button id="bLevels" class="ibtn big" type="button" data-a="btn_levels"><img src="data/svg/icon-levels.svg" alt=""></button>
+  </div>
+</section>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

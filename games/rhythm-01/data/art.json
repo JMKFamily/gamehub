@@ -1,0 +1,226 @@
+{
+ "_source": "30-art.md 4~10절 (build-web-data.mjs 에 옮김). R = 궤도 반지름",
+ "orbit": {
+  "portrait": {
+   "rW": 0.4,
+   "rH": 0.26,
+   "cy": 0.45
+  },
+  "landscape": {
+   "rH": 0.33,
+   "rW": 0.3,
+   "cy": 0.55
+  }
+ },
+ "band": {
+  "min": 10,
+  "k": 0.1,
+  "edge": 1.5
+ },
+ "ball": {
+  "min": 14,
+  "k": 0.11,
+  "outline": [
+   2.5,
+   0.16
+  ],
+  "hi": 0.28,
+  "tailDeg": [
+   9,
+   18,
+   27
+  ],
+  "tailR": [
+   0.7,
+   0.5,
+   0.35
+  ],
+  "hollowW": 0.22
+ },
+ "star": {
+  "min": 18,
+  "k": 0.15,
+  "inner": 0.5,
+  "outline": [
+   2.5,
+   0.14
+  ],
+  "showW": 0.16,
+  "grow": [
+   0.4,
+   1
+  ]
+ },
+ "drum": {
+  "k": 0.42,
+  "innerK": 0.32,
+  "outline": 3,
+  "countDots": 0.12
+ },
+ "topMark": {
+  "w": [
+   8,
+   0.07
+  ],
+  "h": [
+   14,
+   0.13
+  ],
+  "at": 0.76
+ },
+ "ticks": {
+  "at": 0.78,
+  "beat": [
+   6,
+   0.055
+  ],
+  "half": [
+   2.5,
+   0.02
+  ]
+ },
+ "mallet": {
+  "head": [
+   0.2,
+   0.11
+  ],
+  "stick": [
+   0.06,
+   0.27
+  ],
+  "tiltDeg": 30,
+  "off": [
+   0.05,
+   0.07
+  ],
+  "grow": [
+   0.6,
+   1
+  ],
+  "growBeats": 0.25,
+  "hitDeg": 6,
+  "hitMs": 80
+ },
+ "showDash": {
+  "width": 0.35,
+  "segs": 32,
+  "on": 0.45
+ },
+ "hud": {
+  "barLeft": 16,
+  "barTopP": 24,
+  "barTopL": 20,
+  "barH": 10,
+  "gapToPause": 12,
+  "bestR": 6.5,
+  "dotsGap": 14,
+  "dotR": 4.5,
+  "dotStep": 14,
+  "dotsMax": 10,
+  "squareEvery": 5,
+  "flag": 14,
+  "pause": 48,
+  "margin": 12
+ },
+ "thumb": {
+  "pad": 12,
+  "minTop": 0.7,
+  "bottom": 16,
+  "side": 16,
+  "fxK": 2.05
+ },
+ "hand": {
+  "size": 64,
+  "landscapeFromRight": 72,
+  "landscapeFromBottom": 64,
+  "pressPx": 4,
+  "growBeats": 0.25
+ },
+ "fx": {
+  "perfect": {
+   "scale": 1.45,
+   "rays": 8,
+   "rayGap": 4,
+   "rayLen": 0.6,
+   "rayW": [
+    3,
+    0.2
+   ],
+   "ms": 220,
+   "ripple": 1.18
+  },
+  "good": {
+   "scale": 1.25,
+   "rays": 4,
+   "rayRot": 45,
+   "rayGap": 4,
+   "rayLen": 0.4,
+   "rayW": [
+    3,
+    0.2
+   ],
+   "ms": 180,
+   "ripple": 1.12
+  },
+  "pass": {
+   "scale": 0.35,
+   "ring": 0.9,
+   "ms": 150,
+   "ripple": 1.06
+  },
+  "miss": {
+   "rotDeg": 20,
+   "dropR": 0.15,
+   "ms": 300
+  },
+  "stray": {
+   "ripple": 1.03,
+   "ms": 100
+  },
+  "showRing": {
+   "ring": 0.9,
+   "ms": 150
+  }
+ },
+ "fail": {
+  "pieceShrinkS": 0.1,
+  "hollowShrinkS": 0.08
+ },
+ "clear": {
+  "drumY": 0.64,
+  "drumGap": 0.25,
+  "drumR": 0.1,
+  "drumGrow": [
+   0.6,
+   1
+  ],
+  "btn": 64,
+  "btnGap": 16
+ },
+ "card": {
+  "w": 120,
+  "h": 132,
+  "gap": 12,
+  "border": 3,
+  "practiceBtn": 48,
+  "landscapeMaxW": 0.8
+ },
+ "calib": {
+  "refR": 170,
+  "drumR": 71,
+  "dotsR": 112,
+  "dotR": 11,
+  "dots": 8,
+  "checkGrowS": 0.25,
+  "doneHoldS": 1
+ },
+ "guardian": {
+  "ringR": 31,
+  "ringW": 5,
+  "badgeD": 22
+ },
+ "menuBtn": 48,
+ "row": {
+  "h": 72
+ }
+}

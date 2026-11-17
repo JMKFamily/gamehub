@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | 1-3 | [웹 빌드 round-1: 박자 시계·보호자 보정·10레벨 실시간 클리어](game-developer/2026-11-17-1-3-web-build.md) |
 | 2026-11-17 | balance-designer | 1-3 | [레벨 4~10 데이터·L10 목표(σ70 20회, T 19.76)·보호자 보정 흐름](balance-designer/2026-11-17-1-3-levels-04-10.md) |
 | 2026-11-17 | art-director | 1-3 | [빌드 준비: palette.json·대비 320쌍 통과·보호자 문·소리 합성 표](art-director/2026-11-17-1-3-build-prep.md) |
 | 2026-11-17 | lore-writer | 1-3 | [구현 직전 텍스트 키 보강(38 → 64개)](lore-writer/2026-11-17-1-3-text-keys.md) |

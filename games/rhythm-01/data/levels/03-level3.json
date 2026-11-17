@@ -1,0 +1,164 @@
+{
+  "schema_version": 2,
+  "id": "03",
+  "theme_id": "level03",
+  "name_key": "level3_name",
+  "name": "비 오는 창가",
+  "name_en": "Rainy Window",
+  "bpm": 120,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 18,
+  "duration_s": 38,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 90,
+    "pass_early_ms": 135,
+    "pass_late_ms": 155,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "D"
+  ],
+  "design_intent": "쉬는 박(별 사이 빈 박) 도입. 둥 둥 _ 둥 / 둥 _ 둥두 / _ 둥 둥 둥(12시 비움). 쉼 길이는 최대 1박 반(별 간격 1000 ms 이하). 새 무늬마다 북채가 먼저 쳐 줌. 마지막에 세 무늬를 섞고 3마디 쉬며 끝냄. 1-2 수정: 판정 별 28 → 25, 통과 창 -135/+155.",
+  "new_gimmicks": [
+    {
+      "id": "rest_beat",
+      "first_bar": 2,
+      "_note": "별 사이 빈 자리. first_bar = 처음 나오는 마디(정보)"
+    }
+  ],
+  "card": {
+    "id": "card_rest_beat",
+    "timing": "pre_level_first_play",
+    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 빈 자리에서 손가락이 멈춰 기다림. aria-label 키 card_rest_beat"
+  },
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 8,
+    "target_novice_sd50_median": [
+      1,
+      3
+    ]
+  },
+  "patterns": {
+    "D": {
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "shape": "넷"
+    },
+    "H": {
+      "slots": [
+        0,
+        2,
+        6
+      ],
+      "shape": "둥 둥 _ 둥"
+    },
+    "K": {
+      "slots": [
+        0,
+        4,
+        5
+      ],
+      "shape": "둥 _ 둥두"
+    },
+    "J": {
+      "slots": [
+        2,
+        4,
+        6
+      ],
+      "shape": "_ 둥 둥 둥"
+    }
+  },
+  "sections": [
+    {
+      "name": "review",
+      "start_bar": 0,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 1,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "learn_rest",
+      "start_bar": 2,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 5,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "learn_rest_pair",
+      "start_bar": 6,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 8,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "learn_empty_top",
+      "start_bar": 9,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 11,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "mix",
+      "start_bar": 12,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "outro",
+      "start_bar": 15,
+      "checkpoint": false,
+      "stage": 3
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"D"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"H"},
+    {"mode":"play","pattern":"H"},
+    {"mode":"play","pattern":"H"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"K"},
+    {"mode":"play","pattern":"K"},
+    {"mode":"rest"},
+    {"mode":"show","pattern":"J"},
+    {"mode":"play","pattern":"J"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"H"},
+    {"mode":"play","pattern":"J"},
+    {"mode":"play","pattern":"K"},
+    {"mode":"rest"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}

@@ -1,0 +1,98 @@
+/* 색은 모두 JS가 palette.json 에서 넣는 CSS 변수 */
+:root { --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); --bg: #000; --bgFar: #000; --edge: #fff; --hud: #fff; --ink: #000; --tint: #fff; --ball: #fff; --track1: #000; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--hud); font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; word-break: keep-all; overflow-wrap: break-word; user-select: none; -webkit-user-select: none; touch-action: none; }
+canvas { position: fixed; inset: 0; display: block; }
+.screen { position: fixed; inset: 0; display: none; z-index: 1; }
+.screen.show { display: block; }
+.screen.dim { background: color-mix(in srgb, var(--bg) 82%, transparent); z-index: 3; }
+#sResult { z-index: 2; pointer-events: none; }
+#sResult button { pointer-events: auto; }
+.hidden { display: none !important; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.abs { position: absolute; }
+.center { position: absolute; left: 16px; right: 16px; top: 45%; text-align: center; font-size: 18px; margin: 0; }
+.mid { position: absolute; left: calc(50% - 24px); top: calc(45% + 40px); }
+
+button { font: inherit; color: inherit; }
+.ibtn { width: 48px; height: 48px; padding: 0; border-radius: 12px; background: var(--bgFar); border: 1.5px solid var(--edge); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+.ibtn img { width: 100%; height: 100%; display: block; pointer-events: none; }
+.ibtn.big { width: 64px; height: 64px; border-radius: 16px; border-width: 2px; }
+.ibtn:active { transform: translateY(1px); }
+.ibtn:focus-visible, .lplay:focus-visible, .rowBtn:focus-visible, .tog:focus-visible, .tbtn:focus-visible { outline: 3px solid var(--hud); outline-offset: 2px; }
+.tl { position: absolute; left: 12px; top: calc(12px + var(--sat)); }
+.tr { position: absolute; right: 12px; top: calc(12px + var(--sat)); }
+.flipX { transform: scaleX(-1); }
+.pic { width: 48px; height: 48px; }
+
+/* 타이틀 */
+.title { position: absolute; left: 16px; right: 16px; top: calc(14% - 28px); margin: 0; text-align: center; font-size: clamp(30px, 8vmin, 56px); font-weight: 800; letter-spacing: 0.04em; color: var(--hud); }
+.tapStart { position: absolute; left: 16px; right: 16px; bottom: calc(8% + var(--sab)); margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 20px; color: var(--edge); pointer-events: none; }
+.tapHand { width: 40px; height: 40px; }
+@media (orientation: landscape) { .title { top: 12px; left: 72px; right: 72px; font-size: clamp(26px, 7vmin, 52px); } .tapStart { bottom: 10px; } }
+
+/* 레벨 선택 */
+.gateWrap { width: 48px; height: 48px; }
+.gateRing { position: absolute; left: -12px; top: -12px; width: 72px; height: 72px; pointer-events: none; overflow: visible; }
+.gateRing circle { fill: none; stroke-width: 5; }
+.ringBg { stroke: color-mix(in srgb, var(--hud) 25%, transparent); }
+.ringArc { stroke: var(--hud); stroke-linecap: round; }
+.badge { position: absolute; right: -9px; top: -9px; width: 22px; height: 22px; pointer-events: none; }
+.hint { position: absolute; left: 60px; top: 12px; white-space: nowrap; font-size: 14px; color: var(--edge); }
+.grid { position: absolute; left: 0; right: 0; top: calc(72px + var(--sat)); bottom: 0; display: grid; justify-content: center; align-content: start; gap: 12px; padding: 0 16px 12px; overflow-y: auto; touch-action: pan-y; }
+.grid.scrolls { -webkit-mask-image: linear-gradient(#000 85%, transparent); mask-image: linear-gradient(#000 85%, transparent); }
+.lcard { width: var(--cw); height: var(--ch); border-radius: 16px; border: 3px solid var(--tint); display: flex; flex-direction: column; overflow: hidden; }
+.lcard.locked { border-color: color-mix(in srgb, var(--edge) 50%, transparent) !important; }
+.lplay { flex: 1; min-height: 48px; width: 100%; background: transparent; border: 0; padding: 4px 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+.lplay svg { width: 100%; flex: 1; min-height: 0; }
+.lname { font-size: 12px; line-height: 1.15; color: var(--hud); text-align: center; max-width: 100%; }
+.lrow { height: 48px; display: flex; justify-content: space-between; flex: none; }
+.lrow .ibtn { border-radius: 12px 0 13px 0; border-width: 0; background: color-mix(in srgb, var(--ink) 25%, transparent); }
+.lrow .ibtn:first-child { border-radius: 0 12px 0 13px; }
+.lrow .gap { width: 48px; }
+.lrow img.thumb { object-fit: contain; padding: 6px 2px; }
+.lrow .ibtn img { padding: 6px; }
+.shake { animation: shake 0.3s; }
+@keyframes shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+
+/* 설정 */
+.rows { position: absolute; left: 16px; right: 16px; top: calc(72px + var(--sat)); bottom: 8px; max-width: 460px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; }
+.row { display: flex; align-items: center; gap: 12px; min-height: 64px; height: 72px; flex: none; padding: 0 8px 0 12px; border-radius: 16px; background: var(--bgFar); font-size: 16px; color: var(--hud); text-align: left; }
+.rowBtn { border: 0; width: 100%; cursor: pointer; }
+.ri { width: 48px; height: 48px; flex: none; }
+.row > span, .rl { flex: 1; }
+.rl { display: flex; flex-direction: column; }
+.rl small { font-size: 13px; color: var(--edge); margin-top: 2px; }
+.badgeRow { width: 22px; height: 22px; flex: none; margin-right: 8px; }
+.tog { width: 68px; height: 48px; border: 0; background: transparent; padding: 0; cursor: pointer; position: relative; flex: none; }
+.tog::before { content: ""; position: absolute; left: 4px; top: 8px; width: 60px; height: 32px; border-radius: 16px; border: 2px solid var(--edge); }
+.tog i { position: absolute; left: 10px; top: 14px; width: 20px; height: 20px; border-radius: 50%; background: var(--edge); }
+.tog.on::before { background: var(--hud); border-color: var(--hud); }
+.tog.on i { left: 38px; background: var(--bgFar); outline: 2px solid var(--ink); }
+.dialog { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(320px, calc(100% - 32px)); background: var(--bgFar); border: 2px solid var(--edge); border-radius: 16px; padding: 16px; text-align: center; }
+.dialog p { font-size: 18px; margin: 4px 0 16px; }
+.dbtns { display: flex; gap: 12px; justify-content: center; }
+.tbtn { min-width: 96px; min-height: 48px; border-radius: 12px; border: 2px solid var(--edge); background: transparent; font-size: 16px; cursor: pointer; padding: 0 12px; }
+.tbtn.warn { background: var(--hud); color: var(--ink); border-color: var(--hud); }
+
+/* 보정 */
+.redo { position: absolute; left: calc(50% - 24px); bottom: calc(24px + var(--sab)); }
+
+/* 그림 카드 */
+#sCard { z-index: 2; background: color-mix(in srgb, var(--bg) 70%, transparent); }
+.cardImg { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); height: auto; max-height: calc(100% - 32px); border-radius: 8px; pointer-events: none; }
+
+/* 플레이 */
+#bPause { z-index: 2; }
+.pracTag { width: 24px; height: 24px; pointer-events: none; }
+.tut { margin: 0; font-size: 18px; font-weight: 700; color: var(--hud); pointer-events: none; }
+body[data-state="result"] #bPause, body[data-state="pause"] #bPause { display: none; }
+.pausedBg { position: absolute; left: 16px; right: 16px; top: 22%; text-align: center; font-size: 20px; margin: 0; }
+.btnrow { display: flex; gap: 16px; }
+#sPause .btnrow { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+#resultBtns.col { flex-direction: column; }
+.clearTitle { margin: 0; font-size: 22px; font-weight: 800; color: var(--hud); }
+@media (max-height: 460px) {
+  .rows { top: calc(12px + var(--sat)); left: 76px; right: 16px; gap: 8px; }
+  .row { height: 60px; min-height: 60px; }
+}

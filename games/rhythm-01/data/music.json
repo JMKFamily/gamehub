@@ -1,0 +1,197 @@
+{
+ "_source": "30-art.md 12-5 (build-web-data.mjs 생성). BPM 은 levels 파일이 기준(이 표의 BPM 은 쓰지 않음)",
+ "levels": {
+  "10": {
+   "key": "C 장조 5음",
+   "root3": 130.81,
+   "fCl": 1046.5,
+   "fCh": 1569.8,
+   "melody": [
+    "O",
+    "X"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "01": {
+   "key": "C 장조 5음",
+   "root3": 130.81,
+   "fCl": 1046.5,
+   "fCh": 1569.8,
+   "melody": [
+    "X"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "02": {
+   "key": "G 장조 5음",
+   "root3": 196,
+   "fCl": 1568,
+   "fCh": 2352,
+   "melody": [
+    "O"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "03": {
+   "key": "F 장조 5음",
+   "root3": 174.61,
+   "fCl": 1396.9,
+   "fCh": 2095.4,
+   "melody": [
+    "X"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "04": {
+   "key": "D 장조 5음",
+   "root3": 146.83,
+   "fCl": 1174.7,
+   "fCh": 1762,
+   "melody": [
+    "F"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "05": {
+   "key": "A 단조 5음",
+   "root3": 220,
+   "fCl": 1760,
+   "fCh": 2640,
+   "melody": [
+    "O"
+   ],
+   "scale": [
+    0,
+    3,
+    5,
+    7,
+    10
+   ],
+   "minor": true
+  },
+  "06": {
+   "key": "E♭ 장조 5음",
+   "root3": 155.56,
+   "fCl": 1244.5,
+   "fCh": 1866.8,
+   "melody": [
+    "M"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "07": {
+   "key": "D 도리안",
+   "root3": 146.83,
+   "fCl": 1174.7,
+   "fCh": 1762,
+   "melody": [
+    "F"
+   ],
+   "scale": [
+    0,
+    2,
+    3,
+    5,
+    7,
+    9,
+    10
+   ],
+   "minor": true
+  },
+  "08": {
+   "key": "B♭ 장조 5음",
+   "root3": 233.08,
+   "fCl": 1864.7,
+   "fCh": 2797,
+   "melody": [
+    "M"
+   ],
+   "scale": [
+    0,
+    2,
+    4,
+    7,
+    9
+   ],
+   "minor": false
+  },
+  "09": {
+   "key": "E 단조 5음",
+   "root3": 164.81,
+   "fCl": 1318.5,
+   "fCh": 1977.8,
+   "melody": [
+    "X"
+   ],
+   "scale": [
+    0,
+    3,
+    5,
+    7,
+    10
+   ],
+   "minor": true
+  }
+ },
+ "calib_check_hz": null,
+ "melody_placeholder": {
+  "octave_mul": 2,
+  "slots": [
+   0,
+   4
+  ],
+  "shift_if_star_slots": -1,
+  "degree_walk": [
+   0,
+   2,
+   4,
+   2,
+   1,
+   3,
+   4,
+   0
+  ]
+ }
+}

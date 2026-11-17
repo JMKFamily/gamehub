@@ -1,0 +1,417 @@
+{
+ "schema_version": 1,
+ "_source": "30-art.md 2절(색)·3절(형태)·2-5절(실루엣 좌표). 생성 assets/palette.mjs. 이 파일과 30-art 표가 다르면 이 파일이 기준(art 소유).",
+ "_rules": [
+  "star(노랑)는 꽉 찬 별 면·속 빈 별 테두리·판정 빛살에만. 등급 북·기록·카드·버튼·실루엣에 쓰지 않음(결정 2).",
+  "공통 색(common)은 10레벨 같음. 레벨마다 바뀌는 것은 themes의 환경 색뿐.",
+  "투명도는 alpha 표에 있는 곳에만. 별·공에는 투명도 없음(공 꼬리 제외).",
+  "플레이 중 bg는 바뀌지 않음. track1→2→3, 클리어 물듦은 mix_ms 동안 선형 섞기(번쩍임 없음).",
+  "놓침 구역·판정 창은 화면에 그리지 않음(시간 고리 금지, 30-art 1절). 위험 요소 대비는 꽉 찬 별 기준."
+ ],
+ "common": {
+  "star": "#FFD43B",
+  "ball": "#7FE3FF",
+  "outline": "#0B0D12",
+  "trackEdge": "#E6E1D3",
+  "hud": "#F5F1E8",
+  "broken": "#B9BEC7"
+ },
+ "alpha": {
+  "ball_tail": [
+   0.45,
+   0.28,
+   0.14
+  ],
+  "tick_halfbeat_dot": 0.8,
+  "drum_inner_ring_hud": 0.35,
+  "thumb_rest_border_trackEdge": 0.5,
+  "locked_card_trackEdge": 0.5,
+  "attempt_dots_trackEdge": 0.85,
+  "guardian_hold_ring_track_hud": 0.25
+ },
+ "blend": {
+  "stage_mix": "1마디 동안 track(n) → track(n+1) 선형",
+  "clear_track": "track → cardTint, outro 첫 마디(2 s 이상)",
+  "clear_silhouette": "shapes[clear] bgFar → mix(bgFar 80 %, cardTint 20 %) (1-2의 30 %는 공·별 대비 4.5 미만이라 20 %로 낮춤)",
+  "clear_silhouette_mix": 0.2,
+  "fail_track": "현재 track → track1, 0.30 s"
+ },
+ "silhouette_frame": {
+  "portrait": {
+   "x0": 0,
+   "y0": 0,
+   "w": "W",
+   "h": "thumbRestTop - 8"
+  },
+  "landscape": {
+   "x0": 0,
+   "y0": 0,
+   "w": "W",
+   "h": "H"
+  },
+  "units": "x·y = 판 너비·높이 비율, r·w·h = 판 짧은 변 S 비율, w:\"full\" = 판 너비",
+  "shape_types": {
+   "circle": "중심 (x,y), 반지름 r",
+   "rect": "왼쪽 위 (x,y), w×h, rx 모서리(선택)",
+   "tri": "밑변 가운데 (x,y), 밑변 w, 높이 h, 꼭짓점 위"
+  },
+  "draw_order": "bg → 실루엣(clip = 판) → 엄지 받침 → 궤도 → 눈금 → 북 → 별 → 공 → 이펙트 → HUD"
+ },
+ "themes": {
+  "level01": {
+   "name_key": "level1_name",
+   "name": "아침 마당",
+   "hue": 45,
+   "bg": "#29230F",
+   "bgFar": "#3D3419",
+   "track1": "#493F22",
+   "track2": "#554925",
+   "track3": "#5E5027",
+   "drum": "#655A39",
+   "cardTint": "#EFB480",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.8,
+      "y": 1,
+      "r": 0.3,
+      "what": "해(반원, 판 아래에 걸침)"
+     },
+     {
+      "t": "rect",
+      "x": 0,
+      "y": 0.9125,
+      "w": 0.55,
+      "h": 0.121,
+      "what": "담장"
+     }
+    ]
+   }
+  },
+  "level02": {
+   "name_key": "level2_name",
+   "name": "꽃밭",
+   "hue": 95,
+   "bg": "#1A2810",
+   "bgFar": "#283D1A",
+   "track1": "#324823",
+   "track2": "#395426",
+   "track3": "#3E5D28",
+   "drum": "#4C643A",
+   "cardTint": "#AFEC83",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.5,
+      "y": 0.974,
+      "r": 0.1,
+      "what": "가운데 꽃 머리"
+     },
+     {
+      "t": "circle",
+      "x": 0.12,
+      "y": 0.913,
+      "r": 0.08,
+      "what": "왼쪽 꽃 머리"
+     },
+     {
+      "t": "circle",
+      "x": 0.88,
+      "y": 0.93,
+      "r": 0.08,
+      "what": "오른쪽 꽃 머리"
+     }
+    ]
+   }
+  },
+  "level03": {
+   "name_key": "level3_name",
+   "name": "비 오는 창가",
+   "hue": 213,
+   "bg": "#161B22",
+   "bgFar": "#242B33",
+   "track1": "#2D353E",
+   "track2": "#333C48",
+   "track3": "#36414E",
+   "drum": "#464E59",
+   "cardTint": "#94B4DB",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "rect",
+      "x": 0.03,
+      "y": 0.2125,
+      "w": 0.22,
+      "h": 0.467,
+      "rx": 0.025,
+      "what": "창틀"
+     },
+     {
+      "t": "circle",
+      "x": 0.86,
+      "y": 0.6675,
+      "r": 0.035,
+      "what": "멈춘 빗방울 1"
+     },
+     {
+      "t": "circle",
+      "x": 0.92,
+      "y": 0.825,
+      "r": 0.035,
+      "what": "멈춘 빗방울 2"
+     }
+    ]
+   }
+  },
+  "level04": {
+   "name_key": "level4_name",
+   "name": "바닷가",
+   "hue": 180,
+   "bg": "#0F2929",
+   "bgFar": "#193D3D",
+   "track1": "#224949",
+   "track2": "#255555",
+   "track3": "#275E5E",
+   "drum": "#396565",
+   "cardTint": "#81EEEE",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "rect",
+      "x": 0,
+      "y": 0.8775,
+      "w": "full",
+      "h": 0.1675,
+      "what": "바다"
+     },
+     {
+      "t": "circle",
+      "x": 0.88,
+      "y": 0.2825,
+      "r": 0.07,
+      "what": "해"
+     }
+    ]
+   }
+  },
+  "level05": {
+   "name_key": "level5_name",
+   "name": "숲속 길",
+   "hue": 148,
+   "bg": "#10281B",
+   "bgFar": "#1A3D2A",
+   "track1": "#234834",
+   "track2": "#26543C",
+   "track3": "#285D41",
+   "drum": "#3A644E",
+   "cardTint": "#83ECB4",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "tri",
+      "x": 0.88,
+      "y": 0.741,
+      "w": 0.28,
+      "h": 0.44,
+      "what": "큰 나무"
+     },
+     {
+      "t": "tri",
+      "x": 0.1,
+      "y": 0.789,
+      "w": 0.252,
+      "h": 0.396,
+      "what": "나무"
+     },
+     {
+      "t": "tri",
+      "x": 0.26,
+      "y": 0.843,
+      "w": 0.182,
+      "h": 0.286,
+      "what": "작은 나무"
+     }
+    ]
+   }
+  },
+  "level06": {
+   "name_key": "level6_name",
+   "name": "노을 언덕",
+   "hue": 18,
+   "bg": "#29170F",
+   "bgFar": "#3D2419",
+   "track1": "#492E22",
+   "track2": "#553425",
+   "track3": "#5E3727",
+   "drum": "#654639",
+   "cardTint": "#EEA281",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.5,
+      "y": 1.4125,
+      "r": 0.8,
+      "what": "언덕(큰 원의 윗부분)"
+     },
+     {
+      "t": "circle",
+      "x": 0.85,
+      "y": 0.835,
+      "r": 0.12,
+      "what": "언덕에 반쯤 가린 해"
+     }
+    ]
+   }
+  },
+  "level07": {
+   "name_key": "level7_name",
+   "name": "등불 골목",
+   "hue": 340,
+   "bg": "#270F17",
+   "bgFar": "#3B1925",
+   "track1": "#47222E",
+   "track2": "#522634",
+   "track3": "#5B2738",
+   "drum": "#623947",
+   "cardTint": "#EC83A6",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.1,
+      "y": 0.825,
+      "r": 0.06,
+      "what": "등불 1"
+     },
+     {
+      "t": "circle",
+      "x": 0.08,
+      "y": 0.3,
+      "r": 0.06,
+      "what": "등불 2"
+     },
+     {
+      "t": "circle",
+      "x": 0.92,
+      "y": 0.431,
+      "r": 0.06,
+      "what": "등불 3"
+     }
+    ]
+   }
+  },
+  "level08": {
+   "name_key": "level8_name",
+   "name": "지붕 위",
+   "hue": 305,
+   "bg": "#231022",
+   "bgFar": "#371B34",
+   "track1": "#432340",
+   "track2": "#4E284A",
+   "track3": "#562A52",
+   "drum": "#5E3B5B",
+   "cardTint": "#E887E0",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "tri",
+      "x": 0.14,
+      "y": 0.86,
+      "w": 0.28,
+      "h": 0.187,
+      "what": "지붕 1"
+     },
+     {
+      "t": "tri",
+      "x": 0.86,
+      "y": 0.9125,
+      "w": 0.28,
+      "h": 0.163,
+      "what": "지붕 2"
+     },
+     {
+      "t": "rect",
+      "x": 0.18,
+      "y": 0.7025,
+      "w": 0.04,
+      "h": 0.117,
+      "what": "굴뚝"
+     }
+    ]
+   }
+  },
+  "level09": {
+   "name_key": "level9_name",
+   "name": "구름 위",
+   "hue": 270,
+   "bg": "#181021",
+   "bgFar": "#281B34",
+   "track1": "#322340",
+   "track2": "#39284B",
+   "track3": "#3E2A53",
+   "drum": "#4B3B5B",
+   "cardTint": "#B888E7",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.92,
+      "y": 0.825,
+      "r": 0.15,
+      "what": "큰 구름"
+     },
+     {
+      "t": "circle",
+      "x": 0.82,
+      "y": 0.869,
+      "r": 0.12,
+      "what": "구름"
+     },
+     {
+      "t": "circle",
+      "x": 1,
+      "y": 0.878,
+      "r": 0.11,
+      "what": "구름"
+     }
+    ]
+   }
+  },
+  "level10": {
+   "name_key": "level10_name",
+   "name": "달",
+   "hue": 232,
+   "bg": "#0E1020",
+   "bgFar": "#181C34",
+   "track1": "#212540",
+   "track2": "#252A4B",
+   "track3": "#272D53",
+   "drum": "#383D5C",
+   "cardTint": "#F0E2C2",
+   "silhouette": {
+    "clear": 0,
+    "shapes": [
+     {
+      "t": "circle",
+      "x": 0.86,
+      "y": 0.3,
+      "r": 0.16,
+      "what": "달"
+     }
+    ]
+   }
+  }
+ }
+}

@@ -43,3 +43,9 @@
 
 ### 공통 문서 변경 (덧붙이기만)
 - `harness/criteria.md` 밸런스 절: "레벨 10 목표" 항목 바로 아래에 측정 도구 줄 1개 추가(B6·B7 전체 실행). 기존 줄 변경·삭제 없음.
+
+### game-developer (1-3 웹 빌드 round-1) — 통과
+- diff 확인: `games/rhythm-01/`(신규, 330 KB), `DEV_NOTES.md`, `tools/`의 새 파일 4개(build-web-data, selfcheck-sim, selfcheck-browser, serve), 보고서, README 한 줄. 기존 검증기·레벨·balance 미수정, games.json·harness·scripts·runner-01·reverbound 미수정, git 미사용.
+- 빌드 안 외부 URL 0(w3.org 네임스페이스 제외). playwright-core는 로컬 기존 것을 경로로 지정(설치·다운로드 없음, harness/qa/lib.mjs와 같은 방식).
+- 직접 실행: `tools/selfcheck-sim.mjs` 8078/8078 OK, `scripts/validate.mjs` OK.
+- 결정 9(블루투스·보호자 보정) 구현 보고됨 → QA 1-4에서 확인.

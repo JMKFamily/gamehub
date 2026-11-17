@@ -1,0 +1,197 @@
+{
+  "schema_version": 2,
+  "id": "10",
+  "theme_id": "level10",
+  "name_key": "level10_name",
+  "name": "달",
+  "name_en": "The Moon",
+  "bpm": 140,
+  "beats_per_bar": 4,
+  "slot_unit": "eighth",
+  "count_in_bars": 1,
+  "audio_first_beat_s": 0,
+  "length_bars": 16,
+  "duration_s": 29.143,
+  "judge": {
+    "perfect_ms": 50,
+    "good_ms": 90,
+    "pass_early_ms": 115,
+    "pass_late_ms": 135,
+    "miss_zone_ms": 140
+  },
+  "allowed_slots": "all",
+  "known_patterns": [
+    "A",
+    "B",
+    "F",
+    "K",
+    "O",
+    "U1",
+    "U2",
+    "R",
+    "S"
+  ],
+  "design_intent": "마지막 레벨. 새 기믹·보여 주기 없음. 1~9 무늬 모음: 하나·둥두 둥 / 두 마디 무늬 U / 둥 _ 둥두·4연속 / O·S, 끝은 둘 → 하나로 쉽게 닫음. 판정 별 30개. 난이도 = 기존 3레벨 곡선을 이어 간 레벨 6 수준(20-balance.md 11-1, 검증 B6).",
+  "new_gimmicks": [],
+  "cues": [],
+  "difficulty": {
+    "target_child_sd70_median_max": 23,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+  },
+  "patterns": {
+    "A": {
+      "slots": [
+        0
+      ],
+      "shape": "하나"
+    },
+    "F": {
+      "slots": [
+        0,
+        1,
+        4
+      ],
+      "shape": "둥두 둥"
+    },
+    "U1": {
+      "slots": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "shape": "두 마디 무늬 U 앞(넷)"
+    },
+    "U2": {
+      "slots": [
+        0,
+        1,
+        4
+      ],
+      "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+    },
+    "K": {
+      "slots": [
+        0,
+        4,
+        5
+      ],
+      "shape": "둥 _ 둥두"
+    },
+    "R": {
+      "slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "shape": "둥두둥두"
+    },
+    "O": {
+      "slots": [
+        0,
+        2,
+        3,
+        6
+      ],
+      "shape": "둥 둥두 _ 둥"
+    },
+    "S": {
+      "slots": [
+        0,
+        1,
+        2,
+        3,
+        6
+      ],
+      "shape": "둥두둥두 _ 둥"
+    },
+    "B": {
+      "slots": [
+        0,
+        2
+      ],
+      "shape": "둘"
+    }
+  },
+  "sections": [
+    {
+      "name": "moon_1",
+      "start_bar": 0,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 2,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "moon_two",
+      "start_bar": 3,
+      "checkpoint": false,
+      "stage": 1
+    },
+    {
+      "name": "breath",
+      "start_bar": 5,
+      "checkpoint": true,
+      "stage": 1
+    },
+    {
+      "name": "moon_run",
+      "start_bar": 6,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 8,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "moon_mix",
+      "start_bar": 9,
+      "checkpoint": false,
+      "stage": 2
+    },
+    {
+      "name": "breath",
+      "start_bar": 11,
+      "checkpoint": true,
+      "stage": 2
+    },
+    {
+      "name": "mix",
+      "start_bar": 12,
+      "checkpoint": false,
+      "stage": 3
+    },
+    {
+      "name": "outro",
+      "start_bar": 14,
+      "checkpoint": false,
+      "stage": 3
+    }
+  ],
+  "bars": [
+    {"mode":"play","pattern":"A"},
+    {"mode":"play","pattern":"F"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"U1"},
+    {"mode":"play","pattern":"U2"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"K"},
+    {"mode":"play","pattern":"R"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"O"},
+    {"mode":"play","pattern":"S"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"A"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ]
+}
