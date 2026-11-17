@@ -5,8 +5,10 @@
 //
 // 칸 규격은 round-2 카드와 같음(칸 i 왼쪽 x = 20 + 235·i, y = 30, 210×276, 칸 사이 삼각형, 카드 속 공 지름 28·별 지름 34).
 // 칸 안 그림 = 실제 길 화면과 같은 구성(16-1): 길 띠, 판정 선, 아래 판정 북, 위 공(박마다 착지), 오른쪽에서 오는 별.
+// 파일 이름 = 텍스트·카드 키(R24): L1 card_drum_tap · L2 card_half_star · L3 card_rest_beat · L6 card_run3 · L7 card_run4.
+//   옛 키 파일(card_star_tap·card_two_bar)은 만들지 않고, 실행할 때 폴더에 남아 있으면 지움(이 폴더는 이 스크립트 산출물만 둠).
 // 손가락 = 판정 북 바로 아래(실제 화면 16-1 손가락 자리와 같음, insights "손가락은 플레이어 기준 위치").
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -75,7 +77,7 @@ function panel(i, T, stage, { stars = [], judgedPerfect = [], pass = [], ballUp 
 }
 
 const CARDS = [
-  { id: 'card_star_tap', theme: 'level01', level: 1, note: '① 별이 오른쪽에서 다가옴(공은 떠 있음) ② 별이 판정 선에 닿고 공이 착지하는 순간 판정 북 아래 손가락 톡 ③ 딱(왼쪽 빛살 5개 + 북 물결)',
+  { id: 'card_drum_tap', theme: 'level01', level: 1, note: '(키 card_drum_tap, round-3 R24 — 옛 card_star_tap 대체) ① 별이 오른쪽에서 다가옴(공은 떠 있음) ② 별이 판정 선에 닿고 공이 착지하는 순간 판정 북 아래 손가락 톡 ③ 딱(왼쪽 빛살 5개 + 북 물결)',
     panels: [
       { stage: 1, stars: [118], dots: [118], ballUp: true },
       { stage: 2, stars: [0, BEAT], finger: 'tap' },
@@ -90,11 +92,11 @@ const CARDS = [
       { stage: 1, stars: [0, 2 * BEAT - 20], finger: 'tap' },
       { stage: 2, stars: [BEAT - 20], dots: [BEAT - 20], finger: 'wait' },
       { stage: 2, stars: [0], finger: 'tap' }] },
-  { id: 'card_two_bar', theme: 'level06', level: 6, note: '(가정: L6 새 기믹 = 마디 표를 넘어 이어지는 긴 덩어리, balance 확정 전) ① 마디 표를 넘어 이어진 별 줄이 다가옴 ② 첫 별 톡 ③ 마디 표를 지나도 이어서 톡',
+  { id: 'card_run3', theme: 'level06', level: 6, note: '반박 3연속(둥두둥, balance path_v3 Q·Y·Z): ① 반박 간격으로 붙은 별 셋이 다가옴 ② 첫 별이 판정 선에 닿을 때 톡(둘째·셋째가 바로 뒤에 붙어 있음) ③ 셋째 별 딱 + 톡, 그 뒤 길은 비어 있음(셋에서 끝)',
     panels: [
-      { stage: 1, stars: [20, 20 + HALF, 20 + BEAT + HALF], barAt: [20 + BEAT], ballUp: true },
-      { stage: 2, stars: [0, HALF, BEAT + HALF], barAt: [BEAT], finger: 'tap' },
-      { stage: 2, stars: [0], barAt: [-HALF + 8], finger: 'tap' }] },
+      { stage: 1, stars: [30, 30 + HALF, 30 + 2 * HALF], dots: [30 + 2 * HALF], ballUp: true },
+      { stage: 2, stars: [0, HALF, 2 * HALF], finger: 'tap' },
+      { stage: 2, judgedPerfect: [-4], stars: [], ripple: true, finger: 'tap' }] },
   { id: 'card_run4', theme: 'level07', level: 7, note: '① 반박 간격으로 붙은 별 4개가 다가옴 ② 첫 별을 치고 둘째 별이 닿을 때 톡 ③ 넷째 별 딱',
     panels: [
       { stage: 1, stars: [12, 12 + HALF, 12 + 2 * HALF, 12 + 3 * HALF], ballUp: true },
@@ -103,6 +105,8 @@ const CARDS = [
 ];
 
 mkdirSync(OUTDIR, { recursive: true });
+const KEEP = new Set(CARDS.flatMap((c) => [c.id + '.svg', c.id + '_portrait.svg']));
+for (const f of readdirSync(OUTDIR)) if (/^card_.*.svg$/.test(f) && !KEEP.has(f)) { unlinkSync(join(OUTDIR, f)); console.log(`지움 ${f} (키에 없는 이름)`); }
 for (const c of CARDS) {
   const T = PAL.themes[c.theme];
   const body = c.panels.map((p, i) => panel(i, T, p.stage, p)).join('');

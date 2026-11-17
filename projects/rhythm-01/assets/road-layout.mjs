@@ -4,8 +4,10 @@
 //   node assets/road-layout.mjs --check   layout.json 을 다시 계산해 검사만 (파일 안 씀, 실패 시 종료 코드 1)
 //   node assets/road-layout.mjs --md      30-art 16절에 붙일 마크다운 표만 출력
 //
-// 읽는 값(읽기만): levels/0N-*.json judge·bpm (L1~L3), balance.json curve_planned (L4~L10),
-//   balance.json preview.lead_beats(있으면, round-3 balance 키) — 없으면 아래 ASSUMED_LEAD(00-benchmark 8-4·R19) 가정.
+// 읽는 값(읽기만): levels/0N-*.json (schema v3: bpm·judge·path.preview_lead_beats(_portrait)·파생 bars/patterns·path.chunks·practice),
+//   balance.json preview.lead_beats(거울 값)·path_v3.chunk_library. v3 레벨이 없을 때만 curve_planned·ASSUMED_LEAD(가정)로 대신함.
+// 교차 리뷰(R23~R25) 검사 추가: 별 목록 = bars/patterns 와 path.chunks 재계산이 같음, 레벨 최소 별 간격(L1 정박만·1박),
+//   레벨 path 값 = balance 거울 값, 첫 별·연습 부활 다음 별 ≥ 시도 시작 + 미리 보기 박, 1박 px 표(balance 17-8 대조용).
 // 이 파일이 정하는 것 = 모양·크기·자리(art). 시간·판정 값은 balance 소유이고 여기서는 검사에만 씀.
 import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
@@ -30,7 +32,7 @@ export const RULE = {
   fx_grow: { perfect: 1.2, good: 1.1 },                       // 판정 때 별 커짐 상한 (오른쪽 = 읽기 쪽으로는 이 만큼만)
   finger_cell: (d) => Math.max(64, Math.round(1.6 * d)),      // 손가락 칸 한 변
   finger_gap_px: 8,
-  text_slot: { w_max: 220, h: 40, gap: 8 },                   // tut_tap 글 자리(2줄 × 20 px)
+  text_slot: { w_max: 220, h: 40, gap: 8 },                   // tut_drum_tap 글 자리(2줄 × 20 px, R24 키. 옛 tut_tap 대체)
   hud: { bar_y: { portrait: 24, landscape: 20 }, bar_h: 10, attempt_dy: 14, attempt_r: 4.5, pause: 48, pause_margin: 12 },
   combo: { dy_from_attempt: 16, dot_r: 4, dot_pitch: 12, cells: 10, mark_r: 6, mark_pitch: 16, marks_max: 3, x0: 16 },
   hud_band_pad: 6,                                            // HUD 띠 아래끝 = HUD 요소 중 가장 아래 + 6
@@ -46,30 +48,73 @@ const RES = [[360, 640], [412, 915], [640, 360], [1280, 720]];
 const SAFE_CASES = [[360, 640, { t: 24, b: 24, l: 0, r: 0 }], [412, 915, { t: 24, b: 34, l: 0, r: 0 }], [640, 360, { t: 0, b: 0, l: 44, r: 44 }], [1280, 720, { t: 0, b: 0, l: 44, r: 44 }]];
 
 // ---------- 레벨 값 읽기 ----------
+// v3 별 목록: 카운트인 뒤 8분 격자 절대 자리(마디 b, 자리 0~7 → b·8 + 자리). 파생 bars/patterns 기준
+export function starsFromBars(L) {
+  const out = [];
+  L.bars.forEach((bar, b) => {
+    if (bar.mode !== 'play') return;
+    const p = L.patterns?.[bar.pattern];
+    if (!p) throw new Error(`레벨 ${L.id} 마디 ${b} 무늬 ${bar.pattern} 없음`);
+    for (const x of p.slots) out.push(b * 8 + x);
+  });
+  return out.sort((x, y) => x - y);
+}
+// 같은 목록을 레벨 원본 path.chunks + balance path_v3.chunk_library 에서 따로 계산(balance 17-1 빈 박 정의: 다음 시작 = floor(앞 마지막 별 박) + 1 + 빈 박)
+export function starsFromChunks(L, lib) {
+  const out = []; let lastBeat = null;
+  for (const c of L.path.chunks) {
+    const sh = lib[c.shape];
+    if (!sh) throw new Error(`레벨 ${L.id} 덩어리 모양 ${c.shape} 없음`);
+    const start = lastBeat == null ? c.empty_before : Math.floor(lastBeat) + 1 + c.empty_before;
+    for (const x of sh.slots) out.push(start * 2 + x);
+    lastBeat = start + sh.slots.at(-1) / 2;
+  }
+  return out;
+}
+const numKeys = (o) => Object.keys(o).filter((k) => /^\d+$/.test(k)).sort().map((k) => o[k]);
 function levelsInfo() {
   const B = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
   const files = readdirSync(join(PROJ, 'levels')).filter((f) => f.endsWith('.json')).sort();
-  const out = [];
+  const out = []; const notes = []; let v3 = 0;
+  const lib = B.path_v3?.chunk_library || {};
   for (let i = 1; i <= 10; i++) {
     const id = String(i).padStart(2, '0');
     const f = files.find((x) => x.startsWith(id + '-'));
-    let bpm, pe, pl, halfBeats;
     const L = f ? JSON.parse(readFileSync(join(PROJ, 'levels', f), 'utf8')) : null;
     const C = B.curve_planned?.[id];
-    if (L && (i <= 3 || !C)) { bpm = L.bpm; pe = L.judge.pass_early_ms; pl = L.judge.pass_late_ms; }
-    else { bpm = C.bpm; pe = C.pass_early_ms; pl = C.pass_late_ms; }
-    halfBeats = i >= 2; // L1 정박만(00-benchmark 8-3), L2 반박 도입부터 반박 있음
-    out.push({ id, bpm, pe, pl, halfBeats });
+    let bpm, pe, pl, halfBeats, minBeats = null, stars = null, leadL = null, leadP = null, firstBeat = null, revive = [], chunkMismatch = false, offbeatStart = 0;
+    if (L && (L.schema_version || 2) >= 3) {
+      v3++;
+      bpm = L.bpm; pe = L.judge.pass_early_ms; pl = L.judge.pass_late_ms;
+      stars = starsFromBars(L);
+      chunkMismatch = starsFromChunks(L, lib).join() !== stars.join();
+      minBeats = Math.min(...stars.slice(1).map((x, k) => (x - stars[k]) / 2));
+      halfBeats = minBeats < 1;
+      offbeatStart = stars.filter((x) => x % 2 === 1 && !stars.includes(x - 1)).length; // 반박은 늘 정박 바로 뒤(당김음 없음)
+      leadL = L.path.preview_lead_beats; leadP = L.path.preview_lead_beats_portrait ?? leadL;
+      firstBeat = L.count_in_bars * L.beats_per_bar + stars[0] / 2; // 시도 시작(카운트인 첫 박)부터 첫 별까지 박
+      revive = (L.practice?.checkpoints || []).map((c) => ({ beat: c.beat, ahead: L.count_in_bars * L.beats_per_bar + (c.next_star_beat - c.beat) }));
+    } else if (L && (i <= 3 || !C)) { bpm = L.bpm; pe = L.judge.pass_early_ms; pl = L.judge.pass_late_ms; halfBeats = i >= 2; }
+    else { bpm = C.bpm; pe = C.pass_early_ms; pl = C.pass_late_ms; halfBeats = i >= 2; }
+    out.push({ id, bpm, pe, pl, halfBeats, minBeats, nStars: stars?.length ?? null, leadL, leadP, firstBeat, revive, chunkMismatch, offbeatStart });
   }
-  // balance round-3 키가 있으면 그 값
   let lead = ASSUMED_LEAD, leadSrc = '가정(00-benchmark 8-4·R19, 세로 = min(가로, 3.5))';
   const PL = B.preview?.lead_beats;
-  if (PL && typeof PL === 'object') {
-    const pick = (o) => (Array.isArray(o) ? o : Object.keys(o).sort().map((k) => o[k]));
+  if (v3 === 10) { lead = { landscape: out.map((x) => x.leadL), portrait: out.map((x) => x.leadP) }; leadSrc = 'levels/*.json path.preview_lead_beats · preview_lead_beats_portrait (v3 원본, balance 확정)'; }
+  else if (PL && typeof PL === 'object') {
+    const pick = (o) => (Array.isArray(o) ? o : numKeys(o));
     if (PL.landscape && PL.portrait) { lead = { landscape: pick(PL.landscape), portrait: pick(PL.portrait) }; leadSrc = 'balance.json preview.lead_beats'; }
     else if (!PL.landscape) { const a = pick(PL); lead = { landscape: a, portrait: a.map((n, i) => (out[i].halfBeats ? Math.min(n, 3.5) : n)) }; leadSrc = 'balance.json preview.lead_beats (세로는 art 규칙 min(·, 3.5))'; }
   }
-  return { levels: out, lead, leadSrc };
+  // 거울 값 대조 (balance.json preview.lead_beats = 레벨 path)
+  if (v3 === 10) {
+    if (!(PL?.landscape && PL?.portrait)) notes.push('balance.json preview.lead_beats{landscape, portrait} 거울 값 없음');
+    else {
+      const ml = numKeys(PL.landscape), mp = numKeys(PL.portrait);
+      out.forEach((x, i) => { if (ml[i] !== x.leadL || mp[i] !== x.leadP) notes.push(`L${x.id} 미리 보기 박 레벨 ${x.leadL}/${x.leadP} ≠ balance.json 거울 ${ml[i]}/${mp[i]}`); });
+    }
+  }
+  return { levels: out, lead, leadSrc, mirrorMismatch: notes };
 }
 
 // ---------- 한 화면 규격 ----------
@@ -108,7 +153,7 @@ export function layout(W, H, safe = { t: 0, b: 0, l: 0, r: 0 }, lead = ASSUMED_L
   let fx = Math.max(xj, safe.l + R.margin + cell / 2);
   const finger = { s: cell, x0: fx - cell / 2, x1: fx + cell / 2, y0: drum.y + drumR + R.finger_gap_px };
   finger.y1 = finger.y0 + cell;
-  // tut_tap 글 자리
+  // tut_drum_tap 글 자리
   const T = R.text_slot;
   let text;
   if (o === 'portrait') {
@@ -139,9 +184,25 @@ export function layout(W, H, safe = { t: 0, b: 0, l: 0, r: 0 }, lead = ASSUMED_L
 // ---------- 검사 ----------
 const ovl = (a, b) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
 function checkAll() {
-  const { levels, lead, leadSrc } = levelsInfo();
+  const { levels, lead, leadSrc, mirrorMismatch } = levelsInfo();
   const rows = []; let fail = 0;
   const bad = (m) => { fail++; rows.push('FAIL ' + m); };
+  // 0) 레벨 데이터 가정 (30-art 16-2·16-10 balance 요구 2·3, balance 17-8 art 2): v3 일 때만
+  for (const m of mirrorMismatch) bad(m);
+  levels.forEach((lv, i) => {
+    if (lv.nStars == null) { rows.push(`L${lv.id}: v3 아님 — 별 목록 검사 건너뜀(가정 값 사용)`); return; }
+    if (lv.chunkMismatch) bad(`L${lv.id} 파생 bars/patterns 별 목록 ≠ path.chunks 재계산`);
+    if (lv.minBeats < 0.5) bad(`L${lv.id} 반박보다 짧은 별 간격 ${lv.minBeats}박 (16-2 표 무효)`);
+    if (i === 0 && lv.minBeats < 1) bad(`L1 정박만 아님 (최소 간격 ${lv.minBeats}박)`);
+    if (lv.offbeatStart) bad(`L${lv.id} 정박 없이 시작하는 반박 별 ${lv.offbeatStart}개`);
+    if (lv.leadP > lv.leadL || (lv.halfBeats && lv.leadP > 3.5)) bad(`L${lv.id} 세로 미리 보기 ${lv.leadP}박 ≠ min(가로 ${lv.leadL}, 3.5) 규칙`);
+    for (const o of ['landscape', 'portrait']) {
+      const N = lead[o][i];
+      if (lv.firstBeat < N) bad(`L${lv.id} ${o} 첫 별이 시도 시작 + ${lv.firstBeat}박 < 미리 보기 ${N}박 (오른쪽 끝에서 들어오지 못함)`);
+      for (const r of lv.revive) if (r.ahead < N) bad(`L${lv.id} ${o} 연습 부활(박 ${r.beat}) 다음 별까지 ${r.ahead}박 < 미리 보기 ${N}박`);
+    }
+    rows.push(`L${lv.id}: 별 ${lv.nStars}, 최소 간격 ${lv.minBeats}박, 첫 별 = 시도 시작 + ${lv.firstBeat}박, 연습 부활 → 다음 별 최소 ${lv.revive.length ? Math.min(...lv.revive.map((r) => r.ahead)) : '-'}박, 미리 보기 ${lv.leadL}/${lv.leadP}박, chunks = bars ${lv.chunkMismatch ? '다름' : '같음'}`);
+  });
   const lays = [];
   for (const [W, H, safe] of [...RES.map(([w, h]) => [w, h, undefined]), ...SAFE_CASES]) {
     const L = layout(W, H, safe, lead);
@@ -152,7 +213,7 @@ function checkAll() {
       const N = lead[L.orientation][i];
       const beat = 60 / lv.bpm;
       const v = L.preview_px / (N * beat);
-      const minBeats = lv.halfBeats ? 0.5 : 1;
+      const minBeats = lv.minBeats ?? (lv.halfBeats ? 0.5 : 1);
       const sMin = v * beat * minBeats;
       const ovlMs = ((L.star_d + L.line.w) / v) * 1000;
       const fxGap = sMin - L.star_r - RULE.fx_grow.perfect * L.star_r;
@@ -165,7 +226,7 @@ function checkAll() {
       if (!ok2) bad(`${tag} L${lv.id} 겹쳐 보이는 시간 ${ovlMs.toFixed(0)} ms > 통과 창`);
       if (!ok3) bad(`${tag} L${lv.id} 딱 이펙트와 다음 별 틈 ${fxGap.toFixed(1)} px`);
       if (!ok4) bad(`${tag} L${lv.id} 미리 보기 ${previewS.toFixed(2)} s / 판단 ${judgeS.toFixed(2)} s`);
-      return { id: lv.id, bpm: lv.bpm, lead_beats: N, speed_px_s: +v.toFixed(1), min_interval_beats: minBeats, min_spacing_px: +sMin.toFixed(1), overlap_ms: +ovlMs.toFixed(0), pass_window_ms: lv.pe + lv.pl, fx_gap_px: +fxGap.toFixed(1), preview_s: +previewS.toFixed(2), judge_s: +judgeS.toFixed(2) };
+      return { id: lv.id, bpm: lv.bpm, lead_beats: N, beat_px: +(L.preview_px / N).toFixed(1), speed_px_s: +v.toFixed(1), min_interval_beats: minBeats, min_spacing_px: +sMin.toFixed(1), overlap_ms: +ovlMs.toFixed(0), pass_window_ms: lv.pe + lv.pl, fx_gap_px: +fxGap.toFixed(1), preview_s: +previewS.toFixed(2), judge_s: +judgeS.toFixed(2) };
     });
     // 5) 자리 겹침 (게임 그림 ↔ 화면 고정)
     const box = {
@@ -206,7 +267,7 @@ function md(res) {
   const L = [];
   L.push(`미리 보기 박 수 출처: ${leadSrc}. 가로 ${lead.landscape.join(' / ')}, 세로 ${lead.portrait.join(' / ')} (L1~L10)`);
   L.push('');
-  L.push('| 해상도 | 판정 선 x | 미리 보기 거리 | 별 지름 | 공 지름 | 길 띠 y (높이) | 판정 선 굵기 | 북 반지름 · 중심 y | 공 앉는 y · 뜀 높이 | 손가락 칸 | tut_tap 글 자리 | HUD 띠 아래끝 |');
+  L.push('| 해상도 | 판정 선 x | 미리 보기 거리 | 별 지름 | 공 지름 | 길 띠 y (높이) | 판정 선 굵기 | 북 반지름 · 중심 y | 공 앉는 y · 뜀 높이 | 손가락 칸 | tut_drum_tap 글 자리 | HUD 띠 아래끝 |');
   L.push('|---|---|---|---|---|---|---|---|---|---|---|---|');
   for (const a of four) L.push(`| ${a.W}x${a.H} | ${a.judge_x} | **${a.preview_px} px** | **${a.star_d}** | ${a.ball.d} | ${a.road.y0} ~ ${a.road.y1} (${a.road_h}) | ${a.line.w} | ${a.drum.r} · ${a.drum.y} | ${a.ball.yRest} · ${a.ball.bounce} | ${a.finger.s} @ (${(a.finger.x0 + a.finger.x1) / 2}, ${(a.finger.y0 + a.finger.y1) / 2}) | x ${a.text_slot.x0}~${a.text_slot.x1}, y ${a.text_slot.y0}~${a.text_slot.y1} | ${a.hud.band_bottom} |`);
   L.push('');
@@ -229,6 +290,12 @@ function md(res) {
     const pl = four[2].per_level[i], pp = four[0].per_level[i];
     L.push(`| ${+lv.id} | ${lv.bpm} | −${lv.pe} ~ +${lv.pl} (${lv.pe + lv.pl}) | ${pl.lead_beats} · ${pl.preview_s} / ${pp.lead_beats} · ${pp.preview_s} | ${pl.judge_s} / ${pp.judge_s} | ${c.join(' | ')} |`);
   });
+  L.push('');
+  L.push('1박 px (= 미리 보기 거리 ÷ 미리 보기 박, balance 17-8 표와 대조) · 레벨 데이터 확인');
+  L.push('');
+  L.push('| 레벨 | 360x640 | 412x915 | 640x360 | 1280x720 | 별 수 | 최소 간격(박) | 첫 별(시도 시작 + 박) |');
+  L.push('|---|---|---|---|---|---|---|---|');
+  levels.forEach((lv, i) => L.push(`| ${+lv.id} | ${four.map((a) => a.per_level[i].beat_px).join(' | ')} | ${lv.nStars ?? '-'} | ${lv.minBeats ?? '-'} | ${lv.firstBeat ?? '-'} |`));
   return L.join('\n');
 }
 
@@ -249,7 +316,7 @@ if (!args.includes('--check')) {
       star_d: 'floor(min(0.10 × 짧은 변, preview_px ÷ (2 × 반박 레벨 중 가장 긴 lead_beats) − 8))',
       overlap_ms: '(star_d + line_w) ÷ speed',
     },
-    text_slots: { tut_tap: 'layouts[].text_slot (가로 = 손가락 칸 오른쪽, 세로 = 손가락 칸 아래). 가장 긴 언어로 2줄 안에 들어가야 하고 넘치면 글자 14 → 12 px, 그래도 넘치면 lore 문구 요청' },
+    text_slots: { tut_drum_tap: 'layouts[].text_slot (가로 = 손가락 칸 오른쪽, 세로 = 손가락 칸 아래). 가장 긴 언어로 2줄 안에 들어가야 하고 넘치면 글자 14 → 12 px, 그래도 넘치면 lore 문구 요청. 측정(교차 리뷰, Edge 캔버스 measureText, 빌드 글꼴 목록 system-ui·Segoe UI·Malgun Gothic, 14 px 굵게): ko "별이 북에 오면 톡!" 117.3 px · en "Tap when stars reach the drum" 208.6 px → 모든 해상도 폭 220 안 1줄' },
     layouts: res.lays.map(({ per_level, ...a }) => ({ ...a, per_level })),
   };
   writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');

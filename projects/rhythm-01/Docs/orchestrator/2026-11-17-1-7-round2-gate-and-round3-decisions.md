@@ -95,3 +95,9 @@
 
 ## 1-2 교차 리뷰 감시 — lore 통과
 - diff: `10-lore.md`, 보고서, README 한 줄. git(--version 포함)·서버 미사용. 키 70 = 사용 65 + 폐기 3 + 쓰지 않음 2(`card_long_row`·`aria_streak_best`), 삭제 0. L6 `card_run3` "붙은 별 셋, 톡톡톡". balance·art에 남긴 키 수정(R24)은 두 역할 교차 리뷰 지시에 이미 포함 — 결과에서 확인.
+
+## 인사이트 수신 — 콤보 대체 글 (dbda131)
+- rhythm-01 대조: `aria_streak` "이어서 친 별 / Stars in a row" = 쉬운 말 풀이 충족. 최고 콤보 표지는 그리지 않음(`aria_streak_best` 쓰지 않음)이라 버튼 안 낭독 문제 해당 없음.
+- 새 코어 dev 지시에 넣을 것: 점 줄 `role="meter"` + `aria-valuenow`, `aria-valuetext`는 숫자만, 판정마다 등급 낭독 안 함, 끊길 때 낭독 없음(aria-live 없음 — lore R3 규칙과 같음).
+- art 교차 리뷰 통과: `30-art.md` 16-12, `assets/`(cards-r3 키 이름 통일 — 옛 이름 4파일 삭제는 이번 라운드 art 자체 산출물의 이름 변경, `road-layout.mjs --check`에 v3 레벨 대조 추가, sound-check outro 멜로디 버그 수정 314 → 252음). 직접: road-layout·sound-check·palette 모두 0, cards-r3 외부 href·url() 0. git·서버 미사용.
+- lore에 남은 1단어(R3-6 "판정 북 위에 손가락" → "아래")는 art 16-1·lore R3-7 표가 기준 → dev 지시에 "손가락은 판정 북 아래(art 16-1)"로 명시하고, lore는 다음 리뷰 때 고침.

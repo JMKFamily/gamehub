@@ -74,9 +74,11 @@ export function placeMelody(level, lm, rule) {
   return { notes: out, dropped, shifted };
 }
 // round-3 (30-art 16-7): 레벨 v3 의 판정 별을 "카운트인 뒤 8분 격자 절대 자리" 목록으로 읽는 어댑터.
-//   balance 가 v3 형식을 확정하기 전이라 아래 형식을 차례로 시도하고, 못 읽으면 FAIL(어댑터를 교차 리뷰에서 맞춤).
-//   ① level.stars: [n] 또는 [{slot}] / [{bar, slot}] / [{beat}](beat = 카운트인 뒤 박, 0.5 단위)
-//   ② level.bars: [{pattern | slots, offset_slots?}] (mode 없음 = 모두 판정)
+//   balance 확정 형식(20-balance 17-2, 교차 리뷰에서 맞춤): 파생 level.bars[{mode: 'play'|'rest', pattern}] + level.patterns[id].slots
+//   (마디 b 는 카운트인 뒤 0부터, 자리 0~7 = 8분). 'rest' 마디·outro 마디는 별 없음. 무늬 id 가 patterns 에 없으면 null(= FAIL).
+//   원본 path.chunks 와 같은지는 road-layout.mjs --check 가 따로 재계산해 확인.
+//   ① level.stars: [n] 또는 [{slot}] / [{bar, slot}] / [{beat}](beat = 카운트인 뒤 박, 0.5 단위) — 예비 형식(지금 레벨에 없음)
+//   ② level.bars: [{mode, pattern | slots, offset_slots?}] (mode 없으면 판정 마디로 봄)
 export function starSlotsV3(level) {
   const out = [];
   if (Array.isArray(level.stars)) {
@@ -88,10 +90,14 @@ export function starSlotsV3(level) {
       else return null;
     }
   } else if (Array.isArray(level.bars)) {
+    let missing = false;
     level.bars.forEach((bar, b) => {
-      const slots = bar.slots || (bar.pattern != null ? level.patterns?.[bar.pattern]?.slots : []) || [];
+      if (bar.mode && bar.mode !== 'play') return;
+      const slots = bar.slots || (bar.pattern != null ? level.patterns?.[bar.pattern]?.slots : []);
+      if (!Array.isArray(slots)) { missing = true; return; }
       for (const s of slots) out.push(b * 8 + s + (bar.offset_slots || 0));
     });
+    if (missing) return null;
   } else return null;
   return out.every(Number.isInteger) ? out.sort((a, b) => a - b) : null;
 }
@@ -100,9 +106,12 @@ export function placeMelodyV3(level, lm, rule, rule3) {
   if (!abs) return null;
   const nBars = level.length_bars ?? Math.ceil((abs.at(-1) + 1) / 8);
   const stageOf = (b) => { let s = 1; for (const x of level.sections || []) if ((x.start_bar ?? 0) <= b && x.stage) s = x.stage; return s; };
+  // outro 마디는 멜로디 동기 대신 마무리 음(12-7)만 → 동기 배치에서 뺌. v3 sections 의 outro 는 stage 값을 가져도 outro.
+  const outroSec = (level.sections || []).find((x) => x.name === 'outro');
+  const outroStart = outroSec ? outroSec.start_bar : nBars;
   const out = []; let dropped = 0, shifted = 0;
   const starSet = new Set(abs);
-  for (let b = 0; b < nBars; b++) {
+  for (let b = 0; b < Math.min(nBars, outroStart); b++) {
     if (stageOf(b) < rule3.from_stage) continue;
     const half = b % rule.frame_bars, used = new Set();
     lm.motif.forEach((n, idx) => {
@@ -115,7 +124,7 @@ export function placeMelodyV3(level, lm, rule, rule3) {
       out.push({ bar: b, slot, abs: b * 8 + slot, d: n.d, len: n.len, inst: lm.melody[idx % lm.melody.length] });
     });
   }
-  return { notes: out, dropped, shifted, abs };
+  return { notes: out, dropped, shifted, abs, outroStart, nBars };
 }
 // 콤보 단계 화음 자리 (music.combo_r3): 끝까지 이어 친 경우(모든 별 콤보) 10·20·30번째 별 뒤 첫 빈 정박
 export function comboChordSlots(abs, C) {
@@ -147,7 +156,8 @@ const absOfV2 = (level) => { const a = []; level.bars.forEach((bar, b) => { if (
       const starSet = new Set(r3.abs);
       const c = r3.notes.filter((n) => starSet.has(n.abs)).length;
       clash += c; total += r3.notes.length;
-      rows.push(`${level.id}(v3): 음 ${r3.notes.length} 옮김 ${r3.shifted} 뺌 ${r3.dropped}`);
+      if (r3.abs.some((a) => a >= r3.outroStart * 8)) bad(`레벨 ${level.id} outro 마디(${r3.outroStart}~)에 판정 별이 있음`);
+      rows.push(`${level.id}(v3): 별 ${r3.abs.length} 음 ${r3.notes.length} 옮김 ${r3.shifted} 뺌 ${r3.dropped} (outro ${r3.outroStart}/${r3.nBars}마디)`);
       for (const q of comboChordSlots(r3.abs, M.combo_r3)) { if (q.at != null && starSet.has(q.at)) comboClash++; comboRows.push(`${level.id}:${q.step}→${q.at ?? '넘김'}`); }
       continue;
     }
