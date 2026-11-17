@@ -345,6 +345,44 @@
    "clears_on": "conditions_false_after_guardian_calibration",
    "max_sessions_shown_if_unchanged": 3,
    "_note": "\"소리가 늦어요\" 표지(모래시계, 글 없음). 보정 결과 적용된 수동 오프셋이 late_hint_ms(100 ms)를 넘거나, outputLatency+baseLatency 가 100 ms 이상이거나, drift_check 가 켜지면 레벨 선택의 설정 버튼과 설정 화면 박자 맞추기 줄에 붙임. 플레이 화면에는 없음, 버튼 아님(눌러도 보호자 문을 건너뛰지 않음). 100 ms 근거: 보통 기기 남은 오차 -20~+40 은 넘지 않고 블루투스 +120~+220 은 넘음. 오프셋으로 이미 보정된 블루투스도 \"스피커로 들어요\"(latency_tip) 권장이 의미 있어 표지를 둠. 조건이 그대로면 3세션 뒤 숨김. 20-balance.md 8-5."
+  },
+  "auto_latency_read": {
+   "rule": "r11",
+   "auto_now": "(outputLatency + baseLatency) * 1000, read at that moment",
+   "calib_tap_reference": "auto_now_at_each_tap",
+   "calib_tap_error_formula": "t = tap_audio_ms - auto_now_ms(tap); k = round((t - base_ms) / beat_ms); err = t - (base_ms + k * beat_ms)",
+   "stored_offset": "residual_after_auto_now",
+   "play_comp_formula": "comp = auto_now_at_attempt_start + manual_offset_ms",
+   "play_reread": "every_attempt_start_incl_restart",
+   "mid_attempt_change": false,
+   "restart_keeps_delay": true,
+   "restart_reread_note": "다시 읽기는 실패 순간 ~ 다음 시도 시작 사이 한 번. 바뀐 양 dc(새 comp - 옛 comp)만큼 남은 재시작 시각(V 기준)을 같이 옮겨 실패 → 다시 움직임 1.08 s(restart.restart_delay_s)를 벽시계로 유지. 안 옮기면 1.08 + dc s(dc 64 ms → 1.144 s 허용 안, dc > 120 ms → 1.20 s 넘음).",
+   "stable_wait": {
+    "applies_to": [
+     "first_calibration_after_unlock",
+     "first_attempt_after_unlock"
+    ],
+    "poll": "every_frame",
+    "window_ms": 250,
+    "max_change_ms": 2,
+    "min_since_unlock_ms": 400,
+    "max_wait_ms": 1500,
+    "on_timeout": "start_anyway",
+    "visual": "calib_screen_as_is_no_ticks_yet",
+    "_note": "잠금 해제 뒤 매 프레임 auto_now 를 읽어, 잠금 해제부터 min_since_unlock_ms 이상 지났고 최근 window_ms 안 값의 (최대 - 최소) ≤ max_change_ms 이면 안정 → 그때부터 첫 똑딱(1박 뒤). max_wait_ms 가 지나면 그냥 시작(탭·시도마다 다시 읽으므로 이중 보정 없음). min_since_unlock_ms 400 은 balance round-3 추가: 보고값이 0.1~0.3 s 뒤 바뀌는데(Edge 10 → 66/74) 250 ms 창만 보면 0.25~0.3 s 에 바뀌는 경우 바뀌기 전 값으로 '안정'이 될 수 있음. 재시작은 이 대기를 하지 않음(가장 이른 재시작도 잠금 해제 뒤 1.5 s 넘음, verify-levels 정보 R17). 기준 정의 tools/sim/calib.mjs autoStableAt. 20-balance.md 8-1."
+   },
+   "calib_auto_lat_saved": "auto_now_at_calib_end",
+   "store_version_bump": true,
+   "store_version_note": "R11: 잘못 저장된 오프셋은 옮기지 않고 저장소 버전 키를 올려 첫 실행 보정을 다시 하게 함(개발 중 빌드).",
+   "reference_impl": "tools/sim/calib.mjs autoStableAt · calibTapDiffR11 · attemptComp (다음 dev 빌드 games/rhythm-01/js/calib.js 가 같은 이름으로 옮김)",
+   "_r2_deprecated": {
+    "_status": "deprecated (round-3 R11)",
+    "calib_tap_reference": "auto_fixed_at_calib_start",
+    "play_reread": "level_start_calib_start_calib_end_only",
+    "stable_wait": "none",
+    "_note": "round-2 빌드: clock.auto 를 보정 시작에 읽어 보정 내내 고정, 보정 끝·레벨 시작(beginRun)에만 다시 읽음, 재시작 때 안 읽음. 첫 실행에서 잠금 해제 직후 값(10 ms)으로 재서 오프셋 +63~69 ms 가 들어가고 플레이 때 66/74 와 이중 보정(QA round-2 1-6, score B1)."
+   },
+   "_note": "round-3 R11 (오케스트레이터 결정, B1 blocker). 보정은 탭마다 그 순간 자동 지연 기준으로 재서 남는 차이만 저장, 판정 자동 지연은 시도 시작마다 다시 읽고 시도 중에는 그대로(R9). Δ(보정 때와 플레이 때 자동 지연 차이) 영향은 verify-levels 정보 행 R17. 20-balance.md 8-1·8-3."
   }
  },
  "guardian_gate": {
@@ -483,7 +521,23 @@
    "01",
    "02",
    "03"
-  ]
+  ],
+  "calibration_auto_shift": {
+   "delta_ms": [
+    0,
+    64
+   ],
+   "stable_auto_ms": 66,
+   "jump_at_ms": 200,
+   "r2_calib_start_ms": 13,
+   "mid_calib_jump_at_ms": 2500,
+   "tappers_sd_ms": [
+    40,
+    70
+   ],
+   "info_only": true,
+   "_note": "R17 정보 행(판정에 안 섞음). Δ 는 QA round-2 1-6 firstrun 실측(10 → 66/74, Δ 56~64)의 큰 쪽. r2 = 보정 시작에 고정한 auto 로 잼, r11 = 탭마다 autoNow. r11 의 Δ 64 값이 Δ 0 과 같아야 함(같지 않으면 정보 줄에 '다름(!)'). mid_calib_jump_at_ms = 보정 중(3번째와 4번째 탭 사이, 사용 탭 안)에 보고값이 바뀌는 경우의 r11 확인. 모델 tools/sim/bots.mjs autoShiftCalibBias."
+  }
  },
  "pattern_library": {
   "A": {

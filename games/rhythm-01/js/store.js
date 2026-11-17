@@ -1,5 +1,5 @@
 // localStorage 저장 (진행도·최고 기록·오프셋·카드 본 여부·소리 설정). 실패해도 게임은 돈다.
-const KEY = 'rhythm01.save.v1';
+const KEY = 'rhythm01.save.v2'; // round-3 R11: v1 의 오프셋은 이중 보정으로 잘못 저장됐을 수 있어 옮기지 않음(첫 실행 보정 다시)
 const fresh = () => ({ unlocked: 1, levels: {}, offsetMs: 0, calibDone: false, calibAutoLat: null, music: true, sfx: true, sound: true, late: { drift: false, sig: '', sessions: 0, device: false } });
 export function load() {
   try { const s = JSON.parse(localStorage.getItem(KEY)); if (s && typeof s === 'object') return { ...fresh(), ...s, late: { ...fresh().late, ...(s.late || {}) } }; } catch {}

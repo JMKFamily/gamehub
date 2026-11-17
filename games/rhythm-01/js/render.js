@@ -96,7 +96,8 @@ export class Renderer {
     const keep = [...this.layers.values(), ...this.spareLayers];
     this.layers.clear();
     while (keep.length < 2) keep.push(document.createElement('canvas'));
-    for (const c of keep) { c.width = this.cv.width; c.height = this.cv.height; }
+    // 크기를 정할 때 그리기 버퍼까지 미리 잡아 둠 (R12: 레벨 시작 때 처음 getContext 로 큰 버퍼를 잡으면 V8 외부 메모리가 늘어 주요 GC 18~22 ms 가 레벨 시작 프레임에 겹쳤음)
+    for (const c of keep) { c.width = this.cv.width; c.height = this.cv.height; const g = c.getContext('2d'); g.fillStyle = '#000'; g.fillRect(0, 0, 1, 1); }
     this.spareLayers = keep;
   }
 
@@ -134,9 +135,12 @@ export class Renderer {
     g.save(); g.globalAlpha = this.A.thumb_rest_border_trackEdge; g.strokeStyle = this.C.trackEdge; g.lineWidth = 2; g.setLineDash([8, 6]); g.stroke(); g.restore();
   }
 
-  // 정적 바탕 층(바탕색 + 실루엣 + 엄지 받침 + 궤도 띠·눈금) 캐시: 단계 색이 안정일 때만, 화면 크기가 바뀌면 버림 (round-2 성능)
-  staticLayer(th, track) {
-    const key = th.bg + th.bgFar + track;
+  // 정적 바탕 층(바탕색 + 실루엣 + 엄지 받침) 캐시: 테마마다 하나, 화면 크기가 바뀌면 버림 (round-2 성능).
+  // round-3 R12: 궤도 띠·눈금은 층에서 빼고 매 프레임 그림 → 단계 색이 바뀌어도(레벨 10 단계 전환·실패 연출) 새 층을 만들지 않음
+  // (새 층 래스터화 + 큰 텍스처 올리기가 640x360@3 레벨 10 단계 전환에서 31~80 ms 프레임을 만들었음)
+  hasLayer(th) { return this.layers.has(th.bg + th.bgFar); }
+  staticLayer(th) {
+    const key = th.bg + th.bgFar;
     let c = this.layers.get(key);
     if (c) return c;
     // 캔버스 2장을 크기마다 한 번만 만들고 돌려 씀 (큰 메모리 할당이 플레이 중 GC 를 부르지 않게)
@@ -144,7 +148,7 @@ export class Renderer {
     else c = this.spareLayers.pop() || document.createElement('canvas');
     if (c.width !== this.cv.width || c.height !== this.cv.height) { c.width = this.cv.width; c.height = this.cv.height; }
     const g0 = this.g; this.g = c.getContext('2d');
-    try { this.bg(th); this.silhouettes(th, 0); this.thumbRest(th); this.orbit(track, 0); } finally { this.g = g0; }
+    try { this.bg(th); this.silhouettes(th, 0); this.thumbRest(th); } finally { this.g = g0; }
     this.layers.set(key, c);
     return c;
   }
@@ -157,10 +161,11 @@ export class Renderer {
       g.lineWidth = a.band.edge; g.strokeStyle = C.trackEdge;
       for (let s = -1; s <= 1; s += 2) { g.beginPath(); g.arc(L.cx, L.cy, L.R + (s * L.band) / 2, 0, TAU); g.stroke(); }
     }
-    if (dashed > 0) {
+    // 띠 가운데 점선: 굵기·불투명도 × k, 대시 무늬는 그대로 (30-art 5-4 퇴장 0.25박 규칙, round 3 R14)
+    if (dashed >= a.showDash.minK) {
       g.strokeStyle = C.trackEdge;
       const d = a.showDash, seg = (TAU * L.R) / d.segs;
-      g.save(); g.lineWidth = L.band * d.width; g.setLineDash([seg * d.on, seg * (1 - d.on) * dashed]);
+      g.save(); g.globalAlpha = dashed; g.lineWidth = L.band * d.width * dashed; g.setLineDash([seg * d.on, seg * (1 - d.on)]);
       g.beginPath(); g.arc(L.cx, L.cy, L.R, -Math.PI / 2, TAU - Math.PI / 2); g.stroke(); g.restore();
     }
     if (dashOnly) return;
@@ -183,7 +188,10 @@ export class Renderer {
     const r = (r0 ?? L.drumR) * scale;
     g.fillStyle = th.drum; g.strokeStyle = C.outline; g.lineWidth = this.art.drum.outline;
     g.beginPath(); g.arc(L.cx, L.cy, r, 0, TAU); g.fill();
-    if (dashed > 0) { g.save(); g.strokeStyle = C.trackEdge; g.setLineDash([8, 6 * dashed]); g.stroke(); g.restore(); } else g.stroke();
+    // 북 테두리 (R14): 실선(뒤 상태) 불투명도 1 − k 를 먼저, 그 위에 점선 굵기·불투명도 × k (대시 무늬 그대로)
+    const k = dashed > 0 ? dashed : 0, dd = this.art.showDash;
+    if (k < 1) { if (k > 0) { g.save(); g.globalAlpha = 1 - k; g.stroke(); g.restore(); } else g.stroke(); }
+    if (k >= dd.minK) { g.save(); g.globalAlpha = k; g.strokeStyle = C.trackEdge; g.lineWidth = this.art.drum.outline * k; g.setLineDash(dd.drumDash); g.stroke(); g.restore(); }
     g.save(); g.globalAlpha = this.A.drum_inner_ring_hud; g.strokeStyle = C.hud; g.lineWidth = 2;
     g.beginPath(); g.arc(L.cx, L.cy, (r * this.art.drum.innerK) / this.art.drum.k, 0, TAU); g.stroke(); g.restore();
     for (const rp of this.ripples) {
@@ -330,15 +338,11 @@ export class Renderer {
       }
     }
     S.dashK = dashK;
-    const stable = clearK === 0 && failD < 0 && (track === tracks[0] || track === tracks[1] || track === tracks[2]);
-    if (stable) {
-      const layer = this.staticLayer(th, track);
+    if (clearK === 0) {
+      const layer = this.staticLayer(th);
       g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(layer, 0, 0); g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-      if (dashK > 0) this.orbit(track, dashK, true);
-    } else {
-      this.bg(th); this.silhouettes(th, clearK); this.thumbRest(th);
-      this.orbit(track, dashK);
-    }
+    } else { this.bg(th); this.silhouettes(th, clearK); this.thumbRest(th); }
+    this.orbit(track, dashK);
     const cin = mode === 'countin' ? Math.min(4, Math.floor((x - Math.max(run.t0, Math.floor(x / L.barMs) * L.barMs)) / L.beatMs) + 1) : -1;
     this.drum(th, V, dashK, cin);
     this.mallet(mScale, hitK);

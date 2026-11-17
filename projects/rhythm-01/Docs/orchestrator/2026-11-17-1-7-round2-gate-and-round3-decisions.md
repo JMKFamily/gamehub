@@ -86,3 +86,9 @@
 2. **R24 키 이름 통일**: L1 = lore 새 키 `tut_drum_tap`·`card_drum_tap`(뜻이 바뀌어 옛 `tut_tap`·`card_star_tap`은 폐기 유지), L6 = balance 확정 기믹 "반박 3연속" → 카드 키 `card_run3`(lore가 새 문구, `card_long_row`는 쓰지 않음 표시), art는 `cards-r3/` 파일 이름을 키와 같게(L1 `card_drum_tap`, L6 `card_run3`) 바꾸고 L6 그림을 "붙은 별 셋"으로.
 3. **R25 그 밖**: L3 좋아 ±90(공통 문서 권장 ±100)은 판정 창 불변 원칙으로 유지. 레벨 길이 30~45 s 미달 7개(1~3 s)는 balance가 숨 고르기로 맞출 수 있으면 교차 리뷰에서 반영(N 규칙·B6 유지 조건).
 - 다음: 1-2 교차 리뷰(balance·art·lore 각 1회 수정, 병렬).
+
+## game-developer R11~R16 (옛 코어) 감시 — 통과, 허브 갱신
+- diff: `games/rhythm-01/`(js 5·style·index·data art.json·balance.json·세로 카드 5·favicon.png), `tools/build-web-data.mjs`·`selfcheck-browser.mjs`, DEV_NOTES, `reviews/round-2/dev-response.md`, 보고서, README 한 줄. 기획·levels·harness·games.json 미수정, git 미사용, 포트 8341~8346 자기 PID만.
+- 직접: validate OK, judge.js = judge.mjs, 외부 URL 0, 빌드 data schema_version 2(v3 미혼입).
+- 결과: R11 구현(C2 2000묶음 다름 0), R13 수정, R14~R16 구현(지시 전 완료분 유지), R12 35/36창(640x360 L7 재시작 1창 34~36.6; PC 부하 41~52 %, 대조 페이지도 1창 하락). 보정 오차 자체 확인 1회 +15.8 ms(부하 흔들림 추정) → 공식 판정은 QA firstrun.
+- 판단: 새 코어 빌드가 다음 차례라 옛 코어 QA 전체는 다시 돌리지 않음. 이 빌드는 blocker 수정본으로 허브에 올려 요청자가 중간 플레이할 수 있게 함. R11·R12 공식 확인은 새 코어 빌드 QA(firstrun·perf 3회, 부하 낮은 때)에서.

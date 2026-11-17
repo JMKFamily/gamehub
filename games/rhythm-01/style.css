@@ -5,7 +5,9 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 canvas { position: fixed; inset: 0; display: block; }
 .screen { position: fixed; inset: 0; display: none; z-index: 1; }
 .screen.show { display: block; }
-.screen.warm:not(.show) { display: block; opacity: 0.001; pointer-events: none; }
+/* 미리 그리기(warm): 처음 보이는 화면을 캔버스 뒤(가려진 자리)에 불투명하게 몇 프레임 그려 첫 배치·래스터화 비용을 타이틀 때 냄.
+   round-3 R12: 0.001 투명도로는 래스터화가 미리 되지 않아(첫 컨텍스트 카드 표시 120~145 ms 프레임) 캔버스 뒤 z-index −1 로 바꿈 */
+.screen.warm:not(.show) { display: block; z-index: -1 !important; pointer-events: none; }
 .screen.warm * { pointer-events: none !important; }
 .screen.dim { background: color-mix(in srgb, var(--bg) 82%, transparent); z-index: 3; }
 #sResult { z-index: 2; pointer-events: none; }
@@ -59,7 +61,9 @@ button { font: inherit; color: inherit; }
 /* 줄 흐름: 궤도 → 점 → 등급 줄 → 이름, 사이 4 px (30-art 5-6 round 2) */
 .lplay { flex: 1; min-height: 48px; width: 100%; background: transparent; border: 0; padding: 0 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; overflow: hidden; }
 .lplay .lr { flex: none; display: block; }
-.lname { display: block; flex: none; height: 14px; font-size: 12px; line-height: 14px; color: var(--hud); text-align: center; max-width: 100%; white-space: nowrap; overflow: hidden; }
+.lname { display: block; flex: none; min-height: 14px; font-size: 12px; line-height: 14px; color: var(--hud); text-align: center; max-width: 100%; white-space: nowrap; overflow: hidden; }
+/* R16 두 줄: 띄어쓰기 자리에서만 줄바꿈(크기·줄 높이·높이는 art.json card.name 값을 main.js 가 넣음) */
+.lname.two { white-space: normal; word-break: keep-all; overflow-wrap: normal; hyphens: none; }
 .lrow { height: 48px; display: flex; justify-content: space-between; flex: none; }
 .lrow .ibtn { border-radius: 12px 0 13px 0; border-width: 0; background: color-mix(in srgb, var(--ink) 25%, transparent); }
 .lrow .ibtn:first-child { border-radius: 0 12px 0 13px; }
@@ -109,6 +113,8 @@ button { font: inherit; color: inherit; }
 .pracTag { width: 24px; height: 24px; pointer-events: none; }
 /* 튜토리얼 글은 숨겨도 배치는 유지 (첫 표시 때 글자 배치 비용 없음, 성능) */
 #tut.hidden { display: block !important; visibility: hidden; }
+/* R13: 미리 그리기(warm) 중에만 튜토리얼 글을 그려 둠. 플레이 화면이 보이는 순간(.show) 이 규칙이 빠져 같은 프레임에 숨김 상태로 돌아감 */
+.screen.warm:not(.show) #tut.hidden { visibility: visible; }
 .tut { margin: 0; font-size: 18px; font-weight: 700; color: var(--hud); pointer-events: none; }
 body[data-state="result"] #bPause, body[data-state="pause"] #bPause { display: none; }
 .pausedBg { position: absolute; left: 16px; right: 16px; top: 22%; text-align: center; font-size: 20px; margin: 0; }

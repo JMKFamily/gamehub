@@ -11,7 +11,7 @@
 | `js/engine.js` | 한 레벨 플레이(`Run`): 탭 하나씩 판정, 놓침, 실패 → 1.08 s 뒤 자동 재시작, 연습 체크포인트, 클리어·끝, 밀림 감지(drift_check). DOM·오디오 없음 (node에서 그대로 돌아감) |
 | `js/audio.js` | WebAudio 합성(30-art 12-4 표 → `data/sound.json`), 오디오 시계 예약(lookahead 0.1 s, 25 ms 타이머), 곡 이벤트 생성(12-1 마디별 파트) |
 | `js/render.js` | 캔버스 그리기(궤도·별·공·북·북채·판정 이펙트·실패 연출·클리어 물듦·HUD·보정 화면) |
-| `js/calib.js` | 보호자 보정 계산(회 IQR·두 회 차이·12탭 중앙값·30 ms 문턱·자름) |
+| `js/calib.js` | 보호자 보정 계산(회 IQR·두 회 차이·12탭 중앙값·30 ms 문턱·자름) + round-3 R11 `autoStableAt`·`calibTapDiffR11`·`attemptComp`(tools/sim/calib.mjs 와 같은 정의) |
 | `js/main.js` | 화면 흐름, 입력, 시계, 저장, 보호자 문, 소리 늦음 표지, 테스트 훅 |
 | `js/store.js`, `js/ads.js` | localStorage, 광고 어댑터(웹 더미) |
 | `data/` | `projects/rhythm-01/tools/build-web-data.mjs`가 생성. balance·levels·palette는 복사, strings는 10-lore 7절 표, music은 30-art 12-5 표를 파싱, sound·art는 30-art 12-4·4~10절 값을 스크립트에 옮겨 적은 것 |
@@ -70,6 +70,29 @@
 - 로딩 중(준비 전) 미리 돌리기 `warmCode`: 레벨 1 완벽 입력·클리어·무입력 실패 장면을 64 px 캔버스에 그려 판정·그리기 코드를 미리 최적화시키고, 렌더하지 않는 OfflineAudioContext에서 소리마다 `AudioOut.play`를 3번씩(시각 0, 지연·아르페지오 소리 제외) 돌림. 처음에는 idle 콜백으로 했다가 측정 창과 겹쳐 215 ms 프레임이 생겨 부팅 동기 실행으로 바꿈.
 - 결과(QA `--part perf`, 6배 스로틀): 마지막 두 실행 12창 중 11창·10창이 1% low ≥ 45(나머지 44.7~52.5). 매 실행 한 창은은 새 브라우저 첫 컨텍스트에서 AudioContext 생성 0.5 s 안에 레벨을 시작할 때 생기는 긴 프레임 1개(44~216 ms)로, long-animation-frame 기록상 스크립트·blocking 0이라 게임 코드로 줄이지 못함(round-2 보고서 "성능").
 
+## round-3 구현 (2026-11-17, 결정 R11~R16, `reviews/round-2/dev-response.md`)
+
+| # | 내용 | 이유 / 확인할 역할 |
+|---|---|---|
+| R3-1 지연 보정 R11 (B1) | `js/calib.js`에 `tools/sim/calib.mjs`와 같은 이름·식으로 `autoStableAt`·`calibTapDiffR11`·`attemptComp`를 옮김(verify-levels C2 대조). ① 보정 탭: `calibTapDiffR11(탭 오디오 시각, 그 탭 순간 autoNow, 첫 똑딱 예약 시각, 박)` → 저장 오프셋 = 자동 지연을 뺀 남는 차이. ② 판정 `comp = attemptComp(시도 시작 autoNow, 수동 오프셋)`: `beginRun`·실패 뒤 재시작(`rereadAtRestart`)·일시정지 복귀에서 다시 읽고 시도 중에는 그대로(R9 표시값 = 판정값, 공도 같은 comp). ③ 재시작: 다시 읽은 양 dc만큼 `run.restartV`를 같이 옮겨(`restart_keeps_delay`) 실패 → 다시 움직임 1.08 s 유지. 재시작 판정은 프레임·탭·테스트 step 어디서 일어나도 같은 함수를 거침. ④ 안정 대기: `AudioOut.pollStable`이 잠금 해제 뒤 매 프레임 autoNow를 기록해 `autoStableAt`(창 250·변화 2·최소 400·최대 1500 ms, `balance.json auto_latency_read.stable_wait`)로 판단. 첫 보정은 대기 동안 `cal.phase = 'wait'`(보정 화면 그대로, 똑딱 없음, 탭 무시), 잠금 해제 뒤 첫 시도(보정 건너뛰기·저장된 보정으로 바로 레벨)는 `beginRun`을 미룸(`pendingBegin`, 지금 화면 유지). ⑤ `store.calibAutoLat` = 보정 끝 순간 autoNow. ⑥ 저장소 키 `rhythm01.save.v1` → `v2`(이전 오프셋을 옮기지 않음, 첫 실행 보정 다시) | balance 8-1 R11 정의 그대로. qa `--part firstrun`으로 확인 |
+| R3-2 테스트 훅 (R11) | `latency()`에 `settled`(안정 대기 끝)·`stable`(`autoStableAt` 결과)·`pendingBegin`·`calibAutoNows` 추가, `calibInfo()`(보정 단계·첫 똑딱 예약 시각·박 길이·탭마다 autoNow) 추가. 안정 대기로 시작이 미뤄진 동안 `autoplay()`를 부르면 시작된 뒤 실시간 재생(Promise). `loadLevel`은 일반 모드에서 잠금 해제 뒤 약 0.4~1.5 s 안이면 바로 `play`가 되지 않음(그 사이 `state`는 이전 화면) | qa: 훅 사용 순서 확인(`state === 'play'` 기다리기) |
+| R3-3 성능 (R12, M1) | 아래 "round-3 성능" 절 | qa |
+| R3-4 미리 그리기 화면 (R13, N1) | `warmScreens()`가 `#tut`의 `hidden` 클래스를 건드리지 않음. 미리 그리기 동안만 CSS `.screen.warm:not(.show) #tut.hidden { visibility: visible }`로 그리고, `show()`가 화면을 바꾸는 순간 `endWarm()`으로 warm을 바로 뗌 → 준비 직후 같은 프레임에 레벨을 시작해도 튜토리얼 글이 숨김 상태 | qa N1 회귀 |
+| R3-5 북채 퇴장 점선 (R14, N2) | `render.js orbit()`: 띠 가운데 점선 굵기 = 띠 × 0.35 × k, `globalAlpha = k`, 대시 무늬 그대로(빈칸 × k 삭제). `drum()`: 실선 테두리(outline) `globalAlpha = 1 − k`를 먼저, 그 위에 점선 테두리(trackEdge) 굵기 = 외곽선 × k·`globalAlpha = k`·대시 8/6 그대로. k < 0.02면 점선 생략. 값은 `art.json showDash.minK·drumDash`(build-web-data `ART`, 30-art 5-4) | art 프레임 확인 ①~④ |
+| R3-6 세로 카드 (R15, N3) | `art.json card.portrait` 226×880, 세로판 SVG 5장은 `build-web-data.mjs`가 `assets/cards/`에서 다시 복사(손으로 고치지 않음). 배율 식은 그대로(`/226`·`/880`) | art·qa `#cardImg` 재측정 |
+| R3-7 긴 레벨 이름 (R16, N4) | `fitCardRows`: 12 → 11 → 10 px 한 줄(줄 높이 14) → 10 px 두 줄(줄 높이 12, 이름 줄 24, `.lname.two` = `white-space: normal; word-break: keep-all`, 늘어난 높이는 `cardRowsPlan(nameH: 24)`로 작은 궤도를 줄여 마련, 최소 16) → 그래도 넘치거나(가로 `scrollWidth`·세로 `scrollHeight`) 높이가 모자랄 때만 숨김(그때 궤도는 이름 없는 배치로 다시 계산). 값은 `art.json card.name`. `.lname` 높이 고정 해제(`min-height`) | art 5-6. 영어 360x640 L9 "Above the Clouds" = 10 px 두 줄(아래 자체 검사) |
+
+### round-3 성능 (6배 CPU 스로틀, 1% low ≥ 45, R12)
+- 측정: QA 도구 `tools/qa-round.mjs --part perf --perf-runs 3`(수정 없이, 결과 폴더만 스크래치) + 개발용 프레임 기록·CPU 프로파일·Chrome 추적(스크래치 스크립트, 포트 8341~8344).
+- 원인과 수정:
+  1. **탭 아이콘(favicon) SVG**: 브라우저가 타이틀 탭 직후 `data/svg/ball.svg` 탭 아이콘을 불러와 SVG 문서를 메인 스레드에서 만들었음(추적 `SVGImage::DataChanged` 25 ms, 6배 스로틀에서 35~48 ms 프레임). round-2의 "오디오 생성 직후 레벨 시작 긴 프레임"의 대부분이 이것. → `build-web-data.mjs`가 같은 그림(공·외곽선·하이라이트, palette 색)을 32 px PNG(`data/favicon.png`)로 만들고 `index.html`이 그것을 씀.
+  2. **새 브라우저 첫 컨텍스트의 그림 카드 첫 래스터화**(98~248 ms, 스크립트 0): 투명도 0.001 미리 그리기로는 래스터화가 미리 되지 않았음. → 미리 그리기 화면을 캔버스 뒤(z-index −1, 불투명)에 그리고, 레벨 1 그림 카드를 같은 크기로 넣어 해독 + 3프레임 그린 뒤 `__game.ready`(최대 1.5 s 기다림).
+  3. **레벨 시작 때 주요 GC 18~22 ms**: 새 테마 바탕 층 캔버스에 처음 `getContext`로 큰 버퍼를 잡으면서 V8 외부 메모리가 늘어 레벨 시작 프레임에 mark-compact GC가 겹쳤음. → `Renderer.resize`에서 층 캔버스 2장의 버퍼를 미리 잡음.
+  4. **레벨 10 단계 전환 31~80 ms**: 바탕 층이 (테마, 궤도 색)마다라 단계가 바뀌면 새 층을 그리고 큰 텍스처를 올렸음. → 층 = 바탕·실루엣·받침(테마마다 하나), 궤도 띠·눈금은 매 프레임 그림. 새 테마의 층은 `beginRun`이 한 프레임 먼저 그리고 다음 프레임에 시작(시작 프레임 비용을 둘로 나눔, 시작 시각은 그 프레임의 시계 기준이라 판정 영향 없음).
+  5. 그 밖: 같은 테마면 CSS 변수 다시 쓰지 않음(문서 전체 스타일 재계산), 카드 배치에서 `getComputedStyle` 대신 resize 때 읽은 안전 영역, 손가락·깃발 스프라이트를 resize 때 래스터화, 오디오 `live` 목록에서 이미 시작한 소스를 제자리 정리(끝난 노드를 오래 붙잡지 않음).
+- 결과(QA `--part perf --perf-runs 3`): 최종 코드 35/36(회 1 12/12, 회 2·3 11/12, 남은 창 = 640x360 L7 재시작 34~37, 스크립트 없는 31~34 ms 프레임 1개). 측정 때 PC 부하 41~52 %(대조 페이지도 1창 실패). 자세한 표는 `Docs/game-developer/2026-11-17-r3-build.md`.
+- 시험했다가 되돌린 것: 그림 카드 화면을 숨길 때도 캔버스 뒤에 두기(효과 없음), 실패 연출 중 층 대신 바로 그리기(640x360 재시작이 더 나빠짐).
+
 ## 코드에 남은 상수 (기획 값이 아닌 구현용)
 - `START_LEAD_MS` 400 (D3), `REALTIME_GRACE_MS` 20 (D2), 오디오 lookahead 0.6 s·한 번에 1개·급함 0.08 s·타이머 25 ms(R2-6), 저장 지연 250 ms, 새 기록 알림 글 300 ms 뒤, 시계 매핑 감쇠, 보정 점 비우기 0.2 s, 테스트 모드 step 4 ms 단위.
 - 메뉴 화면 글자 크기·여백(CSS). 색은 모두 palette.json에서 CSS 변수로.
@@ -77,6 +100,7 @@
 ## 데이터 문제 (수정하지 않고 기록)
 - 30-art 11절·12-5 표의 BPM 문구는 1-2 기준 표현이 남아 있음(빌드는 levels 파일 BPM만 씀, 요청 지시대로).
 - 30-art 10-3은 aria 키를 `calib_together`(제안)로 적음 → lore 확정 `calib_with_grownup` 사용(D18).
+- (round-3) 작업 중 balance가 프로젝트 `balance.json`·`levels/*.json`을 스키마 v3(새 코어)로 바꿈. 빌드 데이터(`games/rhythm-01/data/`)는 그 전에 만든 v2 그대로이고 새 코어 빌드 전까지 `build-web-data.mjs`를 다시 돌리지 않음. `selfcheck-sim` R7(멜로디 음 수)만 기준 쪽이 v3 레벨을 읽어 1건 실패.
 - 레벨·balance 데이터 문제는 찾지 못함. `verify-levels.mjs --quick` 빌드 전후 ALL PASS.
 
 ## 테스트 훅 (`window.__game`)
@@ -95,7 +119,8 @@
 | `stars()`, `perfectTaps(off)` | 판정 별 목록(레벨 시간 ms, 통과 창·놓침 구역) / 완벽 입력열 |
 | `levelTime()`, `gameClock()`, `audioTime()`, `nextStarPerfTime()` | 현재 레벨 시간 / 게임 시계 V / `AudioContext.currentTime` / 다음 별의 `performance.now()` 기준 시각(외부에서 실제 입력을 넣을 때) |
 | `judgeLog()`, `history()`, `summary()` | 이번 시도 판정 `{i, e, grade}` / 지난 시도 결과 / 요약 |
-| `setOffset(ms)`, `offset`, `latency()` | 수동 오프셋 설정·조회, `{auto, manual, comp}` |
+| `setOffset(ms)`, `offset`, `latency()` | 수동 오프셋 설정·조회, `{auto, manual, comp, autoNow, settled, stable, pendingBegin, calibAutoNows}` (round-3 R11: auto = 이번 시도 시작 때 읽은 값, autoNow = 지금 값, settled = 잠금 해제 뒤 안정 대기 끝) |
+| `calibInfo()` | (round-3) 보정 화면 `{phase: wait/tap/done/kept, base: 첫 똑딱 예약 오디오 ms, beatMs, filled, rounds, retries, autoNows}` |
 | `show(name)` | `title` `levels` `settings` `calib`(첫 실행) `calibRedo` `pause` `confirm` |
 | `calibTap(diffMs)`, `calibSimulate(rounds)`, `skipCalibration()` | 보정 화면에 (탭−박) 값 넣기 / 보정 계산만 / 보정 건너뛰기 |
 | `lateHint()`, `save()`, `layout()`, `ads` | 표지 상태 / 저장값 / 화면 배치 / 광고 어댑터 |
@@ -104,4 +129,4 @@
 
 ## 자체 확인 도구
 - `node projects/rhythm-01/tools/selfcheck-sim.mjs`: 엔진 ↔ judge.mjs 대조(10레벨 × 완벽·무입력·박마다·σ25~90 봇 800세트), 재시작 1.08 s, 연습 체크포인트, 밀림 감지, 보정 계산.
-- `PLAYWRIGHT_CORE=<playwright-core 폴더> node projects/rhythm-01/tools/selfcheck-browser.mjs [--quick] [--out 폴더]`: 설치된 Edge(`--channel msedge`)로 테스트 모드 10레벨, 일반 모드 실시간 10레벨(오디오 켜짐), 실제 마우스 레벨 1·2, 4해상도 화면 스크린샷·버튼 검사, 저장 유지, 보호자 문, 백그라운드 일시정지.
+- `PLAYWRIGHT_CORE=<playwright-core 폴더> node projects/rhythm-01/tools/selfcheck-browser.mjs [--quick] [--out 폴더] [--port 8340~8379]`: (round-3) R11 자동 지연 바뀜 흉내 첫 실행 보정·재시작 다시 읽기, R13 준비 직후 튜토리얼 글, R16 영어 긴 이름 검사 추가. 설치된 Edge(`--channel msedge`)로 테스트 모드 10레벨, 일반 모드 실시간 10레벨(오디오 켜짐), 실제 마우스 레벨 1·2, 4해상도 화면 스크린샷·버튼 검사, 저장 유지, 보호자 문, 백그라운드 일시정지.

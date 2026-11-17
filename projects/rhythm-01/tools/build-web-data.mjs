@@ -88,7 +88,8 @@ const ART = {
   ticks: { at: 0.78, beat: [6, 0.055], half: [2.5, 0.02] },
   // 5-4 (round 2): 작아짐 구간·시각은 balance teacher(malletSchedule), 모양은 ease-in 축소(투명도 없음), 점선 빈칸 × 같은 배율
   mallet: { head: [0.2, 0.11], stick: [0.06, 0.27], tiltDeg: 30, off: [0.05, 0.07], grow: [0.6, 1], growBeats: 0.25, hitDeg: 6, hitMs: 80, shrinkEase: 'in' },
-  showDash: { width: 0.35, segs: 32, on: 0.45 },
+  // 5-4 (round 3 R14): 퇴장 0.25박 동안 점선 굵기·불투명도 × k(1 − q²), 대시 무늬 그대로, k < minK 이면 점선 생략. 북 테두리 점선 8 / 6
+  showDash: { width: 0.35, segs: 32, on: 0.45, minK: 0.02, drumDash: [8, 6] },
   hud: { barLeft: 16, barTopP: 24, barTopL: 20, barH: 10, gapToPause: 12, bestR: 6.5, dotsGap: 14, dotR: 4.5, dotStep: 14, dotsMax: 10, squareEvery: 5, flag: 14, pause: 48, margin: 12 },
   thumb: { pad: 12, minTop: 0.7, bottom: 16, side: 16, fxK: 2.05 },
   // 4-4 (round 2): 칸 = max(min, k·R), 세로 = 받침 가운데(받침 높이 − portraitPad 이하), 가로 = (cx + at[0]·R, cy + at[1]·R) 화면 가장자리 edge 안
@@ -105,13 +106,15 @@ const ART = {
   },
   fail: { pieceShrinkS: 0.1, hollowShrinkS: 0.08 },
   clear: { drumY: 0.64, drumGap: 0.25, drumR: 0.1, drumGrow: [0.6, 1], btn: 64, btnGap: 16 },
-  // 5-6 레벨 카드(round 2 줄 흐름), 9절 그림 카드 가로판 720×336, 9-1 세로판 234×896 배율 min((W−32)/234, (H−32−safe)/896, 1.4)
+  // 5-6 레벨 카드(round 2 줄 흐름), 9절 그림 카드 가로판 720×336, 9-1 세로판 226×880(round 3 R15) 배율 min((W−32)/226, (H−32−safe)/880, 1.4)
   card: {
     w: 120, h: 132, gap: 12, border: 3, practiceBtn: 48, minW: 100, minH: 104,
     rows: { orbit: 28, orbitMin: 16, dots1: 6, dots2: 15, grade: 12, name: 14, gap: 4, reserve: 12 },
+    // 5-6 긴 이름 처리 순서 (round 3 R16): 12 → 11 → 10 px 한 줄(줄 높이 14) → 10 px 두 줄(줄 높이 12, 이름 줄 24, 띄어쓰기 자리만) → 숨김
+    name: { sizes: [12, 11, 10], lineH: 14, twoSize: 10, twoLineH: 12, twoH: 24 },
     orbitStroke: 3, dotR: 3, dotStep: 9, dotsPerRow: 5, gradeR: 6, gradeStep: 14,
     progress: { h: 4, w: 64, dotR: 4, dotOutline: 1.2, flag: 12, flagGap: 4 },
-    landscapeMaxW: 0.8, img: { w: 720, h: 336 }, portrait: { w: 234, h: 896, margin: 32, maxScale: 1.4 },
+    landscapeMaxW: 0.8, img: { w: 720, h: 336 }, portrait: { w: 226, h: 880, margin: 32, maxScale: 1.4 },
   },
   // 10-1 기록 지우기 확인 창 (round 2)
   confirm: { maxW: 328, side: 16, radius: 20, border: 1.5, icon: 48, btnH: 64, btnGap: 16 },
@@ -158,6 +161,32 @@ wjson('art.json', ART);
   const nx = readFileSync(join(DATA, 'svg', 'icon-next.svg'), 'utf8');
   writeFileSync(join(DATA, 'svg', 'icon-next-ink.svg'), nx.split(pal.common.hud).join(pal.common.outline));
   console.log('svg: assets 복사, 아이콘 15개 추출');
+  // round-3 R12: 탭 아이콘(favicon)을 ball.svg 와 같은 그림의 32 px PNG 로. SVG 탭 아이콘은 브라우저가 타이틀 탭 직후에
+  // 불러와 SVG 문서를 메인 스레드에서 만들며(6배 스로틀 25 ms) 레벨 시작 창에 긴 프레임을 만들었음
+  {
+    const S = 32, SS = 4, hex = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+    const [ball, ink, hud] = [pal.common.ball, pal.common.outline, pal.common.hud].map(hex);
+    const raw = Buffer.alloc(S * (S * 4 + 1));
+    for (let y = 0; y < S; y++) {
+      raw[y * (S * 4 + 1)] = 0;
+      for (let x = 0; x < S; x++) {
+        let r = 0, g = 0, b = 0, a = 0;
+        for (let sy = 0; sy < SS; sy++) for (let sx = 0; sx < SS; sx++) {
+          const u = ((x + (sx + 0.5) / SS) / S) * 120 - 60, v = ((y + (sy + 0.5) / SS) / S) * 120 - 60, d = Math.hypot(u, v);
+          let c = null;
+          if (Math.hypot(u + 11, v + 11) <= 10) c = hud; else if (d <= 34) c = ball; else if (d <= 40) c = ink; // ball.svg: r 37, 외곽선 6, 하이라이트 (−11,−11) r 10
+          if (c) { r += c[0]; g += c[1]; b += c[2]; a += 255; }
+        }
+        const n = SS * SS, k = a / 255, o = y * (S * 4 + 1) + 1 + x * 4;
+        raw[o] = k ? Math.round(r / k) : 0; raw[o + 1] = k ? Math.round(g / k) : 0; raw[o + 2] = k ? Math.round(b / k) : 0; raw[o + 3] = Math.round(a / n);
+      }
+    }
+    const { deflateSync, crc32 } = await import('node:zlib');
+    const chunk = (t, d) => { const len = Buffer.alloc(4); len.writeUInt32BE(d.length); const td = Buffer.concat([Buffer.from(t), d]); const c = Buffer.alloc(4); c.writeUInt32BE(crc32(td) >>> 0); return Buffer.concat([len, td, c]); };
+    const ihdr = Buffer.alloc(13); ihdr.writeUInt32BE(S, 0); ihdr.writeUInt32BE(S, 4); ihdr[8] = 8; ihdr[9] = 6;
+    writeFileSync(join(DATA, 'favicon.png'), Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), chunk('IHDR', ihdr), chunk('IDAT', deflateSync(raw)), chunk('IEND', Buffer.alloc(0))]));
+    console.log('favicon.png: ball.svg 그림 32 px');
+  }
 }
 
 // 7) index.html: 불러오기 화면은 strings.json 을 읽기 전이라 10-lore 글과 첫 테마 색을 미리 넣음 (R8-5, D12 보완)

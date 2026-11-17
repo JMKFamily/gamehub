@@ -105,7 +105,12 @@
  "showDash": {
   "width": 0.35,
   "segs": 32,
-  "on": 0.45
+  "on": 0.45,
+  "minK": 0.02,
+  "drumDash": [
+   8,
+   6
+  ]
  },
  "hud": {
   "barLeft": 16,
@@ -230,6 +235,17 @@
    "gap": 4,
    "reserve": 12
   },
+  "name": {
+   "sizes": [
+    12,
+    11,
+    10
+   ],
+   "lineH": 14,
+   "twoSize": 10,
+   "twoLineH": 12,
+   "twoH": 24
+  },
   "orbitStroke": 3,
   "dotR": 3,
   "dotStep": 9,
@@ -250,8 +266,8 @@
    "h": 336
   },
   "portrait": {
-   "w": 234,
-   "h": 896,
+   "w": 226,
+   "h": 880,
    "margin": 32,
    "maxScale": 1.4
   }

@@ -2,7 +2,7 @@
 import { prepareLevel, Run, slotTimeMs } from './engine.js';
 import { AudioOut, buildSong } from './audio.js';
 import { Renderer, layout } from './render.js';
-import { evalRound, finalOffset, simulate } from './calib.js';
+import { evalRound, finalOffset, simulate, calibTapDiffR11, attemptComp } from './calib.js';
 import * as Store from './store.js';
 import { ads } from './ads.js';
 
@@ -24,6 +24,8 @@ let levelIndex = 0, L = null, run = null, practice = false, th = null;
 let S = {}; // 렌더 상태
 let pauseV = 0, cardReturn = null, cardShown = null;
 let lateVisible = false, sessionCounted = false;
+let safeIns = { t: 0, b: 0 };
+let pendingBegin = false; // R11 ③ 안정 대기 뒤 시작할 시도
 
 // ---------- 시계 ----------
 // V(ms) = 오디오 시계 - 지연 보정. 실시간: performance 시계 + (오디오 - performance) 차이 추정. 테스트: 가상 시계
@@ -40,10 +42,24 @@ const clock = {
   tapV(ts) { return TEST ? this.vt : this.ctOf(ts) * 1000 - this.comp; },
   perfOfV(V) { return (V + this.comp) - (this.off ?? 0) * 1000; },
 };
+// autoNow = 지금 읽은 자동 지연 (outputLatency + baseLatency, ms)
 function autoLat() { return TEST || !A ? 0 : A.autoLatencyMs(); }
-// 자동 지연은 이 함수에서만 읽어 clock.auto 에 고정하고, 판정(comp)·보정·표시(latency().auto)가 모두 이 값을 씀 (R9).
-// 갱신 시점: 오디오 잠금 해제, 레벨 플레이 시작(beginRun), 보정 시작·끝, 오프셋 설정.
-function updateComp() { clock.auto = autoLat(); clock.comp = clock.auto + (store.offsetMs || 0); }
+// R11 ②: 판정 comp = 시도 시작 때 autoNow + 수동 오프셋 (calib.js attemptComp). clock.auto 는 그 시도의 값이고
+// 판정·공 그리기·표시(latency().auto)가 모두 이 값을 씀(R9). 시도 중에는 바꾸지 않음.
+// 다시 읽는 때: 시도 시작(beginRun·실패 뒤 재시작·일시정지 복귀), 오디오 잠금 해제, 보정 끝, 오프셋 설정(시도 밖).
+function updateComp() { clock.auto = autoLat(); clock.comp = attemptComp(clock.auto, store.offsetMs); }
+// R11 ③ 잠금 해제 뒤 안정 대기가 끝났는지 (테스트 모드·오디오 없음 = 끝남)
+function latSettled() { return TEST || !A || !A.ctx || A.lat?.settled !== false; }
+// R11 재시작: 실패 → 다음 시도 경계에서 comp 를 다시 읽고, 바뀐 양 dc 만큼 재시작 시각(V)을 옮겨 1.08 s(벽시계)를 유지
+// (auto_latency_read.restart_keeps_delay). V = 오디오 시계 − comp 라 같은 순간의 V 도 dc 만큼 줄어듦. 반환 = 새 comp 기준 V
+function rereadAtRestart(V) {
+  if (!run || run.phase !== 'fail' || V < run.restartV) return V;
+  const old = clock.comp;
+  updateComp();
+  const dc = clock.comp - old;
+  if (dc && D.bal.audio_latency.auto_latency_read.restart_keeps_delay) run.restartV -= dc;
+  return V - dc;
+}
 
 // ---------- 데이터 ----------
 async function loadAll() {
@@ -68,6 +84,7 @@ function applyText() {
 // ---------- 테마 ----------
 function themeOf(i) { return D.palette.themes[D.levels[i].theme_id]; }
 function setTheme(t) {
+  if (th === t) return; // 같은 테마면 CSS 변수를 다시 쓰지 않음(문서 전체 스타일 재계산 방지, R12)
   th = t;
   const s = document.documentElement.style, C = D.palette.common;
   s.setProperty('--bg', t.bg); s.setProperty('--bgFar', t.bgFar); s.setProperty('--tint', t.cardTint);
@@ -78,15 +95,31 @@ function setTheme(t) {
 
 // ---------- 화면 ----------
 const SCREENS = ['sLoading', 'sTitle', 'sLevels', 'sSettings', 'sConfirm', 'sCalib', 'sCard', 'sPlay', 'sPause', 'sResult'];
-function show(...ids) { for (const id of SCREENS) $(id).classList.toggle('show', ids.includes(id)); }
+function show(...ids) {
+  if (warmIds) endWarm(); // R13: 화면이 바뀌는 프레임에 미리 그리기 상태를 바로 끝냄
+  for (const id of SCREENS) $(id).classList.toggle('show', ids.includes(id));
+}
 // 처음 보이는 화면의 그림·글 배치 비용을 타이틀 뒤에서 미리 냄 (거의 투명하게 2프레임, 탭 안 받음). 레벨 첫 시작 프레임이 길어지는 것 방지 (round-2 성능)
+// R13: 튜토리얼 글은 hidden 클래스를 건드리지 않고 CSS(.screen.warm:not(.show) #tut)로만 보이게 함 → 표시 상태가 어긋나 남지 않음
+let warmIds = null;
+function endWarm() { for (const id of warmIds) $(id).classList.remove('warm'); warmIds = null; $('sCard').classList.remove('warm'); }
 function warmScreens() {
-  const ids = ['sPlay', 'sResult', 'sPause'];
-  for (const id of ids) $(id).classList.add('warm');
-  $('tut').classList.remove('hidden');
+  warmIds = ['sPlay', 'sResult', 'sPause'];
+  for (const id of warmIds) $(id).classList.add('warm');
   let n = 0;
-  const f = () => { if (++n < 3) { requestAnimationFrame(f); return; } for (const id of ids) $(id).classList.remove('warm'); if (!tutOn) $('tut').classList.add('hidden'); };
+  const f = () => { if (!warmIds) return; if (++n < 3) { requestAnimationFrame(f); return; } for (const id of warmIds) $(id).classList.remove('warm'); };
   requestAnimationFrame(f);
+  // 첫 실행에 바로 나오는 레벨 1 그림 카드도 같은 크기로 미리 그려 둠: 카드 SVG 첫 해독·래스터화가 레벨 시작 창에
+  // 98~248 ms 프레임(스크립트 0)을 만들었음 (R12). 해독이 끝난 뒤 2프레임 더 그리고 끝냄. 화면이 바뀌면 바로 끝냄(show → endWarm)
+  // 반환 Promise = 카드 미리 그리기 끝 (boot 가 이것을 기다린 뒤 테스트 훅 ready)
+  const c0 = cardIdOf(0), ci = $('cardImg');
+  if (!c0) return Promise.resolve();
+  placeCard(c0);
+  $('sCard').classList.add('warm');
+  return new Promise((res) => {
+    const done = () => { let k = 0; const g = () => { if (!warmIds) return res(); if (++k < 3) { requestAnimationFrame(g); return; } $('sCard').classList.remove('warm'); res(); }; requestAnimationFrame(g); };
+    (ci.decode ? ci.decode() : Promise.resolve()).then(done, done);
+  });
 }
 // 화면 밖 미리 돌리기: 레벨 1 완벽 입력 + 실패 + 클리어 장면을 작은 캔버스에 그림 (게임 상태·저장은 건드리지 않음)
 function warmCode() {
@@ -138,7 +171,7 @@ function unlockAudio() {
 }
 
 // ---------- 타이틀 ----------
-function showTitle() { setTheme(themeOf(0)); setState('title'); show('sTitle'); }
+function showTitle() { pendingBegin = false; setTheme(themeOf(0)); setState('title'); show('sTitle'); }
 function afterTitle() {
   unlockAudio();
   menuSnd();
@@ -151,11 +184,12 @@ function lvSave(i) { return Store.lv(store, D.levels[i].id); }
 function cardIdOf(i) { const c = D.levels[i].card; return c && c.id ? c.id : null; }
 // 레벨 카드 시작 버튼 영역 (30-art 5-6 round 2): 위 → 아래 "작은 궤도 → 점 → 등급 줄 → 이름", 줄 사이 gap, 겹침 0.
 // 높이가 모자라면 ① 궤도를 orbitMin 까지 줄임 → ② 이름 숨김(aria-label 은 유지) → ③ 궤도 숨김
-function cardRowsPlan(n, ch) {
-  const r = D.art.card.rows, A = ch - D.art.card.practiceBtn - r.reserve;
+// opts.nameH = 이름 줄 높이(두 줄일 때 card.name.twoH), opts.noName = 이름 숨김(②)
+function cardRowsPlan(n, ch, opts = {}) {
+  const r = D.art.card.rows, A = ch - D.art.card.practiceBtn - r.reserve, nh = opts.nameH ?? r.name;
   const dots = n > D.art.card.dotsPerRow ? r.dots2 : r.dots1;
   const base = dots + r.gap + r.grade;
-  if (r.orbitMin + r.gap + base + r.gap + r.name <= A) return { orbit: Math.min(r.orbit, A - (r.gap + base + r.gap + r.name)), name: true, dots };
+  if (!opts.noName && r.orbitMin + r.gap + base + r.gap + nh <= A) return { orbit: Math.min(r.orbit, A - (r.gap + base + r.gap + nh)), name: true, dots };
   if (r.orbitMin + r.gap + base <= A) return { orbit: Math.min(r.orbit, A - (r.gap + base)), name: false, dots };
   return { orbit: 0, name: false, dots };
 }
@@ -263,16 +297,31 @@ function fitGrid() {
   grid.style.gridTemplateColumns = `repeat(${best.cols}, ${cw}px)`;
   grid.style.setProperty('--cw', cw + 'px'); grid.style.setProperty('--ch', ch + 'px');
   // 카드 크기가 정해진 뒤 줄 흐름을 그림 (안쪽 폭 = 카드 − 테두리 − 여백 8)
-  [...grid.children].forEach((card, i) => {
-    const plan = cardRowsPlan(i + 1, ch);
-    const play = card.querySelector('.lplay');
-    play.innerHTML = cardRowsHtml(i, i + 1 > store.unlocked, plan, cw - 2 * c.border - 8);
-    const nm = play.querySelector('.lname');
-    if (nm && nm.scrollWidth > nm.clientWidth + 0.5) nm.remove(); // 잘린 글 금지 → 이름 숨김(②)
-  });
+  [...grid.children].forEach((card, i) => fitCardRows(card.querySelector('.lplay'), i, ch, cw - 2 * c.border - 8));
   grid.classList.toggle('scrolls', grid.scrollHeight > grid.clientHeight + 1);
 }
+// 카드 줄 흐름 + 긴 이름 처리 순서 (30-art 5-6 R16): 12 → 11 → 10 px 한 줄 → 10 px 두 줄(궤도를 줄여 높이 마련) → 숨김.
+// 판단은 실제 글자 폭(scrollWidth)으로, 잘린 글 0
+function fitCardRows(play, i, ch, iw) {
+  const locked = i + 1 > store.unlocked, nr = D.art.card.name;
+  const plan = cardRowsPlan(i + 1, ch);
+  play.innerHTML = cardRowsHtml(i, locked, plan, iw);
+  let nm = play.querySelector('.lname');
+  if (!nm) return;
+  const fitsW = () => nm.scrollWidth <= nm.clientWidth + 0.5;
+  for (const fs of nr.sizes) { nm.style.fontSize = fs + 'px'; if (fitsW()) return; }
+  // 두 줄: 이름 줄 높이 twoH, 늘어난 높이는 작은 궤도 줄이기(최소 orbitMin)로 마련
+  const hide = () => { play.innerHTML = cardRowsHtml(i, locked, cardRowsPlan(i + 1, ch, { noName: true }), iw); };
+  const p2 = cardRowsPlan(i + 1, ch, { nameH: nr.twoH });
+  if (!p2.name) return hide(); // 궤도를 orbitMin 까지 줄여도 높이 부족
+  play.innerHTML = cardRowsHtml(i, locked, p2, iw);
+  nm = play.querySelector('.lname');
+  nm.classList.add('two');
+  Object.assign(nm.style, { fontSize: nr.twoSize + 'px', lineHeight: nr.twoLineH + 'px', height: nr.twoH + 'px' });
+  if (!fitsW() || nm.scrollHeight > nr.twoH + 0.5) hide();
+}
 function showLevels() {
+  pendingBegin = false;
   if (run && A) A.stopSong(0.05);
   run = null;
   setTheme(themeOf(Math.min(store.unlocked, 10) - 1));
@@ -332,7 +381,7 @@ function refreshLate() {
 }
 
 // ---------- 설정 ----------
-function showSettings() { setState('settings'); show('sSettings'); applySound(); refreshLate(); }
+function showSettings() { pendingBegin = false; setState('settings'); show('sSettings'); applySound(); refreshLate(); }
 
 // 기록 지우기 확인 창: 첫 초점 = 취소 (10-1, 10-lore 7-10 R8-7)
 function showConfirm() { setState('confirm'); show('sConfirm'); $('cfNo').focus({ preventScroll: true }); }
@@ -347,22 +396,31 @@ function startCalib(first) {
   $('together').classList.toggle('hidden', !(first && gc.first_run_picture_only_on_first_run));
   $('bRedo').classList.add('hidden');
   const beatMs = 60000 / gc.bpm;
-  cal = { first, gc, beatMs, taps: [], rounds: [], retries: 0, filled: 0, phase: 'tap', endV: 0, emptyV: -1, hand: true };
-  if (TEST || !audio.ok) cal.base = clock.V() + beatMs;
+  pendingBegin = false;
+  cal = { first, gc, beatMs, taps: [], rounds: [], retries: 0, filled: 0, phase: 'wait', endV: 0, emptyV: -1, hand: true, autoNows: [] };
+  // R11 ③: 잠금 해제 뒤 자동 지연이 안정될 때까지 똑딱을 늦춤 (화면은 보정 화면 그대로, 탭은 세지 않음)
+  if (latSettled()) calibTicks();
+  setCalibAria();
+}
+function calibTicks() {
+  const beatMs = cal.beatMs;
+  cal.phase = 'tap';
+  if (TEST) cal.base = clock.V() + beatMs;
+  else if (!audio.ok) cal.base = clock.ctOf(performance.now()) * 1000 + beatMs;
   else {
     cal.base = A.now() * 1000 + beatMs;
     A.setSong(cal.base, Array.from({ length: 240 }, (_, k) => ({ x: k * beatMs, name: 'tick' })));
   }
-  setCalibAria();
 }
 function setCalibAria() { const p = $('calibProg'); p.setAttribute('aria-valuenow', String(cal.filled)); p.setAttribute('aria-valuemax', String(cal.gc.taps_per_round)); }
 function calibTap(ts) {
   if (!cal || cal.phase !== 'tap') return;
-  const gc = cal.gc;
-  const t = TEST || !audio.ok ? clock.vt : clock.ctOf(ts) * 1000 - clock.auto;
-  const k = Math.round((t - cal.base) / cal.beatMs);
-  if (t < cal.base - cal.beatMs / 2) return; // 첫 박 전
-  calibDiff(t - (cal.base + k * cal.beatMs));
+  // R11 ①: 들리는 박 = 예약 시각 + 그 탭 순간 autoNow → 차이는 자동 지연을 뺀 남는 차이 (calib.js calibTapDiffR11)
+  const an = TEST || !audio.ok ? 0 : autoLat();
+  const diff = calibTapDiffR11(TEST ? clock.vt : clock.ctOf(ts) * 1000, an, cal.base, cal.beatMs);
+  if (diff === null) return; // 첫 박 전
+  cal.autoNows.push(an);
+  calibDiff(diff);
   if (A) A.play('stray');
 }
 function calibDiff(diff) {
@@ -395,7 +453,7 @@ function calibEnd(ok, f) {
   cal.result = f || null;
   cal.endV = clock.V();
   if (ok) {
-    store.calibAutoLat = clock.auto; store.late.drift = false; store.late.device = false; store.late.sessions = 0;
+    store.calibAutoLat = autoLat(); store.late.drift = false; store.late.device = false; store.late.sessions = 0;
     if (A) A.play('bell_low', null, { f: D.music.calib_check_hz });
     $('calibLive').textContent = T[gc.done_signal];
     $('bRedo').classList.remove('hidden');
@@ -409,6 +467,7 @@ function calibEnd(ok, f) {
 function calibFrame(V) {
   if (!cal) return;
   const c = D.art.calib;
+  if (cal.phase === 'wait') { if (latSettled()) calibTicks(); return; }
   if (cal.emptyV >= 0) {
     const k = (V - cal.emptyV) / 200;
     if (k >= 1) { if (cal.phase === 'tap') cal.filled = 0; cal.emptyV = -1; setCalibAria(); }
@@ -452,7 +511,12 @@ function startLevel(i, prac, { card = true } = {}) {
   if (card && cardIdOf(i) && !lvSave(i).cardSeen) { showCard(i, 'play'); return; }
   beginRun();
 }
+// R11 ③: 잠금 해제 뒤 첫 시도도 자동 지연 안정 뒤에 시작 (그 사이 지금 화면 그대로, 최대 stable_wait.max_wait_ms)
 function beginRun() {
+  if (!latSettled()) { pendingBegin = true; run = null; return; }
+  // R12: 새 테마의 바탕 층을 한 프레임 먼저 그려 두고 다음 프레임에 시작 (레벨 시작 프레임 비용을 두 프레임에 나눔)
+  if (!TEST && R && !R.hasLayer(th)) { R.staticLayer(th); pendingBegin = true; run = null; return; }
+  pendingBegin = false;
   if (A) A.stopSong(0.02);
   updateComp();
   R.prewarm();
@@ -523,7 +587,7 @@ const ariaCache = { prog: -1, att: -1 };
 let tutOn = false; // 튜토리얼 글: display 대신 visibility 로 숨겨 첫 표시 때 글자 배치 비용이 안 생기게
 function gameTap(ts) {
   if (!run) return;
-  const V = clock.tapV(ts);
+  const V = rereadAtRestart(clock.tapV(ts));
   run.update(V);
   const r = run.tap(V);
   const fx = D.art.fx;
@@ -562,6 +626,7 @@ async function resumeGame() {
   setState('play'); show('sPlay');
   if (run.phase === 'clearing') { run.update(run.songStartV + L.durationMs + 1); handleEvents(); return; }
   if (run.phase === 'cleared' || run.phase === 'done') { run.update(run.songStartV + L.durationMs + 1); handleEvents(); if (state !== 'result') showResult(); return; }
+  updateComp(); // 새 시도 시작 (R11)
   run.restartNow(clock.V(), START_LEAD_MS, run.phase === 'fail');
   handleEvents();
 }
@@ -628,18 +693,19 @@ function placeUi() {
   placeCard();
 }
 // 그림 카드: 세로 화면 = 세로판(9-1 배율), 가로 화면 = 가로판(폭 80 % 이하)
-function placeCard() {
-  if (!R || state !== 'card' || cardShown == null) return;
+// warmId = 미리 그리기용(타이틀 뒤에서 첫 카드 그림을 같은 크기로 한 번 래스터화, round-3 R12)
+function placeCard(warmId = null) {
+  const id = warmId ?? cardShown;
+  if (!R || (!warmId && state !== 'card') || id == null) return;
   const lay = R.lay, ca = D.art.card, ci = $('cardImg');
-  const cs = getComputedStyle(document.documentElement);
-  const st = parseFloat(cs.getPropertyValue('--sat')) || 0, sb = parseFloat(cs.getPropertyValue('--sab')) || 0;
+  const st = safeIns.t, sb = safeIns.b; // resize 때 읽은 안전 영역 (getComputedStyle 강제 스타일 계산 피함, R12)
   let w, src;
   if (lay.portrait) {
     const p = ca.portrait, s = Math.min((lay.W - p.margin) / p.w, (lay.H - p.margin - st - sb) / p.h, p.maxScale);
-    w = p.w * s; src = `data/svg/cards/${cardShown}_portrait.svg`;
+    w = p.w * s; src = `data/svg/cards/${id}_portrait.svg`;
   } else {
     w = Math.min(lay.W * ca.landscapeMaxW, (lay.H - 40) * (ca.img.w / ca.img.h));
-    src = `data/svg/cards/${cardShown}.svg`;
+    src = `data/svg/cards/${id}.svg`;
   }
   if (!ci.src.endsWith(src)) ci.src = src;
   ci.style.width = w + 'px'; ci.style.maxHeight = 'none';
@@ -653,8 +719,10 @@ function frame() {
   lastPerf = now;
   clock.sample();
   if (!D) return;
-  const V = clock.V();
-  if (!TEST && state === 'play' && run) { run.update(V, REALTIME_GRACE_MS); handleEvents(); }
+  if (A) A.pollStable(D.bal.audio_latency.auto_latency_read.stable_wait);
+  if (pendingBegin && latSettled()) beginRun();
+  let V = clock.V();
+  if (!TEST && state === 'play' && run) { V = rereadAtRestart(V); run.update(V, REALTIME_GRACE_MS); handleEvents(); }
   if (A) A.pump();
   if (state === 'calib') calibFrame(V);
   if (state === 'levels') gateFrame(now);
@@ -677,8 +745,9 @@ function draw(V) {
 function resize() {
   const W = innerWidth, H = innerHeight, dpr = Math.min(3, devicePixelRatio || 1);
   const cs = getComputedStyle(document.documentElement);
-  const safe = { t: parseFloat(cs.getPropertyValue('--sat')) || 0, b: parseFloat(cs.getPropertyValue('--sab')) || 0 };
+  const safe = safeIns = { t: parseFloat(cs.getPropertyValue('--sat')) || 0, b: parseFloat(cs.getPropertyValue('--sab')) || 0 };
   R.resize(W, H, dpr, safe);
+  R.prewarm(); // 손가락·깃발 스프라이트를 지금 크기로 미리 래스터화 (레벨 시작 프레임에서 빼냄, R12)
   placeUi();
   if (state === 'levels') fitGrid();
 }
@@ -775,7 +844,7 @@ function stepTest(dt) {
   const end = clock.vt + dt * 1000;
   while (clock.vt < end - 1e-9) {
     clock.vt = Math.min(end, clock.vt + 4);
-    if (state === 'play' && run) { run.update(clock.vt); handleEvents(); }
+    if (state === 'play' && run) { run.update(rereadAtRestart(clock.vt)); handleEvents(); }
     if (state === 'calib') calibFrame(clock.vt);
   }
   return true;
@@ -812,6 +881,8 @@ const api = {
   history() { return run ? run.log.map(({ clear, progress, failIndex, reason, grade, practice: p, stray }) => ({ clear, progress, failIndex, reason, grade, practice: p, stray })) : []; },
   // 완벽 입력열(+오프셋·정규 오차) 재생. 테스트 모드: 동기 실행 후 결과. 일반 모드: 실제 pointer 이벤트를 rAF 시각에 맞춰 보내고 Promise
   autoplay(offsetMs = 0, sigma = 0, seed = 1) {
+    // R11 안정 대기로 시도 시작이 미뤄진 동안 부르면, 시작된 뒤 실시간 재생 (일반 모드만)
+    if (!run && pendingBegin && !TEST) return new Promise((res) => { const f = () => { if (run) res(startAutoRealtime(offsetMs, sigma, seed)); else if (!pendingBegin) res(null); else requestAnimationFrame(f); }; f(); });
     if (!run) return null;
     if (!TEST) return startAutoRealtime(offsetMs, sigma, seed);
     let s = seed >>> 0;
@@ -829,12 +900,13 @@ const api = {
   summary() { const h = run ? run.log[run.log.length - 1] : null; return { state, phase: run && run.phase, clear: !!(h && h.clear), grade: run ? run.grade ?? 0 : 0, attempts: run ? run.attempts : 0, progress: run ? run.progress : 0, lastResult: h ? { clear: h.clear, progress: h.progress, failIndex: h.failIndex, reason: h.reason } : null }; },
   setOffset(ms) { store.offsetMs = ms; Store.save(store); updateComp(); return clock.comp; },
   get offset() { return store.offsetMs; },
-  latency() { return { auto: clock.auto, manual: store.offsetMs, comp: clock.comp, autoNow: autoLat() }; },
+  latency() { return { auto: clock.auto, manual: store.offsetMs, comp: clock.comp, autoNow: autoLat(), settled: latSettled(), stable: A && A.lat ? A.lat.result : null, pendingBegin, calibAutoNows: cal ? cal.autoNows.slice() : null }; },
   show(name) {
     const m = { title: showTitle, levels: showLevels, settings: showSettings, calib: () => startCalib(true), calibRedo: () => startCalib(false), pause: () => pauseGame(false), confirm: showConfirm };
     m[name]?.(); return state;
   },
   calibTap(diffMs) { if (cal && cal.phase === 'tap') calibDiff(diffMs); return cal ? { phase: cal.phase, filled: cal.filled, rounds: cal.rounds.length, retries: cal.retries } : { state, offset: store.offsetMs }; },
+  calibInfo() { return cal ? { phase: cal.phase, base: cal.base ?? null, beatMs: cal.beatMs, filled: cal.filled, rounds: cal.rounds.length, retries: cal.retries, autoNows: cal.autoNows.slice() } : null; },
   calibSimulate(rounds) { return simulate(rounds, D.bal.audio_latency.guardian_calibration); },
   skipCalibration() { store.calibDone = true; Store.save(store); if (state === 'calib') finishCalib(true); return state; },
   lateHint() { return { visible: lateVisible, ...lateConds(), sessions: store.late.sessions, drift: run ? run.drift : null }; },
@@ -866,11 +938,13 @@ async function boot() {
   applySound();
   ads.init();
   showTitle();
-  warmScreens();
+  const warmed = warmScreens();
   // 레벨 처음부터의 곡 이벤트를 미리 만들어 두고, 플레이 코드(판정·그리기)를 화면 밖에서 한 번 돌려 둠 (첫 플레이 프레임 비용 줄임)
   // 로딩 화면 동안(준비 전) 한 번에 함: 플레이 중에 끼어들지 않게
   D.L.forEach((Lv) => songOf(Lv, 0));
   warmCode();
+  // 그림 카드 미리 그리기가 끝날 때까지(최대 1.5 s) 기다린 뒤 준비 완료 (R12)
+  await Promise.race([warmed, new Promise((r) => setTimeout(r, 1500))]);
   api.ready = true;
 }
 boot();

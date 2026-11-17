@@ -1,4 +1,5 @@
 // WebAudio 절차적 합성 + 오디오 시계 예약 (30-art 12-4~12-6, 값은 data/sound.json·music.json)
+import { autoStableAt } from './calib.js';
 const dbLin = (db) => Math.pow(10, db / 20);
 
 export class AudioOut {
@@ -20,6 +21,8 @@ export class AudioOut {
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return false;
       try { this.ctx = new AC({ latencyHint: 'interactive' }); } catch { return false; }
+      this.unlockedAt = performance.now();
+      this.lat = { readings: [], settled: false, result: null }; // R11 안정 대기 기록
       this._graph();
       this._timer = setInterval(() => this.pump(), 25);
     }
@@ -62,6 +65,16 @@ export class AudioOut {
   autoLatencyMs() {
     if (!this.ctx) return 0;
     return ((this.ctx.outputLatency || 0) + (this.ctx.baseLatency || 0)) * 1000;
+  }
+  // R11 ③ 잠금 해제 뒤 자동 지연 안정 대기 (매 프레임 호출, st = auto_latency_read.stable_wait). 반환 = 안정(또는 시간 초과)
+  pollStable(st) {
+    const s = this.lat;
+    if (!s) return !this.ctx;
+    if (s.settled) return true;
+    s.readings.push({ t: performance.now() - this.unlockedAt, v: this.autoLatencyMs() });
+    const r = autoStableAt(s.readings, st);
+    if (r.stable || r.t >= st.max_wait_ms) { s.settled = true; s.result = r; s.readings = s.readings.slice(-4); }
+    return s.settled;
   }
 
   // 소리 하나. t = 오디오 시각(s), f = 음 주파수(note 소리), dur = ADSR 음 길이(s)
@@ -127,8 +140,11 @@ export class AudioOut {
         this.live.push({ src, t: nt.t });
       }
     }
-    if (this.live.length > 400) { const now = c.currentTime; this.live = this.live.filter((x) => x.t > now - 2); }
+    if (this.live.length > 48) this._prune(c.currentTime);
   }
+
+  // 이미 시작한 소스는 목록에서 뺌 (제자리 정리, 새 배열 없음). stopSong 은 아직 시작 안 한 것만 멈추면 됨 (R12)
+  _prune(now) { const L = this.live; let j = 0; for (let i = 0; i < L.length; i++) if (L[i].t > now) L[j++] = L[i]; L.length = j; }
 
   _arp(def, rootF) {
     const ar = def.arpeggio, lm = this.levelMusic;
@@ -169,7 +185,7 @@ export class AudioOut {
     const g = this.musicFade.gain;
     g.cancelScheduledValues(t); g.setValueAtTime(g.value, t); g.linearRampToValueAtTime(0, t + fadeS);
     for (const x of this.live) if (x.t > t + 0.002) { try { x.src.stop(); } catch {} }
-    this.live = this.live.filter((x) => x.t <= t + 0.002);
+    this.live.length = 0; // 이미 시작한 소리는 stopSong 이 멈출 일이 없어 들고 있지 않음 (R12: 끝난 노드를 오래 붙잡아 GC 추적 비용이 커지지 않게)
   }
 
   pump() {

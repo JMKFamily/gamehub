@@ -6,7 +6,7 @@
 // 1) ?test=1: 레벨 1~10 완벽 입력열 클리어(등급 3), ±40 ms 오프셋 입력 클리어, 무입력 실패 → 1.08 s 뒤 자동 재시작
 // 2) 일반 모드(오디오 켜짐, rAF + PointerEvent): 타이틀 실제 클릭 → 첫 실행 보정(건너뛰기 클릭) → 카드 → 완벽 입력 실시간 클리어
 // 3) 4해상도 화면별 스크린샷 + 버튼 48 px·겹침·화면 밖 검사, 콘솔 에러·외부 요청 수집
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
@@ -18,7 +18,9 @@ const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
 const channel = opt('--channel', 'msedge');
 const OUT = resolve(opt('--out', join(tmpdir(), 'rhythm01-selfcheck')));
 const QUICK = args.includes('--quick');
-const PORT = 8320 + Math.floor(Math.random() * 60); // rhythm-01 전용 대역 8300~8399
+const PORT = +opt('--port', 8340 + Math.floor(Math.random() * 40)); // rhythm-01 game-developer 대역 8340~8379 (round-3)
+if (PORT < 8340 || PORT > 8379) { console.error('포트는 8340~8379 만'); process.exit(2); }
+const D_MIN_SINCE_UNLOCK = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8')).audio_latency.auto_latency_read.stable_wait.min_since_unlock_ms; // R11 안정 대기 최소 시간
 const BASE = `http://localhost:${PORT}/games/rhythm-01/`;
 mkdirSync(OUT, { recursive: true });
 
@@ -29,6 +31,7 @@ for (const t of [process.env.PLAYWRIGHT_CORE && pathToFileURL(process.env.PLAYWR
 if (!pw) { console.error('playwright-core 를 찾지 못함 (PLAYWRIGHT_CORE)'); process.exit(2); }
 
 const server = spawn(process.execPath, [join(PROJ, 'tools/serve.mjs'), String(PORT)], { stdio: 'ignore' });
+console.log(`serve.mjs pid ${server.pid} port ${PORT}`);
 for (let k = 0; k < 60; k++) { try { if ((await fetch(BASE)).ok) break; } catch {} await new Promise((r) => setTimeout(r, 100)); }
 const browser = await pw.chromium.launch({ channel, headless: true, args: ['--autoplay-policy=no-user-gesture-required'] });
 const rep = { base: BASE, channel, console: [], external: [], failed: [], test: [], realtime: [], ui: [], shots: [] };
@@ -140,6 +143,7 @@ async function checkButtons(p, tag) {
     const { ctx, p } = await open(1280, 720, '');
     await p.mouse.click(640, 400);
     await p.evaluate((i) => { window.__game.skipCalibration(); window.__game.loadLevel(i); }, i);
+    await p.waitForFunction(() => window.__game.state === 'play', null, { timeout: 5000 }); // R11: 잠금 해제 뒤 첫 시도는 자동 지연 안정 뒤 시작
     for (let k = 0; k < 400; k++) {
       const st = await p.evaluate(() => window.__game.state);
       if (st !== 'play') break;
@@ -280,7 +284,8 @@ for (const [w, h] of [[360, 640], [412, 915], [640, 360], [1280, 720]]) {
   // R4: 그림 카드 (세로 = _portrait.svg), 카드 속 공 지름 28(카드 단위) → 화면 px ≥ 16
   await g(() => window.__game.loadLevel(0, { card: true }));
   await p.waitForFunction(() => document.getElementById('cardImg').complete);
-  out.card = await g(() => { const im = document.getElementById('cardImg'); const r = im.getBoundingClientRect(); const portrait = innerWidth < innerHeight; return { src: im.getAttribute('src'), w: r.width, h: r.height, ballPx: 28 * r.width / (portrait ? 234 : 720), inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; });
+  const PW = JSON.parse(readFileSync(join(PROJ, '..', '..', 'games', 'rhythm-01', 'data', 'art.json'), 'utf8')).card.portrait.w; // 세로판 폭 (round-3 226, 공은 세로판에서 1.2배)
+  out.card = await g((PW) => { const im = document.getElementById('cardImg'); const r = im.getBoundingClientRect(); const portrait = innerWidth < innerHeight; return { src: im.getAttribute('src'), w: r.width, h: r.height, ballPx: 28 * (portrait ? 1.2 : 1) * r.width / (portrait ? PW : 720), inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; }, PW);
   if ((w < h) !== out.card.src.endsWith('_portrait.svg') || out.card.ballPx < 16 || !out.card.inside) fail(`R4 ${tag} 카드 ${JSON.stringify(out.card)}`);
   await shot(p, `${tag}-r2-card.png`);
   // N12: 손가락 칸 = max(64, 0.45R)
@@ -361,6 +366,98 @@ for (const [w, h] of [[360, 640], [412, 915], [640, 360], [1280, 720]]) {
   rep.r2.R8_5 = lf;
   await ctx2.close();
   console.log(`R8: 시도 meter ${r8.a1.now}→${r8.a2}, 깃발 ${r8.flags.length}개, 설정 "${r8.gate.label}"+설명, 불러오기 실패 ↻ "${lf.label}"`);
+}
+{
+  // R11 (round-3): 자동 지연이 잠금 해제 200 ms 뒤 10 → 66 ms 로 바뀌는 흉내. 빈 저장소 → 타이틀 클릭 → 첫 보정(안정 대기)
+  // → 들리는 박(예약 + 탭 순간 autoNow) + 45 ms 에 16탭 → 오프셋 ≈ 45 (이중 보정이면 ≈ 101) → L1 comp − autoNow = 오프셋
+  // → 실패 중 자동 지연 +64 ms 바뀜 → 다음 시도 comp 다시 읽음 + 재시작 간격 그대로(restart_keeps_delay)
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  await ctx.addInitScript(() => {
+    window.__latMock = { jumpAt: 200, before: 0.010, after: 0.066, extra: 0 };
+    Object.defineProperty(AudioContext.prototype, 'outputLatency', { configurable: true, get() { const m = window.__latMock; if (!this.__t0) this.__t0 = performance.now(); return (performance.now() - this.__t0 < m.jumpAt ? m.before : m.after) + m.extra; } });
+    Object.defineProperty(AudioContext.prototype, 'baseLatency', { configurable: true, get() { return 0; } });
+  });
+  const p = await ctx.newPage();
+  p.on('pageerror', (e) => rep.console.push(`[R11] pageerror: ${e.message}`));
+  p.on('console', (m) => { if (['error', 'warning'].includes(m.type())) rep.console.push(`[R11] ${m.type()}: ${m.text()}`); });
+  await p.goto(BASE);
+  await p.waitForFunction(() => window.__game?.ready === true, null, { timeout: 15000 });
+  await p.mouse.click(640, 400);
+  await p.waitForFunction(() => window.__game.state === 'calib');
+  const w0 = await p.evaluate(() => window.__game.calibInfo().phase);
+  await p.waitForFunction(() => window.__game.calibInfo()?.phase === 'tap', null, { timeout: 5000 });
+  const st = await p.evaluate(() => window.__game.latency().stable);
+  const HUMAN = 45;
+  const taps = await p.evaluate(async (human) => {
+    const g = window.__game, ci = g.calibInfo();
+    const offNow = () => { let o = -1e9; for (let k = 0; k < 40; k++) o = Math.max(o, g.audioTime() - performance.now() / 1000); return o; };
+    const cv = document.getElementById('cv'), out = [];
+    for (let k = 0; k < 16; k++) {
+      const an = g.latency().autoNow;
+      const tA = ci.base + k * ci.beatMs + an + human; // 들리는 박 + 사람 오차 (오디오 ms)
+      while ((tA / 1000 - offNow()) * 1000 - performance.now() > 25) await new Promise((r) => setTimeout(r, 10));
+      const target = (tA / 1000 - offNow()) * 1000; // 탭 직전에 시계 대응을 다시 잼(부하 때 오디오 시계 흔들림)
+      while (performance.now() < target) {}
+      cv.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true, pointerType: 'touch', isPrimary: true, button: 0, clientX: 640, clientY: 400 }));
+      out.push(an);
+    }
+    return out;
+  }, HUMAN);
+  const cal = await p.evaluate(() => ({ save: window.__game.save(), info: window.__game.calibInfo() }));
+  await p.waitForFunction(() => window.__game.state === 'card', null, { timeout: 5000 });
+  await p.mouse.click(640, 400);
+  await p.waitForFunction(() => window.__game.state === 'play' && window.__game.phase === 'run');
+  const l1 = await p.evaluate(() => window.__game.latency());
+  // 실패 → 재시작 간격 (dc 0 한 번, dc +64 한 번)
+  const gap = async (extra) => {
+    return p.evaluate(async (extra) => {
+      const g = window.__game, att = g.attempts;
+      await new Promise((r) => { const f = () => (g.phase === 'fail' ? r() : requestAnimationFrame(f)); f(); });
+      const tf = performance.now(); window.__latMock.extra = extra;
+      await new Promise((r) => { const f = () => (g.attempts > att && g.phase === 'run' ? r() : requestAnimationFrame(f)); f(); });
+      return { ms: performance.now() - tf, lat: g.latency() };
+    }, extra);
+  };
+  const g0 = await gap(0), g1 = await gap(0.064);
+  const r11 = { waitPhase: w0, stable: st, tapAutoNows: [...new Set(taps.map((x) => Math.round(x)))], offset: cal.save.offsetMs, calibAutoLat: cal.save.calibAutoLat, l1, restart0: g0, restart64: g1 };
+  rep.r3 = { R11: r11 };
+  if (w0 !== 'wait' || !st || st.t < D_MIN_SINCE_UNLOCK) fail(`R11 안정 대기 ${JSON.stringify({ w0, st })}`);
+  if (Math.abs(r11.offset - HUMAN) > 10) fail(`R11 보정 오프셋 ${r11.offset} (기대 ${HUMAN} ±10)`);
+  if (Math.abs(l1.comp - l1.autoNow - r11.offset) > 1e-6 || Math.abs(l1.auto - l1.autoNow) > 1e-6) fail(`R11 L1 comp ${JSON.stringify(l1)}`);
+  if (Math.abs(g1.lat.comp - g0.lat.comp - 64) > 0.5) fail(`R11 재시작 다시 읽기 ${g0.lat.comp} → ${g1.lat.comp}`);
+  if (Math.abs(g1.ms - g0.ms) > 25) fail(`R11 재시작 간격 dc 0 ${g0.ms.toFixed(1)} / dc 64 ${g1.ms.toFixed(1)} ms`);
+  console.log(`R11: 안정 대기 ${st.t.toFixed(0)} ms(값 ${st.v.toFixed(0)}), 보정 탭 autoNow ${r11.tapAutoNows.join('/')} → 오프셋 ${r11.offset} (사람 +${HUMAN}), L1 comp ${l1.comp.toFixed(1)} = autoNow ${l1.autoNow.toFixed(1)} + ${l1.manual}, 재시작 간격 dc0 ${g0.ms.toFixed(0)} / dc64 ${g1.ms.toFixed(0)} ms (comp ${g0.lat.comp.toFixed(0)} → ${g1.lat.comp.toFixed(0)})`);
+  await ctx.close();
+}
+{
+  // R13: 테스트 훅 준비 직후(3프레임 안) 레벨 시작 → 튜토리얼 글이 북채와 함께 보이지 않음 (같은 프레임에 숨김)
+  const ctx = await browser.newContext({ viewport: { width: 360, height: 640 } });
+  const p = await ctx.newPage();
+  await p.goto(BASE + '?test=1');
+  const vis = await p.evaluate(() => new Promise((res) => {
+    const go = () => {
+      if (!window.__game?.ready) return requestAnimationFrame(go);
+      window.__game.loadLevel(0); window.__game.step(0.15);
+      const t = document.getElementById('tut');
+      res({ cls: t.classList.contains('hidden'), vis: getComputedStyle(t).visibility, warm: document.getElementById('sPlay').classList.contains('warm') });
+    };
+    go();
+  }));
+  rep.r3 = { ...(rep.r3 || {}), R13: vis };
+  if (vis.vis !== 'hidden' || !vis.cls || vis.warm) fail(`R13 튜토리얼 글 ${JSON.stringify(vis)}`);
+  console.log(`R13: 준비 직후 레벨 시작 튜토리얼 글 visibility ${vis.vis}, warm ${vis.warm}`);
+  await ctx.close();
+}
+{
+  // R16: 영어 360x640 레벨 선택 L9 "Above the Clouds" 가 숨겨지지 않고(글자 축소 또는 두 줄) 잘린 글 0
+  const { ctx, p } = await open(360, 640, '?test=1&lang=en');
+  await p.evaluate(() => window.__game.show('levels'));
+  const nm = await p.evaluate(() => [...document.querySelectorAll('.lplay')].map((b) => { const n = b.querySelector('.lname'); return n ? { t: n.textContent, fs: n.style.fontSize || '12px', two: n.classList.contains('two'), clip: n.scrollWidth > n.clientWidth + 0.5 || (n.classList.contains('two') && n.scrollHeight > n.clientHeight + 0.5) } : null; }));
+  rep.r3 = { ...(rep.r3 || {}), R16: nm };
+  if (!nm[8] || nm.some((x) => x && x.clip)) fail(`R16 이름 ${JSON.stringify(nm)}`);
+  console.log(`R16: en 360x640 L9 ${nm[8] ? `"${nm[8].t}" ${nm[8].fs}${nm[8].two ? ' 두 줄' : ''}` : '숨김'}, 이름 보임 ${nm.filter(Boolean).length}/10, 잘림 ${nm.filter((x) => x && x.clip).length}`);
+  await shot(p, '360x640-r3-levels-en.png');
+  await ctx.close();
 }
 {
   // R9: 일반 모드 자동 지연 표시값 = 판정에 쓰는 값

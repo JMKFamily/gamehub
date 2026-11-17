@@ -4,6 +4,10 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | 1-3 round-3 | [R11 지연 보정(탭마다 autoNow·시도마다 comp·안정 대기·재시작 1.08 s 유지, C2 다름 0)·R12 성능(탭 아이콘 PNG·카드 미리 그리기·GC·층 구조, 6배 스로틀 35/36)·R13 훅 화면, R14~R16 구현됨, 빌드 데이터 v2 유지](game-developer/2026-11-17-r3-build.md) |
+| 2026-11-17 | balance-designer | round-3 1-1 새 코어 | [북길 밸런스·레벨: 스키마 v3(path.chunks 덩어리 + 파생 bars, v2 `_r2_deprecated`)·L1~L10 재설계(N1~N11 전부 PASS, L6 새 기믹 반박 3연속 `card_run3`)·미리 보기 세로 min(가로, 3.5)·처음 보는 무늬 비용 봇 σ70 m̃ 2.83 → 21.02, B6 T 22.75 (−7.6 %)·시드 10개 −9.0 %·콤보 = 공통 문서안(성공마다 +1)·R17b 이른 −30 ms L7~L10 30회 초과 보고, 전체 실행 ALL PASS](balance-designer/2026-11-17-r3-new-core.md) |
+| 2026-11-17 | art-director | round-3 1-1 새 코어 | [북길 시각·사운드: 판정 선 x 30/20 %·미리 보기 288~896 px·별 33~72 px(layout.json)·세로 미리 보기 min(가로, 3.5)로 반박 41.1 ≥ 41 해결·겹침 298 ≤ 320 ms·왼쪽 부채꼴 판정 5/3/0·콤보 HUD 점 10칸 + 큰 표지(무음 끊김)·카드 5장 cards-r3·금지 목록 11·콤보 화음 −13.5 dB, palette 460쌍·sound-check·road-layout OK](art-director/2026-11-17-r3-new-core.md) |
+| 2026-11-17 | lore-writer | round-3 1-1 새 코어 | [북길 세계관·텍스트: 북시계·북채 폐기 → 북길·판정 북·통통 공·흘러오는 별, 화면 이름 공/별/북/길, 키 64 → 69(사용 66, 새 5 `tut_drum_tap`·`card_drum_tap`·`card_long_row`·`aria_streak`·`aria_streak_best`, 폐기 3), 레벨 이름 10개 유지(N4는 R16), 콤보 대체 글은 공통 문서 기준·끊김 소리 없음](lore-writer/2026-11-17-r3-new-core.md) |
 | 2026-11-17 | benchmark-analyst | round-3 코어 개선안 (1-0 보완) | [몰입감 분해(GD 미리 보기 1.16 s·판단 0.80 s 실측 파생)·추천 코어 "북길"(오른쪽에서 별이 흘러와 왼쪽 북에서 톡, 신호 1개)·반복 회피 N1~N11·판단 시간 L1 2.03 → L10 1.17 s·보여 주기/북채/궤도 폐기·콤보 = 좋아 이상 연속](benchmark-analyst/2026-11-17-r3-core-redesign.md) |
 | 2026-11-17 | art-director | round-3 기획 수정 | [R14·R15·R16 art 규칙: 북채 퇴장 점선 굵기·불투명도 × k(1 − q²)·빈칸 그대로·실선 테두리 1 − k / 세로 카드 226×880 + 공·별 1.2배, 360x640 보이는 면 공 20~21·별 19~20 px(기준 18) / 긴 이름 12 → 10 px(최소) → 두 줄 → 숨김, palette·sound-check 통과](art-director/2026-11-17-r3-art-rules.md) |
 | 2026-11-17 | balance-designer | round-3 기획 수정 | [R17 자동 지연 차이 Δ: 정보 R17 (a) round-2 방식 Δ64 L1 14·L2 48회 / (b) R11 Δ64 = Δ0(L1 3·L10 16), R11 정의(calib.mjs)·안정 대기 키(+잠금 해제 뒤 400 ms)·재시작 1.08 s 유지 조건, 검증 ALL PASS 193·B6 13.363·B7 그대로](balance-designer/2026-11-17-r3-latency-delta.md) |

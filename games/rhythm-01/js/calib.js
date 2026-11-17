@@ -36,3 +36,33 @@ export function simulate(rounds, gc) {
   }
   return { ok: false, why: 'incomplete' };
 }
+
+// ---------------------------------------------------------------------------
+// round-3 R11 자동 지연 읽는 법 (balance.json audio_latency.auto_latency_read, 20-balance 8-1).
+// tools/sim/calib.mjs 의 autoStableAt·calibTapDiffR11·attemptComp 와 같은 이름·같은 식 (verify-levels C2 대조).
+//   autoNow = (outputLatency + baseLatency) × 1000, 읽는 그 순간 값.
+//   ① 보정 탭 오차 = (탭 오디오 시각 − 그 순간 autoNow) 를 가장 가까운 박에 맞춘 차이 → 저장 오프셋 = 남는 차이만
+//   ② 시도 comp = 시도 시작 때 autoNow + 수동 오프셋 (시도 중에는 그대로)
+//   ③ 잠금 해제 뒤 안정 대기: (지금 − 잠금 해제) ≥ min_since_unlock_ms 이고 최근 window_ms 값 변화 ≤ max_change_ms, 최대 max_wait_ms
+export function autoStableAt(readings, st) {
+  // readings: [{ t: 잠금 해제부터 ms, v: autoNow ms }] 시간 순. 반환 { t, v, stable }
+  if (!readings.length) return { t: 0, v: 0, stable: false };
+  const t0 = readings[0].t;
+  for (let i = 0; i < readings.length; i++) {
+    const { t, v } = readings[i];
+    if (t >= st.max_wait_ms) return { t, v, stable: false };
+    if (t < (st.min_since_unlock_ms ?? 0) || t - t0 < st.window_ms) continue;
+    let lo = Infinity, hi = -Infinity;
+    for (let j = i; j >= 0 && readings[j].t >= t - st.window_ms; j--) { lo = Math.min(lo, readings[j].v); hi = Math.max(hi, readings[j].v); }
+    if (hi - lo <= st.max_change_ms) return { t, v, stable: true };
+  }
+  const last = readings[readings.length - 1];
+  return { t: last.t, v: last.v, stable: false };
+}
+export function calibTapDiffR11(tapAudioMs, autoNowMs, baseMs, beatMs) {
+  const t = tapAudioMs - autoNowMs;
+  if (t < baseMs - beatMs / 2) return null; // 첫 박 전
+  const k = Math.round((t - baseMs) / beatMs);
+  return t - (baseMs + k * beatMs);
+}
+export function attemptComp(autoNowAtAttemptStartMs, offsetMs) { return autoNowAtAttemptStartMs + (offsetMs || 0); }
