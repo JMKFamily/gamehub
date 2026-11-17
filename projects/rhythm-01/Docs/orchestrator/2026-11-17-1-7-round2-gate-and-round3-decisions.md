@@ -32,3 +32,5 @@
 
 ## round-3 기획 수정 감시
 - balance (R17·R11 판정 쪽): `20-balance.md`, `balance.json`(새 키 `audio_latency.auto_latency_read`·`verify.calibration_auto_shift`, 기존 키 삭제 0), `verify-levels.mjs`(INFO R17·C2), `tools/sim/calib.mjs`·`bots.mjs`, 보고서, README 한 줄. 빌드·levels·harness 미수정, git·서버 미사용. **전체 실행 직접: 종료 0, FAIL 0, ALL PASS.** R17 INFO: round-2 방식 Δ64 → L1 14·L2 48·L10 200회 / R11 방식 Δ64 = Δ0(3/4/16). 안정 대기에 "잠금 해제 뒤 400 ms 이상" 추가, `restart_keeps_delay`(시도 사이 보정값 변화만큼 재시작 시각 이동) 추가 — 근거 타당, 채택.
+- art (R14·R15·R16): `30-art.md`(5-4·5-6·6·9-1·14·15-5, 바꾼 기존 문장은 보고서에 기록), `assets/cards-portrait.mjs`(보이는 면 검사), 세로판 카드 5장 재생성(외부 href 0 직접 확인), 보고서, README 한 줄. 빌드·balance·harness 미수정, git·서버 미사용. 직접: `palette.mjs --check` 0, `cards-portrait.mjs --check` 4화면 OK. 규칙: R14 k = 1 − q²로 점선 굵기·불투명도 동시 축소, R15 세로판 226×880 + 공·별 1.2배(360x640 보이는 면 18 px 이상), R16 12→11→10 px → 두 줄 → 숨김 — 채택.
+- 다음: game-developer round-3 구현(R11~R16).
