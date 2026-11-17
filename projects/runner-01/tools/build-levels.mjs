@@ -16,6 +16,16 @@ import { fileURLToPath } from 'node:url';
 const PROJECT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const BAL = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
 const r2 = (v) => Math.round(v * 100) / 100;
+// 레벨 4~10 이름: 10-lore.md 4절·5-1절 확정값 (레벨 1~3은 기존 JSON 값을 보존)
+const NAMES = {
+  '04': ['빗방울 계단', 'Raindrop Steps'],
+  '05': ['바람 기찻길', 'Windy Railway'],
+  '06': ['비눗방울 언덕', 'Bubble Hill'],
+  '07': ['고드름 동굴', 'Icicle Cave'],
+  '08': ['달팽이 정원', 'Snail Garden'],
+  '09': ['구름 사다리', 'Cloud Ladder'],
+  '10': ['해돋이 무대', 'Sunrise Stage'],
+};
 
 class LevelBuilder {
   constructor({ id, file, bpm, startSpeed = 'normal', lengthBeats, intent, target }) {
@@ -165,9 +175,9 @@ class LevelBuilder {
       schema_version: 1,
       id: this.id,
       theme_id: old.theme_id ?? `level${Number(this.id)}`,
-      name: old.name ?? null,
-      name_en: old.name_en ?? null,
-      name_key: old.name_key ?? null,
+      name: NAMES[this.id]?.[0] ?? old.name ?? null,
+      name_en: NAMES[this.id]?.[1] ?? old.name_en ?? null,
+      name_key: NAMES[this.id] ? `level${Number(this.id)}_name` : old.name_key ?? null,
       bpm: this.bpm,
       beats_per_bar: 4,
       audio_first_beat_s: old.audio_first_beat_s ?? 0,
