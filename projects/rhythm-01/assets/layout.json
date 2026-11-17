@@ -85,7 +85,96 @@
    "gap": 12,
    "bottom_margin": 16
   },
-  "margin": 16
+  "margin": 16,
+  "judge_label": {
+   "font": {
+    "perfect": 46,
+    "good": 42,
+    "pass": 40
+   },
+   "scale_ref": 500,
+   "pct_mul": 0.55,
+   "em": {
+    "name_budget": 3,
+    "pct_max": 2.615,
+    "cap": 0.725,
+    "hangul": 0.95
+   },
+   "names_em": {
+    "ko": {
+     "perfect": [
+      "딱이야",
+      3
+     ],
+     "good": [
+      "좋아",
+      2
+     ],
+     "pass": [
+      "됐어",
+      2
+     ]
+    },
+    "en": {
+     "perfect": [
+      "Wow!",
+      2.72
+     ],
+     "good": [
+      "Nice",
+      2.11
+     ],
+     "pass": [
+      "OK",
+      1.422
+     ]
+    }
+   },
+   "width_slack": 1.05,
+   "mark_w_mul": 0.5,
+   "mark_gap_mul": 0.12,
+   "pct_gap_mul": 0.25,
+   "line_gap_mul": 0.1,
+   "arrange": {
+    "portrait": "stack",
+    "landscape": "stack"
+   },
+   "time_exclusive_with": [
+    "text"
+   ],
+   "pop": 1.15,
+   "pop_ms": 80,
+   "hold_ms": 400,
+   "fade_ms": 150,
+   "origin": "left_middle",
+   "gap": 8,
+   "road_gap": 6,
+   "drum_ripple": 1.18,
+   "outline_mul": 0.08,
+   "outline_min": 2,
+   "min_cap_px": 28,
+   "fx_ms": 220
+  },
+  "result": {
+   "grade_r_mul": 0.6,
+   "grade_pitch_mul": 2.4,
+   "grade_pad": 2,
+   "btn": 64,
+   "btn_gap": 16,
+   "btn_below_gap": 12,
+   "btn_count": 3,
+   "acc_font": 32,
+   "combo_font": 22,
+   "scale_ref": 500,
+   "icon_mul": 0.8,
+   "icon_gap_mul": 0.2,
+   "combo_icon_mul": 1.1,
+   "new_mark_mul": 0.4,
+   "digits_em": 1.74,
+   "gap": 12,
+   "row_gap_mul": 0.75,
+   "title_h": 30
+  }
  },
  "formulas": {
   "judge_x": "safeL + judge_x_frac[o] × (W − safeL − safeR)",
@@ -96,6 +185,13 @@
  },
  "text_slots": {
   "tut_drum_tap": "layouts[].text_slot (가로 = 손가락 칸 오른쪽, 세로 = 손가락 칸 아래). 가장 긴 언어로 2줄 안에 들어가야 하고 넘치면 글자 14 → 12 px, 그래도 넘치면 lore 문구 요청. 측정(교차 리뷰, Edge 캔버스 measureText, 빌드 글꼴 목록 system-ui·Segoe UI·Malgun Gothic, 14 px 굵게): ko \"별이 북에 오면 톡!\" 117.3 px · en \"Tap when stars reach the drum\" 208.6 px → 모든 해상도 폭 220 안 1줄"
+ },
+ "judge_label": {
+  "_note": "30-art 16-13 판정 이름·% (요청자 지시 2026-11-17). 상자 = layouts[].judge_label, 색 = palette.json judge_label_r3, 문구 = 10-lore R3-12(딱이야/좋아/됐어 · Wow!/Nice/OK, 이름 위·% 아래 두 줄)",
+  "place": "길 아랫변 + 6, 판정 북 물결(1.18배)·L1 손가락 칸 중 오른쪽 끝 + 8에서 시작. 글 덩어리 왼쪽 끝 = 상자 x0, 세로 가운데 = anchor.y. 튐 기준점 = 글 덩어리 왼쪽 가운데",
+  "sizes": "이름 = font[등급] × max(1, 짧은 변/500), % = 이름 × 0.55. 이름 왼쪽 표지 칸 = 이름 × 0.5(딱 빛살 5 · 좋아 빛살 3 · 됐어 고리), 글자 테 = outline 색 outline_px",
+  "timing": "판정 프레임에 나타남 + 튐 1.0→1.15→1.0 (80 ms) → 나타난 뒤 400 ms까지 유지 → 150 ms 흐려짐. 새 판정 = 그 프레임에 이전 표시 지우고 새로 그림(튐 처음부터). 실패 = 0.3 s 안에 콤보 줄과 함께 작아지며 사라짐. 클리어 = HUD 페이드 0.2 s와 함께",
+  "time_exclusive": "가로 화면에서 상자가 tut_drum_tap 글 자리와 겹침. tut 글·손가락은 첫 별 판정에서 사라지고(balance tutorial_cue.hide_after = first_star_judged) 판정 글은 그 판정부터 나타나 같은 프레임에 함께 그려지지 않음. 빌드는 판정 글을 그리는 프레임에 tut 글이 없는지 지켜야 함"
  },
  "layouts": [
   {
@@ -189,6 +285,88 @@
     "y0": 85,
     "x1": 360,
     "y1": 458.7
+   },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 112,
+    "y0": 288.5,
+    "x1": 311.4,
+    "y1": 375.4,
+    "anchor": {
+     "x": 112,
+     "y": 332,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "below_grades",
+    "grades": {
+     "x0": 108.7,
+     "x1": 251.3,
+     "y0": 295.7,
+     "y1": 327.5,
+     "r": 13.9,
+     "pitch": 55.4
+    },
+    "buttons": {
+     "x0": 68,
+     "x1": 292,
+     "y0": 513.4,
+     "y1": 577.4,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 69.3,
+     "x1": 189.1,
+     "y0": 339.5,
+     "y1": 371.5,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 213.1,
+     "x1": 290.7,
+     "y0": 344.5,
+     "y1": 366.5,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 344,
+     "y0": 152.5,
+     "y1": 182.5
+    }
    },
    "per_level": [
     {
@@ -425,6 +603,88 @@
     "x1": 412,
     "y1": 632.5
    },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 122.6,
+    "y0": 403,
+    "x1": 322,
+    "y1": 489.9,
+    "anchor": {
+     "x": 122.6,
+     "y": 446.5,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "below_grades",
+    "grades": {
+     "x0": 122.1,
+     "x1": 289.9,
+     "y0": 411.9,
+     "y1": 448.7,
+     "r": 16.4,
+     "pitch": 65.5
+    },
+    "buttons": {
+     "x0": 94,
+     "x1": 318,
+     "y0": 737.8,
+     "y1": 801.8,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 95.3,
+     "x1": 215.1,
+     "y0": 460.7,
+     "y1": 492.7,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 239.1,
+     "x1": 316.7,
+     "y0": 465.7,
+     "y1": 487.7,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 396,
+     "y0": 250.5,
+     "y1": 280.5
+    }
+   },
    "per_level": [
     {
      "id": "01",
@@ -655,6 +915,90 @@
     "x1": 640,
     "y1": 360
    },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 232,
+    "y0": 207.8,
+    "x1": 431.4,
+    "y1": 294.7,
+    "anchor": {
+     "x": 232,
+     "y": 251.3,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": [
+     "text"
+    ]
+   },
+   "result": {
+    "arrange": "beside_grades",
+    "grades": {
+     "x0": 242.4,
+     "x1": 397.6,
+     "y0": 215.9,
+     "y1": 250.1,
+     "r": 15.1,
+     "pitch": 60.5
+    },
+    "buttons": {
+     "x0": 208,
+     "x1": 432,
+     "y0": 270.2,
+     "y1": 334.2,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 110.5,
+     "x1": 230.4,
+     "y0": 217,
+     "y1": 249,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 409.6,
+     "x1": 487.2,
+     "y0": 222,
+     "y1": 244,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 624,
+     "y0": 81,
+     "y1": 111
+    }
+   },
    "per_level": [
     {
      "id": "01",
@@ -884,6 +1228,88 @@
     "y0": 81,
     "x1": 1280,
     "y1": 720
+   },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 451.5,
+    "y0": 409.1,
+    "x1": 737.6,
+    "y1": 534,
+    "anchor": {
+     "x": 451.5,
+     "y": 471.5,
+     "origin": "left_middle"
+    },
+    "content_w": 248.8,
+    "content_h": 108.6,
+    "outline_px": 5,
+    "grades": {
+     "perfect": {
+      "name_px": 66,
+      "pct_px": 36,
+      "cap_px": 47.9,
+      "mark_w": 33,
+      "w": 248.8,
+      "h": 108.6
+     },
+     "good": {
+      "name_px": 60,
+      "pct_px": 33,
+      "cap_px": 43.5,
+      "mark_w": 30,
+      "w": 226.2,
+      "h": 99
+     },
+     "pass": {
+      "name_px": 58,
+      "pct_px": 32,
+      "cap_px": 42.1,
+      "mark_w": 29,
+      "w": 218.7,
+      "h": 95.8
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "beside_grades",
+    "grades": {
+     "x0": 486.8,
+     "x1": 793.2,
+     "y0": 427.3,
+     "y1": 491.7,
+     "r": 30.2,
+     "pitch": 121
+    },
+    "buttons": {
+     "x0": 528,
+     "x1": 752,
+     "y0": 521.9,
+     "y1": 585.9,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 302.5,
+     "x1": 474.8,
+     "y0": 436.5,
+     "y1": 482.5,
+     "font_px": 46,
+     "digit_h": 33.4
+    },
+    "best_combo": {
+     "x0": 805.2,
+     "x1": 918.1,
+     "y0": 443.5,
+     "y1": 475.5,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 1264,
+     "y0": 163.1,
+     "y1": 193.1
+    }
    },
    "per_level": [
     {
@@ -1120,6 +1546,88 @@
     "x1": 360,
     "y1": 463.5
    },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 112,
+    "y0": 293.3,
+    "x1": 311.4,
+    "y1": 380.2,
+    "anchor": {
+     "x": 112,
+     "y": 336.8,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "below_grades",
+    "grades": {
+     "x0": 108.7,
+     "x1": 251.3,
+     "y0": 300.5,
+     "y1": 332.3,
+     "r": 13.9,
+     "pitch": 55.4
+    },
+    "buttons": {
+     "x0": 68,
+     "x1": 292,
+     "y0": 503.8,
+     "y1": 567.8,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 69.3,
+     "x1": 189.1,
+     "y0": 344.3,
+     "y1": 376.3,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 213.1,
+     "x1": 290.7,
+     "y0": 349.3,
+     "y1": 371.3,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 344,
+     "y0": 157.3,
+     "y1": 187.3
+    }
+   },
    "per_level": [
     {
      "id": "01",
@@ -1355,6 +1863,88 @@
     "x1": 412,
     "y1": 632.5
    },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 122.6,
+    "y0": 403.8,
+    "x1": 322,
+    "y1": 490.7,
+    "anchor": {
+     "x": 122.6,
+     "y": 447.3,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "below_grades",
+    "grades": {
+     "x0": 122.1,
+     "x1": 289.9,
+     "y0": 412.7,
+     "y1": 449.5,
+     "r": 16.4,
+     "pitch": 65.5
+    },
+    "buttons": {
+     "x0": 94,
+     "x1": 318,
+     "y0": 720.8,
+     "y1": 784.8,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 95.3,
+     "x1": 215.1,
+     "y0": 461.5,
+     "y1": 493.5,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 239.1,
+     "x1": 316.7,
+     "y0": 466.5,
+     "y1": 488.5,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 396,
+     "y0": 251.3,
+     "y1": 281.3
+    }
+   },
    "per_level": [
     {
      "id": "01",
@@ -1585,6 +2175,90 @@
     "x1": 640,
     "y1": 360
    },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 249.6,
+    "y0": 207.8,
+    "x1": 449,
+    "y1": 294.7,
+    "anchor": {
+     "x": 249.6,
+     "y": 251.3,
+     "origin": "left_middle"
+    },
+    "content_w": 173.4,
+    "content_h": 75.6,
+    "outline_px": 3,
+    "grades": {
+     "perfect": {
+      "name_px": 46,
+      "pct_px": 25,
+      "cap_px": 33.4,
+      "mark_w": 23,
+      "w": 173.4,
+      "h": 75.6
+     },
+     "good": {
+      "name_px": 42,
+      "pct_px": 23,
+      "cap_px": 30.5,
+      "mark_w": 21,
+      "w": 158.3,
+      "h": 69.2
+     },
+     "pass": {
+      "name_px": 40,
+      "pct_px": 22,
+      "cap_px": 29,
+      "mark_w": 20,
+      "w": 150.8,
+      "h": 66
+     }
+    },
+    "time_exclusive": [
+     "text"
+    ]
+   },
+   "result": {
+    "arrange": "beside_grades",
+    "grades": {
+     "x0": 242.4,
+     "x1": 397.6,
+     "y0": 215.9,
+     "y1": 250.1,
+     "r": 15.1,
+     "pitch": 60.5
+    },
+    "buttons": {
+     "x0": 208,
+     "x1": 432,
+     "y0": 270.2,
+     "y1": 334.2,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 110.5,
+     "x1": 230.4,
+     "y0": 217,
+     "y1": 249,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "best_combo": {
+     "x0": 409.6,
+     "x1": 487.2,
+     "y0": 222,
+     "y1": 244,
+     "font_px": 22,
+     "digit_h": 16
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 624,
+     "y0": 81,
+     "y1": 111
+    }
+   },
    "per_level": [
     {
      "id": "01",
@@ -1814,6 +2488,88 @@
     "y0": 81,
     "x1": 1280,
     "y1": 720
+   },
+   "judge_label": {
+    "arrange": "stack",
+    "x0": 469.1,
+    "y0": 409.1,
+    "x1": 755.2,
+    "y1": 534,
+    "anchor": {
+     "x": 469.1,
+     "y": 471.5,
+     "origin": "left_middle"
+    },
+    "content_w": 248.8,
+    "content_h": 108.6,
+    "outline_px": 5,
+    "grades": {
+     "perfect": {
+      "name_px": 66,
+      "pct_px": 36,
+      "cap_px": 47.9,
+      "mark_w": 33,
+      "w": 248.8,
+      "h": 108.6
+     },
+     "good": {
+      "name_px": 60,
+      "pct_px": 33,
+      "cap_px": 43.5,
+      "mark_w": 30,
+      "w": 226.2,
+      "h": 99
+     },
+     "pass": {
+      "name_px": 58,
+      "pct_px": 32,
+      "cap_px": 42.1,
+      "mark_w": 29,
+      "w": 218.7,
+      "h": 95.8
+     }
+    },
+    "time_exclusive": []
+   },
+   "result": {
+    "arrange": "beside_grades",
+    "grades": {
+     "x0": 486.8,
+     "x1": 793.2,
+     "y0": 427.3,
+     "y1": 491.7,
+     "r": 30.2,
+     "pitch": 121
+    },
+    "buttons": {
+     "x0": 528,
+     "x1": 752,
+     "y0": 521.9,
+     "y1": 585.9,
+     "dir": "row"
+    },
+    "accuracy": {
+     "x0": 302.5,
+     "x1": 474.8,
+     "y0": 436.5,
+     "y1": 482.5,
+     "font_px": 46,
+     "digit_h": 33.4
+    },
+    "best_combo": {
+     "x0": 805.2,
+     "x1": 918.1,
+     "y0": 443.5,
+     "y1": 475.5,
+     "font_px": 32,
+     "digit_h": 23.2
+    },
+    "title_ref": {
+     "x0": 16,
+     "x1": 1264,
+     "y0": 163.1,
+     "y1": 193.1
+    }
    },
    "per_level": [
     {

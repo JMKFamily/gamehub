@@ -38,6 +38,37 @@ export const RULE = {
   hud_band_pad: 6,                                            // HUD 띠 아래끝 = HUD 요소 중 가장 아래 + 6
   thumb: { top_frac: 0.70, gap: 12, bottom_margin: 16 },      // 세로만
   margin: 16,
+  // 판정 이름·% (30-art 16-13, 요청자 지시 "판정 이름과 퍼센트"). 자리 = 길 띠 아래, 판정 북(물결 포함)·손가락 칸 오른쪽
+  judge_label: {
+    font: { perfect: 46, good: 42, pass: 40 },                // 이름 글자 크기(px, 굵게 700). 짧은 변 500 넘는 화면은 × 짧은 변/500
+    scale_ref: 500,
+    pct_mul: 0.55,                                            // % 글자 = 이름 × 0.55 (0.5~0.6)
+    // 글자 폭·높이 = 빌드 글꼴 목록(system-ui, "Segoe UI", "Malgun Gothic" …) 굵게, Edge 캔버스 measureText 실측 em (2026-11-17)
+    em: { name_budget: 3.0, pct_max: 2.615, cap: 0.725, hangul: 0.95 },
+    names_em: { ko: { perfect: ['딱이야', 3.0], good: ['좋아', 2.0], pass: ['됐어', 2.0] }, en: { perfect: ['Wow!', 2.72], good: ['Nice', 2.11], pass: ['OK', 1.422] } },
+    width_slack: 1.05,                                        // Android 글꼴(Roboto·Noto) 폭 차 여유
+    mark_w_mul: 0.5, mark_gap_mul: 0.12,                      // 이름 왼쪽 표지(빛살 5/3개·고리) 칸 폭, 표지와 이름 사이
+    pct_gap_mul: 0.25, line_gap_mul: 0.1,                     // (row 일 때) 이름 오른쪽 % 사이 / (stack) 이름 아래 % 줄 사이
+    arrange: { portrait: 'stack', landscape: 'stack' },       // 두 줄: 이름 위·% 아래 (lore R3-12-2, 한 줄 "이름 + %" 금지)
+    // L1 손가락 칸·tut_drum_tap 글은 첫 별 판정 프레임에 사라지고(balance tutorial_cue.hide_after, 빌드 cueVisible) 판정 글은 그 판정부터 나타나므로
+    // 같은 프레임에 그려지지 않음 → 가로 화면에서 tut 글 자리와 자리가 겹치는 것만 "시간 배타"로 허용(검사가 hide_after 값을 확인)
+    time_exclusive_with: ['text'],
+    pop: 1.15, pop_ms: 80, hold_ms: 400, fade_ms: 150,        // 튐 1.0 → 1.15 → 1.0 (80 ms), 나타난 뒤 400 ms까지 유지, 150 ms 흐려짐
+    origin: 'left_middle',                                    // 튐 기준점 = 글 덩어리 왼쪽 가운데(북 쪽으로 커지지 않음)
+    gap: 8, road_gap: 6, drum_ripple: 1.18,                   // 북 물결 최대 1.18배 바깥 + 8, 길 아랫변 + 6
+    outline_mul: 0.08, outline_min: 2,                        // 글자 테(outline 색) 두께
+    min_cap_px: 28,                                           // 글자 높이(영어 대문자 높이 기준, 한글은 더 큼) 28 px 이상
+    fx_ms: 220,                                               // 딱 이펙트 시간(판정 별과 함께 흐름) — 겹침 검사용
+  },
+  // 결과 화면 (30-art 16-13-4): 등급 북·버튼 = 16-6·빌드 art.json clear 값, 정확도 %·최고 콤보 자리
+  result: {
+    grade_r_mul: 0.6, grade_pitch_mul: 2.4, grade_pad: 2,     // 등급 북 반지름 = 판정 북 × 0.6, 간격 = 판정 북 반지름 × 2.4
+    btn: 64, btn_gap: 16, btn_below_gap: 12, btn_count: 3,
+    acc_font: 32, combo_font: 22, scale_ref: 500,             // 정확도 숫자 / 최고 콤보 숫자 (굵게)
+    icon_mul: 0.8, icon_gap_mul: 0.2, combo_icon_mul: 1.1, new_mark_mul: 0.4, digits_em: 1.74, // 콤보 숫자 3자리 자리
+    gap: 12, row_gap_mul: 0.75,
+    title_h: 30,                                              // 빌드 clearTitle 자리(참고 검사): top = max(HUD 띠 + 8, 공 꼭대기 − 36)
+  },
 };
 
 // 미리 보기 박 수 가정 (balance 값이 오면 그 값). 세로 = min(가로, 3.5) — 반박이 있는 레벨(L2~)에만 영향
@@ -172,12 +203,65 @@ export function layout(W, H, safe = { t: 0, b: 0, l: 0, r: 0 }, lead = ASSUMED_L
   const silFrame = { x0: 0, y0: hudBottom + 8, x1: W, y1: thumb ? thumb.y0 - 8 : H };
   const r2 = (v) => Math.round(v * 10) / 10;
   const round = (obj) => Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, typeof v === 'number' ? r2(v) : v]));
+  // 판정 이름·% 자리 (16-13): 길 아랫변 + 6, 판정 북 물결(1.18배)·손가락 칸 오른쪽 + 8. 상자 = 가장 큰 등급(딱) × 튐 1.15배
+  const J = R.judge_label;
+  const kJ = Math.max(1, S / J.scale_ref);
+  const arr = J.arrange[o];
+  const grades = {};
+  for (const g of ['perfect', 'good', 'pass']) {
+    const F = Math.round(J.font[g] * kJ), P = Math.round(J.pct_mul * F);
+    const mw = J.mark_w_mul * F, mg = J.mark_gap_mul * F;
+    const nw = J.em.name_budget * F * J.width_slack, pw = J.em.pct_max * P * J.width_slack;
+    const w = arr === 'stack' ? mw + mg + Math.max(nw, pw) : mw + mg + nw + J.pct_gap_mul * F + pw;
+    const h = arr === 'stack' ? F + J.line_gap_mul * F + P : F;
+    grades[g] = { name_px: F, pct_px: P, cap_px: r2(J.em.cap * F), mark_w: r2(mw), w: r2(w), h: r2(h) };
+  }
+  const wMax = Math.max(...Object.values(grades).map((g) => g.w)), hMax = Math.max(...Object.values(grades).map((g) => g.h));
+  const jx0 = Math.max(drum.x + J.drum_ripple * drumR, finger.x1) + J.gap, jy0 = road.y1 + J.road_gap;
+  const judgeLabel = {
+    arrange: arr, x0: r2(jx0), y0: r2(jy0), x1: r2(jx0 + J.pop * wMax), y1: r2(jy0 + J.pop * hMax),
+    anchor: { x: r2(jx0), y: r2(jy0 + (J.pop * hMax) / 2), origin: J.origin }, content_w: r2(wMax), content_h: r2(hMax),
+    outline_px: Math.max(J.outline_min, Math.round(J.outline_mul * grades.pass.name_px)), grades,
+  };
+  // 결과 화면 (16-13-4)
+  const RR = R.result, kR = Math.max(1, S / RR.scale_ref);
+  const gr = RR.grade_r_mul * drumR, gHalf = RR.grade_pitch_mul * drumR + gr + RR.grade_pad;
+  const gradesBox = { x0: W / 2 - gHalf, x1: W / 2 + gHalf, y0: drum.y - gr - RR.grade_pad, y1: drum.y + gr + RR.grade_pad, r: gr, pitch: RR.grade_pitch_mul * drumR };
+  const nb = RR.btn_count, btnW = nb * RR.btn + (nb - 1) * RR.btn_gap;
+  let btns;
+  if (thumb) { const y = (thumb.y0 + thumb.y1) / 2 - RR.btn / 2; btns = { x0: W / 2 - btnW / 2, x1: W / 2 + btnW / 2, y0: y, y1: y + RR.btn, dir: 'row' }; }
+  else {
+    const below = drum.y + drumR + RR.btn_below_gap;
+    if (H - below >= RR.btn + 12) btns = { x0: W / 2 - btnW / 2, x1: W / 2 + btnW / 2, y0: below, y1: below + RR.btn, dir: 'row' };
+    else { const x = W - RR.btn - 24, y = H / 2 - btnW / 2; btns = { x0: x, x1: x + RR.btn, y0: y, y1: y + btnW, dir: 'column' }; }
+  }
+  const Fa = Math.round(RR.acc_font * kR), Fc = Math.round(RR.combo_font * kR);
+  const accW = Fa * (RR.icon_mul + RR.icon_gap_mul + J.em.pct_max * J.width_slack);
+  const rComboW = Fc * (RR.combo_icon_mul + RR.icon_gap_mul + RR.digits_em * J.width_slack + RR.new_mark_mul);
+  let acc, rCombo, resArr;
+  if (o === 'portrait') { // 등급 북 아래 한 줄: [과녁 + 정확도 %] [점 3개 + 최고 콤보]
+    resArr = 'below_grades';
+    const total = accW + RR.row_gap_mul * Fa + rComboW, x0 = W / 2 - total / 2, y0 = gradesBox.y1 + RR.gap;
+    acc = { x0, x1: x0 + accW, y0, y1: y0 + Fa };
+    const cy = y0 + Fa / 2;
+    rCombo = { x0: acc.x1 + RR.row_gap_mul * Fa, x1: acc.x1 + RR.row_gap_mul * Fa + rComboW, y0: cy - Fc / 2, y1: cy + Fc / 2 };
+  } else { // 가로: 등급 북 줄 양옆 (아래는 결과 버튼 줄)
+    resArr = 'beside_grades';
+    acc = { x0: gradesBox.x0 - RR.gap - accW, x1: gradesBox.x0 - RR.gap, y0: drum.y - Fa / 2, y1: drum.y + Fa / 2 };
+    rCombo = { x0: gradesBox.x1 + RR.gap, x1: gradesBox.x1 + RR.gap + rComboW, y0: drum.y - Fc / 2, y1: drum.y + Fc / 2 };
+  }
+  const titleY = Math.max(hudBottom + 8, ball.top - 36);
+  const result = {
+    arrange: resArr, grades: round(gradesBox), buttons: round(btns), accuracy: { ...round(acc), font_px: Fa, digit_h: r2(J.em.cap * Fa) },
+    best_combo: { ...round(rCombo), font_px: Fc, digit_h: r2(J.em.cap * Fc) }, title_ref: round({ x0: 16, x1: W - 16, y0: titleY, y1: titleY + RR.title_h }),
+  };
   return {
     W, H, safe, orientation: o, short_side: S,
     judge_x: r2(xj), preview_px: r2(D), star_d: d, star_r: r2(r), half_spacing_worst_px: r2(sHalfWorst), lead_half_max: nHalfMax,
     road: round(road), road_h: roadH, ball: round(ball), drum: round(drum), line: round(line),
     hud: { bar: round(bar), pause: round(pause), attempt_y: r2(attemptY), combo: round(combo), band_bottom: r2(hudBottom) },
     finger: round(finger), text_slot: round(text), thumb: thumb && round(thumb), silhouette_frame: round(silFrame),
+    judge_label: judgeLabel, result,
   };
 }
 
@@ -244,7 +328,52 @@ function checkAll() {
     if (L.orientation === 'landscape' && L.hud.combo.x1 > W - (safe?.r || 0) - 16) bad(`${tag} 콤보 줄이 화면 밖`);
     if (L.hud.combo.x1 > L.hud.bar.x1 + 1) bad(`${tag} 콤보 줄이 일시정지 칸까지 닿음`);
     if (L.star_d < 28 || L.ball.d < 24) bad(`${tag} 별 ${L.star_d} / 공 ${L.ball.d} 너무 작음`);
+    // 7) 판정 이름·% 자리 (16-13): 가장 큰 등급 × 튐 1.15 상자, 이름 예산 3.0 em(가장 긴 한국어 딱이야 3.0 em ≥ 가장 넓은 영어 Wow! 2.72 em) × 1.05
+    {
+      const J = RULE.judge_label, JL = L.judge_label, jb = { x0: JL.x0, x1: JL.x1, y0: JL.y0, y1: JL.y1 };
+      const vMax = Math.max(...L.per_level.map((p) => p.speed_px_s));
+      const fxR = 0.9 * L.star_d + 3, fxY = Math.max(0.6 * L.star_d, Math.SQRT1_2 * fxR + Math.max(3, 0.1 * L.star_d) / 2);
+      const fx = { x0: L.judge_x - fxR - (vMax * J.fx_ms) / 1000, x1: L.judge_x + 0.6 * L.star_d, y0: L.road.yc - fxY, y1: L.road.yc + fxY };
+      const rip = { x0: L.drum.x - J.drum_ripple * L.drum.r, x1: L.drum.x + J.drum_ripple * L.drum.r, y0: L.drum.y - J.drum_ripple * L.drum.r, y1: L.drum.y + J.drum_ripple * L.drum.r };
+      const lineB = { x0: L.line.x - L.line.w / 2 - 1, x1: L.line.x + L.line.w / 2 + 1, y0: L.line.y0, y1: L.line.y1 };
+      const against = { hud: box.hud, ballZone: box.ballZone, road: box.road, judgeFx: fx, drumRipple: rip, judgeLine: lineB, finger: box.finger, text: box.text, thumb: box.thumb, combo: box.combo, pause: box.pause };
+      const tx = [];
+      for (const [k, b] of Object.entries(against)) {
+        if (!b || !ovl(jb, b)) continue;
+        if (J.time_exclusive_with.includes(k)) tx.push(k); else bad(`${tag} 판정 글 ∩ ${k}`);
+      }
+      if (jb.x0 < (safe?.l || 0) + 15.9 || jb.x1 > W - (safe?.r || 0) - 15.9 || jb.y1 > H - (safe?.b || 0) - 8) bad(`${tag} 판정 글 화면 여백 밖 (${jb.x0}~${jb.x1}, ${jb.y0}~${jb.y1})`);
+      if (jb.x0 <= L.judge_x) bad(`${tag} 판정 글이 판정 선 왼쪽까지`);
+      const G = JL.grades;
+      if (!(G.perfect.name_px > G.good.name_px && G.good.name_px > G.pass.name_px)) bad(`${tag} 등급 글자 크기 순서 아님`);
+      for (const [g, v] of Object.entries(G)) {
+        if (v.cap_px < J.min_cap_px) bad(`${tag} ${g} 글자 높이 ${v.cap_px} < ${J.min_cap_px}`);
+        const q = v.pct_px / v.name_px; if (q < 0.5 || q > 0.6) bad(`${tag} ${g} % 배율 ${q.toFixed(2)}`);
+      }
+      for (const lang of Object.values(J.names_em)) for (const [, em] of Object.values(lang)) if (em > J.em.name_budget) bad(`이름 폭 ${em} em > 예산 ${J.em.name_budget}`);
+      JL.time_exclusive = tx;
+      // 결과 화면 (16-13-4)
+      const RS = L.result, rb = (q) => ({ x0: q.x0, x1: q.x1, y0: q.y0, y1: q.y1 });
+      const rItems = { grades: rb(RS.grades), buttons: rb(RS.buttons), accuracy: rb(RS.accuracy), best_combo: rb(RS.best_combo), title: rb(RS.title_ref), hud: box.hud, road: box.road };
+      for (const [a, b] of [['accuracy', 'grades'], ['best_combo', 'grades'], ['accuracy', 'buttons'], ['best_combo', 'buttons'], ['accuracy', 'best_combo'], ['accuracy', 'title'], ['best_combo', 'title'], ['accuracy', 'road'], ['best_combo', 'road'], ['accuracy', 'hud'], ['best_combo', 'hud'], ['grades', 'buttons']])
+        if (ovl(rItems[a], rItems[b])) bad(`${tag} 결과 화면 겹침 ${a} ∩ ${b}`);
+      if (L.thumb && ovl(rItems.accuracy, L.thumb)) bad(`${tag} 결과 정확도 ∩ 엄지 받침`);
+      for (const k of ['accuracy', 'best_combo', 'buttons']) { const q = rItems[k]; if (q.x0 < (safe?.l || 0) + 15.9 || q.x1 > W - (safe?.r || 0) - 15.9 || q.y1 > H - (safe?.b || 0) - 8 + 1e-9) bad(`${tag} 결과 ${k} 화면 여백 밖`); }
+      const gd = 2 * RS.grades.r;
+      if (!(gd > RS.accuracy.digit_h && RS.accuracy.digit_h > RS.best_combo.digit_h)) bad(`${tag} 결과 크기 순서(등급 북 ${gd.toFixed(1)} > 정확도 ${RS.accuracy.digit_h} > 콤보 ${RS.best_combo.digit_h}) 아님`);
+      rows.push(`${tag}: 판정 글 x ${jb.x0}~${jb.x1}, y ${jb.y0}~${jb.y1} (${JL.arrange}, 이름 ${G.perfect.name_px}/${G.good.name_px}/${G.pass.name_px} px · % ${G.perfect.pct_px}/${G.good.pct_px}/${G.pass.pct_px} px${tx.length ? `, 시간 배타 ${tx.join('·')}` : ''}) / 결과 ${RS.arrange}: 정확도 x ${RS.accuracy.x0}~${RS.accuracy.x1} y ${RS.accuracy.y0}~${RS.accuracy.y1}, 콤보 x ${RS.best_combo.x0}~${RS.best_combo.x1}, 등급 북 x ${RS.grades.x0}~${RS.grades.x1}`);
+    }
     rows.push(`${tag}: 판정 x ${L.judge_x}, 미리 보기 ${L.preview_px} px, 별 ${L.star_d} · 공 ${L.ball.d} · 북 r ${L.drum.r} · 선 ${L.line.w} px, 길 y ${L.road.y0}~${L.road.y1}, HUD 띠 아래 ${L.hud.band_bottom}`);
+  }
+  // 8) 판정 글 시간 (16-13-2): 튐 80 ms < 가장 짧은 별 간격, 시간 배타 전제(손가락·tut 글은 첫 별 판정에서 사라짐)
+  {
+    const J = RULE.judge_label;
+    const minMs = Math.min(...levels.map((lv) => (lv.minBeats ?? (lv.halfBeats ? 0.5 : 1)) * 60000 / lv.bpm));
+    if (J.pop_ms >= minMs) bad(`판정 글 튐 ${J.pop_ms} ms ≥ 가장 짧은 별 간격 ${minMs.toFixed(0)} ms`);
+    const B = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
+    const hideOk = B.tutorial_cue?.hide_after === 'first_star_judged';
+    if (lays.some((x) => x.judge_label.time_exclusive?.length) && !hideOk) bad(`판정 글이 tut 글 자리와 겹치는데 balance tutorial_cue.hide_after = ${B.tutorial_cue?.hide_after} (first_star_judged 아님)`);
+    rows.push(`판정 글 시간: 튐 ${J.pop_ms} + 유지 ${J.hold_ms} + 흐려짐 ${J.fade_ms} ms, 가장 짧은 별 간격 ${minMs.toFixed(0)} ms, 새 판정 = 그 프레임에 바꿔 그림, tut 글 hide_after = ${B.tutorial_cue?.hide_after}`);
   }
   // 6) 장소 실루엣이 HUD 띠와 겹치지 않음 (새 실루엣 판 = HUD 띠 아래 + 8 ~ 엄지 받침 위 − 8)
   const pal = JSON.parse(readFileSync(join(HERE, 'palette.json'), 'utf8'));
@@ -296,6 +425,15 @@ function md(res) {
   L.push('| 레벨 | 360x640 | 412x915 | 640x360 | 1280x720 | 별 수 | 최소 간격(박) | 첫 별(시도 시작 + 박) |');
   L.push('|---|---|---|---|---|---|---|---|');
   levels.forEach((lv, i) => L.push(`| ${+lv.id} | ${four.map((a) => a.per_level[i].beat_px).join(' | ')} | ${lv.nStars ?? '-'} | ${lv.minBeats ?? '-'} | ${lv.firstBeat ?? '-'} |`));
+  L.push('');
+  L.push('판정 이름·% 자리 (16-13, 상자 = 딱 등급 × 튐 1.15, 두 줄) · 결과 화면 (16-13-4)');
+  L.push('');
+  L.push('| 화면 | 판정 글 상자 x · y | 이름 px 딱/좋아/됐어 · % px | 글자 높이(됐어) | 시간 배타 | 결과 배치 | 정확도 상자 (글 px) | 최고 콤보 상자 (글 px) | 등급 북 줄 x · y | 결과 버튼 |');
+  L.push('|---|---|---|---|---|---|---|---|---|---|');
+  for (const a of lays) {
+    const j = a.judge_label, g = j.grades, R = a.result, s = a.safe && (a.safe.t || a.safe.b || a.safe.l || a.safe.r) ? ` safe ${a.safe.t}/${a.safe.b}/${a.safe.l}/${a.safe.r}` : '';
+    L.push(`| ${a.W}x${a.H}${s} | ${j.x0}~${j.x1} · ${j.y0}~${j.y1} | ${g.perfect.name_px}/${g.good.name_px}/${g.pass.name_px} · ${g.perfect.pct_px}/${g.good.pct_px}/${g.pass.pct_px} | ${g.pass.cap_px} | ${j.time_exclusive?.length ? 'tut 글' : '-'} | ${R.arrange === 'below_grades' ? '등급 북 아래 한 줄' : '등급 북 양옆'} | ${R.accuracy.x0}~${R.accuracy.x1} · ${R.accuracy.y0}~${R.accuracy.y1} (${R.accuracy.font_px}) | ${R.best_combo.x0}~${R.best_combo.x1} · ${R.best_combo.y0}~${R.best_combo.y1} (${R.best_combo.font_px}) | ${R.grades.x0}~${R.grades.x1} · ${R.grades.y0}~${R.grades.y1} | ${R.buttons.dir} y ${R.buttons.y0}~${R.buttons.y1} |`);
+  }
   return L.join('\n');
 }
 
@@ -317,6 +455,13 @@ if (!args.includes('--check')) {
       overlap_ms: '(star_d + line_w) ÷ speed',
     },
     text_slots: { tut_drum_tap: 'layouts[].text_slot (가로 = 손가락 칸 오른쪽, 세로 = 손가락 칸 아래). 가장 긴 언어로 2줄 안에 들어가야 하고 넘치면 글자 14 → 12 px, 그래도 넘치면 lore 문구 요청. 측정(교차 리뷰, Edge 캔버스 measureText, 빌드 글꼴 목록 system-ui·Segoe UI·Malgun Gothic, 14 px 굵게): ko "별이 북에 오면 톡!" 117.3 px · en "Tap when stars reach the drum" 208.6 px → 모든 해상도 폭 220 안 1줄' },
+    judge_label: {
+      _note: '30-art 16-13 판정 이름·% (요청자 지시 2026-11-17). 상자 = layouts[].judge_label, 색 = palette.json judge_label_r3, 문구 = 10-lore R3-12(딱이야/좋아/됐어 · Wow!/Nice/OK, 이름 위·% 아래 두 줄)',
+      place: '길 아랫변 + 6, 판정 북 물결(1.18배)·L1 손가락 칸 중 오른쪽 끝 + 8에서 시작. 글 덩어리 왼쪽 끝 = 상자 x0, 세로 가운데 = anchor.y. 튐 기준점 = 글 덩어리 왼쪽 가운데',
+      sizes: '이름 = font[등급] × max(1, 짧은 변/500), % = 이름 × 0.55. 이름 왼쪽 표지 칸 = 이름 × 0.5(딱 빛살 5 · 좋아 빛살 3 · 됐어 고리), 글자 테 = outline 색 outline_px',
+      timing: '판정 프레임에 나타남 + 튐 1.0→1.15→1.0 (80 ms) → 나타난 뒤 400 ms까지 유지 → 150 ms 흐려짐. 새 판정 = 그 프레임에 이전 표시 지우고 새로 그림(튐 처음부터). 실패 = 0.3 s 안에 콤보 줄과 함께 작아지며 사라짐. 클리어 = HUD 페이드 0.2 s와 함께',
+      time_exclusive: '가로 화면에서 상자가 tut_drum_tap 글 자리와 겹침. tut 글·손가락은 첫 별 판정에서 사라지고(balance tutorial_cue.hide_after = first_star_judged) 판정 글은 그 판정부터 나타나 같은 프레임에 함께 그려지지 않음. 빌드는 판정 글을 그리는 프레임에 tut 글이 없는지 지켜야 함',
+    },
     layouts: res.lays.map(({ per_level, ...a }) => ({ ...a, per_level })),
   };
   writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');

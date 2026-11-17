@@ -391,3 +391,36 @@ export function runPracticeV3(L, p, bal, checkpointMs, { sessions = 2000, seed =
   tot.sort((a, b) => a - b);
   return { segments: segs.length, median_total_attempts: tot[Math.floor((sessions - 1) / 2)], p90_total_attempts: tot[Math.floor(sessions * 0.9)] };
 }
+
+// ── 판정 % (round-3, 요청자 지시 "판정 이름과 퍼센트까지 해주세요", balance.json accuracy, 20-balance.md 17-14) ──
+// 판정 결과 e(탭 − 별 시각 ms)에서 계산만 하는 표시 층. judgeAttempt 와 같은 e·같은 "이하" 경계를 쓴다.
+//   d ≤ 25 → 100, d ≤ perfect_ms → 90, d ≤ good_ms → 80/70/60(3칸), d ≤ W(e 쪽 통과 창 끝) → 50~10(5칸), 그 밖 → null(표시 없음)
+export function accuracyPct(e, judge, acc) {
+  const d = Math.abs(e);
+  const W = e < 0 ? judge.pass_early_ms : judge.pass_late_ms;
+  if (d > W) return null;
+  if (d <= acc.perfect_inner_ms) return acc.perfect_inner_pct;
+  const P = judge.perfect_ms, G = judge.good_ms;
+  if (d <= P) return acc.perfect_outer_pct;
+  if (d <= G) {
+    const k = Math.min(acc.good_bins, Math.max(1, Math.ceil((acc.good_bins * (d - P)) / (G - P))));
+    return acc.good_pcts[k - 1];
+  }
+  const k = Math.min(acc.pass_bins, Math.max(1, Math.ceil((acc.pass_bins * (d - G)) / (W - G))));
+  return acc.pass_pcts[k - 1];
+}
+
+// % → 등급 (공통 7-2: ≥ 90 딱, 60~80 좋아, 10~50 통과)
+export function gradeFromPct(pct, acc) {
+  if (pct == null) return null;
+  for (const [g, [lo, hi]] of Object.entries(acc.grade_from_pct)) if (pct >= lo && pct <= hi) return g;
+  return null;
+}
+
+// 레벨 정확도: 클리어한 시도만 floor(평균 %). 실패 시도는 null (연습 모드는 호출하는 쪽에서 내지 않음)
+export function levelAccuracy(L, result, acc) {
+  if (!result.clear || !result.grades.length) return null;
+  let s = 0;
+  for (const g of result.grades) s += accuracyPct(g.e, L.judge, acc);
+  return Math.floor(s / result.grades.length);
+}

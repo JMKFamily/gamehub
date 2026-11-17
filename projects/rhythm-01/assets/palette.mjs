@@ -12,6 +12,8 @@ const OUT = path.join(DIR, 'palette.json');
 const hsl = (h, s, l) => { s /= 100; l /= 100; const k = n => (n + h / 30) % 12, a = s * Math.min(l, 1 - l), f = n => l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1))); return '#' + [f(0), f(8), f(4)].map(x => Math.round(x * 255).toString(16).padStart(2, '0')).join('').toUpperCase(); };
 
 const COMMON = { star: '#FFD43B', ball: '#7FE3FF', outline: '#0B0D12', trackEdge: '#E6E1D3', hud: '#F5F1E8', broken: '#B9BEC7' };
+// 판정 이름·% 글자 색 (30-art 16-13, 요청자 지시 "판정 이름과 퍼센트"). 노랑(star)·공 색(ball)·회색(broken)·빨강 금지. 색은 보조, 주 신호는 글자 크기·옆 표지 모양
+const JUDGE_LABEL = { perfect: '#FFC0E0', good: '#9EF0C4', pass: '#F5F1E8' };
 
 // [키, 이름 키, 이름, 색상각, 채도, 명도 오프셋, cardTint(hsl) 따로 지정]
 const P = [
@@ -131,6 +133,15 @@ function build() {
       combo_dot_on: 'hud 면 + outline 1 px', combo_dot_off: 'trackEdge 50 % 1.2 px 고리', combo_mark: 'cardTint 면 + outline 1.2 px', combo_confetti: 'cardTint·hud 작은 네모(HUD 띠 안)',
       forbidden: 'star(노랑)를 콤보·판정 선·북·눈금에 쓰지 않음. ball(하늘색)은 공·최고 기록 점만',
     },
+    judge_label_r3: {
+      _note: '30-art 16-13 판정 이름·% (요청자 지시 2026-11-17). 자리·크기·시간 = assets/layout.json judge_label · layouts[].judge_label · layouts[].result',
+      colors: JUDGE_LABEL,
+      name_and_pct: '이름과 %는 같은 등급 색. 글자 둘레 outline 테(layout judge_label.outline_px), 그림자·빛남·그라데이션 없음',
+      mark: '이름 왼쪽 표지(등급 색): 딱 = 짧은 빛살 5개, 좋아 = 3개, 통과 = 작은 고리',
+      result_accuracy: 'hud 숫자 + outline 테. 과녁 표지 = hud 고리 2겹 + cardTint 가운데 점',
+      result_combo: 'hud 숫자 + outline 테. 표지 = hud 점 3개(콤보 점과 같은 모양), 신기록 = cardTint 작은 고리',
+      forbidden: 'star(노랑)·ball(하늘색)·broken(회색)·빨강을 판정 글자에 쓰지 않음. 실패 칸에는 글·색 없음',
+    },
     themes,
   };
 }
@@ -160,10 +171,14 @@ function check(pal) {
     ...['track1', 'track2', 'track3', 'track12', 'track23'].map(b => ['trackEdge', b, 3, null, 'G 길(눈금·통과 고리)']),
     ['trackEdge', 'drum', 3, null, 'G 길(판정 북 테두리)'],
     ['hud', 'bg', 4.5, null, 'H 콤보(점)'], ['cardTint', 'bg', 3, null, 'H 콤보(큰 표지)'], ['outline', 'hud', 3, null, 'H 콤보(점 외곽선)'],
+    // 판정 이름·% (30-art 16-13): 길 띠 아래 바탕·실루엣(물든 실루엣 포함) 위에 그림. 글자 테(outline)와도 4.5 이상
+    ...['jPerfect', 'jGood', 'jPass'].flatMap(c => ['bg', 'bgFar', 'clearSil', 'outline'].map(b => [c, b, 4.5, null, 'I 판정 이름·%'])),
+    ['hud', 'outline', 4.5, null, 'I 결과 정확도·콤보 숫자'], ['cardTint', 'outline', 3, null, 'I 결과 과녁 점·신기록 고리'],
   ];
   const rows = {}; let n = 0, fail = 0; const mins = {};
   for (const [k, t] of Object.entries(pal.themes)) {
-    const p = { ...pal.common, ...t, track12: mix(t.track1, t.track2, 0.5), track23: mix(t.track2, t.track3, 0.5), clearSil: mix(t.bgFar, t.cardTint, pal.blend.clear_silhouette_mix) };
+    const J = pal.judge_label_r3?.colors || {};
+    const p = { ...pal.common, jPerfect: J.perfect, jGood: J.good, jPass: J.pass, ...t, track12: mix(t.track1, t.track2, 0.5), track23: mix(t.track2, t.track3, 0.5), clearSil: mix(t.bgFar, t.cardTint, pal.blend.clear_silhouette_mix) };
     rows[k] = {};
     for (const [a, b, lo, hi, g] of checks) {
       const r = cr(p[a], p[b]); n++;
@@ -175,6 +190,7 @@ function check(pal) {
     // 참고(기준 없음): 50 % 투명 trackEdge가 bgFar 위에 있을 때 (엄지 받침 테두리·잠긴 카드)
     rows[k]['dimEdge/bgFar'] = cr(mix(t.bgFar, pal.common.trackEdge, 0.5), t.bgFar);
   }
+  fail += checkJudgeColors(pal);
   console.log('PAIRS', n, 'FAIL', fail);
   console.log('\n쌍별 10레벨 최솟값');
   for (const [key, m] of Object.entries(mins)) console.log(`${m.g.padEnd(14)} ${key.padEnd(20)} ${m.r.toFixed(2).padStart(6)}  (${m.k}, 기준 ${m.lo}${m.hi ? '~' + m.hi : ''})`);
@@ -190,6 +206,28 @@ function check(pal) {
     console.log(k, 'star', s.toFixed(2), 'ball', b.toFixed(2), 'outline/cardTint', r['outline/cardTint'].toFixed(2), 'hud/clearSil', r['hud/clearSil'].toFixed(2));
   }
   return fail;
+}
+
+// 판정 글자 색 규칙 (30-art 16-13): 노랑(star)·공 색(ball)·회색(broken)·빨강 금지, 세 등급 색이 서로 다름
+function hsv(h) { const [r, g, b] = [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16) / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn; let H = 0; if (d) H = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; return { h: (H * 60 + 360) % 360, s: mx ? d / mx : 0, v: mx }; }
+function checkJudgeColors(pal) {
+  const J = pal.judge_label_r3?.colors; let f = 0;
+  const bad = m => { f++; console.log('FAIL 판정 글자 색', m); };
+  if (!J || !J.perfect || !J.good || !J.pass) { bad('judge_label_r3.colors 없음'); return f; }
+  const hd = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+  const C = pal.common, star = hsv(C.star), ball = hsv(C.ball);
+  for (const [k, c] of Object.entries(J)) {
+    for (const r of ['star', 'ball', 'broken']) if (c.toUpperCase() === C[r].toUpperCase()) bad(`${k} = ${r}`);
+    const x = hsv(c);
+    if (x.s >= 0.2) { // 채도 있는 색만 색상각으로 봄 (크림 hud 는 무채에 가까움)
+      if (hd(x.h, star.h) < 30) bad(`${k} ${c} 노랑(star)과 색상각 차 ${hd(x.h, star.h).toFixed(0)}° < 30`);
+      if (hd(x.h, ball.h) < 30) bad(`${k} ${c} 공 색(ball)과 색상각 차 ${hd(x.h, ball.h).toFixed(0)}° < 30`);
+      if (hd(x.h, 0) < 15) bad(`${k} ${c} 빨강 쪽(색상각 0±15°)`);
+    } else if (x.v < 0.85) bad(`${k} ${c} 회색으로 보임(채도 ${x.s.toFixed(2)}, 명도 ${x.v.toFixed(2)})`);
+  }
+  if (new Set(Object.values(J).map(c => c.toUpperCase())).size !== 3) bad('세 등급 색이 서로 같음');
+  console.log('판정 글자 색 규칙', f ? 'FAIL ' + f : 'OK', Object.entries(J).map(([k, c]) => `${k} ${c} 색상각 ${hsv(c).h.toFixed(0)}° 채도 ${hsv(c).s.toFixed(2)}`).join(', '));
+  return f;
 }
 
 const only = process.argv.includes('--check');

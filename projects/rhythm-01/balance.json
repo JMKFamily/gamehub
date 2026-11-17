@@ -1667,5 +1667,432 @@
    "diff": "L3 좋아 ±90 (공통 문서 권장 ±100). 판정 창은 바꾸지 않음(오케스트레이터 지시), 차이만 보고"
   },
   "verify": "K0 키·불변 규칙, K1 콤보 = grades.length 이고 judgeAttempt 결과 불변(봇 탭 재판정), K2 정보(σ70 클리어 시도의 통과 수 = R22 였다면 끊김 수, 단계 5·10·20 도달 비율)"
+ },
+ "accuracy": {
+  "_status": "round-3 (2026-11-17 요청자 지시 \"판정 이름과 퍼센트까지 해주세요\", 공통 문서 harness/benchmarks/djmax-judgement.md 7-2 공통안 3383f7b 채택). 20-balance.md 17-14",
+  "_note": "판정 결과(박과의 차이 e)에서 계산만 하는 표시 층. 판정 창·등급 경계·클리어·실패·콤보·등급 북·30회 한도·재시작은 바꾸지 않음(affects 전부 false, 검증기 A0~A2). 판정 이름 글·색·글꼴·자리는 lore·art 소유(권장 딱이야/좋아/됐어), 데이터 키는 perfect/good/pass 그대로.",
+  "input": "e = 탭 시각 − 별 시각(ms, 이르면 음수) = judgeAttempt grades[].e (지연 보정 뒤 레벨 시간). 등급과 % 는 같은 e 로 계산",
+  "rule": "step_10",
+  "boundary": "inclusive_inner",
+  "_boundary_note": "d = |e| 가 경계값과 같으면 안쪽(높은 %) 칸. 등급 경계(perfect_ms·good_ms·통과 창 끝)와 같은 '이하' 규칙이라 등급과 % 가 어긋나지 않음",
+  "perfect_inner_ms": 25,
+  "perfect_inner_pct": 100,
+  "perfect_outer_pct": 90,
+  "perfect_outer_d_max": "perfect_ms",
+  "good_bins": 3,
+  "good_pcts": [
+   80,
+   70,
+   60
+  ],
+  "good_bin_rule": "(good_ms − perfect_ms) 를 3칸으로 똑같이 나눔. k = ceil(3·(d − perfect_ms)/(good_ms − perfect_ms)), 1~3",
+  "pass_bins": 5,
+  "pass_pcts": [
+   50,
+   40,
+   30,
+   20,
+   10
+  ],
+  "pass_bin_rule": "(W − good_ms) 를 5칸으로 똑같이 나눔. W = e 쪽 통과 창 끝(e < 0 → pass_early_ms, 그 밖 → pass_late_ms). k = ceil(5·(d − good_ms)/(W − good_ms)), 1~5. d = W 는 늘 10",
+  "window_end_side": {
+   "early": "pass_early_ms",
+   "late": "pass_late_ms",
+   "zero": "late"
+  },
+  "fail": {
+   "pct": null,
+   "display": "none",
+   "_note": "놓침 구역 탭·놓침(창 밖)은 % 도 이름도 없음. 기존 실패 연출만"
+  },
+  "grade_from_pct": {
+   "perfect": [
+    90,
+    100
+   ],
+   "good": [
+    60,
+    80
+   ],
+   "pass": [
+    10,
+    50
+   ]
+  },
+  "build_formula_not_table": true,
+  "_build_note": "빌드는 아래 levels 표가 아니라 위 식(레벨 judge 값)으로 계산. 표는 2자리 반올림 거울(검증기 A0 가 식과 대조)이라 좋아 칸 경계 66.67 같은 값을 그대로 쓰면 소수 차이가 생김",
+  "levels": {
+   "10": {
+    "good_ms": 90,
+    "pass_early_ms": 115,
+    "pass_late_ms": 135,
+    "pass_bin_early_ms": 5,
+    "pass_bin_late_ms": 9,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     95,
+     100,
+     105,
+     110,
+     115
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     99,
+     108,
+     117,
+     126,
+     135
+    ]
+   },
+   "01": {
+    "good_ms": 100,
+    "pass_early_ms": 150,
+    "pass_late_ms": 170,
+    "pass_bin_early_ms": 10,
+    "pass_bin_late_ms": 14,
+    "early_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     110,
+     120,
+     130,
+     140,
+     150
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     114,
+     128,
+     142,
+     156,
+     170
+    ]
+   },
+   "02": {
+    "good_ms": 100,
+    "pass_early_ms": 140,
+    "pass_late_ms": 160,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     108,
+     116,
+     124,
+     132,
+     140
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     112,
+     124,
+     136,
+     148,
+     160
+    ]
+   },
+   "03": {
+    "good_ms": 90,
+    "pass_early_ms": 135,
+    "pass_late_ms": 155,
+    "pass_bin_early_ms": 9,
+    "pass_bin_late_ms": 13,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     99,
+     108,
+     117,
+     126,
+     135
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     103,
+     116,
+     129,
+     142,
+     155
+    ]
+   },
+   "04": {
+    "good_ms": 90,
+    "pass_early_ms": 130,
+    "pass_late_ms": 150,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     98,
+     106,
+     114,
+     122,
+     130
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     102,
+     114,
+     126,
+     138,
+     150
+    ]
+   },
+   "05": {
+    "good_ms": 90,
+    "pass_early_ms": 130,
+    "pass_late_ms": 150,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     98,
+     106,
+     114,
+     122,
+     130
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     102,
+     114,
+     126,
+     138,
+     150
+    ]
+   },
+   "06": {
+    "good_ms": 90,
+    "pass_early_ms": 125,
+    "pass_late_ms": 145,
+    "pass_bin_early_ms": 7,
+    "pass_bin_late_ms": 11,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     97,
+     104,
+     111,
+     118,
+     125
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     101,
+     112,
+     123,
+     134,
+     145
+    ]
+   },
+   "07": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   },
+   "08": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   },
+   "09": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   }
+  },
+  "level_accuracy": {
+   "rule": "mean_floor",
+   "formula": "floor(Σ pct / 판정 별 수), 정수 %",
+   "counts": "clear_attempt_only",
+   "failed_attempt": "none",
+   "practice_mode": "none",
+   "_note": "클리어 = 모든 판정 성공이라 0 % 항 없음. 100 은 모든 별이 100 일 때만(내림). 실패 시도는 표시·기록 없음(일반 실패 결과 화면 없음 규칙과 같음), 연습(부활) 클리어도 내지 않음",
+   "show_on": "clear_result_screen",
+   "in_play_running_average": false
+  },
+  "record": {
+   "mode": "normal_only",
+   "best_accuracy": "일반 모드 클리어의 level_accuracy 최댓값 (실패·연습 시도는 후보 아님)",
+   "best_combo": "일반 모드 시도(실패 포함)의 콤보 최댓값 = combo.best_record_mode. 클리어한 시도는 늘 판정 별 수",
+   "separate_from": [
+    "progress",
+    "grade_rating",
+    "unlock"
+   ],
+   "new_record_mark": {
+    "applies_to": "best_accuracy_only",
+    "show_if": "previous_best_exists_and_new_gt_previous",
+    "first_clear": false,
+    "tie": false,
+    "practice": false,
+    "best_combo": false,
+    "_note": "일반 모드 클리어에서 이번 정확도 > 이전 최고 정확도(정수, 같으면 아님)일 때만. 첫 클리어는 비교할 기록이 없어 표지 없음(lore R3-12-3 가정 확정). 최고 콤보는 클리어 시도마다 늘 별 수라 표지 없음. 연습 클리어는 정확도가 없어 해당 없음. 키 result_new_best(lore), 모양 art"
+   },
+   "new_record_mark_r3a_deprecated": {
+    "value": "small_mark_only",
+    "_status": "deprecated (같은 날 lore 요청으로 조건 추가)"
+   }
+  },
+  "display_timing_ms": {
+   "pop": 80,
+   "pop_scale": [
+    1,
+    1.15,
+    1
+   ],
+   "hold_until": 400,
+   "fade": 150,
+   "replace_on_new_judge": true,
+   "on_fail": "fade_within_fail_fx_0.3s",
+   "on_clear": "fade_with_hud_0.2s",
+   "_note": "공통 7-3 값. 게임 시계. L10 최소 별 간격 214 ms > 튐 80 ms. 자리·크기는 art(공통 7-6: 판정 북 바로 위, 노랑 star 금지)"
+  },
+  "affects": {
+   "clear": false,
+   "fail": false,
+   "judge_windows": false,
+   "grade_boundaries": false,
+   "grade_rating": false,
+   "combo": false,
+   "attempt_limit": false,
+   "restart": false,
+   "bots": false,
+   "l10_target": false
+  },
+  "verify": "A0 키·affects·levels 거울 = 식, A1 레벨마다 e 전 구간(0.05 ms 격자 + 모든 경계값)에서 % → 등급 = 판정 등급·창 끝 10·창 밖 없음·% 단조·10칸 모두 나옴 + 봇 탭 재판정 등급 대조, A2 % 를 센 뒤 judgeAttempt 결과 불변 + B1·B6 값 재계산 같음(정보), 정보 A3 σ25/50/70 클리어 시도 레벨 정확도 분포",
+  "_key_note": "balance 키 이름 = accuracy (탭마다 판정 % 와 레벨 정확도를 한 블록에). 공통 문서 7-6·10-lore R3-12의 judge_pct 는 예시 이름이라 따로 두지 않음. 화면 이름 키는 lore judge_perfect·judge_good·judge_pass, 결과 화면 result_accuracy·result_new_best·aria_streak_best"
  }
 }

@@ -43,6 +43,10 @@
 //   C1 보정 계산 정의 일치: tools/sim/calib.mjs(시뮬레이터) = 빌드 games/rhythm-01/js/calib.js (있을 때만, round-2 R4)
 //   K0 콤보 키(balance.json combo): 판정·클리어·실패·30회 한도에 영향 없음 표시, 단계 5·10·20, 끊김 0.3 s
 //   K1 콤보 = 성공 판정 수(grades.length), 콤보를 세도 judgeAttempt 결과 불변(봇 탭 재판정)
+//   A0 판정 %(balance.json accuracy, round-3 요청자 지시 "판정 이름과 퍼센트"): 계단 100~10·경계 안쪽·영향 전부 false·레벨 정확도 규칙·levels 거울 = 식
+//   A1 레벨마다 e 전 구간(0.05 ms 격자 + 경계값)에서 % → 등급 = 판정 등급, 창 끝 10, 창 밖 표시 없음, % 단조, 10칸 모두 나옴, 봇 판정 대조
+//   A2 % ·레벨 정확도를 센 뒤 judgeAttempt 결과 불변 (+ 정보: B1·B6 원천 L1·L3·L10 다시 계산 같음)
+// 정보 A3: σ25/50/70 클리어 시도의 레벨 정확도 분포
 // 정보 R17 (round-3): 보정 때와 플레이 때 자동 지연 차이 Δ = 0·64 ms + (round-3 추가) −64·−30·+30 ms 에서 (a) round-2 방식, (b) R11 방식
 //   σ70 첫 클리어 중앙값, (b) Δ ≠ 0 이 Δ 0 과 같은지, R11 안정 대기 시각, 재시작 1.08 s 와의 관계, 빌드 calib.js 에 R11 함수가 있으면 C2 비교 (판정 안 함)
 // 정보 R17b (round-3): 보정 무시 구간 경계값(R23 뒤 ±10 ms, 옛 ±30)을 남은 오차로 둔 이른·늦은 시나리오 (처음 보는 무늬 비용 포함, 30회·2배 한도 표시)
@@ -58,7 +62,7 @@ import { existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { compileLevel, judgeAttempt } from './sim/judge.mjs';
 import * as simCalib from './sim/calib.mjs';
-import { runProfile, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng, autoShiftCalibBias, stableWaitMs, botTaps, runNoveltySessions, starHazards, runPracticeV3 } from './sim/bots.mjs';
+import { runProfile, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng, autoShiftCalibBias, stableWaitMs, botTaps, runNoveltySessions, starHazards, runPracticeV3, accuracyPct, gradeFromPct, levelAccuracy } from './sim/bots.mjs';
 import { buildPlanLevel } from './sim/plan.mjs';
 import { layoutChunks, nChecks, previewInfo, beatToMs, comboTrace } from './sim/path.mjs';
 
@@ -431,6 +435,113 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
     const row = { stars: L.stars.length, pass_per_clear: clears ? +(passSum / clears).toFixed(2) : null, no_break_share: clears ? +(zero / clears).toFixed(3) : null, r22_max_combo_mean: clears ? +(maxR22 / clears).toFixed(1) : null, reach: Object.fromEntries(Object.entries(reach).map(([x, v]) => [x, +(v / (N / 4)).toFixed(3)])) };
     report.combo_info[L.level.id] = row;
     log(`  L${L.level.id} | ${row.stars} | ${row.pass_per_clear} | ${row.no_break_share} | ${row.r22_max_combo_mean} | ${row.reach[5]}/${row.reach[10]}/${row.reach[20]}`);
+  }
+}
+
+// A0·A1·A2 판정 %·레벨 정확도 (round-3, 요청자 지시 "판정 이름과 퍼센트까지 해주세요", 공통 문서 djmax-judgement.md 7-2, balance.json accuracy)
+{
+  report.levels._accuracy = {};
+  log('\n== 판정 %·레벨 정확도 (A0·A1·A2·정보 A3) ==');
+  const acc = bal.accuracy || {};
+  const near = (a, b) => Math.abs(a - b) <= 0.006;
+  // A0 키·영향 없음·레벨 거울 = 식
+  const mirrorBad = [];
+  for (const L of compiled) {
+    const j = L.judge, m = acc.levels?.[L.level.id];
+    const side = (W) => [acc.perfect_inner_ms, j.perfect_ms, j.perfect_ms + (j.good_ms - j.perfect_ms) / 3, j.perfect_ms + (2 * (j.good_ms - j.perfect_ms)) / 3, j.good_ms, ...[1, 2, 3, 4, 5].map((k) => j.good_ms + ((W - j.good_ms) * k) / 5)];
+    const ok = m && m.good_ms === j.good_ms && m.pass_early_ms === j.pass_early_ms && m.pass_late_ms === j.pass_late_ms
+      && side(j.pass_early_ms).every((x, i) => near(x, m.early_d_max_ms[i])) && side(j.pass_late_ms).every((x, i) => near(x, m.late_d_max_ms[i]));
+    if (!ok) mirrorBad.push(L.level.id);
+  }
+  const pcts = [acc.perfect_inner_pct, acc.perfect_outer_pct, ...(acc.good_pcts || []), ...(acc.pass_pcts || [])];
+  const a0 = acc.rule === 'step_10' && acc.boundary === 'inclusive_inner' && acc.affects && Object.values(acc.affects).every((v) => v === false)
+    && pcts.join() === '100,90,80,70,60,50,40,30,20,10' && acc.level_accuracy?.rule === 'mean_floor' && acc.level_accuracy?.counts === 'clear_attempt_only'
+    && acc.level_accuracy?.failed_attempt === 'none' && acc.level_accuracy?.practice_mode === 'none' && acc.record?.mode === 'normal_only' && acc.record?.new_record_mark?.first_clear === false && acc.record?.new_record_mark?.tie === false && acc.fail?.pct === null && mirrorBad.length === 0;
+  const notFalse = acc.affects ? Object.entries(acc.affects).filter(([, v]) => v !== false).map(([k]) => k) : null;
+  check('_accuracy', 'A0', a0, `계단 ${pcts.join('/')} (≤${acc.perfect_inner_ms} ms 100, ≤딱 90, 좋아 3칸, 통과 5칸, 경계 = 안쪽) · 영향 ${notFalse ? (notFalse.length ? notFalse.join(',') + ' (!)' : `${Object.keys(acc.affects).length}개 전부 false`) : '없음(!)'} · 레벨 정확도 ${acc.level_accuracy?.rule}/${acc.level_accuracy?.counts}/실패 ${acc.level_accuracy?.failed_attempt}/연습 ${acc.level_accuracy?.practice_mode} · 기록 ${acc.record?.mode}, 신기록 표지 ${acc.record?.new_record_mark?.show_if}(첫 클리어 ${acc.record?.new_record_mark?.first_clear}) · levels 거울 = 식 ${mirrorBad.length ? '다름 ' + mirrorBad.join(',') : `${compiled.length}/${compiled.length}`}`);
+  // A1 레벨마다 e 전 구간에서 % → 등급 = 판정 등급
+  const gradeOf = (j, e) => { const a = Math.abs(e); return a <= j.perfect_ms ? 'perfect' : a <= j.good_ms ? 'good' : 'pass'; };
+  report.accuracy = { levels: {} };
+  log('  레벨 | 좋아 g | 이른 창 W | 늦은 창 W | 통과 한 칸(이른/늦은) | 이른 쪽 칸 끝 d (100→10) | 늦은 쪽 칸 끝 d (100→10)');
+  for (const L of compiled) {
+    const j = L.judge, id = L.level.id;
+    let bad = 0, n = 0, mono = 0;
+    const seen = { early: new Set(), late: new Set() };
+    for (const [side, W, sgn] of [['early', j.pass_early_ms, -1], ['late', j.pass_late_ms, 1]]) {
+      const m = acc.levels[id][side + '_d_max_ms'];
+      const ds = [];
+      for (let k = 0; k * 0.05 <= W + 1; k++) ds.push(+(k * 0.05).toFixed(2));
+      ds.push(...m, ...m.map((x) => x + 0.001), j.perfect_ms + (j.good_ms - j.perfect_ms) / 3, j.perfect_ms + (2 * (j.good_ms - j.perfect_ms)) / 3, W);
+      ds.sort((a, b) => a - b);
+      let prev = 101;
+      for (const d of ds) {
+        n++;
+        const p = accuracyPct(sgn * d, j, acc);
+        if (d > W) { if (p !== null) bad++; continue; }
+        if (p == null || gradeFromPct(p, acc) !== gradeOf(j, sgn * d)) bad++;
+        if (p != null) { if (p > prev) mono++; prev = p; seen[side].add(p); }
+      }
+      if (accuracyPct(sgn * W, j, acc) !== 10 || accuracyPct(sgn * (W + 0.01), j, acc) !== null) bad++;
+    }
+    if (accuracyPct(0, j, acc) !== 100) bad++;
+    // 봇 탭: judgeAttempt 등급과 대조 (네 프로필 × 500시도)
+    const rng = makeRng(5150 + +id);
+    let gb = 0, gn = 0;
+    for (const p of Object.values(bal.bots.profiles)) for (let k = 0; k < 500; k++) {
+      const a = judgeAttempt(L, botTaps(L, p, rng, { extraAfter: bal.bots.extra_tap_after_s }));
+      for (const g of a.grades) { gn++; if (gradeFromPct(accuracyPct(g.e, j, acc), acc) !== g.grade) gb++; }
+    }
+    const all10 = seen.early.size === 10 && seen.late.size === 10;
+    report.accuracy.levels[id] = { grid_points: n, grid_mismatch: bad, monotonic_violations: mono, bot_grades: gn, bot_mismatch: gb };
+    check(id, 'A1', bad === 0 && mono === 0 && gb === 0 && all10, `% → 등급 = 판정 등급: 격자·경계 ${n}점 다름 ${bad} · |e| 늘 때 % 오름 ${mono} · 창 끝 = 10 · 창 밖 = 표시 없음 · 칸 10개 모두 나옴(이른 ${seen.early.size}/늦은 ${seen.late.size}) · 봇 판정 ${gn}개 다름 ${gb}`);
+    const m = acc.levels[id];
+    log(`  L${id} | ${j.good_ms} | ${j.pass_early_ms} | ${j.pass_late_ms} | ${m.pass_bin_early_ms}/${m.pass_bin_late_ms} | ${m.early_d_max_ms.join(' ')} | ${m.late_d_max_ms.join(' ')}`);
+  }
+  // A2 % 를 세도 판정 결과·B1·B6 불변
+  {
+    const rng = makeRng(909);
+    let diff = 0, n = 0;
+    for (const L of compiled) for (let k = 0; k < 500; k++) {
+      const taps = botTaps(L, bal.bots.profiles.child_sd70, rng, { extraAfter: bal.bots.extra_tap_after_s });
+      const a = judgeAttempt(L, taps), s0 = JSON.stringify(a);
+      levelAccuracy(L, a, acc);
+      for (const g of a.grades) accuracyPct(g.e, L.judge, acc);
+      n++;
+      if (JSON.stringify(a) !== s0 || JSON.stringify(judgeAttempt(L, taps)) !== s0) diff++;
+    }
+    check('_accuracy', 'A2', diff === 0, `σ70 봇 탭 ${n}시도: % ·레벨 정확도를 센 뒤 판정 결과(클리어·실패 위치·이유·등급·헛탭) 다름 ${diff}건 · % 는 judgeAttempt 입력에 없음(판정 창·놓침 구역·재시작 시각 그대로)`);
+    const ids = [R.base_levels?.[0] ?? '01', '03', R.apply_to_level].filter((x, i, a) => a.indexOf(x) === i);
+    const again = ids.map((id) => { const L = compiled.find((x) => x.level.id === id); return [id, runNoveltySessions(L, bal.bots.profiles.child_sd70, bal, { sessions: NSESS })]; });
+    const same = again.every(([id, r]) => r.median_first_clear_continuous === nov[id].child_sd70.median_first_clear_continuous && r.median_first_clear_sessions === nov[id].child_sd70.median_first_clear_sessions);
+    log(`  정보 A2 (B1·B6 원천 다시 계산, % 를 센 뒤 같은 시드 세션 ${NSESS}개): ${again.map(([id, r]) => `L${id} ${r.median_first_clear_sessions}회 (연속 ${r.median_first_clear_continuous}) = 앞 ${nov[id].child_sd70.median_first_clear_sessions} (${nov[id].child_sd70.median_first_clear_continuous})`).join(' · ')} → ${same ? '같음: 클리어·30회 한도(B1)·L10 목표(B6) 영향 0' : '다름(!)'}`);
+    if (!same) report.fails.push('_accuracy A2 정보: B1·B6 원천 다시 계산 값이 다름');
+    report.accuracy.invariance = { rejudge_diff: diff, attempts: n, b6_sources_same: same };
+  }
+  // 정보 A3 클리어 시도 레벨 정확도 분포
+  const NA = N / 4;
+  log(`  정보 A3 (비용 없는 독립 시도 ${NA}회, 클리어한 시도만 레벨 정확도 = floor(평균 %), 실패 시도는 정확도 없음): 레벨 | σ25 클리어 수 · 평균 · 10/50/90 백분위 · 최소~최대 · 100 비율 | σ50 같음 | σ70 같음 (처음 보는 무늬 비용은 놓침만 늘려 클리어 시도의 오차 분포는 같음)`);
+  const q = (s, f) => s[Math.min(s.length - 1, Math.floor(f * (s.length - 1)))];
+  report.accuracy.distribution = {};
+  for (const L of compiled) {
+    const row = {}, parts = [];
+    for (const pn of ['skilled_sd25', 'novice_sd50', 'child_sd70']) {
+      const rng = makeRng(6060 + +L.level.id);
+      const xs = [];
+      let leak = 0;
+      for (let k = 0; k < NA; k++) {
+        const a = judgeAttempt(L, botTaps(L, bal.bots.profiles[pn], rng, { extraAfter: bal.bots.extra_tap_after_s }));
+        const v = levelAccuracy(L, a, acc);
+        if (a.clear !== (v !== null)) leak++;
+        if (v !== null) xs.push(v);
+      }
+      if (leak) report.fails.push(`${L.level.id} A3 ${pn}: 실패 시도 정확도 또는 클리어 정확도 없음 ${leak}건`);
+      xs.sort((a, b) => a - b);
+      const r = xs.length ? { clears: xs.length, mean: +(xs.reduce((s, x) => s + x, 0) / xs.length).toFixed(1), p10: q(xs, 0.1), p50: q(xs, 0.5), p90: q(xs, 0.9), min: xs[0], max: xs[xs.length - 1], share100: +(xs.filter((x) => x === 100).length / xs.length).toFixed(3) } : { clears: 0 };
+      row[pn] = r;
+      parts.push(r.clears ? `${r.clears} · ${r.mean} · ${r.p10}/${r.p50}/${r.p90} · ${r.min}~${r.max} · ${r.share100}` : '0');
+    }
+    report.accuracy.distribution[L.level.id] = row;
+    log(`  L${L.level.id} | ${parts.join(' | ')}`);
   }
 }
 

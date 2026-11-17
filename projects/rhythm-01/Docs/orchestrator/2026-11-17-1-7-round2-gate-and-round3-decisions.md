@@ -118,3 +118,6 @@
 ## 사용 한도 정지·재개 (요청자 지시 CLAUDE.md 0c6f8a4)
 - 약 20:30 사용 한도 도달로 진행 중이던 3개 작업이 멈춤: game-developer 새 코어 구현, balance `accuracy`, art 판정 이름·% 표시. 미커밋 산출물은 되돌리지 않음.
 - 22:52 예약 확인에서 재개: 세 에이전트에 SendMessage로 같은 범위 이어가기 지시(파일 상태 먼저 확인, 끊긴 실행은 다시, 자기 PID만 정리). lore 확정 키(R3-12)와 lore 요청(`judge_pct` 키·신기록 조건 → balance, 표시 자리 → art)을 함께 전달.
+- balance `accuracy` 통과: `balance.json` accuracy 블록(공통 계단, 레벨별 실제 창, 레벨 정확도 = 클리어 시도 평균 내림, 신기록 표지 = 이전 최고보다 클 때만, `judge_pct` 별도 키 없음), 20-balance 17-14, 검증기 A0~A3, `bots.mjs` 함수 덧붙임만. 직접: 전체 실행 종료 0·FAIL 0·ALL PASS, B6 불변(L10 20.99). σ70 클리어 정확도 중앙값 78~80 %.
+- art 판정 표시 통과: 자리 = 길 띠 아래, 판정 북·L1 손가락 칸 오른쪽 + 8 px(공통안 "북 바로 위"는 공·별 길이라 불가 — 타당), 640x360 tut 글과는 시간 배타(검사기가 `tutorial_cue.hide_after` 확인), 이름 40~46 px·% 0.55배, 노랑 미사용, 결과 화면 등급 북 > 정확도 > 콤보. 16-8 금지 목록은 자체 이름·%만 허용으로 고침(DJMAX 이름·글자 디자인·한 줄 표기 금지 유지). 직접: palette·road-layout·sound-check 모두 0. git 미사용.
+- 다음: 진행 중 dev에 accuracy·layout 판정 글 자리 반영 지시.
