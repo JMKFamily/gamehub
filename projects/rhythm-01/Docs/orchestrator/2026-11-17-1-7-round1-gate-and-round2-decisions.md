@@ -35,3 +35,6 @@
 ## 요청자 새 지시 전파 (메인 세션 경유, 2026-11-17)
 - 개발 중 빌드 허브 게시: games.json rhythm-01 = "Tickadrum (개발 중)"·wip(커밋 722e926). 라운드 빌드 커밋마다 validate 통과 후 푸시, 깨진 중간 상태 푸시 금지, 게이트 통과 시 표시 제거.
 - 전파: STATUS.md 기록, 진행 중인 game-developer에 SendMessage로 전달(빌드가 중간 상태일 때 커밋하지 않으므로 완료 전 `games/rhythm-01/`는 커밋 안 함), 이후 모든 에이전트 지시에 포함.
+
+## 요청자 새 지시 전파 — 인사이트 공유 (메인 세션 경유)
+- `harness/insights.md`에 rhythm-01 배움 12줄 덧붙임(`git diff --numstat` 12/0). 진행 중 game-developer에 insights.md 읽기 지시 전달, 이후 모든 에이전트 지시에 포함. 메인 세션에 덧붙임 알림.
