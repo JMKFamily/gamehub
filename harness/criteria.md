@@ -39,6 +39,9 @@
 - [ ] (rhythm-01 round-1 추가, qa-engineer 제안·balance-designer 지지·오케스트레이터 결정 R4) 보정·밀림 감지 같은 보조 계산의 정의(사분위·중앙값·재시도·표본 고르는 법)가 빌드와 시뮬레이터에서 같고, 실제 입력으로 잰 보정 결과가 들리는 박 기준 ±10 ms 이내 (rhythm-01: 빌드 `calib.js`·D15 밀림 표본이 기준, `bots.mjs`를 맞춤)
 - [ ] (rhythm-01 round-2 추가, qa-engineer 제안·benchmark-analyst 지지) 성능 기준(6배 스로틀 평균·1% low)은 매번 새 브라우저로 3회 이상 반복 측정해 모든 회에서 통과해야 통과로 봄. 떨어진 창은 long-animation-frame(스크립트·blocking)과 게임 코드 없는 대조 페이지로 원인(빌드/측정 환경)을 적음 (rhythm-01: `qa-round.mjs --part perf --perf-runs 3`·`--part perfctl`)
 - [ ] (rhythm-01 round-2 추가, balance-designer·qa-engineer 제안) 지연 보정은 보정 때와 플레이 때 자동 지연 값이 달라도 이중 보정이 없음: 빈 저장소 → 실제 UI 첫 실행 → 보정 → 레벨 1에서 `comp − 그 순간 자동 지연(autoNow)` = 보정 결과 오프셋이고, 그 오프셋은 사람이 들리는 박(예약 시각 + 탭 순간 autoNow)에 친 값의 규칙 기대값 ±10 ms. "들리는 박"을 게임 내부 고정값으로 잡은 자기 일관 측정은 근거로 쓰지 않음 (rhythm-01: `qa-round.mjs --part firstrun`, round-2 1-6 재측정에서 이중 보정 +62~70 ms)
+- [ ] (rhythm-02 round-1 추가, qa-engineer 제안) 메뉴 전환(특히 첫 탭: 오디오 잠금 해제와 같은 처리)도 6배 CPU 스로틀링에서 가장 긴 프레임 ≤ 100 ms (rhythm-02: 타이틀 → 레벨 선택 200~283 ms, `qa-round.mjs --part perf`·`--part blank`)
+- [ ] (rhythm-02 round-1 추가, qa-engineer 제안) 보정 결과에 무시 구간이 있으면, 들린 박에 정확히 친 어른(X = 0)과 ±10 ms 흔들림에서 저장 오프셋이 뒤집히지 않음(규칙 기대 raw가 경계에서 15 ms 이상 떨어짐) (rhythm-02: ±30 경계에서 기대 −36 vs 빌드 raw −28.2/−29.6 → 0 저장, `--part firstrun`)
+- [ ] (rhythm-02 round-1 추가, qa-engineer 제안) 빌드 봇 재판정은 "빌드 기록 탭"과 "봇이 만든 전체 탭" 두 기준 모두로 하고, 하네스가 탭 사이에 시도 경계(재시작)를 넘지 않게 가상 시계를 1 s 이하로 끊어 진행 (rhythm-02: 한 번에 넘기다 하네스 쪽 불일치 658건, 고친 뒤 24만 회 0)
 
 ### 게임 감각 (benchmark-analyst)
 - [ ] 입력 후 1프레임 이내 점프 시작
@@ -49,6 +52,8 @@
 - [ ] (rhythm-01 round-1 추가, benchmark-analyst 제안) 러너 전용 문구인 위 5항목은 리듬 코어에서 다음처럼 읽음 (rhythm-01): "1프레임 이내 점프" = 입력 후 1프레임 안 판정 이펙트, 탭 소리 추가 지연 0 / "높이·체공·거리 = balance.json" = 판정 창·놓침 구역·재시작·공 각도가 balance.json과 같음 / "레퍼런스 실측 ±3 %" = 1-0이 넘긴 이월 수치(재시작 0.94~1.20 s, L1 통과 창 ≥ 266.7 ms, 미리 보기 ≥ 1.2 s, BPM 104~140) 재현 / "무입력 사망 간격" = 놓침 선언이 통과 창 끝이고 실패 연출이 판정 뒤 2프레임 안
 - [ ] (rhythm-01 round-1 추가, benchmark-analyst 제안) 실패 → 다음 판정 별(첫 장애물)까지 걸리는 시간이 일반 모드에서 레벨마다 첫 시도 기준 6 s 이하 (runner-01 L1 사망 → 첫 가시 약 5.1 s 기준, rhythm-01: L1 5.44 s)
 - [ ] (rhythm-01 round-1 추가, benchmark-analyst 제안·오케스트레이터 결정 R6) 깨지 못한 레벨의 최고 진행도가 레벨 선택 화면에서도 글·숫자 없이 보임 (숙달 루프)
+- [ ] (rhythm-02 round-1 추가, benchmark-analyst 제안) 탭이 판정 대상을 움직이는 코어(공 치기 등)는 통과 창 전 구간 [−pass_early, +pass_late]의 탭에서 대상이 움직이기 시작하는 프레임에 탭 반응(북 톡 등)이 아직 보임 (rhythm-02: 이른 통과 e ≤ −120 ms에서 북이 이미 제자리)
+- [ ] (rhythm-02 round-1 추가, benchmark-analyst 제안) 리듬 길이를 공간 크기(높이·거리)로 보여 주는 코어는 가장 짧은 길이의 화면 표시가 4해상도 모두 렌더 ≥ 32 px (늦게 친 통과로 짧아진 경우 포함, 공 지름 배수만이 아니라 px로) (rhythm-02: 640x360 반박 꼭짓점 29~32 px, 늦게 친 뒤 약 14 px)
 
 ### 밸런스 (balance-designer)
 - [ ] 모든 레벨 클리어 가능
@@ -66,6 +71,9 @@
 - [ ] (rhythm-01 round-1 추가, balance-designer 제안·오케스트레이터 결정 R1·R2) 차례 신호(보여 주기 표시)가 보이는 구간이 어떤 판정 대상의 위험 구간과도 겹치지 않고, 튜토리얼 손가락의 누름 시작이 통과 창 안 (rhythm-01: 북채 창 ∩ 모든 판정 별 [놓침 구역 시작, 통과 창 끝] = 0 ms, 손가락 누름 시작 ≥ −pass_early, 검증기 S15·S16)
 - [ ] (rhythm-01 round-1 추가, balance-designer 제안) 위 숙련 봇(σ25) 몰림 항목의 리듬 등가: "한 지점(±3 t)"은 "같은 판정 별"로 읽고, σ25 실패가 레벨당 20회 미만이면 σ50으로 같은 판정 별 몰림 30 % 이하를 봄 (rhythm-01)
 - [ ] (rhythm-01 round-2 추가, balance-designer 제안) 보정 영향 봇 표에 "보정 때와 플레이 때 자동 지연 차이 Δ"(QA 실측값) 시나리오를 넣어 레벨 1 σ70 첫 클리어 기준과 전 레벨 30회 한도를 확인 (rhythm-01: Δ 56~64 ms, round-2 1-6 `qa-round.mjs --part firstrun` 실측)
+- [ ] (rhythm-02 round-1 추가, balance-designer 제안) 레벨 10 목표(B6) 판정에 시드 분포를 함께 봄: L1~L3·L10을 서로 다른 시드 10개(또는 L1~L3 레벨당 20만 회)로 돌려 L10의 목표 T 대비 편차 평균이 ±20 % 안이고 모든 시드에서 ±20 % 안 (rhythm-02: 단일 시드 −8.4 %, 빌드 값 +11.3 %, 10시드 평균 −0.5 %·sd 3.1 %)
+- [ ] (rhythm-02 round-1 추가, balance-designer 제안) 소리 맞추기·지연 보정 뒤 남은 오차 시나리오는 이른 쪽과 늦은 쪽 둘 다 넣어 σ70 소리만 따라 치는 봇(w = 1)의 30회·2배 한도를 확인하고, 무시 구간이 있으면 그 경계값 자체를 잔차로 넣음 (rhythm-02: 통과 창 −115/+135에서 −30 잔차 L10 40.6 vs +30 잔차 15.6)
+- [ ] (rhythm-02 round-1 추가, balance-designer 제안) 멈춤·백그라운드에서 이어 할 때 다음 판정 접촉까지 받침 쉼(쉬는 박) 이상이 있음 — 이어 한 직후 다음 접촉까지 450 ms 미만인 경우 0 (rhythm-02: 그 자리 이어 가기에서 34~51 %)
 
 ### 시각·사운드 (art-director)
 - [ ] 위험 요소와 배경 명도 대비 4.5:1 이상
@@ -78,6 +86,9 @@
 - [ ] (rhythm-01 round-1 추가, art-director 제안) 그림 카드·튜토리얼 그림의 크기 기준은 SVG 원본 단위가 아니라 **화면에 실제로 그려진 px**로 잼. 4해상도 notext에서 플레이어(공) ≥ 16 px, 판정 대상(별) ≥ 20 px
 - [ ] (rhythm-01 round-1 추가, art-director 제안·오케스트레이터 결정 R7) 소리 크기 순서는 오프라인 렌더(층 합산 최고값)로 확인: 아이 탭이 모든 효과음보다 1 dB 이상 크고, 탭과 둥둥이(보여 주기 소리)의 RMS 차 6 dB 이상 (rhythm-01)
 - [ ] (rhythm-01 round-2 추가, art-director 제안) 신호가 사라지거나 바뀌는 전환(작아짐·점선 → 실선 등) 중 어느 프레임에도 전환 앞뒤 상태 어디에도 없는 선·면이 생기지 않음 (rhythm-01: 북채 퇴장 0.25박 프레임 스캔)
+- [ ] (rhythm-02 round-1 추가, art-director 제안) 게임 좌표로 그리는 정지 장면 요소(구름·장소 실루엣 등)도 HUD 띠(멈춤 버튼·진행도 막대·시도 점)와 4해상도에서 겹치지 않고, 외곽선이 HUD에 잘리지 않음 (rhythm-02: 구름 윗선 ≥ HUD 띠 아래, 360x640·640x360·1280x720에서 막대가 구름을 가로지름)
+- [ ] (rhythm-02 round-1 추가, art-director·lore-writer 제안) 화면 고정 글(튜토리얼·토스트)의 자리는 30-art `text_slots`(`layout.json`)에 정의돼 있고, 지원 언어 모두(가장 긴 언어 기준) × 4해상도에서 플레이 오브젝트(구름·공·북 등) 외곽선을 가로지르지 않음 (rhythm-02: `tut_tap` EN이 360x640·640x360에서 구름 외곽선과 겹침)
+- [ ] (rhythm-02 round-1 추가, art-director 제안) 효과음 크기 표의 원본은 빌드 OfflineAudioContext 렌더값이고, art 도구 계산값과 소리별 차 ≤ 1 dB (잡음 생성기·음 높이 집합(실제 곡 전체)·최고값 정의가 같음) (rhythm-02: 소리별 최대 2.7 dB 차)
 
 ### 세계관·텍스트 (lore-writer)
 - [ ] 화면의 모든 텍스트가 10-lore.md와 일치
@@ -86,6 +97,8 @@
 - [ ] (round-1 추가, lore-writer 제안) 한국어 문구가 낱말 중간에서 줄바꿈되지 않고(`word-break: keep-all`), 지원 언어마다 주요 화면 스크린샷으로 잘림을 확인함
 - [ ] (round-1 추가, lore-writer 제안) 튜토리얼 그림이 바로 뒤에 처음 만나는 오브젝트의 실제 색·모양과 같음
 - [ ] (rhythm-01 round-1 추가, lore-writer 제안·오케스트레이터 결정 R8) 텍스트 원본(10-lore 키 표)의 키는 빌드에서 모두 쓰이거나(동적 키 포함) 안 쓰는 이유가 DEV_NOTES에 있고, 대체 글(aria)에 숫자·값을 이어 붙이지 않음(값은 `aria-valuenow` 같은 속성으로)
+- [ ] (rhythm-02 round-1 추가, lore-writer 제안) 불러오기·오류 화면도 글 없이 진행할 수 있음: 다시 버튼 그림이 데이터 로드 실패와 무관하게 보이고(부트 블록에 인라인), 부트 단계의 html `lang`·문서 제목도 선택 언어의 원본 문구를 씀 (rhythm-02: balance.json 실패 시 ↻ 버튼 내용 0, en 기기에서 lang ko·제목 고정)
+- [ ] (rhythm-02 round-1 추가, lore-writer 제안) 대체 글은 접근성 트리로 확인: 주요 화면(레벨 선택·레벨 시작 판·결과)의 레벨 이름·상태·등급이 `ariaSnapshot()` 같은 접근성 트리에 실제로 나타남(aria-hidden 요소에 aria-label을 붙이지 않음) (rhythm-02: 시작 판 `#stCard`·`#stGrades` aria-hidden)
 
 ### 대상 연령·단순성 (전 역할 공통, 위반 시 major 이상)
 - [ ] 조작이 1~2가지이고 승패 조건을 한 문장으로 말할 수 있음

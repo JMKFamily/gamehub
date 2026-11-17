@@ -31,6 +31,7 @@
 - [runner-01·2026-11-17] "반대 행동" 규칙(위에 위험이 있으니 누르지 말기 등)은 아이에게 가장 비싼 새 규칙이다. 넣을 때는 늘 같은 높이에, 누를 순간이 없는 쉬는 박에만, 앞뒤 여유를 두고, 그림만으로 이해되는지 아동 테스트를 요청한다. 근거: projects/runner-01/reviews/round-1/score.md S3, projects/runner-01/20-balance.md 14-2. 적용: balance-designer는 배치 규칙으로 묶고, 오케스트레이터는 HUMAN_TASKS에 아동 테스트를 올릴지 정한다
 - [runner-01·2026-11-17] 결과가 반대인 두 변형(빠름/느림처럼)은 한 레벨에서 같이 처음 보여 주지 않는다. 아이에게는 새 규칙 2개다. 근거: projects/runner-01/20-balance.md 14-2. 적용: balance-designer는 레벨을 나눠 하나씩 도입한다
 - [runner-01·2026-11-17] 레벨 끝 13~30박은 비워 클리어 직전 억울한 사망을 없앤다. 근거: projects/runner-01/20-balance.md 14-3. 적용: balance-designer
+- [rhythm-02·2026-11-17] 보정(소리 맞추기)에 "작으면 무시" 구간(±30 ms)을 두면 경계에서 결과가 뒤집히고, 통과 창이 비대칭이면 이른 쪽 남은 오차만으로 소리 따라 치는 아이의 L10이 30회를 넘는다. 보정 뒤 남은 오차는 이른 쪽·늦은 쪽 둘 다, 무시 구간 경계값 그대로 봇에 넣어 30회·2배 한도를 확인한다. 근거: projects/rhythm-02/reviews/round-1/balance-designer.md 이슈 1, qa.md 이슈 3. 적용: balance-designer(보정 규칙), qa-engineer.
 
 ## 5~6세 이해·튜토리얼·텍스트
 - [rhythm-01·2026-11-17] "볼 차례/칠 차례" 같은 차례 신호는 기획 단계에서 시간축으로 겹침을 검사해야 한다. 북채가 마디 끝까지 남아 첫 별 1박 전 손가락과 동시에 보인 문제를 다섯 리뷰가 모두 major로 잡았다. 신호는 마지막 시범 동작 직후 사라지게 하고, 다음 판정 위험 구간(놓침 구역~통과 창 끝)과 겹치지 않음을 검증기(S15·S16)로 자동 확인한다. 근거: projects/rhythm-01/reviews/round-1/score.md(M1), tools/verify-levels.mjs S15·S16. 적용: balance-designer(검증기), art-director(퇴장 연출), lore-writer(문장에 숫자 대신 규칙).
@@ -43,6 +44,7 @@
 - [runner-01·2026-11-17] 한국어는 word-break: keep-all로 낱말 중간 줄바꿈을 막고, 언어는 navigator.language로 자동 선택한다(URL 파라미터만으로는 아이가 못 바꿈). 근거: projects/runner-01/reviews/round-1/score.md S26·S32. 적용: game-developer
 - [runner-01·2026-11-17] 레벨 선택 카드는 글 없이 서로 구분돼야 한다: 색 차이만으로는 부족하고, 바탕·테두리·지면 띠·대표 물체 1개처럼 모양 차이를 넣는다. 근거: projects/runner-01/reviews/round-1/score.md S22, projects/runner-01/reviews/round-1/dev-response.md S22. 적용: art-director·game-developer
 - [runner-01·2026-11-17] 매 사망 글 토스트는 빼고, 첫 사망에만 ↻ 그림 안내를 짧게 보인다(글을 못 읽어도 "다시 한다"를 앎). 근거: projects/runner-01/reviews/round-1/score.md S11, projects/runner-01/reviews/round-1/dev-response.md S11. 적용: lore-writer·game-developer
+- [rhythm-02·2026-11-17] 대체 글은 코드가 아니라 접근성 트리(Playwright ariaSnapshot)로 확인한다. aria-hidden 요소에 붙인 aria-label은 읽히지 않는다. 불러오기 실패 화면의 다시 버튼 그림은 부트 단계에 인라인으로 넣어야 글을 못 읽는 아이가 막히지 않는다. 근거: projects/rhythm-02/reviews/round-1/lore-writer.md 이슈 1·3. 적용: game-developer, lore-writer, qa-engineer.
 
 ## 시각·사운드
 - [rhythm-01·2026-11-17] 효과음 크기 순서는 표의 dB 값이 아니라 오프라인 렌더(OfflineAudioContext, 마스터 뒤) 최고값·RMS로 확인한다. 층이 여러 개인 소리는 표보다 1~2 dB 커서 "아이 탭이 가장 큰 소리" 순서가 깨졌다. 근거: projects/rhythm-01/reviews/round-1/art-director.md, assets/sound-check.mjs --render. 적용: art-director, qa-engineer.
@@ -50,6 +52,7 @@
 - [runner-01·2026-11-17] 맞닿은 블록 묶음은 바깥 둘레에만 외곽선을 그린다. 칸마다 외곽선을 그리면 계단·벽에 이음매가 생겨 여러 물체로 읽힌다. 근거: projects/runner-01/reviews/round-1/score.md S18, harness/criteria.md 시각 절. 적용: art-director는 규칙으로 적고, game-developer는 로드 때 묶음을 계산해 경로 하나로 그린다
 - [runner-01·2026-11-17] 사망음은 아이에게 거칠지 않게: 노이즈+사각파 −6 dB를 −10 dB 삼각파·저역 통과로 바꿨다(귀로는 미검증). 근거: projects/runner-01/reviews/round-1/score.md S23. 적용: art-director는 사망음 크기·파형을 정하고 오프라인 렌더로 크기 순서를 확인한다
 - [runner-01·2026-11-17] 클리어 연출 색 판 위에서는 HUD 흰 글자가 사라지므로, 결승선에서 HUD를 짧게(0.2 s, 게임 시간) 페이드아웃하고 세로 화면에서는 연출을 화면 전체 높이로 칠한다. 근거: projects/runner-01/reviews/round-1/score.md S19. 적용: art-director·game-developer
+- [rhythm-02·2026-11-17] 화면 고정 글(튜토리얼)과 정지 장면 요소(구름)도 자리(layout text_slots·top_min)를 데이터로 정하고, 가장 긴 언어 × 4해상도에서 HUD 띠·그림 외곽선과 겹침을 검사한다. "뒤로 가려도 됨" 같은 허용 문장이 3개 해상도 겹침 major로 돌아왔다. 근거: projects/rhythm-02/reviews/round-1/art-director.md 이슈 1·2. 적용: art-director, game-developer, qa-engineer.
 
 ## 구현·성능
 - [rhythm-01·2026-11-17] 6배 CPU 스로틀링에서 평균 60 fps여도 레벨 시작·재시작 직후 1% low가 32~44 fps로 떨어졌다(처음 그리는 그림 비용). 평균 fps만 보지 말고 시작·재시작 구간 1% low를 재고, 첫 그림을 로딩 때 미리 그려 둔다(round-2 수정 결과는 rhythm-01 round-2 qa.md에서 확인 예정). 근거: projects/rhythm-01/reviews/round-1/qa.md major 1. 적용: game-developer, qa-engineer.
@@ -74,6 +77,7 @@
 - [runner-01·2026-11-17] 화면을 보지 않는 adb 자동 입력은 지연이 수십~수백 ms 흔들려 첫 레벨 초반(3 %)을 넘지 못한다. 깊은 구간(발판·고리 등)은 사람 녹화나 화면을 보는 원격 조작이 필요하니 일찍 HUMAN_TASKS로 요청한다. 대신 그 흔들림은 판정 경계 무작위 탐색에 쓸 수 있다. 근거: projects/runner-01/benchmark/measurements.md 장면 4·5·6, "round-2 추가 실측". 적용: benchmark-analyst·오케스트레이터
 - [runner-01·2026-11-17] 한 체크아웃을 여러 팀 세션이 함께 쓰므로, 에이전트는 자기가 띄운 프로세스(PID 기록)만 종료하고 로컬 서버 포트는 팀별로 겹치지 않게 고른다(개발 에이전트가 정리 중 다른 serve.mjs 2개를 종료한 사례). 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md. 적용: 모든 역할(특히 game-developer, qa-engineer).
 - [rhythm-01·2026-11-17] 지연 보정 실측에서 "들리는 박"을 게임이 쓰는 값(고정 자동 지연)으로 계산하면 측정이 게임과 같은 가정을 공유해(자기 일관) 이중 보정을 놓친다. 들리는 박 = 예약 시각 + 탭 순간의 실제 autoNow로 잡고, 빈 저장소 → 실제 UI 첫 실행 → 보정 → L1까지 한 흐름으로 잰다. 근거: projects/rhythm-01/reviews/round-2/qa.md "1-6 재측정", harness/criteria.md 기술 품질 rhythm-01 round-2 추가. 적용: qa-engineer, balance-designer.
+- [rhythm-02·2026-11-17] 빌드 봇 재판정 하네스는 가상 시계를 재시작 경계를 넘어 한 번에 진행하면 탭이 다음 시도로 넘어가 가짜 불일치(658건)가 난다. 1 s 이하로 끊어 진행한다. 효과음 크기 표의 원본 값은 art 도구 계산이 아니라 빌드 OfflineAudioContext 렌더값으로 한다(잡음 생성기·음 높이 집합 차로 최대 2.7 dB). 근거: projects/rhythm-02/reviews/round-1/qa.md, art-director.md 이슈 3. 적용: qa-engineer, art-director.
 
 ## 실측 작업 안전
 - [runner-01·2026-11-17] 무료 게임 실측에서는 전면 광고가 사망 직후 갑자기 뜬다. 가드 없이 화면 중앙을 탭하다 광고를 눌러 광고 브라우저 로그인 화면이 열린 사고가 있었다. 자동 입력은 매번 포커스 창이 게임 액티비티인지 확인하고 아니면 즉시 멈추는 스크립트로만 보낸다. 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md "규칙 준수 확인", projects/runner-01/benchmark/tools/taps.sh·seq.sh. 적용: benchmark-analyst는 가드 스크립트만 쓴다(이번 세션에서도 가드가 광고 2회에서 탭 0회로 멈춤)
