@@ -4,6 +4,10 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | 1-5 round-2 | [round-2 밸런스 리뷰: 검증 ALL PASS 193·B6 L10 13.36(−2.4 %)·M1·M3 해결, 13/13, 첫 실행 보정 auto 10→74 이중 보정(L1 σ70 14회) major — 7.5점, REVISE](balance-designer/2026-11-17-r2-1-5-review.md) |
+| 2026-11-17 | art-director | 1-5 round-2 | [round-2 시각·사운드 리뷰: round-1 지적 11건 해결 확인, 8/8 · 9.0점 PASS, minor 3(사라짐 끝 번쩍 고리·360x640 카드 여유 0·훅 글)](art-director/2026-11-17-r2-1-5-review.md) |
+| 2026-11-17 | benchmark-analyst | 1-5 round-2 | [round-2 감각 리뷰: 신호 겹침·최고 진행도 해결, 실패 → 다음 별 2.8~5.4 s, 입력 1프레임 16/16, 13/13(8.5점, PASS), minor 2](benchmark-analyst/2026-11-17-r2-1-5-review.md) |
+| 2026-11-17 | lore-writer | 1-5 round-2 | [round-2 세계관·텍스트 리뷰: 64키 불일치 0·R1/R8·round-1 지적 9건 해결, 6/6 9.0점 PASS, minor 2(영어 360 L9 이름 숨김·훅 튜토리얼 글)](lore-writer/2026-11-17-r2-1-5-review.md) |
 | 2026-11-17 | qa-engineer | 1-4 round-2 | [round-2 QA: M1 픽셀 확인 동시 표시 0·회귀 20/22 해결·1% low 3회 반복 30/36 실패(7.5점, REVISE)](qa-engineer/2026-11-17-r2-1-4-qa.md) |
 | 2026-11-17 | game-developer | round-2 구현 | [북채 퇴장·손가락(R1·R2)·6배 스로틀 1% low 10~11/12창 ≥ 45(round-1 4/12)·세로 카드·레벨 카드·확인 창(R6)·sound.json·멜로디 동기(R7)·aria(R8)·지연 값 일치(R9), selfcheck ALL OK](game-developer/2026-11-17-r2-fixes.md) |
 | 2026-11-17 | balance-designer | round-2 기획 | [북채 퇴장(마지막 별 +0.5박, S15·S16)·손가락 0.25박·B6 연속 중앙값(T 13.70, L10 13.36)·L4~L10 별 1~3개 줄임·보정 정의 통일(C1), 검증 ALL PASS 193](balance-designer/2026-11-17-r2-balance-revision.md) |

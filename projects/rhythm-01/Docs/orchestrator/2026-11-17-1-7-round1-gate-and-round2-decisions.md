@@ -52,3 +52,9 @@
 - diff 확인: `reviews/round-2/`(qa.md·metrics.json·parts·shots 277장, 12 MB), `tools/qa-round.mjs`(+505/−17, 새 파트 signals·cards·r2·perfctl, 포트 8380~8399, pids.log), 보고서, README 한 줄. 빌드·기획·harness·games.json·runner-01 미수정, git 미사용(읽기 전용 포함). 같은 시각 `projects/rhythm-02/` 변경은 다른 팀(커밋 안 함). `scripts/validate.mjs` OK.
 - 결과: 기술 7.5, blocker 0, major 1(M2 1% low 3회 모두 10/12, 빌드 원인 6창), minor 2(warmScreens 튜토리얼 글 3프레임, 자동 지연 10→74 ms 고정). 회귀 22건 중 해결 20·부분 1(N7)·미해결 1(M2). M1 동시 표시 0/34,172 프레임, 재판정 불일치 0/101,413, B6 L10 13.363 통과.
 - 다음: 1-5 4역할 리뷰 병렬.
+
+## round-2 1-5 리뷰 감시
+- 4역할 모두 자기 리뷰·보고서·README 한 줄(+art는 `reviews/round-2/art-shots/` 8장)만 추가. 기획·빌드·harness·games.json·다른 팀 폴더 미수정, git 미사용(본인 보고 + 직접 diff). 같은 시각 `projects/runner-01/`·`projects/rhythm-02/` 변경은 다른 팀(커밋 안 함). 서버는 각자 대역(8305·8306 / 8312 / 8320 / 8331) PID만 종료 보고.
+- 점수: benchmark 8.5(PASS) · balance 7.5(REVISE) · art 9.0(PASS) · lore 9.0(PASS) · qa 7.5 → 예비 가중 **8.20**, 전 영역 6.0 이상, blocker 0(예비).
+- **balance major (새로 찾음)**: 첫 실행에서 오디오 시작과 보정이 같은 탭에 겹쳐 보정 중 자동 지연 10 ms 고정 → 수동 오프셋 +64 ms → 보정 뒤 자동 지연 74 ms로 바뀌어 이중 보정(L1 σ70 14회, 30회 한도 붕괴, 헤드리스 Edge). QA의 기존 체크 "실제 입력 보정 결과 들리는 박 기준 ±10 ms"를 QA가 고정값 10 ms 기준으로 재서 놓쳤을 가능성.
+- 오케스트레이터 판단: 예비 총점은 게이트를 넘지만, 첫 실행 기본 경로에서 L1 목표가 깨지는 문제를 확인 없이 검수로 보내지 않음. 1-6 집계에서 qa-engineer가 `autoNow` 기준으로 재측정해 기존 체크 판정·심각도(blocker 여부)를 근거와 함께 확정한 뒤 1-7 판단.

@@ -1,0 +1,503 @@
+{
+ "cards": [
+  {
+   "res": "360x640",
+   "level": 1,
+   "src": "card_star_tap_portrait.svg",
+   "w": 158.8,
+   "h": 608,
+   "ballPx": [
+    17,
+    17,
+    17
+   ],
+   "starPx": [
+    "22F",
+    "22H",
+    "15F"
+   ]
+  },
+  {
+   "res": "360x640",
+   "level": 2,
+   "src": "card_half_star_portrait.svg",
+   "w": 158.8,
+   "h": 608,
+   "ballPx": [
+    17,
+    17,
+    16
+   ],
+   "starPx": [
+    "16F",
+    "17F",
+    "15F"
+   ]
+  },
+  {
+   "res": "360x640",
+   "level": 3,
+   "src": "card_rest_beat_portrait.svg",
+   "w": 158.8,
+   "h": 608,
+   "ballPx": [
+    17,
+    17,
+    16
+   ],
+   "starPx": [
+    "16F",
+    "16F"
+   ]
+  },
+  {
+   "res": "360x640",
+   "level": 6,
+   "src": "card_two_bar_portrait.svg",
+   "w": 158.8,
+   "h": 608,
+   "ballPx": [
+    16,
+    17,
+    16
+   ],
+   "starPx": [
+    "16F",
+    "22H",
+    "22H",
+    "22H"
+   ]
+  },
+  {
+   "res": "360x640",
+   "level": 7,
+   "src": "card_run4_portrait.svg",
+   "w": 158.8,
+   "h": 608,
+   "ballPx": [
+    17,
+    17,
+    16
+   ],
+   "starPx": [
+    "17F",
+    "16F",
+    "16F",
+    "17F"
+   ]
+  },
+  {
+   "res": "412x915",
+   "level": 1,
+   "src": "card_star_tap_portrait.svg",
+   "w": 230.6,
+   "h": 883,
+   "ballPx": [
+    25,
+    25,
+    25
+   ],
+   "starPx": [
+    "32F",
+    "32H",
+    "24F"
+   ]
+  },
+  {
+   "res": "412x915",
+   "level": 2,
+   "src": "card_half_star_portrait.svg",
+   "w": 230.6,
+   "h": 883,
+   "ballPx": [
+    25,
+    24,
+    25
+   ],
+   "starPx": [
+    "24F",
+    "25F",
+    "25F",
+    "17H"
+   ]
+  },
+  {
+   "res": "412x915",
+   "level": 3,
+   "src": "card_rest_beat_portrait.svg",
+   "w": 230.6,
+   "h": 883,
+   "ballPx": [
+    24,
+    25,
+    25
+   ],
+   "starPx": [
+    "25F",
+    "24F",
+    "19F",
+    "19H"
+   ]
+  },
+  {
+   "res": "412x915",
+   "level": 6,
+   "src": "card_two_bar_portrait.svg",
+   "w": 230.6,
+   "h": 883,
+   "ballPx": [
+    25,
+    25,
+    24
+   ],
+   "starPx": [
+    "24F",
+    "32H",
+    "32H",
+    "32H"
+   ]
+  },
+  {
+   "res": "412x915",
+   "level": 7,
+   "src": "card_run4_portrait.svg",
+   "w": 230.6,
+   "h": 883,
+   "ballPx": [
+    24,
+    25,
+    24
+   ],
+   "starPx": [
+    "24F",
+    "25F",
+    "24F",
+    "25F"
+   ]
+  },
+  {
+   "res": "640x360",
+   "level": 1,
+   "src": "card_star_tap.svg",
+   "w": 512,
+   "h": 238.9,
+   "ballPx": [
+    17,
+    18,
+    17
+   ],
+   "starPx": [
+    "22F",
+    "22H",
+    "16F"
+   ]
+  },
+  {
+   "res": "640x360",
+   "level": 2,
+   "src": "card_half_star.svg",
+   "w": 512,
+   "h": 238.9,
+   "ballPx": [
+    17,
+    17,
+    17
+   ],
+   "starPx": [
+    "18F",
+    "17F",
+    "17F"
+   ]
+  },
+  {
+   "res": "640x360",
+   "level": 3,
+   "src": "card_rest_beat.svg",
+   "w": 512,
+   "h": 238.9,
+   "ballPx": [
+    18,
+    17,
+    18
+   ],
+   "starPx": [
+    "17F",
+    "17F"
+   ]
+  },
+  {
+   "res": "640x360",
+   "level": 6,
+   "src": "card_two_bar.svg",
+   "w": 512,
+   "h": 238.9,
+   "ballPx": [
+    17,
+    17,
+    17
+   ],
+   "starPx": [
+    "17F",
+    "23H",
+    "23H",
+    "22H"
+   ]
+  },
+  {
+   "res": "640x360",
+   "level": 7,
+   "src": "card_run4.svg",
+   "w": 512,
+   "h": 238.9,
+   "ballPx": [
+    17,
+    17,
+    18
+   ],
+   "starPx": [
+    "18F",
+    "17F",
+    "16F",
+    "17F"
+   ]
+  },
+  {
+   "res": "1280x720",
+   "level": 1,
+   "src": "card_star_tap.svg",
+   "w": 1024,
+   "h": 477.9,
+   "ballPx": [
+    35,
+    36,
+    36
+   ],
+   "starPx": [
+    "49F",
+    "46H",
+    "34F",
+    "14F"
+   ]
+  },
+  {
+   "res": "1280x720",
+   "level": 2,
+   "src": "card_half_star.svg",
+   "w": 1024,
+   "h": 477.9,
+   "ballPx": [
+    35,
+    36,
+    35
+   ],
+   "starPx": [
+    "36F",
+    "36F",
+    "36F",
+    "25H"
+   ]
+  },
+  {
+   "res": "1280x720",
+   "level": 3,
+   "src": "card_rest_beat.svg",
+   "w": 1024,
+   "h": 477.9,
+   "ballPx": [
+    36,
+    36,
+    36
+   ],
+   "starPx": [
+    "37F",
+    "37F",
+    "27F",
+    "27H"
+   ]
+  },
+  {
+   "res": "1280x720",
+   "level": 6,
+   "src": "card_two_bar.svg",
+   "w": 1024,
+   "h": 477.9,
+   "ballPx": [
+    36,
+    36,
+    35
+   ],
+   "starPx": [
+    "37F",
+    "46H",
+    "46H",
+    "46H"
+   ]
+  },
+  {
+   "res": "1280x720",
+   "level": 7,
+   "src": "card_run4.svg",
+   "w": 1024,
+   "h": 477.9,
+   "ballPx": [
+    35,
+    36,
+    35
+   ],
+   "starPx": [
+    "36F",
+    "36F",
+    "37F",
+    "36F"
+   ]
+  }
+ ],
+ "title": [
+  {
+   "res": "360x640",
+   "R": 144,
+   "starR": 21.599999999999998,
+   "band": 14.4,
+   "hint": [
+    16,
+    508,
+    328,
+    95
+   ],
+   "hand": [
+    148,
+    508,
+    65,
+    65
+   ],
+   "hintNearestToCenter": 220.5,
+   "handNearest": 220.5,
+   "outerR": 151.2
+  },
+  {
+   "res": "412x915",
+   "R": 164.8,
+   "starR": 24.720000000000002,
+   "band": 16.48,
+   "hint": [
+    16,
+    717,
+    380,
+    105
+   ],
+   "hand": [
+    169,
+    717,
+    74,
+    74
+   ],
+   "hintNearestToCenter": 305.7,
+   "handNearest": 305.7,
+   "outerR": 173
+  },
+  {
+   "res": "640x360",
+   "R": 118.80000000000001,
+   "starR": 18,
+   "band": 11.880000000000003,
+   "hint": [
+    463,
+    151,
+    161,
+    95
+   ],
+   "hand": [
+    511,
+    151,
+    64,
+    64
+   ],
+   "hintNearestToCenter": 142.8,
+   "handNearest": 191.4,
+   "outerR": 124.7
+  },
+  {
+   "res": "1280x720",
+   "R": 237.60000000000002,
+   "starR": 35.64,
+   "band": 23.760000000000005,
+   "hint": [
+    902,
+    349,
+    362,
+    95
+   ],
+   "hand": [
+    1051,
+    349,
+    64,
+    64
+   ],
+   "hintNearestToCenter": 261.6,
+   "handNearest": 410.8,
+   "outerR": 249.5
+  }
+ ],
+ "hand": [
+  {
+   "res": "360x640",
+   "R": 144,
+   "cx": 180,
+   "cy": 288,
+   "ballD": 31.7,
+   "starD": 43.2,
+   "hand": {
+    "x": 180,
+    "y": 556.14,
+    "size": 64.8
+   },
+   "ratio": 0.45
+  },
+  {
+   "res": "412x915",
+   "R": 164.8,
+   "cx": 206,
+   "cy": 411.75,
+   "ballD": 36.3,
+   "starD": 49.4,
+   "hand": {
+    "x": 206,
+    "y": 769.75,
+    "size": 74.16000000000001
+   },
+   "ratio": 0.45
+  },
+  {
+   "res": "640x360",
+   "R": 118.8,
+   "cx": 320,
+   "cy": 198.00000000000003,
+   "ballD": 28,
+   "starD": 36,
+   "hand": {
+    "x": 492.26,
+    "y": 275.22,
+    "size": 64
+   },
+   "ratio": 0.539
+  },
+  {
+   "res": "1280x720",
+   "R": 237.6,
+   "cx": 640,
+   "cy": 396.00000000000006,
+   "ballD": 52.3,
+   "starD": 71.3,
+   "hand": {
+    "x": 984.52,
+    "y": 550.44,
+    "size": 106.92000000000002
+   },
+   "ratio": 0.45
+  }
+ ],
+ "confirm": [],
+ "icon": [],
+ "console": [],
+ "external": []
+}
