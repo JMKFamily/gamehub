@@ -47,3 +47,7 @@
 - 원문: "지오메트리대시처럼 몰입감이 좀 있는게 좋겠습니다. 이 몰입감은 오른쪽에서부터 다가오는 여러가지 패턴으로 짧은순간 판단해야하는 상황에서 생깁니다. 리스크가 반복적이지않게 만드는것을 초점으로 개선하세요."
 - 전파: STATUS.md 지시 절 신설. 진행 중 game-developer에 SendMessage(R11~R13만 마무리, R14~R16 미착수분은 보류, 새 코어 선작업 금지). benchmark-analyst에 round-3 코어 개선안(00-benchmark 덧붙임, runner-01 GD 실측 인용, 반복 회피 규칙 수치화) 지시.
 - 다음: benchmark 결과 → 오케스트레이터 결정 → balance·art·lore 병렬 → 교차 리뷰 → dev → QA(새 criteria rhythm-02 13줄 포함).
+
+## 요청자 새 지시 (메인 세션 전달, 전 프로젝트) — 콤보 시스템
+- 내용·조건: STATUS.md "콤보 시스템" 절. criteria 게임 감각 +1줄(3dd7294, 메인 세션 커밋).
+- 전파: STATUS 기록, 진행 중 benchmark-analyst에 SendMessage(새 코어가 콤보를 담을 수 있게 고려만, DJMAX 조사는 하지 않음 — 공통 문서 대기). 문서 도착 후 balance → lore·art → dev, round-3 새 코어 빌드 범위에 포함.
