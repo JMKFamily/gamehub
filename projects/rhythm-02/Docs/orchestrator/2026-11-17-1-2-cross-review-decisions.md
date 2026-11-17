@@ -44,3 +44,18 @@
 | D15 | 이름 짜임(Tossaloft ↔ Tickadrum 모두 "T + a + 낱말")은 가안 유지, 요청자 확정 때 함께 알림. | 오케스트레이터 | lore |
 | D16 | 곡 음 놓침 구역 규칙(art X5)을 검증기 항목으로 편입(sound.json 박 단위 규칙 읽기). | balance | art |
 그 밖 minor는 각 역할이 자기 문서 해당분을 처리하고 처리표를 보고서에 남김.
+
+## 2차 수정 감시 (2026-11-17)
+- 보고서 3건 확인: Docs/{lore-writer,balance-designer,art-director}/2026-11-17-1-2-revision.md. 쓰기 경로 각 담당 파일만(git status), git·서버 사용 없음.
+- 오케스트레이터 직접 실행:
+  - `node tools/verify-levels.mjs` 전체: **266/266 PASS** (L1 1.80, r 1.483, T 12.91, L10 11.82, 1-1과 같음).
+  - `node tools/art/check-all.mjs`: palette·layout·cards·icons·sound-check **5/5 OK**.
+  - lore 검사(에이전트 실행): doc 81 = json 81, 카드 8 = balance 8.
+- rhythm-01과의 구분 재확인(메인 세션 요청):
+  1. 탭의 결과: `judge.mjs ballsAt(L,t,hits)`가 친 시각을 받고, 공은 가죽 위에서 기다리다 탭 순간 떠남(떠남 = max(탭, 접촉)). 검증기 V11 "탭 전에 공이 북을 떠나지 않음" PASS. 세 문서 구분 표 첫 행 "탭의 결과" 있음. → **해결**
+  2. 받침 쉼 소리: `sound.json` tick 0건, "콩" `rest_a/rest_b` 삼각파(잡음 층 없음), sound-check가 tick·"똑딱"·잡음 층 금지 검사. "똑딱"은 문서의 rhythm-01 비교 칸에만 남음(grep 확인). → **해결**
+  3. 문구: `tut_tap` "공이 북에 닿으면 톡!", `aria_play_area` "공을 톡 쳐 올려요", store_short 새 문장, 게임 정체성 문구 rhythm-01 겹침 0(lore 검사 ⑦). → **해결**
+- 추가 결정:
+  - D17: 보호자 화면 "기록 지우기"는 이번 범위에서 넣지 않음(D11 = 소리 맞추기·언어). art 목업에서 빼거나 숨김 처리는 1-3 빌드에서 그리지 않는 것으로 충분.
+  - D18: art 제안 "레벨 시작 판"(▶ 일반 · 깃발 연습 · 카드 다시 보기) 채택 — 연습 모드 진입 자리가 따로 없어서 필요. 키는 기존 `btn_practice`·`btn_card_replay` 사용. 단 재시작(실패 후)은 이 판을 거치지 않고 자동 1.1 s.
+  - lore 확인 요청 `settings_music`·`settings_sfx` 삭제 유지(멈춤 메뉴 소리 켜기/끄기 하나).

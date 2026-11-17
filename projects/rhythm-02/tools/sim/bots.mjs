@@ -3,7 +3,7 @@
 //
 //   탭 = 접촉 시각 + bias + N(0, σ)   (공이 북에 닿는 순간을 노림)
 //   접촉마다 miss 확률로 탭을 빼먹고, extra 확률로 그 탭 0.15~0.45 s 뒤에 헛탭을 한 번 더 친다.
-//   along: 받침 쉼 똑딱·자동 토스·착지 때도 따라 치는 아이(판정 없음, 헛탭 영향만 봄, 20-balance 9-4)
+//   along: 받침 쉼 "콩"(까딱 소리)·자동 토스·착지 때도 따라 치는 아이(판정 없음, 헛탭 영향만 봄, 20-balance 9-4)
 //   k2:    "높이 읽기" 손해 모델(위험 K2, 20-balance 9-3) — 짧아지는 통·반박·두 공·새 기믹 첫 등장 접촉에 σ를 키우고 놓침률을 올림
 //   bias:  고정 밀림(+ = 늦게). 소리 따라 치는 아이(K3)는 bias = w × 남은 오디오 지연.
 //
@@ -49,7 +49,7 @@ export function botTaps(L, p, rng, { bias = 0, along = null, extraAfter = [0.15,
   }
   if (along) {
     const ev = [
-      ...L.ticks.map((x) => [x.t, along.tick]),
+      ...L.bobs.map((x) => [x.t, along.rest]),
       ...L.tosses.map((x) => [x.t, along.toss]),
       ...L.landings.map((x) => [x.t, along.land]),
     ];
@@ -111,7 +111,7 @@ export function runPractice(L, p, bal, { sessions = 2000, seed = 4321 } = {}) {
   const segs = [];
   for (const ph of L.level.phrases) {
     const contacts = L.contacts.filter((c) => c.phrase === ph.index);
-    if (contacts.length) segs.push({ ...L, contacts, ticks: [], tosses: [], landings: [] });
+    if (contacts.length) segs.push({ ...L, contacts, bobs: [], tosses: [], landings: [] });
   }
   const tot = [];
   for (let s = 0; s < sessions; s++) {

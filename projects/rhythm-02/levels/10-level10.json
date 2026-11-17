@@ -15,11 +15,25 @@
  "design_intent": "새 기믹 없음: 마지막 조합. 끝은 1박 통 4번으로 레벨 1 무늬를 되부름(클리어 직전 억울한 실패 없음).",
  "new_gimmick": null,
  "card": null,
+ "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
  "length_beats": 65,
  "outro_beats": 8,
  "duration_s": 31.967,
  "contact_count": 25,
+ "clear_sequence": {
+  "big_toss_beat": 57,
+  "big_toss_flight_s": 2,
+  "big_toss_apex_play_heights": 1,
+  "after_apex": "stays_in_cloud",
+  "grade_cloud_beats": [
+   63,
+   64,
+   65
+  ],
+  "result_beat": 65,
+  "result_buttons_after_ms": 500
+ },
  "phrases": [
   {
    "index": 0,
@@ -82,7 +96,30 @@
    "contact_range": [
     7,
     10
-   ]
+   ],
+   "second_ball": {
+    "enter_beats": [
+     13,
+     15
+    ],
+    "enter": "roll_in_from_right_offscreen_then_hop_onto_skin",
+    "hop_beats": 0.5,
+    "hop_of_d": 0.5,
+    "seat_x_of_d": 0.78,
+    "ball1_to_left_beats": [
+     14,
+     15
+    ],
+    "exit_beats": [
+     27,
+     28.5
+    ],
+    "exit": "roll_off_right_edge_of_drum_then_offscreen",
+    "ball1_to_center_beats": [
+     27,
+     28
+    ]
+   }
   },
   {
    "index": 2,

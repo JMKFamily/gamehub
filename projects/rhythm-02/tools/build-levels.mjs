@@ -2,19 +2,21 @@
 // rhythm-02 레벨 데이터 생성기: 아래 DESIGNS(구절 설계)를 접촉 목록으로 펼쳐 levels/NN-levelN.json 에 쓴다.
 // 레벨 파일이 빌드·검증기가 읽는 원본이고, 이 파일은 그것을 만드는 설계 기록이다(스키마는 20-balance.md 7절).
 //
-// 구절(phrase) = 받침 쉼(공이 북 위에 앉아 박마다 똑딱) → 자동 토스 → 접촉들 → 착지(다음 받침 쉼 시작)
+// 구절(phrase) = 받침 쉼(공이 북 위에 앉아 박마다 까딱 + '콩') → 자동 토스 → 접촉들 → 착지(다음 받침 쉼 시작)
 //   { rest: 최소 쉼 박 수, seq: '비행 길이(박) 나열', land: 마지막 접촉 → 착지 박 }
 //     seq 첫 값 = 토스 → 첫 접촉, 그다음 값 = 접촉에서 쳐 올린 공이 다음 접촉까지 가는 길이(= 그 접촉의 다음 높이)
-//   { rest, two: n, land: 2 }  두 공 구절: 공1 토스(2박) → 1박 뒤 공2 토스(2박) → 두 공이 번갈아 2박씩, 접촉 n개(짝수), 공2는 착지 때 굴러 나감
-//   쉼은 토스가 마디 첫 박에 오도록 최소값에서 늘린다(곡과 맞춤). 마지막 구절 뒤 outro 박(클리어 연출) 뒤 끝.
+//   { rest, two: n, land: 2 }  두 공 구절: 공2가 쉼 첫 박에 굴러 들어와 깡충 앉음 → 공1 토스(2박) → 1박 뒤 공2 토스(2박) → 두 공이 번갈아 2박씩,
+//                               접촉 n개(짝수), 공2는 착지 뒤 굴러 나감(second_ball 박, balance.json rest.second_ball)
+//   쉼은 토스가 마디 첫 박에 오도록 최소값에서 늘린다(곡과 맞춤). 마지막 착지 뒤 outro 박(클리어 연출, clear_sequence) 뒤 끝.
 //
 // 사용: node tools/build-levels.mjs   (levels/ 10개를 다시 씀)
 
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const PROJECT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const BAL = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
 const BOUNCE = { 0.5: 'half', 1: 'tong', 1.5: 'dot', 2: 'big', 3: 'three', 4: 'cloud' };
 const GIM = { half: 'G4', tong: 'B1', dot: 'G3', big: 'G1', three: 'R1', cloud: 'G2' };
 
@@ -118,6 +120,13 @@ export const DESIGNS = [
   },
 ];
 
+// 클리어 연출 박(결정 D10, balance.json clear_sequence): 마지막 착지 박 = 큰 튐, 등급 구름 = 끝 2·1·0박 전, 결과 = 끝 박
+function clearSeq(lastLanding, end) {
+  const C = BAL.clear_sequence;
+  return { big_toss_beat: lastLanding, big_toss_flight_s: C.big_toss_flight_s, big_toss_apex_play_heights: C.big_toss_apex_play_heights,
+    after_apex: C.after_apex, grade_cloud_beats: C.grade_clouds_beats_before_end.map((x) => end - x), result_beat: end, result_buttons_after_ms: C.result_buttons_after_ms };
+}
+
 export function buildLevel(d) {
   const contacts = [], phrases = [];
   let beat = 0; // 구절 시작(공이 앉은 박)
@@ -142,6 +151,13 @@ export function buildLevel(d) {
       ph.landings.push({ ball: 1, from_contact: last1, beat: contacts[last1].beat + p.land, exit: false });
       ph.landings.push({ ball: 2, from_contact: last2, beat: contacts[last2].beat + p.land, exit: true });
       beat = Math.max(...ph.landings.map((x) => x.beat));
+      // 공 2 들어옴·나감(결정 D13, balance.json rest.second_ball): 박은 레벨 시간 박
+      const SB = BAL.rest.second_ball, l2 = ph.landings.find((x) => x.ball === 2).beat, rs = ph.start_beat;
+      ph.second_ball = {
+        enter_beats: SB.enter_beats_from_rest_start.map((x) => rs + x), enter: SB.enter, hop_beats: SB.hop_beats, hop_of_d: SB.hop_of_d,
+        seat_x_of_d: SB.seat_x_of_d, ball1_to_left_beats: SB.ball1_to_left_beats_from_rest_start.map((x) => rs + x),
+        exit_beats: SB.exit_beats_from_ball2_landing.map((x) => l2 + x), exit: SB.exit, ball1_to_center_beats: SB.ball1_to_center_beats_from_ball2_landing.map((x) => l2 + x),
+      };
     }
     ph.contact_range[1] = contacts.length - 1;
     phrases.push(ph);
@@ -175,12 +191,14 @@ export function buildLevel(d) {
     judge: d.judge,
     design_intent: d.intent,
     new_gimmick: d.gimmick ? { id: d.gimmick.id, first_contact: contacts.findIndex((c) => c.gimmick === d.gimmick.id) } : null,
-    card: d.gimmick ? { id: d.gimmick.card, timing: 'pre_level_first_play' } : null,
+    card: d.gimmick ? { id: d.gimmick.card, timing: 'pre_level_first_play', close_to_level_start_ms: BAL.level_start.card_close_to_level_start_ms } : null,
+    level_select_to_level_start_ms: BAL.level_start.level_select_to_level_start_ms,
     tutorial_finger: d.finger || null,
     length_beats: length,
     outro_beats: d.outro,
     duration_s: +(length * 60 / d.bpm).toFixed(3),
     contact_count: contacts.length,
+    clear_sequence: clearSeq(beat, length),
     phrases,
     contacts,
   };

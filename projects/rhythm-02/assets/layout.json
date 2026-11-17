@@ -1,8 +1,9 @@
 {
- "schema_version": 1,
- "_source": "tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름.",
+ "schema_version": 2,
+ "_source": "tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4·5·7절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름. 시각·박 값의 원본은 balance(levels/*.json, balance.json, tools/sim/judge.mjs)이고 여기에는 그림 비율·연출 배분만 둠.",
  "ball": {
   "d_of_S": 0.078,
+  "d_of_S_landscape": 0.066,
   "d_min": 24,
   "d_max": 44,
   "outline_of_d": 0.08,
@@ -11,7 +12,8 @@
    "from_deg": 200,
    "to_deg": 255,
    "w_of_d": 0.12
-  }
+  },
+  "_d": "d = round(clamp(k·S, d_min, d_max)), k = 세로 화면 d_of_S, 가로 화면 d_of_S_landscape(1-2 D5: 가로 화면 공 하한 24 px — 640x360 에서 24 px, 놀이 높이를 키워 반박 꼭짓점 ≥ 1.2d)"
  },
  "drum": {
   "w_of_d": 3.2,
@@ -25,7 +27,7 @@
    70
   ],
   "twoball_x_of_d": 0.78,
-  "_tap": "탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in). 합 120 ms = 00-benchmark 4-1"
+  "_tap": "탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in). 합 120 ms = balance drum_pop_ms"
  },
  "portrait": {
   "skin_y_of_H": 0.76,
@@ -37,11 +39,11 @@
   "hud_h": 52
  },
  "play_height": {
-  "top_margin": 8,
-  "apex_margin": 6,
-  "apex_budget": 1.2,
+  "top_margin": 6,
+  "apex_margin": 4,
+  "apex_budget": 1.111,
   "cloud_edge_of_Hp": 0.9,
-  "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget. 공 높이 h = 공 아랫점과 북 가죽 윗면 사이 거리. 높이 식(balance): h_apex = c × 통 길이(s), c = 0.5·Hp/s(00-benchmark 5-2). apex_budget 1.2 = 100 BPM 구름 통(2.4 s) 꼭짓점이 화면 안(위 여백 안)에 들어가게 잡은 값. 구름 아랫선은 h = cloud_edge·Hp 높이(공 아랫점이 그 위면 공 전체가 구름 뒤)."
+  "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget (1-2 D5: 이 식이 balance·art 공통 정의). 공 높이 h = 공 아랫점과 북 가죽 윗면 사이 거리(h = 0 이 접촉). 높이 식(balance): h_apex = c × 비행 길이(s), c = 0.5·Hp/s. apex_budget 1.111 = 10레벨 모든 비행(토스 포함)의 최대 꼭짓점(L3 구름 통 108 BPM 4박 = 1.111·Hp)과 같게 잡아, 그 공 윗점이 화면 위 여백 안에 들어감. 클리어 튐(clear_timeline)은 1.0·Hp 에서 멈춤. 검사가 levels 에서 최대 꼭짓점을 다시 계산해 apex_budget 이상이면 실패. 구름 아랫선 = h = cloud_edge·Hp(공 아랫점이 그 위면 공 전체가 구름 뒤). 구름 통이 아닌 비행은 공 윗점(h + d)이 구름 아랫선 아래."
  },
  "cloud": {
   "w_of_h": 2.6,
@@ -80,7 +82,14 @@
    "y": 6,
    "size": 48
   },
-  "_dots": "시도 점: 시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개(반지름 7)로 묶고 다시 작은 점부터. 숫자 없음."
+  "aria": {
+   "bar": "aria_progress",
+   "best": "aria_best",
+   "dots": "aria_attempts",
+   "flag": "aria_checkpoint",
+   "pause": "btn_pause"
+  },
+  "_dots": "시도 점: 시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개(반지름 7)로 묶고 다시 작은 점부터. 숫자 없음. 플레이 HUD 버튼은 멈춤 하나(1-2 D11)."
  },
  "shadow": {
   "w_of_d_contact": 1,
@@ -88,29 +97,87 @@
   "h_of_w": 0.28,
   "_rule": "그림자 너비 = d·lerp(1.0, 0.45, min(1, h / Hp)). 구름 뒤에 있는 동안도 그림자는 보임(G2: 내려올수록 커짐). 불투명 shadow 색, 북 가죽 위에만."
  },
+ "bg_stage": {
+  "rule": "n번째 받침 쉼(레벨 처음 = 1) 이 시작할 때 min(n, 3) 단계 색(bg1·bg2·bg3)",
+  "blend": "그 받침 쉼 첫 마디 동안 앞 단계 → 새 단계 선형 섞기(번쩍임 없음)",
+  "restart": "처음부터 = bg1, 연습 체크포인트 = 그 받침 쉼 단계 색으로 바로",
+  "clear": "그때 단계 → bg1, 1 s",
+  "_src": "1-2 D6. levels phrases[] 순서만으로 정해짐(stage 태그 없음)"
+ },
  "finger": {
   "anchor": "drum_right",
   "dx_of_d": 0.7,
   "h_of_d": 1.5,
-  "press_ms": 100,
-  "show_from": "toss",
-  "hide_after_ms": 300,
-  "press_start_beats": -0.2,
-  "press_start_min_ms_inside_pass": 20,
-  "_rule": "손가락은 화면 고정이 아니라 북 기준 위치(북 오른쪽 바닥 위, 손끝이 북 가죽 높이 아래). 누름 시작 = 접촉 − max(0.2박, …) 단, 누름 시작 ≥ 접촉 − (pass_early − 20 ms) — 통과 창 안(insights 5~6세 2번째 줄). 레벨 1 첫 접촉 1회만."
+  "schedule": "tools/sim/judge.mjs fingerSchedule(L, bal)",
+  "appear_grow_s": 0.15,
+  "hide": "instant",
+  "_rule": "시각의 원본은 balance fingerSchedule() 하나(1-2 D4): from(토스 순간)에 0.15 s 커지며 나타남 → pressStart~pressEnd 누름 자세(양옆 짧은 선 2개) → 공을 친 순간 또는 gone(통과 창 끝) 중 이른 때 **바로 사라짐**(줄어드는 꼬리 없음, 다음 접촉 위험 구간과 겹침 0). 위치는 화면 고정이 아니라 북 기준(북 오른쪽 바닥 위, 손끝 = 바닥 윗선). 레벨 1 첫 접촉 1회만. 검사: 누름 시작 ≥ 접촉 − (pass_early − 20 ms), gone ≤ 다음 접촉 zoneStart, 숫자 hide_after_ms·press_ms 없음.",
+  "press_start_min_ms_inside_pass": 20
  },
- "grade_fx": {
-  "max_r_of_d": 1.6,
-  "area_max_of_screen": 0.05
+ "tap_motion": {
+  "depart": "balance ballsAt(L, t, …, hits): 떠나는 시각 = max(성공 탭, 접촉 시각)",
+  "wait_on_skin_sq": 0.9,
+  "depart_sq_by_grade": {
+   "perfect": 0.75,
+   "good": 0.85,
+   "pass": 0.92
+  },
+  "depart_sq_ms": 60,
+  "_rule": "1-2 D3 \"탭이 공을 올린다\". 공은 접촉 시각에 가죽에 닿고, 통과 창 동안 가죽 위에서 납작(0.9)하게 기다리다 **탭 순간** 튀어 오름(그 순간 등급 납작 60 ms + 튐 선 + 탭 소리). 이른 통과(접촉 전 탭)는 북 톡·탭 소리는 탭 때, 공의 납작·튐 선·튀어 오름은 접촉 시각. 탭 없이 통과 창이 끝나면 떨어짐(fail_fx.late). 북 톡은 판정과 무관하게 매 탭."
+ },
+ "bounce_lines": {
+  "pairs_by_grade": {
+   "perfect": 2,
+   "good": 1,
+   "pass": 0
+  },
+  "x_of_d": [
+   0.74,
+   1.07
+  ],
+  "len_of_d": [
+   0.45,
+   0.6
+  ],
+  "w_px": 3,
+  "rise_of_d": 0.35,
+  "dur_s": 0.18,
+  "max_extent_of_d": 1.6,
+  "area_max_of_screen": 0.05,
+  "_rule": "판정 반응 \"튐 선\"(1-1 의 물결 호를 바꿈 — rhythm-01 탭 물결 고리와 모양·이름이 겹치지 않게, 세로 감각 강조). 친 공의 x 중심 양옆 x_of_d 자리에서 가죽 윗면부터 위로 뻗는 짧은 세로 선 쌍, 0.18 s 동안 rise_of_d 만큼 올라가며 짧아져 사라짐. ink 3 px, 원호 없음."
+ },
+ "fail_fx": {
+  "late": {
+   "motion_s": 0.45,
+   "path": "가죽 위 납작하게 앉음(통과 창 동안) → 튕기지 않고 북 바깥쪽 끝으로 굴러 바닥에 떨어짐 → 굴러 멈춤",
+   "side": "right"
+  },
+  "early": {
+   "motion_max_s": 0.6,
+   "roll_s": 0.2,
+   "swing_lines_s": 0.12,
+   "path": "탭 순간 북 위 양옆 짧은 바람선 2개(헛스윙) → 공은 같은 포물선으로 그대로 내려오며 북 바깥쪽 옆으로 비껴(x: 0 → 북 끝 + 0.5d) 가죽에 닿지 않음 → 북 옆 바닥까지 떨어져 굴러 멈춤",
+   "side": "left",
+   "motion_rule": "움직임 길이 m = min(motion_max_s, max(late.motion_s, r + roll_s)), r = 접촉 시각 − 탭 시각(남은 낙하) = balance restart.early_fall_rule 과 같은 식. r + roll_s > motion_max_s 이면 낙하를 빠르게 압축. 정지 구간이 m 만큼 줄어 총 1.1 s 유지. 바람선 0.12 s = balance phases_s.early.swing_fx"
+  },
+  "two_balls": "실패한 공은 자기 쪽 바깥으로(왼 공 = 왼쪽, 오른 공 = 오른쪽, 일찍/늦음과 무관). 다른 공은 실패 순간 그 자리·모양에서 멈췄다가 reappear 시작(0.85 s)에 실패한 공과 같이 작아지며 사라짐. 튐 선·납작은 늘 친 공의 x 중심",
+  "no_dust": true,
+  "_src": "1-2 D9. 먼지·구름 퍼짐 없음(lore A5). 소리는 둘 다 fail 한 번"
  },
  "restart_timeline_s": {
-  "_owner": "balance.json restart 이 기준. 아래는 art 연출 배분 제안(1-2에서 맞춤). 실패 순간 = 0, 확인 버튼 없음, 자동.",
-  "fail_motion": [
-   0,
-   0.45
-  ],
+  "_owner": "balance.json restart(phases_s 일찍/늦음 두 판)가 기준(1-2 D9). 아래는 art 연출 배분. 실패 순간 = 0, 확인 버튼 없음, 자동. 총 1.1 s 고정.",
+  "fail_motion": {
+   "late": [
+    0,
+    0.45
+   ],
+   "early": [
+    0,
+    "m (0.45~0.6)"
+   ]
+  },
   "hold": [
-   0.45,
+   "m",
    0.85
   ],
   "reappear": [
@@ -119,9 +186,55 @@
   ],
   "music_fade_out_s": 0.08,
   "best_slide_s": 0.2,
+  "retry_hint": "첫 실패 시도에만 ↻ 그림, 정지 구간 전체(0.25~0.40 s)",
   "reappear_grow": [
    0.6,
    1
   ]
+ },
+ "second_ball": {
+  "source": "levels/*.json phrases[].second_ball(enter_beats·hop_beats·hop_of_d·seat_x_of_d·ball1_to_left_beats·exit_beats·ball1_to_center_beats) — 시각·높이 원본은 balance",
+  "enter": {
+   "from": "right_offscreen_floor",
+   "roll": "enter_beats 시작 ~ (끝 − hop_beats): 바닥을 따라 일정 속도로 굴러 북 오른쪽 옆까지(회전 표시 없음)",
+   "hop": "마지막 hop_beats: 북 오른쪽 옆에서 포물선으로 hop_of_d(≤ 0.5d) 깡충 → 가죽 seat_x_of_d 자리에 앉으며 납작 0.92",
+   "ball1": "ball1_to_left_beats 동안 가운데 → −twoball_x 로 미끄러짐(ease-in-out)",
+   "sound": null
+  },
+  "exit": {
+   "path": "exit_beats: 앉은 자리에서 북 오른쪽 끝까지 굴러 떨어져(0.95d) 바닥을 따라 화면 오른쪽 밖으로",
+   "ball1": "ball1_to_center_beats 동안 −twoball_x → 가운데로",
+   "sound": null
+  },
+  "_src": "1-2 D13. 북 높이 0.95d 라 굴러서는 못 올라가므로 끝에 낮게 깡충(≤ 0.5d). 들어옴·나감 시각은 balance 레벨 데이터(받침 쉼 안). 토스 전까지 두 공 모두 박마다 까딱 + 콩. 연습 체크포인트가 두 공 구절이면 다시 시작할 때 같은 들어옴."
+ },
+ "clear_timeline": {
+  "source": "balance.json clear_sequence + levels/*.json clear_sequence(big_toss_beat = 마지막 착지, big_toss_flight_s, big_toss_apex_play_heights, grade_cloud_beats, result_beat, result_buttons_after_ms) — 시간축 원본은 balance(1-2 D10). art 는 그 안의 그림만",
+  "rise_to_of_Hp": 1,
+  "cloud_blend_s": 1,
+  "bg_blend_s": 1,
+  "clear_sound_at": "big_toss",
+  "slots_appear_at": "big_toss",
+  "grade_grow_s": 0.25,
+  "grade_grow": [
+   0.6,
+   1
+  ],
+  "hud_fade": "마지막 접촉 판정 확정(통과 창 끝 clearTimeMs) 때 0.2 s 게임 시간",
+  "result_at": "length_beats",
+  "_rule": "큰 튐(big_toss_beat, 판정 없음): 착지해 가죽에 닿자마자 공이 스스로 크게 떠 balance 포물선(비행 big_toss_flight_s, 꼭짓점 1.0·Hp)의 꼭짓점까지 오른 뒤 구름 속에 머묾(그림자는 작게 남음). 같은 순간 clear 소리, 구름 cloud → accent 1 s, 바탕 그때 단계 → bg1 1 s, 큰 구름 아래 줄에 등급 칸 3개가 점선으로 나타남(늘 3칸, 1-2 D12). grade_cloud_beats[i](i < 받은 수)에 i번째 칸이 accent 채움 구름으로 0.6 → 1.0배 0.25 s(grade_cloud 소리). result_beat(= length_beats)에 결과 화면 글(레벨 이름·클리어 제목), result_buttons_after_ms 뒤 버튼. 검사: 첫 등급 칸 전에 공이 구름에 들어감, 마지막 칸 채움 끝 ≤ 버튼 시각, 섞기 1 s ≤ 마무리 시간."
+ },
+ "text_slots": {
+  "clear_title": "등급 칸 줄 바로 위 한 줄(clear_title_1~3, L10 clear_last), 결과 화면에서만",
+  "level_name": "레벨 선택 카드에는 글 없음(aria-label = levelN_name). 이름은 클리어 화면 맨 위 작은 줄",
+  "card_text": "그림 카드 대화 상자 위쪽 한 줄 보조 글(card_*), 카드 그림 배율 계산에서 text_line_px 만큼 비워 둠(cards.mjs). 그림만으로도 이해되게 그림",
+  "practice_on": "HUD 진행도 막대 오른쪽 끝 아래 작은 깃발 + 글(연습 모드일 때만)",
+  "look_ball": "레벨 선택 오른쪽 위 밀림 표지(눈 + 공), 화면 글 없음(aria-label = look_ball), 밀림 조건일 때만(balance drift_check.signal text_on_child_screen false)",
+  "sound_late": "보호자 화면 소리 맞추기 줄 옆 같은 표지 + sound_late 글(어른용)",
+  "text_line_px": 28
+ },
+ "grade_fx": {
+  "max_r_of_d": 1.6,
+  "area_max_of_screen": 0.05
  }
 }

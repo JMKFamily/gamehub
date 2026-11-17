@@ -15,11 +15,25 @@
  "design_intent": "새 기믹 없음: 배운 통을 섞은 조합. 어려운 자리(통통·점 통)를 여러 구절에 나눔.",
  "new_gimmick": null,
  "card": null,
+ "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
  "length_beats": 54,
  "outro_beats": 4,
  "duration_s": 27,
  "contact_count": 26,
+ "clear_sequence": {
+  "big_toss_beat": 50,
+  "big_toss_flight_s": 2,
+  "big_toss_apex_play_heights": 1,
+  "after_apex": "stays_in_cloud",
+  "grade_cloud_beats": [
+   52,
+   53,
+   54
+  ],
+  "result_beat": 54,
+  "result_buttons_after_ms": 500
+ },
  "phrases": [
   {
    "index": 0,
@@ -82,7 +96,30 @@
    "contact_range": [
     12,
     15
-   ]
+   ],
+   "second_ball": {
+    "enter_beats": [
+     19,
+     21
+    ],
+    "enter": "roll_in_from_right_offscreen_then_hop_onto_skin",
+    "hop_beats": 0.5,
+    "hop_of_d": 0.5,
+    "seat_x_of_d": 0.78,
+    "ball1_to_left_beats": [
+     20,
+     21
+    ],
+    "exit_beats": [
+     31,
+     32.5
+    ],
+    "exit": "roll_off_right_edge_of_drum_then_offscreen",
+    "ball1_to_center_beats": [
+     31,
+     32
+    ]
+   }
   },
   {
    "index": 2,

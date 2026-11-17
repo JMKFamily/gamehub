@@ -18,20 +18,29 @@
 //   V6  6-2 배치 규칙: ①짧아지는 변화 첫 등장 ②통통은 2박 이상 비행 뒤·묶음 길이·레벨당 묶음 예산 ③점 통은 3+3+2 로 마디 첫 박에서
 //       ④두 공 접촉 간격 ≥ 1박·번갈아 ⑤받침 쉼 2~4회·쉼 사이 접촉 수 ⑥레벨 끝 접촉 4개는 1박 통
 //   V7  새 기믹 ≤ 1 이고 그림 카드로 소개(L1 기본 카드 필수), 첫 등장이 안전(토스 뒤 4박 안, 묶음 뒤 1박 통)
+//       + (all) 카드 키 세 곳 일치(결정 D1): balance.json gimmicks.<id>.card = 레벨 card.id = strings.json 키(ko·en) = assets/cards/<키>.svg·<키>_portrait.svg,
+//         strings.json 의 card_* 와 assets/cards 파일에 남는 키 없음(G6 흔적 등)
 //   V8  판정 창: 딱 < 좋아 ≤ 통과, 통과 폭 단조(직전 94 % 이상, 하한 50 %), L1 ≥ 266.7 ms,
 //       놓침 구역이 8분 하나 이른 탭을 덮고 1박 이른 탭은 무시
-//   V9  레벨 1: 접촉 16~20, 1박 통만, 받침 쉼 2~4, 재시작 1.1 s 와 단계 배분
-//   V10 실패 → 다음 판정 접촉 ≤ 6 s (재시작 + 첫 접촉 시각)
-//   V11 공이 여러 개 줄지어 내려오는 배치 없음(동시에 내려오는 공 ≤ 1, 5 ms 간격 표본)
-//   V12 높이: 구름 통은 늘 구름선(놀이 높이 90 %)을 넘어 숨고 숨는 시간 ≤ 1.0 s, 구름 아닌 통은 구름선 아래
+//   V9  레벨 1: 접촉 16~20, 1박 통만, 받침 쉼 2~4, 재시작 1.1 s 와 단계 배분(늦음·일찍 두 판, 결정 D9)
+//   V10 실패 → 다음 판정 접촉 ≤ 6 s (재시작 + 첫 접촉 시각), 일찍 실패 움직임 끝(가장 이른 놓침 탭) ≤ 0.6 s 이고 정지 구간이 남음
+//   V11 공이 여러 개 줄지어 내려오는 배치 없음(동시에 내려오는 공 ≤ 1, 5 ms 간격 표본) — 완벽·모두 가장 늦게·모두 가장 이르게 친 통과 세 입력(결정 D3)
+//       + 탭이 공을 올림: 늦게 친 탭에서 탭 전에 공이 북을 떠나지 않음(ballsAt 이 친 시각을 따름)
+//   V12 높이: 구름 통은 늘 구름선(놀이 높이 90 %, 공 아랫점)을 넘어 숨고(가장 늦게 친 통과에서도) 숨는 시간 ≤ 1.0 s, 구름 아닌 통은 구름선 아래
 //   V13 BPM 96~132·레벨 순서로 줄지 않음, 레벨 길이 25~50 s
 //   V14 박마다(4분) 고르게 치기: L1~L3 클리어(의도, 박 배우기), L4~ 실패
 //   S1  손가락 누름 시작이 통과 창 안(≥ -pass_early), 손가락은 L1 첫 접촉 1회
 //   S2  자동 토스 → 다음 접촉 놓침 구역 시작 ≥ 150 ms
-//   S3  똑딱은 정박에만, 똑딱 → 다음 접촉 놓침 구역 시작 ≥ 150 ms
+//   S3  받침 쉼 '콩'(까딱 소리)은 정박에만, '콩' → 다음 접촉 놓침 구역 시작 ≥ 150 ms
 //   S4  서로 다른 공의 이어진 접촉 간격 ≥ 1박
-//   S5  모든 신호(똑딱·토스·착지·손가락 구간)가 어떤 접촉의 위험 구간 [놓침 구역 시작, 통과 창 끝]과도 겹치지 않음
-//       (손가락은 자기 접촉 제외), 착지 → 다음 접촉 놓침 구역 ≥ 150 ms
+//   S5  모든 신호('콩'·토스·착지·손가락 구간·공 2 들어옴/나감·클리어 큰 튐)가 어떤 접촉의 위험 구간 [놓침 구역 시작, 통과 창 끝]과도 겹치지 않음
+//       (손가락은 자기 접촉 제외), 착지 → 다음 접촉 놓침 구역 ≥ 150 ms. 손가락은 judge.mjs fingerSchedule 과 assets/layout.json finger(고정 ms 가 있으면) 둘 다(결정 D4)
+//   V15 곡 음 시작(assets/sound.json music 박 규칙: 받침 쉼 = rest_bar, 그 밖 = play_bar + 멜로디 자리)이 어떤 접촉의 놓침 구역 [zoneStart, passStart)에도 들지 않음
+//       (접촉과 같은 시각 ±5 ms 는 예외) — art X5, 결정 D16
+//   V16 화면 높이(결정 D5): assets/layout.json 식으로 4해상도 × 10레벨 실제 BPM — apex_budget ≥ 모든 비행 최대 꼭짓점, 구름 아닌 비행 공 윗점 ≤ 구름선 0.9·Hp,
+//       가장 짧은 튐 꼭짓점 ≥ 1.2·d, 공 지름 ≥ 24 px, layout 구름선·두 공 자리 = balance 값
+//   V17 클리어 연출·시작·두 공 데이터(결정 D10·D13): 큰 튐 = 마지막 착지 박, 구름 들어감 < 첫 등급 구름 박, 등급 구름 ≤ 끝 박, 마무리 4박(L10 8박),
+//       카드 닫기 → 시작 간격 = balance, 두 공 구절마다 공 2 들어옴(쉼 안, 공 2 토스 전 끝)·나감(다음 토스 1박 전 끝) 박
 //   B1  σ70 연속 중앙값 ≤ 30 (L1 ≤ 10, 목표 ≤ 2.5)
 //   B2  평균 진행도(접촉 기준) 레벨 순서로 감소 (σ50·σ70)
 //   B3  숙련 봇 σ25(10만 회) 실패가 한 접촉에 30 % 넘게 몰리지 않음(실패 20회 미만이면 σ50으로)
@@ -44,10 +53,10 @@
 //   K3  화면 판정: 판정 입력에 오디오 지연이 없음(공을 보고 치는 아이 w=0 은 블루투스 지연과 무관하게 기본과 같음) + 소리 따라 치기 표(정보)
 // 정보: 정수 중앙값, 따라 치는 아이, 연습 모드, 해석 예측, 높이 표
 
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs } from './sim/judge.mjs';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs, restartPhases, hitsFromResult } from './sim/judge.mjs';
 import { runProfile, runPractice, analyticClear, contMedian } from './sim/bots.mjs';
 
 const PROJECT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -75,7 +84,33 @@ const f2 = (x) => (x == null ? '-' : (+x).toFixed(2));
 const byLv = (obj, id) => obj[id] ?? obj.default;
 
 const levels = bal.levels.map((f) => JSON.parse(readFileSync(join(PROJECT, f), 'utf8')));
+// 다른 역할 원본(읽기만): art assets/layout.json·assets/sound.json·assets/cards, lore strings.json
+const readJson = (rel) => { try { return JSON.parse(readFileSync(join(PROJECT, rel), 'utf8')); } catch (e) { return { _error: String(e.message || e) }; } };
+const LAYOUT = readJson(V.layout_file), SOUND = readJson(V.sound_file), STRINGS = readJson(V.strings_file);
+let musicOnsets = null, musicErr = '';
+try { ({ musicOnsets } = await import(pathToFileURL(join(PROJECT, 'tools/art/music.mjs')).href)); } catch (e) { musicErr = String(e.message || e); }
 const compiled = levels.map((l) => compileLevel(l, bal));
+
+// ---------- V7(all) 카드 키 세 곳 일치 (결정 D1)
+{
+  const err = [];
+  const keys = Object.entries(bal.gimmicks).filter(([g, v]) => !g.startsWith('_') && v.card).map(([, v]) => v.card);
+  if (STRINGS._error) err.push(`strings.json 읽기 실패`);
+  else {
+    for (const k of keys) if (!STRINGS[k] || !STRINGS[k].ko || !STRINGS[k].en) err.push(`strings.json ${k} 없음`);
+    const extra = Object.keys(STRINGS).filter((k) => /^card_/.test(k) && !keys.includes(k));
+    if (extra.length) err.push(`strings.json 남는 카드 키 ${extra.join(',')}`);
+  }
+  const dir = join(PROJECT, V.cards_dir);
+  const files = existsSync(dir) ? readdirSync(dir).filter((x) => x.endsWith('.svg')) : [];
+  const want = keys.flatMap((k) => V.card_files.map((p) => p.replace('<key>', k)));
+  const miss = want.filter((x) => !files.includes(x));
+  const extraF = files.filter((x) => !want.includes(x));
+  if (miss.length) err.push(`카드 그림 없음 ${miss.length}개(${miss.slice(0, 3).join(',')}${miss.length > 3 ? '…' : ''})`);
+  if (extraF.length) err.push(`키에 없는 카드 그림 ${extraF.length}개(${extraF.slice(0, 3).join(',')}${extraF.length > 3 ? '…' : ''})`);
+  log('== 카드 키 (balance.json gimmicks → strings.json · assets/cards) ==');
+  check('all', 'V7', !err.length, err.length ? err.join(' / ') + ' — 다른 역할 수정 대기(art 카드 파일 이름·lore 키)' : `카드 키 ${keys.length}개 = strings.json(ko·en) = assets/cards 그림 ${want.length}장, 남는 키·파일 없음`);
+}
 
 // ---------- V0
 log(`== 레벨 목록 (${levels.length}개) ==`);
@@ -286,30 +321,52 @@ compiled.forEach((L, li) => {
     if (C.length < V.l1_contact_range[0] || C.length > V.l1_contact_range[1]) err.push(`접촉 ${C.length}`);
     if (!C.every((c) => c.gapBeats === 1)) err.push('1박 통 아닌 접촉');
     if (lvl.phrases.length < V.l1_rest_count_range[0] || lvl.phrases.length > V.l1_rest_count_range[1]) err.push(`받침 쉼 ${lvl.phrases.length}`);
-    const ph = Object.values(rs.phases_s);
-    const end = Math.max(...ph.map((x) => x[1]));
-    if (rs.restart_delay_s < rs.allowed_range_s[0] || rs.restart_delay_s > rs.allowed_range_s[1] || Math.abs(end - rs.restart_delay_s) > 1e-9 || rs.confirm_button) err.push(`재시작 ${rs.restart_delay_s} s / 배분 끝 ${end}`);
-    check(id, 'V9', !err.length, err.length ? err.join(' / ') : `접촉 ${C.length}(16~20), 1박 통만, 받침 쉼 ${lvl.phrases.length}회, 재시작 ${rs.restart_delay_s} s 자동(배분 끝 ${end} s, 확인 버튼 없음)`);
+    const ends = {};
+    for (const kind of ['late', 'early']) {
+      const ph = Object.values(rs.phases_s[kind] || {}).filter(Array.isArray);
+      ends[kind] = ph.length ? Math.max(...ph.map((x) => x[1])) : NaN;
+      if (!(Math.abs(ends[kind] - rs.restart_delay_s) < 1e-9)) err.push(`${kind} 배분 끝 ${ends[kind]}`);
+    }
+    if (rs.restart_delay_s < rs.allowed_range_s[0] || rs.restart_delay_s > rs.allowed_range_s[1] || rs.confirm_button) err.push(`재시작 ${rs.restart_delay_s} s`);
+    check(id, 'V9', !err.length, err.length ? err.join(' / ') : `접촉 ${C.length}(16~20), 1박 통만, 받침 쉼 ${lvl.phrases.length}회, 재시작 ${rs.restart_delay_s} s 자동(늦음·일찍 두 판 모두 배분 끝 ${ends.late} s, 확인 버튼 없음)`);
   }
 
   // ---------- V10 실패 → 다음 판정 접촉
   {
     const s = bal.restart.restart_delay_s + C[0].t / 1000;
-    check(id, 'V10', s <= V.fail_to_next_contact_max_s, `실패 → 다음 판정 접촉 ${s.toFixed(2)} s (재시작 ${bal.restart.restart_delay_s} + 첫 접촉 ${(C[0].t / 1000).toFixed(2)}) ≤ ${V.fail_to_next_contact_max_s}`);
+    // 일찍 실패 중 남은 낙하가 가장 긴 경우 = 놓침 구역 맨 앞 탭
+    let worstEnd = 0, worstStill = Infinity;
+    for (const c of C) {
+      const ph = restartPhases(L, { reason: 'early', failIndex: c.i, failTimeMs: c.zoneStart }, bal);
+      worstEnd = Math.max(worstEnd, ph.ball_fall_fx[1]);
+      worstStill = Math.min(worstStill, ph.still_best_dot[1] - ph.still_best_dot[0]);
+    }
+    const okE = worstEnd <= bal.restart.early_fall_rule.max_s + 1e-9 && worstStill > 0;
+    check(id, 'V10', s <= V.fail_to_next_contact_max_s && okE, `실패 → 다음 판정 접촉 ${s.toFixed(2)} s (재시작 ${bal.restart.restart_delay_s} + 첫 접촉 ${(C[0].t / 1000).toFixed(2)}) ≤ ${V.fail_to_next_contact_max_s} · 일찍 실패 움직임 끝 최대 ${worstEnd.toFixed(2)} s ≤ ${bal.restart.early_fall_rule.max_s}, 정지 구간 최소 ${worstStill.toFixed(2)} s`);
     report.levels[id].fail_to_next_contact_s = +s.toFixed(2);
   }
 
   // ---------- V11 줄지어 내려오는 공 없음
   {
-    let worst = 0, at = null, minDy = Infinity;
-    for (let t = 0; t < L.durationMs; t += 5) {
-      const bs = ballsAt(L, t, bal);
-      const down = bs.filter((b) => b.state === 'down');
-      if (down.length > worst) { worst = down.length; at = t; }
-      const air = bs.filter((b) => b.state !== 'seated');
-      if (air.length === 2) minDy = Math.min(minDy, Math.abs(air[0].y - air[1].y) + (air[0].state === air[1].state ? 0 : 1));
+    let worst = 0, at = null, early = 0;
+    const inputs = { perfect: C.map((c) => c.t), late: C.map((c) => c.passEnd), early: C.map((c) => c.passStart) };
+    const lateHits = hitsFromResult(L, judgeAttempt(L, inputs.late));
+    for (const [nm, taps] of Object.entries(inputs)) {
+      const res = judgeAttempt(L, taps);
+      if (!res.clear) { early++; continue; }
+      const hits = hitsFromResult(L, res);
+      for (let t = 0; t < L.durationMs; t += 5) {
+        const down = ballsAt(L, t, hits).filter((b) => b.state === 'down');
+        if (down.length > worst) { worst = down.length; at = `${nm} ${f0(t)}`; }
+      }
     }
-    check(id, 'V11', worst <= 1, `동시에 내려오는 공 최대 ${worst}개${worst > 1 ? ` (${f0(at)} ms)` : ''} (두 공 구절: 하나 올라갈 때 하나 내려옴)`);
+    // 늦게 친 탭: 접촉 시각 ~ 탭 사이에는 공이 가죽 위에서 기다림(y = 0, waiting)
+    let leftEarly = 0;
+    for (const c of C) for (const t of [c.t + 1, (c.t + c.passEnd) / 2, c.passEnd - 1]) {
+      const b = ballsAt(L, t, lateHits).find((x) => x.ball === c.ball);
+      if (!(b && b.state === 'waiting' && b.y === 0)) leftEarly++;
+    }
+    check(id, 'V11', worst <= 1 && !early && !leftEarly, `동시에 내려오는 공 최대 ${worst}개${worst > 1 ? ` (${at} ms)` : ''} (완벽·가장 늦게·가장 이르게 친 통과 세 입력${early ? `, 클리어 못 한 입력 ${early}(!)` : ''}) · 늦게 친 탭 ${C.length}개 모두 탭 전까지 가죽 위에서 기다림${leftEarly ? `(어긋남 ${leftEarly})` : ''}`);
   }
 
   // ---------- V12 높이
@@ -324,8 +381,18 @@ compiled.forEach((L, li) => {
       if (name === 'cloud' && !(H > cl)) noHide.push(f0(fl.from));
       if (H > cl) { const disc = 1 - cl / H; const hide = Math.sqrt(disc) * d / 1000; maxHide = Math.max(maxHide, hide); if (name !== 'cloud') badVis.push(name); }
     }
+    // 늦게 친 통과(+pass_late)에서도 구름 통이 숨는지: 접촉에서 떠나는 구름 통만 해당(토스는 시각 고정)
+    let lateMin = Infinity;
+    for (const fl of Object.values(L.flights).flat()) {
+      if (fl.kind !== 'bounce') continue;
+      const name = bounceName[Math.round((fl.to - fl.from) / beat * 2) / 2];
+      if (name !== 'cloud') continue;
+      const H = flightApex(fl.to - fl.from - j.pass_late_ms, bal);
+      lateMin = Math.min(lateMin, H);
+      if (!(H > cl)) noHide.push(`늦은 탭 ${f0(fl.from)}`);
+    }
     const ok = maxHide <= bal.height.max_hidden_s && !badVis.length && !noHide.length;
-    check(id, 'V12', ok, `구름 뒤 숨는 시간 최대 ${maxHide.toFixed(2)} s ≤ ${bal.height.max_hidden_s} · 구름선 ${100 * cl} % · 구름 아닌 통이 구름선 넘음 ${badVis.join(',') || '없음'} · 구름 통이 구름선 못 넘음 ${noHide.join(',') || '없음'} · 꼭짓점(놀이 높이 대비) ${Object.entries(apex).map(([k, v]) => `${k} ${(100 * v).toFixed(0)} %`).join(', ')}`);
+    check(id, 'V12', ok, `구름 뒤 숨는 시간 최대 ${maxHide.toFixed(2)} s ≤ ${bal.height.max_hidden_s} · 구름선 ${100 * cl} %(공 아랫점) · 구름 아닌 통이 구름선 넘음 ${badVis.join(',') || '없음'} · 구름 통이 구름선 못 넘음 ${noHide.join(',') || '없음'}${lateMin < Infinity ? ` · 가장 늦게 친 통과 뒤 구름 통 꼭짓점 ${(100 * lateMin).toFixed(0)} %` : ''} · 꼭짓점(Hp 대비) ${Object.entries(apex).map(([k, v]) => `${k} ${(100 * v).toFixed(0)} %`).join(', ')}`);
     report.levels[id].apex = Object.fromEntries(Object.entries(apex).map(([k, v]) => [k, +v.toFixed(3)]));
     report.levels[id].cloud_hidden_s = +maxHide.toFixed(2);
   }
@@ -360,8 +427,8 @@ compiled.forEach((L, li) => {
   }
   {
     let worst = Infinity, bad = [];
-    for (const tk of L.ticks) { const b = tk.t / beat; if (Math.abs(b - Math.round(b)) > 1e-6) bad.push(`정박 아님 ${b}`); const m = nextZone(tk.t); worst = Math.min(worst, m); if (m < M || inRisk(tk.t) >= 0) bad.push(f0(tk.t)); }
-    check(id, 'S3', !bad.length, `똑딱 ${L.ticks.length}회 모두 정박, 다음 접촉 놓침 구역까지 최소 ${f0(worst)} ms ≥ ${M}${bad.length ? ` 어긋남 ${bad.slice(0, 4)}` : ''}`);
+    for (const tk of L.bobs) { const b = tk.t / beat; if (Math.abs(b - Math.round(b)) > 1e-6) bad.push(`정박 아님 ${b}`); const m = nextZone(tk.t); worst = Math.min(worst, m); if (m < M || inRisk(tk.t) >= 0) bad.push(f0(tk.t)); }
+    check(id, 'S3', !bad.length, `받침 쉼 '콩' ${L.bobs.length}회 모두 정박, 다음 접촉 놓침 구역까지 최소 ${f0(worst)} ms ≥ ${M}${bad.length ? ` 어긋남 ${bad.slice(0, 4)}` : ''}`);
   }
   {
     let min = Infinity;
@@ -373,10 +440,143 @@ compiled.forEach((L, li) => {
     let worstLand = Infinity;
     for (const ld of L.landings) { const k = inRisk(ld.t); if (k >= 0) bad.push(`착지 ${f0(ld.t)}∈접촉${k}`); const m = nextZone(ld.t); worstLand = Math.min(worstLand, m); if (m < M) bad.push(`착지 ${f0(ld.t)} 여유 ${f0(m)}`); }
     const fs = fingerSchedule(L, bal);
-    if (fs) for (const [a, b] of risk.filter((_, k) => k !== fs.contact)) if (fs.from <= b && fs.gone >= a) bad.push('손가락 구간이 다른 접촉 위험 구간과 겹침');
-    check(id, 'S5', !bad.length, `신호(똑딱 ${L.ticks.length}·토스 ${L.tosses.length}·착지 ${L.landings.length}${fs ? '·손가락 1' : ''}) ∩ 위험 구간 = ${bad.length ? bad.slice(0, 4).join(', ') : '없음'} · 착지 → 다음 놓침 구역 최소 ${f0(worstLand)} ms`);
+    const overlapMs = (x0, x1, except = -1) => Math.max(0, ...risk.filter((_, k) => k !== except).map(([a, b]) => Math.min(x1, b) - Math.max(x0, a)));
+    let fingerTxt = '';
+    if (fs) {
+      const o = overlapMs(fs.from, fs.goneLatest, fs.contact);
+      if (o > 0) bad.push(`손가락(balance) 구간이 다른 접촉 위험 구간과 ${f0(o)} ms 겹침`);
+      const nextRisk = Math.min(...risk.filter((_, k) => k !== fs.contact).map(([a]) => a).filter((a) => a > fs.from));
+      fingerTxt = ` · 손가락 사라짐(balance fingerSchedule) 늦어도 ${f0(fs.goneLatest)} ms < 다음 위험 ${f0(nextRisk)} ms`;
+      // art layout.json finger 에 고정 ms 가 남아 있으면 그 값으로도 검사(결정 D4)
+      const lf = LAYOUT.finger;
+      if (LAYOUT._error) bad.push('layout.json 읽기 실패');
+      else if (lf && typeof lf.hide_after_ms === 'number') {
+        const goneArt = C[fs.contact].t + lf.hide_after_ms;
+        const oa = overlapMs(fs.from, goneArt, fs.contact);
+        fingerTxt += ` · layout.json finger.hide_after_ms ${lf.hide_after_ms} → 사라짐 ${f0(goneArt)} ms${oa > 0 ? `, 다음 위험과 ${f0(oa)} ms 겹침 — 다른 역할 수정 대기(art: 고정 ms 를 빼고 fingerSchedule().gone 을 따름)` : ''}`;
+        if (oa > 0) bad.push(`손가락(layout.json) ${f0(oa)} ms 겹침`);
+      } else fingerTxt += ' · layout.json 손가락 고정 ms 없음(fingerSchedule 따름)';
+      if (lf && lf.press_start_beats != null && lf.press_start_beats !== lvl.tutorial_finger.press_start_beats) bad.push(`layout.json 누름 시작 ${lf.press_start_beats}박 ≠ ${lvl.tutorial_finger.press_start_beats}박`);
+    }
+    // 공 2 들어옴·나감, 클리어 큰 튐
+    let sbN = 0;
+    for (const sb of L.secondBall) {
+      for (const [x0, x1, nm] of [[...sb.enter, '공 2 들어옴'], [...sb.ball1Left, '공 1 왼쪽으로'], [...sb.exit, '공 2 나감'], [...sb.ball1Center, '공 1 가운데로']]) {
+        sbN++;
+        const o = overlapMs(x0, x1);
+        if (o > 0) bad.push(`${nm} ${f0(x0)}~${f0(x1)} ms 가 위험 구간과 ${f0(o)} ms 겹침`);
+        if (nextZone(x1) < M) bad.push(`${nm} 끝 → 다음 놓침 구역 ${f0(nextZone(x1))} ms < ${M}`);
+      }
+    }
+    if (L.clear && overlapMs(L.clear.launch, L.clear.resultMs) > 0) bad.push('클리어 큰 튐이 위험 구간과 겹침');
+    check(id, 'S5', !bad.length, `신호('콩' ${L.bobs.length}·토스 ${L.tosses.length}·착지 ${L.landings.length}${fs ? '·손가락 1' : ''}${sbN ? `·두 공 움직임 ${sbN}` : ''}·클리어 큰 튐 1) ∩ 위험 구간 = ${bad.length ? bad.slice(0, 4).join(', ') : '없음'} · 착지 → 다음 놓침 구역 최소 ${f0(worstLand)} ms${fingerTxt}`);
+  }
+
+  // ---------- V15 곡 음 시작 ∩ 놓침 구역 (결정 D16, art X5). 곡 음 목록은 art 순수 함수 tools/art/music.mjs musicOnsets(sound.json onset_rule 원본)를 그대로 씀(한 원천)
+  {
+    if (SOUND._error || !SOUND.music) check(id, 'V15', false, 'assets/sound.json music 읽기 실패 — 다른 역할 수정 대기');
+    else if (!musicOnsets) check(id, 'V15', false, `tools/art/music.mjs musicOnsets 를 읽지 못함(${musicErr}) — 다른 역할 수정 대기`);
+    else {
+      let on;
+      try { on = musicOnsets(lvl, SOUND); } catch (e) { on = null; check(id, 'V15', false, `musicOnsets 실행 실패 ${e.message} — 다른 역할 수정 대기`); }
+      if (on) {
+        const beatsOn = [...new Set(on.map((o) => o.beat))];
+        const clash = [];
+        for (const ob of beatsOn) {
+          const tm = ob * beat;
+          if (C.some((c) => Math.abs(c.t - tm) < 5)) continue;
+          const k = C.findIndex((c) => tm >= c.zoneStart && tm < c.passStart);
+          if (k >= 0) clash.push(`${ob}박→접촉 ${k}(${C[k].beat}박)`);
+        }
+        const nRest = on.filter((o) => o.part === 'rest' && o.sound !== 'bass').length;
+        check(id, 'V15', !clash.length, `곡 음 시작 ${beatsOn.length}박(받침 쉼 '콩' ${nRest}, 플레이 짝수 박 베이스·멜로디) ∩ 놓침 구역 = ${clash.length ? clash.slice(0, 4).join(', ') : '없음'}${nRest !== L.bobs.length ? ` · '콩' 수 ${nRest} ≠ 받침 쉼 박 ${L.bobs.length}(!)` : ''}`);
+        if (nRest !== L.bobs.length) report.fails.push(`${id} V15: '콩' 수 불일치`);
+      }
+    }
+  }
+
+  // ---------- V16 화면 높이 (결정 D5): layout.json 식 × 4해상도 × 실제 BPM
+  {
+    const err = [];
+    const PH = LAYOUT.play_height;
+    if (LAYOUT._error || !PH) check(id, 'V16', false, 'assets/layout.json play_height 읽기 실패 — 다른 역할 수정 대기');
+    else {
+      const flights = Object.values(L.flights).flat().map((fl) => ({ dur: fl.to - fl.from, name: bounceName[Math.round((fl.to - fl.from) / beat * 2) / 2] || fl.kind, kind: fl.kind }));
+      const maxApex = Math.max(...flights.map((x) => flightApex(x.dur, bal)), L.clear ? L.clear.apex : 0);
+      if (!(PH.apex_budget >= maxApex - 1e-3)) err.push(`layout apex_budget ${PH.apex_budget} < 최대 꼭짓점 ${maxApex.toFixed(4)}`);
+      if (Math.abs(PH.apex_budget - bal.height.apex_budget_play_heights) > 1e-3) err.push(`layout apex_budget ${PH.apex_budget} ≠ balance ${bal.height.apex_budget_play_heights}`);
+      if (Math.abs(PH.cloud_edge_of_Hp - bal.height.cloud_line_ratio) > 1e-9) err.push(`layout 구름선 ${PH.cloud_edge_of_Hp} ≠ ${bal.height.cloud_line_ratio}`);
+      if (L.secondBall.length && LAYOUT.drum && Math.abs(LAYOUT.drum.twoball_x_of_d - bal.rest.second_ball.seat_x_of_d) > 1e-9) err.push(`layout 두 공 자리 ${LAYOUT.drum.twoball_x_of_d} ≠ ${bal.rest.second_ball.seat_x_of_d}`);
+      const nonCloud = flights.filter((x) => x.name !== 'cloud');
+      const topMax = Math.max(...nonCloud.map((x) => flightApex(x.dur, bal)));
+      const shortest = Math.min(...flights.map((x) => x.dur));
+      const rows = [];
+      for (const [W, H, st, sb] of V.layout_resolutions) {
+        const g = layoutGeom(LAYOUT, W, H, st, sb);
+        const top = topMax + g.d / g.Hp; // 공 윗점(Hp 대비)
+        const shortPx = flightApex(shortest, bal) * g.Hp;
+        if (g.d < bal.height.ball_min_render_px) err.push(`${W}x${H} 공 ${g.d} px < ${bal.height.ball_min_render_px}`);
+        if (top > bal.height.noncloud_ball_top_max_ratio + 1e-9) err.push(`${W}x${H} 구름 아닌 공 윗점 ${top.toFixed(3)} Hp > 0.9 (+${((top - 0.9) * g.Hp).toFixed(1)} px)`);
+        if (shortPx < bal.height.min_apex_of_d * g.d - 1e-9) err.push(`${W}x${H} 가장 짧은 튐 꼭짓점 ${shortPx.toFixed(1)} px = ${(shortPx / g.d).toFixed(3)}d < ${bal.height.min_apex_of_d}d`);
+        rows.push(`${W}x${H} Hp ${g.Hp.toFixed(0)}·d ${g.d}: 윗점 ${top.toFixed(3)}·짧은 튐 ${(shortPx / g.d).toFixed(2)}d`);
+      }
+      report.levels[id].layout = rows;
+      check(id, 'V16', !err.length, (err.length ? err.slice(0, 4).join(' / ') + ' — 다른 역할 수정 대기(art layout.json)' : 'apex_budget·구름선·윗점·짧은 튐 모두 통과') + ` · 최대 꼭짓점 ${maxApex.toFixed(3)} Hp, 구름 아닌 최대 ${topMax.toFixed(3)} Hp, 가장 짧은 비행 ${f0(shortest)} ms · ${rows.join(' | ')}`);
+    }
+  }
+
+  // ---------- V17 클리어 연출·시작·두 공 데이터 (결정 D10·D13)
+  {
+    const err = [];
+    const cs = lvl.clear_sequence, CS = bal.clear_sequence;
+    const lastLand = Math.max(...lvl.phrases[lvl.phrases.length - 1].landings.map((x) => x.beat));
+    const wantOutro = byLv(bal.clear_sequence.outro_beats_by_level, id);
+    if (!cs || !L.clear) err.push('clear_sequence 없음');
+    else {
+      if (cs.big_toss_beat !== lastLand) err.push(`큰 튐 ${cs.big_toss_beat} ≠ 마지막 착지 ${lastLand}`);
+      if (lvl.outro_beats !== wantOutro) err.push(`마무리 ${lvl.outro_beats}박 ≠ ${wantOutro}`);
+      if (cs.result_beat !== lvl.length_beats) err.push('결과 박 ≠ 끝 박');
+      const want = CS.grade_clouds_beats_before_end.map((x) => lvl.length_beats - x);
+      if (cs.grade_cloud_beats.join() !== want.join()) err.push(`등급 구름 박 ${cs.grade_cloud_beats} ≠ ${want}`);
+      if (!(L.clear.cloudEnterMs < L.clear.gradeCloudMs[0])) err.push(`구름 들어감 ${f0(L.clear.cloudEnterMs)} ≥ 첫 등급 구름 ${f0(L.clear.gradeCloudMs[0])}`);
+      if (!(L.clear.apex <= bal.height.apex_budget_play_heights && L.clear.apex > bal.height.cloud_line_ratio)) err.push('큰 튐 꼭짓점이 구름 속이 아님');
+      if (cs.big_toss_beat <= C[C.length - 1].beat) err.push('큰 튐이 마지막 접촉보다 이름');
+    }
+    if (lvl.card && lvl.card.close_to_level_start_ms !== bal.level_start.card_close_to_level_start_ms) err.push('카드 닫기 → 시작 간격 ≠ balance');
+    if (lvl.level_select_to_level_start_ms !== bal.level_start.level_select_to_level_start_ms) err.push('레벨 선택 → 시작 간격 ≠ balance');
+    const two = lvl.phrases.filter((p) => p.balls === 2);
+    for (const p of two) {
+      const sb = p.second_ball;
+      if (!sb) { err.push(`두 공 구절 ${p.index} second_ball 없음`); continue; }
+      const toss2 = p.tosses.find((x) => x.ball === 2).beat, l2 = p.landings.find((x) => x.ball === 2).beat;
+      const next = lvl.phrases[p.index + 1];
+      if (!(sb.enter_beats[0] >= p.start_beat && sb.enter_beats[1] <= toss2 - 1)) err.push(`공 2 들어옴 ${sb.enter_beats} 이 쉼 밖/토스 1박 전 못 끝남`);
+      if (sb.hop_of_d > 0.5 + 1e-9) err.push('깡충 > 0.5d');
+      if (sb.exit_beats[0] !== l2) err.push('공 2 나감 ≠ 착지 박');
+      const nextToss = next ? next.tosses[0].beat : lvl.length_beats;
+      if (!(sb.exit_beats[1] <= nextToss - 1 && sb.ball1_to_center_beats[1] <= nextToss - 1)) err.push(`공 2 나감·공 1 돌아옴이 다음 토스 1박 전에 안 끝남`);
+    }
+    const txt = L.clear ? `큰 튐 ${lvl.clear_sequence.big_toss_beat}박(마지막 착지) → 구름 들어감 +${((L.clear.cloudEnterMs - L.clear.launch) / 1000).toFixed(2)} s < 첫 등급 구름 +${((L.clear.gradeCloudMs[0] - L.clear.launch) / 1000).toFixed(2)} s · 등급 구름 ${lvl.clear_sequence.grade_cloud_beats.join('·')}박 · 결과 ${lvl.length_beats}박(마무리 ${lvl.outro_beats}박)` : '';
+    check(id, 'V17', !err.length, err.length ? err.join(' / ') : `${txt} · 시작 간격 ${bal.level_start.card_close_to_level_start_ms} ms${two.length ? ` · 두 공 구절 ${two.map((p) => `${p.index}: 들어옴 ${p.second_ball.enter_beats.join('~')}박 / 나감 ${p.second_ball.exit_beats.join('~')}박`).join(', ')}` : ''}`);
   }
 });
+
+// layout.json 식(art 원본, play_height._def) — tools/art/layout.mjs compute() 와 같은 식을 계수만 읽어 계산
+function layoutGeom(LY, W, H, safeTop = 0, safeBottom = 0) {
+  const S = Math.min(W, H), portrait = H > W;
+  const B = LY.ball;
+  const dMin = !portrait && B.d_min_landscape != null ? B.d_min_landscape : B.d_min;
+  const dMax = !portrait && B.d_max_landscape != null ? B.d_max_landscape : B.d_max;
+  const dOf = !portrait && B.d_of_S_landscape != null ? B.d_of_S_landscape : B.d_of_S;
+  const d = Math.round(Math.max(dMin, Math.min(dMax, dOf * S)));
+  const dh = LY.drum.h_of_d * d;
+  let skinY;
+  if (portrait) skinY = Math.round(LY.portrait.skin_y_of_H * H);
+  else { const fh = Math.max(LY.landscape.floor_h_min, LY.landscape.floor_h_of_H * H) + safeBottom; skinY = H - fh - dh; }
+  const topLimit = safeTop + LY.play_height.top_margin;
+  const Hp = (skinY - topLimit - d - LY.play_height.apex_margin) / LY.play_height.apex_budget;
+  return { d, skinY, Hp };
+}
 
 // ---------- 봇
 log(`\n== 봇 (σ70·σ50 ${N}회, σ25 ${NSK}회, 세션 ${SESS}, 시드 ${SEED}${QUICK ? ', --quick: 판정 안 함' : ''}) ==`);
@@ -479,8 +679,19 @@ log('\n== K3 소리 따라 치는 아이 × 블루투스 남은 지연 (σ70 연
   check('all', 'K3', bal.judge_clock.audio_used_for_judge === false && t1 === t2 && same, `판정 입력 = 탭 시각(화면 시계, visual_comp ${bal.judge_clock.visual_comp_ms} ms 한 번) · 오디오 지연이 판정에 안 들어감 ${t1 === t2 ? '예' : '아님'} · 공을 보고 치는 아이(w=0)는 블루투스와 무관하게 L1 p ${w0.clear_rate} = 기본 ${B['01'].child_sd70.clear_rate}`);
 }
 
+// 정보 K3d: 밀림 감지(balance.json drift_check) — 8탭 창 중앙값 ≥ +기준이 2창 연속일 확률(σ70 정규 탭, 창 2개 = 탭 16개)
+{
+  const D = bal.drift_check;
+  const rng = (() => { let x = SEED; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })();
+  const g = () => { let u = 0, v = 0; while (!u) u = rng(); while (!v) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
+  const med = (a) => { const q = [...a].sort((x, y) => x - y), n = q.length; return n % 2 ? q[(n - 1) / 2] : (q[n / 2 - 1] + q[n / 2]) / 2; };
+  const rate = (bias, n = QUICK ? 4000 : 40000) => { let k = 0; for (let i = 0; i < n; i++) { let ok = true; for (let w = 0; w < D.consecutive_windows; w++) { const a = []; for (let j = 0; j < D.window_taps; j++) a.push(bias + 70 * g()); if (med(a) < D.trigger_median_late_ms) { ok = false; break; } } if (ok) k++; } return k / n; };
+  const rows = [[0, '공을 봄(w=0)'], [0.5 * 120, 'w=0.5·d=120'], [0.5 * 170, 'w=0.5·d=170'], [120, 'w=1·d=120'], [170, 'w=1·d=170']].map(([b, nm]) => `${nm} ${(100 * rate(b)).toFixed(2)} %`);
+  log(`\n== 정보 K3d 밀림 감지(${D.window_taps}탭 중앙값 ≥ +${D.trigger_median_late_ms} ms 가 ${D.consecutive_windows}창 연속, σ70) 켜질 확률(탭 16개 기준) ==\n  ${rows.join(' · ')}`);
+}
+
 // 정보: 따라 치는 아이, 연습 모드, 해석
-log('\n== 정보: 따라 치는 아이(똑딱 30 %·토스 50 %·착지 50 % 따라 침) σ70 연속 중앙값 / 연습 모드(받침 쉼 체크포인트) 총 시도 중앙값 / 해석 예측(헛탭 무시) ==');
+log('\n== 정보: 따라 치는 아이(받침 쉼 \'콩\' 30 %·토스 50 %·착지 50 % 따라 침) σ70 연속 중앙값 / 연습 모드(받침 쉼 체크포인트) 총 시도 중앙값 / 해석 예측(헛탭 무시) ==');
 report.info = {};
 compiled.forEach((L, k) => {
   const id = L.level.id, j = L.judge;

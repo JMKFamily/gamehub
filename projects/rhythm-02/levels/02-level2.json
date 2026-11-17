@@ -19,13 +19,28 @@
  },
  "card": {
   "id": "card_big",
-  "timing": "pre_level_first_play"
+  "timing": "pre_level_first_play",
+  "close_to_level_start_ms": 800
  },
+ "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
  "length_beats": 49,
  "outro_beats": 4,
  "duration_s": 28.269,
  "contact_count": 21,
+ "clear_sequence": {
+  "big_toss_beat": 45,
+  "big_toss_flight_s": 2,
+  "big_toss_apex_play_heights": 1,
+  "after_apex": "stays_in_cloud",
+  "grade_cloud_beats": [
+   47,
+   48,
+   49
+  ],
+  "result_beat": 49,
+  "result_buttons_after_ms": 500
+ },
  "phrases": [
   {
    "index": 0,

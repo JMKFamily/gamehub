@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+<!-- icon-lock: 자물쇠(회색). 키 levelcard_locked. 쓰는 곳: 잠긴 레벨 카드. tools/art/icons.mjs 생성, 글자 없음. 30-art 11-2 -->
+<g transform="translate(0 0) scale(1)"><path d="M17 22 v-6 a7 7 0 0 1 14 0 v6" fill="none" stroke="#6B6F80" stroke-width="4"/><rect x="12" y="21" width="24" height="18" rx="4" fill="#6B6F80"/></g>
+</svg>
