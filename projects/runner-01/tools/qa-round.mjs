@@ -1,52 +1,78 @@
 #!/usr/bin/env node
 // Reverbound QA 라운드 검사 (qa-engineer). harness/qa/lib.mjs 사용.
 //
-//   PLAYWRIGHT_CORE=<playwright-core 경로> QA_CHANNEL=msedge node projects/runner-01/tools/qa-round.mjs --round 1 [--part basic,shots,replay,bots,realtime,perf,features,age]
+//   PLAYWRIGHT_CORE=<playwright-core 경로> QA_CHANNEL=msedge node projects/runner-01/tools/qa-round.mjs --round 2 [--part basic,shots,replay,bots,realtime,perf,features,age,balance]
 //
-// 정적 서버(serve.mjs)는 이 스크립트가 직접 띄우고 끝나면 종료한다 (포트 QA_PORT, 기본 8124).
+// 레벨 수는 하드코딩하지 않는다: 빌드의 window.__game.levelCount·levelData(i).id로 읽고, games/reverbound/data/balance.json의 levels 목록과 대조한다.
+// 옵션
+//   --quick                     짧게 돌려 오류 없이 도는지만 확인 (표본·실시간 길이 축소, 결과 폴더 round-N-quick, 판정에 쓰지 않음)
+//   --levels 01,07              브라우저 파트를 일부 레벨만 (기본: 전부)
+//   --langs ko,en               화면 스크린샷·버튼 측정 언어 (기본 ko,en; ?lang= 로 고정)
+//   --n 200                     브라우저 봇 레벨별 시도 수 (quick 20)
+//   --bal-n 20000               balance 파트: σ70 클리어율 표본 (레벨별 시도 수, quick 300)
+//   --bal-sessions 1000         balance 파트: σ70 첫 클리어 세션 수 (bots.mjs 5번째 인자, quick 20)
+//   --bal-skilled-n 100000      balance 파트: σ25 몰림 표본 (balance 보고 기준 100000, quick 300)
+//   --jobs <n>                  balance 파트 동시 실행 프로세스 수 (기본 CPU 수 − 1)
+//   --out-dir <경로>            결과 폴더 직접 지정
+//
+// 정적 서버(serve.mjs)는 이 스크립트가 직접 띄우고 끝나면 종료한다 (포트 QA_PORT, 기본 8124). balance 파트만 돌리면 서버·브라우저를 띄우지 않는다.
 // 결과: projects/runner-01/reviews/round-N/{shots/, parts/<part>.json}. merge는 --merge 로 metrics.json 생성.
 import { mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { spawn } from 'node:child_process';
+import { cpus } from 'node:os';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const lib = await import(pathToFileURL(join(ROOT, 'harness/qa/lib.mjs')).href);
 const args = process.argv.slice(2);
 const arg = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
+const QUICK = args.includes('--quick');
 const ROUND = arg('--round', '1');
-const OUT = join(ROOT, `projects/runner-01/reviews/round-${ROUND}`);
+const OUT = arg('--out-dir', null) ? resolve(arg('--out-dir')) : join(ROOT, `projects/runner-01/reviews/round-${ROUND}${QUICK ? '-quick' : ''}`);
 const SHOTS = join(OUT, 'shots');
 const PARTS = join(OUT, 'parts');
 mkdirSync(SHOTS, { recursive: true }); mkdirSync(PARTS, { recursive: true });
 const PORT = +(process.env.QA_PORT || 8124);
 const BASE = `http://localhost:${PORT}/games/reverbound/`;
-const ALL = ['basic', 'shots', 'replay', 'bots', 'realtime', 'perf', 'features', 'age'];
+const ALL = ['basic', 'shots', 'replay', 'bots', 'realtime', 'perf', 'features', 'age', 'balance'];
 const parts = (arg('--part', ALL.join(','))).split(',');
+const LANGS = arg('--langs', 'ko,en').split(',');
 
 if (args.includes('--merge')) { merge(); process.exit(0); }
 
-const server = await lib.startServer(process.execPath, [join(ROOT, 'projects/runner-01/tools/serve.mjs'), String(PORT)], BASE);
-const browser = await lib.launch();
+const NEED_BROWSER = parts.some((p) => p !== 'balance');
+const server = NEED_BROWSER ? await lib.startServer(process.execPath, [join(ROOT, 'projects/runner-01/tools/serve.mjs'), String(PORT)], BASE) : { stop() {} };
+const browser = NEED_BROWSER ? await lib.launch() : null;
 const log = lib.newLog();
 const VIEWS = [[360, 640], [412, 915], [640, 360], [1280, 720]];
-const LV = ['01', '02', '03'];
 const save = (name, obj) => writeFileSync(join(PARTS, name + '.json'), JSON.stringify(obj, null, 2));
 const shot = async (p, name) => { await p.screenshot({ path: join(SHOTS, name) }); return name; };
-async function open(vw, vh, q = '?test=1', o = {}) {
+async function open(vw, vh, q = '?test=1&lang=ko', o = {}) {
   const r = await lib.openPage(browser, BASE + q, { width: vw, height: vh, log, ...o });
   await r.page.waitForFunction(() => window.__game?.ready === true, null, { timeout: 20000 });
   return r;
 }
-// 페이지 안에서: 레벨 i를 입력열대로 tick 단위 진행 (until 초까지 또는 상태 변화까지)
-const PLAY_TO = ([i, until, set]) => {
-  const g = window.__game; g.loadLevel(i);
-  const taps = new Set(g.testInputs.levels[['01', '02', '03'][i]][set || 'taps']);
-  let k = 0;
-  while (g.tick < until * 240 && g.state === 'playing' && k++ < 200000) {
-    if (taps.has(g.tick)) { g.press(); g.step(1 / 240); g.release(); } else g.step(1 / 240);
-  }
-  return { state: g.state, progress: g.progress };
-};
+
+// 레벨 목록: 빌드 훅(levelCount·levelData)이 기준, 빌드 데이터 balance.json의 levels와 대조
+const DATA_BAL = JSON.parse(readFileSync(join(ROOT, 'games/reverbound/data/balance.json'), 'utf8'));
+const DATA_IDS = DATA_BAL.levels.map((f) => (typeof f === 'string' ? f : f.file).match(/levels\/(\d+)-/)[1]);
+let LEVELS = DATA_IDS.map((id, i) => ({ i, id, length_tiles: null, objects: null, bpm: null }));
+if (NEED_BROWSER) {
+  const { ctx, page } = await open(1280, 720);
+  LEVELS = await page.evaluate(() => {
+    const g = window.__game;
+    return Array.from({ length: g.levelCount }, (_, i) => { const d = g.levelData(i); return { i, id: d.id, length_tiles: d.length_tiles, objects: d.objects.length, bpm: d.bpm, has_test_inputs: !!g.testInputs?.levels?.[d.id]?.taps }; });
+  });
+  await ctx.close();
+}
+const ONLY = arg('--levels', null)?.split(',');
+const LV = LEVELS.filter((l) => !ONLY || ONLY.includes(l.id));
+const IDX = LV.map((l) => l.i);
+const levelsInfo = { from_hook: LEVELS, data_balance_ids: DATA_IDS, count_match: LEVELS.length === DATA_IDS.length && LEVELS.every((l, k) => l.id === DATA_IDS[k]), selected: LV.map((l) => l.id), quick: QUICK };
+save('levels', levelsInfo);
+console.log('levels', LEVELS.length, 'selected', LV.map((l) => l.id).join(','), 'data_match', levelsInfo.count_match, QUICK ? '(quick)' : '');
+if (!levelsInfo.count_match) console.log('  경고: 빌드 훅 레벨 목록과 games/reverbound/data/balance.json levels가 다름');
 
 try {
   // ------------------------------------------------------------ 1. 기본
@@ -64,6 +90,18 @@ try {
       res[q || '(normal)'] = { console: log.console.length - before.c, pageerrors: log.pageerrors.length - before.e, failed: log.failed.length - before.f, external: log.external.length - before.x };
       await ctx.close();
     }
+    // 언어 자동 선택 (?lang 없음): 브라우저 locale ko-KR → ko, en-US → en 이어야 함 (10-lore, round-1 S32)
+    res.lang_auto = {};
+    for (const locale of ['ko-KR', 'en-US']) {
+      const ctx = await browser.newContext({ viewport: { width: 1280, height: 720 }, locale });
+      const page = await ctx.newPage();
+      page.on('pageerror', (e) => log.pageerrors.push(`[lang ${locale}] ${e.message}`));
+      await page.goto(BASE + '?test=1');
+      await page.waitForFunction(() => window.__game?.ready === true, null, { timeout: 20000 });
+      res.lang_auto[locale] = await page.evaluate(() => ({ lang: window.__game.lang, html_lang: document.documentElement.lang }));
+      await ctx.close();
+    }
+    res.lang_auto.pass = res.lang_auto['ko-KR'].lang === 'ko' && res.lang_auto['en-US'].lang === 'en';
     res.log = { ...log };
     save('basic', res);
     console.log('basic', JSON.stringify(res));
@@ -71,26 +109,29 @@ try {
 
   // ------------------------------------------------------------ 2. 화면별 스크린샷 (타이틀·플레이·사망·클리어 + 레벨 선택·일시정지·설정)
   if (parts.includes('shots')) {
-    const res = { shots: [], overflow: {}, outside: {} };
-    for (const [vw, vh] of VIEWS) {
-      const tag = `${vw}x${vh}`;
+    // 언어마다(기본 ko,en) 같은 화면 세트를 찍는다. 파일 이름 앞에 언어: ko-360x640-..., en-360x640-...
+    // 레벨별 플레이 장면은 seek(i, x)로 레벨 길이의 35 % 지점까지 완벽 입력열로 진행해 찍는다.
+    const res = { langs: LANGS, shots: [], overflow: {}, outside: {}, lang_seen: {} };
+    for (const lang of LANGS) for (const [vw, vh] of VIEWS) {
+      const tag = `${lang}-${vw}x${vh}`;
       // 일반 모드 타이틀 (첫 탭 전, 세로면 회전 안내)
       {
-        const { ctx, page } = await open(vw, vh, '');
+        const { ctx, page } = await open(vw, vh, `?lang=${lang}`);
         await page.waitForTimeout(400);
         res.shots.push(await shot(page, `${tag}-title-normal-first.png`));
         await page.mouse.click(Math.round(vw / 2), Math.round(vh / 2)); await page.waitForTimeout(300);
         res.shots.push(await shot(page, `${tag}-title-normal-menu.png`));
         await ctx.close();
       }
-      const { ctx, page } = await open(vw, vh);
+      const { ctx, page } = await open(vw, vh, `?test=1&lang=${lang}`);
+      res.lang_seen[tag] = await page.evaluate(() => window.__game.lang);
       await page.evaluate(() => window.__game.show('title')); await page.waitForTimeout(150);
       res.shots.push(await shot(page, `${tag}-01-title.png`));
       await page.evaluate(() => window.__game.show('levels')); await page.waitForTimeout(150);
       res.shots.push(await shot(page, `${tag}-02-levels.png`));
-      for (const i of [0, 1, 2]) {
-        await page.evaluate(PLAY_TO, [i, [6.2, 26.5, 25.6][i]]); await page.waitForTimeout(80);
-        res.shots.push(await shot(page, `${tag}-03-play-level${i + 1}.png`));
+      for (const l of LV) {
+        await page.evaluate(([i, x]) => window.__game.seek(i, x), [l.i, l.length_tiles * 0.35]); await page.waitForTimeout(80);
+        res.shots.push(await shot(page, `${tag}-03-play-level${l.id}.png`));
       }
       // HUD·텍스트 잘림 (플레이 중)
       res.outside[tag] = await page.evaluate(([vw, vh]) => [...document.querySelectorAll('#hud *, #cue, #toast')].filter((e) => e.offsetParent).map((e) => ({ id: e.id || e.className, r: e.getBoundingClientRect() }))
@@ -101,6 +142,8 @@ try {
       res.shots.push(await shot(page, `${tag}-05-clear-fx.png`));
       await page.evaluate(() => window.__game.step(1));
       res.shots.push(await shot(page, `${tag}-06-clear-screen.png`));
+      await page.evaluate((last) => { const g = window.__game; g.replay(last); g.step(1.3); }, LEVELS.length - 1); await page.waitForTimeout(80);
+      res.shots.push(await shot(page, `${tag}-06b-clear-screen-last-level.png`));
       await page.evaluate(() => { const g = window.__game; g.loadLevel(2); g.step(2); g.pause(); }); await page.waitForTimeout(80);
       res.shots.push(await shot(page, `${tag}-07-pause.png`));
       await page.evaluate(() => window.__game.show('settings')); await page.waitForTimeout(80);
@@ -125,26 +168,28 @@ try {
   // ------------------------------------------------------------ 3a. 완벽 입력열 재생 (빌드 = 시뮬레이터 확인)
   if (parts.includes('replay')) {
     const { ctx, page } = await open(1280, 720);
-    const runs = await page.evaluate(() => {
-      const g = window.__game, out = [];
-      const frames = [['60Hz', 1 / 60], ['144Hz', 1 / 144], ['30Hz', 1 / 30], ['20Hz', 1 / 20], ['10Hz(상한 24틱)', 1 / 10]];
-      for (let i = 0; i < 3; i++) for (const set of ['taps', 'on_beat_taps']) for (const hold of [1, 24]) for (const [fn, fd] of frames) {
-        const taps = g.testInputs.levels[['01', '02', '03'][i]][set];
+    const frameSet = QUICK ? [['60Hz', 1 / 60], ['10Hz(상한 24틱)', 1 / 10]] : null;
+    const runs = await page.evaluate(([IDX, frameSet]) => {
+      const g = window.__game, out = [], id = (i) => g.levelData(i).id;
+      const frames = frameSet || [['60Hz', 1 / 60], ['144Hz', 1 / 144], ['30Hz', 1 / 30], ['20Hz', 1 / 20], ['10Hz(상한 24틱)', 1 / 10]];
+      for (const i of IDX) for (const set of ['taps', 'on_beat_taps']) for (const hold of [1, 24]) for (const [fn, fd] of frames) {
+        const taps = g.testInputs.levels[id(i)][set];
+        if (!taps) { out.push({ level: id(i), set, state: 'missing_inputs' }); continue; }
         const r = g.replay(i, taps, { holdTicks: hold, frameDt: fd });
-        out.push({ level: i + 1, set, hold_ticks: hold, frame: fn, state: r.state, progress: +r.progress.toFixed(2), death: r.death });
+        out.push({ level: id(i), set, hold_ticks: hold, frame: fn, state: r.state, progress: +r.progress.toFixed(2), death: r.death });
       }
       // 음성 대조: 무입력·홀드만은 클리어되면 안 됨
-      for (let i = 0; i < 3; i++) {
-        const r0 = g.replay(i, []); out.push({ level: i + 1, set: 'none', state: r0.state, progress: +r0.progress.toFixed(2) });
-        const rh = g.replay(i, [0], { holdTicks: 1e9 }); out.push({ level: i + 1, set: 'hold_all', state: rh.state, progress: +rh.progress.toFixed(2) });
+      for (const i of IDX) {
+        const r0 = g.replay(i, []); out.push({ level: id(i), set: 'none', state: r0.state, progress: +r0.progress.toFixed(2) });
+        const rh = g.replay(i, [0], { holdTicks: 1e9 }); out.push({ level: id(i), set: 'hold_all', state: rh.state, progress: +rh.progress.toFixed(2) });
       }
       return out;
-    });
+    }, [IDX, frameSet]);
     // 경계 감도: 가장 빡빡한 탭을 ±k틱 밀었을 때 (검증기 창과 비교)
-    const sens = await page.evaluate(() => {
+    const sens = await page.evaluate((IDX) => {
       const g = window.__game, res = {};
-      for (let i = 0; i < 3; i++) {
-        const id = ['01', '02', '03'][i], taps = g.testInputs.levels[id].taps;
+      for (const i of IDX) {
+        const id = g.levelData(i).id, taps = g.testInputs.levels[id].taps;
         let lo = 0, hi = 0;
         // 전체 탭을 같이 밀었을 때 몇 틱까지 클리어되는지 (빌드 기준 전역 오프셋 허용치)
         for (let d = 1; d < 80; d++) { if (g.replay(i, taps.map((k) => k - d)).state !== 'clear') break; lo = d; }
@@ -152,8 +197,8 @@ try {
         res[id] = { global_shift_ok_ms: [-(lo / 240) * 1000, (hi / 240) * 1000].map((v) => +v.toFixed(1)) };
       }
       return res;
-    });
-    save('replay', { runs, sensitivity: sens });
+    }, IDX);
+    save('replay', { levels: LV.map((l) => l.id), quick: QUICK, runs, sensitivity: sens });
     const bad = runs.filter((r) => ['taps', 'on_beat_taps'].includes(r.set) ? r.state !== 'clear' : r.state === 'clear');
     console.log('replay', runs.length, 'bad', bad.length, JSON.stringify(sens));
     await ctx.close();
@@ -162,13 +207,13 @@ try {
   // ------------------------------------------------------------ 3b. 봇 (초보 = 완벽 입력열 + 사람 타이밍 오차, 랜덤 = 무작위 탭)
   if (parts.includes('bots')) {
     const { ctx, page } = await open(1280, 720);
-    const N = +(arg('--n', '200'));
-    const res = await page.evaluate((N) => {
+    const N = +(arg('--n', QUICK ? '20' : '200')), SESS1 = QUICK ? 10 : 60;
+    const res = await page.evaluate(([N, IDX, SESS1]) => {
       const g = window.__game;
       let seed = 12345;
       const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
       const gauss = () => { let u = 0, v = 0; while (!u) u = rnd(); while (!v) v = rnd(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
-      const lengths = [0, 1, 2].map((i) => { g.loadLevel(i); return null; });
+      const id = (i) => g.levelData(i).id;
       const profiles = {
         'skilled_sd25': { sd: 25, miss: 0.0, extra: 0.0 },
         'novice_sd50': { sd: 50, miss: 0.01, extra: 0.01 },
@@ -177,7 +222,7 @@ try {
       };
       const out = {};
       const attempt = (i, p) => {
-        const id = ['01', '02', '03'][i], base = g.testInputs.levels[id].taps;
+        const base = g.testInputs.levels[id(i)].taps;
         const taps = [];
         for (const k of base) {
           if (rnd() < p.miss) continue;
@@ -190,7 +235,7 @@ try {
       };
       for (const [pn, p] of Object.entries(profiles)) {
         out[pn] = {};
-        for (let i = 0; i < 3; i++) {
+        for (const i of IDX) {
           const prog = [], deathsX = [];
           let clears = 0;
           for (let n = 0; n < N; n++) {
@@ -204,7 +249,7 @@ try {
           const hot = {};
           for (const x of deathsX) { const k = Math.round(x); hot[k] = (hot[k] || 0) + 1; }
           const top = Object.entries(hot).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([x, c]) => ({ x: +x, share: +(c / Math.max(1, deathsX.length)).toFixed(3) }));
-          out[pn][['01', '02', '03'][i]] = {
+          out[pn][id(i)] = {
             n: N, clear_rate: +(clears / N).toFixed(3), mean_progress: +(prog.reduce((a, b) => a + b, 0) / N).toFixed(1),
             median_progress: +prog[Math.floor(N / 2)].toFixed(1), death_hist_5pct: bins, top_death_x: top,
             expected_attempts_to_clear: clears ? +(N / clears).toFixed(1) : null,
@@ -215,24 +260,25 @@ try {
       const sessions = {};
       for (const pn of ['novice_sd50', 'child_sd70', 'child_sd90']) {
         const a = [];
-        for (let s = 0; s < 60; s++) { let n = 1; while (n <= 200 && attempt(0, profiles[pn]).state !== 'clear') n++; a.push(n); }
+        for (let s = 0; s < SESS1; s++) { let n = 1; while (n <= 200 && attempt(0, profiles[pn]).state !== 'clear') n++; a.push(n); }
         a.sort((x, y) => x - y);
-        sessions[pn] = { sessions: 60, median: a[30], p25: a[15], p75: a[45], p90: a[54], over_200: a.filter((v) => v > 200).length };
+        const q = (f) => a[Math.floor(SESS1 * f)];
+        sessions[pn] = { sessions: SESS1, median: q(0.5), p25: q(0.25), p75: q(0.75), p90: q(0.9), over_200: a.filter((v) => v > 200).length };
       }
       // 랜덤 봇: 평균 0.5 s 간격 포아송 탭, 100 ms 누름
       const random = {};
-      for (let i = 0; i < 3; i++) {
+      for (const i of IDX) {
         const prog = [];
         for (let n = 0; n < N; n++) {
           const taps = []; let t = 0;
-          while (t < 80) { t += -Math.log(1 - rnd()) * 0.5; taps.push(Math.round(t * 240)); }
+          while (t < 120) { t += -Math.log(1 - rnd()) * 0.5; taps.push(Math.round(t * 240)); }
           prog.push(g.replay(i, taps, { holdTicks: 24 }).progress);
         }
         prog.sort((a, b) => a - b);
-        random[['01', '02', '03'][i]] = { n: N, mean_progress: +(prog.reduce((a, b) => a + b, 0) / N).toFixed(1), median_progress: +prog[Math.floor(N / 2)].toFixed(1), max_progress: +prog[N - 1].toFixed(1) };
+        random[id(i)] = { n: N, mean_progress: +(prog.reduce((a, b) => a + b, 0) / N).toFixed(1), median_progress: +prog[Math.floor(N / 2)].toFixed(1), max_progress: +prog[N - 1].toFixed(1) };
       }
-      return { profiles, by_profile: out, level1_attempts_to_first_clear: sessions, random_bot: random };
-    }, N);
+      return { n: N, quick: SESS1 < 60, profiles, by_profile: out, level1_attempts_to_first_clear: sessions, random_bot: random };
+    }, [N, IDX, SESS1]);
     save('bots', res);
     console.log('bots', JSON.stringify(Object.fromEntries(Object.entries(res.by_profile).map(([k, v]) => [k, Object.fromEntries(Object.entries(v).map(([l, s]) => [l, [s.clear_rate, s.mean_progress]]))]))), JSON.stringify(res.level1_attempts_to_first_clear));
     await ctx.close();
@@ -242,7 +288,7 @@ try {
   // 페이지 안 스케줄러: 검증기 탭 틱 → 예상 perf 시각에 keydown/keyup(80 ms) 발생. rAF마다 (ts, tick)로 시계 추정.
   const RT_PLAY = async (page, i, { maxS = 90 } = {}) => page.evaluate(([i, maxS]) => new Promise((done) => {
     const g = window.__game, hz = 240;
-    const taps = g.testInputs?.levels?.[['01', '02', '03'][i]]?.taps || window.__qaTaps[i];
+    const taps = g.testInputs?.levels?.[g.levelData(i).id]?.taps || window.__qaTaps[i];
     g.loadLevel(i);
     const att0 = g.attempts;
     const est = [];
@@ -279,9 +325,9 @@ try {
   }), [i, maxS]);
 
   async function normalPage(vw, vh, o = {}) {
-    const r = await open(vw, vh, '', o);
+    const r = await open(vw, vh, '?lang=ko', o);
     const taps = JSON.parse(readFileSync(join(ROOT, 'games/reverbound/data/test-inputs.json'), 'utf8'));
-    await r.page.evaluate((t) => { window.__qaTaps = ['01', '02', '03'].map((id) => t.levels[id].taps); }, taps);
+    await r.page.evaluate((t) => { window.__qaTaps = Array.from({ length: window.__game.levelCount }, (_, i) => t.levels[window.__game.levelData(i).id]?.taps); }, taps);
     await r.page.keyboard.press('Space'); await r.page.waitForTimeout(400); // 첫 탭 → 메뉴 (오디오 켜짐)
     return r;
   }
@@ -290,17 +336,22 @@ try {
     const res = { runs: [] };
     const { ctx, page } = await normalPage(1280, 720);
     res.audio = await page.evaluate(() => window.__game.audio);
-    for (const i of [0, 1, 2]) {
-      const r = await RT_PLAY(page, i);
-      res.runs.push({ level: i + 1, throttle: 1, ...r });
-      console.log('realtime', i + 1, JSON.stringify(r));
+    // quick: 레벨마다 6 s만 (오류 없이 도는지만), 전체: 끝까지 (상한 120 s)
+    res.quick = QUICK;
+    for (const l of LV) {
+      const r = await RT_PLAY(page, l.i, { maxS: QUICK ? 6 : 120 });
+      res.runs.push({ level: l.id, throttle: 1, ...r });
+      console.log('realtime', l.id, JSON.stringify(r));
     }
     await ctx.close();
     save('realtime', res);
   }
 
   if (parts.includes('perf')) {
-    const res = {};
+    // 오브젝트가 가장 많은 레벨을 빌드 데이터에서 골라 30 s 측정 (round-1은 레벨 3, round-2 10레벨에서는 레벨 7 = 235개)
+    const heavy = [...LEVELS].sort((a, b) => b.objects - a.objects)[0];
+    const T1 = QUICK ? 8 : 90, TH = QUICK ? 8 : 30;
+    const res = { quick: QUICK, heavy_level: { id: heavy.id, objects: heavy.objects } };
     for (const [vw, vh, dsf] of [[1280, 720, 1], [640, 360, 3]]) {
       const tag = `${vw}x${vh}@${dsf}x`;
       const { ctx, page } = await normalPage(vw, vh, { dsf });
@@ -308,11 +359,11 @@ try {
       await page.waitForTimeout(500);
       // (a) 레벨 1 실시간 완주 중 FPS
       await lib.fpsStart(page);
-      const run = await RT_PLAY(page, 0);
+      const run = await RT_PLAY(page, 0, { maxS: T1 });
       const fps = await lib.fpsStop(page);
-      // (b) 레벨 3 빠름 구간 (오브젝트 최다) FPS: 테스트 입력열로 진행 상태 유지. 30 s만
+      // (b) 오브젝트 최다 레벨 FPS: 테스트 입력열로 진행 상태 유지. 30 s만 (quick 8 s)
       await lib.fpsStart(page);
-      const run3 = await RT_PLAY(page, 2, { maxS: 30 });
+      const run3 = await RT_PLAY(page, heavy.i, { maxS: TH });
       const fps3 = await lib.fpsStop(page);
       // (c) 입력 → 점프 반응 프레임: 레벨 1 시작 후 장애물 전(4 s) 구간에서 접지 상태일 때 keydown, 이후 rAF마다 y 확인
       const react = await page.evaluate(() => new Promise((done) => {
@@ -358,7 +409,7 @@ try {
         };
         one();
       }));
-      res[tag] = { throttle: 6, level1_run: run, fps_level1: fps, level3_30s_run: run3, fps_level3: fps3, input_to_jump_frames: react, restart };
+      res[tag] = { throttle: 6, level1_run: run, fps_level1: fps, heavy_level_run: run3, fps_heavy_level: fps3, input_to_jump_frames: react, restart };
       console.log('perf', tag, JSON.stringify({ fps, fps3, react, restart, run: run.state, run3: run3.state }));
       await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
       // 비교: 스로틀 없이 반응 프레임·재시작 시간 (같은 측정)
@@ -367,7 +418,7 @@ try {
     {
       const { ctx, page } = await normalPage(1280, 720);
       await lib.fpsStart(page);
-      const run = await RT_PLAY(page, 0, { maxS: 20 });
+      const run = await RT_PLAY(page, 0, { maxS: QUICK ? 5 : 20 });
       res['1280x720@1x_nothrottle'] = { fps_level1_20s: await lib.fpsStop(page), run };
       await ctx.close();
     }
@@ -380,10 +431,10 @@ try {
     // 연습 모드: 체크포인트 재시작 위치, 클리어로 인정 안 함, 연습 최고 % 따로 저장
     {
       const { ctx, page } = await open(1280, 720);
-      res.practice = await page.evaluate(() => {
+      res.practice = await page.evaluate((waitS) => {
         const g = window.__game, hz = 240;
         g.loadLevel(1, { practice: true });
-        const taps = new Set(g.testInputs.levels['02'].taps);
+        const taps = new Set(g.testInputs.levels[g.levelData(1).id].taps);
         let k = 0;
         while (g.tick < 20 * hz && g.state === 'playing' && k++ < 1e6) { if (taps.has(g.tick)) { g.press(); g.step(1 / hz); g.release(); } else g.step(1 / hz); }
         const placed = g.placeCheckpoint();
@@ -391,27 +442,27 @@ try {
         // 입력 멈춤 → 사망 → 재시작
         let guard = 0; while (g.state === 'playing' && guard++ < 1e5) g.step(1 / hz);
         const deadAt = g.player.x;
-        g.step(0.61);
+        g.step(waitS); // 재시작 지연(balance restart_delay_s) + 여유 0.05 s (round-1 값 0.6 s 고정이던 것을 데이터에서 읽음)
         const after = { state: g.state, tick: g.tick, x: g.player.x, attempts: g.attempts };
         // 끝까지 클리어 (연습)
         guard = 0;
         while (g.state === 'playing' && guard++ < 1e6) { if (taps.has(g.tick)) { g.press(); g.step(1 / hz); g.release(); } else g.step(1 / hz); }
         const st = g.state;
-        const sv = g.save.levels['02'] || {};
-        return { placed, cp_tick: cpTick, cp_x: cpX, dead_x: deadAt, after_restart: after, restart_at_checkpoint: after.tick === cpTick, practice_end_state: st, save_02: sv, counts_as_clear: !!sv.cleared };
-      });
+        const sv = g.save.levels[g.levelData(1).id] || {};
+        return { placed, cp_tick: cpTick, cp_x: cpX, dead_x: deadAt, after_restart: after, restart_at_checkpoint: after.attempts > 1 && after.tick >= cpTick && after.tick - cpTick <= Math.ceil(0.05 * hz) + 1, practice_end_state: st, save_02: sv, counts_as_clear: !!sv.cleared, wait_s: waitS };
+      }, (DATA_BAL.restart_delay_s ?? 1.08) + 0.05);
       // 저장: 레벨 1 사망 후 최고 기록, 레벨 1 클리어 → 새로고침 후 유지
       res.save = await page.evaluate(() => {
         const g = window.__game;
         g.loadLevel(0); let j = 0; while (g.state === 'playing' && j++ < 1e5) g.step(1 / 240);
-        const best = g.save.levels['01']?.best;
+        const best = g.save.levels[g.levelData(0).id]?.best;
         g.replay(0);
-        return { best_after_death: best, after_clear: g.save.levels['01'] };
+        return { best_after_death: best, after_clear: g.save.levels[g.levelData(0).id] };
       });
       await page.reload();
       await page.waitForFunction(() => window.__game?.ready === true);
       res.save.after_reload = await page.evaluate(() => window.__game.save.levels);
-      res.save.persisted = !!res.save.after_reload['01']?.cleared && res.save.after_reload['01'].best === 100;
+      res.save.persisted = !!res.save.after_reload[LEVELS[0].id]?.cleared && res.save.after_reload[LEVELS[0].id].best === 100;
       await ctx.close();
     }
     // 잠금: 새 컨텍스트(빈 저장) 일반 모드 레벨 선택 카드
@@ -419,6 +470,7 @@ try {
       const { ctx, page } = await normalPage(1280, 720);
       await page.click('#btnLevels'); await page.waitForTimeout(200);
       res.locks_fresh = await page.evaluate(() => [...document.querySelectorAll('#cards > *')].map((c) => ({ cls: c.className, text: c.textContent.trim().slice(0, 40), disabled: c.disabled ?? null })));
+      res.level_cards = { cards: res.locks_fresh.length, level_count: LEVELS.length, match: res.locks_fresh.length === LEVELS.length };
       await shot(page, '1280x720-10-levels-fresh-save.png');
       // 일시정지 버튼을 눌러도 점프하지 않아야 함
       await page.keyboard.press('Escape'); await page.waitForTimeout(100);
@@ -487,10 +539,11 @@ try {
 
   // ------------------------------------------------------------ 7. 대상 연령: 버튼 크기, 글 없는 화면
   if (parts.includes('age')) {
-    const res = { targets: {}, small: {} };
-    for (const [vw, vh] of VIEWS) {
-      const tag = `${vw}x${vh}`;
-      const { ctx, page } = await open(vw, vh);
+    // 버튼 크기는 언어마다 (영어 문구가 길어 버튼이 달라질 수 있음). 글 지운 화면은 언어와 무관하므로 첫 언어에서만.
+    const res = { langs: LANGS, targets: {}, small: {} };
+    for (const lang of LANGS) for (const [vw, vh] of VIEWS) {
+      const tag = `${lang}-${vw}x${vh}`, vtag = `${vw}x${vh}`;
+      const { ctx, page } = await open(vw, vh, `?test=1&lang=${lang}`);
       const all = {};
       const go = {
         title: () => window.__game.show('title'),
@@ -508,17 +561,17 @@ try {
       res.small[tag] = Object.fromEntries(Object.entries(all).map(([k, v]) => [k, v.filter((t) => t.w < 48 || t.h < 48).map((t) => `${t.id || t.tag + '.' + t.cls}(${t.w}x${t.h})`)]).filter(([, v]) => v.length));
       await ctx.close();
       // 글을 지운 화면 (글 없이 진행 가능한지 보는 용도)
-      if (vw === 360 || vw === 640) {
+      if ((vw === 360 || vw === 640) && lang === LANGS[0]) {
         const { ctx: c2, page: p2 } = await open(vw, vh);
         await lib.blankText(p2);
         for (const [name, fn] of [['title', go.title], ['levels', go.levels], ['pause', go.pause], ['clear', go.clear]]) {
           await p2.evaluate(fn); await p2.waitForTimeout(80);
-          await shot(p2, `${tag}-notext-${name}.png`);
+          await shot(p2, `${vtag}-notext-${name}.png`);
         }
         // 튜토리얼 카드·손가락 시연은 이 페이지에서 레벨 1을 이미 클리어해(go.clear) 표시되지 않으므로 아래 일반 모드(rt) 샷으로 확인
         // 첫 사망 안내 (tut_restart)
         await p2.evaluate(() => { const g = window.__game; g.loadLevel(0); let j = 0; while (g.state === 'playing' && j++ < 1e5) g.step(1 / 240); g.step(0.1); });
-        await shot(p2, `${tag}-notext-first-death.png`);
+        await shot(p2, `${vtag}-notext-first-death.png`);
         await c2.close();
       }
     }
@@ -541,8 +594,89 @@ try {
     save('age', res);
     console.log('age small', JSON.stringify(res.small));
   }
+
+  // ------------------------------------------------------------ 8. 밸런스 자동 측정 (node, tools/sim/bots.mjs = verify-levels 입력열 + physics.js, 브라우저 불필요)
+  // criteria 밸런스 절:
+  //   B30  모든 레벨 σ70 첫 클리어 시도 중앙값 30회 이하, 레벨 간 증가가 직전 레벨의 2배 이하
+  //   B10  레벨 10 = 레벨 1~3 σ70 첫 클리어 중앙값의 기하 평균 배율로 외삽한 "레벨 6" ±20 %, 레벨 3~10 엄격 단조
+  //   SK   숙련 봇 σ25 사망이 한 지점(±3 t = 6 t 창)에 30 % 넘게 몰리지 않음 (σ25 사망 < 20회인 레벨은 σ50으로 다시 봄)
+  // 중앙값 정의 (criteria R3 준용): 판정 = 연속 중앙값 ln 0.5 / ln(1 − p), p = 시뮬레이터 σ70 첫 시도 클리어율. 정수·세션 중앙값은 참고.
+  // bots.mjs는 프로세스마다 같은 시드(12345)로 시작한다. 레벨별로 프로세스를 따로 띄워 병렬로 돌리고, 한 레벨을 쪼개 돌리지 않는다 (같은 난수열 반복 방지).
+  if (parts.includes('balance')) {
+    const BAL_N = +arg('--bal-n', QUICK ? '300' : '20000');
+    const BAL_SESS = +arg('--bal-sessions', QUICK ? '20' : '1000');
+    const SK_N = +arg('--bal-skilled-n', QUICK ? '300' : '100000');
+    const JOBS = Math.max(1, +arg('--jobs', String(Math.max(1, cpus().length - 1))));
+    const BOTS = join(ROOT, 'projects/runner-01/tools/sim/bots.mjs');
+    const ids = LV.map((l) => l.id);
+    const runBots = (argv) => new Promise((ok, fail) => {
+      const c = spawn(process.execPath, [BOTS, ...argv.map(String)], { cwd: ROOT, stdio: ['ignore', 'pipe', 'pipe'] });
+      let out = '', err = '';
+      c.stdout.on('data', (d) => (out += d)); c.stderr.on('data', (d) => (err += d));
+      c.on('close', (code) => {
+        if (code) return fail(new Error(`bots.mjs ${argv.join(' ')} 종료 코드 ${code}: ${err.slice(0, 500)}`));
+        try { ok(JSON.parse(out)); } catch { fail(new Error('bots.mjs 출력이 JSON이 아님: ' + out.slice(0, 200))); }
+      });
+    });
+    const pool = async (jobs) => {
+      const res = new Array(jobs.length); let next = 0;
+      await Promise.all(Array.from({ length: Math.min(JOBS, jobs.length) }, async () => { while (next < jobs.length) { const k = next++; res[k] = await jobs[k](); } }));
+      return res;
+    };
+    const t0 = Date.now();
+    // 오래 걸리는 σ25 큰 표본을 먼저 띄운다
+    const jobs = [];
+    for (const id of ids) jobs.push(() => runBots([SK_N, 'skilled_sd25', id, 0]).then((o) => ['skilled', id, o[id]]));
+    for (const id of ids) jobs.push(() => runBots([BAL_N, 'child_sd70', id, BAL_SESS]).then((o) => ['child', id, o[id]]));
+    const child = {}, skilled = {}, fallback = {};
+    for (const [k, id, o] of await pool(jobs)) (k === 'child' ? child : skilled)[id] = o;
+    const thin = ids.filter((id) => (skilled[id]?.skilled_sd25?.deaths ?? 0) < 20);
+    if (thin.length) for (const [, id, o] of await pool(thin.map((id) => () => runBots([SK_N, 'novice_sd50', id, 0]).then((o) => ['n50', id, o[id]])))) fallback[id] = o;
+
+    const contMed = (p) => (p >= 1 ? 1 : p > 0 ? Math.log(0.5) / Math.log(1 - p) : Infinity);
+    const r3 = (v) => (Number.isFinite(v) ? +v.toFixed(3) : null);
+    const per = ids.map((id) => {
+      const c = child[id].child_sd70, s = skilled[id].skilled_sd25, f = fallback[id]?.novice_sd50;
+      const cluster = f ? { profile: 'novice_sd50', share: f.top_death_cluster_share, x: f.top_death_x, deaths: f.deaths, sd25_deaths: s.deaths }
+        : { profile: 'skilled_sd25', share: s.top_death_cluster_share, x: s.top_death_x, deaths: s.deaths };
+      return { id, taps: child[id].taps, min_window_ms: child[id].min_window_ms, child_clear_rate: c.clear_rate, child_cont_median: r3(contMed(c.clear_rate)),
+        child_int_median: c.median_first_clear, child_session: c.session_first_clear, skilled_clear_rate: s.clear_rate, cluster, cluster_pass: cluster.share <= 0.30 };
+    });
+    const by = Object.fromEntries(per.map((r) => [r.id, r]));
+    const cm = (id) => by[id]?.child_cont_median ?? null;
+    const sm = (id) => by[id]?.child_session?.median ?? null;
+
+    // B30: 30회 이하, 직전 레벨의 2배 이하
+    const b30 = per.map((r, k) => {
+      const prev = per[k - 1], v = r.child_cont_median, pv = prev?.child_cont_median;
+      return { id: r.id, cont_median: v, session_median: r.child_session?.median ?? null, le30: v != null && v <= 30,
+        ratio_to_prev: prev && v != null && pv ? +(v / pv).toFixed(3) : null, le2x: !prev || (v != null && pv != null && v <= 2 * pv) };
+    });
+
+    // B10: 레벨 1·3·10이 모두 선택돼 있어야 계산
+    let b10 = null;
+    const id1 = LEVELS[0]?.id, id3 = LEVELS[2]?.id, idL = LEVELS[LEVELS.length - 1]?.id;
+    const extrap = (m1, m3) => { const g = Math.sqrt(m3 / m1); return { growth_per_level: +g.toFixed(4), extrapolated_level6: +(m3 * g ** 3).toFixed(3) }; };
+    if (by[id1] && by[id3] && by[idL] && LEVELS.length >= 4) {
+      const t = extrap(cm(id1), cm(id3)), v10 = cm(idL), ratio = v10 / t.extrapolated_level6;
+      const from3 = per.filter((r) => +r.id >= +id3).map((r) => r.child_cont_median);
+      const ts = sm(id1) && sm(id3) ? extrap(sm(id1), sm(id3)) : null;
+      b10 = { definition: '연속 중앙값 ln0.5/ln(1-p), σ70 시뮬레이터 한 원천', m1: cm(id1), m3: cm(id3), ...t, level10: v10, ratio: r3(ratio),
+        band: [+(t.extrapolated_level6 * 0.8).toFixed(3), +(t.extrapolated_level6 * 1.2).toFixed(3)], within_20pct: Math.abs(ratio - 1) <= 0.2,
+        strict_monotonic_L3_to_last: from3.length === LEVELS.length - 2 && from3.every((v, k) => k === 0 || (v != null && from3[k - 1] != null && v > from3[k - 1])),
+        reference_session_median: ts && { m1: sm(id1), m3: sm(id3), ...ts, level10: sm(idL), ratio: r3(sm(idL) / ts.extrapolated_level6) } };
+    }
+    const res = { quick: QUICK, note: QUICK ? 'quick 표본: 도구 동작 확인용, 판정에 쓰지 않음' : null,
+      samples: { child_sd70_attempts_per_level: BAL_N, child_sd70_sessions_per_level: BAL_SESS, session_cap: 300, skilled_sd25_attempts_per_level: SK_N, sd50_fallback_levels: thin },
+      jobs: JOBS, seconds: +((Date.now() - t0) / 1000).toFixed(1),
+      per_level: per, B30: { pass: b30.every((r) => r.le30 && r.le2x), levels: b30 }, B10: b10,
+      SK: { pass: per.every((r) => r.cluster_pass), threshold: 0.30, window_t: 6 }, raw: { child, skilled, fallback } };
+    save('balance', res);
+    console.log('balance', JSON.stringify({ seconds: res.seconds, samples: res.samples, B30: res.B30.pass, B10: b10 && { target: b10.extrapolated_level6, level10: b10.level10, ratio: b10.ratio, within: b10.within_20pct, strict: b10.strict_monotonic_L3_to_last }, SK: res.SK.pass }));
+    for (const r of per) console.log(`  ${r.id} σ70 p=${r.child_clear_rate} 연속중앙 ${r.child_cont_median} 세션중앙 ${r.child_session?.median} | 몰림 ${r.cluster.profile} ${r.cluster.share} (사망 ${r.cluster.deaths})`);
+  }
 } finally {
-  await browser.close().catch(() => {});
+  await browser?.close().catch(() => {});
   server.stop();
 }
 save('log-' + parts.join('_'), log);

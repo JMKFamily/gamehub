@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 브라우저 자체 확인 (Playwright). 콘솔 에러, 외부 요청, 360x640·640x360·1280x720 스크린샷, ?test=1 입력열 재생으로 세 레벨 클리어.
+// 브라우저 자체 확인 (Playwright). 콘솔 에러, 외부 요청, 360x640·640x360·1280x720 스크린샷, ?test=1 입력열 재생으로 모든 레벨 클리어 (레벨 수는 window.__game.levelCount).
 //
 //   node projects/runner-01/tools/serve.mjs &            # 정적 서버
 //   PLAYWRIGHT_CORE=<playwright-core 경로> node projects/runner-01/tools/selfcheck-browser.mjs [--channel msedge]
@@ -39,11 +39,12 @@ const shot = async (p, name) => { const f = join(OUT, name); await p.screenshot(
 // 1) 입력열 재생으로 세 레벨 클리어 (검증기 탭 / 박자대로 친 탭, 60·144 Hz 프레임)
 {
   const { ctx, p } = await page(1280, 720);
-  for (const i of [0, 1, 2]) {
+  report.level_count = await p.evaluate(() => window.__game.levelCount);
+  for (let i = 0; i < report.level_count; i++) {
     for (const [set, holdTicks, frameDt] of [['taps', 1, 1 / 60], ['on_beat_taps', 19, 1 / 144]]) {
       const r = await p.evaluate(([i, set, holdTicks, frameDt]) => {
         const g = window.__game;
-        const taps = g.testInputs.levels[['01', '02', '03'][i]][set];
+        const taps = g.testInputs.levels[g.levelData(i).id][set];
         return g.replay(i, taps, { holdTicks, frameDt });
       }, [i, set, holdTicks, frameDt]);
       report.runs.push({ level: i + 1, set, holdTicks, frame_hz: Math.round(1 / frameDt), ...r });
@@ -51,8 +52,8 @@ const shot = async (p, name) => { const f = join(OUT, name); await p.screenshot(
     }
   }
   // 클리어 연출 + 클리어 화면
-  await p.evaluate(() => { const g = window.__game; g.replay(2); g.step(0.5); });
-  await shot(p, '1280x720-level3-clear-fx.png');
+  await p.evaluate(() => { const g = window.__game; g.replay(g.levelCount - 1); g.step(0.5); });
+  await shot(p, '1280x720-last-level-clear-fx.png');
   await p.evaluate(() => window.__game.step(1));
   await shot(p, '1280x720-clear-screen.png');
   await ctx.close();
@@ -68,21 +69,10 @@ for (const [vw, vh] of [[1280, 720], [640, 360], [360, 640]]) {
   await p.evaluate(() => window.__game.show('levels'));
   await p.waitForTimeout(100);
   await shot(p, `${tag}-levels.png`);
-  for (const i of [0, 1, 2]) {
-    // 레벨별 플레이 장면: 입력열대로 일정 시간 진행
-    const at = [6.2, 26.5, 25.6][i];
-    await p.evaluate(([i, at]) => {
-      const g = window.__game;
-      const taps = g.testInputs.levels[['01', '02', '03'][i]].taps;
-      g.loadLevel(i);
-      const hz = 240;
-      let k = 0;
-      const tapSet = new Set(taps);
-      while (g.tick < at * hz && g.state === 'playing') {
-        if (tapSet.has(g.tick)) { g.press(); g.step(1 / hz); g.release(); } else g.step(1 / hz);
-        if (++k > 100000) break;
-      }
-    }, [i, at]);
+  const nLv = await p.evaluate(() => window.__game.levelCount);
+  for (let i = 0; i < nLv; i++) {
+    // 레벨별 플레이 장면: 완벽 입력열로 레벨 길이의 35 % 지점까지 (seek 훅)
+    await p.evaluate((i) => { const g = window.__game; g.seek(i, g.levelData(i).length_tiles * 0.35); }, i);
     await p.waitForTimeout(60);
     await shot(p, `${tag}-level${i + 1}-play.png`);
   }
