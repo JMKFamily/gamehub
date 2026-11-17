@@ -25,24 +25,23 @@
     "D",
     "E",
     "F",
-    "K"
+    "K",
+    "A"
   ],
-  "design_intent": "새 기믹 없음. 이미 배운 반박 쌍과 쉬는 박을 한 마디에 섞은 무늬 O(둥 둥두 _ 둥)·P(둥두 둥 둥)를 북채 보여 주기 마디로만 소개(카드 없음). 걷는 느낌의 3마디 복습(K·E·F) 뒤 O·B·P 섞기. 판정 별 30개.",
+  "design_intent": "새 기믹 없음. 이미 배운 반박 쌍과 쉬는 박을 한 마디에 섞은 무늬 O(둥 둥두 _ 둥)·P(둥두 둥 둥)를 북채 보여 주기 마디로만 소개(카드 없음). 시작은 둘(B), 걷는 느낌의 3마디 복습(K·E·F) 뒤 O·하나·P 섞기. 판정 별 27개(r2: 마디 0 D → B, 마디 13 B → A, 30 → 27).",
   "new_gimmicks": [],
   "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 10,
+    "target_child_sd70_median_max": 8,
     "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
   },
   "patterns": {
-    "D": {
+    "B": {
       "slots": [
         0,
-        2,
-        4,
-        6
+        2
       ],
-      "shape": "넷"
+      "shape": "둘"
     },
     "O": {
       "slots": [
@@ -85,12 +84,11 @@
       ],
       "shape": "둥두 둥"
     },
-    "B": {
+    "A": {
       "slots": [
-        0,
-        2
+        0
       ],
-      "shape": "둘"
+      "shape": "하나"
     }
   },
   "sections": [
@@ -156,7 +154,7 @@
     }
   ],
   "bars": [
-    {"mode":"play","pattern":"D"},
+    {"mode":"play","pattern":"B"},
     {"mode":"rest"},
     {"mode":"show","pattern":"O"},
     {"mode":"play","pattern":"O"},
@@ -169,7 +167,7 @@
     {"mode":"play","pattern":"F"},
     {"mode":"rest"},
     {"mode":"play","pattern":"O"},
-    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"A"},
     {"mode":"play","pattern":"P"},
     {"mode":"rest"},
     {"mode":"rest"}

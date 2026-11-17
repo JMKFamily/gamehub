@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" font-family="sans-serif">
+<!-- 목업 8 (round 2 R6): 30-art 4-4·4-6·5-6·10-1. palette.json 색. 라벨 글은 문서용이고 게임 화면에는 lore 키 글만 -->
+<rect width="1200" height="680" fill="#14161C"/>
+<text x="20" y="28" fill="#F5F1E8" font-size="14" text-anchor="start">목업 8 (round 2): 레벨 카드 줄 흐름 · 640x360 타이틀 힌트 · 기록 지우기 확인 창 · 다시 보기 아이콘 · 가로 손가락 크기 (라벨은 문서용)</text>
+<text x="20" y="62" fill="#E6E1D3" font-size="12" text-anchor="start">① 레벨 선택 카드 120×132 (×1.5): 위→아래 작은 궤도 → 점 → 등급 줄 → 이름, 줄 사이 4 px, 겹침 0</text>
+<rect x="20" y="76" width="180" height="198" rx="21" fill="#3D3419" stroke="#EFB480" stroke-width="4.5"/>
+<circle cx="110" cy="103" r="18.75" fill="none" stroke="#E6E1D3" stroke-width="4.5"/>
+<circle cx="110" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="89" cy="154" r="9" fill="#F5F1E8" stroke="#0B0D12" stroke-width="2.4000000000000004"/><circle cx="89" cy="154" r="5.699999999999999" fill="none" stroke="#0B0D12" stroke-width="1.5"/>
+<circle cx="110" cy="154" r="9" fill="#F5F1E8" stroke="#0B0D12" stroke-width="2.4000000000000004"/><circle cx="110" cy="154" r="5.699999999999999" fill="none" stroke="#0B0D12" stroke-width="1.5"/>
+<circle cx="131" cy="154" r="9" fill="none" stroke="#E6E1D3" stroke-width="2.0999999999999996" stroke-dasharray="4.5 3.5999999999999996"/>
+<text x="110" y="185.5" fill="#F5F1E8" font-size="18" text-anchor="middle">아침 마당</text>
+<rect x="29" y="208" width="60" height="60" rx="15" fill="#3D3419" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(29,208) scale(1.25)"><rect x="5" y="13" width="38" height="22" rx="5" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><g fill="#F5F1E8"><rect x="9" y="17.5" width="7" height="13" rx="2"/><rect x="20.5" y="17.5" width="7" height="13" rx="2"/><rect x="32" y="17.5" width="7" height="13" rx="2"/><polygon points="17.2,21.6 19.6,24 17.2,26.4"/><polygon points="28.7,21.6 31.1,24 28.7,26.4"/></g></g>
+<rect x="131" y="208" width="60" height="60" rx="15" fill="#3D3419" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(161,238) scale(0.30000000000000004)" stroke="#0B0D12" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="#E6E1D3"/><polygon points="-27,-50 45,-32 -27,-6" fill="#F5F1E8"/></g>
+<rect x="220" y="76" width="180" height="198" rx="21" fill="#1A3D2A" stroke="#83ECB4" stroke-width="4.5"/>
+<circle cx="310" cy="103" r="18.75" fill="none" stroke="#E6E1D3" stroke-width="4.5"/>
+<circle cx="283" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="296.5" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="310" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="323.5" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="337" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<g transform="translate(250,154) scale(0.165)" stroke="#0B0D12" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="#E6E1D3"/><polygon points="-27,-50 45,-32 -27,-6" fill="#F5F1E8"/></g>
+<rect x="265" y="151" width="111" height="6" rx="3" fill="#10281B" stroke="#E6E1D3" stroke-opacity="0.5" stroke-width="1.5"/><rect x="265" y="151" width="68.82000000000001" height="6" rx="3" fill="#F5F1E8"/><circle cx="333.82" cy="154" r="6" fill="#7FE3FF" stroke="#0B0D12" stroke-width="1.7999999999999998"/>
+<text x="310" y="185.5" fill="#F5F1E8" font-size="18" text-anchor="middle">숲속 길</text>
+<rect x="229" y="208" width="60" height="60" rx="15" fill="#1A3D2A" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(229,208) scale(1.25)"><rect x="5" y="13" width="38" height="22" rx="5" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><g fill="#F5F1E8"><rect x="9" y="17.5" width="7" height="13" rx="2"/><rect x="20.5" y="17.5" width="7" height="13" rx="2"/><rect x="32" y="17.5" width="7" height="13" rx="2"/><polygon points="17.2,21.6 19.6,24 17.2,26.4"/><polygon points="28.7,21.6 31.1,24 28.7,26.4"/></g></g>
+<rect x="331" y="208" width="60" height="60" rx="15" fill="#1A3D2A" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(361,238) scale(0.30000000000000004)" stroke="#0B0D12" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="#E6E1D3"/><polygon points="-27,-50 45,-32 -27,-6" fill="#F5F1E8"/></g>
+<rect x="420" y="76" width="180" height="198" rx="21" fill="#181C34" stroke="#F0E2C2" stroke-width="4.5"/>
+<circle cx="510" cy="96.25" r="12" fill="none" stroke="#E6E1D3" stroke-width="4.5"/>
+<circle cx="483" cy="121" r="4.5" fill="#F5F1E8"/>
+<circle cx="496.5" cy="121" r="4.5" fill="#F5F1E8"/>
+<circle cx="510" cy="121" r="4.5" fill="#F5F1E8"/>
+<circle cx="523.5" cy="121" r="4.5" fill="#F5F1E8"/>
+<circle cx="537" cy="121" r="4.5" fill="#F5F1E8"/>
+<circle cx="483" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="496.5" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="510" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="523.5" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<circle cx="537" cy="134.5" r="4.5" fill="#F5F1E8"/>
+<rect x="444" y="151" width="132" height="6" rx="3" fill="#0E1020" stroke="#E6E1D3" stroke-opacity="0.5" stroke-width="1.5"/><rect x="444" y="151" width="46.199999999999996" height="6" rx="3" fill="#F5F1E8"/><circle cx="490.2" cy="154" r="6" fill="#7FE3FF" stroke="#0B0D12" stroke-width="1.7999999999999998"/>
+<text x="510" y="185.5" fill="#F5F1E8" font-size="18" text-anchor="middle">달</text>
+<rect x="429" y="208" width="60" height="60" rx="15" fill="#181C34" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(429,208) scale(1.25)"><rect x="5" y="13" width="38" height="22" rx="5" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><g fill="#F5F1E8"><rect x="9" y="17.5" width="7" height="13" rx="2"/><rect x="20.5" y="17.5" width="7" height="13" rx="2"/><rect x="32" y="17.5" width="7" height="13" rx="2"/><polygon points="17.2,21.6 19.6,24 17.2,26.4"/><polygon points="28.7,21.6 31.1,24 28.7,26.4"/></g></g>
+<rect x="531" y="208" width="60" height="60" rx="15" fill="#181C34" stroke="#E6E1D3" stroke-width="1.5"/><g transform="translate(561,238) scale(0.30000000000000004)" stroke="#0B0D12" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="#E6E1D3"/><polygon points="-27,-50 45,-32 -27,-6" fill="#F5F1E8"/></g>
+<text x="20" y="290" fill="#E6E1D3" font-size="11" text-anchor="start">클리어: 등급 북</text>
+<text x="220" y="290" fill="#E6E1D3" font-size="11" text-anchor="start">최고 진행도 + 깃발(연습 클리어)</text>
+<text x="420" y="290" fill="#E6E1D3" font-size="11" text-anchor="start">점 2줄: 궤도 19 px로 줄임</text>
+<text x="20" y="308" fill="#E6E1D3" font-size="11" text-anchor="start">등급 줄 = 클리어면 등급 북 3자리 / 아니면 가는 진행도 막대 + 공 색 점(최고 기록, 글·숫자 없음) / 처음이면 빈 줄</text>
+<text x="20" y="324" fill="#E6E1D3" font-size="11" text-anchor="start">넘치면 ① 궤도 28→16 px ② 이름 숨김(aria 유지) ③ 궤도 숨김. 아래 48 px 줄: 왼쪽 다시 보기(icon-card), 오른쪽 연습 깃발</text>
+<rect x="640" y="76" width="480" height="270" fill="#29230F"/>
+<circle cx="880" cy="224.5" r="89.25" fill="none" stroke="#493F22" stroke-width="8.925"/><circle cx="880" cy="224.5" r="37.485" fill="#655A39" stroke="#0B0D12" stroke-width="2"/><circle cx="949.9119266842529" cy="169.0213103318432" r="10.5" fill="#7FE3FF" stroke="#0B0D12" stroke-width="2"/>
+<rect x="987.25" y="88" width="120.75" height="246" fill="none" stroke="#E6E1D3" stroke-opacity="0.4" stroke-dasharray="4 4"/>
+<g transform="translate(1047.625,217) scale(0.675)"><g stroke="#0B0D12" stroke-width="2.8" stroke-linejoin="round" fill="#F5F1E8"><rect x="-15.6" y="-7.9" width="11" height="15.6" rx="5.5" transform="rotate(-25 -10.1 0)"/><rect x="-7.4" y="-11.6" width="25.8" height="23" rx="7.4"/><rect x="-5.1" y="-30" width="10.1" height="23" rx="5.1"/></g></g>
+<text x="1047.625" y="250" fill="#F5F1E8" font-size="10.5" text-anchor="middle">눌러서 시작</text>
+<text x="640" y="364" fill="#E6E1D3" font-size="11" text-anchor="start">② 640x360 타이틀: 시작 힌트(손가락 + 글) = 궤도 오른쪽 빈 곳 x cx+R+24 ~ W−16, 세로 가운데 cy</text>
+<text x="640" y="380" fill="#E6E1D3" font-size="11" text-anchor="start">점선 = 힌트 영역(목업 표시만). 세로 화면은 지금처럼 궤도 아래</text>
+<rect x="20" y="366" width="340" height="212" fill="#29230F"/>
+<rect x="26" y="372" width="328" height="200" rx="20" fill="#3D3419" stroke="#E6E1D3" stroke-width="1.5"/>
+<g transform="translate(166,382)"><rect x="13" y="16" width="22" height="22" rx="4" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><path d="M 18 21 L 30 33 M 30 21 L 18 33" stroke="#F5F1E8" stroke-width="2.5" stroke-linecap="round"/></g>
+<text x="190" y="452" fill="#F5F1E8" font-size="14" text-anchor="middle">(confirm_reset 글, 보조)</text>
+<rect x="42" y="492" width="140" height="64" rx="16" fill="#F5F1E8" stroke="#0B0D12" stroke-width="2"/>
+<g transform="translate(72,524) scale(-0.8,0.8)"><rect x="-12" y="-4.75" width="23.8" height="9.5" rx="4.8" fill="#0B0D12"/><polygon points="8,-15.9 25.8,0 8,15.9" fill="#0B0D12" stroke="#0B0D12" stroke-width="3.2" stroke-linejoin="round"/></g>
+<text x="98" y="529" fill="#0B0D12" font-size="13">취소 (no)</text>
+<rect x="198" y="492" width="140" height="64" rx="16" fill="none" stroke="#E6E1D3" stroke-width="2"/>
+<g transform="translate(204,500)"><rect x="13" y="16" width="22" height="22" rx="4" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><path d="M 18 21 L 30 33 M 30 21 L 18 33" stroke="#F5F1E8" stroke-width="2.5" stroke-linecap="round"/></g>
+<text x="256" y="529" fill="#F5F1E8" font-size="13">지우기 (yes)</text>
+<text x="20" y="598" fill="#E6E1D3" font-size="11" text-anchor="start">③ 기록 지우기 확인 창: 취소 = 왼쪽, 크림 면 + 왼쪽 화살표(D7 그림), 기본 초점</text>
+<text x="20" y="614" fill="#E6E1D3" font-size="11" text-anchor="start">지우기 = 오른쪽, 면 없음 + trackEdge 테두리 + icon-reset(네모 안 ×). 노랑·빨강 없음, 글은 보조</text>
+<g transform="translate(420,380) scale(2.5)"><rect x="0" y="0" width="48" height="48" rx="12" fill="#3D3419" stroke="#E6E1D3" stroke-width="1.5"/><rect x="5" y="13" width="38" height="22" rx="5" fill="none" stroke="#F5F1E8" stroke-width="2.5"/><g fill="#F5F1E8"><rect x="9" y="17.5" width="7" height="13" rx="2"/><rect x="20.5" y="17.5" width="7" height="13" rx="2"/><rect x="32" y="17.5" width="7" height="13" rx="2"/><polygon points="17.2,21.6 19.6,24 17.2,26.4"/><polygon points="28.7,21.6 31.1,24 28.7,26.4"/></g></g>
+<text x="420" y="520" fill="#E6E1D3" font-size="11" text-anchor="start">④ icon-card.svg (×2.5)</text>
+<text x="420" y="536" fill="#E6E1D3" font-size="11" text-anchor="start">카드 다시 보기 전용, hud 단색</text>
+<rect x="640" y="398" width="320" height="180" fill="#29230F"/>
+<circle cx="800" cy="497" r="59.400000000000006" fill="none" stroke="#554925" stroke-width="5.940000000000001"/><circle cx="800" cy="497" r="24.948" fill="#655A39" stroke="#0B0D12" stroke-width="1.5"/>
+<polygon points="859.4,488 862.0450336353161,493.35942352531276 867.9595086466563,494.21884705062547 863.6797543233282,498.3905764746873 864.6900672706322,504.28115294937453 859.4,501.5 854.1099327293678,504.28115294937453 855.1202456766719,498.3905764746873 850.8404913533436,494.21884705062547 856.7549663646839,493.35942352531276" fill="#FFD43B" stroke="#0B0D12" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="859.4" cy="497" r="20.45" fill="none" stroke="#E6E1D3" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<polygon points="842.0021428024809,530.0021428024809 844.647176437797,535.3615663277936 850.5616514491373,536.2209898531064 846.2818971258091,540.3927192771682 847.2922100731132,546.2832957518555 842.0021428024809,543.5021428024809 836.7120755318487,546.2832957518555 837.7223884791528,540.3927192771682 833.4426341558245,536.2209898531064 839.3571091671648,535.3615663277936" fill="#FFD43B" stroke="#0B0D12" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="842.0021428024809" cy="539.0021428024809" r="20.45" fill="none" stroke="#E6E1D3" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<rect x="870.13" y="519.61" width="32" height="32" fill="none" stroke="#F5F1E8" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+<g transform="translate(886.13,538.1700000000001) scale(0.55)"><g stroke="#0B0D12" stroke-width="2.8" stroke-linejoin="round" fill="#F5F1E8"><rect x="-15.6" y="-7.9" width="11" height="15.6" rx="5.5" transform="rotate(-25 -10.1 0)"/><rect x="-7.4" y="-11.6" width="25.8" height="23" rx="7.4"/><rect x="-5.1" y="-30" width="10.1" height="23" rx="5.1"/></g></g>
+<text x="640" y="594" fill="#E6E1D3" font-size="11" text-anchor="start">⑤ 640x360: R 119, 손가락 64 px</text>
+<rect x="980" y="398" width="217.60000000000002" height="122.4" fill="#29230F"/>
+<circle cx="1088.8" cy="465.32000000000005" r="40.39200000000001" fill="none" stroke="#554925" stroke-width="4.039200000000001"/><circle cx="1088.8" cy="465.32000000000005" r="16.964640000000003" fill="#655A39" stroke="#0B0D12" stroke-width="1.5"/>
+<polygon points="1129.192,459.26120000000003 1130.972636643295,462.86916391724054 1134.954261220929,463.4477278344811 1132.0731306104644,466.2561360827595 1132.7532732865898,470.22167216551895 1129.192,468.3494 1125.6307267134105,470.22167216551895 1126.3108693895356,466.2561360827595 1123.429738779071,463.4477278344811 1127.4113633567051,462.86916391724054" fill="#FFD43B" stroke="#0B0D12" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="1129.192" cy="465.32000000000005" r="13.10054" fill="none" stroke="#E6E1D3" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<polygon points="1117.3614571056871,487.82265710568703 1119.1420937489818,491.4306210229276 1123.1237183266162,492.0091849401681 1120.2425877161515,494.8175931884465 1120.9227303922767,498.783129271206 1117.3614571056871,496.91085710568706 1113.8001838190974,498.783129271206 1114.4803264952225,494.8175931884465 1111.599195884758,492.0091849401681 1115.5808204623922,491.4306210229276" fill="#FFD43B" stroke="#0B0D12" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="1117.3614571056871" cy="493.88145710568705" r="13.10054" fill="none" stroke="#E6E1D3" stroke-opacity="0.6" stroke-dasharray="3 3"/>
+<rect x="1138.2802" y="482.4866" width="18.176400000000005" height="18.176400000000005" fill="none" stroke="#F5F1E8" stroke-opacity="0.5" stroke-dasharray="4 3"/>
+<g transform="translate(1147.3684,493.028912) scale(0.3124068750000001)"><g stroke="#0B0D12" stroke-width="2.8" stroke-linejoin="round" fill="#F5F1E8"><rect x="-15.6" y="-7.9" width="11" height="15.6" rx="5.5" transform="rotate(-25 -10.1 0)"/><rect x="-7.4" y="-11.6" width="25.8" height="23" rx="7.4"/><rect x="-5.1" y="-30" width="10.1" height="23" rx="5.1"/></g></g>
+<text x="980" y="536.4" fill="#E6E1D3" font-size="11" text-anchor="start">1280: R 238, 손가락 107 px</text>
+<text x="640" y="618" fill="#E6E1D3" font-size="11" text-anchor="start">가로 플레이 손가락 칸 = max(64, 0.45R), 중심 (cx+1.45R, cy+0.65R), 화면 가장자리 16 px 안</text>
+<text x="640" y="634" fill="#E6E1D3" font-size="11" text-anchor="start">별 둘레 점선 원 = 3시·4시 반 별의 딱 이펙트 최대 범위(손가락 칸과 겹침 0)</text>
+<text x="640" y="650" fill="#E6E1D3" font-size="11" text-anchor="start">세로: 엄지 받침 가운데, 칸 max(64, 0.45R) (받침 높이 − 16 이하)</text>
+</svg>

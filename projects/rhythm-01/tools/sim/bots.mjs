@@ -13,6 +13,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { compileLevel, judgeAttempt, gradeRating } from './judge.mjs';
+import { median as calibMedian, iqr as calibIqr, simulate as calibSimulate } from './calib.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJECT = resolve(HERE, '..', '..');
@@ -71,6 +72,7 @@ export function runProfile(L, p, bal, { N = 20000, sessions = 2000, seed = 12345
   const pc = clears / N;
   return {
     clear_rate: +pc.toFixed(4),
+    median_first_clear_continuous: pc ? +(Math.log(0.5) / Math.log(1 - pc)).toFixed(3) : null, // round-2 R3: 연속 중앙값 ln0.5/ln(1-p) (B6·B7 판정)
     median_first_clear_geom: pc ? Math.max(1, Math.ceil(Math.log(0.5) / Math.log(1 - pc))) : null,
     median_first_clear_sessions: median(sess),
     p90_first_clear_sessions: [...sess].sort((a, b) => a - b)[Math.floor(sessions * 0.9)],
@@ -112,20 +114,19 @@ export function runPractice(L, p, bal, { sessions = 2000, seed = 4321 } = {}) {
 
 
 // 지연 보정 화면(20-balance.md 8-3) 모델: 세션마다 남은 지연 오차를 뽑는 함수를 만든다.
-//   device: 자동 보정 뒤 기기에 남은 오차 범위 [lo, hi] ms (균등). 보정 화면은 이 값 + 아이 탭 오차를 함께 잰다.
-//   보정 = 탭 taps 번 중 use_from 번째부터의 (탭 - 박) 중앙값 m. 그 값들의 IQR 이 reject_iqr_ms 를 넘으면 버림(오프셋 0 유지).
-//   |m| ≤ apply_only_if_abs_over_ms 이면 적용하지 않음(자동 보정만).
-//   skip = true 면 보정 없이 device 오차가 그대로 남는다.
+//   device: 자동 보정 뒤 기기에 남은 오차 범위 [lo, hi] ms (균등). 보정 화면은 이 값 + 탭 오차를 함께 잰다.
+//   1-2 흐름(1회, 기록용): 탭 taps 번 중 use_from 번째부터의 (탭 - 박) 중앙값 m. IQR 이 reject_iqr_ms 를 넘으면 버림(오프셋 0 유지).
+//   |m| ≤ apply_only_if_abs_over_ms 이면 적용하지 않음(자동 보정만). skip = true 면 보정 없이 device 오차가 그대로 남는다.
+//   round-2 R4: 사분위·중앙값은 빌드 calib.js 정의(./calib.mjs: 선형 보간 사분위, 짝수 중앙값 = 가운데 둘 평균)를 그대로 쓴다.
 export function calibrationBias(cal, { device = [-20, 40], sd = 70, skip = false } = {}) {
   return (rng) => {
     const d = device[0] + rng.rnd() * (device[1] - device[0]);
     if (skip) return d;
     const errs = [];
     for (let k = 0; k < cal.taps; k++) errs.push(d + rng.gauss() * sd);
-    const used = errs.slice(cal.use_from_tap - 1).sort((a, b) => a - b);
-    const q = (f) => used[Math.min(used.length - 1, Math.max(0, Math.round(f * (used.length - 1))))];
-    if (q(0.75) - q(0.25) > cal.reject_iqr_ms) return d;
-    const m = used.length % 2 ? used[(used.length - 1) / 2] : (used[used.length / 2 - 1] + used[used.length / 2]) / 2;
+    const used = errs.slice(cal.use_from_tap - 1);
+    if (calibIqr(used) > cal.reject_iqr_ms) return d;
+    const m = calibMedian(used);
     if (Math.abs(m) <= (cal.apply_only_if_abs_over_ms ?? 0)) return d; // 작은 값은 적용하지 않음(측정 잡음이 더 큼)
     const off = Math.max(cal.offset_clamp_ms[0], Math.min(cal.offset_clamp_ms[1], m));
     return d - off;
@@ -133,61 +134,60 @@ export function calibrationBias(cal, { device = [-20, 40], sd = 70, skip = false
 }
 
 // 보호자 보정 흐름(20-balance.md 8-4, balance.json audio_latency.guardian_calibration) 모델.
-//   rounds 번(기본 2) × taps 번 톡. 회마다 use_from_tap 번째부터 쓴다.
-//   회마다 IQR > reject_iqr_ms 이면 그 회를 다시(retry), 두 회 중앙값 차이 > round_disagree_max_ms 이면 전체를 다시.
-//   다시 하기는 max_retries 번까지, 그래도 안 되면 이전 오프셋(여기서는 0) 유지.
-//   최종 m = 모든 회의 쓰는 탭(2 × 6 = 12개) 중앙값. |m| ≤ apply_only_if_abs_over_ms 이면 적용 안 함.
+//   round-2 R4: 빌드 calib.js 의 simulate() 를 그대로 쓴다(./calib.mjs). 즉
+//   회마다 taps_per_round 번 톡, use_from_tap 번째부터 사용. 한 회의 IQR(선형 보간) > reject_iqr_ms → **그 회만 다시**.
+//   두 회 중앙값 차이 > round_disagree_max_ms → 전체(두 회) 다시. 다시 하기는 흐름 전체에서 max_retries 번까지,
+//   그래도 안 되면 이전 오프셋(여기서는 0) 유지. 최종 m = 두 회 사용 탭 12개 중앙값(짝수 → 가운데 둘 평균),
+//   |m| ≤ apply_only_if_abs_over_ms 이면 0, 그 밖은 offset_clamp_ms 로 자름.
 //   sd = 실제로 친 사람의 탭 오차(어른 40, 아이가 대신 치면 70).
+//   (round-1 까지의 모델은 반올림 위치 사분위 + IQR 실패 시 두 회 전체 다시였음: QA minor 5, balance 리뷰 이슈 4)
 export function guardianCalibrationBias(cal, g, { device = [-20, 40], sd = 40 } = {}) {
-  const med = (a) => { const s = [...a].sort((x, y) => x - y); const n = s.length; return n % 2 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2; };
-  const iqr = (a) => { const s = [...a].sort((x, y) => x - y); const q = (f) => s[Math.min(s.length - 1, Math.max(0, Math.round(f * (s.length - 1))))]; return q(0.75) - q(0.25); };
+  const maxRounds = (g.rounds + 1) * (g.max_retries + 1);
   return (rng) => {
     const d = device[0] + rng.rnd() * (device[1] - device[0]);
-    for (let tryN = 0; tryN <= g.max_retries; tryN++) {
-      const rounds = [];
-      let bad = false;
-      for (let r = 0; r < g.rounds; r++) {
-        const used = [];
-        for (let k = 0; k < g.taps_per_round; k++) { const e = d + rng.gauss() * sd; if (k >= g.use_from_tap - 1) used.push(e); }
-        if (iqr(used) > g.reject_iqr_ms) { bad = true; break; }
-        rounds.push(used);
-      }
-      if (bad) continue;
-      const ms = rounds.map(med);
-      if (Math.max(...ms) - Math.min(...ms) > g.round_disagree_max_ms) continue;
-      const m = med(rounds.flat());
-      if (Math.abs(m) <= g.apply_only_if_abs_over_ms) return d;
-      return d - Math.max(cal.offset_clamp_ms[0], Math.min(cal.offset_clamp_ms[1], m));
+    const rounds = [];
+    for (let r = 0; r < maxRounds; r++) {
+      const row = [];
+      for (let k = 0; k < g.taps_per_round; k++) row.push(d + rng.gauss() * sd);
+      rounds.push(row);
     }
-    return d;
+    const res = calibSimulate(rounds, g);
+    if (!res.ok) return d; // 이전 오프셋(0) 유지
+    return d - res.offset;
   };
 }
 
-// 플레이 중 큰 지연 감지(20-balance.md 8-5, audio_latency.drift_check) 모델.
-//   판정 별마다 그 별에 가장 가까운 탭(±sample_window_ms 안)의 (탭 - 별) 을 모은다(성공·실패 모두).
-//   window_taps 개가 찰 때마다 창 하나의 중앙값을 보고, |중앙값| ≥ trigger_abs_median_ms 인 창이
-//   consecutive_windows 번 이어지고 시도가 min_attempts 번 이상이면 "다시 보정" 그림 신호를 켠다.
+// 플레이 중 큰 지연 감지(20-balance.md 8-5, audio_latency.drift_check) 모델. round-2 R4: 빌드 engine.js 정의(DEV_NOTES D15)에 맞춤.
+//   표본: 맞힌(판정한) 별 = 그 판정한 탭의 (탭 - 별). 실패한 별(놓침·너무 일찍) = 그 별 ±sample_window_ms 안 가장 가까운 탭
+//         (실패 연출 중 늦은 탭 포함). 실패 별 표본은 그 시도의 맞힌 별 표본 뒤에 들어감.
+//   창: 표본이 window_taps 개 찰 때마다(겹치지 않는 창) 중앙값(짝수 → 가운데 둘 평균)을 봄.
+//       |중앙값| ≥ trigger_abs_median_ms 면 연속 수 +1, 아니면 0.
+//   켜짐: 창이 끝나는 그 순간에 연속 수 ≥ consecutive_windows 이고 그 시도 번호 ≥ min_attempts.
+//   "시도 3번 이상" = 이번 레벨 플레이 안의 시도 수 → 클리어하면 그 플레이가 끝나므로 stopOnClear(기본 true)면 클리어한 시도 뒤 null.
 //   반환: 신호가 켜진 시도 번호(1부터), 상한 maxAttempts 안에 안 켜지면 null.
-export function driftDetectAttempt(L, p, bal, dc, rng, { bias = 0, maxAttempts = 30 } = {}) {
+//   (round-1 까지의 모델: 창 중앙값 = 아래쪽 값, 맞힌 별도 ±300 ms 안 아무 탭, 시도 끝에도 켜짐 확인, 클리어 뒤에도 계속)
+export function driftDetectAttempt(L, p, bal, dc, rng, { bias = 0, maxAttempts = 30, stopOnClear = true } = {}) {
   const extraAfter = bal.bots.extra_tap_after_s;
-  let buf = [], streak = 0;
+  let n = 0, streak = 0;
+  let buf = [];
+  const push = (e, a) => {
+    buf.push(e);
+    if (buf.length < dc.window_taps) return false;
+    const m = calibMedian(buf);
+    buf = [];
+    streak = Math.abs(m) >= dc.trigger_abs_median_ms ? streak + 1 : 0;
+    return streak >= dc.consecutive_windows && a >= dc.min_attempts;
+  };
   for (let a = 1; a <= maxAttempts; a++) {
     const taps = botTaps(L, p, rng, { bias, extraAfter });
     const r = judgeAttempt(L, taps);
-    const upto = r.clear ? L.stars.length : r.failIndex + 1;
-    for (let i = 0; i < upto; i++) {
-      const t = L.stars[i].t;
+    for (const g of r.grades) if (push(g.e, a)) return a;
+    if (!r.clear) {
+      const t = L.stars[r.failIndex].t;
       let best = null;
-      for (const x of taps) if (Math.abs(x - t) <= dc.sample_window_ms && (best === null || Math.abs(x - t) < Math.abs(best - t))) best = x;
-      if (best === null) continue;
-      buf.push(best - t);
-      if (buf.length === dc.window_taps) {
-        streak = Math.abs(median(buf)) >= dc.trigger_abs_median_ms ? streak + 1 : 0;
-        buf = [];
-        if (streak >= dc.consecutive_windows && a >= dc.min_attempts) return a;
-      }
-    }
-    if (streak >= dc.consecutive_windows && a >= dc.min_attempts) return a;
+      for (const x of taps) { const e = x - t; if (Math.abs(e) <= dc.sample_window_ms && (best === null || Math.abs(e) < Math.abs(best))) best = e; }
+      if (best !== null && push(best, a)) return a;
+    } else if (stopOnClear) return null;
   }
   return null;
 }

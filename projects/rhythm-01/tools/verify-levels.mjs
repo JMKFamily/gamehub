@@ -25,20 +25,27 @@
 //   S12 별 미리 보기: 다음 마디 별이 앞 별의 늦은 통과 창 끝 + 판정 이펙트 뒤에 커지며 나타나고, 다 커진 뒤 별까지 1.2 s 이상
 //   S13 보여 주기 같이 치기 안전: 보여 주기 별 → 다음 판정 별 ≥ 1박, 다음 별 놓침 구역 시작까지 ≥ 150 ms
 //   S14 북채 등장 1박(보여 주기 마디 바로 앞 1박) 안에 판정 별의 통과 창이 없음
-//   S15 레벨 1 손가락 그림: 첫 꽉 찬 별 1박 전에 나타남, 그 시각에 보여 주기 별 타격과 겹치지 않음
+//   S15 레벨 1 손가락 그림: 첫 꽉 찬 별 1박 전에 나타남, 누름 시작이 통과 창 안(놓침 구역 밖, R2),
+//       손가락 구간 [첫 별 - 1박, 첫 별 + pass_late] ∩ 모든 북채 구간 = 없음 (round-2 R1 강화)
+//   S16 북채 구간 [등장, 사라짐) ∩ 모든 판정 별 [놓침 구역 시작, 통과 창 끝] = 없음, 작아짐 시작 ≥ 마지막 보여 주기 별 (round-2 R1, 10레벨 전부)
 //   B1 봇 σ70 첫 클리어 중앙값 ≤ 레벨별 한도 (L1 5, L7까지 20, 전 레벨 30)
 //   B2 봇 평균 진행도(판정 별 기준)가 레벨 순서대로 단조 감소
 //   B3 숙련 봇(σ25) 실패가 한 별에 30 % 넘게 몰리지 않음 (실패 20회 이상일 때만)
 //   B4 레벨 1 σ70 실패 위치 중앙값(레벨 시간 기준) ≥ 10 %
 //   B5 σ70 첫 클리어 중앙값이 직전 레벨의 2배 이하
-//   B6 레벨 10 목표: L1~L3 σ70 중앙값의 기하 평균 배율 r = (m03/m01)^(1/2) 로 L6 을 외삽한 T = m03·r^3, L10 ∈ [0.8T, 1.2T] (요청자 지시)
-//   B7 L3 → L10 σ70 중앙값이 엄격히 단조 증가, L4~L9 는 L10 목표 상한 미만 (L3 와 L10 목표 사이를 나눔)
+//   B6 레벨 10 목표: σ70 연속 중앙값 m~ = ln0.5/ln(1-p) (p = 첫 시도 클리어율) 로 L1~L3 기하 평균 배율 r = (m~03/m~01)^(1/2),
+//      L6 외삽 T = m~03·r^3, L10 m~ ∈ [0.8T, 1.2T] (요청자 지시, round-2 R3). 정수 중앙값은 참고로 함께 출력
+//   B7 L3 → L10 σ70 연속 중앙값이 엄격히 단조 증가, L3~L9 는 L10 목표 상한 미만 (L3 와 L10 목표 사이를 나눔)
+//   C1 보정 계산 정의 일치: tools/sim/calib.mjs(시뮬레이터) = 빌드 games/rhythm-01/js/calib.js (있을 때만, round-2 R4)
 // 정보 출력: 박마다 치기, 지연 오차 민감도(1~3), 보정 화면 영향(보호자 보정 포함), 큰 지연 감지, 따라 치기 변형, 연습 모드, 해석 예측
 
 import { readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { compileLevel, judgeAttempt, previewSchedule } from './sim/judge.mjs';
+import { existsSync } from 'node:fs';
+import { pathToFileURL } from 'node:url';
+import { compileLevel, judgeAttempt, previewSchedule, malletSchedule } from './sim/judge.mjs';
+import * as simCalib from './sim/calib.mjs';
 import { runProfile, runPractice, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng } from './sim/bots.mjs';
 import { buildPlanLevel } from './sim/plan.mjs';
 
@@ -232,15 +239,41 @@ for (const { src, lvl } of entries) {
   });
   check(id, 'S14', !bad14.length, bad14.length ? `북채가 나타나는 1박에 판정 별: ${bad14}` : `보여 주기 마디 ${lvl.bars.filter((b, i) => b.mode === 'show' && !(i > 0 && lvl.bars[i - 1].mode === 'show')).length}곳, 북채 등장 ${mb}박 안에 판정 별 없음`);
 
-  // S15 손가락 그림 (레벨 1)
+  // 북채 구간 (round-2 R1, judge.mjs malletSchedule)
+  const mw = malletSchedule(L, bal);
+  report.levels[id].mallet = mw.map((w) => ({ bars: [w.firstBar, w.lastBar], from: +w.from.toFixed(1), last_show: +w.lastShow.toFixed(1), shrink_start: +w.shrinkStart.toFixed(1), gone: +w.gone.toFixed(1), capped: w.capped }));
+
+  // S15 손가락 그림 (레벨 1): 1박 전 등장, 누름 시작은 통과 창 안, 북채가 다 사라진 뒤에만 보임
   for (const c of lvl.cues || []) {
     if (c.key !== bal.tutorial_cue.key) continue;
     const tStar = (L.countInBars * 4 + c.bar * 4 + c.slot / 2) * L.beatMs;
     const appear = tStar - c.show_from_beats_before * L.beatMs;
+    const handEnd = tStar + j.pass_late_ms; // hide_after first_star_judged: 늦어도 통과 창 끝
+    const press = tStar - c.press_from_beats_before * L.beatMs;
     const isFirst = L.stars[0] && Math.abs(L.stars[0].t - tStar) < 1e-6;
-    const clash = L.shows.some((s) => Math.abs(s.t - appear) < 0.5 * L.beatMs);
-    check(id, 'S15', isFirst && c.show_from_beats_before === bal.tutorial_cue.show_from_beats_before && !clash,
-      `tut_tap: 첫 꽉 찬 별 ${(tStar / 1000).toFixed(2)} s, ${c.show_from_beats_before}박 전 ${(appear / 1000).toFixed(2)} s 에 나타남, 북채 타격과 겹침 ${clash ? '있음(!)' : '없음'}`);
+    const firstStar = L.stars.find((x) => Math.abs(x.t - tStar) < 1e-6);
+    const pressOk = !!firstStar && press >= firstStar.passStart - 1e-6 && c.press_from_beats_before === bal.tutorial_cue.press_from_beats_before;
+    const hits = mw.filter((w) => w.from < handEnd && appear < w.gone);
+    const gap = Math.min(...mw.map((w) => (w.gone <= appear ? appear - w.gone : w.from >= handEnd ? w.from - handEnd : -1)));
+    check(id, 'S15', isFirst && c.show_from_beats_before === bal.tutorial_cue.show_from_beats_before && pressOk && !hits.length,
+      `tut_tap: 첫 꽉 찬 별 ${(tStar / 1000).toFixed(3)} s, 손가락 ${(appear / 1000).toFixed(3)} ~ ${(handEnd / 1000).toFixed(3)} s · 누름 시작 ${(press / 1000).toFixed(3)} s (별 ${f0(press - tStar)} ms, 통과 창 -${j.pass_early_ms} 안 ${pressOk ? '예' : '아님(!)'}) · 북채 구간과 겹침 ${hits.length ? hits.map((w) => '마디 ' + w.firstBar).join(',') + '(!)' : '없음'} (가장 가까운 북채와 ${f0(gap)} ms)`);
+  }
+
+  // S16 북채 구간 ∩ 판정 별 [놓침 구역 시작, 통과 창 끝] = 없음 (round-2 R1)
+  {
+    const bad = [];
+    let minMargin = Infinity, minVisible = Infinity, capped = 0;
+    for (const w of mw) {
+      for (const st of L.stars) if (w.from < st.passEnd && st.zoneStart < w.gone) bad.push(`마디 ${w.firstBar}~${w.lastBar} ↔ 별 ${st.i}(마디 ${st.bar} 자리 ${st.slot})`);
+      if (w.shrinkStart < w.lastShow - 1e-6) bad.push(`마디 ${w.firstBar} 작아짐 시작이 마지막 보여 주기 별보다 이름`);
+      const nx = L.stars[w.nextStar];
+      if (nx) minMargin = Math.min(minMargin, nx.zoneStart - w.gone);
+      minVisible = Math.min(minVisible, w.shrinkStart - w.lastShow);
+      if (w.capped) capped++;
+    }
+    check(id, 'S16', !bad.length, mw.length
+      ? (bad.length ? `겹침: ${bad.join(' / ')}` : `북채 묶음 ${mw.length}개 모두 판정 별 위험 구간과 겹침 없음 · 사라짐 → 다음 별 놓침 구역 최소 ${f0(minMargin)} ms · 마지막 타격 → 작아짐 시작 최소 ${f0(minVisible)} ms · 상한 적용 ${capped}/${mw.length}`)
+      : '보여 주기 마디 없음(북채 없음)');
   }
 }
 
@@ -264,7 +297,7 @@ for (let k = 1; k < compiled.length; k++) {
 
 // 봇
 log('\n== 봇 (시도 ' + N + '회, 세션 ' + SESS + '개) ==');
-log('레벨 | 프로필 | 클리어율 | 첫 클리어 중앙값(세션) | 90 % | 평균 진행도(별) | 실패 진행도 중앙값(별) | 이른 탭 실패 비율 | 최다 실패 별 몰림 | 등급 1/2/3');
+log('레벨 | 프로필 | 클리어율 | 첫 클리어 중앙값(세션, 연속 ln0.5/ln(1-p)) | 90 % | 평균 진행도(별) | 실패 진행도 중앙값(별) | 이른 탭 실패 비율 | 최다 실패 별 몰림 | 등급 1/2/3');
 const prog = {};
 for (const L of compiled) {
   const id = L.level.id;
@@ -273,7 +306,7 @@ for (const L of compiled) {
     const r = runProfile(L, p, bal, { N, sessions: SESS });
     report.levels[id].bots[pn] = r;
     const rs = r.grade_share_of_clears;
-    log(`${id} | ${pn} | ${r.clear_rate} | ${r.median_first_clear_sessions} (기하 ${r.median_first_clear_geom}) | ${r.p90_first_clear_sessions} | ${r.mean_progress} % | ${r.median_fail_progress ?? '-'} % | ${r.early_fail_share} | ${r.top_fail_star_share} (별 ${r.top_fail_star}) | ${rs ? `${rs.one}/${rs.two}/${rs.three}` : '-'}`);
+    log(`${id} | ${pn} | ${r.clear_rate} | ${r.median_first_clear_sessions} (연속 ${r.median_first_clear_continuous ?? '-'}) | ${r.p90_first_clear_sessions} | ${r.mean_progress} % | ${r.median_fail_progress ?? '-'} % | ${r.early_fail_share} | ${r.top_fail_star_share} (별 ${r.top_fail_star}) | ${rs ? `${rs.one}/${rs.two}/${rs.three}` : '-'}`);
   }
   prog[id] = report.levels[id].bots;
 }
@@ -294,10 +327,11 @@ for (let k = 1; k < compiled.length; k++) {
   const ma = prog[a].child_sd70.median_first_clear_sessions, mc = prog[c].child_sd70.median_first_clear_sessions;
   check(c, 'B5', mc <= V.child_sd70_median_max_growth_vs_prev * ma, `σ70 중앙값 ${a} ${ma}회 → ${c} ${mc}회 (${(mc / ma).toFixed(2)}배 ≤ ${V.child_sd70_median_max_growth_vs_prev})`);
 }
-// B6·B7 레벨 10 목표 (요청자 지시: 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6)
+// B6·B7 레벨 10 목표 (요청자 지시: 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6). round-2 R3: 연속 중앙값으로 판정
 {
   const R = V.l10_target_rule;
-  const med = (id) => prog[id]?.child_sd70.median_first_clear_sessions;
+  const med = (id) => prog[id]?.child_sd70.median_first_clear_continuous;
+  const imed = (id) => prog[id]?.child_sd70.median_first_clear_sessions;
   const b1 = R.base_levels[0], b2 = R.base_levels[1], b3 = R.base_levels[R.base_levels.length - 1];
   const m1 = med(b1), m2 = med(b2), m3 = med(b3);
   const steps = +b3 - +b1; // L1→L3 = 2 단계 (기하 평균 배율 = 단계 배율들의 기하 평균)
@@ -306,16 +340,19 @@ for (let k = 1; k < compiled.length; k++) {
   const T = m3 * Math.pow(r, ahead);
   const lo = (1 - R.tolerance_ratio) * T, hi = (1 + R.tolerance_ratio) * T;
   const m10 = med(R.apply_to_level);
-  report.l10_target = { m01: m1, m02: m2, m03: m3, ratio: +r.toFixed(4), target_L6_extrapolated: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10, quick: QUICK };
-  log(`\n== 레벨 10 목표 (B6) ==\n  r = (${m2}/${m1} × ${m3}/${m2})^(1/${steps}) = (${m3}/${m1})^(1/${steps}) = ${r.toFixed(4)} · T = ${m3} × r^${ahead} = ${T.toFixed(2)} · 범위 ±${100 * R.tolerance_ratio} % = ${lo.toFixed(2)} ~ ${hi.toFixed(2)}${QUICK ? ' (--quick: 참고용, 판정은 전체 실행)' : ''}`);
-  // --quick 은 세션 400개라 L1~L3 중앙값이 흔들려 목표 자체가 달라짐 → 판정하지 않고 정보로만 출력 (판정 = 전체 실행)
+  // 참고: 정수 중앙값으로 같은 식
+  const i1 = imed(b1), i3 = imed(b3), ir = Math.pow(i3 / i1, 1 / steps), iT = i3 * Math.pow(ir, ahead);
+  report.l10_target = { estimator: 'continuous_median', m01: m1, m02: m2, m03: m3, ratio: +r.toFixed(4), target_L6_extrapolated: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10,
+    integer_reference: { m01: i1, m02: imed(b2), m03: i3, ratio: +ir.toFixed(4), target: +iT.toFixed(2), L10: imed(R.apply_to_level) }, quick: QUICK };
+  log(`\n== 레벨 10 목표 (B6, 연속 중앙값 m~ = ln0.5/ln(1-p)) ==\n  r = (${m2}/${m1} × ${m3}/${m2})^(1/${steps}) = (${m3}/${m1})^(1/${steps}) = ${r.toFixed(4)} · T = ${m3} × r^${ahead} = ${T.toFixed(2)} · 범위 ±${100 * R.tolerance_ratio} % = ${lo.toFixed(2)} ~ ${hi.toFixed(2)}${QUICK ? ' (--quick: 참고용, 판정은 전체 실행)' : ''}`);
+  log(`  참고(판정 안 함) 정수 중앙값: L1~L3 ${i1}/${imed(b2)}/${i3} → r ${ir.toFixed(4)} · T ${iT.toFixed(2)} · L10 ${imed(R.apply_to_level)}`);
   const chk = QUICK ? (lv, code, ok, msg) => log(`  정보 ${code}(--quick, 판정 안 함) ${ok ? '범위 안' : '범위 밖'}: ${msg}`) : check;
-  chk(R.apply_to_level, 'B6', m10 !== undefined && m10 >= lo && m10 <= hi, `L10 σ70 중앙값 ${m10}회 ∈ [${lo.toFixed(1)}, ${hi.toFixed(1)}] (L1~L3 ${m1}/${m2}/${m3}, 기하 평균 배율 ${r.toFixed(3)}, L6 외삽 ${T.toFixed(2)})`);
+  chk(R.apply_to_level, 'B6', m10 != null && m10 >= lo && m10 <= hi, `L10 σ70 연속 중앙값 ${m10}회 ∈ [${lo.toFixed(2)}, ${hi.toFixed(2)}] (T 대비 ${(100 * (m10 / T - 1)).toFixed(1)} %, L1~L3 ${m1}/${m2}/${m3}, 기하 평균 배율 ${r.toFixed(4)}, L6 외삽 ${T.toFixed(2)}; 정수 중앙값 ${imed(R.apply_to_level)})`);
   const seq = R.monotone_levels.map((id) => [id, med(id)]);
   const bad = [];
   for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
   const insideHi = seq.slice(0, -1).every(([, m]) => m < hi);
-  chk(R.apply_to_level, 'B7', !bad.length && insideHi, `σ70 중앙값 ${seq.map(([id, m]) => `L${+id} ${m}`).join(' < ')} → ${bad.length ? `단조 아님: ${bad}` : '엄격 단조 증가'} · L3~L9 가 L10 목표 상한 ${hi.toFixed(1)} 미만 ${insideHi ? '예' : '아님(!)'}`);
+  chk(R.apply_to_level, 'B7', !bad.length && insideHi, `σ70 연속 중앙값 ${seq.map(([id, m]) => `L${+id} ${m}`).join(' < ')} → ${bad.length ? `단조 아님: ${bad}` : '엄격 단조 증가'} · L3~L9 가 L10 목표 상한 ${hi.toFixed(2)} 미만 ${insideHi ? '예' : '아님(!)'} (정수 중앙값 참고 ${R.monotone_levels.map(imed).join('/')})`);
 }
 {
   const L = compiled[0];
@@ -323,16 +360,40 @@ for (let k = 1; k < compiled.length; k++) {
   check(L.level.id, 'B4', r.median_fail_progress_time >= 10, `σ70 실패 위치 중앙값(레벨 시간) ${r.median_fail_progress_time} % ≥ 10 % (별 기준 ${r.median_fail_progress} %)`);
 }
 
+// C1 보정 계산 정의 일치 (round-2 R4): 시뮬레이터 tools/sim/calib.mjs vs 빌드 games/rhythm-01/js/calib.js
+{
+  const buildCalib = resolve(PROJECT, '..', '..', 'games', 'rhythm-01', 'js', 'calib.js');
+  report.levels._calib = {};
+  log('\n== 보정 계산 정의 (C1) ==');
+  if (!existsSync(buildCalib)) log('  정보 C1 빌드 calib.js 없음 → 비교 생략');
+  else {
+    const bc = await import(pathToFileURL(buildCalib).href);
+    const g = bal.audio_latency.guardian_calibration;
+    const rng = makeRng(2024);
+    let diff = 0, n = 0;
+    for (let k = 0; k < 3000; k++) {
+      const d = -60 + rng.rnd() * 320, sd = [20, 40, 70, 120][k % 4];
+      const rounds = Array.from({ length: 4 }, () => Array.from({ length: g.taps_per_round }, () => d + rng.gauss() * sd));
+      const a = JSON.stringify(simCalib.simulate(rounds, g)), b2 = JSON.stringify(bc.simulate(rounds, g));
+      const xs = rounds[0].slice(0, 6 + (k % 3));
+      n++;
+      if (a !== b2 || simCalib.iqr(xs) !== bc.iqr(xs) || simCalib.median(xs) !== bc.median(xs)) diff++;
+    }
+    check('_calib', 'C1', diff === 0, `무작위 보정 입력 ${n}묶음(오차 σ20~120, 4회분): simulate·iqr·median 결과 다름 ${diff}건 (선형 보간 사분위, 짝수 중앙값 = 가운데 둘 평균, IQR 실패 = 그 회만 다시)`);
+  }
+}
+
 // 곡선 요약
 log('\n== 곡선 요약 (σ70 첫 클리어 중앙값, 세션 시뮬레이션) ==');
-log('레벨 | BPM | 길이 s | 판정 별 | 통과 창 | 새 기믹 | σ25 | σ50 | σ70 | σ90 | 직전 대비');
+log('레벨 | BPM | 길이 s | 판정 별 | 통과 창 | 새 기믹 | σ25 | σ50 | σ70 정수 | σ70 연속 | σ90 | 직전 대비(정수) | 직전 대비(연속)');
 report.curve_summary = {};
 compiled.forEach((L, k) => {
   const id = L.level.id, b = prog[id];
   const prev = k ? prog[compiled[k - 1].level.id].child_sd70.median_first_clear_sessions : null;
-  const m = b.child_sd70.median_first_clear_sessions;
-  report.curve_summary[id] = { sd25: b.skilled_sd25.median_first_clear_sessions, sd50: b.novice_sd50.median_first_clear_sessions, sd70: m, sd90: b.child_sd90.median_first_clear_sessions };
-  log(`${id}${L.level.planned ? '*' : ''} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.stars.length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.level.new_gimmicks.map((x) => x.id).join(',') || '-'} | ${b.skilled_sd25.median_first_clear_sessions} | ${b.novice_sd50.median_first_clear_sessions} | ${m} | ${b.child_sd90.median_first_clear_sessions} | ${prev ? (m / prev).toFixed(2) + '배' : '-'}`);
+  const m = b.child_sd70.median_first_clear_sessions, mc = b.child_sd70.median_first_clear_continuous;
+  const prevC = k ? prog[compiled[k - 1].level.id].child_sd70.median_first_clear_continuous : null;
+  report.curve_summary[id] = { sd70_continuous: mc, sd25: b.skilled_sd25.median_first_clear_sessions, sd50: b.novice_sd50.median_first_clear_sessions, sd70: m, sd90: b.child_sd90.median_first_clear_sessions };
+  log(`${id}${L.level.planned ? '*' : ''} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.stars.length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.level.new_gimmicks.map((x) => x.id).join(',') || '-'} | ${b.skilled_sd25.median_first_clear_sessions} | ${b.novice_sd50.median_first_clear_sessions} | ${m} | ${mc} | ${b.child_sd90.median_first_clear_sessions} | ${prev ? (m / prev).toFixed(2) + '배' : '-'} | ${prevC ? (mc / prevC).toFixed(3) + '배' : '-'}`);
 });
 if (compiled.some((L) => L.level.planned)) log('(* = 곡선 계획, tools/sim/plan.mjs 로 컴파일)');
 

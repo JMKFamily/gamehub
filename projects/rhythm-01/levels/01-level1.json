@@ -40,9 +40,9 @@
       "bar": 1,
       "slot": 0,
       "show_from_beats_before": 1,
-      "press_from_beats_before": 0.5,
+      "press_from_beats_before": 0.25,
       "hide_after": "first_star_judged",
-      "_note": "첫 꽉 찬 별(마디 1 자리 0) 1박 전 = 보여 주기 마디 자리 6 에 나타남. 마디 0 의 북채 타격(자리 0)과 겹치지 않음"
+      "_note": "첫 꽉 찬 별(마디 1 자리 0) 1박 전 = 보여 주기 마디 자리 6 에 나타남. 북채는 마디 0 자리 0 타격 + 0.75박에 이미 다 사라진 뒤(round-2 R1, 검증 S15). 누름은 0.25박 전(-136 ms, 통과 창 안)부터(R2)"
     }
   ],
   "difficulty": {

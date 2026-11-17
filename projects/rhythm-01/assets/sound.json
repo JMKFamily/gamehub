@@ -1,0 +1,976 @@
+{
+ "schema_version": 1,
+ "_source": "assets/sound.json (art-director 원본). 30-art.md 12-4~12-6 표는 사람이 읽는 요약이고, 표와 이 파일이 다르면 이 파일이 기준. 빌드는 이 파일을 읽어 data/sound.json(music 제외)·data/music.json(music)을 만든다.",
+ "_db_rule": "sounds.<이름>.db = 그 소리 층마다 곱하는 기준 게인(dBFS, 층 배율 mul 은 여기에 곱함). 크기 규칙(12-4)은 db 가 아니라 렌더 측정값으로 판단: peak_db = 소리 하나를 마스터 컴프레서까지 렌더한 층 합산 최고값, rms_db = 소리 시작 100 ms RMS(둘 다 sound-check.mjs --render --write 가 적음, 빌드는 읽지 않아도 됨).",
+ "master": {
+  "comp": {
+   "threshold": -3,
+   "knee": 0,
+   "ratio": 20,
+   "attack": 0.003,
+   "release": 0.1
+  },
+  "bus_ramp_ms": 50
+ },
+ "noise_buffer_s": 1,
+ "sounds": {
+  "tap": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "env": {
+      "a": 1,
+      "decay": 220
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ],
+   "peak_db": -6.6,
+   "rms_db": -16.4
+  },
+  "tap_top": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 150,
+     "fTo": 90,
+     "glideMs": 70,
+     "env": {
+      "a": 1,
+      "decay": 300
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ],
+   "peak_db": -6.5,
+   "rms_db": -14.9
+  },
+  "tap_pass": {
+   "bus": "sfx",
+   "db": -6,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "filter": {
+      "type": "lowpass",
+      "f": 1200,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 1,
+      "decay": 220
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.125,
+     "filter": {
+      "type": "bandpass",
+      "f": 3000,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ],
+   "peak_db": -6.6,
+   "rms_db": -16.2
+  },
+  "teacher": {
+   "bus": "sfx",
+   "db": -14,
+   "post": {
+    "type": "lowpass",
+    "f": 600,
+    "Q": 0.7
+   },
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 130,
+     "fTo": 75,
+     "glideMs": 80,
+     "env": {
+      "a": 3,
+      "decay": 280
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 260,
+     "fTo": 150,
+     "glideMs": 80,
+     "mul": 0.15,
+     "env": {
+      "a": 3,
+      "decay": 280
+     }
+    }
+   ],
+   "peak_db": -13.4,
+   "rms_db": -22.8
+  },
+  "stray": {
+   "bus": "sfx",
+   "db": -24,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 190,
+     "fTo": 120,
+     "glideMs": 60,
+     "filter": {
+      "type": "lowpass",
+      "f": 800,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 1,
+      "decay": 50
+     }
+    }
+   ],
+   "peak_db": -23.7,
+   "rms_db": -40.7
+  },
+  "bell_high": {
+   "bus": "sfx",
+   "db": -14,
+   "note": "fCh",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 2,
+      "decay": 250
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 1.5,
+     "mul": 0.3,
+     "env": {
+      "a": 2,
+      "decay": 250
+     }
+    }
+   ],
+   "peak_db": -11.9,
+   "rms_db": -23.2
+  },
+  "bell_low": {
+   "bus": "sfx",
+   "db": -18,
+   "note": "fCl",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 2,
+      "decay": 150
+     }
+    }
+   ],
+   "peak_db": -18.2,
+   "rms_db": -30
+  },
+  "tick": {
+   "bus": "sfx",
+   "db": -12,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1200,
+     "env": {
+      "a": 1,
+      "decay": 30
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 2000,
+      "Q": 2
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 15
+     }
+    }
+   ],
+   "peak_db": -12.5,
+   "rms_db": -31.1
+  },
+  "tick_one": {
+   "bus": "sfx",
+   "db": -10,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1600,
+     "env": {
+      "a": 1,
+      "decay": 30
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.5,
+     "filter": {
+      "type": "bandpass",
+      "f": 2000,
+      "Q": 2
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 15
+     }
+    }
+   ],
+   "peak_db": -10.1,
+   "rms_db": -28.8
+  },
+  "fail": {
+   "bus": "sfx",
+   "db": -10,
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 330,
+     "fTo": 196,
+     "glideMs": 200,
+     "env": {
+      "a": 8,
+      "linEnd": 280
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.4,
+     "filter": {
+      "type": "lowpass",
+      "f": 900,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 2,
+      "decay": 120
+     }
+    }
+   ],
+   "peak_db": -9.1,
+   "rms_db": -15.4
+  },
+  "best": {
+   "bus": "sfx",
+   "db": -14,
+   "delayMs": 100,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1320,
+     "env": {
+      "a": 5,
+      "decay": 150
+     }
+    }
+   ],
+   "peak_db": -12.4,
+   "rms_db": -24.3
+  },
+  "clear": {
+   "bus": "sfx",
+   "db": -10,
+   "arpeggio": {
+    "major": [
+     0,
+     4,
+     7,
+     12
+    ],
+    "minor": [
+     0,
+     3,
+     7,
+     12
+    ],
+    "stepMs": 90,
+    "octaveMul": 2,
+    "lastDecay": 600
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "filter": {
+      "type": "lowpass",
+      "f": 3000,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 5,
+      "decay": 90
+     }
+    }
+   ],
+   "peak_db": -8.5,
+   "rms_db": -23.9
+  },
+  "menu": {
+   "bus": "sfx",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 660,
+     "env": {
+      "a": 2,
+      "decay": 30
+     }
+    }
+   ],
+   "peak_db": -16.4,
+   "rms_db": -34.5
+  },
+  "kick": {
+   "bus": "music",
+   "db": -16,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 110,
+     "fTo": 45,
+     "glideMs": 40,
+     "env": {
+      "a": 1,
+      "decay": 120
+     }
+    }
+   ],
+   "peak_db": -17.4,
+   "rms_db": -29.3
+  },
+  "kick_one": {
+   "bus": "music",
+   "db": -13,
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 110,
+     "fTo": 45,
+     "glideMs": 40,
+     "env": {
+      "a": 1,
+      "decay": 120
+     }
+    }
+   ],
+   "peak_db": -14.4,
+   "rms_db": -26.3
+  },
+  "bass": {
+   "bus": "music",
+   "db": -20,
+   "post": {
+    "type": "lowpass",
+    "f": 400,
+    "Q": 0.7
+   },
+   "duck": {
+    "mul": 0.5,
+    "downMs": 5,
+    "holdMs": 80
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "env": {
+      "a": 10,
+      "d": 200,
+      "s": 0.5,
+      "r": 80
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 0.5,
+     "mul": 0.4,
+     "env": {
+      "a": 10,
+      "d": 200,
+      "s": 0.5,
+      "r": 80
+     }
+    }
+   ],
+   "peak_db": -16.5,
+   "rms_db": -24.1
+  },
+  "pad": {
+   "bus": "music",
+   "db": -20,
+   "post": {
+    "type": "lowpass",
+    "f": 1500,
+    "Q": 0.7
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "detune": -7,
+     "env": {
+      "a": 300,
+      "d": 0,
+      "s": 1,
+      "r": 600
+     }
+    },
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "detune": 7,
+     "env": {
+      "a": 300,
+      "d": 0,
+      "s": 1,
+      "r": 600
+     }
+    }
+   ],
+   "peak_db": -20.1,
+   "rms_db": -32.5
+  },
+  "shaker": {
+   "bus": "music",
+   "db": -24,
+   "layers": [
+    {
+     "wave": "noise",
+     "filter": {
+      "type": "highpass",
+      "f": 6000,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 2,
+      "decay": 25
+     }
+    }
+   ],
+   "peak_db": -21.3,
+   "rms_db": -44.8
+  },
+  "mel_X": {
+   "bus": "music",
+   "db": -18,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 350
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 4,
+     "mul": 0.2,
+     "env": {
+      "a": 30,
+      "decay": 350
+     }
+    }
+   ],
+   "peak_db": -15.3,
+   "rms_db": -24.2
+  },
+  "mel_O": {
+   "bus": "music",
+   "db": -18,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 600
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 3,
+     "mul": 0.15,
+     "env": {
+      "a": 30,
+      "decay": 600
+     }
+    }
+   ],
+   "peak_db": -15.6,
+   "rms_db": -23.1
+  },
+  "mel_F": {
+   "bus": "music",
+   "db": -18,
+   "layers": [
+    {
+     "wave": "triangle",
+     "fMul": 1,
+     "filter": {
+      "type": "lowpass",
+      "f": 2500,
+      "Q": 0.7
+     },
+     "vibrato": {
+      "hz": 5,
+      "cents": 8,
+      "afterMs": 150
+     },
+     "env": {
+      "a": 40,
+      "d": 100,
+      "s": 0.7,
+      "r": 120
+     }
+    }
+   ],
+   "peak_db": -16.6,
+   "rms_db": -23.5
+  },
+  "mel_M": {
+   "bus": "music",
+   "db": -18,
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 1,
+     "env": {
+      "a": 30,
+      "decay": 400
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 4,
+     "mul": 0.25,
+     "env": {
+      "a": 30,
+      "decay": 80
+     }
+    }
+   ],
+   "peak_db": -14.9,
+   "rms_db": -23.9
+  },
+  "harmony_db": -24
+ },
+ "parts": {
+  "countin": [
+   "kick",
+   "tick"
+  ],
+  "show": [
+   "kick",
+   "bass",
+   "pad",
+   "shaker",
+   "teacher"
+  ],
+  "play": [
+   "kick",
+   "bass",
+   "pad",
+   "shaker",
+   "melody"
+  ],
+  "rest": [
+   "kick",
+   "pad"
+  ],
+  "outro": [
+   "bass",
+   "pad"
+  ],
+  "melody_from_stage": 2,
+  "harmony_from_stage": 3,
+  "shaker_when_allowed_slots_not": "even",
+  "bass_duck_on": [
+   "play",
+   "show"
+  ]
+ },
+ "music": {
+  "_source": "30-art.md 12-5 (assets/sound.json music). BPM 은 levels 파일이 기준",
+  "levels": {
+   "10": {
+    "key": "C 장조 5음",
+    "root3": 130.81,
+    "fCl": 1046.5,
+    "fCh": 1569.8,
+    "melody": [
+     "O",
+     "X"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 1, "d": 2, "len": 1 },
+     { "s": 3, "d": 3, "len": 1 },
+     { "s": 5, "d": 4, "len": 2 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 9, "d": 2, "len": 1 },
+     { "s": 11, "d": 4, "len": 1 },
+     { "s": 13, "d": 5, "len": 3 }
+    ]
+   },
+   "01": {
+    "key": "C 장조 5음",
+    "root3": 130.81,
+    "fCl": 1046.5,
+    "fCh": 1569.8,
+    "melody": [
+     "X"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 1, "d": 2, "len": 1 },
+     { "s": 3, "d": 3, "len": 1 },
+     { "s": 5, "d": 4, "len": 2 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 9, "d": 2, "len": 1 },
+     { "s": 11, "d": 1, "len": 1 },
+     { "s": 13, "d": 0, "len": 3 }
+    ]
+   },
+   "02": {
+    "key": "G 장조 5음",
+    "root3": 196,
+    "fCl": 1568,
+    "fCh": 2352,
+    "melody": [
+     "O"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 2, "d": 3, "len": 1 },
+     { "s": 3, "d": 5, "len": 1 },
+     { "s": 6, "d": 4, "len": 1 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 10, "d": 2, "len": 1 },
+     { "s": 11, "d": 3, "len": 1 },
+     { "s": 14, "d": 1, "len": 1 },
+     { "s": 15, "d": 2, "len": 1 }
+    ]
+   },
+   "03": {
+    "key": "F 장조 5음",
+    "root3": 174.61,
+    "fCl": 1396.9,
+    "fCh": 2095.4,
+    "melody": [
+     "X"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 3, "d": 4, "len": 3 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 11, "d": 2, "len": 3 },
+     { "s": 15, "d": 1, "len": 1 }
+    ]
+   },
+   "04": {
+    "key": "D 장조 5음",
+    "root3": 146.83,
+    "fCl": 1174.7,
+    "fCh": 1762,
+    "melody": [
+     "F"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 1, "d": 0, "len": 2 },
+     { "s": 3, "d": 2, "len": 2 },
+     { "s": 5, "d": 4, "len": 3 },
+     { "s": 9, "d": 3, "len": 2 },
+     { "s": 11, "d": 2, "len": 2 },
+     { "s": 13, "d": 3, "len": 3 }
+    ]
+   },
+   "05": {
+    "key": "A 단조 5음",
+    "root3": 220,
+    "fCl": 1760,
+    "fCh": 2640,
+    "melody": [
+     "O"
+    ],
+    "scale": [
+     0,
+     3,
+     5,
+     7,
+     10
+    ],
+    "minor": true,
+    "motif": [
+     { "s": 2, "d": 0, "len": 1 },
+     { "s": 3, "d": 1, "len": 1 },
+     { "s": 5, "d": 2, "len": 1 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 10, "d": 4, "len": 1 },
+     { "s": 11, "d": 3, "len": 1 },
+     { "s": 13, "d": 2, "len": 2 },
+     { "s": 15, "d": 1, "len": 1 }
+    ]
+   },
+   "06": {
+    "key": "E♭ 장조 5음",
+    "root3": 155.56,
+    "fCl": 1244.5,
+    "fCh": 1866.8,
+    "melody": [
+     "M"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 1, "d": 5, "len": 1 },
+     { "s": 3, "d": 4, "len": 2 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 9, "d": 4, "len": 1 },
+     { "s": 11, "d": 2, "len": 1 },
+     { "s": 13, "d": 3, "len": 3 }
+    ]
+   },
+   "07": {
+    "key": "D 도리안",
+    "root3": 146.83,
+    "fCl": 1174.7,
+    "fCh": 1762,
+    "melody": [
+     "F"
+    ],
+    "scale": [
+     0,
+     2,
+     3,
+     5,
+     7,
+     9,
+     10
+    ],
+    "minor": true,
+    "motif": [
+     { "s": 4, "d": 4, "len": 1 },
+     { "s": 5, "d": 3, "len": 1 },
+     { "s": 7, "d": 4, "len": 1 },
+     { "s": 12, "d": 5, "len": 1 },
+     { "s": 13, "d": 4, "len": 1 },
+     { "s": 15, "d": 2, "len": 1 }
+    ]
+   },
+   "08": {
+    "key": "B♭ 장조 5음",
+    "root3": 233.08,
+    "fCl": 1864.7,
+    "fCh": 2797,
+    "melody": [
+     "M"
+    ],
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "minor": false,
+    "motif": [
+     { "s": 3, "d": 2, "len": 2 },
+     { "s": 5, "d": 3, "len": 1 },
+     { "s": 7, "d": 4, "len": 1 },
+     { "s": 11, "d": 3, "len": 2 },
+     { "s": 13, "d": 1, "len": 3 }
+    ]
+   },
+   "09": {
+    "key": "E 단조 5음",
+    "root3": 164.81,
+    "fCl": 1318.5,
+    "fCh": 1977.8,
+    "melody": [
+     "X"
+    ],
+    "scale": [
+     0,
+     3,
+     5,
+     7,
+     10
+    ],
+    "minor": true,
+    "motif": [
+     { "s": 3, "d": 5, "len": 2 },
+     { "s": 5, "d": 4, "len": 2 },
+     { "s": 7, "d": 3, "len": 1 },
+     { "s": 13, "d": 2, "len": 2 },
+     { "s": 15, "d": 3, "len": 1 }
+    ]
+   }
+  },
+  "calib_check_hz": 1046.5,
+  "melody": {
+   "_rule": "레벨별 2마디 동기(levels.NN.motif). 자리 s = 2마디 틀 안 8분 자리(0~7 = 홀수 번째 마디, 8~15 = 짝수 번째 마디), d = 그 레벨 음계 도수(0 = 근음3×octave_mul, 음계 길이를 넘으면 한 옥타브 위), len = 8분 개수(음 길이). 마디 b(레벨 마디 번호, 카운트인 제외 0부터)는 b % frame_bars 번째 반쪽을 쓴다. 따라 치기 마디이면서 진행 단계 ≥ from_stage 일 때만 울림(보여 주기·쉬는·카운트인 마디는 끔). 그 마디 판정 별 자리와 같은 자리면 avoid_star.try 순서(같은 마디 안 0~7, 별·다른 멜로디 음이 없는 자리)로 옮기고, 없으면 그 음을 뺀다. 악기 = melody[동기 음 번호 % 악기 수]. 화음 = 진행 단계 ≥ harmony.from_stage 에서 d + deg_plus 를 sounds.harmony_db 로 같이. outro 첫 마디 자리 0 에 도수 0, outro_len 8분.",
+   "octave_mul": 2,
+   "frame_bars": 2,
+   "frame_slots": 16,
+   "max_degree": 7,
+   "max_len": 4,
+   "from_stage": 2,
+   "avoid_star": {
+    "try": [
+     0,
+     -1,
+     1
+    ],
+    "same_bar_only": true,
+    "else": "drop"
+   },
+   "harmony": {
+    "from_stage": 3,
+    "deg_plus": 2
+   },
+   "outro": {
+    "slot": 0,
+    "d": 0,
+    "len": 4
+   },
+   "instrument_pick": "motif_note_index_mod"
+  },
+  "melody_placeholder": {
+   "_status": "폐기 (round 2): motif + melody 규칙이 대신함. 1-3 빌드 D10 자리 표시 참고용",
+   "octave_mul": 2,
+   "slots": [
+    0,
+    4
+   ],
+   "shift_if_star_slots": -1,
+   "degree_walk": [
+    0,
+    2,
+    4,
+    2,
+    1,
+    3,
+    4,
+    0
+   ]
+  }
+ },
+ "verify": {
+  "loudness_rule": {
+   "_rule": "층 합산 최고값 기준(소리 하나를 마스터 컴프레서까지 오프라인 렌더). 아이 탭(child_tap 중 가장 작은 최고값)이 다른 모든 효과음(bus sfx) 최고값보다 tap_over_sfx_peak_db 이상 크고, 아이 탭 RMS(소리 시작 100 ms, child_tap 중 최소) − 둥둥이 RMS ≥ tap_over_teacher_rms_db. 검사: node assets/sound-check.mjs --render",
+   "child_tap": [
+    "tap",
+    "tap_top",
+    "tap_pass"
+   ],
+   "teacher": "teacher",
+   "tap_over_sfx_peak_db": 1,
+   "tap_over_teacher_rms_db": 6
+  },
+  "measured": {
+   "tap_peak_min": -6.58,
+   "sfx_peak_max": -8.46,
+   "sfx_peak_max_sound": "clear",
+   "tap_over_sfx_peak_db": 1.89,
+   "tap_rms_min": -16.36,
+   "teacher_rms": -22.75,
+   "tap_over_teacher_rms_db": 6.4,
+   "how": "node assets/sound-check.mjs --render (Edge OfflineAudioContext 48 kHz, 빌드 AudioOut.play, 마스터 컴프레서 뒤, 소리 하나씩)"
+  }
+ }
+}

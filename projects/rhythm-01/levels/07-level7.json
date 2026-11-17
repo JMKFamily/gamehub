@@ -25,7 +25,7 @@
     "D",
     "G"
   ],
-  "design_intent": "새 기믹 = 반박 4연속(둥두둥두, 자리 0~3). 4연속은 마디 앞쪽에만 두고 4연속이 든 마디 다음은 항상 쉬는 마디. R(둥두둥두) 보여 주기 → 따라 치기, 둘 뒤 R 한 번 더, S(둥두둥두 _ 둥) 보여 주기 → 따라 치기, 끝은 G·S. 판정 별 28개.",
+  "design_intent": "새 기믹 = 반박 4연속(둥두둥두, 자리 0~3). 4연속은 마디 앞쪽에만 두고 4연속이 든 마디 다음은 항상 쉬는 마디. 시작은 둘(B), R(둥두둥두) 보여 주기 → 따라 치기, 둘 뒤 R 한 번 더, S(둥두둥두 _ 둥) 보여 주기 → 따라 치기, 끝은 G·S. 판정 별 26개(r2: 마디 0 D → B, 28 → 26).",
   "new_gimmicks": [
     {
       "id": "eighth_run4",
@@ -40,18 +40,16 @@
   },
   "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 15,
+    "target_child_sd70_median_max": 12,
     "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
   },
   "patterns": {
-    "D": {
+    "B": {
       "slots": [
         0,
-        2,
-        4,
-        6
+        2
       ],
-      "shape": "넷"
+      "shape": "둘"
     },
     "R": {
       "slots": [
@@ -61,13 +59,6 @@
         3
       ],
       "shape": "둥두둥두"
-    },
-    "B": {
-      "slots": [
-        0,
-        2
-      ],
-      "shape": "둘"
     },
     "S": {
       "slots": [
@@ -152,7 +143,7 @@
     }
   ],
   "bars": [
-    {"mode":"play","pattern":"D"},
+    {"mode":"play","pattern":"B"},
     {"mode":"rest"},
     {"mode":"show","pattern":"R"},
     {"mode":"play","pattern":"R"},

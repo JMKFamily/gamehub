@@ -25,3 +25,9 @@
 ## 1-6 집계 감시 (qa-engineer)
 - score.md: 가중 6.925, 게이트 실패(총점), 전 영역 6.0 이상·blocker 0 통과. 이슈 35 → 22건(major 5: M1 북채·손가락, M2 1% low, M3 B6 경계, M4 카드 공 16 px, M5 멜로디).
 - `harness/criteria.md`: 12줄 덧붙임, `git diff --numstat` = 12 추가 / 0 삭제 직접 확인. 결정 R3(B6 연속 중앙값) 줄 포함.
+
+## round-2 기획 수정 감시
+- lore: `10-lore.md`(4절 R1 문장, 6-3, 7-10 사용 규칙 신설)만. 키 64 유지, 문구 변경 0 — 통과.
+- art: `30-art.md`, `assets/`(sound.json 원본, sound-check.mjs, 카드 5장 R10 + 세로판 5장, icon-card, 목업 8). 외부 href 0, `palette.mjs --check` 통과, `sound-check.mjs` OK(멜로디 168음 중 별 시각 시작 0), 탭−둥둥이 RMS 6.40 dB — 통과.
+- balance: `balance.json`, `levels/01`(press_from 0.25만)·`04~10`(무늬만 교체, 새 기믹·카드 0), `tools/sim/*`(calib.mjs 신설), `verify-levels.mjs`(S15 강화·S16·C1). 기존 키는 `_r1_deprecated`로 보존. **전체 실행 직접: 종료 0, FAIL 0, ALL PASS.** B6 연속 중앙값 L10 13.363 ∈ [10.96, 16.44](T 13.70, 배율 1.4849), B7 엄격 단조 — 통과.
+- 다음: game-developer round-2 구현.

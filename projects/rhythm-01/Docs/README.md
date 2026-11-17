@@ -4,6 +4,10 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | round-2 기획 | [북채 퇴장(마지막 별 +0.5박, S15·S16)·손가락 0.25박·B6 연속 중앙값(T 13.70, L10 13.36)·L4~L10 별 1~3개 줄임·보정 정의 통일(C1), 검증 ALL PASS 193](balance-designer/2026-11-17-r2-balance-revision.md) |
+| 2026-11-17 | art-director | round-2 기획 | [아트·사운드 수정: 북채 퇴장(R1)·세로 카드·레벨 카드·확인 창(R6)·sound.json·멜로디 동기 10개·소리 크기 1.9/6.4 dB(R7)·카드 손가락(R10)](art-director/2026-11-17-r2-art-revision.md) |
+| 2026-11-17 | lore-writer | round-2 기획 | [10-lore 수정: 북채 마지막 타격 직후 퇴장·손가락은 그 뒤(R1), 7-10 aria 사용 규칙(R8), 키 64 그대로](lore-writer/2026-11-17-r2-lore-revision.md) |
+| 2026-11-17 | qa-engineer | 1-6 | [round-1 점수 집계: 가중 6.925·게이트 실패·이슈 22건 병합·criteria 12줄 추가](qa-engineer/2026-11-17-1-6-round1-score.md) |
 | 2026-11-17 | art-director | 1-5 | [round-1 시각·사운드 리뷰: 팔레트·소리값 일치, 북채-손가락 충돌·세로 카드 크기(6.0점, REVISE)](art-director/2026-11-17-1-5-round1-review.md) |
 | 2026-11-17 | benchmark-analyst | 1-5 | [round-1 감각 리뷰: 1프레임 반응·재시작 1.09 s 통과·L1 북채/손가락 신호 엇갈림(7.0점, REVISE)](benchmark-analyst/2026-11-17-1-5-round1-review.md) |
 | 2026-11-17 | balance-designer | 1-5 | [round-1 밸런스 리뷰: 곡선 한도 통과·B6 반올림 경계·북채 신호 겹침(7.0점, REVISE)](balance-designer/2026-11-17-1-5-round1-review.md) |

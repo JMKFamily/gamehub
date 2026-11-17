@@ -115,10 +115,33 @@
  "teacher": {
   "turn_signal": "mallet_visible",
   "mallet_appear_beats_before_show_bar": 1,
-  "mallet_hide_at": "show_bar_end",
-  "teacher_drum_db": -12,
+  "mallet_hide_at": "last_show_star",
+  "mallet_hide_group": "show_run",
+  "mallet_hide_after_beats": 0.5,
+  "mallet_shrink_beats": 0.25,
+  "mallet_gone_cap": "next_judged_star_miss_zone_start",
+  "mallet_gone_before_miss_zone_ms": 20,
+  "mallet_hide_formula": "shrink_start = min(last_show_star + mallet_hide_after_beats 박, cap - mallet_shrink_beats 박), gone = shrink_start + mallet_shrink_beats 박, cap = 다음 판정 별 zoneStart(놓침 구역 시작) - mallet_gone_before_miss_zone_ms. 북채 보임 = [등장, gone). 기준 구현 tools/sim/judge.mjs malletSchedule",
+  "mallet_hides_with": [
+   "mallet",
+   "dashed_orbit",
+   "dashed_drum"
+  ],
+  "mallet_hide_at_r1_deprecated": {
+   "value": "show_bar_end",
+   "_status": "deprecated (round-2 R1)",
+   "_note": "round-1 까지의 값. 북채가 보여 주기 마디 끝까지 남아 다음 판정 별의 놓침 구역·이른 통과 창(별 앞 255~290 ms)과 15/16 묶음에서 겹쳤고, L1 첫 별에서는 손가락과 동시에 보였음(QA major 2, balance 리뷰 이슈 2). 빌드·검증기는 읽지 않음. 새 규칙은 mallet_hide_at = last_show_star."
+  },
+  "teacher_drum_db": -14,
+  "teacher_drum_db_source": "assets/sound.json",
+  "teacher_drum_db_r1_deprecated": {
+   "value": -12,
+   "_status": "deprecated (round-2 art R7)",
+   "_note": "art round-2 에서 둥둥이 게인 -12 → -14 dB (탭과 RMS 차 6.4 dB 확보). 소리 값의 원본은 assets/sound.json, 이 키는 참조용."
+  },
   "child_tap_db": -6,
-  "_note": "차례 신호 = 북채가 보이면 볼 차례, 없으면 내 차례 (결정 1). 북채는 보여 주기 마디 1박 전에 나타나고 마디 끝에 사라진다. 그 1박 안에는 판정 별의 통과 창이 없어야 한다(검증 S14). 소리 값은 art 소유, 여기에는 참조만."
+  "_note": "차례 신호 = 북채가 보이면 볼 차례, 없으면 내 차례 (결정 1, round-2 R1 보완). 북채는 보여 주기 묶음(이어진 보여 주기 마디, L6 두 마디 무늬는 2마디가 한 묶음) 첫 마디 1박 전에 나타나고, 그 묶음의 마지막 보여 주기 별 + 0.5박에 0.25박 동안 작아지며 사라진다(점선 궤도·점선 북도 같이). 어떤 경우에도 다음 판정 별의 놓침 구역 시작 전에 다 사라진다(상한에 걸리면 그 시각 - 0.25박부터 작아짐). 등장 1박 안에는 판정 별의 통과 창이 없어야 하고(검증 S14), 북채가 보이는 구간은 어떤 판정 별의 [놓침 구역 시작, 통과 창 끝]·손가락 구간과도 겹치지 않는다(검증 S15·S16). 소리 값은 art 소유(원본 assets/sound.json, round-2 둥둥이 -14 dB), 여기에는 참조만. 20-balance.md 6-4.",
+  "mallet_gone_before_miss_zone_note": "상한 여유 20 ms(60 fps 한 프레임 16.7 ms + 반올림). 북채는 다음 판정 별 놓침 구역 시작 20 ms 전까지 다 사라짐."
  },
  "show_bar_taps": {
   "judge": "same_as_any_tap",
@@ -146,9 +169,16 @@
  "tutorial_cue": {
   "key": "tut_tap",
   "show_from_beats_before": 1,
-  "press_from_beats_before": 0.5,
+  "press_from_beats_before": 0.25,
+  "press_from_beats_before_r1_deprecated": {
+   "value": 0.5,
+   "_status": "deprecated (round-2 R2)",
+   "_note": "0.5박 전(L1 -273 ms)은 첫 별 놓침 구역 [-290, -150] 안이라 손가락 움직임 시작을 따라 친 아이가 \"너무 일찍\" 실패. 0.25박(-136 ms)은 통과 창(-150) 안."
+  },
+  "press_start_must_be_in_pass_window": true,
+  "show_only_after_mallet_gone": true,
   "hide_after": "first_star_judged",
-  "_note": "손가락 그림은 첫 꽉 찬 별 1박 전에 나타나 0.5박 전부터 누르고, 첫 별 판정 뒤 사라짐 (결정 10)."
+  "_note": "손가락 그림은 첫 꽉 찬 별 1박 전에 나타나 0.25박 전부터 누르고(누름 시작이 통과 창 안, 놓침 구역 밖), 첫 별 판정 뒤 사라짐 (결정 10, round-2 R2). 북채가 다 사라진 뒤에만 나타남(R1, 검증 S15: 손가락 구간 [첫 별 - 1박, 첫 별 + pass_late_ms] ∩ 북채 구간 = 없음)."
  },
  "accompaniment": {
   "shaker_slots": "even_only",
@@ -197,7 +227,9 @@
    "_note": "첫 실행 때 자동 1회, 글 없는 화면에서 박(100 BPM 똑딱)에 맞춰 8번 톡. 3번째 탭부터 6개의 (탭 - 박) 중앙값 m 을 구함. 6개의 IQR 이 150 ms 를 넘으면 버리고 이전 값 유지. |m| 이 60 ms 이하이면 오프셋 0(자동 보정만 믿음: 아이 탭 8번의 측정 잡음 약 ±36 ms 가 자동 보정 뒤 남는 오차보다 커서, 작은 값을 넣으면 오히려 판정이 나빠짐), 60 ms 를 넘으면 m 을 수동 오프셋으로 씀(블루투스 등 큰 지연 교정). 건너뛰면 오프셋 0. 설정에서 다시 할 수 있음 (결정 9). 판정 영향은 20-balance.md 8-3, 검증기 출력.",
    "apply_only_if_abs_over_ms": 60,
    "superseded_by": "guardian_calibration",
-   "_superseded_note": "1-3: 보정 화면 흐름은 guardian_calibration(보호자, 2회 12탭, ±30). 이 블록의 bpm·taps·use_from_tap·reject_iqr_ms·offset_clamp_ms 는 그대로 공통값."
+   "_superseded_note": "1-3: 보정 화면 흐름은 guardian_calibration(보호자, 2회 12탭, ±30). 이 블록의 bpm·taps·use_from_tap·reject_iqr_ms·offset_clamp_ms 는 그대로 공통값.",
+   "quantile_definition": "linear_interpolation",
+   "median_definition": "even_mean_of_middle_two"
   },
   "_note": "판정 = (탭 시각을 오디오 시간으로 바꾼 값) - (출력 지연 + 수동 오프셋) - 별 시각. 남는 오차가 봇 기준으로 레벨 1 σ70 첫 클리어 중앙값 5회 이하를 지키는 범위가 l1_child_tolerated_bias_ms (20-balance.md 8장, verify-levels 출력).",
   "guardian_calibration": {
@@ -239,14 +271,19 @@
     "calib_done",
     "btn_skip",
     "btn_settings"
-   ]
+   ],
+   "quantile_definition": "linear_interpolation",
+   "quantile_note": "round-2 R4: 빌드 calib.js 정의가 기준. 정렬 s(n개), 위치 (n-1)·q, 아래 값 + (위 값 - 아래 값)·소수부(type 7). IQR = Q3 - Q1. 6탭이면 Q1 = s[1] + 0.25(s[2]-s[1]), Q3 = s[3] + 0.75(s[4]-s[3]). 기준 구현 tools/sim/calib.mjs (검증 C1 이 빌드와 같은지 확인).",
+   "median_definition": "even_mean_of_middle_two",
+   "retry_rule": "iqr_fail_redo_that_round_only; round_disagree_redo_both_rounds; max_retries_counts_whole_flow",
+   "retry_note": "한 회의 IQR > reject_iqr_ms 면 그 회만 다시(앞 회는 유지). 두 회 중앙값 차이 > round_disagree_max_ms 면 두 회 모두 다시. 다시 하기 횟수는 흐름 전체에서 max_retries(1)번. 그래도 안 되면 이전 오프셋 유지(calib_kept). round-1 시뮬레이터는 IQR 실패 때 두 회를 모두 다시 했고 사분위를 반올림 위치로 잡아 빌드와 달랐음(QA minor 5)."
   },
   "drift_check": {
    "enabled_modes": [
     "normal",
     "practice"
    ],
-   "sample": "nearest_tap_to_each_judged_star",
+   "sample": "judged_tap_error_else_nearest_tap_to_failed_star",
    "sample_window_ms": 300,
    "window_taps": 8,
    "trigger_abs_median_ms": 80,
@@ -272,7 +309,18 @@
     "clears_on": "guardian_calibration_done",
     "max_sessions_shown": 3
    },
-   "_note": "플레이 중 탭이 계속 한쪽으로 크게 밀리면(블루투스 연결·기기 바뀜) 보호자에게 다시 보정을 권하는 그림 신호. 판정 별마다 가장 가까운 탭(±300 ms)의 (탭 - 별) 8개 중앙값이 |80 ms| 이상인 창이 2번 이어지고 시도 3번 이상이면 켬. outputLatency+baseLatency 가 보정 때보다 40 ms 넘게 바뀌거나 출력 기기 바뀜 이벤트가 오면 바로 켬. 신호 = late_hint 와 같은 모래시계 표지(레벨 선택 설정 버튼·설정 박자 맞추기 줄, 플레이 화면 없음, 글·소리·팝업 없음). 오프셋은 자동으로 바꾸지 않음(아이 탭으로 판정을 몰래 바꾸지 않음). 보호자 보정이 끝나면 꺼지고, 무시해도 3세션 뒤 꺼짐. 20-balance.md 8-5."
+   "_note": "플레이 중 탭이 계속 한쪽으로 크게 밀리면(블루투스 연결·기기 바뀜) 보호자에게 다시 보정을 권하는 그림 신호. 판정 별마다 가장 가까운 탭(±300 ms)의 (탭 - 별) 8개 중앙값이 |80 ms| 이상인 창이 2번 이어지고 시도 3번 이상이면 켬. outputLatency+baseLatency 가 보정 때보다 40 ms 넘게 바뀌거나 출력 기기 바뀜 이벤트가 오면 바로 켬. 신호 = late_hint 와 같은 모래시계 표지(레벨 선택 설정 버튼·설정 박자 맞추기 줄, 플레이 화면 없음, 글·소리·팝업 없음). 오프셋은 자동으로 바꾸지 않음(아이 탭으로 판정을 몰래 바꾸지 않음). 보호자 보정이 끝나면 꺼지고, 무시해도 3세션 뒤 꺼짐. 20-balance.md 8-5.",
+   "sample_r1_deprecated": {
+    "value": "nearest_tap_to_each_judged_star",
+    "_status": "deprecated (round-2 R4)",
+    "_note": "round-1 기획 문장(별마다 ±300 ms 안 가장 가까운 아무 탭). 빌드 D15 해석으로 바꿈."
+   },
+   "sample_note": "round-2 R4(DEV_NOTES D15 채택): 맞힌 별 = 그 별을 판정한 탭의 (탭 - 별). 실패한 별(놓침·너무 일찍) = 그 별 ±sample_window_ms 안 가장 가까운 탭(실패 연출 중 늦은 탭 포함), 그 시도의 맞힌 별 표본 뒤에 들어감. 못 친 뒤 별(실패 별 이후)은 표본 없음.",
+   "window_median": "even_mean_of_middle_two",
+   "windows": "non_overlapping_every_window_taps",
+   "trigger_checked_at": "window_end",
+   "min_attempts_scope": "this_level_play",
+   "min_attempts_note": "\"시도 3번 이상\" = 이번 레벨 플레이(레벨 선택에서 들어온 한 번) 안의 시도 수. 창이 끝나는 순간의 시도 번호로 봄. 클리어하면 그 플레이가 끝나 표본·연속 수가 다음 플레이에서 0부터(D15)."
   },
   "late_hint_ms": 100,
   "late_hint": {
@@ -379,16 +427,16 @@
    "max": 20
   },
   "child_sd70_median_max_by_level": {
-   "10": 23,
+   "10": 16,
    "01": 5,
    "02": 8,
    "03": 12,
-   "04": 8,
-   "05": 10,
-   "06": 12,
-   "07": 15,
-   "08": 18,
-   "09": 21
+   "04": 7,
+   "05": 8,
+   "06": 10,
+   "07": 12,
+   "08": 13,
+   "09": 14
   },
   "child_sd70_median_max_growth_vs_prev": 2,
   "theme_id_pattern": "^level\\d{2}$",
@@ -401,7 +449,7 @@
    120,
    220
   ],
-  "_child_sd70_median_max_by_level_note": "1-3: 레벨 4~10 한도 = 설계값(20-balance.md 11-2) × 약 1.25, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 범위 상한(정수) 이하.",
+  "_child_sd70_median_max_by_level_note": "round-2: 레벨 4~10 한도 = 설계 정수 중앙값(20-balance.md 11-2) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 범위 상한(1.2 T = 16.44)의 정수 이하. B1 은 정수 중앙값(세션 2000)으로 판정.",
   "level_count": 10,
   "l10_target_rule": {
    "base_levels": [
@@ -412,7 +460,9 @@
    "extrapolate_to_level": 6,
    "apply_to_level": "10",
    "tolerance_ratio": 0.2,
-   "formula": "r = (m03 / m01)^(1/2) (L1~L3 기하 평균 배율), T = m03 × r^3 (L6 외삽), L10 ∈ [0.8 T, 1.2 T]",
+   "estimator": "continuous_median",
+   "estimator_formula": "m~ = ln 0.5 / ln(1 - p), p = σ70(child_sd70) 첫 시도 클리어율(전체 실행 시도 20000회, 시드 고정)",
+   "formula": "r = (m~03 / m~01)^(1/2) (L1~L3 기하 평균 배율), T = m~03 × r^3 (L6 외삽), L10 m~ ∈ [0.8 T, 1.2 T]",
    "monotone_levels": [
     "03",
     "04",
@@ -424,8 +474,10 @@
     "10"
    ],
    "monotone": "strict_increase",
-   "measured_by": "child_sd70 median_first_clear_sessions, 전체 실행(--quick 아님)",
-   "_note": "요청자 지시(criteria 밸런스 마지막 항목): 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6 수준. 검증 B6(L10 범위)·B7(L3~L10 단조 증가). --quick 은 세션 수가 달라 참고용."
+   "monotone_estimator": "continuous_median",
+   "measured_by": "child_sd70 continuous median (ln0.5/ln(1-p)), 전체 실행(--quick 아님). 정수 중앙값(세션 2000)은 참고로 함께 출력",
+   "integer_median_note": "round-1 까지는 정수 세션 중앙값으로 판정했으나 L1 클리어율 0.306 이 2/3회 경계(51.9 %)라 T 가 19.8 ↔ 10.8 로 뒤집힐 수 있어(round-1 balance 리뷰 이슈 1, 오케스트레이터 R3) 연속 중앙값으로 바꿈.",
+   "_note": "요청자 지시(criteria 밸런스 마지막 항목): 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6 수준. 검증 B6(L10 범위)·B7(L3~L10 단조 증가, L3~L9 < 1.2 T) 모두 연속 중앙값. 빌드 봇 값은 일치 확인용이며 B6 판정에 섞지 않음. --quick 은 참고용."
   },
   "bias_sweep_levels": [
    "01",
