@@ -114,3 +114,7 @@
 - 판단: 북길은 공이 판정 북 위에서 뛰므로 "바로 위"가 공 궤적과 겹칠 수 있음 → art가 공·별·판정 선을 가리지 않는 자리로 정함.
 - 지시(병렬): balance `accuracy` 블록·검증기 INFO / art 표시 규격·layout 글 자리·겹침 검사·16-8 금지 목록 수정 / lore 판정 이름·% 표기·aria + 교차 리뷰 남은 설정 문장 정리. 끝나면 새 코어 dev에 반영 지시.
 - lore 판정 이름·% 통과: `10-lore.md` R3-12(판정 이름 judge_perfect/good/pass = 딱이야·좋아·됐어 / Wow!·Nice·OK, 데이터 등급 키 불변, % "90%" 두 줄, 결과 `result_accuracy`·`result_new_best`, 최고 콤보 `aria_streak_best` 다시 사용), 교차 리뷰 낱말 4곳 정리. 키 70 → 75, 삭제·기존 문구 변경 0. git·서버 미사용.
+
+## 사용 한도 정지·재개 (요청자 지시 CLAUDE.md 0c6f8a4)
+- 약 20:30 사용 한도 도달로 진행 중이던 3개 작업이 멈춤: game-developer 새 코어 구현, balance `accuracy`, art 판정 이름·% 표시. 미커밋 산출물은 되돌리지 않음.
+- 22:52 예약 확인에서 재개: 세 에이전트에 SendMessage로 같은 범위 이어가기 지시(파일 상태 먼저 확인, 끊긴 실행은 다시, 자기 PID만 정리). lore 확정 키(R3-12)와 lore 요청(`judge_pct` 키·신기록 조건 → balance, 표시 자리 → art)을 함께 전달.
