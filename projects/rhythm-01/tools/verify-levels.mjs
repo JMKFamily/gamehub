@@ -45,7 +45,9 @@
 //   K1 콤보 = 성공 판정 수(grades.length), 콤보를 세도 judgeAttempt 결과 불변(봇 탭 재판정)
 // 정보 R17 (round-3): 보정 때와 플레이 때 자동 지연 차이 Δ = 0·64 ms + (round-3 추가) −64·−30·+30 ms 에서 (a) round-2 방식, (b) R11 방식
 //   σ70 첫 클리어 중앙값, (b) Δ ≠ 0 이 Δ 0 과 같은지, R11 안정 대기 시각, 재시작 1.08 s 와의 관계, 빌드 calib.js 에 R11 함수가 있으면 C2 비교 (판정 안 함)
-// 정보 R17b (round-3): 보정 무시 구간 경계값(±30 ms)을 남은 오차로 둔 이른·늦은 시나리오 (처음 보는 무늬 비용 포함, 30회·2배 한도 표시)
+// 정보 R17b (round-3): 보정 무시 구간 경계값(R23 뒤 ±10 ms, 옛 ±30)을 남은 오차로 둔 이른·늦은 시나리오 (처음 보는 무늬 비용 포함, 30회·2배 한도 표시)
+// 정보 R23 (round-3 1-2): 보호자 보정 측정 잡음(어른 σ40, 12탭 사용)을 넣고 기기 남은 오차 d 를 고정, 무시 구간 30(옛)·10(새)에서 남은 오차와 L7~L10 σ70 첫 클리어 (30회 한도)
+//   S17 (round-3 R25) 레벨 길이(카운트인 포함) ∈ verify.level_length_s (00-benchmark 8-5 "30~45 s")
 // 정보 K2: σ70 클리어 시도의 통과 판정 수(R22 예비안이었다면 콤보 끊김 수), 콤보 단계 도달 비율
 // 정보 출력: 박마다 치기, 지연 오차 민감도(1~3), 보정 화면 영향(보호자 보정 포함), 큰 지연 감지, 연습 모드(R21), 해석 예측
 
@@ -147,6 +149,7 @@ for (const { src, lvl } of entries) {
   const j = L.judge;
   const durS = L.durationMs / 1000;
   const chunks = layoutChunks(lvl, bal);
+  check(id, 'S17', durS >= V.level_length_s[0] - 1e-9 && durS <= V.level_length_s[1] + 1e-9, `레벨 길이 ${durS.toFixed(3)} s (카운트인 포함, ${lvl.count_in_bars + lvl.length_bars}마디) ∈ ${V.level_length_s[0]}~${V.level_length_s[1]} s (R25)`);
   report.levels[id].summary = { bpm: lvl.bpm, beat_ms: +L.beatMs.toFixed(1), duration_s: +durS.toFixed(2), stars: L.stars.length, chunks: chunks.length, pass_window_ms: j.pass_early_ms + j.pass_late_ms };
   log(`  정보 BPM ${lvl.bpm} · 1박 ${L.beatMs.toFixed(1)} ms · 길이 ${durS.toFixed(2)} s · 판정 별 ${L.stars.length} · 덩어리 ${chunks.length} (${chunks.map((c) => c.shape + (c.k ? c.empty_before : '')).join(' ')}) · 통과 창 -${j.pass_early_ms}/+${j.pass_late_ms} ms`);
 
@@ -254,9 +257,9 @@ for (const { src, lvl } of entries) {
     const hits = L.stars.slice(1).filter((st) => st.zoneStart < handEnd && appear < st.passEnd);
     const nx = L.stars[1];
     check(id, 'T1', isFirst && c.show_from_beats_before === bal.tutorial_cue.show_from_beats_before && pressOk && !hits.length,
-      `tut_tap: 첫 판정 별 ${(tStar / 1000).toFixed(3)} s, 손가락 ${(appear / 1000).toFixed(3)} ~ ${(handEnd / 1000).toFixed(3)} s · 누름 시작 ${f0(press - tStar)} ms (통과 창 -${j.pass_early_ms} 안 ${pressOk ? '예' : '아님(!)'}) · 다른 판정 별 위험 구간과 겹침 ${hits.length ? hits.map((s) => '별 ' + s.i).join(',') + '(!)' : '없음'} (둘째 별 놓침 구역까지 ${nx ? f0(nx.zoneStart - handEnd) : '-'} ms) · 북채 없음`);
+      `${c.key}: 첫 판정 별 ${(tStar / 1000).toFixed(3)} s, 손가락 ${(appear / 1000).toFixed(3)} ~ ${(handEnd / 1000).toFixed(3)} s · 누름 시작 ${f0(press - tStar)} ms (통과 창 -${j.pass_early_ms} 안 ${pressOk ? '예' : '아님(!)'}) · 다른 판정 별 위험 구간과 겹침 ${hits.length ? hits.map((s) => '별 ' + s.i).join(',') + '(!)' : '없음'} (둘째 별 놓침 구역까지 ${nx ? f0(nx.zoneStart - handEnd) : '-'} ms) · 북채 없음`);
   }
-  if (id === '01' && !(lvl.cues || []).some((c) => c.key === bal.tutorial_cue.key)) check(id, 'T1', false, 'tut_tap 손가락 없음(!)');
+  if (id === '01' && !(lvl.cues || []).some((c) => c.key === bal.tutorial_cue.key)) check(id, 'T1', false, `${bal.tutorial_cue.key} 손가락 없음(!)`);
 
   // N1~N11 (R20)
   const hz = starHazards(L, bal.bots.profiles.child_sd70, bal, { N });
@@ -602,6 +605,38 @@ for (const [name, fn] of scen) {
       const grow = ints.slice(1).filter((x, k) => x > V.child_sd70_median_max_growth_vs_prev * ints[k]).length;
       log(`${bias > 0 ? '+' : ''}${bias} | ${row.join(' | ')} | 30회 넘음 ${over}레벨 · 2배 넘음 ${grow}곳${bias ? '' : ' (기준)'}`);
     }
+  }
+}
+
+// 정보 R23 (round-3 1-2): 무시 구간 하한 30 → 10 ms. 측정 잡음이 남은 오차를 키우지 않는지, L7~L10 30회 한도
+{
+  const R = V.r23_calibration_noise;
+  if (R) {
+    const g0 = bal.audio_latency.guardian_calibration;
+    const S = QUICK ? Math.round(R.sessions / 4) : R.sessions;
+    const lv = compiled.filter((L) => R.levels.includes(L.level.id));
+    log(`
+== 정보 R23: 보호자 보정 측정 잡음(σ${R.tapper_sd_ms}, ${g0.rounds}회 × ${g0.taps_per_round}탭, ${g0.use_from_tap}번째부터 사용) — 기기 남은 오차 d 고정, 무시 구간별 남은 오차와 σ70 첫 클리어 정수 중앙값 (연속), 처음 보는 무늬 비용 포함 세션 ${S}개 (지금 값 ${g0.apply_only_if_abs_over_ms} ms) ==`);
+    log('무시 구간 ms | d ms | 남은 오차 평균 |r| | |r| > |d| 비율 | 이른 쪽 r < −12 비율 | ' + lv.map((L) => 'L' + L.level.id).join(' | ') + ' | 30회 넘음');
+    report.r23 = {};
+    let worstNew = 0;
+    for (const thr of R.thresholds_ms) {
+      const g = { ...g0, apply_only_if_abs_over_ms: thr };
+      for (const d of R.fixed_device_residual_ms) {
+        const fn = guardianCalibrationBias(bal.audio_latency.calibration, g, { device: [d, d], sd: R.tapper_sd_ms });
+        const rng = makeRng(9090); const rs = [];
+        for (let k = 0; k < 20000; k++) rs.push(fn(rng));
+        const mabs = rs.reduce((a, x) => a + Math.abs(x), 0) / rs.length;
+        const worse = rs.filter((x) => Math.abs(x) > Math.abs(d) + 1e-9).length / rs.length;
+        const early12 = rs.filter((x) => x < -12).length / rs.length;
+        const row = lv.map((L) => runNoveltySessions(L, bal.bots.profiles.child_sd70, bal, { sessions: S, seed: 6161, sessionBias: guardianCalibrationBias(bal.audio_latency.calibration, g, { device: [d, d], sd: R.tapper_sd_ms }) }));
+        const over = row.filter((r) => r.median_first_clear_sessions > V.child_sd70_median_max_all).length;
+        if (thr === g0.apply_only_if_abs_over_ms) worstNew = Math.max(worstNew, ...row.map((r) => r.median_first_clear_sessions));
+        (report.r23[thr] ||= {})[d] = { mean_abs_residual_ms: +mabs.toFixed(1), worse_share: +worse.toFixed(3), early_below_minus12_share: +early12.toFixed(3), sd70: Object.fromEntries(row.map((r, k) => [lv[k].level.id, r.median_first_clear_continuous])) };
+        log(`${thr}${thr === g0.apply_only_if_abs_over_ms ? '(지금)' : '(옛)'} | ${d > 0 ? '+' : ''}${d} | ${mabs.toFixed(1)} | ${worse.toFixed(3)} | ${early12.toFixed(3)} | ${row.map((r) => `${r.median_first_clear_sessions} (${r.median_first_clear_continuous})`).join(' | ')} | ${over}레벨`);
+      }
+    }
+    log(`  정보 R23 지금 값 ${g0.apply_only_if_abs_over_ms} ms: 모든 d 에서 L${R.levels[0]}~L${R.levels[R.levels.length - 1]} 최대 ${worstNew}회 ${worstNew <= V.child_sd70_median_max_all ? '≤' : '>'} ${V.child_sd70_median_max_all}회 한도${worstNew <= V.child_sd70_median_max_all ? '' : '(!)'}`);
   }
 }
 

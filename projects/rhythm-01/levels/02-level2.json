@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 13,
-  "duration_s": 28.966,
+  "length_bars": 14,
+  "duration_s": 31.034,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 100,
@@ -50,6 +50,17 @@
       {"shape":"B","empty_before":2},
       {"shape":"E","empty_before":4},
       {"shape":"V","empty_before":4},
+      {"shape":"C","empty_before":4},
+      {"shape":"A","empty_before":3},
+      {"shape":"W","empty_before":3},
+      {"shape":"B","empty_before":3},
+      {"shape":"E","empty_before":4},
+      {"shape":"C","empty_before":2}
+    ],
+    "chunks_r3a_deprecated": [
+      {"shape":"B","empty_before":2},
+      {"shape":"E","empty_before":4},
+      {"shape":"V","empty_before":4},
       {"shape":"C","empty_before":3},
       {"shape":"A","empty_before":2},
       {"shape":"W","empty_before":3},
@@ -57,6 +68,7 @@
       {"shape":"E","empty_before":3},
       {"shape":"C","empty_before":2}
     ],
+    "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 레벨 길이 30 s 이상으로 숨 고르기(빈 2~3박 → 3~4박)만 늘림. 판정 별·모양·순서 그대로, N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
     "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
@@ -69,17 +81,20 @@
     "c245": {
       "slots": [2,4,5]
     },
-    "c06": {
-      "slots": [0,6]
-    },
     "c6": {
       "slots": [6]
     },
-    "c023": {
-      "slots": [0,2,3]
-    },
     "c02": {
       "slots": [0,2]
+    },
+    "c2": {
+      "slots": [2]
+    },
+    "c2467": {
+      "slots": [2,4,6,7]
+    },
+    "c0": {
+      "slots": [0]
     },
     "c23": {
       "slots": [2,3]
@@ -93,11 +108,12 @@
     {"mode":"rest"},
     {"mode":"play","pattern":"c01"},
     {"mode":"play","pattern":"c245"},
-    {"mode":"play","pattern":"c46"},
-    {"mode":"play","pattern":"c06"},
     {"mode":"play","pattern":"c6"},
-    {"mode":"play","pattern":"c023"},
     {"mode":"play","pattern":"c02"},
+    {"mode":"play","pattern":"c2"},
+    {"mode":"play","pattern":"c2467"},
+    {"mode":"play","pattern":"c6"},
+    {"mode":"play","pattern":"c0"},
     {"mode":"play","pattern":"c23"},
     {"mode":"play","pattern":"c024"},
     {"mode":"rest"},
@@ -121,7 +137,7 @@
     },
     {
       "name": "outro",
-      "start_bar": 11,
+      "start_bar": 12,
       "stage": 3
     }
   ],
@@ -148,49 +164,49 @@
         "beat": 15,
         "bar": 3,
         "slot": 6,
-        "empty_beats": 3,
+        "empty_beats": 4,
         "next_chunk": 3,
-        "next_star_beat": 18
+        "next_star_beat": 19
       },
       {
-        "beat": 21,
+        "beat": 22,
         "bar": 5,
-        "slot": 2,
-        "empty_beats": 2,
+        "slot": 4,
+        "empty_beats": 3,
         "next_chunk": 4,
-        "next_star_beat": 23
+        "next_star_beat": 25
       },
       {
-        "beat": 24,
+        "beat": 26,
         "bar": 6,
-        "slot": 0,
+        "slot": 4,
         "empty_beats": 3,
         "next_chunk": 5,
-        "next_star_beat": 27
+        "next_star_beat": 29
       },
       {
-        "beat": 30,
-        "bar": 7,
-        "slot": 4,
-        "empty_beats": 2,
-        "next_chunk": 6,
-        "next_star_beat": 32
-      },
-      {
-        "beat": 34,
+        "beat": 32,
         "bar": 8,
-        "slot": 4,
+        "slot": 0,
         "empty_beats": 3,
-        "next_chunk": 7,
-        "next_star_beat": 37
+        "next_chunk": 6,
+        "next_star_beat": 35
       },
       {
-        "beat": 38,
+        "beat": 37,
         "bar": 9,
+        "slot": 2,
+        "empty_beats": 4,
+        "next_chunk": 7,
+        "next_star_beat": 41
+      },
+      {
+        "beat": 42,
+        "bar": 10,
         "slot": 4,
         "empty_beats": 2,
         "next_chunk": 8,
-        "next_star_beat": 40
+        "next_star_beat": 44
       }
     ]
   },

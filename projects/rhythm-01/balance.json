@@ -209,17 +209,22 @@
   "timing": "pre_level_first_play",
   "per_level_max": 1,
   "required_when_new_gimmick": true,
-  "asset_path": "assets/cards/card_<id>.svg",
+  "asset_path": "assets/cards-r3/card_<id>.svg",
+  "asset_path_r2_deprecated": {
+   "value": "assets/cards/card_<id>.svg",
+   "_status": "deprecated (round-3 R18·R24)",
+   "_note": "원 궤도 그림 카드(round-2 빌드용, 지우지 않음). 새 코어는 art assets/cards-r3/."
+  },
   "aria_key": "card_<id>",
   "caption_text": false,
   "keys": {
-   "01": "card_star_tap",
+   "01": "card_drum_tap",
    "02": "card_half_star",
    "03": "card_rest_beat",
    "06": "card_run3",
    "07": "card_run4"
   },
-  "_note": "그림 카드는 그 레벨을 처음 할 때 카운트인 앞에서 1회(탭으로 닫음), 재시작 때 다시 안 띄움, 레벨당 1장. L1 은 북채가 침 → 공이 꽉 찬 별에 닿을 때 손가락 톡의 3칸 한 장. 보조 문구 없음, 같은 이름의 aria-label 키만 (결정 7, lore 확정 키).",
+  "_note": "그림 카드는 그 레벨을 처음 할 때 카운트인 앞에서 1회(탭으로 닫음), 재시작 때 다시 안 띄움, 레벨당 1장. L1 은 (round-3) 별이 오른쪽에서 옴 → 북에 닿음 → 손가락 톡의 3칸 한 장(round-2 북채 그림은 대체). 보조 문구 없음, 같은 이름의 aria-label 키만 (결정 7, lore 확정 키).",
   "keys_r2_deprecated": {
    "value": {
     "01": "card_star_tap",
@@ -231,10 +236,26 @@
    "_status": "deprecated (round-3 R20)",
    "_note": "L6 card_two_bar(두 마디 무늬 = 보여 주기 2마디 전제)는 폐기. L6 새 기믹 = 반박 3연속(card_run3)."
   },
-  "_note_r3": "R18: 카드 5장 그림은 원 궤도 → 길 그림(art). 키 01·02·03·07 유지, 06 은 card_run3 새 키(lore aria·art 그림 필요)."
+  "keys_r3a_deprecated": {
+   "value": {
+    "01": "card_star_tap",
+    "02": "card_half_star",
+    "03": "card_rest_beat",
+    "06": "card_run3",
+    "07": "card_run4"
+   },
+   "_status": "deprecated (round-3 R24)",
+   "_note": "round-3 1-1 값. L1 card_star_tap 은 \"북채 보고 별에 톡\" 뜻이라 폐기(lore R3-7), 새 키 card_drum_tap. 06 card_run3 은 그대로(R24 확정)."
+  },
+  "_note_r3": "R18·R24: 카드 5장 그림은 원 궤도 → 길 그림(art assets/cards-r3/, 파일 이름 = 키). 키 01 card_drum_tap(R24 새 키, 옛 card_star_tap 폐기), 02·03·07 유지, 06 card_run3(R24, lore 새 문구·art \"붙은 별 셋\" 그림)."
  },
  "tutorial_cue": {
-  "key": "tut_tap",
+  "key": "tut_drum_tap",
+  "key_r3a_deprecated": {
+   "value": "tut_tap",
+   "_status": "deprecated (round-3 R24)",
+   "_note": "tut_tap = \"공이 별에 닿으면\" 뜻이라 폐기(lore R3-7). 새 키 tut_drum_tap."
+  },
   "show_from_beats_before": 1,
   "press_from_beats_before": 0.25,
   "press_from_beats_before_r1_deprecated": {
@@ -322,7 +343,13 @@
    "round_disagree_max_ms": 60,
    "max_retries": 1,
    "on_fail": "keep_previous_offset",
-   "apply_only_if_abs_over_ms": 30,
+   "apply_only_if_abs_over_ms": 10,
+   "apply_only_if_abs_over_ms_r2_deprecated": {
+    "value": 30,
+    "_status": "deprecated (round-3 R23)",
+    "_note": "1-3~round-3 1-1 값. 무시 구간 경계 이른 쪽 −30 ms가 그대로 남으면 L7~L10 σ70 32~74회(30회 초과, 20-balance 17-9 R17b). 측정 잡음이 실제로 남는 d 를 실제로 덮는 경우(device −20~−30)에도 L10 37~38회(20-balance 17-13 R23 표)."
+   },
+   "_apply_only_if_abs_over_ms_note_r3": "round-3 R23: |m| ≤ 10 ms 면 적용 안 함. 어른 σ40·사용 탭 12개(2회 × 8탭 중 3번째부터 6개씩) 중앙값 잡음 약 ±14.5 ms(1σ). 10 ms 하한은 실제 남은 오차가 |d| < 10 ms 일 때 평균 |오차|를 1 → 8 ms로 키우지만(L10 σ70 22 → 23회), d 가 어디 있든 L7~L10 최대 25회 ≤ 30(30 ms 하한은 d −20~−30 에서 L10 37~38회). 검증기 정보 R23 이 같은 표를 출력. 20-balance 17-13.",
    "offset_clamp_ms": [
     -200,
     300
@@ -330,7 +357,7 @@
    "between_rounds_signal": "progress_dots_8_reset",
    "done_signal": "calib_done",
    "retry_signal": "calib_redo",
-   "_note": "보호자(어른 σ40 가정)가 치는 보정. 첫 실행 때는 보정 화면 왼쪽 위에 \"어른과 같이\" 그림(icon-together, 버튼 아님, 대체 글 calib_with_grownup)을 두고 바로 시작, 설정에서 다시 할 때는 보호자 문(guardian_gate, 2000 ms 길게 누르기)으로 들어옴. 화면은 박에 맞춰 움직이지 않고 똑딱 소리만(visual_beat_cue false). 8번 톡 × 2회(점 8개가 다 차면 비우고 한 번 더). 회마다 3번째 탭부터 6개 사용, IQR 150 넘으면 다시, 두 회 중앙값 차이 60 넘으면 전체 다시(1번까지), 그래도 안 되면 이전 오프셋 유지(calib_kept). 최종 오프셋 = 12개 중앙값, |값| ≤ 30 이면 적용 안 함(어른 12탭 잡음 약 ±14 ms). 1-3부터 보정 화면은 이 흐름을 따르고, 기존 calibration 블록(1회·±60)은 공통값·1-2 기록으로 남긴다(calibration.superseded_by). 20-balance.md 8-4.",
+   "_note": "보호자(어른 σ40 가정)가 치는 보정. 첫 실행 때는 보정 화면 왼쪽 위에 \"어른과 같이\" 그림(icon-together, 버튼 아님, 대체 글 calib_with_grownup)을 두고 바로 시작, 설정에서 다시 할 때는 보호자 문(guardian_gate, 2000 ms 길게 누르기)으로 들어옴. 화면은 박에 맞춰 움직이지 않고 똑딱 소리만(visual_beat_cue false). 8번 톡 × 2회(점 8개가 다 차면 비우고 한 번 더). 회마다 3번째 탭부터 6개 사용, IQR 150 넘으면 다시, 두 회 중앙값 차이 60 넘으면 전체 다시(1번까지), 그래도 안 되면 이전 오프셋 유지(calib_kept). 최종 오프셋 = 12개 중앙값, |값| ≤ 10 이면 적용 안 함(round-3 R23, 옛 30 은 apply_only_if_abs_over_ms_r2_deprecated; 어른 12탭 잡음 약 ±14 ms). 1-3부터 보정 화면은 이 흐름을 따르고, 기존 calibration 블록(1회·±60)은 공통값·1-2 기록으로 남긴다(calibration.superseded_by). 20-balance.md 8-4.",
    "first_run_picture_aria_key": "calib_with_grownup",
    "first_run_picture_only_on_first_run": true,
    "visual_beat_cue": false,
@@ -573,6 +600,11 @@
   ],
   "_child_sd70_median_max_by_level_note": "round-2: 레벨 4~10 한도 = 설계 정수 중앙값(20-balance.md 11-2) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 범위 상한(1.2 T = 16.44)의 정수 이하. B1 은 정수 중앙값(세션 2000)으로 판정.",
   "level_count": 10,
+  "level_length_s": [
+   30,
+   45
+  ],
+  "_level_length_note": "round-3 R25: 레벨 길이(카운트인 포함, path.mjs duration_s) 00-benchmark 8-5 \"30~45 s\". 검사 S17.",
   "l10_target_rule": {
    "base_levels": [
     "01",
@@ -667,10 +699,41 @@
   },
   "novelty_sessions": 20000,
   "calibration_boundary_residual_ms": [
-   -30,
-   30
+   -10,
+   10
   ],
-  "_calibration_boundary_note": "rhythm-02 인사이트: 보호자 보정 무시 구간 |m| ≤ apply_only_if_abs_over_ms(30) 의 경계값 자체를 남은 오차로 넣어 이른(−)·늦은(+) 쪽 σ70 첫 클리어(처음 보는 무늬 비용 포함)와 30회·2배 한도를 INFO 로 봄.",
+  "calibration_boundary_residual_ms_r2_deprecated": {
+   "value": [
+    -30,
+    30
+   ],
+   "_status": "deprecated (round-3 R23)",
+   "_note": "무시 구간 ±30 일 때 경계값. R23 으로 ±10."
+  },
+  "_calibration_boundary_note": "rhythm-02 인사이트: 보호자 보정 무시 구간 |m| ≤ apply_only_if_abs_over_ms(round-3 R23: 10, 옛 30) 의 경계값 자체를 남은 오차로 넣어 이른(−)·늦은(+) 쪽 σ70 첫 클리어(처음 보는 무늬 비용 포함)와 30회·2배 한도를 INFO 로 봄.",
+  "r23_calibration_noise": {
+   "fixed_device_residual_ms": [
+    -30,
+    -20,
+    -10,
+    0,
+    10,
+    30
+   ],
+   "thresholds_ms": [
+    30,
+    10
+   ],
+   "tapper_sd_ms": 40,
+   "sessions": 2000,
+   "levels": [
+    "07",
+    "08",
+    "09",
+    "10"
+   ],
+   "_note": "정보 R23: 보호자 보정(어른 σ40, 2회 × 8탭, 12개 사용) 측정 잡음을 넣고 기기 남은 오차 d 를 고정했을 때, 무시 구간 30(옛)·10(새)에서 남은 오차 평균 |r|, |r| > |d|(보정이 오차를 키움) 비율, L7~L10 σ70 첫 클리어(처음 보는 무늬 비용 포함 세션). 판정 안 함."
+  },
   "_child_sd70_median_max_by_level_note_r3": "round-3: 한도 = 설계 정수 중앙값(처음 보는 무늬 비용 포함 세션 20000, 20-balance 17-5) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 상한(1.2 T = 27.3)의 정수 이하. v2 한도는 child_sd70_median_max_by_level_r2_deprecated."
  },
  "pattern_library": {
@@ -1384,7 +1447,7 @@
      "C",
      "D"
     ],
-    "card": "card_star_tap"
+    "card": "card_drum_tap"
    },
    "half_star": {
     "kind": "shape",
@@ -1508,7 +1571,7 @@
   "display": {
    "kind": "dot_row_10_plus_big_mark",
    "dots_per_mark": 10,
-   "where": "left_of_judge_drum",
+   "where": "hud_band_below_attempt_dots",
    "not_in_reading_area": true,
    "digits": false,
    "forbidden_color": "star_yellow",
@@ -1518,14 +1581,24 @@
     1.15,
     1
    ],
-   "_note": "점 10칸 줄 + 10마다 큰 표지 1개(공통 4-3). 자리는 판정 북 왼쪽(별이 지나간 쪽, 00-benchmark 8-8) 또는 HUD 띠 — art 가 4해상도에서 별 위험 구간·손가락·HUD 버튼과 겹치지 않는 곳으로 확정."
+   "_note": "점 10칸 줄 + 10마다 큰 표지 1개(공통 4-3). 자리·모양·색은 art 30-art 16-4·layout.json hud.combo 가 기준(HUD 띠 안, 콤보 2부터, 노랑·공 색 금지).",
+   "where_r3a_deprecated": {
+    "value": "left_of_judge_drum",
+    "_status": "deprecated (round-3 1-2 교차 리뷰)",
+    "_note": "자리는 art 소유: 30-art 16-4 = HUD 띠 안, 시도 점 줄 아래(layout.json hud.combo)."
+   }
   },
   "steps": [
    {
     "at": 5,
     "fx": "dot_pop_big",
     "fx_ms": 120,
-    "sound": "none_or_layer_plus1"
+    "sound": "none",
+    "sound_r3a_deprecated": {
+     "value": "none_or_layer_plus1",
+     "_status": "deprecated (round-3 1-2 교차 리뷰)",
+     "_note": "art 16-4: 5단계 소리 없음"
+    }
    },
    {
     "at": 10,
@@ -1543,13 +1616,22 @@
    },
    {
     "at": 30,
-    "fx": "big_mark_3",
+    "fx": "big_mark_3_plus_confetti_in_hud",
     "fx_ms": 600,
     "sound": "soft_chord_step_up",
-    "sound_max_db_vs_tap": -1
+    "sound_max_db_vs_tap": -1,
+    "fx_r3a_deprecated": {
+     "value": "big_mark_3",
+     "_status": "deprecated (round-3 1-2 교차 리뷰)"
+    }
    }
   ],
-  "step_sound_timing": "next_on_beat_after_judge",
+  "step_sound_timing": "art_sound_json_music_combo_r3",
+  "step_sound_timing_r3a_deprecated": {
+   "value": "next_on_beat_after_judge",
+   "_status": "deprecated (round-3 1-2 교차 리뷰)",
+   "_note": "예약 규칙은 art assets/sound.json music.combo_r3 가 기준: 판정 별 + 0.5박 뒤 첫 빈 정박, 2박 안에 없으면 빈 반박, 없으면 소리 없이 넘김, 실패하면 예약 취소(30-art 16-7)."
+  },
   "break_fx": {
    "fade_s": 0.3,
    "within_fail_fx": true,

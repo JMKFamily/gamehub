@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 12,
-  "duration_s": 28.364,
+  "length_bars": 13,
+  "duration_s": 30.545,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 100,
@@ -29,9 +29,9 @@
     }
   ],
   "card": {
-    "id": "card_star_tap",
+    "id": "card_drum_tap",
     "timing": "pre_level_first_play",
-    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 3칸: 오른쪽에서 별이 길을 따라 옴 → 별이 판정 북에 닿음 → 그때 손가락 톡. 보조 문구 없음, aria-label 키 card_star_tap"
+    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 3칸: 오른쪽에서 별이 길을 따라 옴 → 별이 판정 북에 닿음 → 그때 손가락 톡. 보조 문구 없음, aria-label 키 card_drum_tap(round-3 R24, 옛 card_star_tap 폐기), 그림 art assets/cards-r3/card_drum_tap.svg"
   },
   "difficulty": {
     "target_child_sd70_median_max": 5,
@@ -47,10 +47,21 @@
       {"shape":"C","empty_before":2},
       {"shape":"A","empty_before":3},
       {"shape":"D","empty_before":2},
+      {"shape":"B","empty_before":4},
+      {"shape":"C","empty_before":4},
+      {"shape":"B","empty_before":4}
+    ],
+    "chunks_r3a_deprecated": [
+      {"shape":"A","empty_before":2},
+      {"shape":"B","empty_before":4},
+      {"shape":"C","empty_before":2},
+      {"shape":"A","empty_before":3},
+      {"shape":"D","empty_before":2},
       {"shape":"B","empty_before":3},
       {"shape":"C","empty_before":4},
       {"shape":"B","empty_before":2}
     ],
+    "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 레벨 길이 30 s 이상으로 숨 고르기(빈 2~3박 → 3~4박)만 늘림. 판정 별·모양·순서 그대로, N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
     "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
@@ -72,14 +83,14 @@
     "c0246": {
       "slots": [0,2,4,6]
     },
+    "c46": {
+      "slots": [4,6]
+    },
     "c0": {
       "slots": [0]
     },
-    "c246": {
-      "slots": [2,4,6]
-    },
-    "c46": {
-      "slots": [4,6]
+    "c24": {
+      "slots": [2,4]
     }
   },
   "bars": [
@@ -89,10 +100,11 @@
     {"mode":"play","pattern":"c02"},
     {"mode":"play","pattern":"c2"},
     {"mode":"play","pattern":"c0246"},
-    {"mode":"play","pattern":"c6"},
-    {"mode":"play","pattern":"c0"},
-    {"mode":"play","pattern":"c246"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c02"},
     {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c24"},
     {"mode":"rest"},
     {"mode":"rest"}
   ],
@@ -114,7 +126,7 @@
     },
     {
       "name": "outro",
-      "start_bar": 10,
+      "start_bar": 11,
       "stage": 3
     }
   ],
@@ -157,31 +169,31 @@
         "beat": 24,
         "bar": 6,
         "slot": 0,
-        "empty_beats": 3,
+        "empty_beats": 4,
         "next_chunk": 5,
-        "next_star_beat": 27
+        "next_star_beat": 28
       },
       {
-        "beat": 29,
+        "beat": 30,
         "bar": 7,
-        "slot": 2,
+        "slot": 4,
         "empty_beats": 4,
         "next_chunk": 6,
-        "next_star_beat": 33
+        "next_star_beat": 34
       },
       {
-        "beat": 36,
+        "beat": 37,
         "bar": 9,
-        "slot": 0,
-        "empty_beats": 2,
+        "slot": 2,
+        "empty_beats": 4,
         "next_chunk": 7,
-        "next_star_beat": 38
+        "next_star_beat": 41
       }
     ]
   },
   "cues": [
     {
-      "key": "tut_tap",
+      "key": "tut_drum_tap",
       "bar": 0,
       "slot": 4,
       "show_from_beats_before": 1,

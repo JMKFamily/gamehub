@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | round-3 1-2 교차 리뷰 | [북길 교차 리뷰: R23 보호자 보정 무시 구간 30 → 10 ms(잡음 σ40·12탭 봇 정보 R23: 10 ms는 \|d\| ≤ 10에서 오차 키움 L10 +1회, 모든 d에서 L7~L10 최대 25회 ≤ 30, 옛 30은 37~38회), R24 키 `card_drum_tap`·`tut_drum_tap`·`card_run3`·카드 경로 cards-r3, R25 숨 고르기로 길이 30.0~34.0 s(L7은 끝에 A 하나, 새 검사 S17), combo 자리·소리 art에 맞춤, B6 T 23.19 → L10 20.99(−9.5 %), 전체 실행 ALL PASS](balance-designer/2026-11-17-r3-cross-review.md) |
 | 2026-11-17 | art-director | round-3 1-2 교차 리뷰 | [북길 교차 리뷰: `cards-r3/` 파일 이름 = 키(L1 `card_drum_tap`, L6 `card_run3` 새 그림 "붙은 별 셋", 세로판 포함, 외부 href 0), road-layout이 v3 레벨 미리 보기 박·별 목록 직접 읽고 거울 값·chunks=bars·첫 별 +6박 검사, 1박 px = balance 17-8 일치, sound-check 어댑터 확정 형식 + outro 제외(별 시각 0), `tut_drum_tap` en 208.6 px 1줄, balance 키 이름·카드 경로 반영 요청](art-director/2026-11-17-r3-cross-review.md) |
 | 2026-11-17 | lore-writer | round-3 1-2 교차 리뷰 | [북길 교차 리뷰: L6 새 키 `card_run3` "붙은 별 셋, 톡톡톡 / Three stars, tap tap tap", `card_long_row`·`aria_streak_best` 쓰지 않음(삭제 0), L1 `tut_drum_tap`·`card_drum_tap` 확정, 콤보 문장 = balance 확정안(딱·좋아·통과 +1, 실패에서만 끊김, 무음 0.3 s), 글 자리 220 px 대조 통과, A1~A8 닫음, node 파싱 표 70 = 사용 65 + 폐기 3 + 쓰지 않음 2, balance·art 키·파일 이름 R24 반영 요청](lore-writer/2026-11-17-r3-cross-review.md) |
 | 2026-11-17 | game-developer | 1-3 round-3 | [R11 지연 보정(탭마다 autoNow·시도마다 comp·안정 대기·재시작 1.08 s 유지, C2 다름 0)·R12 성능(탭 아이콘 PNG·카드 미리 그리기·GC·층 구조, 6배 스로틀 35/36)·R13 훅 화면, R14~R16 구현됨, 빌드 데이터 v2 유지](game-developer/2026-11-17-r3-build.md) |

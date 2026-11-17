@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 15,
-  "duration_s": 27.429,
+  "length_bars": 17,
+  "duration_s": 30.857,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -45,6 +45,19 @@
     "screen_chunks_max": 3,
     "chunks": [
       {"shape":"V","empty_before":2},
+      {"shape":"V","empty_before":4},
+      {"shape":"D","empty_before":4},
+      {"shape":"Q","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"E","empty_before":4},
+      {"shape":"B","empty_before":4},
+      {"shape":"A","empty_before":1},
+      {"shape":"R","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"Z","empty_before":3}
+    ],
+    "chunks_r3a_deprecated": [
+      {"shape":"V","empty_before":2},
       {"shape":"V","empty_before":3},
       {"shape":"D","empty_before":2},
       {"shape":"Q","empty_before":4},
@@ -56,38 +69,36 @@
       {"shape":"A","empty_before":4},
       {"shape":"Z","empty_before":2}
     ],
+    "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 레벨 길이 30 s 이상으로 숨 고르기(빈 2~3박 → 3~4박)만 늘림. 판정 별·모양·순서 그대로, N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
     "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
     "c467": {
       "slots": [4,6,7]
     },
-    "c6": {
-      "slots": [6]
+    "c023": {
+      "slots": [0,2,3]
     },
-    "c016": {
-      "slots": [0,1,6]
+    "c46": {
+      "slots": [4,6]
     },
-    "c024": {
-      "slots": [0,2,4]
+    "c02": {
+      "slots": [0,2]
     },
-    "c67": {
-      "slots": [6,7]
+    "c456": {
+      "slots": [4,5,6]
     },
     "c0": {
       "slots": [0]
     },
-    "c2": {
-      "slots": [2]
-    },
     "c23": {
       "slots": [2,3]
     },
-    "c026": {
-      "slots": [0,2,6]
+    "c2": {
+      "slots": [2]
     },
-    "c01": {
-      "slots": [0,1]
+    "c4567": {
+      "slots": [4,5,6,7]
     },
     "c0234": {
       "slots": [0,2,3,4]
@@ -95,17 +106,19 @@
   },
   "bars": [
     {"mode":"play","pattern":"c467"},
-    {"mode":"play","pattern":"c6"},
-    {"mode":"play","pattern":"c016"},
-    {"mode":"play","pattern":"c024"},
-    {"mode":"play","pattern":"c67"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c023"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c02"},
+    {"mode":"play","pattern":"c456"},
+    {"mode":"rest"},
     {"mode":"play","pattern":"c0"},
-    {"mode":"play","pattern":"c2"},
     {"mode":"play","pattern":"c23"},
-    {"mode":"play","pattern":"c026"},
-    {"mode":"play","pattern":"c67"},
-    {"mode":"play","pattern":"c01"},
+    {"mode":"play","pattern":"c46"},
     {"mode":"play","pattern":"c2"},
+    {"mode":"play","pattern":"c4567"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c0"},
     {"mode":"play","pattern":"c0234"},
     {"mode":"rest"},
     {"mode":"rest"}
@@ -118,17 +131,17 @@
     },
     {
       "name": "part2",
-      "start_bar": 3,
+      "start_bar": 4,
       "stage": 2
     },
     {
       "name": "part3",
-      "start_bar": 8,
+      "start_bar": 10,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 13,
+      "start_bar": 15,
       "stage": 3
     }
   ],
@@ -139,73 +152,73 @@
         "beat": 4,
         "bar": 1,
         "slot": 0,
-        "empty_beats": 3,
+        "empty_beats": 4,
         "next_chunk": 1,
-        "next_star_beat": 7
+        "next_star_beat": 8
       },
       {
-        "beat": 9,
+        "beat": 10,
         "bar": 2,
-        "slot": 2,
-        "empty_beats": 2,
+        "slot": 4,
+        "empty_beats": 4,
         "next_chunk": 2,
-        "next_star_beat": 11
+        "next_star_beat": 14
       },
       {
-        "beat": 15,
-        "bar": 3,
-        "slot": 6,
+        "beat": 18,
+        "bar": 4,
+        "slot": 4,
         "empty_beats": 4,
         "next_chunk": 3,
-        "next_star_beat": 19
+        "next_star_beat": 22
       },
       {
-        "beat": 21,
-        "bar": 5,
-        "slot": 2,
+        "beat": 24,
+        "bar": 6,
+        "slot": 0,
         "empty_beats": 4,
         "next_chunk": 4,
-        "next_star_beat": 25
+        "next_star_beat": 28
       },
       {
-        "beat": 26,
-        "bar": 6,
-        "slot": 4,
-        "empty_beats": 3,
-        "next_chunk": 5,
-        "next_star_beat": 29
-      },
-      {
-        "beat": 30,
+        "beat": 29,
         "bar": 7,
-        "slot": 4,
-        "empty_beats": 2,
-        "next_chunk": 6,
-        "next_star_beat": 32
-      },
-      {
-        "beat": 36,
-        "bar": 9,
-        "slot": 0,
-        "empty_beats": 3,
-        "next_chunk": 8,
-        "next_star_beat": 39
-      },
-      {
-        "beat": 41,
-        "bar": 10,
         "slot": 2,
         "empty_beats": 4,
-        "next_chunk": 9,
-        "next_star_beat": 45
+        "next_chunk": 5,
+        "next_star_beat": 33
       },
       {
-        "beat": 46,
-        "bar": 11,
+        "beat": 34,
+        "bar": 8,
         "slot": 4,
-        "empty_beats": 2,
+        "empty_beats": 4,
+        "next_chunk": 6,
+        "next_star_beat": 38
+      },
+      {
+        "beat": 42,
+        "bar": 10,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 8,
+        "next_star_beat": 46
+      },
+      {
+        "beat": 48,
+        "bar": 12,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 9,
+        "next_star_beat": 52
+      },
+      {
+        "beat": 53,
+        "bar": 13,
+        "slot": 2,
+        "empty_beats": 3,
         "next_chunk": 10,
-        "next_star_beat": 48
+        "next_star_beat": 56
       }
     ]
   },

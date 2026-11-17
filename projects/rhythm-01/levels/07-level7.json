@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 14,
-  "duration_s": 27.692,
+  "length_bars": 16,
+  "duration_s": 31.385,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -56,6 +56,18 @@
       {"shape":"B","empty_before":2},
       {"shape":"R","empty_before":4},
       {"shape":"R","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"B","empty_before":4},
+      {"shape":"R","empty_before":1},
+      {"shape":"B","empty_before":4},
+      {"shape":"E","empty_before":4},
+      {"shape":"Y","empty_before":4},
+      {"shape":"A","empty_before":4}
+    ],
+    "chunks_r3a_deprecated": [
+      {"shape":"B","empty_before":2},
+      {"shape":"R","empty_before":4},
+      {"shape":"R","empty_before":4},
       {"shape":"A","empty_before":3},
       {"shape":"B","empty_before":4},
       {"shape":"R","empty_before":1},
@@ -63,6 +75,7 @@
       {"shape":"E","empty_before":3},
       {"shape":"Y","empty_before":4}
     ],
+    "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 길이 30 s 이상으로. 숨 고르기만으로는 최대 29.5 s라 빈 3박 셋을 4박으로 + 끝에 별 하나(A)를 빈 4박 뒤에 더함(판정 별 25 → 26). N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
     "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
@@ -75,26 +88,17 @@
     "c4567": {
       "slots": [4,5,6,7]
     },
-    "c6": {
-      "slots": [6]
+    "c0": {
+      "slots": [0]
     },
-    "c0267": {
-      "slots": [0,2,6,7]
+    "c24": {
+      "slots": [2,4]
     },
     "c01": {
       "slots": [0,1]
     },
-    "c02": {
-      "slots": [0,2]
-    },
-    "c23": {
-      "slots": [2,3]
-    },
-    "c456": {
-      "slots": [4,5,6]
-    },
-    "c0": {
-      "slots": [0]
+    "c2346": {
+      "slots": [2,3,4,6]
     }
   },
   "bars": [
@@ -102,13 +106,15 @@
     {"mode":"rest"},
     {"mode":"play","pattern":"c0123"},
     {"mode":"play","pattern":"c4567"},
-    {"mode":"play","pattern":"c6"},
     {"mode":"rest"},
-    {"mode":"play","pattern":"c0267"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c24"},
+    {"mode":"play","pattern":"c0123"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"rest"},
     {"mode":"play","pattern":"c01"},
-    {"mode":"play","pattern":"c02"},
-    {"mode":"play","pattern":"c23"},
-    {"mode":"play","pattern":"c456"},
+    {"mode":"play","pattern":"c2346"},
+    {"mode":"rest"},
     {"mode":"play","pattern":"c0"},
     {"mode":"rest"},
     {"mode":"rest"}
@@ -126,12 +132,12 @@
     },
     {
       "name": "part3",
-      "start_bar": 7,
+      "start_bar": 8,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 12,
+      "start_bar": 14,
       "stage": 3
     }
   ],
@@ -158,41 +164,49 @@
         "beat": 16,
         "bar": 4,
         "slot": 0,
-        "empty_beats": 3,
+        "empty_beats": 4,
         "next_chunk": 3,
-        "next_star_beat": 19
+        "next_star_beat": 20
       },
       {
-        "beat": 20,
+        "beat": 21,
         "bar": 5,
-        "slot": 0,
+        "slot": 2,
         "empty_beats": 4,
         "next_chunk": 4,
-        "next_star_beat": 24
+        "next_star_beat": 25
       },
       {
-        "beat": 29,
+        "beat": 30,
         "bar": 7,
-        "slot": 2,
-        "empty_beats": 3,
-        "next_chunk": 6,
-        "next_star_beat": 32
-      },
-      {
-        "beat": 34,
-        "bar": 8,
-        "slot": 4,
-        "empty_beats": 3,
-        "next_chunk": 7,
-        "next_star_beat": 37
-      },
-      {
-        "beat": 38,
-        "bar": 9,
         "slot": 4,
         "empty_beats": 4,
+        "next_chunk": 6,
+        "next_star_beat": 34
+      },
+      {
+        "beat": 36,
+        "bar": 9,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 7,
+        "next_star_beat": 40
+      },
+      {
+        "beat": 41,
+        "bar": 10,
+        "slot": 2,
+        "empty_beats": 4,
         "next_chunk": 8,
-        "next_star_beat": 42
+        "next_star_beat": 45
+      },
+      {
+        "beat": 48,
+        "bar": 12,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 9,
+        "next_star_beat": 52
       }
     ]
   },

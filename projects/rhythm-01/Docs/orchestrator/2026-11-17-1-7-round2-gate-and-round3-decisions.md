@@ -101,3 +101,7 @@
 - 새 코어 dev 지시에 넣을 것: 점 줄 `role="meter"` + `aria-valuenow`, `aria-valuetext`는 숫자만, 판정마다 등급 낭독 안 함, 끊길 때 낭독 없음(aria-live 없음 — lore R3 규칙과 같음).
 - art 교차 리뷰 통과: `30-art.md` 16-12, `assets/`(cards-r3 키 이름 통일 — 옛 이름 4파일 삭제는 이번 라운드 art 자체 산출물의 이름 변경, `road-layout.mjs --check`에 v3 레벨 대조 추가, sound-check outro 멜로디 버그 수정 314 → 252음). 직접: road-layout·sound-check·palette 모두 0, cards-r3 외부 href·url() 0. git·서버 미사용.
 - lore에 남은 1단어(R3-6 "판정 북 위에 손가락" → "아래")는 art 16-1·lore R3-7 표가 기준 → dev 지시에 "손가락은 판정 북 아래(art 16-1)"로 명시하고, lore는 다음 리뷰 때 고침.
+- balance 교차 리뷰 통과: R23 10 ms(옛 값 보존, 잡음 포함 봇 INFO로 L7~L10 최대 25회 확인), R24 키 통일(`*_r3a_deprecated` 보존), R25 길이 30.0~34.0 s(S17 신설; L7은 숨 고르기만으로 부족해 끝에 별 1개 덩어리 추가 — 오케스트레이터 승인). 직접: verify-levels 전체 종료 0·FAIL 0·ALL PASS, art `road-layout --check`·`sound-check` 새 레벨로 다시 돌려 OK. B6 L10 20.99 ∈ [18.55, 27.83].
+- 위험 기록: 길이를 맞추느라 L7·L10 덩어리 사이 빈 박이 4박 위주 → 요청자 지시(짧은 순간 판단 몰입)가 약해질 수 있음. round-3 1-5 benchmark·balance 리뷰에서 반드시 판단하게 하고, 몰입과 길이가 충돌하면 몰입 우선(길이 기준은 권장).
+- lore 낱말 차이(R3-1 북 옆, R3-4 L10 설명, R3-5, R3-6 손가락 위치)는 화면 문구가 아닌 설정 문장 → round-3 리뷰 때 lore가 고침. dev는 art 16절이 화면 기준.
+- 다음: game-developer 새 코어 "북길" 구현.
