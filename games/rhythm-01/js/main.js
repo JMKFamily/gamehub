@@ -1,13 +1,17 @@
 // 똑딱북(rhythm-01) 웹 빌드: 화면 흐름, 입력, 시계, 저장, 테스트 훅
 import { prepareLevel, Run, slotTimeMs } from './engine.js';
-import { AudioOut, buildSong } from './audio.js';
+import { AudioOut, buildSong, comboChordTime } from './audio.js';
 import { Renderer, layout } from './render.js';
+import { speedOf, leadOf } from './road.js';
+import { accuracyPct, levelAccuracy, checkAccuracyData } from './readout.js';
 import { evalRound, finalOffset, simulate, calibTapDiffR11, attemptComp } from './calib.js';
 import * as Store from './store.js';
 import { ads } from './ads.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
+// 콤보 표시·단계 화음 켬/끔 (?combo=0 = 끔). 콤보는 판정에서 파생하는 보상 층이라 판정·클리어·재시작에 영향 없음(봇 재판정 대조용)
+const COMBO = Q.get('combo') !== '0';
 const START_LEAD_MS = 400; // 레벨 시작 전 예약 여유 (오디오 lookahead 보다 길게)
 const REALTIME_GRACE_MS = 20; // 실시간 루프의 늦은 놓침 판정 여유 (실패 시각은 그대로 통과 창 끝)
 const $ = (id) => document.getElementById(id);
@@ -25,6 +29,7 @@ let S = {}; // 렌더 상태
 let pauseV = 0, cardReturn = null, cardShown = null;
 let lateVisible = false, sessionCounted = false;
 let safeIns = { t: 0, b: 0 };
+let RO = null; // 판정 이름 (10-lore R3-12 judge_* 키, 언어마다)
 let pendingBegin = false; // R11 ③ 안정 대기 뒤 시작할 시도
 
 // ---------- 시계 ----------
@@ -69,7 +74,9 @@ async function loadAll() {
   const imgNames = ['hand-tap', 'flag'];
   const imgs = {};
   await Promise.all(imgNames.map((n) => new Promise((res) => { const im = new Image(); im.onload = () => { imgs[n] = im; res(); }; im.onerror = res; im.src = `data/svg/${n}.svg`; })));
-  return { bal: balance, palette, art, sound, music, strings, levels, imgs, L: levels.map((lv) => prepareLevel(lv, balance)) };
+  const Ls = levels.map((lv) => prepareLevel(lv, balance));
+  checkAccuracyData(balance, Ls); // 판정 % 데이터가 숫자가 아니면 불러오기 실패로 멈춤 (insights)
+  return { bal: balance, palette, art, sound, music, strings, levels, imgs, L: Ls };
 }
 
 // ---------- 텍스트 ----------
@@ -79,6 +86,7 @@ function applyText() {
   document.querySelectorAll('[data-t]').forEach((e) => { e.textContent = T[e.dataset.t] ?? ''; });
   document.querySelectorAll('[data-a]').forEach((e) => { e.setAttribute('aria-label', T[e.dataset.a] ?? ''); });
   document.title = T.title;
+  RO = { names: { perfect: T.judge_perfect, good: T.judge_good, pass: T.judge_pass } };
 }
 
 // ---------- 테마 ----------
@@ -124,20 +132,25 @@ function warmScreens() {
 // 화면 밖 미리 돌리기: 레벨 1 완벽 입력 + 실패 + 클리어 장면을 작은 캔버스에 그림 (게임 상태·저장은 건드리지 않음)
 function warmCode() {
   try {
-    const Lw = D.L[0], th0 = themeOf(0);
+    // 반박·콤보 20 이 있는 레벨 2 도 같이 (별 18개인 레벨 1 은 콤보 20 단계가 없음)
+    for (const li of [0, 1]) {
+    const Lw = D.L[li], th0 = themeOf(li);
     const r = new Run(Lw, D.bal, { startV: 0 });
-    const S0 = { th: th0, L: Lw, art: D.art, bal: D.bal, best: 0.3, slideFrom: null, gradeStartX: slotTimeMs(Lw, Lw.lastPlayBar + 2, 0), run: r };
+    const S0 = sceneOf(Lw, th0, 0.3); S0.run = r;
     const off = document.createElement('canvas'); off.width = off.height = 64;
     R.withTarget(off.getContext('2d'), () => {
-      // 완벽 입력 한 판 (시각은 처음에 정한 값으로만, 반복 수 상한)
+      // 완벽 입력 한 판 (시각은 처음에 정한 값으로만, 반복 수 상한). 콤보 갱신·단계 연출도 같이 그림
       const base = r.songStartV, draw0 = (rr, V) => { S0.run = rr; S0.V = V; rr.update(V); R.play(S0); rr.events.length = 0; };
       for (let V = 0; V < base + Lw.stars[0].t - 30; V += 80) draw0(r, V);
-      for (const st of Lw.stars) { const V = base + st.t; draw0(r, V - 20); r.tap(V); draw0(r, V + 30); }
+      for (const st of Lw.stars) { const V = base + st.t; draw0(r, V - 20); const t = r.tap(V); comboFx(S0, t.combo, V); if (t.combo) S0.ro = { V, grade: t.kind, name: RO.names[t.kind], pct: accuracyPct(0, Lw.judge, D.bal.accuracy) }; draw0(r, V + 30); draw0(r, V + 200); }
       for (let V = base + Lw.clearTimeMs, n = 0; V < base + Lw.durationMs && n < 40; V += 200, n++) draw0(r, V);
-      // 무입력 → 실패 → 재시작 장면
+      // 별 3개 친 뒤 무입력 → 실패(콤보 끊김 연출) → 재시작 장면
       const r2 = new Run(Lw, D.bal, { startV: 0 });
-      for (let V = 0; V < 9000; V += 150) draw0(r2, V);
+      for (const st of Lw.stars.slice(0, 3)) { const V = r2.songStartV + st.t; draw0(r2, V - 20); r2.tap(V); }
+      const v0 = r2.songStartV + Lw.stars[2].t; // 재시작하면 songStartV 가 바뀌므로 끝을 먼저 정함
+      for (let V = v0; V < v0 + 9000; V += 60) draw0(r2, V);
     });
+    }
   } catch { /* 미리 돌리기 실패는 게임에 영향 없음 */ }
   // 소리 만들기 코드도 렌더하지 않는 OfflineAudioContext 에서 한 번씩 돌려 둠 (소리는 나지 않음)
   try {
@@ -200,11 +213,17 @@ function cardRowsHtml(i, locked, plan, cw) {
   const C = D.palette.common, ca = D.art.card, t = themeOf(i), sv = lvSave(i), n = i + 1;
   const op = locked ? D.palette.alpha.locked_card_trackEdge : 1;
   let h = '';
-  // ① 작은 궤도 (잠김 = 자물쇠)
+  // ① 작은 길 조각 (30-art 16-9 5-6 대체: 가로 둥근 막대 + 왼쪽 30 % 세로 선 + 위 공 점, 잠김 = 자물쇠)
   if (plan.orbit > 0) {
-    const o = plan.orbit, sw = ca.orbitStroke;
-    const body = locked ? lockSvg(C, 0, 0, o) : `<circle cx="${o / 2}" cy="${o / 2}" r="${(o - sw) / 2}" fill="none" stroke="${C.trackEdge}" stroke-width="${sw}"/>`;
-    h += `<svg class="lr" width="${o}" height="${o}" viewBox="0 0 ${o} ${o}" aria-hidden="true">${body}</svg>`;
+    const o = plan.orbit, rp = ca.roadPiece;
+    if (locked) h += `<svg class="lr" width="${o}" height="${o}" viewBox="0 0 ${o} ${o}" aria-hidden="true">${lockSvg(C, 0, 0, o)}</svg>`;
+    else {
+      const w = Math.max(o, Math.min(cw - 4, o * rp.wMul)), bh = o * rp.barH, sw = rp.stroke, by = o - bh - sw / 2, jx = w * rp.judgeAt, br = o * rp.ballR;
+      h += `<svg class="lr" width="${w}" height="${o}" viewBox="0 0 ${w} ${o}" aria-hidden="true">` +
+        `<rect x="${sw / 2}" y="${by}" width="${w - sw}" height="${bh}" rx="${bh / 2}" fill="${t.track1}" stroke="${C.trackEdge}" stroke-width="${sw}"/>` +
+        `<line x1="${jx}" y1="${by - 1}" x2="${jx}" y2="${by + bh + 1}" stroke="${C.hud}" stroke-width="${rp.lineW}"/>` +
+        `<circle cx="${jx}" cy="${by - 2 - br}" r="${br}" fill="${C.ball}" stroke="${C.outline}" stroke-width="1"/></svg>`;
+    }
   }
   // ② 점 = 레벨 번호
   {
@@ -511,6 +530,33 @@ function startLevel(i, prac, { card = true } = {}) {
   if (card && cardIdOf(i) && !lvSave(i).cardSeen) { showCard(i, 'play'); return; }
   beginRun();
 }
+// 플레이 화면 그리기 상태 (render.play 가 읽음)
+function sceneOf(Lv, t, best) {
+  return {
+    th: t, L: Lv, art: D.art, bal: D.bal, best, slideFrom: null,
+    gradeStartX: slotTimeMs(Lv, Lv.outroBar + 1, 0), // 등급 북: outro 둘째 마디 (16-6)
+    ballStopX: Math.ceil(Lv.clearTimeMs / Lv.barMs) * Lv.barMs, // 클리어 뒤 공은 그 마디 끝까지 착지
+    comboOn: COMBO, cs: { popV: null, popN: 0, popBig: false, stepV: null, stepN: 0, breakK: null },
+  };
+}
+// 콤보 갱신 연출 상태 (판정 프레임). 단계 = balance combo.steps (5 = 큰 튐, 10·20·30 = 표지)
+function comboFx(S0, c, V) {
+  if (!c || !S0.comboOn) return;
+  const st = D.bal.combo.steps.find((s) => s.at === c), cs = S0.cs;
+  cs.popV = V; cs.popN = c; cs.popBig = !!(st && st.at < D.art.road.combo.cells);
+  if (st && st.at >= D.art.road.combo.cells) { cs.stepV = V; cs.stepN = c; }
+}
+// 콤보 단계 화음 예약 (sound.json music.combo_r3): 판정 별 + 0.5박 뒤 첫 빈 정박, 실패·멈춤이면 stopSong 이 예약 소리를 멈춤
+const comboLog = [];
+function comboChord(e) {
+  const C = D.music.combo_r3, name = C.steps[String(e.combo)];
+  if (!name || !COMBO) return;
+  const t = comboChordTime(L, e.i, C);
+  const rec = { attempt: run.attempts, combo: e.combo, star: e.i, sound: name, at: t, cancelled: false };
+  comboLog.push(rec); if (comboLog.length > 64) comboLog.shift();
+  if (t == null) return; // 빈 자리 없음 → 소리 없이 넘김 (그림 연출은 그대로)
+  if (A && audio.ok) A.play(name, (run.songStartV + t) / 1000);
+}
 // R11 ③: 잠금 해제 뒤 첫 시도도 자동 지연 안정 뒤에 시작 (그 사이 지금 화면 그대로, 최대 stable_wait.max_wait_ms)
 function beginRun() {
   if (!latSettled()) { pendingBegin = true; run = null; return; }
@@ -522,8 +568,12 @@ function beginRun() {
   R.prewarm();
   run = new Run(L, D.bal, { practice, startV: clock.V(), leadMs: START_LEAD_MS });
   const sv = lvSave(levelIndex);
-  S = { th, L, art: D.art, bal: D.bal, best: sv.best || 0, slideFrom: null, gradeStartX: slotTimeMs(L, L.lastPlayBar + 2, 0) };
+  S = sceneOf(L, th, sv.best || 0);
   $('pracTag').classList.toggle('hidden', !practice);
+  const ca = $('comboAria');
+  ca.classList.toggle('hidden', !COMBO);
+  ca.setAttribute('aria-valuemax', String(L.stars.length));
+  ariaCache.combo = -1;
   $('sPlay').setAttribute('aria-label', T.aria_play_area);
   setState('play'); show('sPlay');
   placeUi();
@@ -550,8 +600,11 @@ function handleEvents() {
   if (!run) return;
   if (run.events.length) for (const e of run.events.splice(0)) {
     if (e.type === 'attempt') { if (A && audio.ok) A.setSong(e.songStartV, songFor(e)); }
-    else if (e.type === 'abort') { if (A) A.stopSong(0.02); }
+    else if (e.type === 'abort') { if (A) A.stopSong(0.02); cancelChords(e.V); }
+    else if (e.type === 'judge') { comboFx(S, e.combo, e.V); comboChord(e); S.ro = { V: e.V, grade: e.grade, name: RO.names[e.grade], pct: accuracyPct(e.e, L.judge, D.bal.accuracy) }; }
     else if (e.type === 'fail') {
+      // 콤보 끊김 = 실패 연출 안 0.3 s 무음 사라짐(그림만). 아직 울리지 않은 단계 화음은 stopSong 이 멈춤(취소)
+      cancelChords(e.V);
       if (A) { A.stopSong(D.bal.restart.music_fade_out_s); A.play('fail'); if (e.newBest) A.play('best'); }
       if (!run.practice) {
         const sv = lvSave(levelIndex);
@@ -582,8 +635,19 @@ function handleEvents() {
     a.setAttribute('aria-valuemax', String(Math.max(1, run.attempts)));
     a.setAttribute('aria-valuenow', String(run.attempts));
   }
+  // 콤보 대체 글 (10-lore R3-a): role=meter, 값은 aria-valuenow, aria-valuetext 는 숫자만(퍼센트로 읽히지 않게, insights), 알림 없음
+  if (COMBO && run.combo !== ariaCache.combo) {
+    ariaCache.combo = run.combo;
+    const c = $('comboAria'), v = String(run.combo);
+    c.setAttribute('aria-valuenow', v); c.setAttribute('aria-valuetext', v);
+  }
 }
-const ariaCache = { prog: -1, att: -1 };
+function cancelChords(V) {
+  if (!run) return;
+  const x = V - run.songStartV;
+  for (const c of comboLog) if (c.attempt === run.attempts && c.at != null && c.at > x && !c.cancelled) c.cancelled = true;
+}
+const ariaCache = { prog: -1, att: -1, combo: -1 };
 let tutOn = false; // 튜토리얼 글: display 대신 visibility 로 숨겨 첫 표시 때 글자 배치 비용이 안 생기게
 function gameTap(ts) {
   if (!run) return;
@@ -608,6 +672,22 @@ function showResult() {
   $('bNext').classList.toggle('hidden', !hasNext());
   // 등급 줄 전체를 그림 하나로 (R8-2)
   $('gradeAria').setAttribute('aria-label', run.practice ? T.practice_clear : T['grade_' + (run.grade || 1)]);
+  // 결과 정확도 %·최고 콤보·신기록 표지 (10-lore R3-12-3·R3-12-4, 30-art 16-13-4, balance accuracy.record): 일반 모드 클리어만.
+  // 화면 글 = 숫자만("87%", "23"), 이름은 meter 대체 글(result_accuracy·aria_streak_best, valuetext 숫자만), 신기록 = role img(result_new_best)
+  const last = run.log[run.log.length - 1];
+  const acc = !run.practice && last && last.clear ? levelAccuracy(L, last, D.bal.accuracy) : null;
+  $('resultInfo').classList.toggle('hidden', acc == null);
+  if (acc != null) {
+    const sv = lvSave(levelIndex), prev = sv.bestAcc, best = last.combo;
+    const ra = $('resAcc'), rc = $('resCombo');
+    ra.querySelector('.resNum').textContent = acc + '%'; ra.setAttribute('aria-valuenow', String(acc)); ra.setAttribute('aria-valuetext', acc + '%');
+    rc.querySelector('.resNum').textContent = String(best); rc.setAttribute('aria-valuenow', String(best)); rc.setAttribute('aria-valuemax', String(L.stars.length)); rc.setAttribute('aria-valuetext', String(best));
+    // 신기록 표지: 이전 최고 정확도가 있고 이번이 더 클 때만 (accuracy.record.new_record_mark: 첫 클리어·같음·연습 아님)
+    $('resNew').classList.toggle('hidden', !(prev != null && acc > prev));
+    if (prev == null || acc > prev) sv.bestAcc = acc;
+    sv.bestCombo = Math.max(sv.bestCombo || 0, run.bestCombo);
+    saveSoon();
+  }
   placeUi();
 }
 function hasNext() { return levelIndex + 1 < D.levels.length; }
@@ -634,61 +714,73 @@ async function resumeGame() {
 // ---------- 배치 ----------
 function placeUi() {
   if (!R) return;
-  const lay = R.lay;
-  const sP = $('bPause'); sP.style.left = lay.pause.x + 'px'; sP.style.top = lay.pause.y + 'px';
-  const pa = $('progAria'); Object.assign(pa.style, { left: lay.bar.x + 'px', top: lay.bar.y + 'px', width: lay.bar.w + 'px', height: lay.bar.h + 'px' });
-  const at = $('attAria'); Object.assign(at.style, { left: lay.bar.x + 'px', top: lay.dotsY - 6 + 'px', width: '140px', height: '12px' });
-  const pt = $('pracTag'); Object.assign(pt.style, { left: lay.bar.x + 'px', top: lay.dotsY + 12 + 'px' });
+  const lay = R.lay, H = lay.hud, px = (v) => v + 'px';
+  const box = (el, x, y, w, h) => Object.assign(el.style, { left: px(x), top: px(y), width: px(w), height: px(h) });
+  const sP = $('bPause'); sP.style.left = px(H.pause.x0); sP.style.top = px(H.pause.y0);
+  box($('progAria'), H.bar.x0, H.bar.y0, H.bar.x1 - H.bar.x0, H.bar.h);
+  const ar = D.art.road.hud.attempt_r;
+  box($('attAria'), H.bar.x0, H.attempt_y - ar - 2, D.art.hud.dotsMax * D.art.hud.dotStep, 2 * ar + 4);
+  // 콤보 줄 대체 글 자리 = layout hud.combo (점 하나·표지 하나마다 이름을 붙이지 않음)
+  box($('comboAria'), H.combo.x0, H.combo.y0, H.combo.x1 - H.combo.x0, H.combo.y1 - H.combo.y0);
+  // 연습 표지: 시도 점 줄 오른쪽 끝(콤보 줄·일시정지와 겹치지 않음)
+  const pt = $('pracTag'); Object.assign(pt.style, { left: px(H.bar.x1 - 24), top: px(H.attempt_y - 12) });
   // 연습 체크포인트 깃발 표시 (R8-4, 그림은 캔버스, 여기는 대체 글 자리)
-  const cf = $('cpFlags');
+  const cf = $('cpFlags'), bw = H.bar.x1 - H.bar.x0;
   const want = state === 'play' || state === 'pause' || state === 'result' ? (run && run.practice ? L.checkpoints.map((c) => c.firstStar / L.stars.length) : []) : [];
-  if (cf.dataset.k !== want.join() + '|' + lay.bar.w) {
-    cf.dataset.k = want.join() + '|' + lay.bar.w;
+  if (cf.dataset.k !== want.join() + '|' + bw) {
+    cf.dataset.k = want.join() + '|' + bw;
     cf.innerHTML = '';
     const fs = D.art.hud.flag;
     for (const f of want) {
       const e = document.createElement('span');
       e.setAttribute('role', 'img'); e.setAttribute('aria-label', T.aria_checkpoint);
-      Object.assign(e.style, { left: lay.bar.x + lay.bar.w * f - fs / 2 + 'px', top: lay.bar.y - fs - 1 + 'px', width: fs + 'px', height: fs + 'px' });
+      Object.assign(e.style, { left: px(H.bar.x0 + bw * f - fs / 2), top: px(H.bar.y0 - fs - 1), width: px(fs), height: px(fs) });
       cf.appendChild(e);
     }
   }
-  // 결과 버튼 (다음 레벨이 없으면 2개)
+  // 결과 버튼 (다음 레벨이 없으면 2개): 세로 = 엄지 받침 가운데, 가로 = 길 아래(등급 북 아래) 가운데, 모자라면 오른쪽 세로 줄 (8-2·16-6)
   const c = D.art.clear, nb = run && !hasNext() ? 2 : 3, btnW = nb * c.btn + (nb - 1) * c.btnGap, rb = $('resultBtns');
   let x, y, col = false;
-  if (lay.thumb) { x = lay.W / 2 - btnW / 2; y = lay.thumb.y + lay.thumb.h / 2 - c.btn / 2; }
+  if (lay.thumb) { x = lay.W / 2 - btnW / 2; y = (lay.thumb.y0 + lay.thumb.y1) / 2 - c.btn / 2; }
   else {
-    const below = lay.cy + lay.R + lay.starR + 8;
+    const below = lay.drum.y + lay.drum.r + 12;
     if (lay.H - below >= c.btn + 12) { x = lay.W / 2 - btnW / 2; y = below; }
     else { col = true; x = lay.W - c.btn - 24; y = lay.H / 2 - btnW / 2; }
   }
   rb.classList.toggle('col', col);
-  Object.assign(rb.style, { left: x + 'px', top: y + 'px' });
+  Object.assign(rb.style, { left: px(x), top: px(y) });
+  // 클리어 글: 공이 뛰는 자리 위, HUD 띠 아래 (가운데)
   const ct = $('clearTitle');
-  if (lay.thumb) Object.assign(ct.style, { left: '16px', right: '16px', top: (lay.thumb.y - 0) + 6 + 'px', textAlign: 'center' });
-  else Object.assign(ct.style, { left: '16px', right: 'auto', top: lay.H / 2 - 20 + 'px', width: Math.max(80, lay.cx - lay.R - lay.starR - 32) + 'px', textAlign: 'left' });
-  // 등급 줄 대체 글 자리 (R8-2): 가운데 북 아래 등급 북 3자리
+  Object.assign(ct.style, { left: '16px', right: '16px', width: 'auto', textAlign: 'center', top: px(Math.max(H.band_bottom + 8, lay.ball.top - 6 - 30)) });
+  // 결과 정확도·최고 콤보 (30-art 16-13-4, layout result): 세로 = 등급 북 아래 한 줄, 가로 = 등급 북 줄 양옆
   {
-    const cl = D.art.clear, r = cl.drumR * lay.R, gy = lay.cy + cl.drumY * lay.R, w = 2 * cl.drumGap * lay.R + 2 * r;
-    Object.assign($('gradeAria').style, { left: lay.cx - w / 2 + 'px', top: gy - r + 'px', width: w + 'px', height: 2 * r + 'px' });
+    const RS = lay.result, ol = R.lay.judge_label.outline_px;
+    for (const [id, q, iconW] of [['resAcc', RS.accuracy, D.art.road.result.icon_mul], ['resCombo', RS.best_combo, D.art.road.result.combo_icon_mul]]) {
+      const el = $(id), F = q.font_px, ic = el.querySelector('.resIcon');
+      Object.assign(el.style, { left: px(q.x0), top: px(q.y0), width: px(q.x1 - q.x0), height: px(q.y1 - q.y0), fontSize: px(F), gap: px(F * D.art.road.result.icon_gap_mul) });
+      el.style.setProperty('--ol', 2 * ol + 'px');
+      Object.assign(ic.style, { width: px(F * iconW), height: px(id === 'resAcc' ? F * iconW : F * iconW * 8 / 22) });
+    }
+    const nm = $('resNew'), F = RS.accuracy.font_px, d = F * D.art.road.result.new_mark_mul;
+    const num = $('resAcc').querySelector('.resNum').getBoundingClientRect();
+    const nx = num.width ? num.right + 2 : RS.accuracy.x1 - d;
+    Object.assign(nm.style, { left: px(Math.min(nx, RS.accuracy.x1 + d)), top: px(RS.accuracy.y0 - d * 0.25), width: px(d), height: px(d) });
   }
-  // 튜토리얼 문구: 세로 = 엄지 받침 위쪽(D13), 가로 = 손가락 칸 바로 위(칸 위끝 − 8), 화면 밖이면 칸 아래 (4-4)
-  const tu = $('tut'), ha = D.art.hand, hb = lay.hand;
-  if (lay.thumb) Object.assign(tu.style, { left: '16px', right: '16px', width: 'auto', top: lay.thumb.y + 8 + 'px', bottom: 'auto', textAlign: 'center' });
-  else {
-    const tw = Math.min(lay.W - 32, Math.max(140, hb.size * 2));
-    const minL = lay.cx + lay.R + lay.starR + 8; // 궤도·별과 겹치지 않게
-    const left = Math.max(Math.min(hb.x - tw / 2, lay.W - 16 - tw), Math.min(minL, lay.W - 16 - tw));
-    const topY = hb.y - hb.size / 2 - ha.tutGap;
-    const up = topY - 48 >= 8;
-    Object.assign(tu.style, { left: left + 'px', right: 'auto', width: tw + 'px', textAlign: 'center',
-      top: up ? 'auto' : hb.y + hb.size / 2 + ha.tutGap + 'px', bottom: up ? lay.H - topY + 'px' : 'auto' });
-  }
-  // 타이틀 시작 힌트 (4-6): 세로 = 받침 자리, 가로 = 궤도 오른쪽 영역 세로 가운데
+  // 등급 줄 대체 글 자리 (R8-2): 판정 북 높이, 화면 가운데 등급 북 3자리
   {
-    const th0 = lay.titleHint, ts = $('tapStart'), hand = ts.querySelector('img');
-    hand.style.width = hand.style.height = th0.hand + 'px';
-    Object.assign(ts.style, { left: th0.x0 + 'px', width: th0.x1 - th0.x0 + 'px', right: 'auto', bottom: 'auto', top: th0.cy + 'px' });
+    const r = c.gradeR * lay.drum.r, w = 2 * c.gradeGap * lay.drum.r + 2 * r;
+    box($('gradeAria'), lay.W / 2 - w / 2, lay.drum.y - r, w, 2 * r);
+  }
+  // 튜토리얼 글: layout text_slot (세로 = 손가락 칸 아래, 가로 = 손가락 칸 오른쪽), 14 px 굵게 2줄 자리
+  const ts = lay.text_slot, tu = $('tut');
+  box(tu, ts.x0, ts.y0, ts.x1 - ts.x0, ts.y1 - ts.y0);
+  tu.classList.toggle('side', ts.side === 'right_of_finger');
+  // 타이틀 시작 힌트 (16-9 4-6 대체): 손가락 = 판정 북 아래 손가락 칸, 글 = 글 자리
+  {
+    const f = lay.finger, st = $('tapStart'), hand = st.querySelector('img'), tx = st.querySelector('span');
+    box(hand, f.x0, f.y0, f.s, f.s);
+    box(tx, ts.x0, ts.y0, ts.x1 - ts.x0, ts.y1 - ts.y0);
+    tx.classList.toggle('side', ts.side === 'right_of_finger');
   }
   placeCard();
 }
@@ -738,16 +830,18 @@ function draw(V) {
   } else if (state === 'calib' && cal) {
     const ek = cal.emptyV >= 0 ? Math.min(1, (V - cal.emptyV) / 200) : null;
     R.calib(th, V, { filled: cal.filled, emptyK: ek, checkK: cal.phase === 'done' ? (V - cal.endV) / (D.art.calib.checkGrowS * 1000) : 0, hand: cal.hand });
-  } else if (state === 'title' || state === 'card') R.title(th);
+  } else if (state === 'title' || state === 'card') R.title(th, V);
   else R.menuBg(th);
 }
 
 function resize() {
   const W = innerWidth, H = innerHeight, dpr = Math.min(3, devicePixelRatio || 1);
   const cs = getComputedStyle(document.documentElement);
-  const safe = safeIns = { t: parseFloat(cs.getPropertyValue('--sat')) || 0, b: parseFloat(cs.getPropertyValue('--sab')) || 0 };
+  const num = (k) => parseFloat(cs.getPropertyValue(k)) || 0;
+  const safe = safeIns = { t: num('--sat'), b: num('--sab'), l: num('--sal'), r: num('--sar') };
   R.resize(W, H, dpr, safe);
   R.prewarm(); // 손가락·깃발 스프라이트를 지금 크기로 미리 래스터화 (레벨 시작 프레임에서 빼냄, R12)
+  R.prewarmLabels(RO && RO.names); // 판정 글 스프라이트 10장 (등급 × %)
   placeUi();
   if (state === 'levels') fitGrid();
 }
@@ -913,9 +1007,15 @@ const api = {
   save() { return JSON.parse(JSON.stringify(store)); },
   layout() { return R ? R.lay : null; },
   // 마지막으로 그린 프레임의 신호 상태 (R1 검사용) / 지금 시각으로 바로 그리기
-  frameInfo() { return { handOn: !!S.handOn, malletOn: !!S.malletOn, dashK: S.dashK || 0, levelTime: run ? run.lt(clock.V()) : null }; },
+  // 마지막으로 그린 프레임 상태. malletOn·dashK 는 북채가 없어져 늘 false·0 (round-3, 옛 QA 검사 호환)
+  frameInfo() { return { handOn: !!S.handOn, malletOn: false, dashK: 0, levelTime: run ? run.lt(clock.V()) : null, combo: run ? run.combo : 0, comboShown: !!(COMBO && run && run.combo >= D.bal.combo.show_from), label: S.labelOn ? { grade: S.ro.grade, name: S.ro.name, pct: S.ro.pct } : null }; },
   drawNow() { draw(clock.V()); return this.frameInfo(); },
-  layoutFor(W, H) { return layout(W, H, D.art); },
+  layoutFor(W, H, safe) { return layout(W, H, D.art, R.lead, safe); },
+  // round-3 북길: 지금 레벨의 흐름 값 (QA 화면 검사용). speedPxS = 미리 보기 거리 ÷ (lead 박 × 1박 s), starX(i) = 지금 그 별의 x(같은 보정 시계)
+  road() { if (!R || !L) return null; const lay = R.lay, v = speedOf(L, lay); return { judgeX: lay.judge_x, previewPx: lay.preview_px, starD: lay.star_d, lineW: lay.line.w, leadBeats: leadOf(L, lay), beatMs: L.beatMs, speedPxS: v * 1000, beatPx: v * L.beatMs, previewS: leadOf(L, lay) * L.beatMs / 1000, judgeS: (leadOf(L, lay) * L.beatMs - L.judge.pass_early_ms) / 1000, overlapMs: (lay.star_d + lay.line.w) / v }; },
+  starX(i) { if (!R || !L || !run || !L.stars[i]) return null; const x = run.phase === 'fail' ? run.fail.x : run.lt(clock.V()); return R.lay.judge_x + speedOf(L, R.lay) * (L.stars[i].t - x); },
+  // 콤보: value = 이번 시도 성공 판정 수(grades.length, 실패 중 0), chords = 단계 화음 예약 기록(at = 레벨 시간 ms, null = 빈 자리 없어 넘김, cancelled = 실패·멈춤으로 취소)
+  combo() { return { on: COMBO, value: run ? run.combo : 0, shown: !!(COMBO && run && run.combo >= D.bal.combo.show_from), best: run ? run.bestCombo : 0, chords: comboLog.map((c) => ({ ...c })), aria: (() => { const e = $('comboAria'); return { role: e.getAttribute('role'), label: e.getAttribute('aria-label'), now: e.getAttribute('aria-valuenow'), text: e.getAttribute('aria-valuetext'), max: e.getAttribute('aria-valuemax'), live: e.getAttribute('aria-live') }; })() }; },
   ads,
 };
 window.__game = api;

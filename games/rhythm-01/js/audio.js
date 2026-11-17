@@ -208,20 +208,22 @@ export class AudioOut {
   resume() { if (this.ctx && this.ctx.state !== 'running') return this.ctx.resume(); }
 }
 
-// 멜로디 동기 배치 (30-art 12-7, sound.json music.melody). 기준 구현 assets/sound-check.mjs placeMelody 와 같은 규칙.
+// 멜로디 동기 배치 v3 (30-art 16-7, sound.json music.melody_r3). 기준 구현 assets/sound-check.mjs placeMelodyV3 와 같은 규칙:
+//   울리는 마디 = 카운트인·outro 를 뺀 모든 마디 중 단계 ≥ from_stage(숨 고르기 마디 포함), 피할 자리 = 레벨의 모든 판정 별(8분 절대 자리),
+//   별 자리면 같은 마디 안 0 → −1 → +1, 안 되면 뺌. 화음(단계 ≥ melody.harmony.from_stage)·악기 순서는 music.melody 그대로.
 // 반환: 마디 번호 → [{slot, d, len, inst, harmony}]
-export function placeMelody(level, lm, rule) {
-  const stageOf = (b) => { let s = 1; for (const x of level.sections) if (x.start_bar <= b && x.stage) s = x.stage; return s; };
+export function placeMelodyV3(L, lm, rule, rule3) {
+  const level = L.level;
+  const stageOf = (b) => { let s = 1; for (const x of level.sections || []) if ((x.start_bar ?? 0) <= b && x.stage) s = x.stage; return s; };
+  const starSet = new Set(L.stars.map((s) => s.bar * 8 + s.slot));
   const byBar = new Map();
-  level.bars.forEach((bar, b) => {
-    if (bar.mode !== 'play' || stageOf(b) < rule.from_stage) return;
-    const stars = new Set(level.patterns[bar.pattern].slots);
-    const half = b % rule.frame_bars;
-    const used = new Set(), out = [];
+  for (let b = 0; b < Math.min(level.bars.length, L.outroBar); b++) {
+    if (stageOf(b) < rule3.from_stage) continue;
+    const half = b % rule.frame_bars, used = new Set(), out = [];
     lm.motif.forEach((n, idx) => {
       if (Math.floor(n.s / 8) !== half) return;
       const want = n.s % 8;
-      const slot = rule.avoid_star.try.map((o) => want + o).find((s) => s >= 0 && s < 8 && !stars.has(s) && !used.has(s));
+      const slot = rule3.avoid_star.try.map((o) => want + o).find((s) => s >= 0 && s < 8 && !starSet.has(b * 8 + s) && !used.has(s));
       if (slot == null) return; // 옮길 자리 없음 → 뺌
       used.add(slot);
       const inst = lm.melody[idx % lm.melody.length];
@@ -229,50 +231,63 @@ export function placeMelody(level, lm, rule) {
       if (stageOf(b) >= rule.harmony.from_stage) out.push({ slot, d: n.d + rule.harmony.deg_plus, len: n.len, inst, harmony: true });
     });
     byBar.set(b, out);
-  });
+  }
   return byBar;
 }
 
-// 레벨 곡 이벤트 목록 (12-1 마디별 파트). modeOf(x) = 마디 모드, stageOf(b)
+// 콤보 단계 화음 시각 (sound.json music.combo_r3, assets/sound-check.mjs comboChordSlots 와 같은 규칙):
+//   그 판정 별 8분 자리 + ceil(min_after_beats × 2) ~ + max_wait_beats × 2 중 첫 빈 정박(짝수 8분, 판정 별 없음),
+//   없으면(fallback_any_eighth) 같은 범위 첫 빈 8분, 그것도 없으면 null(소리 없이 넘김). 반환 = 레벨 시간 ms
+export function comboChordTime(L, starIndex, C) {
+  const set = L._slotSet || (L._slotSet = new Set(L.stars.map((s) => Math.round(s.t / L.eighthMs))));
+  const s0 = Math.round(L.stars[starIndex].t / L.eighthMs);
+  const lo = s0 + Math.ceil(C.min_after_beats * 2), hi = s0 + C.max_wait_beats * 2;
+  for (let s = lo; s <= hi; s++) if (s % 2 === 0 && !set.has(s)) return s * L.eighthMs;
+  if (C.fallback_any_eighth) for (let s = lo; s <= hi; s++) if (!set.has(s)) return s * L.eighthMs;
+  return null;
+}
+
+// 레벨 곡 이벤트 목록 (12-1 파트, round-3 16-7). modeOf(x) = 그 시각의 마디 상태(countin/play/rest/outro/end), stageOf(b).
+// 숨 고르기 마디(rest, outro 앞)는 melody_r3.during_breath(= play) 파트로 울림. 이벤트마다 그 시각의 상태로 파트를 고름
+// (연습 부활 카운트인은 마디 중간에서 시작할 수 있음: 체크포인트 박 한 마디 앞)
 export function buildSong(L, t0, music, sound, modeOf, stageOf) {
-  const P = sound.parts, lm = music.levels[L.level.id], rule = music.melody;
+  const P = sound.parts, lm = music.levels[L.level.id], rule = music.melody, r3 = music.melody_r3;
   const ev = [];
   const beat = L.beatMs, eighth = L.eighthMs;
   const bars = L.countInBars + L.level.bars.length;
   const shakerOn = L.level.allowed_slots !== P.shaker_when_allowed_slots_not;
-  const playByBar = new Map(), showByBar = new Map();
+  const playByBar = new Map();
   for (const s of L.stars) (playByBar.get(s.bar) || playByBar.set(s.bar, []).get(s.bar)).push(s);
-  for (const s of L.shows) (showByBar.get(s.bar) || showByBar.set(s.bar, []).get(s.bar)).push(s);
   const third = Math.pow(2, (lm.minor ? 3 : 4) / 12), fifth = Math.pow(2, 7 / 12);
   const scaleF = (deg) => lm.root3 * rule.octave_mul * Math.pow(2, (lm.scale[deg % lm.scale.length] + 12 * Math.floor(deg / lm.scale.length)) / 12);
   const harmDb = sound.sounds.harmony_db;
   const duckOn = P.bass_duck_on || ['play'];
-  const mel = L.melody || (L.melody = placeMelody(L.level, lm, rule)); // 레벨마다 한 번 계산
+  const mel = L.melody || (L.melody = placeMelodyV3(L, lm, rule, r3)); // 레벨마다 한 번 계산
+  const partsAt = (x) => { const m = modeOf(x + 0.5); return { m, parts: P[m === 'rest' ? r3.during_breath : m] || [] }; };
   let outroNote = false;
-  for (let k = Math.floor(t0 / L.barMs); k < bars; k++) {
+  for (let k = Math.max(0, Math.floor(t0 / L.barMs)); k < bars; k++) {
     const x0 = k * L.barMs;
-    const mode = modeOf(x0 + 1);
     const b = k - L.countInBars;
-    const parts = P[mode] || [];
     for (let q = 0; q < L.beatsPerBar; q++) {
-      const x = x0 + q * beat;
+      const x = x0 + q * beat, { m, parts } = partsAt(x);
       if (parts.includes('kick')) ev.push({ x, name: q ? 'kick' : 'kick_one' });
-      if (parts.includes('tick')) ev.push({ x, name: q ? 'tick' : 'tick_one' });
+      if (parts.includes('tick')) ev.push({ x, name: m === 'countin' && Math.abs(x - t0) < 1 ? 'tick_one' : 'tick' });
+      if (q === 0 && parts.includes('pad')) for (const mm of [1, third, fifth]) ev.push({ x, name: 'pad', f: lm.root3 * mm, dur: L.barMs / 1000 });
+      if ((q === 0 || q === 2) && parts.includes('bass')) ev.push({ x, name: 'bass', f: lm.root3 / 2, dur: (2 * beat) / 1000 });
+      if (shakerOn && parts.includes('shaker')) ev.push({ x, name: 'shaker' });
     }
-    if (parts.includes('bass')) for (const q of [0, 2]) ev.push({ x: x0 + q * beat, name: 'bass', f: lm.root3 / 2, dur: (2 * beat) / 1000 });
-    if (parts.includes('pad')) for (const m of [1, third, fifth]) ev.push({ x: x0, name: 'pad', f: lm.root3 * m, dur: L.barMs / 1000 });
-    if (shakerOn && parts.includes('shaker')) for (let sl = 0; sl < 8; sl += 2) ev.push({ x: x0 + sl * eighth, name: 'shaker' });
-    if (parts.includes('teacher')) for (const s of showByBar.get(b) || []) ev.push({ x: s.t, name: 'teacher' });
-    // 베이스 숙임: 판정 별·보여 주기 별 시각 (parts.bass_duck_on)
-    if (parts.includes('bass') && duckOn.includes(mode)) for (const s of (mode === 'show' ? showByBar : playByBar).get(b) || []) ev.push({ x: s.t, duck: true });
-    if (parts.includes('melody') && mode === 'play' && stageOf(b) >= P.melody_from_stage) {
+    // 베이스 숙임: 판정 별 시각 (parts.bass_duck_on)
+    for (const s of playByBar.get(b) || []) { const { m, parts } = partsAt(s.t); if (parts.includes('bass') && duckOn.includes(m)) ev.push({ x: s.t, duck: true }); }
+    if (b >= 0 && b < L.outroBar && stageOf(b) >= P.melody_from_stage) {
       for (const n of mel.get(b) || []) {
-        const ev1 = { x: x0 + n.slot * eighth, name: 'mel_' + n.inst, f: scaleF(n.d), dur: (n.len * eighth) / 1000 };
+        const x = x0 + n.slot * eighth;
+        if (!partsAt(x).parts.includes('melody')) continue;
+        const ev1 = { x, name: 'mel_' + n.inst, f: scaleF(n.d), dur: (n.len * eighth) / 1000 };
         if (n.harmony) ev1.gainDb = harmDb;
         ev.push(ev1);
       }
     }
-    if (mode === 'outro' && !outroNote) {
+    if (b === L.outroBar && !outroNote && partsAt(x0).m === 'outro') {
       outroNote = true;
       const o = rule.outro;
       ev.push({ x: x0 + o.slot * eighth, name: 'mel_' + lm.melody[0], f: scaleF(o.d), dur: (o.len * eighth) / 1000 });

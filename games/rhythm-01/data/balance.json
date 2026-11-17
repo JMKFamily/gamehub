@@ -1,5 +1,5 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "_units": "시간은 ms 또는 s(키 이름에 표기), 박자는 beat, 마디는 bar, 자리는 slot(8분음표 단위, 0 = 12시 = 마디 첫 박, 0~7). 판정 시각은 오디오 시계 기준이며 지연 보정을 뺀 뒤의 값. 레벨 시간 0 = 카운트인 마디의 첫 박.",
  "_source": "수치의 출처는 20-balance.md (오케스트레이터 1-2 결정 12). lore·art 문서는 숫자 대신 20-balance.md 절을 참조한다.",
  "input": {
@@ -59,7 +59,7 @@
   "fail_fx_s": 0.3,
   "settle_s": 0.58,
   "regrow_s": 0.2,
-  "ball_return": "regrow_at_top",
+  "ball_return": "regrow_on_drum",
   "ball_regrow_scale": [
    0.6,
    1
@@ -68,14 +68,31 @@
   "best_record_slide_s": 0.2,
   "count_in_bars": 1,
   "count_in_ticks": "every_beat",
-  "new_stars_appear": "during_count_in_by_preview_rule",
-  "_note": "실패 순간(깨진 별 시각) → 공이 다시 움직이는 첫 프레임 = 1.08 s, 자동. 0~0.08 음악 페이드 / 0~0.30 별 깨짐 + 공이 속 빈 원 / 0.30~0.88 정지(진행도 막대 최고 기록 0.2 s 미끄러짐) / 0.88~1.08 12시에서 공이 0.6→1.0배로 커지며 다시 나타남(거꾸로 미끄러지지 않음). 1.08 s 에 카운트인 1마디 시작. 첫 마디 별은 카운트인 중 preview 규칙으로 커지며 나타남 (결정 5, 20-balance.md 6-1)."
+  "new_stars_appear": "flow_in_from_right_during_count_in",
+  "_note": "실패 순간(깨진 별 시각) → 공이 다시 움직이는 첫 프레임 = 1.08 s, 자동. 0~0.08 음악 페이드 / 0~0.30 별 깨짐 + 공이 속 빈 원 / 0.30~0.88 정지(진행도 막대 최고 기록 0.2 s 미끄러짐) / 0.88~1.08 12시에서 공이 0.6→1.0배로 커지며 다시 나타남(거꾸로 미끄러지지 않음). 1.08 s 에 카운트인 1마디 시작. 첫 마디 별은 카운트인 중 preview 규칙으로 커지며 나타남 (결정 5, 20-balance.md 6-1).",
+  "ball_return_r2_deprecated": {
+   "value": "regrow_at_top",
+   "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
+  },
+  "new_stars_appear_r2_deprecated": {
+   "value": "during_count_in_by_preview_rule",
+   "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
+  },
+  "_note_r3": "R18: 시간 배분 그대로(1.08 s). 공은 12시 대신 판정 북 위에서 0.6→1.0 배로 커지며 다시 나타남. 길은 비어 있다가 카운트인 동안 첫 별이 오른쪽 끝에서 들어옴(별 시각 − lead 박에 나타남)."
  },
  "practice": {
-  "checkpoint_rule": "rest_bar_start",
+  "checkpoint_rule": "breath_gap_start",
   "count_in_bars": 1,
   "icon": "flag",
-  "_note": "연습 모드: sections 의 checkpoint:true 구간 시작(쉬는 마디)에서 재시작. 그 쉬는 마디가 카운트인. 연습 모드 버튼·체크포인트 표시는 같은 깃발 아이콘(결정 10). 일반 모드는 항상 레벨 처음."
+  "_note": "연습 모드: sections 의 checkpoint:true 구간 시작(쉬는 마디)에서 재시작. 그 쉬는 마디가 카운트인. 연습 모드 버튼·체크포인트 표시는 같은 깃발 아이콘(결정 10). 일반 모드는 항상 레벨 처음.",
+  "checkpoint_rule_r2_deprecated": {
+   "value": "rest_bar_start",
+   "_status": "deprecated (round-3 R21)",
+   "_note": "쉬는 마디 시작. 쉬는 마디가 없어짐"
+  },
+  "revive_count_in_only": true,
+  "checkpoints_source": "levels/*.json practice.checkpoints (path.mjs 가 path.chunks 에서 만듦)",
+  "_note_r3": "R21: 체크포인트 = 숨 고르기 틈(덩어리 사이 빈 박 ≥ path_v3.breath_beats[0]) 시작 = 앞 덩어리 마지막 별 다음 정박. 연습 모드 부활 때만 카운트인 1마디를 끼우고 그 뒤 체크포인트 박부터 길이 이어짐(일반 모드 시간표는 그대로). 부활 → 다음 별 = 1.08 s + 카운트인 1마디 + 빈 박."
  },
  "unlock": {
   "next_level_on": [
@@ -91,10 +108,18 @@
   "basis": "judged_stars",
   "value": "processed_stars / total_stars",
   "moves_on": "star_judged",
-  "rest_bars": "no_movement",
+  "rest_bars": "no_movement_in_breath_gaps",
   "best_record": "max over normal-mode attempts",
-  "practice_flags_at": "first star index of each checkpoint section",
-  "_note": "진행도 = 처리한(통과한) 판정 별 수 / 전체 판정 별. 시간이 아니라 별 기준이라 쉬는 마디에서 막대가 움직이지 않는다. 검증기 B2(평균 진행도)도 같은 기준. 20-balance.md 6-5."
+  "practice_flags_at": "first star index after each practice checkpoint",
+  "_note": "진행도 = 처리한(통과한) 판정 별 수 / 전체 판정 별. 시간이 아니라 별 기준이라 쉬는 마디에서 막대가 움직이지 않는다. 검증기 B2(평균 진행도)도 같은 기준. 20-balance.md 6-5.",
+  "rest_bars_r2_deprecated": {
+   "value": "no_movement",
+   "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
+  },
+  "practice_flags_at_r2_deprecated": {
+   "value": "first star index of each checkpoint section",
+   "_status": "deprecated (round-3 R21)"
+  }
  },
  "clear": {
   "clear_at": "last_star_pass_end",
@@ -110,7 +135,35 @@
   "min_read_ms": 1200,
   "show_star_style": "hollow",
   "play_star_style": "filled",
-  "_note": "다음 마디 별은 한 마디 앞 같은 자리의 (별 시각 + 늦은 통과 창 끝 + 가장 긴 판정 이펙트 딱 220 ms)가 지난 뒤 0.25박 동안 커지며 나타난다(투명도 없음). 앞 자리에 별이 없어도 같은 시각. 그래서 치지 않은 별·판정 이펙트와 새 별이 한 자리에 겹치지 않는다 (결정 6). 다 커진 뒤 별 시각까지 min_read_ms 이상 (검증 S12). 보여 주기 별 = 속 빈 별, 따라 치기 별 = 꽉 찬 별."
+  "_note": "다음 마디 별은 한 마디 앞 같은 자리의 (별 시각 + 늦은 통과 창 끝 + 가장 긴 판정 이펙트 딱 220 ms)가 지난 뒤 0.25박 동안 커지며 나타난다(투명도 없음). 앞 자리에 별이 없어도 같은 시각. 그래서 치지 않은 별·판정 이펙트와 새 별이 한 자리에 겹치지 않는다 (결정 6). 다 커진 뒤 별 시각까지 min_read_ms 이상 (검증 S12). 보여 주기 별 = 속 빈 별, 따라 치기 별 = 꽉 찬 별.",
+  "_status": "deprecated (round-3 R19: \"한 마디 앞 같은 자리에서 커지며 나타남\" → 오른쪽 끝에서 흘러 들어옴, path_v3.preview·레벨 path.preview_lead_beats)",
+  "lead_beats": {
+   "landscape": {
+    "10": 3,
+    "01": 4,
+    "02": 4,
+    "03": 4,
+    "04": 3.5,
+    "05": 3.5,
+    "06": 3.5,
+    "07": 3,
+    "08": 3,
+    "09": 3
+   },
+   "portrait": {
+    "10": 3,
+    "01": 4,
+    "02": 3.5,
+    "03": 3.5,
+    "04": 3.5,
+    "05": 3.5,
+    "06": 3.5,
+    "07": 3,
+    "08": 3,
+    "09": 3
+   },
+   "_note": "round-3 R19 거울 값(원본 = levels/*.json path.preview_lead_beats·preview_lead_beats_portrait, 검증 P1 이 같음을 확인). art assets/road-layout.mjs 가 읽음. 세로 = min(가로, 3.5)(art 30-art 16-2 해결안 A 채택, L1 은 정박만이라 4). preview 블록의 나머지 키는 v2 폐기."
+  }
  },
  "teacher": {
   "turn_signal": "mallet_visible",
@@ -141,33 +194,68 @@
   },
   "child_tap_db": -6,
   "_note": "차례 신호 = 북채가 보이면 볼 차례, 없으면 내 차례 (결정 1, round-2 R1 보완). 북채는 보여 주기 묶음(이어진 보여 주기 마디, L6 두 마디 무늬는 2마디가 한 묶음) 첫 마디 1박 전에 나타나고, 그 묶음의 마지막 보여 주기 별 + 0.5박에 0.25박 동안 작아지며 사라진다(점선 궤도·점선 북도 같이). 어떤 경우에도 다음 판정 별의 놓침 구역 시작 전에 다 사라진다(상한에 걸리면 그 시각 - 0.25박부터 작아짐). 등장 1박 안에는 판정 별의 통과 창이 없어야 하고(검증 S14), 북채가 보이는 구간은 어떤 판정 별의 [놓침 구역 시작, 통과 창 끝]·손가락 구간과도 겹치지 않는다(검증 S15·S16). 소리 값은 art 소유(원본 assets/sound.json, round-2 둥둥이 -14 dB), 여기에는 참조만. 20-balance.md 6-4.",
-  "mallet_gone_before_miss_zone_note": "상한 여유 20 ms(60 fps 한 프레임 16.7 ms + 반올림). 북채는 다음 판정 별 놓침 구역 시작 20 ms 전까지 다 사라짐."
+  "mallet_gone_before_miss_zone_note": "상한 여유 20 ms(60 fps 한 프레임 16.7 ms + 반올림). 북채는 다음 판정 별 놓침 구역 시작 20 ms 전까지 다 사라짐.",
+  "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
  },
  "show_bar_taps": {
   "judge": "same_as_any_tap",
   "reaction": "same_as_stray_tap",
   "min_gap_last_show_to_next_star_beats": 1,
   "min_margin_show_star_to_next_miss_zone_ms": 150,
-  "_note": "보여 주기 마디에서 아이가 같이 친 탭은 헛탭과 같은 반응(결정 10). 판정은 다른 탭과 같으므로, 보여 주기 별 → 다음 판정 별은 1박 이상, 보여 주기 별 시각 → 다음 별 놓침 구역 시작은 150 ms(약 2σ70) 이상 떨어져야 한다(검증 S13, L7 반박 4연속 포함)."
+  "_note": "보여 주기 마디에서 아이가 같이 친 탭은 헛탭과 같은 반응(결정 10). 판정은 다른 탭과 같으므로, 보여 주기 별 → 다음 판정 별은 1박 이상, 보여 주기 별 시각 → 다음 별 놓침 구역 시작은 150 ms(약 2σ70) 이상 떨어져야 한다(검증 S13, L7 반박 4연속 포함).",
+  "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
  },
  "cards": {
   "timing": "pre_level_first_play",
   "per_level_max": 1,
   "required_when_new_gimmick": true,
-  "asset_path": "assets/cards/card_<id>.svg",
+  "asset_path": "assets/cards-r3/card_<id>.svg",
+  "asset_path_r2_deprecated": {
+   "value": "assets/cards/card_<id>.svg",
+   "_status": "deprecated (round-3 R18·R24)",
+   "_note": "원 궤도 그림 카드(round-2 빌드용, 지우지 않음). 새 코어는 art assets/cards-r3/."
+  },
   "aria_key": "card_<id>",
   "caption_text": false,
   "keys": {
-   "01": "card_star_tap",
+   "01": "card_drum_tap",
    "02": "card_half_star",
    "03": "card_rest_beat",
-   "06": "card_two_bar",
+   "06": "card_run3",
    "07": "card_run4"
   },
-  "_note": "그림 카드는 그 레벨을 처음 할 때 카운트인 앞에서 1회(탭으로 닫음), 재시작 때 다시 안 띄움, 레벨당 1장. L1 은 북채가 침 → 공이 꽉 찬 별에 닿을 때 손가락 톡의 3칸 한 장. 보조 문구 없음, 같은 이름의 aria-label 키만 (결정 7, lore 확정 키)."
+  "_note": "그림 카드는 그 레벨을 처음 할 때 카운트인 앞에서 1회(탭으로 닫음), 재시작 때 다시 안 띄움, 레벨당 1장. L1 은 (round-3) 별이 오른쪽에서 옴 → 북에 닿음 → 손가락 톡의 3칸 한 장(round-2 북채 그림은 대체). 보조 문구 없음, 같은 이름의 aria-label 키만 (결정 7, lore 확정 키).",
+  "keys_r2_deprecated": {
+   "value": {
+    "01": "card_star_tap",
+    "02": "card_half_star",
+    "03": "card_rest_beat",
+    "06": "card_two_bar",
+    "07": "card_run4"
+   },
+   "_status": "deprecated (round-3 R20)",
+   "_note": "L6 card_two_bar(두 마디 무늬 = 보여 주기 2마디 전제)는 폐기. L6 새 기믹 = 반박 3연속(card_run3)."
+  },
+  "keys_r3a_deprecated": {
+   "value": {
+    "01": "card_star_tap",
+    "02": "card_half_star",
+    "03": "card_rest_beat",
+    "06": "card_run3",
+    "07": "card_run4"
+   },
+   "_status": "deprecated (round-3 R24)",
+   "_note": "round-3 1-1 값. L1 card_star_tap 은 \"북채 보고 별에 톡\" 뜻이라 폐기(lore R3-7), 새 키 card_drum_tap. 06 card_run3 은 그대로(R24 확정)."
+  },
+  "_note_r3": "R18·R24: 카드 5장 그림은 원 궤도 → 길 그림(art assets/cards-r3/, 파일 이름 = 키). 키 01 card_drum_tap(R24 새 키, 옛 card_star_tap 폐기), 02·03·07 유지, 06 card_run3(R24, lore 새 문구·art \"붙은 별 셋\" 그림)."
  },
  "tutorial_cue": {
-  "key": "tut_tap",
+  "key": "tut_drum_tap",
+  "key_r3a_deprecated": {
+   "value": "tut_tap",
+   "_status": "deprecated (round-3 R24)",
+   "_note": "tut_tap = \"공이 별에 닿으면\" 뜻이라 폐기(lore R3-7). 새 키 tut_drum_tap."
+  },
   "show_from_beats_before": 1,
   "press_from_beats_before": 0.25,
   "press_from_beats_before_r1_deprecated": {
@@ -176,14 +264,22 @@
    "_note": "0.5박 전(L1 -273 ms)은 첫 별 놓침 구역 [-290, -150] 안이라 손가락 움직임 시작을 따라 친 아이가 \"너무 일찍\" 실패. 0.25박(-136 ms)은 통과 창(-150) 안."
   },
   "press_start_must_be_in_pass_window": true,
-  "show_only_after_mallet_gone": true,
+  "show_only_after_mallet_gone": false,
   "hide_after": "first_star_judged",
-  "_note": "손가락 그림은 첫 꽉 찬 별 1박 전에 나타나 0.25박 전부터 누르고(누름 시작이 통과 창 안, 놓침 구역 밖), 첫 별 판정 뒤 사라짐 (결정 10, round-2 R2). 북채가 다 사라진 뒤에만 나타남(R1, 검증 S15: 손가락 구간 [첫 별 - 1박, 첫 별 + pass_late_ms] ∩ 북채 구간 = 없음)."
+  "_note": "손가락 그림은 첫 꽉 찬 별 1박 전에 나타나 0.25박 전부터 누르고(누름 시작이 통과 창 안, 놓침 구역 밖), 첫 별 판정 뒤 사라짐 (결정 10, round-2 R2). 북채가 다 사라진 뒤에만 나타남(R1, 검증 S15: 손가락 구간 [첫 별 - 1박, 첫 별 + pass_late_ms] ∩ 북채 구간 = 없음).",
+  "show_only_after_mallet_gone_r2_deprecated": {
+   "value": true,
+   "_status": "deprecated (round-3 R18 북길: 보여 주기 마디·북채·원 궤도 폐기)"
+  },
+  "anchor": "judge_drum",
+  "no_overlap_with_next_star_danger": true,
+  "_note_r3": "R18: 손가락은 판정 북 기준 위치. 북채가 없으므로 겹침 검사는 \"손가락 구간 [첫 별 − 1박, 첫 별 + pass_late] ∩ 둘째 별 [놓침 구역 시작, 통과 창 끝] = 0\"(검증 T1)."
  },
  "accompaniment": {
   "shaker_slots": "even_only",
   "judged_slot_percussion": "removed_from_song",
-  "_note": "셰이커는 정박(짝수 자리)에만 (결정 10). 8분마다 울리면 빈 반박 자리 탭을 유도해 놓침 구역에 걸린다(5-2절). 판정 별 자리의 타악은 곡에서 빼고 아이 탭 소리로 낸다."
+  "_note": "셰이커는 정박(짝수 자리)에만 (결정 10). 8분마다 울리면 빈 반박 자리 탭을 유도해 놓침 구역에 걸린다(5-2절). 판정 별 자리의 타악은 곡에서 빼고 아이 탭 소리로 낸다.",
+  "_note_r3": "유지. 판정 별 자리의 타악은 곡에서 빼고 아이 탭이 채움. v3 별 자리는 levels/*.json bars(마디 내용)에서 읽음."
  },
  "audio_latency": {
   "compensate": [
@@ -247,7 +343,13 @@
    "round_disagree_max_ms": 60,
    "max_retries": 1,
    "on_fail": "keep_previous_offset",
-   "apply_only_if_abs_over_ms": 30,
+   "apply_only_if_abs_over_ms": 10,
+   "apply_only_if_abs_over_ms_r2_deprecated": {
+    "value": 30,
+    "_status": "deprecated (round-3 R23)",
+    "_note": "1-3~round-3 1-1 값. 무시 구간 경계 이른 쪽 −30 ms가 그대로 남으면 L7~L10 σ70 32~74회(30회 초과, 20-balance 17-9 R17b). 측정 잡음이 실제로 남는 d 를 실제로 덮는 경우(device −20~−30)에도 L10 37~38회(20-balance 17-13 R23 표)."
+   },
+   "_apply_only_if_abs_over_ms_note_r3": "round-3 R23: |m| ≤ 10 ms 면 적용 안 함. 어른 σ40·사용 탭 12개(2회 × 8탭 중 3번째부터 6개씩) 중앙값 잡음 약 ±14.5 ms(1σ). 10 ms 하한은 실제 남은 오차가 |d| < 10 ms 일 때 평균 |오차|를 1 → 8 ms로 키우지만(L10 σ70 22 → 23회), d 가 어디 있든 L7~L10 최대 25회 ≤ 30(30 ms 하한은 d −20~−30 에서 L10 37~38회). 검증기 정보 R23 이 같은 표를 출력. 20-balance 17-13.",
    "offset_clamp_ms": [
     -200,
     300
@@ -255,7 +357,7 @@
    "between_rounds_signal": "progress_dots_8_reset",
    "done_signal": "calib_done",
    "retry_signal": "calib_redo",
-   "_note": "보호자(어른 σ40 가정)가 치는 보정. 첫 실행 때는 보정 화면 왼쪽 위에 \"어른과 같이\" 그림(icon-together, 버튼 아님, 대체 글 calib_with_grownup)을 두고 바로 시작, 설정에서 다시 할 때는 보호자 문(guardian_gate, 2000 ms 길게 누르기)으로 들어옴. 화면은 박에 맞춰 움직이지 않고 똑딱 소리만(visual_beat_cue false). 8번 톡 × 2회(점 8개가 다 차면 비우고 한 번 더). 회마다 3번째 탭부터 6개 사용, IQR 150 넘으면 다시, 두 회 중앙값 차이 60 넘으면 전체 다시(1번까지), 그래도 안 되면 이전 오프셋 유지(calib_kept). 최종 오프셋 = 12개 중앙값, |값| ≤ 30 이면 적용 안 함(어른 12탭 잡음 약 ±14 ms). 1-3부터 보정 화면은 이 흐름을 따르고, 기존 calibration 블록(1회·±60)은 공통값·1-2 기록으로 남긴다(calibration.superseded_by). 20-balance.md 8-4.",
+   "_note": "보호자(어른 σ40 가정)가 치는 보정. 첫 실행 때는 보정 화면 왼쪽 위에 \"어른과 같이\" 그림(icon-together, 버튼 아님, 대체 글 calib_with_grownup)을 두고 바로 시작, 설정에서 다시 할 때는 보호자 문(guardian_gate, 2000 ms 길게 누르기)으로 들어옴. 화면은 박에 맞춰 움직이지 않고 똑딱 소리만(visual_beat_cue false). 8번 톡 × 2회(점 8개가 다 차면 비우고 한 번 더). 회마다 3번째 탭부터 6개 사용, IQR 150 넘으면 다시, 두 회 중앙값 차이 60 넘으면 전체 다시(1번까지), 그래도 안 되면 이전 오프셋 유지(calib_kept). 최종 오프셋 = 12개 중앙값, |값| ≤ 10 이면 적용 안 함(round-3 R23, 옛 30 은 apply_only_if_abs_over_ms_r2_deprecated; 어른 12탭 잡음 약 ±14 ms). 1-3부터 보정 화면은 이 흐름을 따르고, 기존 calibration 블록(1회·±60)은 공통값·1-2 기록으로 남긴다(calibration.superseded_by). 20-balance.md 8-4.",
    "first_run_picture_aria_key": "calib_with_grownup",
    "first_run_picture_only_on_first_run": true,
    "visual_beat_cue": false,
@@ -426,7 +528,16 @@
     "extra": 0.03
    }
   },
-  "_note": "criteria.md 정의와 같음: 박 시각 + N(0, σ) 탭, 별마다 놓침 확률 miss(탭 안 함), 헛탭 확률 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 보여 주기·쉬는 마디에서는 치지 않음(따라 치기 변형은 --along)."
+  "_note": "criteria.md 정의와 같음: 박 시각 + N(0, σ) 탭, 별마다 놓침 확률 miss(탭 안 함), 헛탭 확률 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 보여 주기·쉬는 마디에서는 치지 않음(따라 치기 변형은 --along).",
+  "novelty": {
+   "unit": "bar_content",
+   "extra_miss_first_exposure": 0.03,
+   "exposures_to_zero": 3,
+   "exposure_counted": "bar_reached",
+   "applies_to": "all_profiles",
+   "_note": "R20 \"처음 보는 무늬 비용\"(보여 주기 없음, 00-benchmark 8-4 제안 3 %p). 그 세션에서 그 마디 내용에 도달한 횟수 e(앞 시도 + 같은 시도 앞쪽)마다 별 놓침 +3 × (1 − e/3) %p. 레벨이 바뀌면 0부터(앞 레벨에서 본 모양도 새 마디 내용이면 다시 비용, 보수적). tools/sim/bots.mjs runNoveltySessions."
+  },
+  "_note_r3": "round-3: 보여 주기 마디가 없어 along(따라 치기) 변형은 해당 없음. B1·B4·B5·B6·B7 은 처음 보는 무늬 비용을 넣은 세션 시뮬레이션(runNoveltySessions), B2·B3 은 비용 없는 독립 시도(runProfile)."
  },
  "verify": {
   "max_gap_in_pattern_ms": 1000,
@@ -465,16 +576,16 @@
    "max": 20
   },
   "child_sd70_median_max_by_level": {
-   "10": 16,
+   "10": 27,
    "01": 5,
-   "02": 8,
-   "03": 12,
-   "04": 7,
-   "05": 8,
-   "06": 10,
-   "07": 12,
-   "08": 13,
-   "09": 14
+   "02": 7,
+   "03": 9,
+   "04": 10,
+   "05": 13,
+   "06": 14,
+   "07": 15,
+   "08": 18,
+   "09": 20
   },
   "child_sd70_median_max_growth_vs_prev": 2,
   "theme_id_pattern": "^level\\d{2}$",
@@ -489,6 +600,11 @@
   ],
   "_child_sd70_median_max_by_level_note": "round-2: 레벨 4~10 한도 = 설계 정수 중앙값(20-balance.md 11-2) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 범위 상한(1.2 T = 16.44)의 정수 이하. B1 은 정수 중앙값(세션 2000)으로 판정.",
   "level_count": 10,
+  "level_length_s": [
+   30,
+   45
+  ],
+  "_level_length_note": "round-3 R25: 레벨 길이(카운트인 포함, path.mjs duration_s) 00-benchmark 8-5 \"30~45 s\". 검사 S17.",
   "l10_target_rule": {
    "base_levels": [
     "01",
@@ -498,8 +614,8 @@
    "extrapolate_to_level": 6,
    "apply_to_level": "10",
    "tolerance_ratio": 0.2,
-   "estimator": "continuous_median",
-   "estimator_formula": "m~ = ln 0.5 / ln(1 - p), p = σ70(child_sd70) 첫 시도 클리어율(전체 실행 시도 20000회, 시드 고정)",
+   "estimator": "continuous_median_novelty",
+   "estimator_formula": "m~ = (k−1) + ln(0.5/S(k−1)) / ln(S(k)/S(k−1)), S(k) = 처음 보는 무늬 비용을 넣은 σ70 세션(20000개, 시드 고정)에서 k번째 시도까지 못 깬 비율. 비용 0 이면 ln0.5/ln(1−p) 와 같음",
    "formula": "r = (m~03 / m~01)^(1/2) (L1~L3 기하 평균 배율), T = m~03 × r^3 (L6 외삽), L10 m~ ∈ [0.8 T, 1.2 T]",
    "monotone_levels": [
     "03",
@@ -515,7 +631,19 @@
    "monotone_estimator": "continuous_median",
    "measured_by": "child_sd70 continuous median (ln0.5/ln(1-p)), 전체 실행(--quick 아님). 정수 중앙값(세션 2000)은 참고로 함께 출력",
    "integer_median_note": "round-1 까지는 정수 세션 중앙값으로 판정했으나 L1 클리어율 0.306 이 2/3회 경계(51.9 %)라 T 가 19.8 ↔ 10.8 로 뒤집힐 수 있어(round-1 balance 리뷰 이슈 1, 오케스트레이터 R3) 연속 중앙값으로 바꿈.",
-   "_note": "요청자 지시(criteria 밸런스 마지막 항목): 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6 수준. 검증 B6(L10 범위)·B7(L3~L10 단조 증가, L3~L9 < 1.2 T) 모두 연속 중앙값. 빌드 봇 값은 일치 확인용이며 B6 판정에 섞지 않음. --quick 은 참고용."
+   "_note": "요청자 지시(criteria 밸런스 마지막 항목): 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6 수준. 검증 B6(L10 범위)·B7(L3~L10 단조 증가, L3~L9 < 1.2 T) 모두 연속 중앙값. 빌드 봇 값은 일치 확인용이며 B6 판정에 섞지 않음. --quick 은 참고용.",
+   "seed_spread": {
+    "seeds": 10,
+    "levels": [
+     "01",
+     "02",
+     "03",
+     "10"
+    ],
+    "sessions": 20000,
+    "rule": "mean_and_all_within_tolerance",
+    "_note": "criteria 밸런스 rhythm-02 줄: 서로 다른 시드 10개로 L1~L3·L10 을 돌려 T 대비 L10 편차 평균과 모든 시드가 ±20 % 안 (B6s)"
+   }
   },
   "bias_sweep_levels": [
    "01",
@@ -536,8 +664,77 @@
     70
    ],
    "info_only": true,
-   "_note": "R17 정보 행(판정에 안 섞음). Δ 는 QA round-2 1-6 firstrun 실측(10 → 66/74, Δ 56~64)의 큰 쪽. r2 = 보정 시작에 고정한 auto 로 잼, r11 = 탭마다 autoNow. r11 의 Δ 64 값이 Δ 0 과 같아야 함(같지 않으면 정보 줄에 '다름(!)'). mid_calib_jump_at_ms = 보정 중(3번째와 4번째 탭 사이, 사용 탭 안)에 보고값이 바뀌는 경우의 r11 확인. 모델 tools/sim/bots.mjs autoShiftCalibBias."
-  }
+   "_note": "R17 정보 행(판정에 안 섞음). Δ 는 QA round-2 1-6 firstrun 실측(10 → 66/74, Δ 56~64)의 큰 쪽. r2 = 보정 시작에 고정한 auto 로 잼, r11 = 탭마다 autoNow. r11 의 Δ 64 값이 Δ 0 과 같아야 함(같지 않으면 정보 줄에 '다름(!)'). mid_calib_jump_at_ms = 보정 중(3번째와 4번째 탭 사이, 사용 탭 안)에 보고값이 바뀌는 경우의 r11 확인. 모델 tools/sim/bots.mjs autoShiftCalibBias.",
+   "delta_ms_info_r3": [
+    -64,
+    -30,
+    30,
+    64
+   ],
+   "_r3_note": "round-3 INFO 추가(rhythm-02 인사이트): 음(−)의 Δ(보정 뒤 자동 지연이 줄어듦)와 무시 구간 경계 크기(±30) Δ. 판정에 섞지 않음."
+  },
+  "child_sd70_median_max_by_level_r2_deprecated": {
+   "value": {
+    "10": 16,
+    "01": 5,
+    "02": 8,
+    "03": 12,
+    "04": 7,
+    "05": 8,
+    "06": 10,
+    "07": 12,
+    "08": 13,
+    "09": 14
+   },
+   "_status": "deprecated (round-3 R20)",
+   "_note": "v2 레벨의 한도."
+  },
+  "l10_target_rule_r2_deprecated": {
+   "value": {
+    "estimator": "continuous_median",
+    "estimator_formula": "m~ = ln 0.5 / ln(1 - p), p = σ70(child_sd70) 첫 시도 클리어율(전체 실행 시도 20000회, 시드 고정)"
+   },
+   "_status": "deprecated (round-3 R20)",
+   "_note": "비용 없는 첫 시도 클리어율 p 의 ln0.5/ln(1−p)."
+  },
+  "novelty_sessions": 20000,
+  "calibration_boundary_residual_ms": [
+   -10,
+   10
+  ],
+  "calibration_boundary_residual_ms_r2_deprecated": {
+   "value": [
+    -30,
+    30
+   ],
+   "_status": "deprecated (round-3 R23)",
+   "_note": "무시 구간 ±30 일 때 경계값. R23 으로 ±10."
+  },
+  "_calibration_boundary_note": "rhythm-02 인사이트: 보호자 보정 무시 구간 |m| ≤ apply_only_if_abs_over_ms(round-3 R23: 10, 옛 30) 의 경계값 자체를 남은 오차로 넣어 이른(−)·늦은(+) 쪽 σ70 첫 클리어(처음 보는 무늬 비용 포함)와 30회·2배 한도를 INFO 로 봄.",
+  "r23_calibration_noise": {
+   "fixed_device_residual_ms": [
+    -30,
+    -20,
+    -10,
+    0,
+    10,
+    30
+   ],
+   "thresholds_ms": [
+    30,
+    10
+   ],
+   "tapper_sd_ms": 40,
+   "sessions": 2000,
+   "levels": [
+    "07",
+    "08",
+    "09",
+    "10"
+   ],
+   "_note": "정보 R23: 보호자 보정(어른 σ40, 2회 × 8탭, 12개 사용) 측정 잡음을 넣고 기기 남은 오차 d 를 고정했을 때, 무시 구간 30(옛)·10(새)에서 남은 오차 평균 |r|, |r| > |d|(보정이 오차를 키움) 비율, L7~L10 σ70 첫 클리어(처음 보는 무늬 비용 포함 세션). 판정 안 함."
+  },
+  "_child_sd70_median_max_by_level_note_r3": "round-3: 한도 = 설계 정수 중앙값(처음 보는 무늬 비용 포함 세션 20000, 20-balance 17-5) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 상한(1.2 T = 27.3)의 정수 이하. v2 한도는 child_sd70_median_max_by_level_r2_deprecated."
  },
  "pattern_library": {
   "A": {
@@ -1044,5 +1241,858 @@
   },
   "_status": "deprecated",
   "_deprecated_note": "2026-11-17 1-3: 레벨 4~10 실제 데이터 levels/04-level4.json ~ levels/10-level10.json 으로 대체. 이 블록은 1-2 곡선 계획(σ70 6/9/11/14/17/20/24)의 기록으로만 남기며 빌드·검증기는 읽지 않는다(검증기는 _status 가 deprecated 이면 건너뜀). 이름·BPM·통과 창은 levels 파일과 같고, plan(마디 배치)과 별 수는 levels 파일이 기준."
+ },
+ "_schema_version_r2_deprecated": {
+  "value": 2,
+  "_status": "deprecated (round-3 R18)",
+  "_note": "레벨 스키마 v2(보여 주기 마디). v3 는 path_v3·levels/*.json path 블록."
+ },
+ "_units_r3": "레벨 v3: 박(beat) = 레벨 박 0(카운트인 다음 첫 박)부터 센 절대 박, 덩어리(chunk) = 빈 박 없이 이어진 별 묶음(별 사이 ≤ 1박), 빈 박 = 덩어리 사이에 별이 없는 정박 수. 자리 0 = 마디 첫 박(12시 뜻은 폐기).",
+ "_pattern_library_status": "deprecated (round-3 R20: v2 마디 무늬. v3 는 path_v3.chunk_library 덩어리 모양. 리듬 내용 A~E·R 은 같은 자리로 옮김). 빌드가 읽을 수 있게 지우지 않음",
+ "path_v3": {
+  "_status": "round-3 R18~R21 새 코어 \"북길\". 레벨 스키마 v3 (20-balance.md 17장). 레벨 원본 = levels/*.json path.chunks, 파생 키는 tools/sim/path.mjs --write",
+  "outro_bars": 2,
+  "breath_beats": [
+   2,
+   4
+  ],
+  "_breath_note": "덩어리 사이 빈 박은 1~4(1마디 넘게 비우지 않음, N8). 빈 1박 = 짧은 쉼(rest_beat 기믹, L3부터), 빈 2~4박 = 숨 고르기(연습 체크포인트 자리).",
+  "practice": {
+   "checkpoint_rule": "breath_gap_start",
+   "revive_count_in_bars": 1
+  },
+  "preview": {
+   "min_preview_ms": 1200,
+   "min_decide_ms": 1000,
+   "reference_preview_ms": 1160,
+   "reference_decide_ms": 800,
+   "early_levels_recommended_preview_ms": 1800,
+   "early_levels_through": 3,
+   "decide_formula": "decide_ms = lead_beats × beat_ms − pass_early_ms",
+   "flow": "star appears at right edge at (star_time − lead_beats × beat), reaches judge drum center at star_time, constant speed = path_px / (lead_beats × beat_s)",
+   "clock": "same latency-compensated clock as judging (insights 구현 절)",
+   "_note": "R19. 레벨별 박 수는 levels/*.json path.preview_lead_beats(가로)·preview_lead_beats_portrait(세로), 거울 balance.json preview.lead_beats. 세로 = min(가로, 3.5)(art 16-2 해결안 A: 360x640 반박 41.1 px ≥ 별 33 + 8). 세로 L2·L3 미리 보기 1.81·1.75 s 는 L1~L3 권장 1.8 s 에 L3 만 0.05 s 모자람 → 권장(정보)으로 받아들임, 하한 1.2 s·판단 1.0 s 는 검사(P1).",
+   "first_star_after_lead": true
+  },
+  "screen_assumed": {
+   "path_px": {
+    "640x360": 448,
+    "360x640": 288
+   },
+   "star_diameter_px": 36,
+   "min_half_gap_extra_px": 8,
+   "judge_line_px": 8,
+   "_note": "00-benchmark 8-4 가정(판정 북 가로 x 30 %·세로 x 20 %). art 30-art 가 4해상도 값을 확정하면 그 값으로 다시 계산(20-balance 17-8 표 식)."
+  },
+  "rules": {
+   "early_levels_through": 3,
+   "n2_min_bar_distance_early": 3,
+   "n2_min_bar_distance_late": 4,
+   "n4_max_same_content": 2,
+   "n4_min_distinct_ratio_early": 0.6,
+   "n4_min_distinct_ratio_late": 0.7,
+   "n6_max_beats_between_new": 16,
+   "n7_safe_empty_beats": 4,
+   "n7_second_within_beats": 8,
+   "n7_combo_max_empty_beats": 2,
+   "n8_top_cost_share": 0.25,
+   "n8_hardest_ratio": 0.7,
+   "n8_hardest_min_places": 3,
+   "n9_max_screen_chunks_early": 2,
+   "n9_max_screen_chunks_late": 3,
+   "n11_after_run4_min_empty_beats": 2,
+   "_note": "00-benchmark 8-3 N1~N11 수치(R20). 마디 내용 = 그 마디 8칸 별 배열. 덩어리 비용 = σ70 별 위험률 합. 검사 구현 tools/sim/path.mjs nChecks."
+  },
+  "chunk_library": {
+   "A": {
+    "slots": [
+     0
+    ],
+    "shape": "하나",
+    "gimmick": "quarter_star",
+    "tags": []
+   },
+   "B": {
+    "slots": [
+     0,
+     2
+    ],
+    "shape": "둘",
+    "gimmick": "quarter_star",
+    "tags": []
+   },
+   "C": {
+    "slots": [
+     0,
+     2,
+     4
+    ],
+    "shape": "셋",
+    "gimmick": "quarter_star",
+    "tags": []
+   },
+   "D": {
+    "slots": [
+     0,
+     2,
+     4,
+     6
+    ],
+    "shape": "넷",
+    "gimmick": "quarter_star",
+    "tags": []
+   },
+   "E": {
+    "slots": [
+     0,
+     1
+    ],
+    "shape": "둥두",
+    "gimmick": "half_star",
+    "tags": [
+     "pair"
+    ]
+   },
+   "V": {
+    "slots": [
+     0,
+     2,
+     3
+    ],
+    "shape": "둥 둥두",
+    "gimmick": "half_star",
+    "tags": [
+     "pair"
+    ]
+   },
+   "W": {
+    "slots": [
+     0,
+     2,
+     4,
+     5
+    ],
+    "shape": "둥 둥 둥두",
+    "gimmick": "half_star",
+    "tags": [
+     "pair"
+    ]
+   },
+   "Q": {
+    "slots": [
+     0,
+     1,
+     2
+    ],
+    "shape": "둥두둥",
+    "gimmick": "eighth_run3",
+    "tags": [
+     "run3"
+    ]
+   },
+   "Y": {
+    "slots": [
+     0,
+     1,
+     2,
+     4
+    ],
+    "shape": "둥두둥 둥",
+    "gimmick": "eighth_run3",
+    "tags": [
+     "run3"
+    ]
+   },
+   "Z": {
+    "slots": [
+     0,
+     2,
+     3,
+     4
+    ],
+    "shape": "둥 둥두둥",
+    "gimmick": "eighth_run3",
+    "tags": [
+     "run3"
+    ]
+   },
+   "R": {
+    "slots": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "shape": "둥두둥두",
+    "gimmick": "eighth_run4",
+    "tags": [
+     "run4"
+    ]
+   },
+   "_note": "덩어리 모양(자리 = 덩어리 시작 박 기준 8분 칸). 별 1~4개, 별 사이 ≤ 1박(빈 박 없음), 반박은 늘 정박 바로 뒤(당김음·반박 단독 시작 없음). A~E·R 은 v2 pattern_library 와 리듬 내용이 같음. 덩어리는 마디 선을 넘어도 됨."
+  },
+  "gimmick_intro": {
+   "quarter_star": "01",
+   "half_star": "02",
+   "rest_beat": "03",
+   "eighth_run3": "06",
+   "eighth_run4": "07"
+  },
+  "gimmicks": {
+   "quarter_star": {
+    "kind": "core",
+    "shapes": [
+     "A",
+     "B",
+     "C",
+     "D"
+    ],
+    "card": "card_drum_tap"
+   },
+   "half_star": {
+    "kind": "shape",
+    "shapes": [
+     "E",
+     "V",
+     "W"
+    ],
+    "card": "card_half_star"
+   },
+   "rest_beat": {
+    "kind": "gap",
+    "empty_beats": 1,
+    "card": "card_rest_beat"
+   },
+   "eighth_run3": {
+    "kind": "shape",
+    "shapes": [
+     "Q",
+     "Y",
+     "Z"
+    ],
+    "card": "card_run3"
+   },
+   "eighth_run4": {
+    "kind": "shape",
+    "shapes": [
+     "R"
+    ],
+    "card": "card_run4"
+   },
+   "_note": "레벨당 새 기믹 ≤ 1, 도입 3단계(N7). gap = 덩어리 둘 사이 빈 1박(짧은 쉼) 자체가 기믹. two_bar_pattern(v2 L6)은 폐기: 보여 주기 2마디가 전제였음."
+  },
+  "continuous_budget": {
+   "10": {
+    "pair": 5,
+    "run3": 3,
+    "run4": 3
+   },
+   "01": {
+    "pair": 0,
+    "run3": 0,
+    "run4": 0
+   },
+   "02": {
+    "pair": 5,
+    "run3": 0,
+    "run4": 0
+   },
+   "03": {
+    "pair": 4,
+    "run3": 0,
+    "run4": 0
+   },
+   "04": {
+    "pair": 5,
+    "run3": 0,
+    "run4": 0
+   },
+   "05": {
+    "pair": 6,
+    "run3": 0,
+    "run4": 0
+   },
+   "06": {
+    "pair": 4,
+    "run3": 4,
+    "run4": 0
+   },
+   "07": {
+    "pair": 4,
+    "run3": 3,
+    "run4": 3
+   },
+   "08": {
+    "pair": 5,
+    "run3": 3,
+    "run4": 2
+   },
+   "09": {
+    "pair": 5,
+    "run3": 3,
+    "run4": 3
+   },
+   "_note": "N11: 붙은 별 덩어리 수 상한(반박 쌍 포함 E·V·W / 3연속 Q·Y·Z / 4연속 R). 4연속 뒤 빈 ≥ 2박."
+  }
+ },
+ "combo": {
+  "_status": "확정 (round-3, 공통 문서 harness/benchmarks/djmax-judgement.md 4-2~4-5 기본안 채택. 오케스트레이터 예비 R22 \"좋아 이상만, 통과에서 끊김\"은 비채택 → rule_r22_not_adopted)",
+  "rule": "success_count",
+  "increments_on": [
+   "perfect",
+   "good",
+   "pass"
+  ],
+  "ignores": [
+   "stray",
+   "ignored_early_tap",
+   "count_in"
+  ],
+  "breaks_on": [
+   "fail"
+  ],
+  "value": "attempt grades.length (judgeAttempt 결과에서 파생, 별도 상태·난수 없음)",
+  "resets_on": [
+   "restart",
+   "practice_revive"
+  ],
+  "best_record_mode": "normal_only",
+  "affects": {
+   "clear": false,
+   "fail": false,
+   "judge_windows": false,
+   "attempt_limit": false,
+   "grade": false,
+   "bots": false
+  },
+  "grade_reflection": "none",
+  "_grade_reflection_note": "등급 북 1~3개(grade_rule)는 그대로. 콤보는 성공 판정 수라 클리어한 시도에서는 늘 판정 별 수와 같아 등급에 넣어도 정보가 없음.",
+  "show_from": 2,
+  "display": {
+   "kind": "dot_row_10_plus_big_mark",
+   "dots_per_mark": 10,
+   "where": "hud_band_below_attempt_dots",
+   "not_in_reading_area": true,
+   "digits": false,
+   "forbidden_color": "star_yellow",
+   "update_pop_ms": 120,
+   "update_pop_scale": [
+    1,
+    1.15,
+    1
+   ],
+   "_note": "점 10칸 줄 + 10마다 큰 표지 1개(공통 4-3). 자리·모양·색은 art 30-art 16-4·layout.json hud.combo 가 기준(HUD 띠 안, 콤보 2부터, 노랑·공 색 금지).",
+   "where_r3a_deprecated": {
+    "value": "left_of_judge_drum",
+    "_status": "deprecated (round-3 1-2 교차 리뷰)",
+    "_note": "자리는 art 소유: 30-art 16-4 = HUD 띠 안, 시도 점 줄 아래(layout.json hud.combo)."
+   }
+  },
+  "steps": [
+   {
+    "at": 5,
+    "fx": "dot_pop_big",
+    "fx_ms": 120,
+    "sound": "none",
+    "sound_r3a_deprecated": {
+     "value": "none_or_layer_plus1",
+     "_status": "deprecated (round-3 1-2 교차 리뷰)",
+     "_note": "art 16-4: 5단계 소리 없음"
+    }
+   },
+   {
+    "at": 10,
+    "fx": "big_mark_1",
+    "fx_ms": 400,
+    "sound": "soft_chord",
+    "sound_max_db_vs_tap": -1
+   },
+   {
+    "at": 20,
+    "fx": "big_mark_2_plus_confetti_in_hud",
+    "fx_ms": 600,
+    "sound": "soft_chord_step_up",
+    "sound_max_db_vs_tap": -1
+   },
+   {
+    "at": 30,
+    "fx": "big_mark_3_plus_confetti_in_hud",
+    "fx_ms": 600,
+    "sound": "soft_chord_step_up",
+    "sound_max_db_vs_tap": -1,
+    "fx_r3a_deprecated": {
+     "value": "big_mark_3",
+     "_status": "deprecated (round-3 1-2 교차 리뷰)"
+    }
+   }
+  ],
+  "step_sound_timing": "art_sound_json_music_combo_r3",
+  "step_sound_timing_r3a_deprecated": {
+   "value": "next_on_beat_after_judge",
+   "_status": "deprecated (round-3 1-2 교차 리뷰)",
+   "_note": "예약 규칙은 art assets/sound.json music.combo_r3 가 기준: 판정 별 + 0.5박 뒤 첫 빈 정박, 2박 안에 없으면 빈 반박, 없으면 소리 없이 넘김, 실패하면 예약 취소(30-art 16-7)."
+  },
+  "break_fx": {
+   "fade_s": 0.3,
+   "within_fail_fx": true,
+   "sound": "none",
+   "same_for_any_combo": true,
+   "forbidden": [
+    "red_x",
+    "shake",
+    "flash",
+    "big_zero",
+    "lost_count",
+    "warning_sound"
+   ],
+   "restart_delay_unchanged_s": 1.08
+  },
+  "rule_r22_not_adopted": {
+   "rule": "good_or_better",
+   "breaks_on": [
+    "pass"
+   ],
+   "pass_effect": "combo_break_only_attempt_continues",
+   "break_sound": "low_soft_pon",
+   "_status": "not adopted (round-3, 공통 문서 대안. 20-balance 17-7 근거)",
+   "_note": "오케스트레이터 예비 R22. 통과에서 콤보만 0 → 아이에게 \"살았는데 벌\" 새 규칙·끊김 신호 하나 더. 검증기 정보 K2 에 이 규칙일 때 끊김 횟수만 기록."
+  },
+  "judge_windows_compare": {
+   "common_doc_ms": {
+    "perfect": 50,
+    "good": "100 (L4~ 90)",
+    "pass": "rest of pass window"
+   },
+   "ours": "L1·L2 good 100, L3~L10 good 90, perfect 50 all, pass = 레벨 judge",
+   "diff": "L3 좋아 ±90 (공통 문서 권장 ±100). 판정 창은 바꾸지 않음(오케스트레이터 지시), 차이만 보고"
+  },
+  "verify": "K0 키·불변 규칙, K1 콤보 = grades.length 이고 judgeAttempt 결과 불변(봇 탭 재판정), K2 정보(σ70 클리어 시도의 통과 수 = R22 였다면 끊김 수, 단계 5·10·20 도달 비율)"
+ },
+ "accuracy": {
+  "_status": "round-3 (2026-11-17 요청자 지시 \"판정 이름과 퍼센트까지 해주세요\", 공통 문서 harness/benchmarks/djmax-judgement.md 7-2 공통안 3383f7b 채택). 20-balance.md 17-14",
+  "_note": "판정 결과(박과의 차이 e)에서 계산만 하는 표시 층. 판정 창·등급 경계·클리어·실패·콤보·등급 북·30회 한도·재시작은 바꾸지 않음(affects 전부 false, 검증기 A0~A2). 판정 이름 글·색·글꼴·자리는 lore·art 소유(권장 딱이야/좋아/됐어), 데이터 키는 perfect/good/pass 그대로.",
+  "input": "e = 탭 시각 − 별 시각(ms, 이르면 음수) = judgeAttempt grades[].e (지연 보정 뒤 레벨 시간). 등급과 % 는 같은 e 로 계산",
+  "rule": "step_10",
+  "boundary": "inclusive_inner",
+  "_boundary_note": "d = |e| 가 경계값과 같으면 안쪽(높은 %) 칸. 등급 경계(perfect_ms·good_ms·통과 창 끝)와 같은 '이하' 규칙이라 등급과 % 가 어긋나지 않음",
+  "perfect_inner_ms": 25,
+  "perfect_inner_pct": 100,
+  "perfect_outer_pct": 90,
+  "perfect_outer_d_max": "perfect_ms",
+  "good_bins": 3,
+  "good_pcts": [
+   80,
+   70,
+   60
+  ],
+  "good_bin_rule": "(good_ms − perfect_ms) 를 3칸으로 똑같이 나눔. k = ceil(3·(d − perfect_ms)/(good_ms − perfect_ms)), 1~3",
+  "pass_bins": 5,
+  "pass_pcts": [
+   50,
+   40,
+   30,
+   20,
+   10
+  ],
+  "pass_bin_rule": "(W − good_ms) 를 5칸으로 똑같이 나눔. W = e 쪽 통과 창 끝(e < 0 → pass_early_ms, 그 밖 → pass_late_ms). k = ceil(5·(d − good_ms)/(W − good_ms)), 1~5. d = W 는 늘 10",
+  "window_end_side": {
+   "early": "pass_early_ms",
+   "late": "pass_late_ms",
+   "zero": "late"
+  },
+  "fail": {
+   "pct": null,
+   "display": "none",
+   "_note": "놓침 구역 탭·놓침(창 밖)은 % 도 이름도 없음. 기존 실패 연출만"
+  },
+  "grade_from_pct": {
+   "perfect": [
+    90,
+    100
+   ],
+   "good": [
+    60,
+    80
+   ],
+   "pass": [
+    10,
+    50
+   ]
+  },
+  "build_formula_not_table": true,
+  "_build_note": "빌드는 아래 levels 표가 아니라 위 식(레벨 judge 값)으로 계산. 표는 2자리 반올림 거울(검증기 A0 가 식과 대조)이라 좋아 칸 경계 66.67 같은 값을 그대로 쓰면 소수 차이가 생김",
+  "levels": {
+   "10": {
+    "good_ms": 90,
+    "pass_early_ms": 115,
+    "pass_late_ms": 135,
+    "pass_bin_early_ms": 5,
+    "pass_bin_late_ms": 9,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     95,
+     100,
+     105,
+     110,
+     115
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     99,
+     108,
+     117,
+     126,
+     135
+    ]
+   },
+   "01": {
+    "good_ms": 100,
+    "pass_early_ms": 150,
+    "pass_late_ms": 170,
+    "pass_bin_early_ms": 10,
+    "pass_bin_late_ms": 14,
+    "early_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     110,
+     120,
+     130,
+     140,
+     150
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     114,
+     128,
+     142,
+     156,
+     170
+    ]
+   },
+   "02": {
+    "good_ms": 100,
+    "pass_early_ms": 140,
+    "pass_late_ms": 160,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     108,
+     116,
+     124,
+     132,
+     140
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     66.67,
+     83.33,
+     100,
+     112,
+     124,
+     136,
+     148,
+     160
+    ]
+   },
+   "03": {
+    "good_ms": 90,
+    "pass_early_ms": 135,
+    "pass_late_ms": 155,
+    "pass_bin_early_ms": 9,
+    "pass_bin_late_ms": 13,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     99,
+     108,
+     117,
+     126,
+     135
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     103,
+     116,
+     129,
+     142,
+     155
+    ]
+   },
+   "04": {
+    "good_ms": 90,
+    "pass_early_ms": 130,
+    "pass_late_ms": 150,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     98,
+     106,
+     114,
+     122,
+     130
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     102,
+     114,
+     126,
+     138,
+     150
+    ]
+   },
+   "05": {
+    "good_ms": 90,
+    "pass_early_ms": 130,
+    "pass_late_ms": 150,
+    "pass_bin_early_ms": 8,
+    "pass_bin_late_ms": 12,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     98,
+     106,
+     114,
+     122,
+     130
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     102,
+     114,
+     126,
+     138,
+     150
+    ]
+   },
+   "06": {
+    "good_ms": 90,
+    "pass_early_ms": 125,
+    "pass_late_ms": 145,
+    "pass_bin_early_ms": 7,
+    "pass_bin_late_ms": 11,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     97,
+     104,
+     111,
+     118,
+     125
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     101,
+     112,
+     123,
+     134,
+     145
+    ]
+   },
+   "07": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   },
+   "08": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   },
+   "09": {
+    "good_ms": 90,
+    "pass_early_ms": 120,
+    "pass_late_ms": 140,
+    "pass_bin_early_ms": 6,
+    "pass_bin_late_ms": 10,
+    "early_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120
+    ],
+    "late_d_max_ms": [
+     25,
+     50,
+     63.33,
+     76.67,
+     90,
+     100,
+     110,
+     120,
+     130,
+     140
+    ]
+   }
+  },
+  "level_accuracy": {
+   "rule": "mean_floor",
+   "formula": "floor(Σ pct / 판정 별 수), 정수 %",
+   "counts": "clear_attempt_only",
+   "failed_attempt": "none",
+   "practice_mode": "none",
+   "_note": "클리어 = 모든 판정 성공이라 0 % 항 없음. 100 은 모든 별이 100 일 때만(내림). 실패 시도는 표시·기록 없음(일반 실패 결과 화면 없음 규칙과 같음), 연습(부활) 클리어도 내지 않음",
+   "show_on": "clear_result_screen",
+   "in_play_running_average": false
+  },
+  "record": {
+   "mode": "normal_only",
+   "best_accuracy": "일반 모드 클리어의 level_accuracy 최댓값 (실패·연습 시도는 후보 아님)",
+   "best_combo": "일반 모드 시도(실패 포함)의 콤보 최댓값 = combo.best_record_mode. 클리어한 시도는 늘 판정 별 수",
+   "separate_from": [
+    "progress",
+    "grade_rating",
+    "unlock"
+   ],
+   "new_record_mark": {
+    "applies_to": "best_accuracy_only",
+    "show_if": "previous_best_exists_and_new_gt_previous",
+    "first_clear": false,
+    "tie": false,
+    "practice": false,
+    "best_combo": false,
+    "_note": "일반 모드 클리어에서 이번 정확도 > 이전 최고 정확도(정수, 같으면 아님)일 때만. 첫 클리어는 비교할 기록이 없어 표지 없음(lore R3-12-3 가정 확정). 최고 콤보는 클리어 시도마다 늘 별 수라 표지 없음. 연습 클리어는 정확도가 없어 해당 없음. 키 result_new_best(lore), 모양 art"
+   },
+   "new_record_mark_r3a_deprecated": {
+    "value": "small_mark_only",
+    "_status": "deprecated (같은 날 lore 요청으로 조건 추가)"
+   }
+  },
+  "display_timing_ms": {
+   "pop": 80,
+   "pop_scale": [
+    1,
+    1.15,
+    1
+   ],
+   "hold_until": 400,
+   "fade": 150,
+   "replace_on_new_judge": true,
+   "on_fail": "fade_within_fail_fx_0.3s",
+   "on_clear": "fade_with_hud_0.2s",
+   "_note": "공통 7-3 값. 게임 시계. L10 최소 별 간격 214 ms > 튐 80 ms. 자리·크기는 art(공통 7-6: 판정 북 바로 위, 노랑 star 금지)"
+  },
+  "affects": {
+   "clear": false,
+   "fail": false,
+   "judge_windows": false,
+   "grade_boundaries": false,
+   "grade_rating": false,
+   "combo": false,
+   "attempt_limit": false,
+   "restart": false,
+   "bots": false,
+   "l10_target": false
+  },
+  "verify": "A0 키·affects·levels 거울 = 식, A1 레벨마다 e 전 구간(0.05 ms 격자 + 모든 경계값)에서 % → 등급 = 판정 등급·창 끝 10·창 밖 없음·% 단조·10칸 모두 나옴 + 봇 탭 재판정 등급 대조, A2 % 를 센 뒤 judgeAttempt 결과 불변 + B1·B6 값 재계산 같음(정보), 정보 A3 σ25/50/70 클리어 시도 레벨 정확도 분포",
+  "_key_note": "balance 키 이름 = accuracy (탭마다 판정 % 와 레벨 정확도를 한 블록에). 공통 문서 7-6·10-lore R3-12의 judge_pct 는 예시 이름이라 따로 두지 않음. 화면 이름 키는 lore judge_perfect·judge_good·judge_pass, 결과 화면 result_accuracy·result_new_best·aria_streak_best"
  }
 }

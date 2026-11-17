@@ -1,5 +1,7 @@
-// 캔버스 그리기 (30-art 2~8·10절, 값은 data/art.json·palette.json)
-import { stageAt, malletAt, cueVisible } from './engine.js';
+// 캔버스 그리기 — round-3 북길 (30-art 16절, 규격 data/art.json road = assets/layout.json rule, 색 palette.json)
+// 그리는 순서(palette silhouette_frame_r3.draw_order): bg → 실루엣 → 엄지 받침 → 길 띠 → 눈금·마디 표 → 판정 북 → 판정 선 → 별 → 판정 이펙트 → 공 → 손가락 → HUD
+import { stageAt, cueVisible } from './engine.js';
+import { roadLayout, speedOf } from './road.js';
 
 const TAU = Math.PI * 2;
 const NO_FLAGS = [];
@@ -21,42 +23,20 @@ function mixRaw(a, b, k) {
   return '#' + A.map((v, i) => Math.round(lerp(v, B[i], clamp01(k))).toString(16).padStart(2, '0')).join('');
 }
 
-export function layout(W, H, art, safe = { t: 0, b: 0 }) {
-  const portrait = W < H;
-  const o = portrait ? art.orbit.portrait : art.orbit.landscape;
-  const R = portrait ? Math.min(o.rW * W, o.rH * H) : Math.min(o.rH * H, o.rW * W);
-  const cx = W / 2, cy = o.cy * H;
-  const mx = (m) => Math.max(m[0], m[1] * R);
-  const starR = Math.max(art.star.min, art.star.k * R);
-  const ballR = Math.max(art.ball.min, art.ball.k * R);
-  const band = Math.max(art.band.min, art.band.k * R);
-  const h = art.hud;
-  const pause = { x: W - h.margin - h.pause, y: h.margin + safe.t, w: h.pause, h: h.pause };
-  const bar = { x: h.barLeft, y: (portrait ? h.barTopP : h.barTopL) + safe.t, w: pause.x - h.gapToPause - h.barLeft, h: h.barH };
-  let thumb = null;
-  if (portrait) {
-    const t = art.thumb;
-    const top = Math.max(cy + R + t.fxK * starR + t.pad, t.minTop * H);
-    thumb = { x: t.side, y: top, w: W - 2 * t.side, h: H - t.bottom - safe.b - top };
+// 화면 배치: 북길 규격(road.js) + 보정 화면용 가운데 북 자리(10절 그대로) + 손가락·타이틀 힌트 자리
+export function layout(W, H, art, lead, safe = { t: 0, b: 0, l: 0, r: 0 }) {
+  const lay = roadLayout(W, H, safe, art.road, lead);
+  const f = lay.finger;
+  lay.hand = { x: (f.x0 + f.x1) / 2, y: (f.y0 + f.y1) / 2, size: f.s };
+  // 보정 화면(30-art 10절, 북길로 바뀌지 않음): 가운데 북 + 점 8개, 크기 기준 R = 옛 궤도 반지름 공식
+  const o = lay.portrait ? art.calib.orbit.portrait : art.calib.orbit.landscape;
+  const R = lay.portrait ? Math.min(o.rW * W, o.rH * H) : Math.min(o.rH * H, o.rW * W);
+  lay.calib = { cx: W / 2, cy: o.cy * H, R };
+  if (lay.thumb) {
+    const t = lay.thumb;
+    lay.calib.hand = { x: (t.x0 + t.x1) / 2, y: (t.y0 + t.y1) / 2, size: Math.min(Math.max(art.hand.min, f.s), t.y1 - t.y0 - art.hand.portraitPad) };
   }
-  // 손가락 칸 (4-4 round 2): 세로 = 받침 가운데, 가로 = (cx + 1.45R, cy + 0.65R), 화면 가장자리 edge 안
-  const ha = art.hand;
-  let hs = Math.max(ha.min, ha.k * R), hx, hy;
-  if (thumb) { hs = Math.min(hs, thumb.h - ha.portraitPad); hx = thumb.x + thumb.w / 2; hy = thumb.y + thumb.h / 2; }
-  else {
-    hx = Math.min(W - ha.edge - hs / 2, Math.max(ha.edge + hs / 2, cx + ha.landscapeAt[0] * R));
-    hy = Math.min(H - ha.edge - hs / 2 - safe.b, Math.max(ha.edge + hs / 2, cy + ha.landscapeAt[1] * R));
-  }
-  const hand = { x: hx, y: hy, size: hs };
-  // 타이틀 시작 힌트 (4-6): 세로 = 받침 자리, 가로 = 궤도 오른쪽 영역
-  let titleHint;
-  if (thumb) titleHint = { x0: thumb.x, x1: thumb.x + thumb.w, cy: thumb.y + thumb.h / 2, hand: hs };
-  else {
-    const t = art.titleHint, x0 = cx + R + t.gap, x1 = W - t.right;
-    titleHint = { x0, x1, cy, hand: Math.max(0, Math.min(t.handMax, x1 - x0 - t.handPad)) };
-  }
-  const slots = []; for (let s = 0; s < 8; s++) { const a = (s / 8) * TAU - Math.PI / 2; slots.push([cx + Math.cos(a) * R, cy + Math.sin(a) * R]); }
-  return { slots, W, H, portrait, R, cx, cy, starR, ballR, band, drumR: art.drum.k * R, mx, pause, bar, thumb, hand, titleHint, dotsY: bar.y + bar.h + h.dotsGap };
+  return lay;
 }
 
 function starPath(g, x, y, r, inner) {
@@ -69,36 +49,36 @@ function starPath(g, x, y, r, inner) {
   }
   g.closePath();
 }
-
-const slotXY = (lay, slot, rad = lay.R) => {
-  const a = (slot / 8) * TAU - Math.PI / 2;
-  return [lay.cx + Math.cos(a) * rad, lay.cy + Math.sin(a) * rad];
-};
+// 방위각(12시 = 0°, 시계 방향) → 화면 방향
+const dirX = (deg) => Math.sin((deg * Math.PI) / 180), dirY = (deg) => -Math.cos((deg * Math.PI) / 180);
 
 export class Renderer {
   constructor(cv, data) {
-    this.cv = cv; this.g = cv.getContext('2d');
+    this.cv = cv; this.g = this.mainG = cv.getContext('2d');
     this.art = data.art; this.pal = data.palette; this.C = data.palette.common; this.A = data.palette.alpha;
     this.imgs = data.imgs;
+    // 미리 보기 박 (레벨마다, 별 지름 공식이 반박 레벨 중 가장 긴 값을 씀)
+    this.lead = { landscape: data.L.map((L) => L.lead.landscape), portrait: data.L.map((L) => L.lead.portrait) };
     this.ripples = [];
     this.sprites = new Map();
-    this.layers = new Map();
-    this.spareLayers = [];
+    // 정적 바탕(바탕색·실루엣·엄지 받침)은 메인 캔버스 뒤 별도 캔버스(#bgcv)에 테마가 바뀔 때만 그림.
+    // 메인 캔버스는 매 프레임 clearRect 뒤 움직이는 것만 그림 (옛 코어의 화면 크기 drawImage 를 없앰, round-3 성능)
+    this.bgcv = document.createElement('canvas'); this.bgcv.id = 'bgcv'; this.bgcv.setAttribute('aria-hidden', 'true');
+    cv.parentNode.insertBefore(this.bgcv, cv);
+    this.bgKey = null;
   }
 
   resize(W, H, dpr, safe) {
     this.W = W; this.H = H; this.dpr = dpr;
     this.cv.width = Math.round(W * dpr); this.cv.height = Math.round(H * dpr);
     this.cv.style.width = W + 'px'; this.cv.style.height = H + 'px';
-    this.lay = layout(W, H, this.art, safe);
+    this.lay = layout(W, H, this.art, this.lead, safe);
     this.sprites.clear();
-    // 바탕 층 캔버스를 지금 크기로 미리 만들어 둠
-    const keep = [...this.layers.values(), ...this.spareLayers];
-    this.layers.clear();
-    while (keep.length < 2) keep.push(document.createElement('canvas'));
-    // 크기를 정할 때 그리기 버퍼까지 미리 잡아 둠 (R12: 레벨 시작 때 처음 getContext 로 큰 버퍼를 잡으면 V8 외부 메모리가 늘어 주요 GC 18~22 ms 가 레벨 시작 프레임에 겹쳤음)
-    for (const c of keep) { c.width = this.cv.width; c.height = this.cv.height; const g = c.getContext('2d'); g.fillStyle = '#000'; g.fillRect(0, 0, 1, 1); }
-    this.spareLayers = keep;
+    if (this.labels) this.labels.clear();
+    // 바탕 캔버스도 지금 크기로, 그리기 버퍼까지 잡아 둠 (R12: 레벨 시작 때 첫 getContext 버퍼 할당이 주요 GC 를 부름)
+    const b = this.bgcv; b.width = this.cv.width; b.height = this.cv.height; b.style.width = W + 'px'; b.style.height = H + 'px';
+    this.bgG = b.getContext('2d'); this.bgG.fillStyle = '#000'; this.bgG.fillRect(0, 0, 1, 1);
+    this.bgKey = null;
   }
 
   ripple(V, scale, ms) { this.ripples.push({ V, scale, ms }); if (this.ripples.length > 12) this.ripples.shift(); }
@@ -109,147 +89,120 @@ export class Renderer {
     g.fillStyle = th.bg; g.fillRect(0, 0, this.W, this.H);
   }
 
+  // 장소 실루엣: 판(silhouette_frame_r3) = HUD 띠 아래 + 8 ~ 받침 위 − 8(세로) / 화면 아래(가로). 도형 좌표 비율은 그대로
   silhouettes(th, clearK = 0) {
-    const g = this.g, lay = this.lay, sf = this.pal.silhouette_frame;
-    const fw = this.W, fh = lay.portrait && lay.thumb ? lay.thumb.y - 8 : this.H;
-    const S = Math.min(fw, fh);
-    g.save(); g.beginPath(); g.rect(0, 0, fw, fh); g.clip();
+    const g = this.g, fr = this.lay.silhouette_frame;
+    const fw = fr.x1 - fr.x0, fh = fr.y1 - fr.y0, S = Math.min(fw, fh);
+    g.save(); g.beginPath(); g.rect(fr.x0, fr.y0, fw, fh); g.clip();
     th.silhouette.shapes.forEach((s, i) => {
       g.fillStyle = i === th.silhouette.clear && clearK > 0 ? mix(th.bgFar, th.cardTint, clearK * this.pal.blend.clear_silhouette_mix) : th.bgFar;
-      const x = s.x * fw, y = s.y * fh;
+      const x = fr.x0 + s.x * fw, y = fr.y0 + s.y * fh;
       g.beginPath();
       if (s.t === 'circle') g.arc(x, y, s.r * S, 0, TAU);
       else if (s.t === 'rect') { const w = s.w === 'full' ? fw : s.w * S; if (g.roundRect) g.roundRect(x, y, w, s.h * S, (s.rx || 0) * S); else g.rect(x, y, w, s.h * S); }
       else if (s.t === 'tri') { const w = s.w * S, h = s.h * S; g.moveTo(x - w / 2, y); g.lineTo(x + w / 2, y); g.lineTo(x, y - h); g.closePath(); }
       g.fill();
     });
-    void sf;
     g.restore();
   }
 
   thumbRest(th) {
     const t = this.lay.thumb; if (!t) return;
-    const g = this.g;
+    const g = this.g, w = t.x1 - t.x0, h = t.y1 - t.y0;
     g.fillStyle = th.bgFar;
-    g.beginPath(); g.roundRect ? g.roundRect(t.x, t.y, t.w, t.h, 20) : g.rect(t.x, t.y, t.w, t.h); g.fill();
+    g.beginPath(); g.roundRect ? g.roundRect(t.x0, t.y0, w, h, 20) : g.rect(t.x0, t.y0, w, h); g.fill();
     g.save(); g.globalAlpha = this.A.thumb_rest_border_trackEdge; g.strokeStyle = this.C.trackEdge; g.lineWidth = 2; g.setLineDash([8, 6]); g.stroke(); g.restore();
   }
 
-  // 정적 바탕 층(바탕색 + 실루엣 + 엄지 받침) 캐시: 테마마다 하나, 화면 크기가 바뀌면 버림 (round-2 성능).
-  // round-3 R12: 궤도 띠·눈금은 층에서 빼고 매 프레임 그림 → 단계 색이 바뀌어도(레벨 10 단계 전환·실패 연출) 새 층을 만들지 않음
-  // (새 층 래스터화 + 큰 텍스처 올리기가 640x360@3 레벨 10 단계 전환에서 31~80 ms 프레임을 만들었음)
-  hasLayer(th) { return this.layers.has(th.bg + th.bgFar); }
+  // 정적 바탕(바탕색 + 실루엣 + 엄지 받침): 뒤 캔버스에 테마(bg, bgFar)마다 한 번. 새 테마는 beginRun 이 시작 한 프레임 전에 그림(R12)
+  hasLayer(th) { return this.bgKey === th.bg + th.bgFar; }
   staticLayer(th) {
     const key = th.bg + th.bgFar;
-    let c = this.layers.get(key);
-    if (c) return c;
-    // 캔버스 2장을 크기마다 한 번만 만들고 돌려 씀 (큰 메모리 할당이 플레이 중 GC 를 부르지 않게)
-    if (this.layers.size >= 2) { const k0 = this.layers.keys().next().value; c = this.layers.get(k0); this.layers.delete(k0); }
-    else c = this.spareLayers.pop() || document.createElement('canvas');
-    if (c.width !== this.cv.width || c.height !== this.cv.height) { c.width = this.cv.width; c.height = this.cv.height; }
-    const g0 = this.g; this.g = c.getContext('2d');
+    if (this.bgKey === key) return;
+    const g0 = this.g; this.g = this.bgG;
     try { this.bg(th); this.silhouettes(th, 0); this.thumbRest(th); } finally { this.g = g0; }
-    this.layers.set(key, c);
-    return c;
+    this.bgKey = key;
+  }
+  // 메인 캔버스면 뒤 캔버스를 맞추고 투명하게 지움, 다른 대상(미리 돌리기 캔버스)이면 바탕색만
+  drawLayer(th) {
+    const g = this.g;
+    if (g !== this.mainG) { this.bg(th); return; }
+    this.staticLayer(th);
+    g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, this.cv.width, this.cv.height); g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
   }
 
-  orbit(trackColor, dashed, dashOnly = false) {
-    const g = this.g, L = this.lay, C = this.C, a = this.art;
-    if (!dashOnly) {
-      g.lineWidth = L.band; g.strokeStyle = trackColor;
-      g.beginPath(); g.arc(L.cx, L.cy, L.R, 0, TAU); g.stroke();
-      g.lineWidth = a.band.edge; g.strokeStyle = C.trackEdge;
-      for (let s = -1; s <= 1; s += 2) { g.beginPath(); g.arc(L.cx, L.cy, L.R + (s * L.band) / 2, 0, TAU); g.stroke(); }
-    }
-    // 띠 가운데 점선: 굵기·불투명도 × k, 대시 무늬는 그대로 (30-art 5-4 퇴장 0.25박 규칙, round 3 R14)
-    if (dashed >= a.showDash.minK) {
-      g.strokeStyle = C.trackEdge;
-      const d = a.showDash, seg = (TAU * L.R) / d.segs;
-      g.save(); g.globalAlpha = dashed; g.lineWidth = L.band * d.width * dashed; g.setLineDash([seg * d.on, seg * (1 - d.on)]);
-      g.beginPath(); g.arc(L.cx, L.cy, L.R, -Math.PI / 2, TAU - Math.PI / 2); g.stroke(); g.restore();
-    }
-    if (dashOnly) return;
-    // 눈금
-    const t = a.ticks, bs = L.mx(t.beat), hr = L.mx(t.half);
-    g.fillStyle = C.trackEdge;
-    for (let s = 1; s < 8; s++) {
-      const ang = (s / 8) * TAU - Math.PI / 2, x = L.cx + Math.cos(ang) * t.at * L.R, y = L.cy + Math.sin(ang) * t.at * L.R;
-      if (s % 2 === 0) g.fillRect(x - bs / 2, y - bs / 2, bs, bs);
-      else { g.save(); g.globalAlpha = this.A.tick_halfbeat_dot; g.beginPath(); g.arc(x, y, hr, 0, TAU); g.fill(); g.restore(); }
-    }
-    const tm = a.topMark, w = L.mx(tm.w), h = L.mx(tm.h);
-    g.fillStyle = C.hud; g.strokeStyle = C.outline; g.lineWidth = 2;
-    g.beginPath(); const ty = L.cy - tm.at * L.R - h / 2;
-    g.roundRect ? g.roundRect(L.cx - w / 2, ty, w, h, w / 2) : g.rect(L.cx - w / 2, ty, w, h); g.fill(); g.stroke();
+  // 길 띠: 화면 가로 전체, 위·아래 가장자리 trackEdge 1.5 px (원근·기울기 없음)
+  road(track) {
+    const g = this.g, r = this.lay.road, ew = this.art.ticks.edge;
+    g.fillStyle = track; g.fillRect(0, r.y0, this.W, r.y1 - r.y0);
+    g.fillStyle = this.C.trackEdge; g.fillRect(0, r.y0 - ew / 2, this.W, ew); g.fillRect(0, r.y1 - ew / 2, this.W, ew);
   }
 
-  drum(th, V, dashed, countDots = -1, scale = 1, r0 = null) {
-    const g = this.g, L = this.lay, C = this.C;
-    const r = (r0 ?? L.drumR) * scale;
-    g.fillStyle = th.drum; g.strokeStyle = C.outline; g.lineWidth = this.art.drum.outline;
-    g.beginPath(); g.arc(L.cx, L.cy, r, 0, TAU); g.fill();
-    // 북 테두리 (R14): 실선(뒤 상태) 불투명도 1 − k 를 먼저, 그 위에 점선 굵기·불투명도 × k (대시 무늬 그대로)
-    const k = dashed > 0 ? dashed : 0, dd = this.art.showDash;
-    if (k < 1) { if (k > 0) { g.save(); g.globalAlpha = 1 - k; g.stroke(); g.restore(); } else g.stroke(); }
-    if (k >= dd.minK) { g.save(); g.globalAlpha = k; g.strokeStyle = C.trackEdge; g.lineWidth = this.art.drum.outline * k; g.setLineDash(dd.drumDash); g.stroke(); g.restore(); }
-    g.save(); g.globalAlpha = this.A.drum_inner_ring_hud; g.strokeStyle = C.hud; g.lineWidth = 2;
-    g.beginPath(); g.arc(L.cx, L.cy, (r * this.art.drum.innerK) / this.art.drum.k, 0, TAU); g.stroke(); g.restore();
+  // 박 눈금(정박만, 아랫변 안쪽 작은 네모) / 마디 표(아랫변에서 띠 높이 30 % 짧은 세로 막대). 별과 같이 흐름
+  ticks(L, speed, now, scale = 1) {
+    if (scale <= 0) return;
+    const g = this.g, lay = this.lay, t = this.art.ticks, d = lay.star_d, r = lay.road;
+    const sz = Math.max(t.beat[0], t.beat[1] * d) * scale, mw = Math.max(t.bar.w[0], d * t.bar.w[1]) * scale, mh = (r.y1 - r.y0) * t.bar.h * scale;
+    const beat = L.beatMs, x0 = lay.judge_x;
+    const k0 = Math.ceil((now - (x0 + sz) / speed) / beat), k1 = Math.floor((now + (this.W - x0 + sz) / speed) / beat);
+    g.save(); g.globalAlpha = this.A.tick_halfbeat_dot; g.fillStyle = this.C.trackEdge;
+    for (let k = Math.max(0, k0); k <= k1; k++) {
+      const x = x0 + speed * (k * beat - now);
+      if (k % L.beatsPerBar === 0) g.fillRect(x - mw / 2, r.y1 - mh, mw, mh);
+      else g.fillRect(x - sz / 2, r.y1 - t.inset - sz, sz, sz);
+    }
+    g.restore();
+  }
+
+  // 판정 북: 길 아랫변 6 px 아래, drum 면 + trackEdge 2 px 테두리 + 안쪽 hud 35 % 가는 원, 탭 물결, 카운트인 점 4개
+  drum(th, V, countDots = -1) {
+    const g = this.g, D = this.lay.drum, C = this.C, a = this.art.drum, r = D.r;
+    g.beginPath(); g.arc(D.x, D.y, r, 0, TAU); g.fillStyle = th.drum; g.fill();
+    g.strokeStyle = C.trackEdge; g.lineWidth = a.edge; g.stroke();
+    g.save(); g.globalAlpha = this.A.drum_inner_ring_hud; g.strokeStyle = C.hud; g.lineWidth = a.innerW;
+    g.beginPath(); g.arc(D.x, D.y, r * a.innerK, 0, TAU); g.stroke(); g.restore();
     for (const rp of this.ripples) {
       const k = (V - rp.V) / rp.ms;
       if (k < 0 || k > 1) continue;
       g.strokeStyle = C.trackEdge; g.lineWidth = 3 * (1 - k) + 0.5;
-      g.beginPath(); g.arc(L.cx, L.cy, r * lerp(1, rp.scale, easeOut(k)), 0, TAU); g.stroke();
+      g.beginPath(); g.arc(D.x, D.y, r * lerp(1, rp.scale, easeOut(k)), 0, TAU); g.stroke();
     }
     if (countDots >= 0) {
-      const s = r * 0.32, dr = Math.max(4, r * this.art.drum.countDots);
+      const s = r * a.countOff, dr = Math.max(a.countDot[0], r * a.countDot[1]);
       for (let k = 0; k < 4; k++) {
-        const x = L.cx + (k % 2 ? s : -s) * 0.75, y = L.cy + (k < 2 ? -s : s) * 0.75;
+        const x = D.x + (k % 2 ? s : -s), y = D.y + (k < 2 ? -s : s);
         g.beginPath(); g.arc(x, y, dr, 0, TAU);
         if (k < countDots) { g.fillStyle = C.hud; g.fill(); }
-        g.strokeStyle = C.trackEdge; g.lineWidth = 1.5; g.stroke();
+        g.strokeStyle = C.trackEdge; g.lineWidth = 1.2; g.stroke();
       }
     }
   }
 
-  star(x, y, r, show, scale = 1) {
+  // 판정 선: hud 가는 세로선(굵기 layout line.w), 양옆 outline 1 px, 길 윗변 → 판정 북 위끝
+  judgeLine() {
+    const g = this.g, l = this.lay.line, o = this.art.line.outline;
+    g.fillStyle = this.C.outline; g.fillRect(l.x - l.w / 2 - o, l.y0, l.w + 2 * o, l.y1 - l.y0);
+    g.fillStyle = this.C.hud; g.fillRect(l.x - l.w / 2, l.y0, l.w, l.y1 - l.y0);
+  }
+
+  star(x, y, r, scale = 1, color = null) {
     const g = this.g, C = this.C, s = this.art.star;
     starPath(g, x, y, r * scale, s.inner);
     g.lineJoin = 'round';
-    if (show) { g.strokeStyle = C.star; g.lineWidth = r * s.showW * scale; g.stroke(); }
-    else { g.fillStyle = C.star; g.fill(); g.strokeStyle = C.outline; g.lineWidth = Math.max(s.outline[0], s.outline[1] * r * scale); g.stroke(); }
+    g.fillStyle = color || C.star; g.fill(); g.strokeStyle = C.outline; g.lineWidth = Math.max(s.outline[0], s.outline[1] * r * scale); g.stroke();
   }
 
-  ball(angle, mode = 'solid', scale = 1, tail = true) {
-    const g = this.g, L = this.lay, C = this.C, b = this.art.ball;
-    const r = L.ballR * scale;
-    const at = (a) => [L.cx + Math.sin(a) * L.R, L.cy - Math.cos(a) * L.R];
-    if (mode === 'solid' && tail) {
-      b.tailDeg.forEach((d, k) => {
-        const [x, y] = at(angle - (d * Math.PI) / 180);
-        g.save(); g.globalAlpha = this.A.ball_tail[k]; g.fillStyle = C.ball;
-        g.beginPath(); g.arc(x, y, r * b.tailR[k], 0, TAU); g.fill(); g.restore();
-      });
-    }
-    const [x, y] = at(angle);
+  // 공(나): 판정 선 위, 길 윗변 2 px 위에 앉음. y = 앉는 자리 − 뜀 높이 (박 시각 = 가장 낮은 자리)
+  ball(y, mode = 'solid', scale = 1) {
+    const g = this.g, B = this.lay.ball, C = this.C, b = this.art.ball;
+    const r = (B.d / 2) * scale, x = B.x;
+    if (r <= 0) return;
     g.beginPath(); g.arc(x, y, r, 0, TAU);
-    if (mode === 'hollow') { g.strokeStyle = C.ball; g.lineWidth = b.hollowW * L.ballR; g.stroke(); return; }
+    if (mode === 'hollow') { g.strokeStyle = C.ball; g.lineWidth = b.hollowW * B.d / 2 * scale; g.stroke(); return; }
     g.fillStyle = C.ball; g.fill(); g.strokeStyle = C.outline; g.lineWidth = Math.max(b.outline[0], b.outline[1] * r); g.stroke();
     g.fillStyle = C.hud; g.beginPath(); g.arc(x - r * 0.3, y - r * 0.3, r * b.hi, 0, TAU); g.fill();
   }
-
-  mallet(scale, hitK) {
-    const g = this.g, L = this.lay, C = this.C, m = this.art.mallet, R = L.R;
-    if (scale <= 0) return;
-    g.save();
-    g.translate(L.cx + m.off[0] * R, L.cy + m.off[1] * R);
-    g.rotate(((-m.tiltDeg + hitK * m.hitDeg) * Math.PI) / 180);
-    g.scale(scale, scale);
-    g.lineWidth = 2.5; g.strokeStyle = C.outline; g.lineJoin = 'round';
-    const sw = m.stick[0] * R, sh = m.stick[1] * R, hw = m.head[0] * R, hh = m.head[1] * R;
-    g.fillStyle = C.trackEdge; g.beginPath(); g.roundRect ? g.roundRect(-sw / 2, -hh * 0.3, sw, sh, sw / 2) : g.rect(-sw / 2, -hh * 0.3, sw, sh); g.fill(); g.stroke();
-    g.fillStyle = C.hud; g.beginPath(); g.roundRect ? g.roundRect(-hw / 2, -hh * 1.2, hw, hh, hh * 0.35) : g.rect(-hw / 2, -hh * 1.2, hw, hh); g.fill(); g.stroke();
-    g.restore();
-  }
+  bounceY(phase) { const B = this.lay.ball; return B.yRest - B.bounce * 4 * phase * (1 - phase); }
 
   // SVG 그림을 기기 px 로 한 번만 래스터화해 둔 캔버스 (매 프레임 SVG drawImage 비용 제거)
   sprite(name, cssPx) {
@@ -264,15 +217,13 @@ export class Renderer {
     }
     return c;
   }
-  hand(x, y, size, pressPx) {
-    const c = this.sprite('hand-tap', this.lay.hand.size); if (!c) return;
-    this.g.drawImage(c, x - size / 2, y - size / 2 + pressPx, size, size);
+  hand(x, y, size, upPx, ref = this.lay.hand.size) {
+    const c = this.sprite('hand-tap', ref); if (!c) return;
+    this.g.drawImage(c, x - size / 2, y - size / 2 - upPx, size, size);
   }
   flagAt(x, y, size) { const c = this.sprite('flag', Math.max(size, 40)); if (c) this.g.drawImage(c, x - size / 2, y - size / 2, size, size); }
-  // 다른 캔버스에 잠깐 그리기 (코드 미리 돌리기용)
   withTarget(g, fn) { const g0 = this.g; this.g = g; try { fn(); } finally { this.g = g0; } }
-  // 레벨 시작 전에 첫 그림 비용(래스터화)을 미리 냄
-  prewarm() { this.sprite('hand-tap', this.lay.hand.size); this.sprite('flag', 40); }
+  prewarm() { this.sprite('hand-tap', this.lay.hand.size); this.sprite('flag', 40); if (this.lay.calib.hand) this.sprite('hand-tap', this.lay.calib.hand.size); }
 
   gradeDrum(x, y, r, got, scale = 1) {
     const g = this.g, C = this.C;
@@ -282,121 +233,146 @@ export class Renderer {
     g.beginPath(); g.arc(x, y, r * scale * 0.66, 0, TAU); g.lineWidth = 1.5; g.stroke();
   }
 
-  hud(th, prog, best, attempts, flags, slide) {
-    const g = this.g, L = this.lay, C = this.C, h = this.art.hud, b = L.bar;
+  hud(th, prog, best, attempts, flags) {
+    const g = this.g, H = this.lay.hud, C = this.C, h = this.art.hud, b = H.bar, bw = b.x1 - b.x0;
     const rr = (x, y, w, hh) => { g.beginPath(); g.roundRect ? g.roundRect(x, y, w, hh, hh / 2) : g.rect(x, y, w, hh); };
-    rr(b.x, b.y, b.w, b.h); g.fillStyle = th.track1; g.fill(); g.strokeStyle = C.trackEdge; g.lineWidth = 1.5; g.stroke();
-    if (prog > 0) { rr(b.x, b.y, Math.max(b.h, b.w * prog), b.h); g.fillStyle = C.hud; g.fill(); }
-    for (const f of flags) this.flagAt(b.x + b.w * f, b.y - h.flag / 2 - 1, h.flag);
+    rr(b.x0, b.y0, bw, b.h); g.fillStyle = th.track1; g.fill(); g.strokeStyle = C.trackEdge; g.lineWidth = 1.5; g.stroke();
+    if (prog > 0) { rr(b.x0, b.y0, Math.max(b.h, bw * prog), b.h); g.fillStyle = C.hud; g.fill(); }
+    for (const f of flags) this.flagAt(b.x0 + bw * f, b.y0 - h.flag / 2 - 1, h.flag);
     if (best != null && best > 0) {
-      const bx = b.x + b.w * best;
-      g.beginPath(); g.arc(bx, b.y + b.h / 2, h.bestR, 0, TAU); g.fillStyle = C.ball; g.fill(); g.strokeStyle = C.outline; g.lineWidth = 2; g.stroke();
+      g.beginPath(); g.arc(b.x0 + bw * best, b.y0 + b.h / 2, h.bestR, 0, TAU); g.fillStyle = C.ball; g.fill(); g.strokeStyle = C.outline; g.lineWidth = 2; g.stroke();
     }
-    void slide;
     // 시도 점
-    const n = Math.min(attempts, h.dotsMax), first = attempts - n;
+    const n = Math.min(attempts, h.dotsMax), first = attempts - n, dr = this.art.road.hud.attempt_r;
     g.save(); g.globalAlpha = this.A.attempt_dots_trackEdge; g.fillStyle = C.trackEdge;
     for (let k = 0; k < n; k++) {
-      const x = b.x + h.dotR + k * h.dotStep, y = L.dotsY;
-      if ((first + k + 1) % h.squareEvery === 0) g.fillRect(x - h.dotR, y - h.dotR, h.dotR * 2, h.dotR * 2);
-      else { g.beginPath(); g.arc(x, y, h.dotR, 0, TAU); g.fill(); }
+      const x = b.x0 + dr + k * h.dotStep, y = H.attempt_y;
+      if ((first + k + 1) % h.squareEvery === 0) g.fillRect(x - dr, y - dr, dr * 2, dr * 2);
+      else { g.beginPath(); g.arc(x, y, dr, 0, TAU); g.fill(); }
     }
     g.restore();
+  }
+
+  // 콤보 줄 (30-art 16-4): HUD 띠 안, 왼쪽 큰 표지 자리 3 + 점 10칸. 숫자·글 없음, 노랑·공 색 없음
+  //   c = 콤보, cs = {popV, popN, stepV, stepN, breakK(실패 0.3 s 작아짐 배율 또는 null)}
+  combo(th, c, V, cs) {
+    const ca = this.art.combo, R = this.art.road.combo, cb = this.lay.hud.combo, g = this.g, C = this.C;
+    if (c < this.art.combo.showFrom) return;
+    const k = cs.breakK == null ? 1 : cs.breakK;
+    if (k <= 0) return;
+    const y = cb.y, markX = (i) => cb.x0 + R.mark_r + i * R.mark_pitch, dotX = (i) => cb.x0 + R.marks_max * R.mark_pitch + R.dot_r + i * R.dot_pitch;
+    const marks = Math.min(R.marks_max, Math.floor(c / R.cells)), dots = c % R.cells;
+    const sinceStep = cs.stepV == null ? Infinity : V - cs.stepV, gather = cs.breakK == null && c >= R.cells && cs.stepN === c - dots && sinceStep >= 0 && sinceStep < ca.gather.ms;
+    // 큰 표지
+    for (let i = 0; i < marks; i++) {
+      let s = k;
+      if (gather && i === marks - 1) s *= lerp(ca.gather.markFrom, 1, easeOut(sinceStep / ca.gather.ms));
+      g.beginPath(); g.arc(markX(i), y, R.mark_r * s, 0, TAU); g.fillStyle = th.cardTint; g.fill(); g.strokeStyle = C.outline; g.lineWidth = ca.markOutline; g.stroke();
+    }
+    // 빈 칸 고리
+    g.save(); g.globalAlpha = ca.off.alpha; g.strokeStyle = C.trackEdge; g.lineWidth = ca.off.w;
+    g.beginPath(); for (let i = dots; i < R.cells; i++) { const cx = dotX(i); g.moveTo(cx + ca.off.r * k, y); g.arc(cx, y, ca.off.r * k, 0, TAU); } g.stroke(); // 한 경로로 (그리기 호출 줄임)
+    g.restore();
+    // 찬 칸 (갱신 튐 120 ms: 1.0 → 1.15 → 1.0, 5단계 1.3)
+    const sincePop = cs.popV == null ? Infinity : V - cs.popV;
+    if (dots > 0) {
+      g.beginPath();
+      for (let i = 0; i < dots; i++) {
+        let s = k;
+        if (cs.breakK == null && i === dots - 1 && cs.popN === c && sincePop >= 0 && sincePop < ca.pop.ms) s *= 1 + ((cs.popBig ? ca.pop.step5 : ca.pop.scale) - 1) * Math.sin((sincePop / ca.pop.ms) * Math.PI);
+        const cx = dotX(i), rr = R.dot_r * s; g.moveTo(cx + rr, y); g.arc(cx, y, rr, 0, TAU);
+      }
+      g.fillStyle = C.hud; g.fill(); g.strokeStyle = C.outline; g.lineWidth = ca.onOutline; g.stroke();
+    }
+    // 10·20·30: 점 10개가 표지 자리로 모이며 작아짐 (0.4 s)
+    if (gather) {
+      const q = sinceStep / ca.gather.ms, tx = markX(marks - 1);
+      for (let i = 0; i < R.cells; i++) {
+        const s = 1 - q;
+        g.beginPath(); g.arc(lerp(dotX(i), tx, easeOut(q)), y, R.dot_r * s, 0, TAU); g.fillStyle = C.hud; g.fill(); g.strokeStyle = C.outline; g.lineWidth = ca.onOutline; g.stroke();
+      }
+    }
+    // 20·30: 색 조각 6개가 줄 위 HUD 띠 안에서 0.6 s 동안 12 px 내려오며 작아져 사라짐
+    if (cs.breakK == null && cs.stepN >= 2 * R.cells && cs.stepN === c - dots && sinceStep >= 0 && sinceStep < ca.confetti.ms) {
+      const q = sinceStep / ca.confetti.ms, sz = ca.confetti.size * (1 - q);
+      for (let i = 0; i < ca.confetti.n; i++) {
+        const cx = cb.x0 + (i + 0.5) * ((cb.x1 - cb.x0) / ca.confetti.n), cy = cb.y0 - ca.confetti.fall - ca.confetti.size + q * ca.confetti.fall + (i % 2) * 3;
+        g.fillStyle = i % 2 ? C.hud : th.cardTint; g.fillRect(cx - sz / 2, cy - sz / 2, sz, sz);
+      }
+    }
   }
 
   // ---- 플레이 화면 전체 ----
   play(S) {
     const { th, run, V, L, art } = S;
     const P = S.bal.restart.phases_s;
-    this.RG = P.ball_regrow_at_top[0] * 1000; this.BRK = P.star_break_and_ball_hollow[1] * 1000;
-    const g = this.g, lay = this.lay, C = this.C;
+    const RG = P.ball_regrow_at_top[0] * 1000, BRK = P.star_break_and_ball_hollow[1] * 1000;
+    const lay = this.lay, C = this.C;
     const ph = run.phase;
     const failD = ph === 'fail' ? V - run.fail.V : -1;
-    const x = ph === 'fail' ? run.fail.x : run.lt(V);
-    const R = this.pal; void R;
-    // 클리어 물듦
+    const x = failD >= 0 ? run.fail.x : run.lt(V); // 실패하면 길 흐름이 멈춤
+    const speed = speedOf(L, lay);
     let clearK = 0;
     if (run.clearV != null) clearK = clamp01((V - run.clearV) / Math.max(L.barMs, 2000));
-    // 궤도 색
+    // 길 색 (진행 단계 1마디 섞기 → 실패 track1 0.3 s → 클리어 cardTint)
     const tracks = th._tracks || (th._tracks = [th.track1, th.track2, th.track3]);
     const b = Math.floor(x / L.barMs) - L.countInBars;
     const st = stageAt(L, b), sp = stageAt(L, b - 1);
     let track = tracks[st - 1];
     if (st !== sp && b >= 0 && x >= run.t0 + L.barMs) track = mix(tracks[sp - 1], tracks[st - 1], (x % L.barMs) / L.barMs);
-    if (failD >= 0) track = mix(track, th.track1, failD / (this.art.fx.miss.ms));
+    if (failD >= 0) track = mix(track, th.track1, failD / art.fx.miss.ms);
     if (clearK > 0) track = mix(track, th.cardTint, clearK);
     const mode = failD >= 0 ? 'fail' : run.barMode(x);
-    // 북채 + 점선 궤도·점선 북: [from, gone) 보임, [shrinkStart, gone) 동안 1 → 0 (ease-in), 점선 빈칸 × 같은 배율 (5-4 round 2)
-    let mScale = 0, hitK = 0, dashK = 0;
-    S.malletOn = false;
-    if (failD < 0 && x >= run.t0) {
-      const m = malletAt(L, x, art.mallet.growBeats * L.beatMs, art.mallet.grow[0]);
-      if (m) {
-        mScale = m.scale; S.malletOn = true;
-        if (mode === 'show' && m.dash) dashK = m.k;
-        for (const s of L.shows) { const d = x - s.t; if (d >= 0 && d < art.mallet.hitMs) hitK = Math.sin((d / art.mallet.hitMs) * Math.PI); }
-      }
-    }
-    S.dashK = dashK;
-    if (clearK === 0) {
-      const layer = this.staticLayer(th);
-      g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(layer, 0, 0); g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    } else { this.bg(th); this.silhouettes(th, clearK); this.thumbRest(th); }
-    this.orbit(track, dashK);
-    const cin = mode === 'countin' ? Math.min(4, Math.floor((x - Math.max(run.t0, Math.floor(x / L.barMs) * L.barMs)) / L.beatMs) + 1) : -1;
-    this.drum(th, V, dashK, cin);
-    this.mallet(mScale, hitK);
-    // 별
-    const fxA = art.fx;
-    const shrinkK = failD >= this.RG ? clamp01((failD - this.RG) / (this.art.fail.pieceShrinkS * 1000)) : 0;
-    for (const p of L.preview) {
-      if (p.t < run.t0 || x < p.growStart) continue;
-      const sp0 = lay.slots[p.slot], sx = sp0[0], sy = sp0[1];
-      const grow = lerp(art.star.grow[0], 1, clamp01((x - p.growStart) / (p.growEnd - p.growStart)));
-      if (p.kind === 'show') {
-        if (x < p.t) this.star(sx, sy, lay.starR, true, grow * (1 - shrinkK));
-        else if (x - p.t < fxA.showRing.ms) this._ring(sx, sy, lay.starR * fxA.showRing.ring);
-        continue;
-      }
-      const si = p.si;
-      if (si < run.i0) continue;
-      const j = si < run.i ? run.judged[si - run.i0] : null;
-      if (j) { this._fx(sx, sy, j, V); continue; }
-      if (failD >= 0 && si === run.fail.index) { this._broken(sx, sy, failD); continue; }
+    if (clearK === 0) this.drawLayer(th);
+    else { this.bg(th); this.silhouettes(th, clearK); this.thumbRest(th); }
+    this.road(track);
+    // 0.88 ~ 0.98 s: 조각·남은 별·눈금이 작아지며 사라짐
+    const shrinkK = failD >= RG ? clamp01((failD - RG) / (art.fail.pieceShrinkS * 1000)) : 0;
+    this.ticks(L, speed, x, 1 - shrinkK);
+    const cin = mode === 'countin' ? Math.min(4, Math.floor((x - run.t0) / L.beatMs) + 1) : -1;
+    this.drum(th, V, cin);
+    this.judgeLine();
+    // 별 (오른쪽 끝 W + r 에서 들어와 판정 선으로, 판정된 별·이펙트는 길과 함께 계속 왼쪽으로)
+    const r = lay.star_r, yc = lay.road.yc, xMax = this.W + r + 1, xMin = -2 * r;
+    for (let si = run.i0; si < L.stars.length; si++) {
+      const s = L.stars[si];
+      const sx = lay.judge_x + speed * (s.t - x);
+      if (sx > xMax) break;
+      if (sx < xMin) continue;
+      if (si < run.i) { const j = run.judged[si - run.i0]; if (j) this._fx(sx, yc, j, V); continue; }
+      if (failD >= 0 && si === run.fail.index) { this._broken(sx, yc, failD, RG); continue; }
       if (shrinkK >= 1) continue;
-      this.star(sx, sy, lay.starR, false, grow * (1 - shrinkK));
+      this.star(sx, yc, r, 1 - shrinkK);
     }
-    // 공
+    // 공: 박마다 착지 (박 시각 = 가장 낮은 자리). 실패 = 그 자리 속 빈 원 → 0.88 s 부터 앉는 자리에서 0.6 → 1.0배
+    const phase = (q) => ((q % L.beatMs) + L.beatMs) % L.beatMs / L.beatMs;
     if (failD >= 0) {
-      const ang = ((x % L.barMs) / L.barMs) * TAU;
-      if (failD < this.RG) this.ball(ang, 'hollow');
+      const yb = this.bounceY(phase(run.fail.x));
+      if (failD < RG) this.ball(yb, 'hollow');
       else {
-        const hk = clamp01((failD - this.RG) / (this.art.fail.hollowShrinkS * 1000));
-        if (hk < 1) this.ball(ang, 'hollow', 1 - hk);
-        const rg = this.art.clear.drumGrow; void rg;
-        const regrow = S.bal.restart.ball_regrow_scale;
-        this.ball(0, 'solid', lerp(regrow[0], regrow[1], clamp01((failD - this.RG) / (S.bal.restart.regrow_s * 1000))), false);
+        const hk = clamp01((failD - RG) / (art.fail.hollowShrinkS * 1000));
+        if (hk < 1) this.ball(yb, 'hollow', 1 - hk);
+        const rg = S.bal.restart.ball_regrow_scale;
+        this.ball(lay.ball.yRest, 'solid', lerp(rg[0], rg[1], clamp01((failD - RG) / (S.bal.restart.regrow_s * 1000))));
       }
-    } else if (x < run.t0) this.ball(0, 'solid', 1, false);
-    else if (ph === 'done' || x >= L.durationMs) this.ball(0, 'solid', 1, false);
-    else this.ball(((x % L.barMs) / L.barMs) * TAU);
-    // 등급 북 / 깃발
+    } else if (x < run.t0) this.ball(lay.ball.yRest);
+    else if (run.clearV != null && x >= S.ballStopX) this.ball(lay.ball.yRest);
+    else this.ball(this.bounceY(phase(x)));
+    // 등급 북 / 깃발: outro 둘째 마디, 1박 간격, 판정 북과 같은 y, 화면 가운데
     if (run.clearV != null) {
-      const cl = this.art.clear, base = S.gradeStartX;
-      const r = cl.drumR * lay.R, y = lay.cy + cl.drumY * lay.R;
-      if (run.practice) { if (x >= base) this.flagAt(lay.cx, y, r * 2.6); }
+      const cl = art.clear, base = S.gradeStartX, gr = cl.gradeR * lay.drum.r, gy = lay.drum.y, gx = this.W / 2;
+      if (run.practice) { if (x >= base) this.flagAt(gx, gy, gr * 2.6); }
       else for (let k = 0; k < 3; k++) {
         const t = base + k * L.beatMs;
         if (x < t) continue;
         const sc = lerp(cl.drumGrow[0], 1, clamp01((x - t) / (L.beatMs * 0.25)));
-        this.gradeDrum(lay.cx + (k - 1) * cl.drumGap * lay.R, y, r, k < run.grade, sc);
+        this.gradeDrum(gx + (k - 1) * cl.gradeGap * lay.drum.r, gy, gr, k < run.grade, sc);
       }
     }
-    // 손가락 (레벨 1 첫 꽉 찬 별)
+    // 손가락 (레벨 1 첫 별): 판정 북 바로 아래 칸, 1박 전 나타남, 0.25박 전부터 위(북)로 누름
     S.handOn = false;
     const cue = L.cue;
-    // 손가락: 북채가 다 사라진 뒤(cue.from ≥ 북채 gone)에만, 누름은 pressFrom(0.25박 전)부터 (4-4·5-5, R1·R2)
-    if (failD < 0 && !S.malletOn && cueVisible(L, run, x)) {
+    if (failD < 0 && cueVisible(L, run, x)) {
       const ha = art.hand, hb = lay.hand;
       const pf = cue.pressFrom;
       const press = x >= pf ? ha.pressPx * (hb.size / ha.pressRef) * clamp01((x - pf) / (cue.t - pf)) : 0;
@@ -404,48 +380,122 @@ export class Renderer {
       this.hand(hb.x, hb.y, hb.size * lerp(0.6, 1, gk), press);
       S.handOn = true;
     }
+    // 판정 이름·정확도 % (30-art 16-13): 길 띠 아래·판정 북 오른쪽 상자. 튐 80 → 유지 400 → 흐려짐 150 ms, 새 판정은 S.ro 가 바뀌어 그 프레임에 바꿔 그림.
+    // 손가락·tut 글이 보이는 프레임에는 그리지 않음(가로 화면 시간 배타). 실패 = 0.3 s 안에 콤보 줄과 함께 작아짐, 클리어 = 0.2 s 흐려짐
+    S.labelOn = false;
+    if (S.ro && !S.handOn) {
+      const JL = art.road.judge_label, life = JL.hold_ms + JL.fade_ms;
+      const at = failD >= 0 ? run.fail.V : V, t = at - S.ro.V;
+      if (t >= 0 && t < life) {
+        let sc = t < JL.pop_ms ? 1 + (JL.pop - 1) * Math.sin((t / JL.pop_ms) * Math.PI) : 1;
+        let al = t > JL.hold_ms ? 1 - (t - JL.hold_ms) / JL.fade_ms : 1;
+        if (failD >= 0) { const q = failD / (S.bal.combo.break_fx.fade_s * 1000); sc *= q < 1 ? 1 - q * q : 0; }
+        if (run.clearV != null && V > run.clearV) al *= 1 - clamp01((V - run.clearV) / JL.clear_fade_ms);
+        if (sc > 0 && al > 0) { this._readout(S.ro, sc, al); S.labelOn = true; }
+      }
+    }
     // HUD
     let best = S.best;
-    if (failD >= 0 && S.slideFrom != null) {
-      const k = clamp01((failD - this.BRK) / (S.bal.restart.best_record_slide_s * 1000));
-      best = lerp(S.slideFrom, S.best, k);
-    }
+    if (failD >= 0 && S.slideFrom != null) best = lerp(S.slideFrom, S.best, clamp01((failD - BRK) / (S.bal.restart.best_record_slide_s * 1000)));
     const flags = run.practice ? (L._flags || (L._flags = L.checkpoints.map((c) => c.firstStar / L.stars.length))) : NO_FLAGS;
     const prog = failD >= 0 ? run.fail.index / L.stars.length : run.progress;
     this.hud(th, prog, run.practice ? null : best, run.attempts, flags);
-    void g; void C;
+    // 콤보 (실패 = 0 ~ 0.3 s 소리 없이 작아지며 사라짐, ease-in)
+    if (S.comboOn) {
+      const cs = S.cs;
+      if (failD >= 0) {
+        const q = failD / (S.bal.combo.break_fx.fade_s * 1000);
+        cs.breakK = q < 1 ? 1 - q * q : 0;
+        this.combo(th, run.fail.combo, V, cs);
+      } else { cs.breakK = null; this.combo(th, run.grades.length, V, cs); }
+    }
+    void C;
   }
 
-  _ring(x, y, r) { const g = this.g; g.strokeStyle = this.C.trackEdge; g.lineWidth = 2; g.beginPath(); g.arc(x, y, r, 0, TAU); g.stroke(); }
+  // 판정 글 한 덩어리: [등급 표지][이름 위 / % 아래], 기준점 = 덩어리 왼쪽 가운데(layout judge_label.anchor), 등급 색 + outline 테(바깥쪽만)
+  // 판정 글은 (등급, %, 이름)마다 기기 px 스프라이트로 한 번만 그려 둠 — 큰 글자 strokeText 를 매 프레임 하면 DPR 3 에서 프레임이 25~50 ms 로 길어졌음(성능)
+  _readout(ro, scale, alpha) {
+    const sp = this._labelSprite(ro.grade, ro.pct, ro.name), J = this.lay.judge_label, g = this.g;
+    g.save(); g.globalAlpha = alpha; g.translate(J.anchor.x, J.anchor.y); g.scale(scale / this.dpr, scale / this.dpr);
+    g.drawImage(sp.c, -sp.ox, -sp.oy); g.restore();
+  }
+  _labelSprite(grade, pct, name) {
+    const key = grade + "|" + pct + "|" + name;
+    const m = this.labels || (this.labels = new Map());
+    let sp = m.get(key);
+    if (sp) return sp;
+    const J = this.lay.judge_label, G = J.grades[grade], pad = 2 * J.outline_px + 4, d = this.dpr;
+    const w = J.content_w + 2 * pad, h = G.h + 2 * pad;
+    const c = document.createElement("canvas"); c.width = Math.ceil(w * d); c.height = Math.ceil(h * d);
+    const g0 = this.g; this.g = c.getContext("2d");
+    try { this.g.setTransform(d, 0, 0, d, pad * d, (h / 2) * d); this._labelDraw({ grade, pct, name }); } finally { this.g = g0; }
+    sp = { c, ox: pad * d, oy: (h / 2) * d };
+    m.set(key, sp);
+    return sp;
+  }
+  // 모든 등급·% 조합을 미리 그려 둠 (첫 판정 프레임 비용 없음). names = {perfect, good, pass}
+  prewarmLabels(names) {
+    if (!names || !this.lay) return;
+    const a = this.art.labelPcts;
+    for (const g of ["perfect", "good", "pass"]) for (const p of a[g]) this._labelSprite(g, p, names[g]);
+  }
+  _labelDraw(ro) {
+    const g = this.g, J = this.lay.judge_label, G = J.grades[ro.grade], JR = this.art.road.judge_label, C = this.C;
+    const col = this.pal.judge_label_r3.colors[ro.grade], F = G.name_px, P = G.pct_px, h = F + JR.line_gap_mul * F + P;
+    const ny = -h / 2 + F / 2, py = h / 2 - P / 2, tx = G.mark_w + G.mark_gap, ow = 2 * J.outline_px;
+    g.save();
+    // 표지 (딱 = 빛살 5 위로 −60°~+60°, 좋아 = 빛살 3 −40°·0°·+40°, 됐어 = 작은 고리)
+    const mx = G.mark_w / 2;
+    g.lineCap = 'round';
+    if (ro.grade === 'pass') {
+      g.beginPath(); g.arc(mx, ny, JR.mark.ring * F, 0, TAU);
+      g.strokeStyle = C.outline; g.lineWidth = JR.mark.ringW * F + ow; g.stroke(); g.strokeStyle = col; g.lineWidth = JR.mark.ringW * F; g.stroke();
+    } else {
+      const angs = ro.grade === 'perfect' ? JR.mark.five : JR.mark.three, by = ny + JR.mark.base * F, L0 = JR.mark.r0 * F, L1 = L0 + JR.mark.len * F, w = Math.max(JR.mark.w[0], JR.mark.w[1] * F);
+      g.beginPath();
+      for (const a of angs) { const dx = dirX(a), dy = dirY(a); g.moveTo(mx + dx * L0, by + dy * L0); g.lineTo(mx + dx * L1, by + dy * L1); }
+      g.strokeStyle = C.outline; g.lineWidth = w + ow; g.stroke(); g.strokeStyle = col; g.lineWidth = w; g.stroke();
+    }
+    // 글 (이름 위, % 아래 — 한 줄로 붙이지 않음, 10-lore R3-12-2)
+    g.textAlign = 'left'; g.textBaseline = 'middle'; g.lineJoin = 'round'; g.lineWidth = ow; g.strokeStyle = C.outline; g.fillStyle = col;
+    g.font = this._font(F); g.strokeText(ro.name, tx, ny); g.fillText(ro.name, tx, ny);
+    if (ro.pct != null) { const t = ro.pctText || (ro.pctText = ro.pct + '%'); g.font = this._font(P); g.strokeText(t, tx, py); g.fillText(t, tx, py); }
+    g.restore();
+  }
+  _font(px) { const m = this._fonts || (this._fonts = new Map()); let f = m.get(px); if (!f) { f = '700 ' + px + 'px ' + this.art.fontFamily; m.set(px, f); } return f; }
 
+  _ring(x, y, r, color) { const g = this.g; g.strokeStyle = color; g.lineWidth = 2; g.beginPath(); g.arc(x, y, r, 0, TAU); g.stroke(); }
+
+  // 판정 이펙트 (16-3): 딱 1.2배 + 왼쪽 부채꼴 빛살 5(노랑) / 좋아 1.1배 + 빛살 3(크림) / 통과 0.35배 작은 점 + 고리 0.9 r(회백)
   _fx(x, y, j, V) {
-    const f = this.art.fx[j.grade], r = this.lay.starR, g = this.g;
+    const f = this.art.fx[j.grade], r = this.lay.star_r, g = this.g, C = this.C;
     const k = (V - j.V) / f.ms;
     if (k < 0 || k >= 1) return;
     if (j.grade === 'pass') {
-      this.star(x, y, r, false, lerp(1, f.scale, easeOut(k)));
-      this._ring(x, y, r * f.ring);
+      const s = lerp(1, f.scale, easeOut(Math.min(1, k * 2)));
+      this.star(x, y, r, s, C.trackEdge);
+      this._ring(x, y, r * f.ring, C.trackEdge);
       return;
     }
     const sc = k < 0.6 ? lerp(1, f.scale, easeOut(k / 0.6)) : f.scale * (1 - (k - 0.6) / 0.4);
-    this.star(x, y, r, false, sc);
+    this.star(x, y, r, sc);
     const rw = Math.max(f.rayW[0], f.rayW[1] * r) * (1 - k * 0.5);
-    g.strokeStyle = this.C.star; g.lineWidth = rw; g.lineCap = 'round';
-    for (let q = 0; q < f.rays; q++) {
-      const a = ((q * 360) / f.rays + (f.rayRot || 0)) * (Math.PI / 180) - Math.PI / 2;
-      const r0 = r * sc + f.rayGap, r1 = r0 + f.rayLen * r;
-      g.beginPath(); g.moveTo(x + Math.cos(a) * r0, y + Math.sin(a) * r0); g.lineTo(x + Math.cos(a) * r1, y + Math.sin(a) * r1); g.stroke();
+    g.strokeStyle = j.grade === 'perfect' ? C.star : C.hud; g.lineWidth = rw; g.lineCap = 'round';
+    for (const deg of f.angles) {
+      const r0 = r * sc + f.rayGap, r1 = r0 + f.rayLen * r, dx = dirX(deg), dy = dirY(deg);
+      g.beginPath(); g.moveTo(x + dx * r0, y + dy * r0); g.lineTo(x + dx * r1, y + dy * r1); g.stroke();
     }
   }
 
-  _broken(x, y, d) {
-    const m = this.art.fx.miss, g = this.g, r = this.lay.starR;
+  // 놓친 별: 회색 두 조각이 ±20° 돌며 0.15 d 아래로 (0.3 s), 0.88 s 부터 0.1 s 동안 작아짐
+  _broken(x, y, d, RG) {
+    const m = this.art.fx.miss, g = this.g, r = this.lay.star_r;
     const k = clamp01(d / m.ms);
-    const shrink = d >= this.RG ? 1 - clamp01((d - this.RG) / (this.art.fail.pieceShrinkS * 1000)) : 1;
+    const shrink = d >= RG ? 1 - clamp01((d - RG) / (this.art.fail.pieceShrinkS * 1000)) : 1;
     if (shrink <= 0) return;
     for (const s of [-1, 1]) {
       g.save();
-      g.translate(x + s * r * 0.25 * k, y + m.dropR * this.lay.R * easeOut(k));
+      g.translate(x + s * r * 0.25 * k, y + m.drop * this.lay.star_d * easeOut(k));
       g.rotate((s * m.rotDeg * k * Math.PI) / 180);
       g.scale(shrink, shrink);
       g.beginPath(); g.rect(s < 0 ? -r * 1.2 : 0, -r * 1.2, r * 1.2, r * 2.4); g.clip();
@@ -455,40 +505,46 @@ export class Renderer {
     }
   }
 
-  // 보정 화면 (박에 맞춰 움직이지 않음)
+  // 보정 화면 (30-art 10절 그대로, 박에 맞춰 움직이지 않음): 가운데 북 + 점 8개
   calib(th, V, cs) {
-    const lay = this.lay, c = this.art.calib, g = this.g, C = this.C;
+    const cl = this.lay.calib, c = this.art.calib, g = this.g, C = this.C;
     this.bg(th);
     this.thumbRest(th);
-    const s = lay.R / c.refR;
-    this.drum(th, V, false, -1, 1, c.drumR * s);
+    const s = cl.R / c.refR, r = c.drumR * s;
+    g.beginPath(); g.arc(cl.cx, cl.cy, r, 0, TAU); g.fillStyle = th.drum; g.fill(); g.strokeStyle = C.outline; g.lineWidth = c.drumOutline; g.stroke();
+    g.save(); g.globalAlpha = this.A.drum_inner_ring_hud; g.strokeStyle = C.hud; g.lineWidth = 2; g.beginPath(); g.arc(cl.cx, cl.cy, r * c.innerK, 0, TAU); g.stroke(); g.restore();
+    for (const rp of this.ripples) {
+      const k = (V - rp.V) / rp.ms;
+      if (k < 0 || k > 1) continue;
+      g.strokeStyle = C.trackEdge; g.lineWidth = 3 * (1 - k) + 0.5;
+      g.beginPath(); g.arc(cl.cx, cl.cy, r * lerp(1, rp.scale, easeOut(k)), 0, TAU); g.stroke();
+    }
     const dr = Math.max(8, c.dotR * s);
     for (let k = 0; k < c.dots; k++) {
       const a = (k / c.dots) * TAU - Math.PI / 2;
-      const x = lay.cx + Math.cos(a) * c.dotsR * s, y = lay.cy + Math.sin(a) * c.dotsR * s;
+      const x = cl.cx + Math.cos(a) * c.dotsR * s, y = cl.cy + Math.sin(a) * c.dotsR * s;
       const sc = cs.emptyK != null ? 1 - cs.emptyK : 1;
       g.beginPath(); g.arc(x, y, dr * sc, 0, TAU);
       if (k < cs.filled) { g.fillStyle = C.hud; g.fill(); g.strokeStyle = C.outline; g.lineWidth = 2; g.stroke(); }
       else { g.strokeStyle = C.trackEdge; g.lineWidth = 2; g.stroke(); }
     }
     if (cs.checkK > 0) {
-      const k = clamp01(cs.checkK), r = c.drumR * s * 0.5 * k;
-      g.strokeStyle = C.hud; g.lineWidth = Math.max(6, r * 0.28); g.lineCap = 'round'; g.lineJoin = 'round';
-      g.beginPath(); g.moveTo(lay.cx - r, lay.cy); g.lineTo(lay.cx - r * 0.25, lay.cy + r * 0.7); g.lineTo(lay.cx + r, lay.cy - r * 0.6); g.stroke();
+      const k = clamp01(cs.checkK), rr = r * 0.5 * k;
+      g.strokeStyle = C.hud; g.lineWidth = Math.max(6, rr * 0.28); g.lineCap = 'round'; g.lineJoin = 'round';
+      g.beginPath(); g.moveTo(cl.cx - rr, cl.cy); g.lineTo(cl.cx - rr * 0.25, cl.cy + rr * 0.7); g.lineTo(cl.cx + rr, cl.cy - rr * 0.6); g.stroke();
     }
-    if (cs.hand && lay.thumb) this.hand(lay.hand.x, lay.hand.y, lay.hand.size, 0);
+    if (cs.hand && cl.hand) this.hand(cl.hand.x, cl.hand.y, cl.hand.size, 0, cl.hand.size);
   }
 
-  // 메뉴 뒤 바탕
   menuBg(th) { this.bg(th); }
 
-  // 타이틀: 정지 궤도 + 별 + 공
-  title(th) {
-    this.bg(th); this.silhouettes(th);
-    this.orbit(th.track1, false);
-    this.drum(th, 0, false);
-    const [sx, sy] = slotXY(this.lay, 0);
-    this.star(sx, sy, this.lay.starR, false);
-    this.ball(Math.PI * 0.3);
+  // 타이틀 (16-9 4-6 대체): 플레이 화면 구성 그대로(길·판정 북·판정 선·공, 별 없음), 공은 title_bpm 으로 착지. V = 게임 시계
+  title(th, V) {
+    this.drawLayer(th);
+    this.road(th.track1);
+    this.drum(th, V);
+    this.judgeLine();
+    const beat = 60000 / this.art.title.bpm;
+    this.ball(this.bounceY((((V % beat) + beat) % beat) / beat));
   }
 }

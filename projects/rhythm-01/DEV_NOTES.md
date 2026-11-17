@@ -1,9 +1,69 @@
 # DEV_NOTES: rhythm-01 (똑딱북: Tickadrum) 웹 빌드
 
 - 작성: game-developer, 2026-11-17 (1-3 round-1 빌드)
-- 빌드: `games/rhythm-01/` (정적 파일만, 외부 요청 0). 실행은 정적 서버가 필요합니다(`fetch`로 data를 읽어서 `file://`로는 열리지 않음): `node projects/rhythm-01/tools/serve.mjs` → `http://localhost:8133/games/rhythm-01/`
+- 빌드: `games/rhythm-01/` (정적 파일만, 외부 요청 0). 실행은 정적 서버가 필요합니다(`fetch`로 data를 읽어서 `file://`로는 열리지 않음): `node projects/rhythm-01/tools/serve.mjs` → `http://localhost:8340/games/rhythm-01/`
 
-## 구조
+
+> **2026-11-17 round-3 새 코어 "북길" (R18~R25) — 이 절이 아래 절보다 우선입니다.** 아래 1-3~round-3(R11~R16) 절은 옛 코어(원 궤도) 기록으로 남깁니다. 북채·보여 주기·궤도 관련 내용(D17 정지 궤도, R2-1 북채, R2-2 손가락 늦춤, R3-5 점선)은 새 코어에서 쓰지 않습니다. 서버 기본 포트는 8340(game-developer 대역 8340~8379)으로 바꿈.
+
+## round-3 새 코어 "북길" (결정 R18~R25, 보고서 `Docs/game-developer/2026-11-17-r3-new-core-build.md`)
+
+### 구조 (바뀐 것)
+| 파일 | 내용 |
+|---|---|
+| `js/road.js` (새) | 길 화면 규격 `roadLayout()` = `assets/road-layout.mjs layout()`과 같은 식, 값은 `data/art.json road`(= `assets/layout.json rule` 복사). `speedOf`(px/ms = 미리 보기 거리 ÷ (lead 박 × 1박)), `xAt`(별 x = 판정 선 x + 속도 × (별 시각 − 지금)) |
+| `js/engine.js` | v3 레벨(파생 `bars`·`patterns`)을 `compileLevel`로 읽음(보여 주기 별 0). 북채·커지며 나타남 제거. 연습 체크포인트 = `practice.checkpoints[].beat`(R21), 부활 시도의 시작점 `t0` = 체크포인트 박 한 마디 앞(카운트인 1마디). 콤보 = `grades.length`(getter, 실패 중 0), 판정 이벤트에 `combo` |
+| `js/render.js` | 북길 그리기 전부 새로: 바탕 층(바탕·실루엣 `silhouette_frame_r3`·엄지 받침) → 길 띠(단계 색) → 정박 눈금·마디 표(흐름) → 판정 북(카운트인 점 4개·탭 물결) → 판정 선 6 px(+ 양옆 outline 1 px) → 별(오른쪽 끝 W + r에서 들어옴) → 판정 이펙트(길과 함께 흐름) → 공(박마다 착지) → 손가락(판정 북 바로 아래 칸) → HUD(진행도·시도 점·콤보 줄). 보정 화면은 10절 그대로(가운데 북 + 점 8개, 크기 기준 = 옛 궤도 반지름 공식) |
+| `js/audio.js` | `placeMelodyV3`(= `assets/sound-check.mjs placeMelodyV3` 규칙 + 단계 3 화음), `buildSong` v3(숨 고르기 마디 = `melody_r3.during_breath` = play 파트, outro 마디 동기 없음·마무리 음 1개, 연습 부활 카운트인이 마디 중간에서 시작해도 이벤트마다 그 시각 상태로 파트를 고름), `comboChordTime`(= `sound-check comboChordSlots` 규칙) |
+| `js/readout.js` (새) | 판정 이름·정확도 % 자리(요청자 추가 지시 "판정 이름과 퍼센트까지", 구조만). `balance.json judge_readout`·strings 키가 생기면 보임, 지금은 없어서 아무것도 안 그림 |
+| `js/store.js` | 저장 키 v3: 레벨 배치·카드가 바뀌어 레벨 기록은 새로, v2의 보정 결과(R11 방식)·소리 설정만 옮김 |
+| `data/` | `build-web-data.mjs`: levels v3 확인(아니면 중단), strings = 10-lore 7절 64 + R3-7 6 = 70 중 사용 65, art.json = layout.json rule + 16절 연출 값, music.json에 `melody_r3`·`combo_r3`, 그림 카드 = `assets/cards-r3/`(키 이름, 외부 참조 검사, 옛 카드 파일 지움) |
+
+### 결정·해석 (기획과 다르거나 기획에 없던 것)
+| # | 내용 | 확인할 역할 |
+|---|---|---|
+| N-1 시계 | 별 x·눈금·공 뜀은 판정과 같은 보정 시계(레벨 시간 = V − songStartV)로 그림. 실패하면 길 흐름이 그 순간(`fail.x`)에 멈춤(16-6) | - |
+| N-2 판정 이펙트 | 16-3 그대로: 딱 1.2배 + 빛살 5개(노랑) 방위 225·247.5·270·292.5·315°(12시 = 0°, 시계 방향 → 왼쪽 부채꼴), 좋아 1.1배 + 빛살 3개(크림) 240·270·300°, 통과 0.35배 회백 별 + 고리 0.9 r. **좋아 빛살 길이·간격은 문서에 없어 딱과 같게(0.6 r, 3 px)**. 판정된 별은 길과 함께 흐름 | art |
+| N-3 눈금 | 정박 네모 max(5, 0.16 d)·trackEdge 80 %, 아랫변 3 px 안쪽. 마디 표 = 아랫변에서 띠 높이 30 % 막대, **폭 max(2, d/16)은 dev가 정함**(문서에 없음). 반박 자리 표시 없음 | art |
+| N-4 공 | 박 위상 f(0~1)에서 y = 앉는 자리 − 뜀 높이 × 4f(1−f)(박 시각 = 가장 낮음). 시도 시작 전(0.4 s 여유)·클리어 뒤 그 마디 끝부터는 앉아 있음 | art |
+| N-5 콤보 줄 | 16-4·`layout.json hud.combo`: 큰 표지 자리 3(cardTint r 6) + 점 10칸(빈 칸 trackEdge 50 % 고리 r 3.4 / 찬 칸 hud r 4). 콤보 2부터, 튐 120 ms(1.15배, **5만 1.3배** — balance `steps`에서 5단계만), 10·20·30 = 점 10개가 0.4 s 동안 표지 자리로 모이며 작아지고 표지 0.6 → 1.0배, 20·30 = 색 조각 6개 0.6 s(줄 위 12 px 낙하, HUD 띠 안). 끊김 = 실패 0~0.3 s `1 − q²`(ease-in)로 작아지며 사라짐, 소리 없음. 시각 값은 balance `combo`(show_from·update_pop_ms·steps fx_ms)에서 읽음. 색 조각은 시도 점 줄과 같은 높이 띠를 지나감(겹쳐 보일 수 있음, 0.6 s) | art |
+| N-6 콤보 화음 | 판정 프레임에 `comboChordTime`(별 + 0.5박 뒤 첫 빈 정박 → 빈 반박 → 넘김)으로 시각을 정해 `AudioOut.play`로 예약. 실패·멈춤 때 `stopSong`이 아직 시작 안 한 소리를 멈춤(= 취소). 테스트 훅 `combo().chords`에 기록 | - |
+| N-7 콤보 대체 글 | `#comboAria` `role="meter"`, 이름 `aria_streak`, `aria-valuenow` = 콤보, `aria-valuetext` = 숫자만(오케스트레이터 지시·insights, 10-lore R3-a는 "valuetext 없음"이라 적었으나 퍼센트로 읽히지 않게 숫자만 넣음), `aria-valuemax` = 판정 별 수, aria-live 없음, 판정마다·끊길 때 낭독 없음. 값이 바뀔 때만 DOM 씀 | lore |
+| N-8 콤보 켬/끔 | `?combo=0`이면 콤보 줄·대체 글·단계 화음을 끔(봇 재판정 대조용, 판정 코드 경로는 같음) | qa |
+| N-9 연습 부활 | 부활 시도 = 체크포인트 박 한 마디 앞에서 카운트인(박마다 똑딱, 첫 박 `tick_one`) → 체크포인트 박부터. 체크포인트 갱신은 그 박을 지나고 앞 덩어리 별이 모두 처리됐을 때. 진행도 깃발 = 체크포인트 다음 첫 별 번호 / 별 수 | balance |
+| N-10 결과 화면 | 등급 북 = 판정 북과 같은 y·화면 가운데·간격 2.4 × 북 반지름·반지름 0.6 ×(16-6). 결과 버튼: 세로 = 엄지 받침 가운데, 가로 = 판정 북 아래 12 px(모자라면 오른쪽 세로 줄). 클리어 글 = 공 뜀 꼭대기 위·HUD 띠 아래 가운데 | art |
+| N-11 타이틀 | 플레이 화면 구성(길·판정 북·판정 선·공, 별 없음), 공은 100 BPM 착지(게임 시계). 시작 힌트 = 손가락 칸(판정 북 아래)·글 자리 | art |
+| N-12 레벨 카드 줄 1 | "작은 길 조각": 높이 28(최소 16) 안 가로 둥근 막대(track1 면 + trackEdge 3 px 테두리), **폭 = min(카드 안쪽 − 4, 2.6 × 높이)·막대 높이 0.36 ×·공 반지름 0.16 ×는 dev가 정함**, 왼쪽 30 % 자리 hud 세로 선 + 위 공 점 | art |
+| N-13 불러오기 그림 | 궤도 위 도는 공 → 길 조각 위 통통 뛰는 공(문구 그대로, lore R3-7 "그림이 바뀌어도 문구 그대로") | art |
+| N-14 부트 언어 | 불러오기 단계에서 html `lang`·문서 제목도 고른 언어의 10-lore 문구(`title`)로(criteria rhythm-02 줄) | - |
+| N-15 판정 이름·% | 요청자 지시 "판정 이름과 퍼센트까지"(작업 중 전달, 규격 9f9cc5c 확정 뒤 범위에 넣음). `js/readout.js` `accuracyPct(e, judge, acc)`·`gradeFromPct`·`levelAccuracy(L, result, acc)` = `tools/sim/bots.mjs` 기준 함수와 같은 식·인자(식으로 계산, 경계표 안 씀, 경계값 = 안쪽 칸). 시작 때 `checkAccuracyData`가 accuracy·레벨 창 값이 유한한 숫자인지 확인(아니면 불러오기 실패 화면). 플레이: 판정 프레임에 `S.ro`를 바꿔 그림 — 자리 = `layout judge_label.anchor`(길 띠 아래, 판정 북 물결·손가락 칸 오른쪽 + 8), [표지][이름 위 / % 아래], 이름 크기 등급별(46/42/40, 짧은 변 500 넘으면 비례)·% 0.55배, 색 `palette judge_label_r3`, outline 테 2 × outline_px(바깥만), 튐 1.15배 80 ms → 400 ms 유지 → 150 ms 흐려짐(값은 layout 과 balance `display_timing_ms`가 같은지 빌드 도구가 확인), 실패 0.3 s 안 콤보 줄과 함께 작아짐, 클리어 0.2 s 흐려짐, **손가락·tut 글이 보이는 프레임에는 그리지 않음**. 캔버스에 그려 낭독 없음. 표지 빛살 시작 거리 0.08 × 이름·부채 중심 아래 0.22 × 이름은 dev 가 정함. 결과: `#resAcc`(meter `result_accuracy`, valuetext "87%")·`#resNew`(img `result_new_best`, 이전 최고보다 클 때만)·`#resCombo`(meter `aria_streak_best`, valuetext 숫자만), 자리·글 크기 = `layout result`(세로 = 등급 북 아래 한 줄, 가로 = 등급 북 양옆), 과녁·점 3개 표지는 인라인 SVG, 일반 모드 클리어만, 저장 `bestAcc`·`bestCombo`. **결과 숫자의 0.6 → 1.0배 등장(16-13-4 "마지막 등급 북 뒤 1박")은 넣지 않음** — 결과 화면이 그 시각과 거의 같은 곡 끝에 바로 보이고 DOM 애니메이션은 게임 시계와 묶이지 않아서(insights 테스트 훅 = 일반 모드) | art |
+
+### 텍스트 키 (10-lore R3-7, criteria R8)
+- (R3-12 반영) 표에 적힌 키 **75** = 빌드에서 쓰는 키 **71** + **폐기 3 + 쓰지 않음 1**(빌드 `data/strings.json`에 넣지 않고 `_not_used`에 기록). 새 키 R3-12 5개(`judge_perfect·judge_good·judge_pass·result_accuracy·result_new_best`), `aria_streak_best`는 R3-12에서 다시 씀(결과 최고 콤보 meter).
+- **10-lore R3-7 폐기**: `tut_tap`(→ `tut_drum_tap`), `card_star_tap`(→ `card_drum_tap`), `card_two_bar`(→ `card_run3`) — 북채·보여 주기·원 궤도 폐기로 뜻이 맞지 않음.
+- **10-lore R3-7 쓰지 않음**: `card_long_row`(L6 기믹이 반박 3연속으로 확정, `card_run3` 사용). (`aria_streak_best`는 처음엔 쓰지 않음이었다가 R3-12로 다시 씀.)
+- 새로 쓰는 키: `tut_drum_tap`(L1 손가락 보조 글, 글 자리 = layout `text_slot`, 14 px 굵게), `card_drum_tap`·`card_run3`(그림 카드 aria), `aria_streak`(콤보 meter 이름). `title`은 부트 블록에도 넣음.
+
+### 성능 (6배 스로틀 1% low ≥ 45, R12 원인 대응을 새 화면에도)
+- 옛 코어에서 찾은 원인과 새 화면 적용: ① 첫 래스터화 — 타이틀 뒤 미리 그리기(`warmScreens`)·레벨 1 그림 카드 해독 뒤 ready·손가락/깃발 스프라이트 resize 때 래스터화 그대로, `warmCode`가 레벨 1·2 완벽 입력(콤보 갱신·10·20 단계 연출 포함)·별 3개 뒤 실패(콤보 끊김)·재시작 장면을 작은 캔버스에 미리 그림. ② GC — 바탕 층 캔버스 2장 resize 때 버퍼 미리 잡기, 프레임마다 객체를 만들지 않음(콤보 상태 객체 재사용, 색 섞기 캐시), aria 값은 바뀔 때만. ③ 테마 전환 — 바탕 층은 (bg, bgFar)마다 하나, 길 띠·눈금은 매 프레임 그림(단계 색 바뀜에도 새 층 없음), 새 테마 층은 시작 한 프레임 전에.
+- 새로 바꾼 것: 정적 바탕을 메인 캔버스 뒤 별도 캔버스(`#bgcv`, 테마가 바뀔 때만 그림)로 옮기고 메인 캔버스는 매 프레임 `clearRect` 뒤 움직이는 것만 그림(옛 코어의 화면 크기 `drawImage` 1번/프레임 제거, DPR 3에서 프로파일 상위 1위였음). 콤보 줄 점·고리는 한 경로로 묶어 그림(그리기 호출 약 30 → 4).
+- 측정 결과·PC 부하는 보고서 "검증 결과".
+
+### 테스트 훅 (round-3에서 바뀐 것)
+| 훅 | round-3 |
+|---|---|
+| `layout()` | 북길 규격(`layout.json layouts[]`와 같은 이름): `judge_x, preview_px, star_d, star_r, road{y0,y1,yc}, ball{d,x,yRest,bounce,top}, drum{r,x,y}, line{x,w,y0,y1}, hud{bar, pause, attempt_y, combo, band_bottom}, finger, text_slot, thumb, silhouette_frame` + `hand{x,y,size}`(손가락 칸 가운데·크기), `calib{cx,cy,R,hand}`(보정 화면). 옛 `R, cx, cy, starR, ballR, band, bar, dotsY, titleHint`는 없음 |
+| `layoutFor(W, H, safe)` | 위와 같은 형식 |
+| `road()` (새) | 지금 레벨 흐름 값 `{judgeX, previewPx, starD, lineW, leadBeats, beatMs, speedPxS, beatPx, previewS, judgeS, overlapMs}` |
+| `starX(i)` (새) | 지금 별 i 의 화면 x(같은 보정 시계, 실패 중엔 멈춘 자리) |
+| `combo()` (새) | `{on, value, shown, best, chords[{attempt, combo, star, sound, at(레벨 ms|null), cancelled}], aria{role,label,now,text,max,live}}` |
+| `frameInfo()` | `{handOn, malletOn: false, dashK: 0, levelTime, combo, comboShown}` (북채 없음, 두 값은 늘 false·0) |
+| `stars()` | 그대로(보여 주기 별 없음) |
+| `?combo=0` (새) | 콤보 표시·화음 끔 |
+| 그 밖 | `state·phase·loadLevel·step·press·pressAt·autoplay·judgeLog·history·summary·latency·calibInfo·show·calibTap·skipCalibration·setOffset·lateHint·save·drawNow·ads` 그대로. 저장 키 `rhythm01.save.v3` |
+| DOM·캔버스 | `#tut` 키 `tut_drum_tap`(자리 = layout text_slot, 가로는 `.side` 왼쪽 정렬), `#comboAria`(meter), `#resultInfo`·`#resAcc`·`#resNew`·`#resCombo`(판정 % 지시, accuracy 블록이 생기기 전엔 숨김), `#tapStart`(손가락 img = 손가락 칸, span = 글 자리). **정적 바탕은 `#bgcv`(메인 `#cv` 뒤)** — `#cv` 픽셀만 읽으면 바탕이 투명(0)으로 나옴 |
+
+## 구조 (옛 코어 기록, 새 코어는 위 절)
 
 | 파일 | 내용 |
 |---|---|
@@ -98,6 +158,9 @@
 - 메뉴 화면 글자 크기·여백(CSS). 색은 모두 palette.json에서 CSS 변수로.
 
 ## 데이터 문제 (수정하지 않고 기록)
+- (round-3 새 코어) 판정 % 경계: insights "Δ를 0.001 ms로 반올림한 뒤 경계 이하"와 달리 기준 `tools/sim/bots.mjs accuracyPct`는 반올림하지 않음. 빌드는 기준과 같게 둠(지금 데이터에서 % → 등급 불일치 0). balance 가 기준을 바꾸면 `js/readout.js`도 같이.
+- (round-3 새 코어) 30-art 16-13-4 가로 화면 결과 정확도 자리(등급 북 왼쪽)가 판정 북(x = 판정 선)과 겹쳐 보임(640x360 정확도 x 110~230, 판정 북 167~217). layout 검사 대상에 판정 북이 없음 → art 확인 필요.
+- (round-3 새 코어) 작업 끝 무렵 balance 가 12세 재조정 중이라 `verify-levels.mjs`가 `verify.*` 새 키를 찾다 멈춤(TypeError by_level). 빌드 데이터는 그 전 balance.json(22:53)과 같음. 재조정이 끝나면 `build-web-data.mjs`만 다시 돌리면 됨(스키마 같음).
 - 30-art 11절·12-5 표의 BPM 문구는 1-2 기준 표현이 남아 있음(빌드는 levels 파일 BPM만 씀, 요청 지시대로).
 - 30-art 10-3은 aria 키를 `calib_together`(제안)로 적음 → lore 확정 `calib_with_grownup` 사용(D18).
 - (round-3) 작업 중 balance가 프로젝트 `balance.json`·`levels/*.json`을 스키마 v3(새 코어)로 바꿈. 빌드 데이터(`games/rhythm-01/data/`)는 그 전에 만든 v2 그대로이고 새 코어 빌드 전까지 `build-web-data.mjs`를 다시 돌리지 않음. `selfcheck-sim` R7(멜로디 음 수)만 기준 쪽이 v3 레벨을 읽어 1건 실패.
@@ -129,4 +192,5 @@
 
 ## 자체 확인 도구
 - `node projects/rhythm-01/tools/selfcheck-sim.mjs`: 엔진 ↔ judge.mjs 대조(10레벨 × 완벽·무입력·박마다·σ25~90 봇 800세트), 재시작 1.08 s, 연습 체크포인트, 밀림 감지, 보정 계산.
+- (round-3 북길) `selfcheck-sim`: v3 레벨 엔진 = judgeAttempt(8030묶음) + 콤보 = grades.length(K1), 연습 부활(R21), 화면 규격 road.js = layout.json 8화면, 멜로디 v3·콤보 화음 자리 = sound-check. `selfcheck-browser` 6절: 화면 규격 = layout.json, T1 손가락, 글 자리 ko/en, cards-r3, 콤보 켬/끔 봇 재판정 불일치 0(K1), 콤보 aria·화음·끊김.
 - `PLAYWRIGHT_CORE=<playwright-core 폴더> node projects/rhythm-01/tools/selfcheck-browser.mjs [--quick] [--out 폴더] [--port 8340~8379]`: (round-3) R11 자동 지연 바뀜 흉내 첫 실행 보정·재시작 다시 읽기, R13 준비 직후 튜토리얼 글, R16 영어 긴 이름 검사 추가. 설치된 Edge(`--channel msedge`)로 테스트 모드 10레벨, 일반 모드 실시간 10레벨(오디오 켜짐), 실제 마우스 레벨 1·2, 4해상도 화면 스크린샷·버튼 검사, 저장 유지, 보호자 문, 백그라운드 일시정지.

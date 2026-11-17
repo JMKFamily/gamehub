@@ -1,5 +1,5 @@
 /* 색은 모두 JS가 palette.json 에서 넣는 CSS 변수 */
-:root { --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); --bg: #000; --bgFar: #000; --edge: #fff; --hud: #fff; --ink: #000; --tint: #fff; --ball: #fff; --track1: #000; }
+:root { --sat: env(safe-area-inset-top, 0px); --sab: env(safe-area-inset-bottom, 0px); --sal: env(safe-area-inset-left, 0px); --sar: env(safe-area-inset-right, 0px); --bg: #000; --bgFar: #000; --edge: #fff; --hud: #fff; --ink: #000; --tint: #fff; --ball: #fff; --track1: #000; }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--hud); font-family: system-ui, -apple-system, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; word-break: keep-all; overflow-wrap: break-word; user-select: none; -webkit-user-select: none; touch-action: none; }
 canvas { position: fixed; inset: 0; display: block; }
@@ -31,19 +31,21 @@ button { font: inherit; color: inherit; }
 
 /* 타이틀 */
 .title { position: absolute; left: 16px; right: 16px; top: calc(14% - 28px); margin: 0; text-align: center; font-size: clamp(30px, 8vmin, 56px); font-weight: 800; letter-spacing: 0.04em; color: var(--hud); }
-/* 시작 힌트: 손가락 칸 + 아래 글 8 px, 영역(JS가 left·width·top=세로 가운데) 안 가운데 (30-art 4-6) */
-.tapStart { position: absolute; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; transform: translateY(-50%); font-size: 18px; line-height: 1.25; text-align: center; color: var(--edge); pointer-events: none; }
-.tapHand { width: 64px; height: 64px; flex: none; }
+/* 시작 힌트 (16-9 4-6 대체): 손가락 = 판정 북 아래 손가락 칸, 글 = layout text_slot (JS 가 자리를 넣음) */
+.tapStart { position: absolute; left: 0; top: 0; width: 0; height: 0; margin: 0; pointer-events: none; }
+.tapStart .tapHand { position: absolute; display: block; }
+.tapStart span { position: absolute; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 16px; line-height: 20px; color: var(--edge); }
+.tapStart span.side { justify-content: flex-start; text-align: left; }
 @media (orientation: landscape) { .title { top: 12px; left: 72px; right: 72px; font-size: clamp(26px, 7vmin, 52px); } }
 
-/* 불러오기: 궤도 위 공 그림 (R8-5) */
+/* 불러오기: 길 위에서 통통 뛰는 공 그림 (R8-5, round-3 북길) */
 .loadPic { position: absolute; left: calc(50% - 48px); top: calc(45% - 120px); width: 96px; height: 96px; }
-.lpTrack { fill: none; stroke: var(--track1); stroke-width: 10; }
+.lpTrack { fill: var(--track1); stroke: var(--edge); stroke-width: 2; }
 .lpBall { fill: var(--ball); stroke: var(--ink); stroke-width: 2.5; }
-.lpSpin { animation: lpSpin 1.6s linear infinite; }
-.loadPic.stop .lpSpin { animation: none; }
-@keyframes lpSpin { to { transform: rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .lpSpin { animation: none; } }
+.lpHop { animation: lpHop 0.6s ease-in-out infinite alternate; }
+.loadPic.stop .lpHop { animation: none; }
+@keyframes lpHop { from { transform: translateY(0); } to { transform: translateY(-22px); } }
+@media (prefers-reduced-motion: reduce) { .lpHop { animation: none; } }
 .loadTxt { color: var(--edge); }
 
 /* 레벨 선택 */
@@ -112,15 +114,26 @@ button { font: inherit; color: inherit; }
 .cpFlags span { position: absolute; display: block; }
 .pracTag { width: 24px; height: 24px; pointer-events: none; }
 /* 튜토리얼 글은 숨겨도 배치는 유지 (첫 표시 때 글자 배치 비용 없음, 성능) */
-#tut.hidden { display: block !important; visibility: hidden; }
+#tut.hidden { display: flex !important; visibility: hidden; }
 /* R13: 미리 그리기(warm) 중에만 튜토리얼 글을 그려 둠. 플레이 화면이 보이는 순간(.show) 이 규칙이 빠져 같은 프레임에 숨김 상태로 돌아감 */
 .screen.warm:not(.show) #tut.hidden { visibility: visible; }
-.tut { margin: 0; font-size: 18px; font-weight: 700; color: var(--hud); pointer-events: none; }
+/* 튜토리얼 글 자리 = layout text_slot (폭 ≤ 220, 높이 40 = 14 px 굵게 2줄) */
+.tut { margin: 0; display: flex; align-items: center; justify-content: center; text-align: center; font-size: 14px; line-height: 20px; font-weight: 700; color: var(--hud); pointer-events: none; overflow: hidden; }
+.tut.side { justify-content: flex-start; text-align: left; }
+#comboAria { pointer-events: none; }
 body[data-state="result"] #bPause, body[data-state="pause"] #bPause { display: none; }
 .pausedBg { position: absolute; left: 16px; right: 16px; top: 22%; text-align: center; font-size: 20px; margin: 0; }
 .btnrow { display: flex; gap: 16px; }
 #sPause .btnrow { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 #resultBtns.col { flex-direction: column; }
+/* 결과 정확도·최고 콤보 (30-art 16-13-4): 자리·글 크기 = layout result (JS), 숫자 hud + outline 테(글자 바깥쪽만), 과녁·점 3개 표지 */
+.resultInfo { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.resItem { display: flex; align-items: center; white-space: nowrap; font-weight: 700; color: var(--hud); -webkit-text-stroke: var(--ol, 3px) var(--ink); paint-order: stroke fill; line-height: 1; }
+.resIcon { flex: none; display: block; }
+.resIcon .ri1 { fill: none; stroke: var(--hud); stroke-width: 1.8; }
+.resIcon .ri2 { fill: var(--tint); stroke: var(--ink); stroke-width: 0.8; }
+.resIcon .rd { fill: var(--hud); stroke: var(--ink); stroke-width: 0.8; }
+.resNew { display: block; border-radius: 50%; border: 2px solid var(--tint); box-sizing: border-box; }
 .clearTitle { margin: 0; font-size: 22px; font-weight: 800; color: var(--hud); }
 @media (max-height: 460px) {
   .rows { top: calc(12px + var(--sat)); left: 76px; right: 16px; gap: 8px; }

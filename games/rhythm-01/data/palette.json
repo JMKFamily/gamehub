@@ -57,6 +57,51 @@
   },
   "draw_order": "bg → 실루엣(clip = 판) → 엄지 받침 → 궤도 → 눈금 → 북 → 별 → 공 → 이펙트 → HUD"
  },
+ "silhouette_frame_r3": {
+  "_note": "round-3 북길(30-art 16-6)에서 silhouette_frame 대체. 판 위끝을 HUD 띠 아래로 내려 실루엣이 HUD 띠(진행도·시도 점·콤보 줄·일시정지)와 겹치지 않게 함. px 값은 assets/layout.json layouts[].silhouette_frame",
+  "portrait": {
+   "x0": 0,
+   "y0": "hudBandBottom + 8",
+   "w": "W",
+   "h": "thumbRestTop - 8 - y0"
+  },
+  "landscape": {
+   "x0": 0,
+   "y0": "hudBandBottom + 8",
+   "w": "W",
+   "h": "H - y0"
+  },
+  "draw_order": "bg → 실루엣(clip = 판) → 엄지 받침(세로) → 길 띠 → 박 눈금·마디 표 → 판정 북 → 판정 선 → 별 → 판정 이펙트 → 공 → 손가락 → HUD(진행도·시도 점·콤보 줄·일시정지)"
+ },
+ "road_r3": {
+  "_note": "30-art 16절 북길 색 쓰임. 크기·자리 = assets/layout.json",
+  "road_band": "track1~3 (진행 단계, blend 규칙 그대로), 위·아래 가장자리 trackEdge 1.5 px",
+  "judge_line": "hud, 가는 선(layout line.w), 양옆 outline 1 px",
+  "judge_drum": "drum 면 + trackEdge 2 px 테두리 + 안쪽 hud 35 % 가는 원(alpha.drum_inner_ring_hud)",
+  "beat_tick": "trackEdge, alpha.tick_halfbeat_dot(0.8), 길 아랫변 안쪽 작은 네모(정박만, 반박 표시 없음)",
+  "bar_mark": "trackEdge, 길 아랫변에서 띠 높이 30 % 짧은 세로 막대(띠를 가로지르는 세로선 금지)",
+  "fx_perfect_rays": "star",
+  "fx_good_rays": "hud",
+  "fx_pass_ring": "trackEdge",
+  "combo_dot_on": "hud 면 + outline 1 px",
+  "combo_dot_off": "trackEdge 50 % 1.2 px 고리",
+  "combo_mark": "cardTint 면 + outline 1.2 px",
+  "combo_confetti": "cardTint·hud 작은 네모(HUD 띠 안)",
+  "forbidden": "star(노랑)를 콤보·판정 선·북·눈금에 쓰지 않음. ball(하늘색)은 공·최고 기록 점만"
+ },
+ "judge_label_r3": {
+  "_note": "30-art 16-13 판정 이름·% (요청자 지시 2026-11-17). 자리·크기·시간 = assets/layout.json judge_label · layouts[].judge_label · layouts[].result",
+  "colors": {
+   "perfect": "#FFC0E0",
+   "good": "#9EF0C4",
+   "pass": "#F5F1E8"
+  },
+  "name_and_pct": "이름과 %는 같은 등급 색. 글자 둘레 outline 테(layout judge_label.outline_px), 그림자·빛남·그라데이션 없음",
+  "mark": "이름 왼쪽 표지(등급 색): 딱 = 짧은 빛살 5개, 좋아 = 3개, 통과 = 작은 고리",
+  "result_accuracy": "hud 숫자 + outline 테. 과녁 표지 = hud 고리 2겹 + cardTint 가운데 점",
+  "result_combo": "hud 숫자 + outline 테. 표지 = hud 점 3개(콤보 점과 같은 모양), 신기록 = cardTint 작은 고리",
+  "forbidden": "star(노랑)·ball(하늘색)·broken(회색)·빨강을 판정 글자에 쓰지 않음. 실패 칸에는 글·색 없음"
+ },
  "themes": {
   "level01": {
    "name_key": "level1_name",

@@ -40,7 +40,7 @@
      }
     }
    ],
-   "peak_db": -6.6,
+   "peak_db": -6.4,
    "rms_db": -16.4
   },
   "tap_top": {
@@ -236,8 +236,8 @@
      }
     }
    ],
-   "peak_db": -12.5,
-   "rms_db": -31.1
+   "peak_db": -12.4,
+   "rms_db": -30.9
   },
   "tick_one": {
    "bus": "sfx",
@@ -266,7 +266,7 @@
     }
    ],
    "peak_db": -10.1,
-   "rms_db": -28.8
+   "rms_db": -29.2
   },
   "fail": {
    "bus": "sfx",
@@ -296,7 +296,7 @@
      }
     }
    ],
-   "peak_db": -9.1,
+   "peak_db": -9.4,
    "rms_db": -15.4
   },
   "best": {
@@ -497,8 +497,8 @@
      }
     }
    ],
-   "peak_db": -21.3,
-   "rms_db": -44.8
+   "peak_db": -22.6,
+   "rms_db": -45.3
   },
   "mel_X": {
    "bus": "music",
@@ -603,7 +603,79 @@
    "peak_db": -14.9,
    "rms_db": -23.9
   },
-  "harmony_db": -24
+  "harmony_db": -24,
+  "combo_10": {
+   "bus": "sfx",
+   "db": -20,
+   "note": "root3",
+   "_r3": "콤보 10 단계 화음(30-art 16-4). 근음·5도·옥타브(3도 없음: 장조·단조·도리안 모두 어울림). 판정 탭과 같은 순간이 아니라 다음 빈 정박에 예약(music.combo_r3)",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 4,
+     "env": {
+      "a": 12,
+      "decay": 520
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 6,
+     "mul": 0.6,
+     "env": {
+      "a": 12,
+      "decay": 520
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 8,
+     "mul": 0.4,
+     "env": {
+      "a": 12,
+      "decay": 420
+     }
+    }
+   ],
+   "peak_db": -13.5,
+   "rms_db": -24.3
+  },
+  "combo_20": {
+   "bus": "sfx",
+   "db": -20,
+   "note": "root3",
+   "_r3": "콤보 20(·30) 단계 화음. 10 화음의 맨 아래 음을 5도로 올린 한 단 높은 화음",
+   "layers": [
+    {
+     "wave": "sine",
+     "fMul": 6,
+     "env": {
+      "a": 12,
+      "decay": 620
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 8,
+     "mul": 0.6,
+     "env": {
+      "a": 12,
+      "decay": 620
+     }
+    },
+    {
+     "wave": "sine",
+     "fMul": 12,
+     "mul": 0.4,
+     "env": {
+      "a": 12,
+      "decay": 500
+     }
+    }
+   ],
+   "peak_db": -13.5,
+   "rms_db": -23.8
+  }
  },
  "parts": {
   "countin": [

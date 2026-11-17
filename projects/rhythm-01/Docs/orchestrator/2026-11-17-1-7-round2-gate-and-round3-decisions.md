@@ -127,3 +127,10 @@
 - 이름 똑딱북: Tickadrum 확정 → STATUS 이름 줄·미해결 줄 갱신, games.json 미변경(게이트 때 표시 제거). 이후 지시에서 "가안" 표기 삭제.
 - 대상 연령 12세(criteria 1b9a881, 결정 14): 대표 봇 `novice_sd50`. balance에 재조정 지시(B1·B5·B6·B7·L7 20회를 σ50 기준으로, 너무 쉬우면 곡선 상향, 몰입 위험 6 — L7·L10 4박 숨 고르기 — 재검토, 스키마·키 불변). 진행 중 dev에 전달(데이터만 나중에 다시 넣음).
 - "요청자 결정 필요" 항목은 앞으로 팀이 근거를 남기고 스스로 정함 → 이후 모든 지시에 포함.
+- 인사이트 수신(tcg-01, f280bca): 봇 실력 2단계 이상으로 난이도 보기 → 진행 중 balance에 전달. 원본 보호 grep에 공식 한국어 번역어 포함 → round-3 QA·리뷰 지시에 넣음(GD·DJMAX 한국어 판정·용어명).
+
+## game-developer 새 코어 "북길" 빌드 감시 — 통과(검사 2건 미완), 허브 갱신
+- diff: `games/rhythm-01/`(js road·readout 신규, render·engine·audio·main·store, index·style, data 전체 재생성 — 옛 카드 4파일 삭제·cards-r3 반영), `tools/build-web-data·selfcheck-sim·selfcheck-browser·serve`, DEV_NOTES, 보고서, README 한 줄. 기획·levels·assets·verify·sim·qa-round·harness·games.json 미수정, git 미사용, 8340~8379 자기 PID만.
+- 직접: validate OK, judge.js = judge.mjs, 외부 URL 0. 자체: selfcheck-sim 8175/8175, selfcheck-browser 1건 빼고 통과(R11 보정 +15 ms, 부하 추정), 콤보 켬/끔 불일치 0, 판정 % 빌드 = 기준 49만 점 다름 0, NaN 창 시작 오류.
+- 미완: (1) 성능 1% low 3/12~6/12 — PC 부하 평균 66.5 %, 대조 페이지도 실패라 판정 불가 → QA가 부하 낮은 때 재측정. (2) verify-levels 전체·C2 — balance 12세 재조정 진행 중이라 멈춤 → 재조정 뒤 데이터 다시 넣고 재실행.
+- 판단: 빌드는 동작 상태(테스트 모드 40/40·실시간 10/10)라 요청자 중간 플레이용으로 허브에 올림. 데이터는 재조정 전 v3 스냅샷.

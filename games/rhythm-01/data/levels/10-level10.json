@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "id": "10",
   "theme_id": "level10",
   "name_key": "level10_name",
@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 16,
-  "duration_s": 29.143,
+  "length_bars": 17,
+  "duration_s": 30.857,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -23,167 +23,343 @@
   "known_patterns": [
     "A",
     "B",
-    "F",
-    "K",
-    "O",
-    "U1",
-    "U2",
-    "R",
-    "S",
+    "C",
+    "D",
     "E",
-    "H"
+    "V",
+    "W",
+    "Q",
+    "Y",
+    "Z",
+    "R"
   ],
-  "design_intent": "마지막 레벨. 새 기믹·보여 주기 없음. 1~9 무늬 모음: 하나·둥두 / 두 마디 무늬 U / 둥두 → 4연속 / 쉬는 박·S, 끝은 둘 → 하나로 쉽게 닫음. 판정 별 27개(r2: 마디 1 F → E, 마디 6 K → E, 마디 9 O → H, 30 → 27). 난이도 = 기존 3레벨 곡선을 이어 간 레벨 6 수준(20-balance.md 11-1, 검증 B6: 연속 중앙값 기준).",
+  "design_intent": "새 기믹 없음. 1~9 모음: 반박 쌍 V 두 번으로 시작, 넷·3연속·4연속을 숨 고르기 사이에 나눔. 레벨 10 = 기존 3레벨 곡선 L6 외삽(B6).",
   "new_gimmicks": [],
-  "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 16,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    "target_child_sd70_median_max": 27,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+  },
+  "path": {
+    "preview_lead_beats": 3,
+    "preview_lead_beats_portrait": 3,
+    "screen_chunks_max": 3,
+    "chunks": [
+      {"shape":"V","empty_before":2},
+      {"shape":"V","empty_before":4},
+      {"shape":"D","empty_before":4},
+      {"shape":"Q","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"E","empty_before":4},
+      {"shape":"B","empty_before":4},
+      {"shape":"A","empty_before":1},
+      {"shape":"R","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"Z","empty_before":3}
+    ],
+    "chunks_r3a_deprecated": [
+      {"shape":"V","empty_before":2},
+      {"shape":"V","empty_before":3},
+      {"shape":"D","empty_before":2},
+      {"shape":"Q","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"E","empty_before":3},
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":1},
+      {"shape":"R","empty_before":3},
+      {"shape":"A","empty_before":4},
+      {"shape":"Z","empty_before":2}
+    ],
+    "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 레벨 길이 30 s 이상으로 숨 고르기(빈 2~3박 → 3~4박)만 늘림. 판정 별·모양·순서 그대로, N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
-    "A": {
-      "slots": [
-        0
-      ],
-      "shape": "하나"
+    "c467": {
+      "slots": [4,6,7]
     },
-    "E": {
-      "slots": [
-        0,
-        1
-      ],
-      "shape": "둥두"
+    "c023": {
+      "slots": [0,2,3]
     },
-    "U1": {
-      "slots": [
-        0,
-        2,
-        4,
-        6
-      ],
-      "shape": "두 마디 무늬 U 앞(넷)"
+    "c46": {
+      "slots": [4,6]
     },
-    "U2": {
-      "slots": [
-        0,
-        1,
-        4
-      ],
-      "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+    "c02": {
+      "slots": [0,2]
     },
-    "R": {
-      "slots": [
-        0,
-        1,
-        2,
-        3
-      ],
-      "shape": "둥두둥두"
+    "c456": {
+      "slots": [4,5,6]
     },
-    "H": {
-      "slots": [
-        0,
-        2,
-        6
-      ],
-      "shape": "둥 둥 _ 둥"
+    "c0": {
+      "slots": [0]
     },
-    "S": {
-      "slots": [
-        0,
-        1,
-        2,
-        3,
-        6
-      ],
-      "shape": "둥두둥두 _ 둥"
+    "c23": {
+      "slots": [2,3]
     },
-    "B": {
-      "slots": [
-        0,
-        2
-      ],
-      "shape": "둘"
+    "c2": {
+      "slots": [2]
+    },
+    "c4567": {
+      "slots": [4,5,6,7]
+    },
+    "c0234": {
+      "slots": [0,2,3,4]
     }
   },
+  "bars": [
+    {"mode":"play","pattern":"c467"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c023"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c02"},
+    {"mode":"play","pattern":"c456"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c23"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c2"},
+    {"mode":"play","pattern":"c4567"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c0234"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ],
   "sections": [
     {
-      "name": "moon_1",
+      "name": "part1",
       "start_bar": 0,
-      "checkpoint": false,
       "stage": 1
     },
     {
-      "name": "breath",
-      "start_bar": 2,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "moon_two",
-      "start_bar": 3,
-      "checkpoint": false,
-      "stage": 1
-    },
-    {
-      "name": "breath",
-      "start_bar": 5,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "moon_run",
-      "start_bar": 6,
-      "checkpoint": false,
+      "name": "part2",
+      "start_bar": 4,
       "stage": 2
     },
     {
-      "name": "breath",
-      "start_bar": 8,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "moon_mix",
-      "start_bar": 9,
-      "checkpoint": false,
-      "stage": 2
-    },
-    {
-      "name": "breath",
-      "start_bar": 11,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "mix",
-      "start_bar": 12,
-      "checkpoint": false,
+      "name": "part3",
+      "start_bar": 10,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 14,
-      "checkpoint": false,
+      "start_bar": 15,
       "stage": 3
     }
   ],
-  "bars": [
-    {"mode":"play","pattern":"A"},
-    {"mode":"play","pattern":"E"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"U1"},
-    {"mode":"play","pattern":"U2"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"E"},
-    {"mode":"play","pattern":"R"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"H"},
-    {"mode":"play","pattern":"S"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"B"},
-    {"mode":"play","pattern":"A"},
-    {"mode":"rest"},
-    {"mode":"rest"}
-  ]
+  "practice": {
+    "checkpoint_rule": "breath_gap_start",
+    "checkpoints": [
+      {
+        "beat": 4,
+        "bar": 1,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 1,
+        "next_star_beat": 8
+      },
+      {
+        "beat": 10,
+        "bar": 2,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 2,
+        "next_star_beat": 14
+      },
+      {
+        "beat": 18,
+        "bar": 4,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 3,
+        "next_star_beat": 22
+      },
+      {
+        "beat": 24,
+        "bar": 6,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 4,
+        "next_star_beat": 28
+      },
+      {
+        "beat": 29,
+        "bar": 7,
+        "slot": 2,
+        "empty_beats": 4,
+        "next_chunk": 5,
+        "next_star_beat": 33
+      },
+      {
+        "beat": 34,
+        "bar": 8,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 6,
+        "next_star_beat": 38
+      },
+      {
+        "beat": 42,
+        "bar": 10,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 8,
+        "next_star_beat": 46
+      },
+      {
+        "beat": 48,
+        "bar": 12,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 9,
+        "next_star_beat": 52
+      },
+      {
+        "beat": 53,
+        "bar": 13,
+        "slot": 2,
+        "empty_beats": 3,
+        "next_chunk": 10,
+        "next_star_beat": 56
+      }
+    ]
+  },
+  "_r2_deprecated": {
+    "_status": "deprecated (round-3 R18~R21: 보여 주기 마디·쉬는 마디·12시 시작 폐기)",
+    "schema_version": 2,
+    "bars": [
+      {"mode":"play","pattern":"A"},
+      {"mode":"play","pattern":"E"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"U1"},
+      {"mode":"play","pattern":"U2"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"E"},
+      {"mode":"play","pattern":"R"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"H"},
+      {"mode":"play","pattern":"S"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"B"},
+      {"mode":"play","pattern":"A"},
+      {"mode":"rest"},
+      {"mode":"rest"}
+    ],
+    "patterns": {
+      "A": {
+        "slots": [0],
+        "shape": "하나"
+      },
+      "E": {
+        "slots": [0,1],
+        "shape": "둥두"
+      },
+      "U1": {
+        "slots": [0,2,4,6],
+        "shape": "두 마디 무늬 U 앞(넷)"
+      },
+      "U2": {
+        "slots": [0,1,4],
+        "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+      },
+      "R": {
+        "slots": [0,1,2,3],
+        "shape": "둥두둥두"
+      },
+      "H": {
+        "slots": [0,2,6],
+        "shape": "둥 둥 _ 둥"
+      },
+      "S": {
+        "slots": [0,1,2,3,6],
+        "shape": "둥두둥두 _ 둥"
+      },
+      "B": {
+        "slots": [0,2],
+        "shape": "둘"
+      }
+    },
+    "sections": [
+      {
+        "name": "moon_1",
+        "start_bar": 0,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 2,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "moon_two",
+        "start_bar": 3,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 5,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "moon_run",
+        "start_bar": 6,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 8,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "moon_mix",
+        "start_bar": 9,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 11,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "mix",
+        "start_bar": 12,
+        "checkpoint": false,
+        "stage": 3
+      },
+      {
+        "name": "outro",
+        "start_bar": 14,
+        "checkpoint": false,
+        "stage": 3
+      }
+    ],
+    "cues": [],
+    "length_bars": 16,
+    "duration_s": 29.143,
+    "design_intent": "마지막 레벨. 새 기믹·보여 주기 없음. 1~9 무늬 모음: 하나·둥두 / 두 마디 무늬 U / 둥두 → 4연속 / 쉬는 박·S, 끝은 둘 → 하나로 쉽게 닫음. 판정 별 27개(r2: 마디 1 F → E, 마디 6 K → E, 마디 9 O → H, 30 → 27). 난이도 = 기존 3레벨 곡선을 이어 간 레벨 6 수준(20-balance.md 11-1, 검증 B6: 연속 중앙값 기준).",
+    "known_patterns": [
+      "A",
+      "B",
+      "F",
+      "K",
+      "O",
+      "U1",
+      "U2",
+      "R",
+      "S",
+      "E",
+      "H"
+    ],
+    "new_gimmicks": [],
+    "difficulty": {
+      "target_child_sd70_median_max": 16,
+      "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    }
+  }
 }

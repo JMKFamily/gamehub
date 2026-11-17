@@ -9,14 +9,14 @@
 <link rel="stylesheet" href="style.css">
 <!--boot:start (build-web-data.mjs 생성)-->
 <style id="bootStyle">:root{--bg:#29230F;--bgFar:#3D3419;--tint:#EFB480;--track1:#493F22;--edge:#E6E1D3;--hud:#F5F1E8;--ink:#0B0D12;--ball:#7FE3FF}</style>
-<script id="bootText" type="application/json">{"ko":{"loading":"불러오는 중…","load_error":"다시 해 주세요","btn_retry":"다시"},"en":{"loading":"Loading…","load_error":"Please try again","btn_retry":"Again"}}</script>
+<script id="bootText" type="application/json">{"ko":{"loading":"불러오는 중…","load_error":"다시 해 주세요","btn_retry":"다시","title":"똑딱북"},"en":{"loading":"Loading…","load_error":"Please try again","btn_retry":"Again","title":"Tickadrum"}}</script>
 <!--boot:end-->
 </head>
 <body data-state="loading">
 <canvas id="cv" aria-hidden="true"></canvas>
 
 <section id="sLoading" class="screen show">
-  <svg id="loadPic" class="loadPic" viewBox="-50 -50 100 100" role="img"><circle r="34" class="lpTrack"/><g class="lpSpin"><circle cy="-34" r="9" class="lpBall"/></g></svg>
+  <svg id="loadPic" class="loadPic" viewBox="-50 -50 100 100" role="img"><rect x="-46" y="10" width="92" height="16" rx="8" class="lpTrack"/><g class="lpHop"><circle cy="-1" r="9" class="lpBall"/></g></svg>
   <p id="loadTxt" class="center loadTxt"></p>
   <p id="loadErr" class="center loadTxt hidden"></p>
   <button id="bReload" class="ibtn hidden mid" type="button" aria-describedby="loadErr"><img src="data/svg/icon-retry.svg" alt=""></button>
@@ -27,6 +27,8 @@
       var all = JSON.parse(document.getElementById('bootText').textContent);
       var q = new URLSearchParams(location.search).get('lang') || navigator.language || 'ko';
       var t = all[q.toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en'];
+      document.documentElement.lang = t === all.ko ? 'ko' : 'en';
+      document.title = t.title;
       document.getElementById('loadPic').setAttribute('aria-label', t.loading);
       document.getElementById('loadTxt').textContent = t.loading;
       document.getElementById('loadErr').textContent = t.load_error;
@@ -92,7 +94,8 @@
   <div id="cpFlags" class="abs cpFlags"></div>
   <div id="attAria" class="abs" role="meter" data-a="aria_attempts" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"></div>
   <img id="pracTag" class="abs pracTag hidden" src="data/svg/flag.svg" role="img" data-a="practice_on">
-  <p id="tut" class="abs tut hidden" data-t="tut_tap"></p>
+  <p id="tut" class="abs tut hidden" data-t="tut_drum_tap"></p>
+  <div id="comboAria" class="abs" role="meter" data-a="aria_streak" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-valuetext="0"></div>
   <p id="live" class="sr" aria-live="polite"></p>
 </section>
 
@@ -109,6 +112,11 @@
 <section id="sResult" class="screen">
   <h2 id="clearTitle" class="abs clearTitle" data-t="clear_title"></h2>
   <div id="gradeAria" class="abs" role="img"></div>
+  <div id="resultInfo" class="resultInfo hidden">
+    <div id="resAcc" class="abs resItem" role="meter" data-a="result_accuracy" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0%"><svg class="resIcon" viewBox="-10 -10 20 20" aria-hidden="true"><circle r="8.6" class="ri1"/><circle r="5.2" class="ri1"/><circle r="2.2" class="ri2"/></svg><span class="resNum"></span></div>
+    <span id="resNew" class="abs resNew hidden" role="img" data-a="result_new_best"></span>
+    <div id="resCombo" class="abs resItem" role="meter" data-a="aria_streak_best" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-valuetext="0"><svg class="resIcon" viewBox="0 -4 22 8" aria-hidden="true"><circle cx="4" r="3.2" class="rd"/><circle cx="11" r="3.2" class="rd"/><circle cx="18" r="3.2" class="rd"/></svg><span class="resNum"></span></div>
+  </div>
   <div id="resultBtns" class="abs btnrow">
     <button id="bNext" class="ibtn big" type="button" data-a="btn_next"><img src="data/svg/icon-next.svg" alt=""></button>
     <button id="bRetry" class="ibtn big" type="button" data-a="btn_retry"><img src="data/svg/icon-retry.svg" alt=""></button>

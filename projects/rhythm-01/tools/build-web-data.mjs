@@ -5,14 +5,15 @@
 //
 // 만드는 것
 //   data/balance.json, data/levels/*.json, data/palette.json  (복사, 수정 없음)
-//   data/strings.json   10-lore.md 7절 표(KR/EN)에서 키 64개 추출
+//   data/strings.json   10-lore.md 7절 표(64) + R3-7 새 키(6) + R3-12 새 키(5) = 75에서 폐기 3·쓰지 않음 1을 뺀 사용 키 71 (round-3)
 //   data/sound.json, data/music.json  assets/sound.json(art 원본, round-2 R7)을 나눠 복사.
 //                       먼저 assets/sound-check.mjs 실행, music.calib_check_hz 가 숫자가 아니면 빌드 중단
-//   data/art.json       30-art.md 4~10절의 크기·위치 비율을 옮긴 것 (아래 ART)
+//   data/art.json       북길 화면 규격 = assets/layout.json rule(복사, 함수 문자열 2개는 숫자 인자로) + 30-art 16절 연출 값(아래 ART)
 //   data/svg/*.svg      assets/ SVG 복사 + 목업 6·7에서 메뉴 아이콘 추출(배경 네모 제거, 버튼 배경은 CSS)
+//   data/svg/cards/     assets/cards-r3/ 그림 카드(키 이름 그대로, round-3). 옛 카드 파일은 지움
 //   index.html          불러오기 화면 글(10-lore loading·load_error·btn_retry ko/en)과 첫 테마 색을 표시 사이에 넣음 (R8-5)
 //   js/judge.js         tools/sim/judge.mjs 복사 (판정 기준 구현을 그대로 씀)
-import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, copyFileSync, rmSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
@@ -29,33 +30,54 @@ for (const d of [DATA, join(DATA, 'levels'), join(DATA, 'svg'), join(DATA, 'svg/
 const bal = JSON.parse(rd('balance.json'));
 copyFileSync(join(PROJ, 'balance.json'), join(DATA, 'balance.json'));
 const levelFiles = bal.levels.map((p) => p.split('/').pop());
-for (const f of levelFiles) copyFileSync(join(PROJ, 'levels', f), join(DATA, 'levels', f));
+for (const f of levelFiles) {
+  const lv = JSON.parse(readFileSync(join(PROJ, 'levels', f), 'utf8'));
+  if (lv.schema_version !== 3 || !lv.path || !lv.practice || !lv.bars) throw new Error(`levels/${f}: 스키마 v3 아님 (round-3 북길 빌드)`);
+  copyFileSync(join(PROJ, 'levels', f), join(DATA, 'levels', f));
+}
 copyFileSync(join(PROJ, 'assets/palette.json'), join(DATA, 'palette.json'));
 copyFileSync(join(PROJ, 'tools/sim/judge.mjs'), join(GAME, 'js/judge.js'));
 
-// 2) 텍스트 키 (10-lore.md 7절)
+// 2) 텍스트 키 (10-lore.md 7절 64 + R3-7 새 키 6 + R3-12 새 키 5 = 75). 폐기 3·쓰지 않음 1은 빌드에 넣지 않음(DEV_NOTES "10-lore R3-7")
 const STR = {};
 {
   const md = rd('10-lore.md');
-  const sec = md.slice(md.indexOf('## 7. 텍스트 키 표'), md.indexOf('## 8.'));
+  const rows = (sec) => sec.split(/\r?\n/).filter((l) => l.startsWith('|')).map((l) => l.split('|').slice(1, -1).map((c) => c.trim()));
+  const clean = (s) => s.replace(/\*\*/g, '').replace(/\s*\(\d+(자|단어)\)\s*$/, '').trim();
+  const keyOf = (c) => (c.match(/^~*([a-z0-9_]+)/) || [])[1];
   const ko = {}, en = {};
-  let kr = -1, ec = -1;
-  for (const line of sec.split(/\r?\n/)) {
-    if (!line.startsWith('|')) continue;
-    const cells = line.split('|').slice(1, -1).map((c) => c.trim());
-    if (cells[0] === '키') { kr = cells.indexOf('KR'); ec = cells.indexOf('EN'); continue; }
-    if (/^-+$/.test(cells[0]) || kr < 0) continue;
-    const key = cells[0].replace(/\s*★\s*$/, '');
-    if (!/^[a-z0-9_]+$/.test(key)) continue;
-    const clean = (s) => s.replace(/\s*\(\d+(자|단어)\)\s*$/, '').trim();
-    ko[key] = clean(cells[kr]);
-    en[key] = clean(cells[ec]);
-  }
-  const n = Object.keys(ko).length;
-  if (n !== 64) throw new Error(`텍스트 키 ${n}개 (64개여야 함)`);
-  wjson('strings.json', { _source: '10-lore.md 7절 (build-web-data.mjs 생성)', ko, en });
+  const readTable = (sec, firstOnly) => {
+    let kr = -1, ec = -1, n = 0;
+    for (const cells of rows(sec)) {
+      if (cells[0] === '키') { if (kr >= 0 && firstOnly) break; kr = cells.indexOf('KR'); ec = cells.indexOf('EN'); continue; }
+      if (/^-+$/.test(cells[0]) || kr < 0) continue;
+      const key = keyOf(cells[0]);
+      if (!key) continue;
+      ko[key] = clean(cells[kr]); en[key] = clean(cells[ec]); n++;
+    }
+    return n;
+  };
+  const n7 = readTable(md.slice(md.indexOf('## 7. 텍스트 키 표'), md.indexOf('## 8.')), false);
+  if (n7 !== 64) throw new Error(`10-lore 7절 텍스트 키 ${n7}개 (64개여야 함)`);
+  const r37 = md.slice(md.indexOf('### R3-7.'), md.indexOf('### R3-8.'));
+  const nNew = readTable(r37, true);
+  if (nNew !== 6) throw new Error(`10-lore R3-7 새 키 ${nNew}개 (6개여야 함)`);
+  // R3-12 (판정 이름과 퍼센트): KR·EN 열이 있는 표 모두 (판정 이름 3 + 결과 화면 새 키 2, aria_streak_best 는 R3-7 키를 다시 씀)
+  const r312 = md.slice(md.indexOf('### R3-12.'), md.indexOf('#### R3-12-4'));
+  const before = Object.keys(ko).length; readTable(r312, false);
+  const n312 = Object.keys(ko).length - before;
+  if (n312 !== 5) throw new Error(`10-lore R3-12 새 키 ${n312}개 (5개여야 함)`);
+  // 폐기 표(머리 "round-2 문구")·쓰지 않음 표(머리 "쓰지 않는 이유")의 첫 칸 = 키
+  const listOf = (head) => { const out = []; let on = false; for (const c of rows(r37)) { if (c[0] === '키') { on = c.some((x) => x.includes(head)); continue; } if (on && !/^-+$/.test(c[0]) && keyOf(c[0]) && !c[0].includes('다시 씀')) out.push(keyOf(c[0])); } return out; }; // R3-12 '다시 씀' 줄은 뺌
+  const deprecated = listOf('round-2 문구'), unused = listOf('쓰지 않는 이유');
+  const all = Object.keys(ko).length;
+  if (all !== 75 || deprecated.length !== 3 || unused.length !== 1) throw new Error(`키 ${all} (75), 폐기 ${deprecated.length} (3), 쓰지 않음 ${unused.length} (1)`);
+  for (const k of [...deprecated, ...unused]) { if (!(k in ko)) throw new Error(`없는 키 ${k}`); delete ko[k]; delete en[k]; }
+  const used = Object.keys(ko).length;
+  if (used !== 71) throw new Error(`사용 키 ${used}개 (71개여야 함)`);
+  wjson('strings.json', { _source: '10-lore.md 7절 + R3-7 (build-web-data.mjs 생성). 폐기·쓰지 않음 키는 빼고 _not_used 에 기록(DEV_NOTES "10-lore R3-7")', _not_used: { deprecated_r3_7: deprecated, unused_r3_7: unused }, ko, en });
   STR.ko = ko; STR.en = en;
-  console.log(`strings.json: 키 ${n}개`);
+  console.log(`strings.json: 표 키 ${all}개 = 사용 ${used} + 폐기 ${deprecated.length}(${deprecated.join(',')}) + 쓰지 않음 ${unused.length}(${unused.join(',')})`);
 }
 
 // 3) 소리·음악 (원본 assets/sound.json, round-2 R7. 30-art 12절 표는 사람용 요약이라 파싱하지 않음)
@@ -66,59 +88,86 @@ const STR = {};
   const M = S.music;
   if (typeof M.calib_check_hz !== 'number' || !Number.isFinite(M.calib_check_hz) || M.calib_check_hz <= 0) throw new Error(`sound.json music.calib_check_hz 가 숫자가 아님: ${M.calib_check_hz}`);
   for (const k of ['master', 'noise_buffer_s', 'sounds', 'parts']) if (S[k] == null) throw new Error(`sound.json ${k} 없음`);
-  if (!M.melody || !M.levels) throw new Error('sound.json music.melody / music.levels 없음');
+  if (!M.melody || !M.levels || !M.melody_r3 || !M.combo_r3) throw new Error('sound.json music.melody / melody_r3 / combo_r3 / levels 없음');
+  for (const n of Object.values(M.combo_r3.steps)) if (!S.sounds[n]) throw new Error(`sound.json sounds.${n} 없음 (music.combo_r3)`);
   for (const p of bal.levels) {
     const id = JSON.parse(rd(p)).id, lm = M.levels[id];
     if (!lm || !Array.isArray(lm.motif) || !lm.motif.length) throw new Error(`sound.json music.levels.${id}.motif 없음`);
   }
   wjson('sound.json', { _source: 'assets/sound.json (build-web-data.mjs 복사)', master: S.master, noise_buffer_s: S.noise_buffer_s, sounds: S.sounds, parts: S.parts });
-  wjson('music.json', { _source: 'assets/sound.json music (build-web-data.mjs 복사). BPM 은 levels 파일이 기준', levels: M.levels, calib_check_hz: M.calib_check_hz, melody: M.melody });
+  wjson('music.json', { _source: 'assets/sound.json music (build-web-data.mjs 복사). BPM 은 levels 파일이 기준', levels: M.levels, calib_check_hz: M.calib_check_hz, melody: M.melody, melody_r3: M.melody_r3, combo_r3: M.combo_r3 });
   console.log(`sound.json·music.json: assets/sound.json 복사 (sound-check OK, calib_check_hz ${M.calib_check_hz})`);
 }
 
-// 5) 화면·오브젝트 규격 (30-art.md 4-1·4-3·4-4·5·7·8·10절, 단위 R 배수 또는 px)
+// 5) 화면·오브젝트 규격 — round-3 북길. 규격 = assets/layout.json rule(art 원본, 표 파싱 안 함), 연출 = 30-art 16-3~16-6
+const LAYOUT = JSON.parse(rd('assets/layout.json'));
+const road = JSON.parse(JSON.stringify(LAYOUT.rule));
+{
+  // 함수 문자열 2개를 숫자 인자로 바꾸고 d 1~400 에서 원래 식과 같은지 확인 (빌드는 식을 실행하지 않음)
+  const fn = (src) => new Function(`return (${src})`)();
+  const ml = road.line_w.match(/^\(d\) => Math\.max\((\d+(?:\.\d+)?), Math\.round\(d \/ (\d+(?:\.\d+)?)\)\)$/);
+  const mf = road.finger_cell.match(/^\(d\) => Math\.max\((\d+(?:\.\d+)?), Math\.round\((\d+(?:\.\d+)?) \* d\)\)$/);
+  if (!ml || !mf) throw new Error(`layout.json rule.line_w / finger_cell 형식이 바뀜: ${road.line_w} / ${road.finger_cell}`);
+  const lw = { min: +ml[1], div: +ml[2] }, fc = { min: +mf[1], mul: +mf[2] };
+  const f1 = fn(road.line_w), f2 = fn(road.finger_cell);
+  for (let d = 1; d <= 400; d++) if (f1(d) !== Math.max(lw.min, Math.round(d / lw.div)) || f2(d) !== Math.max(fc.min, Math.round(fc.mul * d))) throw new Error(`line_w/finger_cell 변환 다름 d=${d}`);
+  road.line_w = lw; road.finger_cell = fc;
+  // 판정 이름·% (30-art 16-13): 시간 값은 layout.json judge_label 과 balance.json accuracy.display_timing_ms 가 같아야 함
+  const J = road.judge_label, DT = bal.accuracy && bal.accuracy.display_timing_ms;
+  if (!J || !DT || J.pop_ms !== DT.pop || J.hold_ms !== DT.hold_until || J.fade_ms !== DT.fade || J.pop !== DT.pop_scale[1]) throw new Error(`판정 글 시간 layout.json judge_label ≠ balance accuracy.display_timing_ms`);
+  if (!/0\.2s/.test(DT.on_clear)) throw new Error(`accuracy.display_timing_ms.on_clear ${DT.on_clear}`);
+  J.clear_fade_ms = 200; // on_clear "fade_with_hud_0.2s"
+  // 16-13-2 등급 표지: 딱 = 빛살 5개(위로 −60°~+60°), 좋아 = 3개(−40°·0°·+40°), 길이 이름 × 0.4, 굵기 max(3, 이름 × 0.08) / 됐어 = 고리 r 이름 × 0.18, 선 × 0.06.
+  // r0(빛살 시작 거리)·base(부채 중심을 이름 가운데보다 아래로)는 dev 가 정함
+  J.mark = { five: [-60, -30, 0, 30, 60], three: [-40, 0, 40], len: 0.4, w: [3, 0.08], ring: 0.18, ringW: 0.06, r0: 0.08, base: 0.22 };
+}
+const step = (n) => bal.combo.steps.find((s) => s.at === n);
 const ART = {
-  _source: '30-art.md 4~10절 (build-web-data.mjs 에 옮김). R = 궤도 반지름',
-  orbit: { portrait: { rW: 0.4, rH: 0.26, cy: 0.45 }, landscape: { rH: 0.33, rW: 0.3, cy: 0.55 } },
-  band: { min: 10, k: 0.1, edge: 1.5 },
-  ball: { min: 14, k: 0.11, outline: [2.5, 0.16], hi: 0.28, tailDeg: [9, 18, 27], tailR: [0.7, 0.5, 0.35], hollowW: 0.22 },
-  star: { min: 18, k: 0.15, inner: 0.5, outline: [2.5, 0.14], showW: 0.16, grow: [0.4, 1] },
-  drum: { k: 0.42, innerK: 0.32, outline: 3, countDots: 0.12 },
-  topMark: { w: [8, 0.07], h: [14, 0.13], at: 0.76 },
-  ticks: { at: 0.78, beat: [6, 0.055], half: [2.5, 0.02] },
-  // 5-4 (round 2): 작아짐 구간·시각은 balance teacher(malletSchedule), 모양은 ease-in 축소(투명도 없음), 점선 빈칸 × 같은 배율
-  mallet: { head: [0.2, 0.11], stick: [0.06, 0.27], tiltDeg: 30, off: [0.05, 0.07], grow: [0.6, 1], growBeats: 0.25, hitDeg: 6, hitMs: 80, shrinkEase: 'in' },
-  // 5-4 (round 3 R14): 퇴장 0.25박 동안 점선 굵기·불투명도 × k(1 − q²), 대시 무늬 그대로, k < minK 이면 점선 생략. 북 테두리 점선 8 / 6
-  showDash: { width: 0.35, segs: 32, on: 0.45, minK: 0.02, drumDash: [8, 6] },
-  hud: { barLeft: 16, barTopP: 24, barTopL: 20, barH: 10, gapToPause: 12, bestR: 6.5, dotsGap: 14, dotR: 4.5, dotStep: 14, dotsMax: 10, squareEvery: 5, flag: 14, pause: 48, margin: 12 },
-  thumb: { pad: 12, minTop: 0.7, bottom: 16, side: 16, fxK: 2.05 },
-  // 4-4 (round 2): 칸 = max(min, k·R), 세로 = 받침 가운데(받침 높이 − portraitPad 이하), 가로 = (cx + at[0]·R, cy + at[1]·R) 화면 가장자리 edge 안
-  hand: { min: 64, k: 0.45, portraitPad: 16, landscapeAt: [1.45, 0.65], edge: 16, pressPx: 4, pressRef: 64, growBeats: 0.25, tutGap: 8 },
-  // 4-6: 가로 타이틀 힌트 = 궤도 오른쪽 영역 [cx + R + gap, W − right], 세로 가운데 cy, 손가락 칸 min(handMax, 영역 폭 − handPad), 글은 아래 textGap
-  titleHint: { gap: 24, right: 16, handMax: 64, handPad: 16, textGap: 8 },
+  _source: 'round-3 북길: road = assets/layout.json rule (build-web-data.mjs 복사), 나머지 = 30-art 16-1~16-6 연출 값을 옮긴 것(30-art 를 바꾸면 여기도). 콤보 시각 값은 balance.json combo',
+  road,
+  // 판정 글 스프라이트를 미리 그릴 % 값 (balance accuracy: 딱 100·90, 좋아 80·70·60, 통과 50~10)
+  labelPcts: { perfect: [bal.accuracy.perfect_inner_pct, bal.accuracy.perfect_outer_pct], good: bal.accuracy.good_pcts, pass: bal.accuracy.pass_pcts },
+  fontFamily: 'system-ui, "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif', // 16-13-2 빌드 글꼴 목록(웹 폰트 없음)
+  star: { inner: 0.5, outline: [2.5, 0.14] },                         // 3절 꽉 찬 별 모양 그대로
+  ball: { outline: [2.5, 0.16], hi: 0.28, hollowW: 0.22 },             // 3절 공 모양(꼬리 없음, 16-1)
+  drum: { edge: 2, innerK: 0.76, innerW: 1.5, countOff: 0.3, countDot: [3, 0.12] }, // 16-1 판정 북, 5-3 카운트인 점 4개(2×2)
+  line: { outline: 1 },                                                // 16-1 판정 선 양옆 outline 1 px
+  // 16-1 눈금: 정박 = 아랫변 안쪽 네모 max(5, 0.16 d)·trackEdge 80 %, 마디 첫 박 = 아랫변에서 띠 높이 30 % 막대(폭 max(2, d/16) — 폭은 dev 가 정함)
+  ticks: { edge: 1.5, beat: [5, 0.16], inset: 3, bar: { h: 0.3, w: [2, 1 / 16] } },
+  hand: { min: 64, portraitPad: 16, pressPx: 4, pressRef: 64, growBeats: 0.25 }, // 손가락 칸 = layout finger, 누름 4 px × 칸/64
+  title: { bpm: 100 },                                                 // 16-9 4-6 대체: 타이틀 공 100 BPM 착지
   fx: {
-    perfect: { scale: 1.45, rays: 8, rayGap: 4, rayLen: 0.6, rayW: [3, 0.2], ms: 220, ripple: 1.18 },
-    good: { scale: 1.25, rays: 4, rayRot: 45, rayGap: 4, rayLen: 0.4, rayW: [3, 0.2], ms: 180, ripple: 1.12 },
+    // 16-3: 딱 1.2배 + 빛살 5개 왼쪽 부채꼴 225~315°(12시 = 0°, 시계 방향), 별 끝 3 px 띄워 길이 0.6 r, 폭 max(3, 0.2 r)
+    perfect: { scale: 1.2, angles: [225, 247.5, 270, 292.5, 315], rayGap: 3, rayLen: 0.6, rayW: [3, 0.2], ms: bal.preview.judge_fx_max_ms, ripple: 1.18 },
+    good: { scale: 1.1, angles: [240, 270, 300], rayGap: 3, rayLen: 0.6, rayW: [3, 0.2], ms: 180, ripple: 1.12 },
     pass: { scale: 0.35, ring: 0.9, ms: 150, ripple: 1.06 },
-    miss: { rotDeg: 20, dropR: 0.15, ms: 300 },
+    miss: { rotDeg: 20, drop: 0.15, ms: 300 },
     stray: { ripple: 1.03, ms: 100 },
-    showRing: { ring: 0.9, ms: 150 },
   },
-  fail: { pieceShrinkS: 0.1, hollowShrinkS: 0.08 },
-  clear: { drumY: 0.64, drumGap: 0.25, drumR: 0.1, drumGrow: [0.6, 1], btn: 64, btnGap: 16 },
-  // 5-6 레벨 카드(round 2 줄 흐름), 9절 그림 카드 가로판 720×336, 9-1 세로판 226×880(round 3 R15) 배율 min((W−32)/226, (H−32−safe)/880, 1.4)
+  fail: { pieceShrinkS: 0.1, hollowShrinkS: 0.08 },                    // 16-6
+  clear: { gradeR: 0.6, gradeGap: 2.4, drumGrow: [0.6, 1], btn: 64, btnGap: 16 }, // 16-6 등급 북(판정 북 반지름 배수)·결과 버튼 8-2
+  // 16-4 콤보 줄 (자리·크기 = road.combo, 시각 = balance combo)
+  combo: {
+    showFrom: bal.combo.show_from,
+    pop: { ms: bal.combo.display.update_pop_ms, scale: bal.combo.display.update_pop_scale[1], step5: 1.3 },
+    gather: { ms: step(10).fx_ms, markFrom: 0.6 },
+    confetti: { n: 6, size: 4, fall: 12, ms: step(20).fx_ms },
+    off: { r: 3.4, w: 1.2, alpha: 0.5 }, onOutline: 1, markOutline: 1.2,
+  },
+  hud: { bestR: 6.5, dotStep: 14, dotsMax: 10, squareEvery: 5, flag: 14 },
+  // 5-6 레벨 카드(round 2 줄 흐름, round 3 긴 이름 R16) + 16-9 줄 1 "작은 길 조각"(가로 둥근 막대 + 왼쪽 30 % 세로 선 + 위 공 점)
   card: {
     w: 120, h: 132, gap: 12, border: 3, practiceBtn: 48, minW: 100, minH: 104,
     rows: { orbit: 28, orbitMin: 16, dots1: 6, dots2: 15, grade: 12, name: 14, gap: 4, reserve: 12 },
-    // 5-6 긴 이름 처리 순서 (round 3 R16): 12 → 11 → 10 px 한 줄(줄 높이 14) → 10 px 두 줄(줄 높이 12, 이름 줄 24, 띄어쓰기 자리만) → 숨김
     name: { sizes: [12, 11, 10], lineH: 14, twoSize: 10, twoLineH: 12, twoH: 24 },
-    orbitStroke: 3, dotR: 3, dotStep: 9, dotsPerRow: 5, gradeR: 6, gradeStep: 14,
+    roadPiece: { wMul: 2.6, barH: 0.36, judgeAt: 0.3, ballR: 0.16, stroke: 3, lineW: 2.5 },
+    dotR: 3, dotStep: 9, dotsPerRow: 5, gradeR: 6, gradeStep: 14,
     progress: { h: 4, w: 64, dotR: 4, dotOutline: 1.2, flag: 12, flagGap: 4 },
     landscapeMaxW: 0.8, img: { w: 720, h: 336 }, portrait: { w: 226, h: 880, margin: 32, maxScale: 1.4 },
   },
-  // 10-1 기록 지우기 확인 창 (round 2)
   confirm: { maxW: 328, side: 16, radius: 20, border: 1.5, icon: 48, btnH: 64, btnGap: 16 },
-  calib: { refR: 170, drumR: 71, dotsR: 112, dotR: 11, dots: 8, checkGrowS: 0.25, doneHoldS: 1 },
+  // 10절 보정 화면(북길로 바뀌지 않음): 크기 기준 R = 옛 궤도 반지름 공식(orbit), 가운데 북 + 점 8개
+  calib: { refR: 170, drumR: 71, dotsR: 112, dotR: 11, dots: 8, checkGrowS: 0.25, doneHoldS: 1, drumOutline: 3, innerK: 0.76, orbit: { portrait: { rW: 0.4, rH: 0.26, cy: 0.45 }, landscape: { rH: 0.33, rW: 0.3, cy: 0.55 } } },
   guardian: { ringR: 31, ringW: 5, badgeD: 22 },
   menuBtn: 48,
   row: { h: 72 },
@@ -133,7 +182,14 @@ wjson('art.json', ART);
     if (!f.endsWith('.svg') || f.startsWith('mockup')) continue;
     writeFileSync(join(DATA, 'svg', f), stripBg(readFileSync(join(A, f), 'utf8')));
   }
-  for (const f of readdirSync(join(A, 'cards'))) copyFileSync(join(A, 'cards', f), join(DATA, 'svg/cards', f));
+  // round-3: 그림 카드 = assets/cards-r3/ (파일 이름 = 키). 옛 카드(원 궤도)는 빌드에서 지움
+  for (const f of readdirSync(join(DATA, 'svg/cards'))) rmSync(join(DATA, 'svg/cards', f));
+  if (!bal.cards.asset_path.includes('cards-r3')) throw new Error(`balance cards.asset_path ${bal.cards.asset_path}`);
+  for (const k of Object.values(bal.cards.keys)) for (const f of [`${k}.svg`, `${k}_portrait.svg`]) {
+    const src = readFileSync(join(A, 'cards-r3', f), 'utf8');
+    if (/(?:href|src)\s*=\s*["'](?!#)/.test(src) || /url\((?!#)/.test(src)) throw new Error(`cards-r3/${f} 외부 참조`);
+    writeFileSync(join(DATA, 'svg/cards', f), src);
+  }
   // 목업 6: 64x64 아이콘 칸(배경 rect 다음 요소들 ~ text 전까지)
   const m6 = readFileSync(join(A, 'mockup-result-and-icons.svg'), 'utf8').replace(/></g, '>\n<').split('\n');
   const grid = { next: [418, 38], retry: [598, 38], levels: [778, 38], pause: [418, 168], play: [598, 168], practice: [778, 168], music: [418, 298], sfx: [598, 298], calib: [778, 298], skip: [418, 428], lock: [598, 428], music_off: [778, 428] };
@@ -195,7 +251,7 @@ wjson('art.json', ART);
   const lv1 = JSON.parse(rd(bal.levels[0]));
   const t = pal.themes[lv1.theme_id], C = pal.common;
   if (!t) throw new Error(`palette 테마 ${lv1.theme_id} 없음`);
-  const keys = ['loading', 'load_error', 'btn_retry'];
+  const keys = ['loading', 'load_error', 'btn_retry', 'title'];
   const txt = { ko: {}, en: {} };
   for (const l of ['ko', 'en']) for (const k of keys) { if (!STR[l][k]) throw new Error(`10-lore 키 ${k} 없음`); txt[l][k] = STR[l][k]; }
   const css = `:root{--bg:${t.bg};--bgFar:${t.bgFar};--tint:${t.cardTint};--track1:${t.track1};--edge:${C.trackEdge};--hud:${C.hud};--ink:${C.outline};--ball:${C.ball}}`;

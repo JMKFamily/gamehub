@@ -1,9 +1,18 @@
 {
- "_source": "10-lore.md 7절 (build-web-data.mjs 생성)",
+ "_source": "10-lore.md 7절 + R3-7 (build-web-data.mjs 생성). 폐기·쓰지 않음 키는 빼고 _not_used 에 기록(DEV_NOTES \"10-lore R3-7\")",
+ "_not_used": {
+  "deprecated_r3_7": [
+   "tut_tap",
+   "card_star_tap",
+   "card_two_bar"
+  ],
+  "unused_r3_7": [
+   "card_long_row"
+  ]
+ },
  "ko": {
   "title": "똑딱북",
   "tap_to_start": "눌러서 시작",
-  "tut_tap": "별에 닿으면 톡!",
   "clear_title": "잘했어요!",
   "level1_name": "아침 마당",
   "level2_name": "꽃밭",
@@ -31,10 +40,8 @@
   "loading": "불러오는 중…",
   "paused_background": "누르면 계속해요",
   "load_error": "다시 해 주세요",
-  "card_star_tap": "북채 보고 별에 톡",
   "card_half_star": "박 사이에도 별이 와",
   "card_rest_beat": "별 없는 곳은 쉬어",
-  "card_two_bar": "두 바퀴 보고 따라",
   "card_run4": "네 번 연달아 톡",
   "calib_screen": "똑딱에 맞춰 8번 톡",
   "calib_done": "다 맞췄어요",
@@ -64,12 +71,21 @@
   "calib_progress": "톡 친 횟수",
   "calib_kept": "그대로 둘게요",
   "latency_warn": "소리가 늦어요",
-  "latency_tip": "스피커로 들어요"
+  "latency_tip": "스피커로 들어요",
+  "tut_drum_tap": "별이 북에 오면 톡!",
+  "card_drum_tap": "북에 온 별을 톡",
+  "card_run3": "붙은 별 셋, 톡톡톡",
+  "aria_streak": "이어서 친 별",
+  "aria_streak_best": "가장 길게 이어 침",
+  "judge_perfect": "딱이야",
+  "judge_good": "좋아",
+  "judge_pass": "됐어",
+  "result_accuracy": "잘 맞힌 정도",
+  "result_new_best": "가장 잘 맞혔어요"
  },
  "en": {
   "title": "Tickadrum",
   "tap_to_start": "Tap to start",
-  "tut_tap": "Tap when it hits the star",
   "clear_title": "Great job!",
   "level1_name": "Morning Yard",
   "level2_name": "Flower Patch",
@@ -97,10 +113,8 @@
   "loading": "Loading…",
   "paused_background": "Tap to keep going",
   "load_error": "Please try again",
-  "card_star_tap": "Watch the stick, then tap",
   "card_half_star": "Stars between beats, too",
   "card_rest_beat": "No star, no tap",
-  "card_two_bar": "Watch two turns, then play",
   "card_run4": "Four taps in a row",
   "calib_screen": "Tap 8 times with the tick",
   "calib_done": "All set",
@@ -130,6 +144,16 @@
   "calib_progress": "Taps so far",
   "calib_kept": "Kept as before",
   "latency_warn": "Sound is late",
-  "latency_tip": "Try the speaker"
+  "latency_tip": "Try the speaker",
+  "tut_drum_tap": "Tap when stars reach the drum",
+  "card_drum_tap": "Tap the star at the drum",
+  "card_run3": "Three stars, tap tap tap",
+  "aria_streak": "Stars in a row",
+  "aria_streak_best": "Best streak",
+  "judge_perfect": "Wow!",
+  "judge_good": "Nice",
+  "judge_pass": "OK",
+  "result_accuracy": "How well you hit",
+  "result_new_best": "Your best timing yet"
  }
 }

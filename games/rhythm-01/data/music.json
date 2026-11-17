@@ -533,5 +533,33 @@
    "len": 4
   },
   "instrument_pick": "motif_note_index_mod"
+ },
+ "melody_r3": {
+  "_rule": "round-3 레벨 스키마 v3(보여 주기 마디 없음)용 멜로디 배치. 규칙은 music.melody 와 같고(2마디 동기, 별 자리면 같은 마디 안 0 → −1 → +1로 옮기고 안 되면 뺌, 악기·화음·outro 같음) 바뀌는 것 둘: ① 울리는 마디 = 카운트인·outro를 뺀 모든 마디 중 진행 단계 ≥ from_stage(보여 주기 마디가 없어짐). 숨 고르기(2~4박 빈 자리)에도 멜로디는 이어짐(곡이 2박마다 끊기지 않게, 빈 자리를 멜로디가 채움) ② 별 자리 = 레벨의 모든 판정 별(마디 경계를 넘는 덩어리, 자유 시작 박 포함). 마디 번호 b·자리 0~7은 카운트인 뒤 첫 마디부터 센 8분 격자. 레벨 파일이 schema_version 3 이상이면 빌드와 sound-check가 이 규칙을 씀(v2 레벨은 music.melody 그대로)",
+  "from_stage": 2,
+  "during_breath": "play",
+  "avoid_star": {
+   "try": [
+    0,
+    -1,
+    1
+   ],
+   "same_bar_only": true,
+   "else": "drop"
+  }
+ },
+ "combo_r3": {
+  "_rule": "round-3 콤보 단계 소리(30-art 16-4, harness/benchmarks/djmax-judgement.md 4-4·5-2). 콤보가 10·20·30이 되는 판정 순간에 바로 울리지 않고, 그 판정 별 시각 + min_after_beats 이후 첫 정박(마디 안 짝수 8분 자리) 중 판정 별이 없는 자리에 예약. max_wait_beats 안에 빈 정박이 없으면(L1처럼 박마다 별) 같은 범위의 빈 반박 자리(fallback_any_eighth), 그것도 없으면 소리 없이 넘김(그림 연출은 그대로). 실패로 시도가 끝나면 아직 울리지 않은 예약은 취소. 끊김(실패)은 소리 없음. 콤보 1~9·11~19의 갱신, 5 단계는 소리 없음(판정 소리가 이미 등급을 알려 줌)",
+  "steps": {
+   "10": "combo_10",
+   "20": "combo_20",
+   "30": "combo_20"
+  },
+  "min_after_beats": 0.5,
+  "max_wait_beats": 2,
+  "slot_grid": "even_eighths",
+  "avoid_star": true,
+  "break_sound": null,
+  "fallback_any_eighth": true
  }
 }
