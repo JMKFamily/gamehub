@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | benchmark-analyst | round-3 코어 개선안 (1-0 보완) | [몰입감 분해(GD 미리 보기 1.16 s·판단 0.80 s 실측 파생)·추천 코어 "북길"(오른쪽에서 별이 흘러와 왼쪽 북에서 톡, 신호 1개)·반복 회피 N1~N11·판단 시간 L1 2.03 → L10 1.17 s·보여 주기/북채/궤도 폐기·콤보 = 좋아 이상 연속](benchmark-analyst/2026-11-17-r3-core-redesign.md) |
 | 2026-11-17 | art-director | round-3 기획 수정 | [R14·R15·R16 art 규칙: 북채 퇴장 점선 굵기·불투명도 × k(1 − q²)·빈칸 그대로·실선 테두리 1 − k / 세로 카드 226×880 + 공·별 1.2배, 360x640 보이는 면 공 20~21·별 19~20 px(기준 18) / 긴 이름 12 → 10 px(최소) → 두 줄 → 숨김, palette·sound-check 통과](art-director/2026-11-17-r3-art-rules.md) |
 | 2026-11-17 | balance-designer | round-3 기획 수정 | [R17 자동 지연 차이 Δ: 정보 R17 (a) round-2 방식 Δ64 L1 14·L2 48회 / (b) R11 Δ64 = Δ0(L1 3·L10 16), R11 정의(calib.mjs)·안정 대기 키(+잠금 해제 뒤 400 ms)·재시작 1.08 s 유지 조건, 검증 ALL PASS 193·B6 13.363·B7 그대로](balance-designer/2026-11-17-r3-latency-delta.md) |
 | 2026-11-17 | qa-engineer | 1-6 round-2 | [round-2 점수 집계 + 첫 실행 보정 재측정: autoNow 기준 오프셋 오차 +63~69 ms(4/4)·σ70 L1 17·L2 60회 → blocker 확정 제안, 기술 7.5 → 6.5, 가중 7.95, 판정표 총점·blocker 미충족, criteria 4줄](qa-engineer/2026-11-17-r2-1-6-score.md) |
