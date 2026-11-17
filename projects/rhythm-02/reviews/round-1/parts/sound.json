@@ -1,0 +1,184 @@
+{
+ "part": "sound",
+ "at": "2026-11-17T06:11:40.170Z",
+ "per_sound": {
+  "tap_perfect": {
+   "build_peak": -6.04,
+   "art_peak": -5.5,
+   "d_peak": -0.54,
+   "build_rms": -16.15,
+   "art_rms": -16
+  },
+  "tap_good": {
+   "build_peak": -6.52,
+   "art_peak": -5.5,
+   "d_peak": -1.02,
+   "build_rms": -16.23,
+   "art_rms": -16.1
+  },
+  "tap_pass": {
+   "build_peak": -5.95,
+   "art_peak": -5.9,
+   "d_peak": -0.05,
+   "build_rms": -16.43,
+   "art_rms": -16.3
+  },
+  "tap_empty": {
+   "build_peak": -31.74,
+   "art_peak": -30.1,
+   "d_peak": -1.64,
+   "build_rms": -46.48,
+   "art_rms": -46
+  },
+  "fail": {
+   "build_peak": -15.43,
+   "art_peak": -15.4,
+   "d_peak": -0.03,
+   "build_rms": -27.29,
+   "art_rms": -27.3
+  },
+  "clear": {
+   "build_peak": -14.23,
+   "art_peak": -14,
+   "d_peak": -0.23,
+   "build_rms": -25.99,
+   "art_rms": -26
+  },
+  "grade_cloud": {
+   "build_peak": -15.38,
+   "art_peak": -16.2,
+   "d_peak": 0.82,
+   "build_rms": -27.58,
+   "art_rms": -27.6
+  },
+  "best": {
+   "build_peak": -17.23,
+   "art_peak": -17,
+   "d_peak": -0.23,
+   "build_rms": -32.24,
+   "art_rms": -32.2
+  },
+  "ui_tap": {
+   "build_peak": -20.35,
+   "art_peak": -20.2,
+   "d_peak": -0.15,
+   "build_rms": -35.69,
+   "art_rms": -35.7
+  },
+  "rest_a": {
+   "build_peak": -20.16,
+   "art_peak": -20.1,
+   "d_peak": -0.06,
+   "build_rms": -36.92,
+   "art_rms": -36.9
+  },
+  "rest_b": {
+   "build_peak": -22.14,
+   "art_peak": -19.4,
+   "d_peak": -2.74,
+   "build_rms": -37.93,
+   "art_rms": -37.5
+  },
+  "bass": {
+   "build_peak": -18.53,
+   "art_peak": -19.7,
+   "d_peak": 1.17,
+   "build_rms": -27.35,
+   "art_rms": -27.3
+  },
+  "mel_soft": {
+   "build_peak": -22.14,
+   "art_peak": -22.1,
+   "d_peak": -0.04,
+   "build_rms": -31.03,
+   "art_rms": -31
+  },
+  "mel_bell": {
+   "build_peak": -21.64,
+   "art_peak": -24.2,
+   "d_peak": 2.56,
+   "build_rms": -29.5,
+   "art_rms": -29.5
+  }
+ },
+ "song_beats": {
+  "10": {
+   "rms": -25.25,
+   "peak": -14.32,
+   "beat": 24
+  },
+  "01": {
+   "rms": -25.75,
+   "peak": -14.96,
+   "beat": 8
+  },
+  "02": {
+   "rms": -25.25,
+   "peak": -14.16,
+   "beat": 28
+  },
+  "03": {
+   "rms": -25.74,
+   "peak": -14.8,
+   "beat": 42
+  },
+  "04": {
+   "rms": -25.2,
+   "peak": -14,
+   "beat": 10
+  },
+  "05": {
+   "rms": -25.72,
+   "peak": -14.64,
+   "beat": 24
+  },
+  "06": {
+   "rms": -25.23,
+   "peak": -14.42,
+   "beat": 50
+  },
+  "07": {
+   "rms": -25.74,
+   "peak": -14.89,
+   "beat": 46
+  },
+  "08": {
+   "rms": -25.22,
+   "peak": -14.23,
+   "beat": 36
+  },
+  "09": {
+   "rms": -25.73,
+   "peak": -14.88,
+   "beat": 38
+  }
+ },
+ "tap_peak_min": -6.52,
+ "sfx_peak_max": -14.23,
+ "sfx_peak_max_sound": "clear",
+ "tap_over_sfx_db": 7.72,
+ "tap_rms_min": -16.43,
+ "beat_rms_max": -25.2,
+ "tap_over_beat_rms_db": 8.77,
+ "beat_peak_max": -14,
+ "tap_over_beat_peak_db": 7.48,
+ "art_measured": {
+  "tap_peak_min": -5.88,
+  "sfx_peak_max": -14.04,
+  "sfx_peak_max_sound": "clear",
+  "tap_over_sfx_peak_db": 8.15,
+  "tap_rms_min": -16.33,
+  "beat_mix_rms": -25.24,
+  "beat_mix_peak": -15.17,
+  "rest_only_rms": -36.86,
+  "tap_over_beat_rms_db": 8.91,
+  "tap_over_beat_peak_db": 9.29,
+  "mix_peak_dbfs": -3.86,
+  "how": "node tools/art/sound-check.mjs (node 합성식, 48 kHz, master 뒤, 소리 하나씩·곡 박 합 2종). 빌드 OfflineAudioContext 대조는 1-4 QA"
+ },
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

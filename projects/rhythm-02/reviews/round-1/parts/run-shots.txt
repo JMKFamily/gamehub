@@ -1,0 +1,12 @@
+서버 pid 33988 포트 8738
+== shots ==
+360x640 끝 (스크린샷 46)
+412x915 끝 (스크린샷 92)
+640x360 끝 (스크린샷 138)
+1280x720 끝 (스크린샷 184)
+버튼·글 검사 88화면, 문제 0: 
+카드 공 최소 px: 360x640-notext L1 18, 360x640-notext L2 18, 360x640-notext L3 18, 360x640-notext L4 18, 360x640-notext L5 18, 360x640-notext L6 18, 360x640-notext L7 18, 360x640-notext L8 18, 412x915-notext L1 26, 412x915-notext L2 26, 412x915-notext L3 26, 412x915-notext L4 26, 412x915-notext L5 26, 412x915-notext L6 26, 412x915-notext L7 26, 412x915-notext L8 26, 640x360-notext L1 23, 640x360-notext L2 23, 640x360-notext L3 23, 640x360-notext L4 23, 640x360-notext L5 23, 640x360-notext L6 23, 640x360-notext L7 23, 640x360-notext L8 23, 1280x720-notext L1 38, 1280x720-notext L2 38, 1280x720-notext L3 38, 1280x720-notext L4 38, 1280x720-notext L5 38, 1280x720-notext L6 39, 1280x720-notext L7 38, 1280x720-notext L8 38
+플레이 공: 360x640-notext d 28 (채움 175x467), 412x915-notext d 32 (채움 203x675), 640x360-notext d 24 (채움 313x278), 1280x720-notext d 44 (채움 642x579)
+타이틀→레벨 선택 카드 그림 다 준비: 360x640-ko 5 ms, 360x640-en 10 ms, 412x915-ko 12 ms, 412x915-en 13 ms, 640x360-ko 1 ms, 640x360-en 1 ms, 1280x720-ko 2 ms, 1280x720-en 12 ms
+(shots 402 s)
+끝 (서버 pid 33988 종료)

@@ -1,0 +1,1332 @@
+{
+ "base": "http://127.0.0.1:8730/games/rhythm-02/",
+ "channel": "msedge",
+ "console": [],
+ "external": [],
+ "failed": [],
+ "test": [
+  {
+   "level": 0,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 0,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 0,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 0,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 0,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 0,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 0,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 1,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 1,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 1,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 1,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 1,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100.3846153846243
+    }
+   ]
+  },
+  {
+   "level": 1,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 1,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 2,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 2,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 2,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 2,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 2,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100.222222222248
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 2,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 3,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 3,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 3,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 3,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 3,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1101.727272727294
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 3,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 4,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 4,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 4,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 4,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 4,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1101.4285714285215
+    }
+   ]
+  },
+  {
+   "level": 4,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 4,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 5,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 5,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 5,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 5,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 5,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1102.4210526315728
+    }
+   ]
+  },
+  {
+   "level": 5,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 5,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 6,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 6,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 6,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 6,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 6,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1102.7931034483481
+    }
+   ]
+  },
+  {
+   "level": 6,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 6,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 7,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 7,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 7,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 7,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 7,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1101.6271186440717
+    }
+   ]
+  },
+  {
+   "level": 7,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 7,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 8,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 8,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 8,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 8,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 8,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 8,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 8,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  },
+  {
+   "level": 9,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 9,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 9,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 9,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "grade": 3,
+   "state": "result"
+  },
+  {
+   "level": 9,
+   "none": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1103.9836065573618
+    }
+   ]
+  },
+  {
+   "level": 9,
+   "early": true,
+   "attempts": 2,
+   "restart": [
+    {
+     "attempt": 2,
+     "ms": 1100
+    }
+   ]
+  },
+  {
+   "level": 9,
+   "practice": true,
+   "attempts": 2,
+   "clear": true,
+   "state": "result"
+  }
+ ],
+ "realtime": [
+  {
+   "level": 1,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0.1,
+   "meanErrMs": 0.03
+  },
+  {
+   "level": 2,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0.32,
+   "meanErrMs": 0.07
+  },
+  {
+   "level": 3,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0.19,
+   "meanErrMs": 0.06
+  },
+  {
+   "level": 4,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0.16,
+   "meanErrMs": 0.06
+  },
+  {
+   "level": 5,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 2.07,
+   "meanErrMs": 0.14
+  },
+  {
+   "level": 6,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0.11,
+   "meanErrMs": 0.05
+  },
+  {
+   "level": 7,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 3.41,
+   "meanErrMs": 0.17
+  },
+  {
+   "level": 8,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 11.08,
+   "meanErrMs": 0.49
+  },
+  {
+   "level": 9,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 0,
+   "meanErrMs": 0
+  },
+  {
+   "level": 10,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "maxAbsErrMs": 3.28,
+   "meanErrMs": 0.27
+  }
+ ],
+ "rejudge": {
+  "n": 93,
+  "mismatch": 0,
+  "examples": []
+ },
+ "ui": [
+  {
+   "tag": "360x640-ko title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "360x640-ko sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "360x640-en sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "412x915-ko sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "412x915-en sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "640x360-ko sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en guardian scroll",
+   "scroll": {
+    "over": true,
+    "more": true
+   }
+  },
+  {
+   "tag": "640x360-en sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "1280x720-ko sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko result",
+   "n": 3,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en title",
+   "n": 0,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en levels",
+   "n": 12,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en start",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en card",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en play",
+   "n": 1,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en pause",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en guardian",
+   "n": 4,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en guardian scroll",
+   "scroll": {
+    "over": false,
+    "more": false
+   }
+  },
+  {
+   "tag": "1280x720-en sync",
+   "n": 2,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en result",
+   "n": 3,
+   "issues": []
+  }
+ ],
+ "shots": [
+  "360x640-ko-01-title.png",
+  "360x640-ko-02-levels.png",
+  "360x640-ko-03-start.png",
+  "360x640-ko-04-card.png",
+  "360x640-ko-05-play.png",
+  "360x640-ko-06-pause.png",
+  "360x640-ko-07-guardian.png",
+  "360x640-ko-08-sync.png",
+  "360x640-ko-11-l1-finger.png",
+  "360x640-ko-12-twoballs.png",
+  "360x640-ko-13-fail-early.png",
+  "360x640-ko-14-fail-retry.png",
+  "360x640-ko-15-result.png",
+  "360x640-en-01-title.png",
+  "360x640-en-02-levels.png",
+  "360x640-en-03-start.png",
+  "360x640-en-04-card.png",
+  "360x640-en-05-play.png",
+  "360x640-en-06-pause.png",
+  "360x640-en-07-guardian.png",
+  "360x640-en-08-sync.png",
+  "360x640-en-11-l1-finger.png",
+  "360x640-en-12-twoballs.png",
+  "360x640-en-13-fail-early.png",
+  "360x640-en-14-fail-retry.png",
+  "360x640-en-15-result.png",
+  "412x915-ko-01-title.png",
+  "412x915-ko-02-levels.png",
+  "412x915-ko-03-start.png",
+  "412x915-ko-04-card.png",
+  "412x915-ko-05-play.png",
+  "412x915-ko-06-pause.png",
+  "412x915-ko-07-guardian.png",
+  "412x915-ko-08-sync.png",
+  "412x915-ko-11-l1-finger.png",
+  "412x915-ko-12-twoballs.png",
+  "412x915-ko-13-fail-early.png",
+  "412x915-ko-14-fail-retry.png",
+  "412x915-ko-15-result.png",
+  "412x915-en-01-title.png",
+  "412x915-en-02-levels.png",
+  "412x915-en-03-start.png",
+  "412x915-en-04-card.png",
+  "412x915-en-05-play.png",
+  "412x915-en-06-pause.png",
+  "412x915-en-07-guardian.png",
+  "412x915-en-08-sync.png",
+  "412x915-en-11-l1-finger.png",
+  "412x915-en-12-twoballs.png",
+  "412x915-en-13-fail-early.png",
+  "412x915-en-14-fail-retry.png",
+  "412x915-en-15-result.png",
+  "640x360-ko-01-title.png",
+  "640x360-ko-02-levels.png",
+  "640x360-ko-03-start.png",
+  "640x360-ko-04-card.png",
+  "640x360-ko-05-play.png",
+  "640x360-ko-06-pause.png",
+  "640x360-ko-07-guardian.png",
+  "640x360-ko-08-sync.png",
+  "640x360-ko-11-l1-finger.png",
+  "640x360-ko-12-twoballs.png",
+  "640x360-ko-13-fail-early.png",
+  "640x360-ko-14-fail-retry.png",
+  "640x360-ko-15-result.png",
+  "640x360-en-01-title.png",
+  "640x360-en-02-levels.png",
+  "640x360-en-03-start.png",
+  "640x360-en-04-card.png",
+  "640x360-en-05-play.png",
+  "640x360-en-06-pause.png",
+  "640x360-en-07-guardian.png",
+  "640x360-en-08-sync.png",
+  "640x360-en-11-l1-finger.png",
+  "640x360-en-12-twoballs.png",
+  "640x360-en-13-fail-early.png",
+  "640x360-en-14-fail-retry.png",
+  "640x360-en-15-result.png",
+  "1280x720-ko-01-title.png",
+  "1280x720-ko-02-levels.png",
+  "1280x720-ko-03-start.png",
+  "1280x720-ko-04-card.png",
+  "1280x720-ko-05-play.png",
+  "1280x720-ko-06-pause.png",
+  "1280x720-ko-07-guardian.png",
+  "1280x720-ko-08-sync.png",
+  "1280x720-ko-11-l1-finger.png",
+  "1280x720-ko-12-twoballs.png",
+  "1280x720-ko-13-fail-early.png",
+  "1280x720-ko-14-fail-retry.png",
+  "1280x720-ko-15-result.png",
+  "1280x720-en-01-title.png",
+  "1280x720-en-02-levels.png",
+  "1280x720-en-03-start.png",
+  "1280x720-en-04-card.png",
+  "1280x720-en-05-play.png",
+  "1280x720-en-06-pause.png",
+  "1280x720-en-07-guardian.png",
+  "1280x720-en-08-sync.png",
+  "1280x720-en-11-l1-finger.png",
+  "1280x720-en-12-twoballs.png",
+  "1280x720-en-13-fail-early.png",
+  "1280x720-en-14-fail-retry.png",
+  "1280x720-en-15-result.png"
+ ],
+ "perf": [
+  {
+   "dsf": 1,
+   "start": {
+    "frames": 151,
+    "avgFps": 60,
+    "low1Fps": 59.2,
+    "maxMs": 16.9,
+    "long": []
+   },
+   "restart": {
+    "frames": 150,
+    "avgFps": 60,
+    "low1Fps": 59.2,
+    "maxMs": 16.9,
+    "long": []
+   }
+  },
+  {
+   "dsf": 3,
+   "start": {
+    "frames": 151,
+    "avgFps": 60,
+    "low1Fps": 59.2,
+    "maxMs": 16.9,
+    "long": []
+   },
+   "restart": {
+    "frames": 150,
+    "avgFps": 60,
+    "low1Fps": 59.2,
+    "maxMs": 16.9,
+    "long": []
+   }
+  }
+ ],
+ "misc": {
+  "audio": "running",
+  "persist": 10,
+  "restarts": [
+   {
+    "attempt": 2,
+    "ms": 1114.0999999940395,
+    "kind": "late"
+   },
+   {
+    "attempt": 3,
+    "ms": 1104.0999999940395,
+    "kind": "late"
+   },
+   {
+    "attempt": 4,
+    "ms": 1110.800000011921,
+    "kind": "late"
+   },
+   {
+    "attempt": 2,
+    "ms": 1104.9000000059605,
+    "kind": "early"
+   },
+   {
+    "attempt": 3,
+    "ms": 1102.9000000059605,
+    "kind": "early"
+   }
+  ],
+  "mouseL1": {
+   "clear": true,
+   "attempts": 1,
+   "errs": [
+    -3,
+    -2.9,
+    -3.1,
+    -2.3,
+    -0.2,
+    -2.6,
+    -1.7,
+    -0.2,
+    -2.1,
+    -2.5,
+    -2.2,
+    -2,
+    -2.9,
+    -2.3,
+    -2.7,
+    -2.4,
+    -2.9,
+    -2.1
+   ]
+  },
+  "background": {
+   "st": "pause",
+   "txt": "누르면 이어서 해요",
+   "lt0": 401.19999998807907,
+   "after": 400.9999999701977,
+   "state": "play"
+  },
+  "gate": {
+   "hint": true,
+   "st": "guardian"
+  }
+ }
+}

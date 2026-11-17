@@ -1,0 +1,91 @@
+{
+ "part": "features",
+ "at": "2026-11-17T06:27:42.781Z",
+ "persist": {
+  "before": {
+   "01": {
+    "best": 1,
+    "grade": 3,
+    "cleared": true,
+    "practiceCleared": false,
+    "seenCard": false
+   },
+   "02": {
+    "best": 0.47619047619047616,
+    "grade": 0,
+    "cleared": false,
+    "practiceCleared": false,
+    "seenCard": false
+   }
+  },
+  "after": {
+   "01": {
+    "best": 1,
+    "grade": 3,
+    "cleared": true,
+    "practiceCleared": false,
+    "seenCard": false
+   },
+   "02": {
+    "best": 0.47619047619047616,
+    "grade": 0,
+    "cleared": false,
+    "practiceCleared": false,
+    "seenCard": false
+   }
+  },
+  "same": true,
+  "levelSelect": {
+   "l2": "모래놀이터, 가 본 만큼",
+   "l2bar": "48",
+   "l3open": false
+  }
+ },
+ "background": {
+  "audioBefore": "running",
+  "stateOnHidden": "pause",
+  "levelMsFrozen": 1000.5,
+  "audioWhileHidden": "suspended",
+  "stateAfterVisible": "pause",
+  "stateAfterResume": "play",
+  "pTitle": "누르면 이어서 해요"
+ },
+ "background_real_tab": {
+  "state": "play",
+  "vis": "visible"
+ },
+ "mute": {
+  "before": {
+   "sound": true,
+   "aria": "소리 끄기"
+  },
+  "afterClick": {
+   "sound": false,
+   "aria": "소리 켜기"
+  },
+  "afterReload": false
+ },
+ "gate": {
+  "short300": {
+   "state": "levels",
+   "hint": true,
+   "hintText": "어른이 길게 눌러요"
+  },
+  "release1000": "levels",
+  "slideOut": "levels",
+  "hold1650": "guardian"
+ },
+ "pauseMenu": {
+  "retry": {
+   "state": "play",
+   "lm": -594.7999999821186
+  },
+  "levels": "levels",
+  "esc": "pause"
+ },
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

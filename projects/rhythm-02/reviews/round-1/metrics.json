@@ -1,0 +1,8417 @@
+{
+ "project": "rhythm-02",
+ "round": 1,
+ "generated": "2026-11-17T07:12:19.928Z",
+ "tool": "projects/rhythm-02/tools/qa-round.mjs",
+ "verify_levels": {
+  "summary": {
+   "total": 266,
+   "pass": 266,
+   "fail": 0
+  },
+  "l10_target": {
+   "m01": 1.798,
+   "m02": 2.434,
+   "m03": 3.956,
+   "r": 1.4833,
+   "T": 12.91,
+   "range": [
+    10.33,
+    15.49
+   ],
+   "L10": 11.821,
+   "integer_reference": {
+    "m01": 2,
+    "m02": 3,
+    "m03": 4,
+    "r": 1.414,
+    "T": 11.31,
+    "L10": 13
+   }
+  },
+  "sim_child_sd70": {
+   "10": {
+    "p": 0.057,
+    "median_continuous": 11.821,
+    "median_sessions": 13
+   },
+   "01": {
+    "p": 0.3199,
+    "median_continuous": 1.798,
+    "median_sessions": 2
+   },
+   "02": {
+    "p": 0.2478,
+    "median_continuous": 2.434,
+    "median_sessions": 3
+   },
+   "03": {
+    "p": 0.1607,
+    "median_continuous": 3.956,
+    "median_sessions": 4
+   },
+   "04": {
+    "p": 0.1401,
+    "median_continuous": 4.594,
+    "median_sessions": 5
+   },
+   "05": {
+    "p": 0.1166,
+    "median_continuous": 5.591,
+    "median_sessions": 6
+   },
+   "06": {
+    "p": 0.1013,
+    "median_continuous": 6.488,
+    "median_sessions": 8
+   },
+   "07": {
+    "p": 0.0838,
+    "median_continuous": 7.92,
+    "median_sessions": 8
+   },
+   "08": {
+    "p": 0.0751,
+    "median_continuous": 8.879,
+    "median_sessions": 9
+   },
+   "09": {
+    "p": 0.0653,
+    "median_continuous": 10.272,
+    "median_sessions": 11
+   }
+  }
+ },
+ "console_errors_warnings": [
+  "realtime: [1280x720] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+  "testeq: [412x915] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+  "testeq: [412x915?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+ ],
+ "external_requests": [],
+ "failed_requests": [],
+ "parts": {
+  "blank": {
+   "part": "blank",
+   "at": "2026-11-17T07:11:56.066Z",
+   "runs": [
+    {
+     "cond": "base",
+     "res": "412x915",
+     "firstFrameMs": -16,
+     "firstAnyImageMs": -16,
+     "allImagesMs": -16,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 3,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 84,
+      "at": -16
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 17,
+      "at": 3
+     },
+     "shot": "blank-base-412x915-250ms.png"
+    },
+    {
+     "cond": "base",
+     "res": "1280x720",
+     "firstFrameMs": -10,
+     "firstAnyImageMs": -10,
+     "allImagesMs": -10,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 3,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 50,
+      "at": -10
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 17,
+      "at": 3
+     },
+     "shot": "blank-base-1280x720-250ms.png"
+    },
+    {
+     "cond": "cpu6",
+     "res": "412x915",
+     "firstFrameMs": -47,
+     "firstAnyImageMs": -47,
+     "allImagesMs": -47,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 1,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 233,
+      "at": -47
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 50,
+      "at": 1
+     },
+     "shot": "blank-cpu6-412x915-250ms.png"
+    },
+    {
+     "cond": "cpu6",
+     "res": "1280x720",
+     "firstFrameMs": -68,
+     "firstAnyImageMs": -68,
+     "allImagesMs": -68,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": -6,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 250,
+      "at": -68
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 50,
+      "at": -6
+     },
+     "shot": "blank-cpu6-1280x720-250ms.png"
+    },
+    {
+     "cond": "cpu6-test(오디오 없음)",
+     "res": "412x915",
+     "firstFrameMs": -35,
+     "firstAnyImageMs": -35,
+     "allImagesMs": -35,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 8,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 117,
+      "at": -35
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 33,
+      "at": 8
+     },
+     "shot": "blank-cpu6-test(오디오 없음)-412x915-250ms.png"
+    },
+    {
+     "cond": "cpu6-test(오디오 없음)",
+     "res": "1280x720",
+     "firstFrameMs": -30,
+     "firstAnyImageMs": -30,
+     "allImagesMs": -30,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": -3,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 133,
+      "at": -30
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 33,
+      "at": -3
+     },
+     "shot": "blank-cpu6-test(오디오 없음)-1280x720-250ms.png"
+    },
+    {
+     "cond": "net150",
+     "res": "412x915",
+     "firstFrameMs": -2,
+     "firstAnyImageMs": -2,
+     "allImagesMs": -2,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 4,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 50,
+      "at": -2
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 17,
+      "at": 20
+     },
+     "shot": "blank-net150-412x915-250ms.png"
+    },
+    {
+     "cond": "net150",
+     "res": "1280x720",
+     "firstFrameMs": 0,
+     "firstAnyImageMs": 0,
+     "allImagesMs": 0,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 4,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 50,
+      "at": 0
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 17,
+      "at": 4
+     },
+     "shot": "blank-net150-1280x720-250ms.png"
+    },
+    {
+     "cond": "cpu6+net150",
+     "res": "412x915",
+     "firstFrameMs": -11,
+     "firstAnyImageMs": -11,
+     "allImagesMs": -11,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": -4,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 200,
+      "at": -11
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 33,
+      "at": -4
+     },
+     "shot": "blank-cpu6+net150-412x915-250ms.png"
+    },
+    {
+     "cond": "cpu6+net150",
+     "res": "1280x720",
+     "firstFrameMs": -22,
+     "firstAnyImageMs": -22,
+     "allImagesMs": -22,
+     "imgRequestsAfterTap": 0,
+     "secondEntryAllImagesMs": 1,
+     "imgRequestsSecondEntry": 0,
+     "firstEntryLongestFrame": {
+      "maxGapMs": 217,
+      "at": -22
+     },
+     "secondEntryLongestFrame": {
+      "maxGapMs": 33,
+      "at": 1
+     },
+     "shot": "blank-cpu6+net150-1280x720-250ms.png"
+    }
+   ],
+   "note": "serve.mjs 는 cache-control: no-store. buildGrid 가 showLevels 마다 img 를 새로 만듦",
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "bots": {
+   "part": "bots",
+   "at": "2026-11-17T07:03:09.679Z",
+   "levels": {
+    "1": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.734,
+      "median_continuous": 0.523,
+      "ci95_p": [
+       0.7146,
+       0.7534
+      ],
+      "sessions": 1468,
+      "median_sessions": 1,
+      "mean_progress": 84.8,
+      "early_fail_share": 0.38,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.09
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.3171,
+      "median_continuous": 1.817,
+      "ci95_p": [
+       0.3107,
+       0.3235
+      ],
+      "sessions": 6342,
+      "median_sessions": 2,
+      "mean_progress": 57.9,
+      "early_fail_share": 0.392,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.088
+     }
+    },
+    "2": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.715,
+      "median_continuous": 0.552,
+      "ci95_p": [
+       0.6952,
+       0.7348
+      ],
+      "sessions": 1430,
+      "median_sessions": 1,
+      "mean_progress": 84.9,
+      "early_fail_share": 0.335,
+      "top_fail_contact": 2,
+      "top_fail_contact_share": 0.074
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.2497,
+      "median_continuous": 2.413,
+      "ci95_p": [
+       0.2437,
+       0.2557
+      ],
+      "sessions": 4994,
+      "median_sessions": 3,
+      "mean_progress": 52.8,
+      "early_fail_share": 0.396,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.084
+     }
+    },
+    "3": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.643,
+      "median_continuous": 0.673,
+      "ci95_p": [
+       0.622,
+       0.664
+      ],
+      "sessions": 1286,
+      "median_sessions": 1,
+      "mean_progress": 80.8,
+      "early_fail_share": 0.378,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.066
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.1681,
+      "median_continuous": 3.766,
+      "ci95_p": [
+       0.1629,
+       0.1733
+      ],
+      "sessions": 3362,
+      "median_sessions": 4,
+      "mean_progress": 45,
+      "early_fail_share": 0.423,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.084
+     }
+    },
+    "4": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.635,
+      "median_continuous": 0.688,
+      "ci95_p": [
+       0.6139,
+       0.6561
+      ],
+      "sessions": 1270,
+      "median_sessions": 1,
+      "mean_progress": 80.1,
+      "early_fail_share": 0.359,
+      "top_fail_contact": 2,
+      "top_fail_contact_share": 0.06
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.1417,
+      "median_continuous": 4.536,
+      "ci95_p": [
+       0.1369,
+       0.1465
+      ],
+      "sessions": 2834,
+      "median_sessions": 5,
+      "mean_progress": 42.4,
+      "early_fail_share": 0.431,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.089
+     }
+    },
+    "5": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.629,
+      "median_continuous": 0.699,
+      "ci95_p": [
+       0.6078,
+       0.6502
+      ],
+      "sessions": 1258,
+      "median_sessions": 1,
+      "mean_progress": 79.9,
+      "early_fail_share": 0.392,
+      "top_fail_contact": 3,
+      "top_fail_contact_share": 0.061
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.1172,
+      "median_continuous": 5.56,
+      "ci95_p": [
+       0.1127,
+       0.1217
+      ],
+      "sessions": 2344,
+      "median_sessions": 6,
+      "mean_progress": 39.3,
+      "early_fail_share": 0.411,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.092
+     }
+    },
+    "6": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.5835,
+      "median_continuous": 0.791,
+      "ci95_p": [
+       0.5619,
+       0.6051
+      ],
+      "sessions": 1167,
+      "median_sessions": 1,
+      "mean_progress": 77.1,
+      "early_fail_share": 0.456,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.07
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.0993,
+      "median_continuous": 6.628,
+      "ci95_p": [
+       0.0952,
+       0.1034
+      ],
+      "sessions": 1986,
+      "median_sessions": 7,
+      "mean_progress": 37.9,
+      "early_fail_share": 0.459,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.093
+     }
+    },
+    "7": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.566,
+      "median_continuous": 0.83,
+      "ci95_p": [
+       0.5443,
+       0.5877
+      ],
+      "sessions": 1132,
+      "median_sessions": 1,
+      "mean_progress": 75.9,
+      "early_fail_share": 0.431,
+      "top_fail_contact": 9,
+      "top_fail_contact_share": 0.059
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.0861,
+      "median_continuous": 7.703,
+      "ci95_p": [
+       0.0822,
+       0.0899
+      ],
+      "sessions": 1721,
+      "median_sessions": 8,
+      "mean_progress": 35.7,
+      "early_fail_share": 0.442,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.095
+     }
+    },
+    "8": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.551,
+      "median_continuous": 0.866,
+      "ci95_p": [
+       0.5292,
+       0.5728
+      ],
+      "sessions": 1102,
+      "median_sessions": 1,
+      "mean_progress": 74.7,
+      "early_fail_share": 0.411,
+      "top_fail_contact": 17,
+      "top_fail_contact_share": 0.058
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.0731,
+      "median_continuous": 9.138,
+      "ci95_p": [
+       0.0694,
+       0.0767
+      ],
+      "sessions": 1461,
+      "median_sessions": 10,
+      "mean_progress": 33.9,
+      "early_fail_share": 0.414,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.1
+     }
+    },
+    "9": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.532,
+      "median_continuous": 0.913,
+      "ci95_p": [
+       0.5101,
+       0.5539
+      ],
+      "sessions": 1064,
+      "median_sessions": 1,
+      "mean_progress": 73.3,
+      "early_fail_share": 0.47,
+      "top_fail_contact": 6,
+      "top_fail_contact_share": 0.063
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.0635,
+      "median_continuous": 10.574,
+      "ci95_p": [
+       0.0601,
+       0.0668
+      ],
+      "sessions": 1269,
+      "median_sessions": 11,
+      "mean_progress": 32.6,
+      "early_fail_share": 0.454,
+      "top_fail_contact": 1,
+      "top_fail_contact_share": 0.105
+     }
+    },
+    "10": {
+     "skilled_sd25": {
+      "N": 2000,
+      "clear_rate": 1,
+      "median_continuous": 0,
+      "ci95_p": [
+       1,
+       1
+      ],
+      "sessions": 2000,
+      "median_sessions": 1,
+      "mean_progress": 100,
+      "early_fail_share": 0,
+      "top_fail_contact": null,
+      "top_fail_contact_share": 0
+     },
+     "novice_sd50": {
+      "N": 2000,
+      "clear_rate": 0.5,
+      "median_continuous": 1,
+      "ci95_p": [
+       0.4781,
+       0.5219
+      ],
+      "sessions": 1000,
+      "median_sessions": 1,
+      "mean_progress": 71.7,
+      "early_fail_share": 0.391,
+      "top_fail_contact": 10,
+      "top_fail_contact_share": 0.066
+     },
+     "child_sd70": {
+      "N": 20000,
+      "clear_rate": 0.0539,
+      "median_continuous": 12.522,
+      "ci95_p": [
+       0.0507,
+       0.057
+      ],
+      "sessions": 1077,
+      "median_sessions": 13,
+      "mean_progress": 31,
+      "early_fail_share": 0.4,
+      "top_fail_contact": 0,
+      "top_fail_contact_share": 0.109
+     }
+    }
+   },
+   "rejudge": {
+    "attempts": 240000,
+    "mismatchRecorded": 0,
+    "mismatchFull": 0,
+    "examples": []
+   },
+   "compare": {
+    "1": {
+     "sim_p": 0.3199,
+     "build_p": 0.3171,
+     "z": -0.85,
+     "sim_cont": 1.798,
+     "build_cont": 1.817,
+     "sim_int": 2,
+     "build_int": 2
+    },
+    "2": {
+     "sim_p": 0.2478,
+     "build_p": 0.2497,
+     "z": 0.62,
+     "sim_cont": 2.434,
+     "build_cont": 2.413,
+     "sim_int": 3,
+     "build_int": 3
+    },
+    "3": {
+     "sim_p": 0.1607,
+     "build_p": 0.1681,
+     "z": 2.85,
+     "sim_cont": 3.956,
+     "build_cont": 3.766,
+     "sim_int": 4,
+     "build_int": 4
+    },
+    "4": {
+     "sim_p": 0.1401,
+     "build_p": 0.1417,
+     "z": 0.65,
+     "sim_cont": 4.594,
+     "build_cont": 4.536,
+     "sim_int": 5,
+     "build_int": 5
+    },
+    "5": {
+     "sim_p": 0.1166,
+     "build_p": 0.1172,
+     "z": 0.26,
+     "sim_cont": 5.591,
+     "build_cont": 5.56,
+     "sim_int": 6,
+     "build_int": 6
+    },
+    "6": {
+     "sim_p": 0.1013,
+     "build_p": 0.0993,
+     "z": -0.94,
+     "sim_cont": 6.488,
+     "build_cont": 6.628,
+     "sim_int": 8,
+     "build_int": 7
+    },
+    "7": {
+     "sim_p": 0.0838,
+     "build_p": 0.0861,
+     "z": 1.17,
+     "sim_cont": 7.92,
+     "build_cont": 7.703,
+     "sim_int": 8,
+     "build_int": 8
+    },
+    "8": {
+     "sim_p": 0.0751,
+     "build_p": 0.0731,
+     "z": -1.07,
+     "sim_cont": 8.879,
+     "build_cont": 9.138,
+     "sim_int": 9,
+     "build_int": 10
+    },
+    "9": {
+     "sim_p": 0.0653,
+     "build_p": 0.0635,
+     "z": -1.03,
+     "sim_cont": 10.272,
+     "build_cont": 10.574,
+     "sim_int": 11,
+     "build_int": 11
+    },
+    "10": {
+     "sim_p": 0.057,
+     "build_p": 0.0539,
+     "z": -1.89,
+     "sim_cont": 11.821,
+     "build_cont": 12.522,
+     "sim_int": 13,
+     "build_int": 13
+    }
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "features": {
+   "part": "features",
+   "at": "2026-11-17T06:27:42.781Z",
+   "persist": {
+    "before": {
+     "01": {
+      "best": 1,
+      "grade": 3,
+      "cleared": true,
+      "practiceCleared": false,
+      "seenCard": false
+     },
+     "02": {
+      "best": 0.47619047619047616,
+      "grade": 0,
+      "cleared": false,
+      "practiceCleared": false,
+      "seenCard": false
+     }
+    },
+    "after": {
+     "01": {
+      "best": 1,
+      "grade": 3,
+      "cleared": true,
+      "practiceCleared": false,
+      "seenCard": false
+     },
+     "02": {
+      "best": 0.47619047619047616,
+      "grade": 0,
+      "cleared": false,
+      "practiceCleared": false,
+      "seenCard": false
+     }
+    },
+    "same": true,
+    "levelSelect": {
+     "l2": "모래놀이터, 가 본 만큼",
+     "l2bar": "48",
+     "l3open": false
+    }
+   },
+   "background": {
+    "audioBefore": "running",
+    "stateOnHidden": "pause",
+    "levelMsFrozen": 1000.5,
+    "audioWhileHidden": "suspended",
+    "stateAfterVisible": "pause",
+    "stateAfterResume": "play",
+    "pTitle": "누르면 이어서 해요"
+   },
+   "background_real_tab": {
+    "state": "play",
+    "vis": "visible"
+   },
+   "mute": {
+    "before": {
+     "sound": true,
+     "aria": "소리 끄기"
+    },
+    "afterClick": {
+     "sound": false,
+     "aria": "소리 켜기"
+    },
+    "afterReload": false
+   },
+   "gate": {
+    "short300": {
+     "state": "levels",
+     "hint": true,
+     "hintText": "어른이 길게 눌러요"
+    },
+    "release1000": "levels",
+    "slideOut": "levels",
+    "hold1650": "guardian"
+   },
+   "pauseMenu": {
+    "retry": {
+     "state": "play",
+     "lm": -594.7999999821186
+    },
+    "levels": "levels",
+    "esc": "pause"
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "firstrun": {
+   "part": "firstrun",
+   "at": "2026-11-17T07:07:07.310Z",
+   "scenarios": [
+    {
+     "scenario": {
+      "X": 0,
+      "fast": true
+     },
+     "unlockToSyncMs": 1703,
+     "latTimelineFromUnlock": [
+      [
+       -5,
+       10,
+       "running"
+      ],
+      [
+       71,
+       42,
+       "running"
+      ],
+      [
+       82,
+       50,
+       "running"
+      ],
+      [
+       94,
+       58,
+       "running"
+      ],
+      [
+       99,
+       74,
+       "running"
+      ]
+     ],
+     "taps": 16,
+     "tapMinusHeard": [
+      4.6,
+      3.6,
+      1.4,
+      4.3,
+      2.9,
+      3.8,
+      4.6,
+      4.9,
+      0.5,
+      4.6,
+      4.4,
+      4,
+      3.6,
+      4,
+      4.2,
+      1.6
+     ],
+     "heardMinusScreenBeat": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "otsMinusSched": [
+      70.8,
+      71.6,
+      69.8,
+      69.2,
+      70.2,
+      71.3,
+      69.8,
+      70.8,
+      71.8,
+      68.2,
+      70.3,
+      70.4,
+      71.9,
+      69.9,
+      71,
+      70.4
+     ],
+     "syncOffset": 0,
+     "buildRaw": -28.2,
+     "expectedRaw": -36,
+     "syncMsg": "소리를 맞췄어요",
+     "latRef": 74,
+     "driftOn": false,
+     "expectedOffset": -36,
+     "offsetErr": 36,
+     "play": {
+      "latNow": 74,
+      "audioVsScreenMs": [
+       2.4,
+       2.8,
+       1.4,
+       3.7,
+       3.2
+      ],
+      "medianAudioVsScreen": 2.8,
+      "eEarMs": -37.2,
+      "ideal": -40
+     }
+    },
+    {
+     "scenario": {
+      "X": -40,
+      "fast": true
+     },
+     "unlockToSyncMs": 1691,
+     "latTimelineFromUnlock": [
+      [
+       -6,
+       10,
+       "running"
+      ],
+      [
+       2,
+       42,
+       "running"
+      ],
+      [
+       8,
+       50,
+       "running"
+      ],
+      [
+       21,
+       58,
+       "running"
+      ],
+      [
+       28,
+       74,
+       "running"
+      ]
+     ],
+     "taps": 16,
+     "tapMinusHeard": [
+      -36.2,
+      -37,
+      -35.5,
+      -37,
+      -40.3,
+      -35.8,
+      -36.2,
+      -36.2,
+      -35.9,
+      -36.4,
+      -36.2,
+      -39.8,
+      -36.7,
+      -36.6,
+      -36,
+      -35.5
+     ],
+     "heardMinusScreenBeat": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "otsMinusSched": [
+      73.2,
+      74.8,
+      75.7,
+      73.8,
+      73.6,
+      74.2,
+      72.4,
+      73.4,
+      75,
+      75.9,
+      72.9,
+      73.9,
+      74.3,
+      72.6,
+      73.8,
+      75
+     ],
+     "syncOffset": -71,
+     "buildRaw": -71.4,
+     "expectedRaw": -76.2,
+     "syncMsg": "소리를 맞췄어요",
+     "latRef": 74,
+     "driftOn": false,
+     "expectedOffset": -76.20000000000027,
+     "offsetErr": 5.2,
+     "play": {
+      "latNow": 74,
+      "audioVsScreenMs": [
+       77.7,
+       77.4,
+       79.7,
+       79.2,
+       77.9
+      ],
+      "medianAudioVsScreen": 77.9,
+      "eEarMs": -2.1,
+      "ideal": -151
+     }
+    },
+    {
+     "scenario": {
+      "X": 60,
+      "fast": true
+     },
+     "unlockToSyncMs": 1680,
+     "latTimelineFromUnlock": [
+      [
+       -4,
+       42,
+       "running"
+      ],
+      [
+       8,
+       50,
+       "running"
+      ],
+      [
+       17,
+       58,
+       "running"
+      ],
+      [
+       28,
+       74,
+       "running"
+      ],
+      [
+       14086,
+       82,
+       "running"
+      ],
+      [
+       14097,
+       74,
+       "running"
+      ],
+      [
+       14336,
+       82,
+       "running"
+      ],
+      [
+       14347,
+       74,
+       "running"
+      ],
+      [
+       14586,
+       82,
+       "running"
+      ],
+      [
+       14597,
+       74,
+       "running"
+      ],
+      [
+       14608,
+       82,
+       "running"
+      ],
+      [
+       14620,
+       74,
+       "running"
+      ],
+      [
+       14708,
+       82,
+       "running"
+      ],
+      [
+       14719,
+       74,
+       "running"
+      ],
+      [
+       14815,
+       82,
+       "running"
+      ],
+      [
+       14826,
+       74,
+       "running"
+      ],
+      [
+       14949,
+       82,
+       "running"
+      ],
+      [
+       14965,
+       74,
+       "running"
+      ],
+      [
+       14977,
+       82,
+       "running"
+      ],
+      [
+       14988,
+       74,
+       "running"
+      ],
+      [
+       15077,
+       82,
+       "running"
+      ],
+      [
+       15099,
+       74,
+       "running"
+      ],
+      [
+       15105,
+       82,
+       "running"
+      ],
+      [
+       15116,
+       74,
+       "running"
+      ],
+      [
+       15191,
+       82,
+       "running"
+      ],
+      [
+       15196,
+       74,
+       "running"
+      ],
+      [
+       15219,
+       82,
+       "running"
+      ],
+      [
+       15236,
+       74,
+       "running"
+      ],
+      [
+       15319,
+       82,
+       "running"
+      ],
+      [
+       15331,
+       74,
+       "running"
+      ],
+      [
+       15336,
+       82,
+       "running"
+      ],
+      [
+       15347,
+       74,
+       "running"
+      ],
+      [
+       15358,
+       82,
+       "running"
+      ],
+      [
+       15369,
+       74,
+       "running"
+      ],
+      [
+       15408,
+       82,
+       "running"
+      ],
+      [
+       15419,
+       74,
+       "running"
+      ],
+      [
+       15436,
+       82,
+       "running"
+      ],
+      [
+       15447,
+       74,
+       "running"
+      ],
+      [
+       15458,
+       82,
+       "running"
+      ],
+      [
+       15469,
+       74,
+       "running"
+      ],
+      [
+       15475,
+       82,
+       "running"
+      ],
+      [
+       15486,
+       74,
+       "running"
+      ],
+      [
+       15577,
+       82,
+       "running"
+      ],
+      [
+       15599,
+       74,
+       "running"
+      ],
+      [
+       15691,
+       82,
+       "running"
+      ],
+      [
+       15736,
+       74,
+       "running"
+      ]
+     ],
+     "taps": 16,
+     "tapMinusHeard": [
+      60.7,
+      63.1,
+      62.9,
+      63.6,
+      63.4,
+      64.2,
+      63.6,
+      60.3,
+      63.7,
+      62.9,
+      64.2,
+      63.7,
+      63.6,
+      63.1,
+      63.3,
+      63.9
+     ],
+     "heardMinusScreenBeat": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "otsMinusSched": [
+      75.4,
+      73.6,
+      73.2,
+      74.2,
+      75.2,
+      73.1,
+      74.5,
+      75.8,
+      72.7,
+      73.3,
+      74.3,
+      75.2,
+      73.8,
+      74.7,
+      74.7,
+      72.2
+     ],
+     "syncOffset": 0,
+     "buildRaw": 27.9,
+     "expectedRaw": 23.6,
+     "syncMsg": "소리를 맞췄어요",
+     "latRef": 74,
+     "driftOn": false,
+     "expectedOffset": 0,
+     "offsetErr": 0,
+     "play": {
+      "latNow": 82,
+      "audioVsScreenMs": [
+       8.1,
+       9.7,
+       9.8,
+       9.3,
+       0.1
+      ],
+      "medianAudioVsScreen": 9.3,
+      "eEarMs": 29.3,
+      "ideal": 20
+     }
+    },
+    {
+     "scenario": {
+      "X": 0,
+      "fast": false
+     },
+     "unlockToSyncMs": 4692,
+     "latTimelineFromUnlock": [
+      [
+       -3,
+       42,
+       "running"
+      ],
+      [
+       3,
+       50,
+       "running"
+      ],
+      [
+       8,
+       58,
+       "running"
+      ],
+      [
+       19,
+       74,
+       "running"
+      ],
+      [
+       53,
+       82,
+       "running"
+      ],
+      [
+       99,
+       74,
+       "running"
+      ],
+      [
+       173,
+       82,
+       "running"
+      ],
+      [
+       223,
+       74,
+       "running"
+      ],
+      [
+       302,
+       82,
+       "running"
+      ],
+      [
+       340,
+       74,
+       "running"
+      ],
+      [
+       418,
+       82,
+       "running"
+      ],
+      [
+       468,
+       74,
+       "running"
+      ],
+      [
+       479,
+       82,
+       "running"
+      ],
+      [
+       491,
+       74,
+       "running"
+      ],
+      [
+       549,
+       82,
+       "running"
+      ],
+      [
+       589,
+       74,
+       "running"
+      ],
+      [
+       672,
+       82,
+       "running"
+      ],
+      [
+       722,
+       74,
+       "running"
+      ],
+      [
+       790,
+       82,
+       "running"
+      ],
+      [
+       842,
+       74,
+       "running"
+      ],
+      [
+       882,
+       82,
+       "running"
+      ],
+      [
+       888,
+       74,
+       "running"
+      ],
+      [
+       921,
+       82,
+       "running"
+      ],
+      [
+       960,
+       74,
+       "running"
+      ],
+      [
+       1040,
+       82,
+       "running"
+      ],
+      [
+       1089,
+       74,
+       "running"
+      ],
+      [
+       1173,
+       82,
+       "running"
+      ],
+      [
+       1212,
+       74,
+       "running"
+      ],
+      [
+       1290,
+       82,
+       "running"
+      ],
+      [
+       1340,
+       74,
+       "running"
+      ],
+      [
+       1413,
+       82,
+       "running"
+      ],
+      [
+       1463,
+       74,
+       "running"
+      ],
+      [
+       1541,
+       82,
+       "running"
+      ],
+      [
+       1579,
+       74,
+       "running"
+      ],
+      [
+       1659,
+       82,
+       "running"
+      ],
+      [
+       1671,
+       74,
+       "running"
+      ],
+      [
+       1682,
+       82,
+       "running"
+      ],
+      [
+       1710,
+       74,
+       "running"
+      ],
+      [
+       1784,
+       82,
+       "running"
+      ],
+      [
+       1829,
+       74,
+       "running"
+      ],
+      [
+       1912,
+       82,
+       "running"
+      ],
+      [
+       1963,
+       74,
+       "running"
+      ],
+      [
+       1968,
+       82,
+       "running"
+      ],
+      [
+       1979,
+       74,
+       "running"
+      ],
+      [
+       2029,
+       82,
+       "running"
+      ],
+      [
+       2081,
+       74,
+       "running"
+      ],
+      [
+       2159,
+       82,
+       "running"
+      ],
+      [
+       2203,
+       74,
+       "running"
+      ],
+      [
+       2283,
+       82,
+       "running"
+      ],
+      [
+       2333,
+       74,
+       "running"
+      ],
+      [
+       2400,
+       82,
+       "running"
+      ],
+      [
+       2452,
+       74,
+       "running"
+      ],
+      [
+       2529,
+       82,
+       "running"
+      ],
+      [
+       2579,
+       74,
+       "running"
+      ],
+      [
+       2652,
+       82,
+       "running"
+      ],
+      [
+       2702,
+       74,
+       "running"
+      ],
+      [
+       2779,
+       82,
+       "running"
+      ],
+      [
+       2823,
+       74,
+       "running"
+      ],
+      [
+       2902,
+       82,
+       "running"
+      ],
+      [
+       2952,
+       74,
+       "running"
+      ],
+      [
+       3022,
+       82,
+       "running"
+      ],
+      [
+       3069,
+       74,
+       "running"
+      ],
+      [
+       3152,
+       82,
+       "running"
+      ],
+      [
+       3202,
+       74,
+       "running"
+      ],
+      [
+       3269,
+       82,
+       "running"
+      ],
+      [
+       3319,
+       74,
+       "running"
+      ],
+      [
+       3402,
+       82,
+       "running"
+      ],
+      [
+       3440,
+       74,
+       "running"
+      ],
+      [
+       3518,
+       82,
+       "running"
+      ],
+      [
+       3568,
+       74,
+       "running"
+      ],
+      [
+       3653,
+       82,
+       "running"
+      ],
+      [
+       3693,
+       74,
+       "running"
+      ],
+      [
+       3772,
+       82,
+       "running"
+      ],
+      [
+       3822,
+       74,
+       "running"
+      ],
+      [
+       3889,
+       82,
+       "running"
+      ],
+      [
+       3938,
+       74,
+       "running"
+      ],
+      [
+       4022,
+       82,
+       "running"
+      ],
+      [
+       4060,
+       74,
+       "running"
+      ],
+      [
+       4140,
+       82,
+       "running"
+      ],
+      [
+       4191,
+       74,
+       "running"
+      ],
+      [
+       4208,
+       82,
+       "running"
+      ],
+      [
+       4219,
+       74,
+       "running"
+      ],
+      [
+       4263,
+       82,
+       "running"
+      ],
+      [
+       4313,
+       74,
+       "running"
+      ],
+      [
+       4391,
+       82,
+       "running"
+      ],
+      [
+       4430,
+       74,
+       "running"
+      ],
+      [
+       4508,
+       82,
+       "running"
+      ],
+      [
+       4578,
+       74,
+       "running"
+      ],
+      [
+       4639,
+       82,
+       "running"
+      ],
+      [
+       4680,
+       74,
+       "running"
+      ],
+      [
+       4760,
+       82,
+       "running"
+      ],
+      [
+       4810,
+       74,
+       "running"
+      ],
+      [
+       4884,
+       82,
+       "running"
+      ],
+      [
+       4928,
+       74,
+       "running"
+      ],
+      [
+       5011,
+       82,
+       "running"
+      ],
+      [
+       5052,
+       74,
+       "running"
+      ],
+      [
+       5129,
+       82,
+       "running"
+      ],
+      [
+       5179,
+       74,
+       "running"
+      ],
+      [
+       5263,
+       82,
+       "running"
+      ],
+      [
+       5302,
+       74,
+       "running"
+      ],
+      [
+       5379,
+       82,
+       "running"
+      ],
+      [
+       5429,
+       74,
+       "running"
+      ],
+      [
+       5500,
+       82,
+       "running"
+      ],
+      [
+       5550,
+       74,
+       "running"
+      ],
+      [
+       5629,
+       82,
+       "running"
+      ],
+      [
+       5673,
+       74,
+       "running"
+      ],
+      [
+       5750,
+       82,
+       "running"
+      ],
+      [
+       5803,
+       74,
+       "running"
+      ],
+      [
+       5884,
+       82,
+       "running"
+      ],
+      [
+       5922,
+       74,
+       "running"
+      ],
+      [
+       6000,
+       82,
+       "running"
+      ],
+      [
+       6050,
+       74,
+       "running"
+      ],
+      [
+       6122,
+       82,
+       "running"
+      ],
+      [
+       6173,
+       74,
+       "running"
+      ],
+      [
+       6252,
+       82,
+       "running"
+      ],
+      [
+       6297,
+       74,
+       "running"
+      ],
+      [
+       6368,
+       82,
+       "running"
+      ],
+      [
+       6418,
+       74,
+       "running"
+      ],
+      [
+       6501,
+       82,
+       "running"
+      ],
+      [
+       6540,
+       74,
+       "running"
+      ],
+      [
+       6623,
+       82,
+       "running"
+      ],
+      [
+       6673,
+       74,
+       "running"
+      ],
+      [
+       6752,
+       82,
+       "running"
+      ],
+      [
+       6790,
+       74,
+       "running"
+      ],
+      [
+       6873,
+       82,
+       "running"
+      ],
+      [
+       6914,
+       74,
+       "running"
+      ],
+      [
+       6988,
+       82,
+       "running"
+      ],
+      [
+       7043,
+       74,
+       "running"
+      ],
+      [
+       7121,
+       82,
+       "running"
+      ],
+      [
+       7160,
+       74,
+       "running"
+      ],
+      [
+       7240,
+       82,
+       "running"
+      ],
+      [
+       7290,
+       74,
+       "running"
+      ],
+      [
+       7372,
+       82,
+       "running"
+      ],
+      [
+       7412,
+       74,
+       "running"
+      ],
+      [
+       7491,
+       82,
+       "running"
+      ],
+      [
+       7530,
+       74,
+       "running"
+      ],
+      [
+       7609,
+       82,
+       "running"
+      ],
+      [
+       7661,
+       74,
+       "running"
+      ],
+      [
+       7740,
+       82,
+       "running"
+      ],
+      [
+       7779,
+       74,
+       "running"
+      ],
+      [
+       7863,
+       82,
+       "running"
+      ],
+      [
+       7912,
+       74,
+       "running"
+      ],
+      [
+       7979,
+       82,
+       "running"
+      ],
+      [
+       8029,
+       74,
+       "running"
+      ],
+      [
+       8113,
+       82,
+       "running"
+      ],
+      [
+       8153,
+       74,
+       "running"
+      ],
+      [
+       8232,
+       82,
+       "running"
+      ],
+      [
+       8283,
+       74,
+       "running"
+      ],
+      [
+       8363,
+       82,
+       "running"
+      ],
+      [
+       8402,
+       74,
+       "running"
+      ],
+      [
+       8479,
+       82,
+       "running"
+      ],
+      [
+       8529,
+       74,
+       "running"
+      ],
+      [
+       8600,
+       82,
+       "running"
+      ],
+      [
+       8652,
+       74,
+       "running"
+      ],
+      [
+       8731,
+       82,
+       "running"
+      ],
+      [
+       8780,
+       74,
+       "running"
+      ],
+      [
+       8852,
+       82,
+       "running"
+      ],
+      [
+       8902,
+       74,
+       "running"
+      ],
+      [
+       8979,
+       82,
+       "running"
+      ],
+      [
+       9023,
+       74,
+       "running"
+      ],
+      [
+       9102,
+       82,
+       "running"
+      ],
+      [
+       9153,
+       74,
+       "running"
+      ],
+      [
+       9221,
+       82,
+       "running"
+      ],
+      [
+       9271,
+       74,
+       "running"
+      ],
+      [
+       9350,
+       82,
+       "running"
+      ],
+      [
+       9390,
+       74,
+       "running"
+      ],
+      [
+       9470,
+       82,
+       "running"
+      ],
+      [
+       9520,
+       74,
+       "running"
+      ],
+      [
+       9603,
+       82,
+       "running"
+      ],
+      [
+       9638,
+       74,
+       "running"
+      ],
+      [
+       9649,
+       82,
+       "running"
+      ],
+      [
+       9660,
+       74,
+       "running"
+      ],
+      [
+       9721,
+       82,
+       "running"
+      ],
+      [
+       9771,
+       74,
+       "running"
+      ],
+      [
+       9800,
+       82,
+       "running"
+      ],
+      [
+       9811,
+       74,
+       "running"
+      ],
+      [
+       9852,
+       82,
+       "running"
+      ],
+      [
+       9897,
+       74,
+       "running"
+      ],
+      [
+       9969,
+       82,
+       "running"
+      ],
+      [
+       10020,
+       74,
+       "running"
+      ],
+      [
+       10092,
+       82,
+       "running"
+      ],
+      [
+       10142,
+       74,
+       "running"
+      ],
+      [
+       10220,
+       82,
+       "running"
+      ],
+      [
+       10260,
+       74,
+       "running"
+      ],
+      [
+       10339,
+       82,
+       "running"
+      ],
+      [
+       10390,
+       74,
+       "running"
+      ],
+      [
+       10472,
+       82,
+       "running"
+      ],
+      [
+       10514,
+       74,
+       "running"
+      ],
+      [
+       10591,
+       82,
+       "running"
+      ],
+      [
+       10631,
+       74,
+       "running"
+      ],
+      [
+       10710,
+       82,
+       "running"
+      ],
+      [
+       10761,
+       74,
+       "running"
+      ],
+      [
+       10840,
+       82,
+       "running"
+      ],
+      [
+       10879,
+       74,
+       "running"
+      ],
+      [
+       10963,
+       82,
+       "running"
+      ],
+      [
+       11023,
+       74,
+       "running"
+      ],
+      [
+       11079,
+       82,
+       "running"
+      ],
+      [
+       11131,
+       74,
+       "running"
+      ],
+      [
+       11212,
+       82,
+       "running"
+      ],
+      [
+       11252,
+       74,
+       "running"
+      ],
+      [
+       11331,
+       82,
+       "running"
+      ],
+      [
+       11380,
+       74,
+       "running"
+      ],
+      [
+       11459,
+       82,
+       "running"
+      ],
+      [
+       11499,
+       74,
+       "running"
+      ],
+      [
+       11583,
+       82,
+       "running"
+      ],
+      [
+       11628,
+       74,
+       "running"
+      ],
+      [
+       11702,
+       82,
+       "running"
+      ],
+      [
+       11753,
+       74,
+       "running"
+      ],
+      [
+       11832,
+       82,
+       "running"
+      ],
+      [
+       11871,
+       74,
+       "running"
+      ],
+      [
+       11952,
+       82,
+       "running"
+      ],
+      [
+       12003,
+       74,
+       "running"
+      ],
+      [
+       12084,
+       82,
+       "running"
+      ],
+      [
+       12122,
+       74,
+       "running"
+      ],
+      [
+       12200,
+       82,
+       "running"
+      ],
+      [
+       12250,
+       74,
+       "running"
+      ],
+      [
+       12319,
+       82,
+       "running"
+      ],
+      [
+       12370,
+       74,
+       "running"
+      ],
+      [
+       12449,
+       82,
+       "running"
+      ],
+      [
+       12493,
+       74,
+       "running"
+      ],
+      [
+       12571,
+       82,
+       "running"
+      ],
+      [
+       12621,
+       74,
+       "running"
+      ],
+      [
+       12700,
+       82,
+       "running"
+      ],
+      [
+       12740,
+       74,
+       "running"
+      ],
+      [
+       12823,
+       82,
+       "running"
+      ],
+      [
+       12873,
+       74,
+       "running"
+      ],
+      [
+       12940,
+       82,
+       "running"
+      ],
+      [
+       12990,
+       74,
+       "running"
+      ],
+      [
+       13070,
+       82,
+       "running"
+      ],
+      [
+       13108,
+       74,
+       "running"
+      ],
+      [
+       13192,
+       82,
+       "running"
+      ],
+      [
+       13241,
+       74,
+       "running"
+      ],
+      [
+       13269,
+       82,
+       "running"
+      ],
+      [
+       13280,
+       74,
+       "running"
+      ],
+      [
+       13321,
+       82,
+       "running"
+      ],
+      [
+       13360,
+       74,
+       "running"
+      ],
+      [
+       13438,
+       82,
+       "running"
+      ],
+      [
+       13490,
+       74,
+       "running"
+      ],
+      [
+       13563,
+       82,
+       "running"
+      ],
+      [
+       13613,
+       74,
+       "running"
+      ],
+      [
+       13692,
+       82,
+       "running"
+      ],
+      [
+       13731,
+       74,
+       "running"
+      ],
+      [
+       13810,
+       82,
+       "running"
+      ],
+      [
+       13861,
+       74,
+       "running"
+      ],
+      [
+       13940,
+       82,
+       "running"
+      ],
+      [
+       13979,
+       74,
+       "running"
+      ],
+      [
+       14029,
+       82,
+       "running"
+      ],
+      [
+       14040,
+       74,
+       "running"
+      ],
+      [
+       14062,
+       82,
+       "running"
+      ],
+      [
+       14114,
+       74,
+       "running"
+      ],
+      [
+       14182,
+       82,
+       "running"
+      ],
+      [
+       14233,
+       74,
+       "running"
+      ],
+      [
+       14312,
+       82,
+       "running"
+      ],
+      [
+       14351,
+       74,
+       "running"
+      ],
+      [
+       14429,
+       82,
+       "running"
+      ],
+      [
+       14479,
+       74,
+       "running"
+      ],
+      [
+       14562,
+       82,
+       "running"
+      ],
+      [
+       14602,
+       74,
+       "running"
+      ],
+      [
+       14679,
+       82,
+       "running"
+      ],
+      [
+       14732,
+       74,
+       "running"
+      ],
+      [
+       14809,
+       82,
+       "running"
+      ],
+      [
+       14848,
+       74,
+       "running"
+      ],
+      [
+       14928,
+       82,
+       "running"
+      ],
+      [
+       14982,
+       74,
+       "running"
+      ],
+      [
+       15054,
+       82,
+       "running"
+      ],
+      [
+       15099,
+       74,
+       "running"
+      ],
+      [
+       15184,
+       82,
+       "running"
+      ],
+      [
+       15222,
+       74,
+       "running"
+      ],
+      [
+       15302,
+       82,
+       "running"
+      ],
+      [
+       15359,
+       74,
+       "running"
+      ],
+      [
+       15422,
+       82,
+       "running"
+      ],
+      [
+       15472,
+       74,
+       "running"
+      ],
+      [
+       15551,
+       82,
+       "running"
+      ],
+      [
+       15589,
+       74,
+       "running"
+      ],
+      [
+       15651,
+       82,
+       "running"
+      ],
+      [
+       15662,
+       74,
+       "running"
+      ],
+      [
+       15673,
+       82,
+       "running"
+      ],
+      [
+       15718,
+       74,
+       "running"
+      ],
+      [
+       15802,
+       82,
+       "running"
+      ],
+      [
+       15840,
+       74,
+       "running"
+      ],
+      [
+       15918,
+       82,
+       "running"
+      ],
+      [
+       15973,
+       74,
+       "running"
+      ],
+      [
+       16040,
+       82,
+       "running"
+      ],
+      [
+       16090,
+       74,
+       "running"
+      ],
+      [
+       16173,
+       82,
+       "running"
+      ],
+      [
+       16213,
+       74,
+       "running"
+      ],
+      [
+       16263,
+       82,
+       "running"
+      ],
+      [
+       16268,
+       74,
+       "running"
+      ],
+      [
+       16290,
+       82,
+       "running"
+      ],
+      [
+       16340,
+       74,
+       "running"
+      ],
+      [
+       16423,
+       82,
+       "running"
+      ],
+      [
+       16463,
+       74,
+       "running"
+      ],
+      [
+       16540,
+       82,
+       "running"
+      ],
+      [
+       16590,
+       74,
+       "running"
+      ],
+      [
+       16663,
+       82,
+       "running"
+      ],
+      [
+       16713,
+       74,
+       "running"
+      ],
+      [
+       16763,
+       82,
+       "running"
+      ],
+      [
+       16773,
+       74,
+       "running"
+      ],
+      [
+       16790,
+       82,
+       "running"
+      ],
+      [
+       16829,
+       74,
+       "running"
+      ],
+      [
+       16913,
+       82,
+       "running"
+      ],
+      [
+       16968,
+       74,
+       "running"
+      ],
+      [
+       17040,
+       82,
+       "running"
+      ],
+      [
+       17080,
+       74,
+       "running"
+      ],
+      [
+       17163,
+       82,
+       "running"
+      ],
+      [
+       17213,
+       74,
+       "running"
+      ],
+      [
+       17279,
+       82,
+       "running"
+      ],
+      [
+       17329,
+       74,
+       "running"
+      ],
+      [
+       17413,
+       82,
+       "running"
+      ],
+      [
+       17452,
+       74,
+       "running"
+      ],
+      [
+       17529,
+       82,
+       "running"
+      ],
+      [
+       17581,
+       74,
+       "running"
+      ],
+      [
+       17659,
+       82,
+       "running"
+      ],
+      [
+       17699,
+       74,
+       "running"
+      ],
+      [
+       17783,
+       82,
+       "running"
+      ],
+      [
+       17834,
+       74,
+       "running"
+      ],
+      [
+       17902,
+       82,
+       "running"
+      ],
+      [
+       17952,
+       74,
+       "running"
+      ],
+      [
+       17963,
+       82,
+       "running"
+      ],
+      [
+       17968,
+       74,
+       "running"
+      ],
+      [
+       18029,
+       82,
+       "running"
+      ],
+      [
+       18068,
+       74,
+       "running"
+      ],
+      [
+       18152,
+       82,
+       "running"
+      ],
+      [
+       18202,
+       74,
+       "running"
+      ],
+      [
+       18282,
+       82,
+       "running"
+      ],
+      [
+       18321,
+       74,
+       "running"
+      ],
+      [
+       18399,
+       82,
+       "running"
+      ],
+      [
+       18439,
+       74,
+       "running"
+      ],
+      [
+       18518,
+       82,
+       "running"
+      ],
+      [
+       18570,
+       74,
+       "running"
+      ],
+      [
+       18650,
+       82,
+       "running"
+      ],
+      [
+       18690,
+       74,
+       "running"
+      ]
+     ],
+     "taps": 16,
+     "tapMinusHeard": [
+      3.2,
+      -4.8,
+      -4.6,
+      2.1,
+      12.1,
+      12.3,
+      3.7,
+      -7.5,
+      -4.7,
+      3.6,
+      4.7,
+      7.9,
+      3.4,
+      3.3,
+      -6,
+      -5.1
+     ],
+     "heardMinusScreenBeat": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      8,
+      0,
+      0,
+      0,
+      0,
+      0
+     ],
+     "otsMinusSched": [
+      71.8,
+      75,
+      75.9,
+      72.8,
+      72.8,
+      70,
+      72,
+      74.1,
+      75,
+      76.1,
+      71.8,
+      72.7,
+      70.6,
+      71.5,
+      74.1,
+      75.1
+     ],
+     "syncOffset": 0,
+     "buildRaw": -29.6,
+     "expectedRaw": -36.6,
+     "syncMsg": "소리를 맞췄어요",
+     "latRef": 82,
+     "driftOn": false,
+     "expectedOffset": -36.64999999999873,
+     "offsetErr": 36.6,
+     "play": {
+      "latNow": 74,
+      "audioVsScreenMs": [
+       0.2,
+       6.8,
+       6.3,
+       -0.4,
+       -0.7
+      ],
+      "medianAudioVsScreen": 0.2,
+      "eEarMs": -39.8,
+      "ideal": -40
+     }
+    },
+    {
+     "scenario": {
+      "X": 120,
+      "fast": false
+     },
+     "unlockToSyncMs": 4684,
+     "latTimelineFromUnlock": [
+      [
+       -3,
+       10,
+       "running"
+      ],
+      [
+       3,
+       42,
+       "running"
+      ],
+      [
+       9,
+       50,
+       "running"
+      ],
+      [
+       20,
+       58,
+       "running"
+      ],
+      [
+       31,
+       74,
+       "running"
+      ],
+      [
+       77,
+       82,
+       "running"
+      ],
+      [
+       122,
+       74,
+       "running"
+      ],
+      [
+       199,
+       82,
+       "running"
+      ],
+      [
+       241,
+       74,
+       "running"
+      ],
+      [
+       320,
+       82,
+       "running"
+      ],
+      [
+       368,
+       74,
+       "running"
+      ],
+      [
+       451,
+       82,
+       "running"
+      ],
+      [
+       491,
+       74,
+       "running"
+      ],
+      [
+       570,
+       82,
+       "running"
+      ],
+      [
+       622,
+       74,
+       "running"
+      ],
+      [
+       699,
+       82,
+       "running"
+      ],
+      [
+       738,
+       74,
+       "running"
+      ],
+      [
+       822,
+       82,
+       "running"
+      ],
+      [
+       860,
+       74,
+       "running"
+      ],
+      [
+       949,
+       82,
+       "running"
+      ],
+      [
+       988,
+       74,
+       "running"
+      ],
+      [
+       1071,
+       82,
+       "running"
+      ],
+      [
+       1110,
+       74,
+       "running"
+      ],
+      [
+       1122,
+       82,
+       "running"
+      ],
+      [
+       1127,
+       74,
+       "running"
+      ],
+      [
+       1188,
+       82,
+       "running"
+      ],
+      [
+       1238,
+       74,
+       "running"
+      ],
+      [
+       1322,
+       82,
+       "running"
+      ],
+      [
+       1362,
+       74,
+       "running"
+      ],
+      [
+       1441,
+       82,
+       "running"
+      ],
+      [
+       1479,
+       74,
+       "running"
+      ],
+      [
+       1568,
+       82,
+       "running"
+      ],
+      [
+       1607,
+       74,
+       "running"
+      ],
+      [
+       1691,
+       82,
+       "running"
+      ],
+      [
+       1731,
+       74,
+       "running"
+      ],
+      [
+       1811,
+       82,
+       "running"
+      ],
+      [
+       1862,
+       74,
+       "running"
+      ],
+      [
+       1907,
+       82,
+       "running"
+      ],
+      [
+       1918,
+       74,
+       "running"
+      ],
+      [
+       1941,
+       82,
+       "running"
+      ],
+      [
+       1980,
+       74,
+       "running"
+      ],
+      [
+       2058,
+       82,
+       "running"
+      ],
+      [
+       2097,
+       74,
+       "running"
+      ],
+      [
+       2181,
+       82,
+       "running"
+      ],
+      [
+       2232,
+       74,
+       "running"
+      ],
+      [
+       2311,
+       82,
+       "running"
+      ],
+      [
+       2349,
+       74,
+       "running"
+      ],
+      [
+       2427,
+       82,
+       "running"
+      ],
+      [
+       2479,
+       74,
+       "running"
+      ],
+      [
+       2558,
+       82,
+       "running"
+      ],
+      [
+       2602,
+       74,
+       "running"
+      ],
+      [
+       2681,
+       82,
+       "running"
+      ],
+      [
+       2720,
+       74,
+       "running"
+      ],
+      [
+       2798,
+       82,
+       "running"
+      ],
+      [
+       2849,
+       74,
+       "running"
+      ],
+      [
+       2927,
+       82,
+       "running"
+      ],
+      [
+       2977,
+       74,
+       "running"
+      ],
+      [
+       3056,
+       82,
+       "running"
+      ],
+      [
+       3100,
+       74,
+       "running"
+      ],
+      [
+       3177,
+       82,
+       "running"
+      ],
+      [
+       3222,
+       74,
+       "running"
+      ],
+      [
+       3300,
+       82,
+       "running"
+      ],
+      [
+       3339,
+       74,
+       "running"
+      ],
+      [
+       3422,
+       82,
+       "running"
+      ],
+      [
+       3472,
+       74,
+       "running"
+      ],
+      [
+       3550,
+       82,
+       "running"
+      ],
+      [
+       3589,
+       74,
+       "running"
+      ],
+      [
+       3668,
+       82,
+       "running"
+      ],
+      [
+       3718,
+       74,
+       "running"
+      ],
+      [
+       3802,
+       82,
+       "running"
+      ],
+      [
+       3840,
+       74,
+       "running"
+      ],
+      [
+       3918,
+       82,
+       "running"
+      ],
+      [
+       3958,
+       74,
+       "running"
+      ],
+      [
+       4037,
+       82,
+       "running"
+      ],
+      [
+       4089,
+       74,
+       "running"
+      ],
+      [
+       4172,
+       82,
+       "running"
+      ],
+      [
+       4211,
+       74,
+       "running"
+      ],
+      [
+       4289,
+       82,
+       "running"
+      ],
+      [
+       4350,
+       74,
+       "running"
+      ],
+      [
+       4422,
+       82,
+       "running"
+      ],
+      [
+       4461,
+       74,
+       "running"
+      ],
+      [
+       4500,
+       82,
+       "running"
+      ],
+      [
+       4511,
+       74,
+       "running"
+      ],
+      [
+       4539,
+       82,
+       "running"
+      ],
+      [
+       4580,
+       74,
+       "running"
+      ],
+      [
+       4661,
+       82,
+       "running"
+      ],
+      [
+       4708,
+       74,
+       "running"
+      ],
+      [
+       4788,
+       82,
+       "running"
+      ],
+      [
+       4827,
+       74,
+       "running"
+      ],
+      [
+       4912,
+       82,
+       "running"
+      ],
+      [
+       4958,
+       74,
+       "running"
+      ],
+      [
+       5041,
+       82,
+       "running"
+      ],
+      [
+       5080,
+       74,
+       "running"
+      ],
+      [
+       5158,
+       82,
+       "running"
+      ],
+      [
+       5198,
+       74,
+       "running"
+      ],
+      [
+       5237,
+       82,
+       "running"
+      ],
+      [
+       5248,
+       74,
+       "running"
+      ],
+      [
+       5283,
+       82,
+       "running"
+      ],
+      [
+       5328,
+       74,
+       "running"
+      ],
+      [
+       5412,
+       82,
+       "running"
+      ],
+      [
+       5451,
+       74,
+       "running"
+      ],
+      [
+       5529,
+       82,
+       "running"
+      ],
+      [
+       5580,
+       74,
+       "running"
+      ],
+      [
+       5658,
+       82,
+       "running"
+      ],
+      [
+       5702,
+       74,
+       "running"
+      ],
+      [
+       5781,
+       82,
+       "running"
+      ],
+      [
+       5823,
+       74,
+       "running"
+      ],
+      [
+       5900,
+       82,
+       "running"
+      ],
+      [
+       5950,
+       74,
+       "running"
+      ],
+      [
+       6027,
+       82,
+       "running"
+      ],
+      [
+       6072,
+       74,
+       "running"
+      ],
+      [
+       6122,
+       82,
+       "running"
+      ],
+      [
+       6127,
+       74,
+       "running"
+      ],
+      [
+       6149,
+       82,
+       "running"
+      ],
+      [
+       6199,
+       74,
+       "running"
+      ],
+      [
+       6282,
+       82,
+       "running"
+      ],
+      [
+       6321,
+       74,
+       "running"
+      ],
+      [
+       6406,
+       82,
+       "running"
+      ],
+      [
+       6438,
+       74,
+       "running"
+      ],
+      [
+       6517,
+       82,
+       "running"
+      ],
+      [
+       6567,
+       74,
+       "running"
+      ],
+      [
+       6651,
+       82,
+       "running"
+      ],
+      [
+       6691,
+       74,
+       "running"
+      ],
+      [
+       6741,
+       82,
+       "running"
+      ],
+      [
+       6752,
+       74,
+       "running"
+      ],
+      [
+       6768,
+       82,
+       "running"
+      ],
+      [
+       6818,
+       74,
+       "running"
+      ],
+      [
+       6902,
+       82,
+       "running"
+      ],
+      [
+       6942,
+       74,
+       "running"
+      ],
+      [
+       7022,
+       82,
+       "running"
+      ],
+      [
+       7061,
+       74,
+       "running"
+      ],
+      [
+       7141,
+       82,
+       "running"
+      ],
+      [
+       7191,
+       74,
+       "running"
+      ],
+      [
+       7268,
+       82,
+       "running"
+      ],
+      [
+       7307,
+       74,
+       "running"
+      ],
+      [
+       7390,
+       82,
+       "running"
+      ],
+      [
+       7441,
+       74,
+       "running"
+      ],
+      [
+       7517,
+       82,
+       "running"
+      ],
+      [
+       7557,
+       74,
+       "running"
+      ],
+      [
+       7640,
+       82,
+       "running"
+      ],
+      [
+       7679,
+       74,
+       "running"
+      ],
+      [
+       7769,
+       82,
+       "running"
+      ],
+      [
+       7808,
+       74,
+       "running"
+      ],
+      [
+       7892,
+       82,
+       "running"
+      ],
+      [
+       7930,
+       74,
+       "running"
+      ],
+      [
+       8008,
+       82,
+       "running"
+      ],
+      [
+       8058,
+       74,
+       "running"
+      ],
+      [
+       8137,
+       82,
+       "running"
+      ],
+      [
+       8182,
+       74,
+       "running"
+      ],
+      [
+       8262,
+       82,
+       "running"
+      ],
+      [
+       8301,
+       74,
+       "running"
+      ],
+      [
+       8380,
+       82,
+       "running"
+      ],
+      [
+       8429,
+       74,
+       "running"
+      ],
+      [
+       8508,
+       82,
+       "running"
+      ],
+      [
+       8547,
+       74,
+       "running"
+      ],
+      [
+       8631,
+       82,
+       "running"
+      ],
+      [
+       8682,
+       74,
+       "running"
+      ],
+      [
+       8760,
+       82,
+       "running"
+      ],
+      [
+       8799,
+       74,
+       "running"
+      ],
+      [
+       8889,
+       82,
+       "running"
+      ],
+      [
+       8922,
+       74,
+       "running"
+      ],
+      [
+       9001,
+       82,
+       "running"
+      ],
+      [
+       9051,
+       74,
+       "running"
+      ],
+      [
+       9090,
+       82,
+       "running"
+      ],
+      [
+       9101,
+       74,
+       "running"
+      ],
+      [
+       9130,
+       82,
+       "running"
+      ],
+      [
+       9168,
+       74,
+       "running"
+      ],
+      [
+       9251,
+       82,
+       "running"
+      ],
+      [
+       9297,
+       74,
+       "running"
+      ],
+      [
+       9380,
+       82,
+       "running"
+      ],
+      [
+       9422,
+       74,
+       "running"
+      ],
+      [
+       9501,
+       82,
+       "running"
+      ],
+      [
+       9541,
+       74,
+       "running"
+      ],
+      [
+       9618,
+       82,
+       "running"
+      ],
+      [
+       9668,
+       74,
+       "running"
+      ],
+      [
+       9751,
+       82,
+       "running"
+      ],
+      [
+       9791,
+       74,
+       "running"
+      ],
+      [
+       9868,
+       82,
+       "running"
+      ],
+      [
+       9918,
+       74,
+       "running"
+      ],
+      [
+       10002,
+       82,
+       "running"
+      ],
+      [
+       10040,
+       74,
+       "running"
+      ],
+      [
+       10117,
+       82,
+       "running"
+      ],
+      [
+       10172,
+       74,
+       "running"
+      ],
+      [
+       10239,
+       82,
+       "running"
+      ],
+      [
+       10288,
+       74,
+       "running"
+      ],
+      [
+       10372,
+       82,
+       "running"
+      ],
+      [
+       10410,
+       74,
+       "running"
+      ],
+      [
+       10488,
+       82,
+       "running"
+      ],
+      [
+       10538,
+       74,
+       "running"
+      ],
+      [
+       10622,
+       82,
+       "running"
+      ],
+      [
+       10672,
+       74,
+       "running"
+      ],
+      [
+       10740,
+       82,
+       "running"
+      ],
+      [
+       10778,
+       74,
+       "running"
+      ],
+      [
+       10867,
+       82,
+       "running"
+      ],
+      [
+       10907,
+       74,
+       "running"
+      ],
+      [
+       10990,
+       82,
+       "running"
+      ],
+      [
+       11029,
+       74,
+       "running"
+      ],
+      [
+       11107,
+       82,
+       "running"
+      ],
+      [
+       11157,
+       74,
+       "running"
+      ],
+      [
+       11242,
+       82,
+       "running"
+      ],
+      [
+       11278,
+       74,
+       "running"
+      ],
+      [
+       11358,
+       82,
+       "running"
+      ],
+      [
+       11402,
+       74,
+       "running"
+      ],
+      [
+       11480,
+       82,
+       "running"
+      ],
+      [
+       11529,
+       74,
+       "running"
+      ],
+      [
+       11607,
+       82,
+       "running"
+      ],
+      [
+       11652,
+       74,
+       "running"
+      ],
+      [
+       11730,
+       82,
+       "running"
+      ],
+      [
+       11779,
+       74,
+       "running"
+      ],
+      [
+       11861,
+       82,
+       "running"
+      ],
+      [
+       11900,
+       74,
+       "running"
+      ],
+      [
+       11977,
+       82,
+       "running"
+      ],
+      [
+       12021,
+       74,
+       "running"
+      ],
+      [
+       12099,
+       82,
+       "running"
+      ],
+      [
+       12149,
+       74,
+       "running"
+      ],
+      [
+       12227,
+       82,
+       "running"
+      ],
+      [
+       12272,
+       74,
+       "running"
+      ],
+      [
+       12349,
+       82,
+       "running"
+      ],
+      [
+       12399,
+       74,
+       "running"
+      ],
+      [
+       12477,
+       82,
+       "running"
+      ],
+      [
+       12517,
+       74,
+       "running"
+      ],
+      [
+       12602,
+       82,
+       "running"
+      ],
+      [
+       12641,
+       74,
+       "running"
+      ],
+      [
+       12729,
+       82,
+       "running"
+      ],
+      [
+       12768,
+       74,
+       "running"
+      ],
+      [
+       12851,
+       82,
+       "running"
+      ],
+      [
+       12891,
+       74,
+       "running"
+      ],
+      [
+       12981,
+       82,
+       "running"
+      ],
+      [
+       13008,
+       74,
+       "running"
+      ],
+      [
+       13102,
+       82,
+       "running"
+      ],
+      [
+       13141,
+       74,
+       "running"
+      ],
+      [
+       13218,
+       82,
+       "running"
+      ],
+      [
+       13257,
+       74,
+       "running"
+      ],
+      [
+       13341,
+       82,
+       "running"
+      ],
+      [
+       13391,
+       74,
+       "running"
+      ],
+      [
+       13408,
+       82,
+       "running"
+      ],
+      [
+       13418,
+       74,
+       "running"
+      ],
+      [
+       13468,
+       82,
+       "running"
+      ],
+      [
+       13509,
+       74,
+       "running"
+      ],
+      [
+       13588,
+       82,
+       "running"
+      ],
+      [
+       13628,
+       74,
+       "running"
+      ],
+      [
+       13722,
+       82,
+       "running"
+      ],
+      [
+       13761,
+       74,
+       "running"
+      ],
+      [
+       13838,
+       82,
+       "running"
+      ],
+      [
+       13877,
+       74,
+       "running"
+      ],
+      [
+       13922,
+       82,
+       "running"
+      ],
+      [
+       13927,
+       74,
+       "running"
+      ],
+      [
+       13960,
+       82,
+       "running"
+      ],
+      [
+       14010,
+       74,
+       "running"
+      ],
+      [
+       14038,
+       82,
+       "running"
+      ],
+      [
+       14049,
+       74,
+       "running"
+      ],
+      [
+       14088,
+       82,
+       "running"
+      ],
+      [
+       14127,
+       74,
+       "running"
+      ],
+      [
+       14212,
+       82,
+       "running"
+      ],
+      [
+       14252,
+       74,
+       "running"
+      ],
+      [
+       14340,
+       82,
+       "running"
+      ],
+      [
+       14378,
+       74,
+       "running"
+      ],
+      [
+       14458,
+       82,
+       "running"
+      ],
+      [
+       14497,
+       74,
+       "running"
+      ],
+      [
+       14581,
+       82,
+       "running"
+      ],
+      [
+       14632,
+       74,
+       "running"
+      ],
+      [
+       14709,
+       82,
+       "running"
+      ],
+      [
+       14749,
+       74,
+       "running"
+      ],
+      [
+       14828,
+       82,
+       "running"
+      ],
+      [
+       14867,
+       74,
+       "running"
+      ],
+      [
+       14958,
+       82,
+       "running"
+      ],
+      [
+       15001,
+       74,
+       "running"
+      ],
+      [
+       15047,
+       82,
+       "running"
+      ],
+      [
+       15073,
+       74,
+       "running"
+      ],
+      [
+       15079,
+       82,
+       "running"
+      ],
+      [
+       15119,
+       74,
+       "running"
+      ],
+      [
+       15202,
+       82,
+       "running"
+      ],
+      [
+       15248,
+       74,
+       "running"
+      ],
+      [
+       15327,
+       82,
+       "running"
+      ],
+      [
+       15372,
+       74,
+       "running"
+      ],
+      [
+       15449,
+       82,
+       "running"
+      ],
+      [
+       15491,
+       74,
+       "running"
+      ],
+      [
+       15581,
+       82,
+       "running"
+      ],
+      [
+       15620,
+       74,
+       "running"
+      ],
+      [
+       15700,
+       82,
+       "running"
+      ],
+      [
+       15739,
+       74,
+       "running"
+      ],
+      [
+       15818,
+       82,
+       "running"
+      ],
+      [
+       15868,
+       74,
+       "running"
+      ],
+      [
+       15951,
+       82,
+       "running"
+      ],
+      [
+       15990,
+       74,
+       "running"
+      ],
+      [
+       16067,
+       82,
+       "running"
+      ],
+      [
+       16107,
+       74,
+       "running"
+      ],
+      [
+       16168,
+       82,
+       "running"
+      ],
+      [
+       16180,
+       74,
+       "running"
+      ],
+      [
+       16202,
+       82,
+       "running"
+      ],
+      [
+       16241,
+       74,
+       "running"
+      ],
+      [
+       16319,
+       82,
+       "running"
+      ],
+      [
+       16357,
+       74,
+       "running"
+      ],
+      [
+       16368,
+       82,
+       "running"
+      ],
+      [
+       16380,
+       74,
+       "running"
+      ],
+      [
+       16441,
+       82,
+       "running"
+      ],
+      [
+       16491,
+       74,
+       "running"
+      ],
+      [
+       16570,
+       82,
+       "running"
+      ],
+      [
+       16609,
+       74,
+       "running"
+      ],
+      [
+       16688,
+       82,
+       "running"
+      ],
+      [
+       16727,
+       74,
+       "running"
+      ],
+      [
+       16822,
+       82,
+       "running"
+      ],
+      [
+       16860,
+       74,
+       "running"
+      ],
+      [
+       16938,
+       82,
+       "running"
+      ],
+      [
+       16977,
+       74,
+       "running"
+      ],
+      [
+       17060,
+       82,
+       "running"
+      ],
+      [
+       17111,
+       74,
+       "running"
+      ],
+      [
+       17188,
+       82,
+       "running"
+      ],
+      [
+       17227,
+       74,
+       "running"
+      ],
+      [
+       17310,
+       82,
+       "running"
+      ],
+      [
+       17349,
+       74,
+       "running"
+      ],
+      [
+       17438,
+       82,
+       "running"
+      ],
+      [
+       17477,
+       74,
+       "running"
+      ],
+      [
+       17527,
+       82,
+       "running"
+      ],
+      [
+       17538,
+       74,
+       "running"
+      ],
+      [
+       17561,
+       82,
+       "running"
+      ],
+      [
+       17599,
+       74,
+       "running"
+      ],
+      [
+       17680,
+       82,
+       "running"
+      ],
+      [
+       17730,
+       74,
+       "running"
+      ],
+      [
+       17807,
+       82,
+       "running"
+      ],
+      [
+       17852,
+       74,
+       "running"
+      ],
+      [
+       17930,
+       82,
+       "running"
+      ],
+      [
+       17968,
+       74,
+       "running"
+      ],
+      [
+       18057,
+       82,
+       "running"
+      ],
+      [
+       18102,
+       74,
+       "running"
+      ],
+      [
+       18180,
+       82,
+       "running"
+      ],
+      [
+       18218,
+       74,
+       "running"
+      ],
+      [
+       18307,
+       82,
+       "running"
+      ],
+      [
+       18352,
+       74,
+       "running"
+      ],
+      [
+       18429,
+       82,
+       "running"
+      ],
+      [
+       18469,
+       74,
+       "running"
+      ],
+      [
+       18549,
+       82,
+       "running"
+      ],
+      [
+       18588,
+       74,
+       "running"
+      ],
+      [
+       18679,
+       82,
+       "running"
+      ],
+      [
+       18718,
+       74,
+       "running"
+      ],
+      [
+       18802,
+       82,
+       "running"
+      ],
+      [
+       18841,
+       74,
+       "running"
+      ]
+     ],
+     "taps": 16,
+     "tapMinusHeard": [
+      122.6,
+      115,
+      120.8,
+      123.6,
+      120.7,
+      132.1,
+      121.6,
+      122.9,
+      123.7,
+      123.4,
+      123.8,
+      123.3,
+      132.5,
+      124.4,
+      121.7,
+      124
+     ],
+     "heardMinusScreenBeat": [
+      0,
+      0,
+      -8,
+      0,
+      0,
+      0,
+      0,
+      0,
+      -8,
+      0,
+      0,
+      0,
+      -8,
+      0,
+      -8,
+      0
+     ],
+     "otsMinusSched": [
+      70.8,
+      71.7,
+      76.4,
+      72.7,
+      73.7,
+      74.7,
+      72.9,
+      70.9,
+      75.3,
+      75.3,
+      73,
+      73.9,
+      71.7,
+      72.9,
+      74.4,
+      74.5
+     ],
+     "syncOffset": 89,
+     "buildRaw": 89.1,
+     "expectedRaw": 83.4,
+     "syncMsg": "소리를 맞췄어요",
+     "latRef": 74,
+     "driftOn": false,
+     "expectedOffset": 83.44999999999982,
+     "offsetErr": 5.6,
+     "play": {
+      "latNow": 74,
+      "audioVsScreenMs": [
+       -92.6,
+       -85.9,
+       -83.5,
+       -84.5,
+       -89.4
+      ],
+      "medianAudioVsScreen": -85.9,
+      "eEarMs": -5.9,
+      "ideal": 169
+     }
+    }
+   ],
+   "fastChild": {
+    "startDelayMs": 105,
+    "first": {
+     "latRef": 82,
+     "driftOn": false,
+     "lat": [
+      [
+       -5,
+       42
+      ],
+      [
+       3,
+       50
+      ],
+      [
+       8,
+       58
+      ],
+      [
+       24,
+       74
+      ],
+      [
+       75,
+       82
+      ],
+      [
+       109,
+       74
+      ],
+      [
+       188,
+       82
+      ],
+      [
+       229,
+       74
+      ],
+      [
+       323,
+       82
+      ],
+      [
+       362,
+       74
+      ],
+      [
+       442,
+       82
+      ],
+      [
+       481,
+       74
+      ],
+      [
+       573,
+       82
+      ],
+      [
+       612,
+       74
+      ],
+      [
+       690,
+       82
+      ],
+      [
+       729,
+       74
+      ],
+      [
+       812,
+       82
+      ],
+      [
+       851,
+       74
+      ],
+      [
+       940,
+       82
+      ],
+      [
+       979,
+       74
+      ],
+      [
+       1062,
+       82
+      ],
+      [
+       1101,
+       74
+      ],
+      [
+       1180,
+       82
+      ],
+      [
+       1231,
+       74
+      ],
+      [
+       1260,
+       82
+      ],
+      [
+       1271,
+       74
+      ],
+      [
+       1310,
+       82
+      ],
+      [
+       1350,
+       74
+      ],
+      [
+       1433,
+       82
+      ],
+      [
+       1474,
+       74
+      ],
+      [
+       1562,
+       82
+      ],
+      [
+       1601,
+       74
+      ],
+      [
+       1679,
+       82
+      ],
+      [
+       1723,
+       74
+      ],
+      [
+       1801,
+       82
+      ],
+      [
+       1851,
+       74
+      ],
+      [
+       1929,
+       82
+      ],
+      [
+       1973,
+       74
+      ],
+      [
+       2012,
+       82
+      ],
+      [
+       2029,
+       74
+      ],
+      [
+       2051,
+       82
+      ],
+      [
+       2090,
+       74
+      ],
+      [
+       2179,
+       82
+      ],
+      [
+       2223,
+       74
+      ],
+      [
+       2302,
+       82
+      ],
+      [
+       2342,
+       74
+      ],
+      [
+       2419,
+       82
+      ],
+      [
+       2471,
+       74
+      ],
+      [
+       2550,
+       82
+      ],
+      [
+       2594,
+       74
+      ],
+      [
+       2612,
+       82
+      ],
+      [
+       2622,
+       74
+      ],
+      [
+       2673,
+       82
+      ],
+      [
+       2713,
+       74
+      ],
+      [
+       2793,
+       82
+      ],
+      [
+       2844,
+       74
+      ],
+      [
+       2923,
+       82
+      ],
+      [
+       2962,
+       74
+      ],
+      [
+       3040,
+       82
+      ],
+      [
+       3090,
+       74
+      ],
+      [
+       3112,
+       82
+      ],
+      [
+       3123,
+       74
+      ],
+      [
+       3173,
+       82
+      ],
+      [
+       3212,
+       74
+      ],
+      [
+       3289,
+       82
+      ],
+      [
+       3333,
+       74
+      ],
+      [
+       3339,
+       82
+      ],
+      [
+       3350,
+       74
+      ],
+      [
+       3388,
+       82
+      ],
+      [
+       3400,
+       74
+      ],
+      [
+       3423,
+       82
+      ],
+      [
+       3462,
+       74
+      ],
+      [
+       3490,
+       82
+      ],
+      [
+       3501,
+       74
+      ]
+     ]
+    },
+    "audioVsScreenMs": [
+     -167.7,
+     -67.6,
+     1.2,
+     0.1,
+     1.9,
+     1.4,
+     -7.2
+    ],
+    "secondLoad": {
+     "latRef": 82,
+     "driftOn": false,
+     "autoLat": 82
+    }
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "perf": {
+   "part": "perf",
+   "at": "2026-11-17T07:10:08.785Z",
+   "throttle": 6,
+   "viewport": "412x915",
+   "runs": [
+    {
+     "run": 1,
+     "dsf": 1,
+     "titleToLevels": {
+      "frames": 87,
+      "avgFps": 50.2,
+      "low1Fps": 3.5,
+      "maxMs": 283.4,
+      "long": [
+       [
+        265,
+        283.4
+       ],
+       [
+        315,
+        33.4
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 187,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 179,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "play": {
+      "frames": 479,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 186,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    },
+    {
+     "run": 1,
+     "dsf": 3,
+     "titleToLevels": {
+      "frames": 89,
+      "avgFps": 53.4,
+      "low1Fps": 5,
+      "maxMs": 200,
+      "long": [
+       [
+        194,
+        200
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 185,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 179,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "play": {
+      "frames": 479,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 184,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    },
+    {
+     "run": 2,
+     "dsf": 1,
+     "titleToLevels": {
+      "frames": 88,
+      "avgFps": 50.8,
+      "low1Fps": 4,
+      "maxMs": 249.9,
+      "long": [
+       [
+        -9,
+        33.4
+       ],
+       [
+        241,
+        249.9
+       ],
+       [
+        291,
+        33.4
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 187,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 179,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "play": {
+      "frames": 480,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 186,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    },
+    {
+     "run": 2,
+     "dsf": 3,
+     "titleToLevels": {
+      "frames": 86,
+      "avgFps": 49.6,
+      "low1Fps": 3.8,
+      "maxMs": 266.6,
+      "long": [
+       [
+        277,
+        266.6
+       ],
+       [
+        344,
+        66.7
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 185,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 180,
+      "avgFps": 60,
+      "low1Fps": 59.2,
+      "maxMs": 16.9,
+      "long": []
+     },
+     "play": {
+      "frames": 479,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 187,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    },
+    {
+     "run": 3,
+     "dsf": 1,
+     "titleToLevels": {
+      "frames": 87,
+      "avgFps": 50.7,
+      "low1Fps": 3.8,
+      "maxMs": 266.6,
+      "long": [
+       [
+        251,
+        266.6
+       ],
+       [
+        301,
+        33.3
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 186,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 179,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "play": {
+      "frames": 479,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 184,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    },
+    {
+     "run": 3,
+     "dsf": 3,
+     "titleToLevels": {
+      "frames": 85,
+      "avgFps": 48.1,
+      "low1Fps": 3.5,
+      "maxMs": 283.3,
+      "long": [
+       [
+        -10,
+        50
+       ],
+       [
+        273,
+        283.3
+       ],
+       [
+        340,
+        66.7
+       ]
+      ]
+     },
+     "levelStart": {
+      "frames": 186,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "restart": {
+      "frames": 179,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "play": {
+      "frames": 479,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     },
+     "levelStartL1": {
+      "frames": 185,
+      "avgFps": 60,
+      "low1Fps": 59.5,
+      "maxMs": 16.8,
+      "long": []
+     }
+    }
+   ],
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "realtime": {
+   "part": "realtime",
+   "at": "2026-11-17T06:23:22.456Z",
+   "audio": {
+    "state": "running",
+    "lat": 10
+   },
+   "autoplay": [
+    {
+     "level": 1,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 0.1,
+     "rejudgeOk": true
+    },
+    {
+     "level": 2,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 6.98,
+     "rejudgeOk": true
+    },
+    {
+     "level": 3,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 7.06,
+     "rejudgeOk": true
+    },
+    {
+     "level": 4,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 0.37,
+     "rejudgeOk": true
+    },
+    {
+     "level": 5,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 6.64,
+     "rejudgeOk": true
+    },
+    {
+     "level": 6,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 6.09,
+     "rejudgeOk": true
+    },
+    {
+     "level": 7,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 5.31,
+     "rejudgeOk": true
+    },
+    {
+     "level": 8,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 0.14,
+     "rejudgeOk": true
+    },
+    {
+     "level": 9,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 0,
+     "rejudgeOk": true
+    },
+    {
+     "level": 10,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "maxAbsErrMs": 4.62,
+     "rejudgeOk": true
+    }
+   ],
+   "mouse": [
+    {
+     "level": 1,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.2,
+     "err_max": -0.3,
+     "err_mean": -2.4,
+     "rejudgeOk": true
+    },
+    {
+     "level": 2,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3,
+     "err_max": 0,
+     "err_mean": -2.2,
+     "rejudgeOk": true
+    },
+    {
+     "level": 3,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.7,
+     "err_max": -0.6,
+     "err_mean": -2.5,
+     "rejudgeOk": true
+    },
+    {
+     "level": 4,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.3,
+     "err_max": -0.1,
+     "err_mean": -2.2,
+     "rejudgeOk": true
+    },
+    {
+     "level": 5,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.2,
+     "err_max": -0.3,
+     "err_mean": -2.6,
+     "rejudgeOk": true
+    },
+    {
+     "level": 6,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.5,
+     "err_max": -0.7,
+     "err_mean": -2.5,
+     "rejudgeOk": true
+    },
+    {
+     "level": 7,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.2,
+     "err_max": 0.2,
+     "err_mean": -2.4,
+     "rejudgeOk": true
+    },
+    {
+     "level": 8,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.5,
+     "err_max": -0.3,
+     "err_mean": -2.4,
+     "rejudgeOk": true
+    },
+    {
+     "level": 9,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -2.9,
+     "err_max": -1.5,
+     "err_mean": -2.4,
+     "rejudgeOk": true
+    },
+    {
+     "level": 10,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "err_min": -3.5,
+     "err_max": -0.3,
+     "err_mean": -2.4,
+     "rejudgeOk": true
+    }
+   ],
+   "react": [
+    {
+     "frameIndex": 1,
+     "msToFrame": 14.8,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 3.4,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 8.9,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 6.9,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 1.6,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 7.7,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 13.8,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 10.7,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 6.4,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 3.4,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 11.4,
+     "changedBefore": false
+    },
+    {
+     "frameIndex": 1,
+     "msToFrame": 13.4,
+     "changedBefore": false
+    }
+   ],
+   "log": {
+    "console": [
+     "[1280x720] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+    ],
+    "external": [],
+    "failed": []
+   }
+  },
+  "restart": {
+   "part": "restart",
+   "at": "2026-11-17T06:26:44.886Z",
+   "range_ms": [
+    940,
+    1200
+   ],
+   "restarts": [
+    {
+     "level": 1,
+     "kind": "late",
+     "build_ms": 1108.7,
+     "raf_from_failPerf_ms": 1108.3,
+     "raf_failframe_to_newframe_ms": 1066.6,
+     "fail_frame_after_failPerf_ms": 41.7
+    },
+    {
+     "level": 2,
+     "kind": "late",
+     "build_ms": 1107.2,
+     "raf_from_failPerf_ms": 1106.8,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 40.1
+    },
+    {
+     "level": 3,
+     "kind": "late",
+     "build_ms": 1117.1,
+     "raf_from_failPerf_ms": 1116.9,
+     "raf_failframe_to_newframe_ms": 1066.6,
+     "fail_frame_after_failPerf_ms": 50.3
+    },
+    {
+     "level": 4,
+     "kind": "late",
+     "build_ms": 1108,
+     "raf_from_failPerf_ms": 1107.7,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 41
+    },
+    {
+     "level": 5,
+     "kind": "late",
+     "build_ms": 1117.7,
+     "raf_from_failPerf_ms": 1117.5,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 50.8
+    },
+    {
+     "level": 6,
+     "kind": "late",
+     "build_ms": 1105.1,
+     "raf_from_failPerf_ms": 1104.9,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 38.2
+    },
+    {
+     "level": 7,
+     "kind": "late",
+     "build_ms": 1106.7,
+     "raf_from_failPerf_ms": 1106.4,
+     "raf_failframe_to_newframe_ms": 1066.6,
+     "fail_frame_after_failPerf_ms": 39.8
+    },
+    {
+     "level": 8,
+     "kind": "late",
+     "build_ms": 1102.9,
+     "raf_from_failPerf_ms": 1102.6,
+     "raf_failframe_to_newframe_ms": 1066.8,
+     "fail_frame_after_failPerf_ms": 35.8
+    },
+    {
+     "level": 9,
+     "kind": "late",
+     "build_ms": 1103.7,
+     "raf_from_failPerf_ms": 1103.5,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 36.8
+    },
+    {
+     "level": 10,
+     "kind": "late",
+     "build_ms": 1110.6,
+     "raf_from_failPerf_ms": 1110.3,
+     "raf_failframe_to_newframe_ms": 1066.7,
+     "fail_frame_after_failPerf_ms": 43.6
+    },
+    {
+     "level": 1,
+     "kind": "early",
+     "build_ms": 1104.5,
+     "raf_from_failPerf_ms": 1104.3,
+     "raf_failframe_to_newframe_ms": 1100.1,
+     "fail_frame_after_failPerf_ms": 4.2
+    },
+    {
+     "level": 1,
+     "kind": "early",
+     "build_ms": 1119.1,
+     "raf_from_failPerf_ms": 1118.8,
+     "raf_failframe_to_newframe_ms": 1116.7,
+     "fail_frame_after_failPerf_ms": 2.1
+    },
+    {
+     "level": 5,
+     "kind": "early",
+     "build_ms": 1109.7,
+     "raf_from_failPerf_ms": 1109.5,
+     "raf_failframe_to_newframe_ms": 1100.1,
+     "fail_frame_after_failPerf_ms": 9.4
+    },
+    {
+     "level": 5,
+     "kind": "early",
+     "build_ms": 1109.5,
+     "raf_from_failPerf_ms": 1109.2,
+     "raf_failframe_to_newframe_ms": 1100.1,
+     "fail_frame_after_failPerf_ms": 9.1
+    },
+    {
+     "level": 10,
+     "kind": "early",
+     "build_ms": 1114.9,
+     "raf_from_failPerf_ms": 1114.7,
+     "raf_failframe_to_newframe_ms": 1100,
+     "fail_frame_after_failPerf_ms": 14.7
+    },
+    {
+     "level": 10,
+     "kind": "early",
+     "build_ms": 1119.3,
+     "raf_from_failPerf_ms": 1119.1,
+     "raf_failframe_to_newframe_ms": 1116.7,
+     "fail_frame_after_failPerf_ms": 2.4
+    }
+   ],
+   "nextContact": [
+    {
+     "level": 1,
+     "fail_to_next_first_contact_s": 4.139,
+     "c0_ms": 3000
+    },
+    {
+     "level": 2,
+     "fail_to_next_first_contact_s": 4.024,
+     "c0_ms": 2884.6153846153848
+    },
+    {
+     "level": 3,
+     "fail_to_next_first_contact_s": 3.917,
+     "c0_ms": 2777.777777777778
+    },
+    {
+     "level": 4,
+     "fail_to_next_first_contact_s": 3.867,
+     "c0_ms": 2727.2727272727275
+    },
+    {
+     "level": 5,
+     "fail_to_next_first_contact_s": 3.818,
+     "c0_ms": 2678.5714285714284
+    },
+    {
+     "level": 6,
+     "fail_to_next_first_contact_s": 3.771,
+     "c0_ms": 2631.578947368421
+    },
+    {
+     "level": 7,
+     "fail_to_next_first_contact_s": 3.726,
+     "c0_ms": 2586.2068965517246
+    },
+    {
+     "level": 8,
+     "fail_to_next_first_contact_s": 3.682,
+     "c0_ms": 2542.3728813559323
+    },
+    {
+     "level": 9,
+     "fail_to_next_first_contact_s": 3.639,
+     "c0_ms": 2500
+    },
+    {
+     "level": 10,
+     "fail_to_next_first_contact_s": 3.598,
+     "c0_ms": 2459.0163934426228
+    }
+   ],
+   "practice": [
+    {
+     "level": 1,
+     "cut": 10,
+     "fail1": {
+      "failIndex": 10,
+      "reason": "late"
+     },
+     "resume_fromMs": 13200,
+     "carried": 10,
+     "respawn_ms": 1118.5,
+     "cleared_after": true,
+     "attempts": 2,
+     "rejudgeOk": true
+    },
+    {
+     "level": 6,
+     "cut": 15,
+     "fail1": {
+      "failIndex": 15,
+      "reason": "late"
+     },
+     "resume_fromMs": 15263.15789473684,
+     "carried": 15,
+     "respawn_ms": 1114.4,
+     "cleared_after": true,
+     "attempts": 2,
+     "rejudgeOk": true
+    },
+    {
+     "level": 10,
+     "cut": 15,
+     "fail1": {
+      "failIndex": 15,
+      "reason": "late"
+     },
+     "resume_fromMs": 13278.688524590163,
+     "carried": 11,
+     "respawn_ms": 1115.8,
+     "cleared_after": true,
+     "attempts": 2,
+     "rejudgeOk": true
+    }
+   ],
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "shots": {
+   "part": "shots",
+   "at": "2026-11-17T06:35:30.367Z",
+   "shots": [
+    "360x640-ko-01-title.png",
+    "360x640-ko-02a-levels-30ms.png",
+    "360x640-ko-02a-levels-150ms.png",
+    "360x640-ko-02a-levels-400ms.png",
+    "360x640-ko-02a-levels-800ms.png",
+    "360x640-ko-02-levels.png",
+    "360x640-ko-03-start.png",
+    "360x640-ko-04-card.png",
+    "360x640-ko-05-play.png",
+    "360x640-ko-06-fail-late.png",
+    "360x640-ko-07-fail-retry.png",
+    "360x640-ko-08-pause.png",
+    "360x640-ko-09-clear.png",
+    "360x640-ko-10-result.png",
+    "360x640-ko-11-gate-hold.png",
+    "360x640-ko-12-guardian.png",
+    "360x640-ko-13-sync.png",
+    "360x640-ko-14-card-l1-first.png",
+    "360x640-ko-15-l1-finger.png",
+    "360x640-en-01-title.png",
+    "360x640-en-02-levels.png",
+    "360x640-en-03-start.png",
+    "360x640-en-04-card.png",
+    "360x640-en-05-play.png",
+    "360x640-en-06-fail-late.png",
+    "360x640-en-07-fail-retry.png",
+    "360x640-en-08-pause.png",
+    "360x640-en-09-clear.png",
+    "360x640-en-10-result.png",
+    "360x640-en-11-gate-hold.png",
+    "360x640-en-12-guardian.png",
+    "360x640-en-13-sync.png",
+    "360x640-en-14-card-l1-first.png",
+    "360x640-en-15-l1-finger.png",
+    "360x640-notext-01-title.png",
+    "360x640-notext-02-levels.png",
+    "360x640-notext-03-start.png",
+    "360x640-notext-card-L1.png",
+    "360x640-notext-card-L2.png",
+    "360x640-notext-card-L3.png",
+    "360x640-notext-card-L4.png",
+    "360x640-notext-card-L5.png",
+    "360x640-notext-card-L6.png",
+    "360x640-notext-card-L7.png",
+    "360x640-notext-card-L8.png",
+    "360x640-notext-play-L1.png",
+    "412x915-ko-01-title.png",
+    "412x915-ko-02a-levels-30ms.png",
+    "412x915-ko-02a-levels-150ms.png",
+    "412x915-ko-02a-levels-400ms.png",
+    "412x915-ko-02a-levels-800ms.png",
+    "412x915-ko-02-levels.png",
+    "412x915-ko-03-start.png",
+    "412x915-ko-04-card.png",
+    "412x915-ko-05-play.png",
+    "412x915-ko-06-fail-late.png",
+    "412x915-ko-07-fail-retry.png",
+    "412x915-ko-08-pause.png",
+    "412x915-ko-09-clear.png",
+    "412x915-ko-10-result.png",
+    "412x915-ko-11-gate-hold.png",
+    "412x915-ko-12-guardian.png",
+    "412x915-ko-13-sync.png",
+    "412x915-ko-14-card-l1-first.png",
+    "412x915-ko-15-l1-finger.png",
+    "412x915-en-01-title.png",
+    "412x915-en-02-levels.png",
+    "412x915-en-03-start.png",
+    "412x915-en-04-card.png",
+    "412x915-en-05-play.png",
+    "412x915-en-06-fail-late.png",
+    "412x915-en-07-fail-retry.png",
+    "412x915-en-08-pause.png",
+    "412x915-en-09-clear.png",
+    "412x915-en-10-result.png",
+    "412x915-en-11-gate-hold.png",
+    "412x915-en-12-guardian.png",
+    "412x915-en-13-sync.png",
+    "412x915-en-14-card-l1-first.png",
+    "412x915-en-15-l1-finger.png",
+    "412x915-notext-01-title.png",
+    "412x915-notext-02-levels.png",
+    "412x915-notext-03-start.png",
+    "412x915-notext-card-L1.png",
+    "412x915-notext-card-L2.png",
+    "412x915-notext-card-L3.png",
+    "412x915-notext-card-L4.png",
+    "412x915-notext-card-L5.png",
+    "412x915-notext-card-L6.png",
+    "412x915-notext-card-L7.png",
+    "412x915-notext-card-L8.png",
+    "412x915-notext-play-L1.png",
+    "640x360-ko-01-title.png",
+    "640x360-ko-02a-levels-30ms.png",
+    "640x360-ko-02a-levels-150ms.png",
+    "640x360-ko-02a-levels-400ms.png",
+    "640x360-ko-02a-levels-800ms.png",
+    "640x360-ko-02-levels.png",
+    "640x360-ko-03-start.png",
+    "640x360-ko-04-card.png",
+    "640x360-ko-05-play.png",
+    "640x360-ko-06-fail-late.png",
+    "640x360-ko-07-fail-retry.png",
+    "640x360-ko-08-pause.png",
+    "640x360-ko-09-clear.png",
+    "640x360-ko-10-result.png",
+    "640x360-ko-11-gate-hold.png",
+    "640x360-ko-12-guardian.png",
+    "640x360-ko-13-sync.png",
+    "640x360-ko-14-card-l1-first.png",
+    "640x360-ko-15-l1-finger.png",
+    "640x360-en-01-title.png",
+    "640x360-en-02-levels.png",
+    "640x360-en-03-start.png",
+    "640x360-en-04-card.png",
+    "640x360-en-05-play.png",
+    "640x360-en-06-fail-late.png",
+    "640x360-en-07-fail-retry.png",
+    "640x360-en-08-pause.png",
+    "640x360-en-09-clear.png",
+    "640x360-en-10-result.png",
+    "640x360-en-11-gate-hold.png",
+    "640x360-en-12-guardian.png",
+    "640x360-en-13-sync.png",
+    "640x360-en-14-card-l1-first.png",
+    "640x360-en-15-l1-finger.png",
+    "640x360-notext-01-title.png",
+    "640x360-notext-02-levels.png",
+    "640x360-notext-03-start.png",
+    "640x360-notext-card-L1.png",
+    "640x360-notext-card-L2.png",
+    "640x360-notext-card-L3.png",
+    "640x360-notext-card-L4.png",
+    "640x360-notext-card-L5.png",
+    "640x360-notext-card-L6.png",
+    "640x360-notext-card-L7.png",
+    "640x360-notext-card-L8.png",
+    "640x360-notext-play-L1.png",
+    "1280x720-ko-01-title.png",
+    "1280x720-ko-02a-levels-30ms.png",
+    "1280x720-ko-02a-levels-150ms.png",
+    "1280x720-ko-02a-levels-400ms.png",
+    "1280x720-ko-02a-levels-800ms.png",
+    "1280x720-ko-02-levels.png",
+    "1280x720-ko-03-start.png",
+    "1280x720-ko-04-card.png",
+    "1280x720-ko-05-play.png",
+    "1280x720-ko-06-fail-late.png",
+    "1280x720-ko-07-fail-retry.png",
+    "1280x720-ko-08-pause.png",
+    "1280x720-ko-09-clear.png",
+    "1280x720-ko-10-result.png",
+    "1280x720-ko-11-gate-hold.png",
+    "1280x720-ko-12-guardian.png",
+    "1280x720-ko-13-sync.png",
+    "1280x720-ko-14-card-l1-first.png",
+    "1280x720-ko-15-l1-finger.png",
+    "1280x720-en-01-title.png",
+    "1280x720-en-02-levels.png",
+    "1280x720-en-03-start.png",
+    "1280x720-en-04-card.png",
+    "1280x720-en-05-play.png",
+    "1280x720-en-06-fail-late.png",
+    "1280x720-en-07-fail-retry.png",
+    "1280x720-en-08-pause.png",
+    "1280x720-en-09-clear.png",
+    "1280x720-en-10-result.png",
+    "1280x720-en-11-gate-hold.png",
+    "1280x720-en-12-guardian.png",
+    "1280x720-en-13-sync.png",
+    "1280x720-en-14-card-l1-first.png",
+    "1280x720-en-15-l1-finger.png",
+    "1280x720-notext-01-title.png",
+    "1280x720-notext-02-levels.png",
+    "1280x720-notext-03-start.png",
+    "1280x720-notext-card-L1.png",
+    "1280x720-notext-card-L2.png",
+    "1280x720-notext-card-L3.png",
+    "1280x720-notext-card-L4.png",
+    "1280x720-notext-card-L5.png",
+    "1280x720-notext-card-L6.png",
+    "1280x720-notext-card-L7.png",
+    "1280x720-notext-card-L8.png",
+    "1280x720-notext-play-L1.png"
+   ],
+   "ui": [
+    {
+     "tag": "360x640-ko",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-ko",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "360x640-en",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-ko",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "412x915-en",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-ko",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "640x360-en",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-ko",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "title",
+     "n": 0,
+     "minSide": 1000000000,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "levels",
+     "n": 12,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "start",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "card",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "play",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "pause",
+     "n": 4,
+     "minSide": 88,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "result",
+     "n": 3,
+     "minSide": 64,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "guardian",
+     "n": 4,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "sync",
+     "n": 2,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "card-first",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    },
+    {
+     "tag": "1280x720-en",
+     "screen": "play-finger",
+     "n": 1,
+     "minSide": 48,
+     "issues": []
+    }
+   ],
+   "px": [
+    {
+     "tag": "360x640-notext",
+     "level": 1,
+     "kind": "card",
+     "shot": "360x640-notext-card-L1.png",
+     "src": "card_bounce_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 2,
+     "kind": "card",
+     "shot": "360x640-notext-card-L2.png",
+     "src": "card_big_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 3,
+     "kind": "card",
+     "shot": "360x640-notext-card-L3.png",
+     "src": "card_cloud_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 4,
+     "kind": "card",
+     "shot": "360x640-notext-card-L4.png",
+     "src": "card_dot_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      18
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 18
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 5,
+     "kind": "card",
+     "shot": "360x640-notext-card-L5.png",
+     "src": "card_double_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 6,
+     "kind": "card",
+     "shot": "360x640-notext-card-L6.png",
+     "src": "card_twoballs_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      20,
+      20,
+      22,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 7,
+     "kind": "card",
+     "shot": "360x640-notext-card-L7.png",
+     "src": "card_three_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      20,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "level": 8,
+     "kind": "card",
+     "shot": "360x640-notext-card-L8.png",
+     "src": "card_roll_portrait.svg",
+     "img": [
+      151.5,
+      580
+     ],
+     "ballBlobsPx": [
+      18,
+      18,
+      22
+     ],
+     "minBallPx": 18,
+     "maxBallPx": 22
+    },
+    {
+     "tag": "360x640-notext",
+     "kind": "play",
+     "shot": "360x640-notext-play-L1.png",
+     "d": 28,
+     "dw": 89.6,
+     "dh": 26.6,
+     "Hp": 403.2,
+     "ballFillPx": [
+      175,
+      467
+     ]
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 1,
+     "kind": "card",
+     "shot": "412x915-notext-card-L1.png",
+     "src": "card_bounce_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 2,
+     "kind": "card",
+     "shot": "412x915-notext-card-L2.png",
+     "src": "card_big_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 3,
+     "kind": "card",
+     "shot": "412x915-notext-card-L3.png",
+     "src": "card_cloud_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 4,
+     "kind": "card",
+     "shot": "412x915-notext-card-L4.png",
+     "src": "card_dot_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      26
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 26
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 5,
+     "kind": "card",
+     "shot": "412x915-notext-card-L5.png",
+     "src": "card_double_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 6,
+     "kind": "card",
+     "shot": "412x915-notext-card-L6.png",
+     "src": "card_twoballs_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      29,
+      29,
+      33,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 7,
+     "kind": "card",
+     "shot": "412x915-notext-card-L7.png",
+     "src": "card_three_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      29,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "level": 8,
+     "kind": "card",
+     "shot": "412x915-notext-card-L8.png",
+     "src": "card_roll_portrait.svg",
+     "img": [
+      223.3,
+      855
+     ],
+     "ballBlobsPx": [
+      26,
+      26,
+      33
+     ],
+     "minBallPx": 26,
+     "maxBallPx": 33
+    },
+    {
+     "tag": "412x915-notext",
+     "kind": "play",
+     "shot": "412x915-notext-play-L1.png",
+     "d": 32,
+     "dw": 102.4,
+     "dh": 30.4,
+     "Hp": 587.8,
+     "ballFillPx": [
+      203,
+      675
+     ]
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 1,
+     "kind": "card",
+     "shot": "640x360-notext-card-L1.png",
+     "src": "card_bounce.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      28
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 28
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 2,
+     "kind": "card",
+     "shot": "640x360-notext-card-L2.png",
+     "src": "card_big.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 3,
+     "kind": "card",
+     "shot": "640x360-notext-card-L3.png",
+     "src": "card_cloud.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 4,
+     "kind": "card",
+     "shot": "640x360-notext-card-L4.png",
+     "src": "card_dot.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      23
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 23
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 5,
+     "kind": "card",
+     "shot": "640x360-notext-card-L5.png",
+     "src": "card_double.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 6,
+     "kind": "card",
+     "shot": "640x360-notext-card-L6.png",
+     "src": "card_twoballs.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      25,
+      26,
+      28,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 7,
+     "kind": "card",
+     "shot": "640x360-notext-card-L7.png",
+     "src": "card_three.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      25,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "level": 8,
+     "kind": "card",
+     "shot": "640x360-notext-card-L8.png",
+     "src": "card_roll.svg",
+     "img": [
+      608,
+      283.7
+     ],
+     "ballBlobsPx": [
+      23,
+      23,
+      29
+     ],
+     "minBallPx": 23,
+     "maxBallPx": 29
+    },
+    {
+     "tag": "640x360-notext",
+     "kind": "play",
+     "shot": "640x360-notext-play-L1.png",
+     "d": 24,
+     "dw": 76.8,
+     "dh": 22.8,
+     "Hp": 236.9,
+     "ballFillPx": [
+      313,
+      278
+     ]
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 1,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L1.png",
+     "src": "card_bounce.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      38,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 2,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L2.png",
+     "src": "card_big.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      38,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 3,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L3.png",
+     "src": "card_cloud.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 4,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L4.png",
+     "src": "card_dot.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      39,
+      39
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 39
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 5,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L5.png",
+     "src": "card_double.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      39,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 6,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L6.png",
+     "src": "card_twoballs.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      39,
+      39,
+      42,
+      42,
+      48,
+      48
+     ],
+     "minBallPx": 39,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 7,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L7.png",
+     "src": "card_three.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      42,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "level": 8,
+     "kind": "card",
+     "shot": "1280x720-notext-card-L8.png",
+     "src": "card_roll.svg",
+     "img": [
+      1008,
+      470.4
+     ],
+     "ballBlobsPx": [
+      38,
+      39,
+      48
+     ],
+     "minBallPx": 38,
+     "maxBallPx": 48
+    },
+    {
+     "tag": "1280x720-notext",
+     "kind": "play",
+     "shot": "1280x720-notext-play-L1.png",
+     "d": 44,
+     "dw": 140.8,
+     "dh": 41.8,
+     "Hp": 490.5,
+     "ballFillPx": [
+      642,
+      579
+     ]
+    }
+   ],
+   "blank": [
+    {
+     "tag": "360x640-ko",
+     "frames": 109,
+     "firstAllImagesMs": 5,
+     "first": [
+      {
+       "dt": 5,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 172,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 188,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 238,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 255,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 272,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "360x640-en",
+     "frames": 74,
+     "firstAllImagesMs": 10,
+     "first": [
+      {
+       "dt": 10,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 60,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 76,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 93,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 110,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 126,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "412x915-ko",
+     "frames": 119,
+     "firstAllImagesMs": 12,
+     "first": [
+      {
+       "dt": 12,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 46,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 62,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 79,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 96,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 112,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "412x915-en",
+     "frames": 74,
+     "firstAllImagesMs": 13,
+     "first": [
+      {
+       "dt": 13,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 47,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 63,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 80,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 97,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 113,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "640x360-ko",
+     "frames": 118,
+     "firstAllImagesMs": 1,
+     "first": [
+      {
+       "dt": 1,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 51,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 67,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 84,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 100,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 117,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "640x360-en",
+     "frames": 74,
+     "firstAllImagesMs": 1,
+     "first": [
+      {
+       "dt": 1,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 51,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 68,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 85,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 101,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 118,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "1280x720-ko",
+     "frames": 117,
+     "firstAllImagesMs": 2,
+     "first": [
+      {
+       "dt": 2,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 52,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 69,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 102,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 119,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 136,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    },
+    {
+     "tag": "1280x720-en",
+     "frames": 74,
+     "firstAllImagesMs": 12,
+     "first": [
+      {
+       "dt": 12,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 45,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 62,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 79,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 95,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      },
+      {
+       "dt": 112,
+       "n": 40,
+       "complete": 40,
+       "state": "levels"
+      }
+     ]
+    }
+   ],
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "signal": {
+   "part": "signal",
+   "at": "2026-11-17T06:13:52.088Z",
+   "test": [
+    {
+     "res": "360x640",
+     "tut_from": 2400,
+     "tut_to": 3168,
+     "finger": {
+      "contact": 0,
+      "from": 2400,
+      "pressStart": 2880,
+      "pressEnd": 3000,
+      "gone": 3170,
+      "goneLatest": 3170
+     },
+     "overlap_judge_ms": 0,
+     "overlap_screen_ms": 0,
+     "gap_to_danger_screen_ms": 122
+    },
+    {
+     "res": "412x915",
+     "tut_from": 2400,
+     "tut_to": 3168,
+     "finger": {
+      "contact": 0,
+      "from": 2400,
+      "pressStart": 2880,
+      "pressEnd": 3000,
+      "gone": 3170,
+      "goneLatest": 3170
+     },
+     "overlap_judge_ms": 0,
+     "overlap_screen_ms": 0,
+     "gap_to_danger_screen_ms": 122
+    },
+    {
+     "res": "640x360",
+     "tut_from": 2400,
+     "tut_to": 3168,
+     "finger": {
+      "contact": 0,
+      "from": 2400,
+      "pressStart": 2880,
+      "pressEnd": 3000,
+      "gone": 3170,
+      "goneLatest": 3170
+     },
+     "overlap_judge_ms": 0,
+     "overlap_screen_ms": 0,
+     "gap_to_danger_screen_ms": 122
+    },
+    {
+     "res": "1280x720",
+     "tut_from": 2400,
+     "tut_to": 3168,
+     "finger": {
+      "contact": 0,
+      "from": 2400,
+      "pressStart": 2880,
+      "pressEnd": 3000,
+      "gone": 3170,
+      "goneLatest": 3170
+     },
+     "overlap_judge_ms": 0,
+     "overlap_screen_ms": 0,
+     "gap_to_danger_screen_ms": 122
+    }
+   ],
+   "realtime": {
+    "tut_from": 2400.9,
+    "tut_to": 3167.5,
+    "frames_on": 47,
+    "overlap_judge_ms": 0,
+    "overlap_screen_ms": 0
+   },
+   "danger_next_contact_judge_ms": [
+    3250,
+    3770
+   ],
+   "danger_next_contact_screen_ms": [
+    3290,
+    3810
+   ],
+   "first_contact": {
+    "t": 3000,
+    "passStart": 2850,
+    "passEnd": 3170,
+    "zoneStart": 2650
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "sound": {
+   "part": "sound",
+   "at": "2026-11-17T06:11:40.170Z",
+   "per_sound": {
+    "tap_perfect": {
+     "build_peak": -6.04,
+     "art_peak": -5.5,
+     "d_peak": -0.54,
+     "build_rms": -16.15,
+     "art_rms": -16
+    },
+    "tap_good": {
+     "build_peak": -6.52,
+     "art_peak": -5.5,
+     "d_peak": -1.02,
+     "build_rms": -16.23,
+     "art_rms": -16.1
+    },
+    "tap_pass": {
+     "build_peak": -5.95,
+     "art_peak": -5.9,
+     "d_peak": -0.05,
+     "build_rms": -16.43,
+     "art_rms": -16.3
+    },
+    "tap_empty": {
+     "build_peak": -31.74,
+     "art_peak": -30.1,
+     "d_peak": -1.64,
+     "build_rms": -46.48,
+     "art_rms": -46
+    },
+    "fail": {
+     "build_peak": -15.43,
+     "art_peak": -15.4,
+     "d_peak": -0.03,
+     "build_rms": -27.29,
+     "art_rms": -27.3
+    },
+    "clear": {
+     "build_peak": -14.23,
+     "art_peak": -14,
+     "d_peak": -0.23,
+     "build_rms": -25.99,
+     "art_rms": -26
+    },
+    "grade_cloud": {
+     "build_peak": -15.38,
+     "art_peak": -16.2,
+     "d_peak": 0.82,
+     "build_rms": -27.58,
+     "art_rms": -27.6
+    },
+    "best": {
+     "build_peak": -17.23,
+     "art_peak": -17,
+     "d_peak": -0.23,
+     "build_rms": -32.24,
+     "art_rms": -32.2
+    },
+    "ui_tap": {
+     "build_peak": -20.35,
+     "art_peak": -20.2,
+     "d_peak": -0.15,
+     "build_rms": -35.69,
+     "art_rms": -35.7
+    },
+    "rest_a": {
+     "build_peak": -20.16,
+     "art_peak": -20.1,
+     "d_peak": -0.06,
+     "build_rms": -36.92,
+     "art_rms": -36.9
+    },
+    "rest_b": {
+     "build_peak": -22.14,
+     "art_peak": -19.4,
+     "d_peak": -2.74,
+     "build_rms": -37.93,
+     "art_rms": -37.5
+    },
+    "bass": {
+     "build_peak": -18.53,
+     "art_peak": -19.7,
+     "d_peak": 1.17,
+     "build_rms": -27.35,
+     "art_rms": -27.3
+    },
+    "mel_soft": {
+     "build_peak": -22.14,
+     "art_peak": -22.1,
+     "d_peak": -0.04,
+     "build_rms": -31.03,
+     "art_rms": -31
+    },
+    "mel_bell": {
+     "build_peak": -21.64,
+     "art_peak": -24.2,
+     "d_peak": 2.56,
+     "build_rms": -29.5,
+     "art_rms": -29.5
+    }
+   },
+   "song_beats": {
+    "10": {
+     "rms": -25.25,
+     "peak": -14.32,
+     "beat": 24
+    },
+    "01": {
+     "rms": -25.75,
+     "peak": -14.96,
+     "beat": 8
+    },
+    "02": {
+     "rms": -25.25,
+     "peak": -14.16,
+     "beat": 28
+    },
+    "03": {
+     "rms": -25.74,
+     "peak": -14.8,
+     "beat": 42
+    },
+    "04": {
+     "rms": -25.2,
+     "peak": -14,
+     "beat": 10
+    },
+    "05": {
+     "rms": -25.72,
+     "peak": -14.64,
+     "beat": 24
+    },
+    "06": {
+     "rms": -25.23,
+     "peak": -14.42,
+     "beat": 50
+    },
+    "07": {
+     "rms": -25.74,
+     "peak": -14.89,
+     "beat": 46
+    },
+    "08": {
+     "rms": -25.22,
+     "peak": -14.23,
+     "beat": 36
+    },
+    "09": {
+     "rms": -25.73,
+     "peak": -14.88,
+     "beat": 38
+    }
+   },
+   "tap_peak_min": -6.52,
+   "sfx_peak_max": -14.23,
+   "sfx_peak_max_sound": "clear",
+   "tap_over_sfx_db": 7.72,
+   "tap_rms_min": -16.43,
+   "beat_rms_max": -25.2,
+   "tap_over_beat_rms_db": 8.77,
+   "beat_peak_max": -14,
+   "tap_over_beat_peak_db": 7.48,
+   "art_measured": {
+    "tap_peak_min": -5.88,
+    "sfx_peak_max": -14.04,
+    "sfx_peak_max_sound": "clear",
+    "tap_over_sfx_peak_db": 8.15,
+    "tap_rms_min": -16.33,
+    "beat_mix_rms": -25.24,
+    "beat_mix_peak": -15.17,
+    "rest_only_rms": -36.86,
+    "tap_over_beat_rms_db": 8.91,
+    "tap_over_beat_peak_db": 9.29,
+    "mix_peak_dbfs": -3.86,
+    "how": "node tools/art/sound-check.mjs (node 합성식, 48 kHz, master 뒤, 소리 하나씩·곡 박 합 2종). 빌드 OfflineAudioContext 대조는 1-4 QA"
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "static": {
+   "part": "static",
+   "at": "2026-11-17T06:10:59.624Z",
+   "files": 88,
+   "bytes": 325752,
+   "external_urls": [],
+   "ref_names": [],
+   "same_as_source": {
+    "judge": true,
+    "music": true,
+    "balance": true,
+    "palette": true,
+    "layout": true,
+    "sound": true,
+    "strings": true,
+    "levels": true
+   },
+   "log": {
+    "console": [],
+    "external": [],
+    "failed": []
+   }
+  },
+  "testeq": {
+   "part": "testeq",
+   "at": "2026-11-17T06:12:35.234Z",
+   "viewport": "412x915",
+   "cases": [
+    {
+     "level": 1,
+     "lm_normal": 1507.7,
+     "lm_test": 1507.7,
+     "meanAbsDiff": 0,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 1,
+     "lm_normal": 2709.5,
+     "lm_test": 2709.5,
+     "meanAbsDiff": 0,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": true,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": true,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 1,
+     "lm_normal": 2950.5,
+     "lm_test": 2950.5,
+     "meanAbsDiff": 0.007,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": true,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": true,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 1,
+     "lm_normal": 3109.4,
+     "lm_test": 3109.4,
+     "meanAbsDiff": 0.001,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 1,
+     "lm_normal": 5209.8,
+     "lm_test": 5209.8,
+     "meanAbsDiff": 0.002,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 6,
+     "lm_normal": 3010.4,
+     "lm_test": 3010.4,
+     "meanAbsDiff": 0.008,
+     "bigDiffShare": 0.0001,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    },
+    {
+     "level": 6,
+     "lm_normal": 9003.3,
+     "lm_test": 9003.3,
+     "meanAbsDiff": 0.005,
+     "bigDiffShare": 0,
+     "dom_same": true,
+     "dom_normal": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     },
+     "dom_test": {
+      "tut": false,
+      "hud": true,
+      "pause": true,
+      "phase": "run"
+     }
+    }
+   ],
+   "note": "일반 모드는 rAF 시각이 목표를 지난 첫 프레임, 테스트 모드는 그 시각까지 가상 시계로 진행. 픽셀은 7픽셀마다 RGB 표본",
+   "log": {
+    "console": [
+     "[412x915] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+     "[412x915?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+    ],
+    "external": [],
+    "failed": []
+   }
+  }
+ }
+}

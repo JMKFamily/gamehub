@@ -1,0 +1,271 @@
+{
+ "part": "realtime",
+ "at": "2026-11-17T06:23:22.456Z",
+ "audio": {
+  "state": "running",
+  "lat": 10
+ },
+ "autoplay": [
+  {
+   "level": 1,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 0.1,
+   "rejudgeOk": true
+  },
+  {
+   "level": 2,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 6.98,
+   "rejudgeOk": true
+  },
+  {
+   "level": 3,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 7.06,
+   "rejudgeOk": true
+  },
+  {
+   "level": 4,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 0.37,
+   "rejudgeOk": true
+  },
+  {
+   "level": 5,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 6.64,
+   "rejudgeOk": true
+  },
+  {
+   "level": 6,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 6.09,
+   "rejudgeOk": true
+  },
+  {
+   "level": 7,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 5.31,
+   "rejudgeOk": true
+  },
+  {
+   "level": 8,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 0.14,
+   "rejudgeOk": true
+  },
+  {
+   "level": 9,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 0,
+   "rejudgeOk": true
+  },
+  {
+   "level": 10,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "maxAbsErrMs": 4.62,
+   "rejudgeOk": true
+  }
+ ],
+ "mouse": [
+  {
+   "level": 1,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.2,
+   "err_max": -0.3,
+   "err_mean": -2.4,
+   "rejudgeOk": true
+  },
+  {
+   "level": 2,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3,
+   "err_max": 0,
+   "err_mean": -2.2,
+   "rejudgeOk": true
+  },
+  {
+   "level": 3,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.7,
+   "err_max": -0.6,
+   "err_mean": -2.5,
+   "rejudgeOk": true
+  },
+  {
+   "level": 4,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.3,
+   "err_max": -0.1,
+   "err_mean": -2.2,
+   "rejudgeOk": true
+  },
+  {
+   "level": 5,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.2,
+   "err_max": -0.3,
+   "err_mean": -2.6,
+   "rejudgeOk": true
+  },
+  {
+   "level": 6,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.5,
+   "err_max": -0.7,
+   "err_mean": -2.5,
+   "rejudgeOk": true
+  },
+  {
+   "level": 7,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.2,
+   "err_max": 0.2,
+   "err_mean": -2.4,
+   "rejudgeOk": true
+  },
+  {
+   "level": 8,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.5,
+   "err_max": -0.3,
+   "err_mean": -2.4,
+   "rejudgeOk": true
+  },
+  {
+   "level": 9,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -2.9,
+   "err_max": -1.5,
+   "err_mean": -2.4,
+   "rejudgeOk": true
+  },
+  {
+   "level": 10,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "err_min": -3.5,
+   "err_max": -0.3,
+   "err_mean": -2.4,
+   "rejudgeOk": true
+  }
+ ],
+ "react": [
+  {
+   "frameIndex": 1,
+   "msToFrame": 14.8,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 3.4,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 8.9,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 6.9,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 1.6,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 7.7,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 13.8,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 10.7,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 6.4,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 3.4,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 11.4,
+   "changedBefore": false
+  },
+  {
+   "frameIndex": 1,
+   "msToFrame": 13.4,
+   "changedBefore": false
+  }
+ ],
+ "log": {
+  "console": [
+   "[1280x720] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+  ],
+  "external": [],
+  "failed": []
+ }
+}

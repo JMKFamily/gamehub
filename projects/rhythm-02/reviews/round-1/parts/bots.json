@@ -1,0 +1,579 @@
+{
+ "part": "bots",
+ "at": "2026-11-17T07:03:09.679Z",
+ "levels": {
+  "1": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.734,
+    "median_continuous": 0.523,
+    "ci95_p": [
+     0.7146,
+     0.7534
+    ],
+    "sessions": 1468,
+    "median_sessions": 1,
+    "mean_progress": 84.8,
+    "early_fail_share": 0.38,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.09
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.3171,
+    "median_continuous": 1.817,
+    "ci95_p": [
+     0.3107,
+     0.3235
+    ],
+    "sessions": 6342,
+    "median_sessions": 2,
+    "mean_progress": 57.9,
+    "early_fail_share": 0.392,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.088
+   }
+  },
+  "2": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.715,
+    "median_continuous": 0.552,
+    "ci95_p": [
+     0.6952,
+     0.7348
+    ],
+    "sessions": 1430,
+    "median_sessions": 1,
+    "mean_progress": 84.9,
+    "early_fail_share": 0.335,
+    "top_fail_contact": 2,
+    "top_fail_contact_share": 0.074
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.2497,
+    "median_continuous": 2.413,
+    "ci95_p": [
+     0.2437,
+     0.2557
+    ],
+    "sessions": 4994,
+    "median_sessions": 3,
+    "mean_progress": 52.8,
+    "early_fail_share": 0.396,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.084
+   }
+  },
+  "3": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.643,
+    "median_continuous": 0.673,
+    "ci95_p": [
+     0.622,
+     0.664
+    ],
+    "sessions": 1286,
+    "median_sessions": 1,
+    "mean_progress": 80.8,
+    "early_fail_share": 0.378,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.066
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.1681,
+    "median_continuous": 3.766,
+    "ci95_p": [
+     0.1629,
+     0.1733
+    ],
+    "sessions": 3362,
+    "median_sessions": 4,
+    "mean_progress": 45,
+    "early_fail_share": 0.423,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.084
+   }
+  },
+  "4": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.635,
+    "median_continuous": 0.688,
+    "ci95_p": [
+     0.6139,
+     0.6561
+    ],
+    "sessions": 1270,
+    "median_sessions": 1,
+    "mean_progress": 80.1,
+    "early_fail_share": 0.359,
+    "top_fail_contact": 2,
+    "top_fail_contact_share": 0.06
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.1417,
+    "median_continuous": 4.536,
+    "ci95_p": [
+     0.1369,
+     0.1465
+    ],
+    "sessions": 2834,
+    "median_sessions": 5,
+    "mean_progress": 42.4,
+    "early_fail_share": 0.431,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.089
+   }
+  },
+  "5": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.629,
+    "median_continuous": 0.699,
+    "ci95_p": [
+     0.6078,
+     0.6502
+    ],
+    "sessions": 1258,
+    "median_sessions": 1,
+    "mean_progress": 79.9,
+    "early_fail_share": 0.392,
+    "top_fail_contact": 3,
+    "top_fail_contact_share": 0.061
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.1172,
+    "median_continuous": 5.56,
+    "ci95_p": [
+     0.1127,
+     0.1217
+    ],
+    "sessions": 2344,
+    "median_sessions": 6,
+    "mean_progress": 39.3,
+    "early_fail_share": 0.411,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.092
+   }
+  },
+  "6": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.5835,
+    "median_continuous": 0.791,
+    "ci95_p": [
+     0.5619,
+     0.6051
+    ],
+    "sessions": 1167,
+    "median_sessions": 1,
+    "mean_progress": 77.1,
+    "early_fail_share": 0.456,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.07
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.0993,
+    "median_continuous": 6.628,
+    "ci95_p": [
+     0.0952,
+     0.1034
+    ],
+    "sessions": 1986,
+    "median_sessions": 7,
+    "mean_progress": 37.9,
+    "early_fail_share": 0.459,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.093
+   }
+  },
+  "7": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.566,
+    "median_continuous": 0.83,
+    "ci95_p": [
+     0.5443,
+     0.5877
+    ],
+    "sessions": 1132,
+    "median_sessions": 1,
+    "mean_progress": 75.9,
+    "early_fail_share": 0.431,
+    "top_fail_contact": 9,
+    "top_fail_contact_share": 0.059
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.0861,
+    "median_continuous": 7.703,
+    "ci95_p": [
+     0.0822,
+     0.0899
+    ],
+    "sessions": 1721,
+    "median_sessions": 8,
+    "mean_progress": 35.7,
+    "early_fail_share": 0.442,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.095
+   }
+  },
+  "8": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.551,
+    "median_continuous": 0.866,
+    "ci95_p": [
+     0.5292,
+     0.5728
+    ],
+    "sessions": 1102,
+    "median_sessions": 1,
+    "mean_progress": 74.7,
+    "early_fail_share": 0.411,
+    "top_fail_contact": 17,
+    "top_fail_contact_share": 0.058
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.0731,
+    "median_continuous": 9.138,
+    "ci95_p": [
+     0.0694,
+     0.0767
+    ],
+    "sessions": 1461,
+    "median_sessions": 10,
+    "mean_progress": 33.9,
+    "early_fail_share": 0.414,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.1
+   }
+  },
+  "9": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.532,
+    "median_continuous": 0.913,
+    "ci95_p": [
+     0.5101,
+     0.5539
+    ],
+    "sessions": 1064,
+    "median_sessions": 1,
+    "mean_progress": 73.3,
+    "early_fail_share": 0.47,
+    "top_fail_contact": 6,
+    "top_fail_contact_share": 0.063
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.0635,
+    "median_continuous": 10.574,
+    "ci95_p": [
+     0.0601,
+     0.0668
+    ],
+    "sessions": 1269,
+    "median_sessions": 11,
+    "mean_progress": 32.6,
+    "early_fail_share": 0.454,
+    "top_fail_contact": 1,
+    "top_fail_contact_share": 0.105
+   }
+  },
+  "10": {
+   "skilled_sd25": {
+    "N": 2000,
+    "clear_rate": 1,
+    "median_continuous": 0,
+    "ci95_p": [
+     1,
+     1
+    ],
+    "sessions": 2000,
+    "median_sessions": 1,
+    "mean_progress": 100,
+    "early_fail_share": 0,
+    "top_fail_contact": null,
+    "top_fail_contact_share": 0
+   },
+   "novice_sd50": {
+    "N": 2000,
+    "clear_rate": 0.5,
+    "median_continuous": 1,
+    "ci95_p": [
+     0.4781,
+     0.5219
+    ],
+    "sessions": 1000,
+    "median_sessions": 1,
+    "mean_progress": 71.7,
+    "early_fail_share": 0.391,
+    "top_fail_contact": 10,
+    "top_fail_contact_share": 0.066
+   },
+   "child_sd70": {
+    "N": 20000,
+    "clear_rate": 0.0539,
+    "median_continuous": 12.522,
+    "ci95_p": [
+     0.0507,
+     0.057
+    ],
+    "sessions": 1077,
+    "median_sessions": 13,
+    "mean_progress": 31,
+    "early_fail_share": 0.4,
+    "top_fail_contact": 0,
+    "top_fail_contact_share": 0.109
+   }
+  }
+ },
+ "rejudge": {
+  "attempts": 240000,
+  "mismatchRecorded": 0,
+  "mismatchFull": 0,
+  "examples": []
+ },
+ "compare": {
+  "1": {
+   "sim_p": 0.3199,
+   "build_p": 0.3171,
+   "z": -0.85,
+   "sim_cont": 1.798,
+   "build_cont": 1.817,
+   "sim_int": 2,
+   "build_int": 2
+  },
+  "2": {
+   "sim_p": 0.2478,
+   "build_p": 0.2497,
+   "z": 0.62,
+   "sim_cont": 2.434,
+   "build_cont": 2.413,
+   "sim_int": 3,
+   "build_int": 3
+  },
+  "3": {
+   "sim_p": 0.1607,
+   "build_p": 0.1681,
+   "z": 2.85,
+   "sim_cont": 3.956,
+   "build_cont": 3.766,
+   "sim_int": 4,
+   "build_int": 4
+  },
+  "4": {
+   "sim_p": 0.1401,
+   "build_p": 0.1417,
+   "z": 0.65,
+   "sim_cont": 4.594,
+   "build_cont": 4.536,
+   "sim_int": 5,
+   "build_int": 5
+  },
+  "5": {
+   "sim_p": 0.1166,
+   "build_p": 0.1172,
+   "z": 0.26,
+   "sim_cont": 5.591,
+   "build_cont": 5.56,
+   "sim_int": 6,
+   "build_int": 6
+  },
+  "6": {
+   "sim_p": 0.1013,
+   "build_p": 0.0993,
+   "z": -0.94,
+   "sim_cont": 6.488,
+   "build_cont": 6.628,
+   "sim_int": 8,
+   "build_int": 7
+  },
+  "7": {
+   "sim_p": 0.0838,
+   "build_p": 0.0861,
+   "z": 1.17,
+   "sim_cont": 7.92,
+   "build_cont": 7.703,
+   "sim_int": 8,
+   "build_int": 8
+  },
+  "8": {
+   "sim_p": 0.0751,
+   "build_p": 0.0731,
+   "z": -1.07,
+   "sim_cont": 8.879,
+   "build_cont": 9.138,
+   "sim_int": 9,
+   "build_int": 10
+  },
+  "9": {
+   "sim_p": 0.0653,
+   "build_p": 0.0635,
+   "z": -1.03,
+   "sim_cont": 10.272,
+   "build_cont": 10.574,
+   "sim_int": 11,
+   "build_int": 11
+  },
+  "10": {
+   "sim_p": 0.057,
+   "build_p": 0.0539,
+   "z": -1.89,
+   "sim_cont": 11.821,
+   "build_cont": 12.522,
+   "sim_int": 13,
+   "build_int": 13
+  }
+ },
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

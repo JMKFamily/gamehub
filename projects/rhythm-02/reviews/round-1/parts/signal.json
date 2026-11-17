@@ -1,0 +1,96 @@
+{
+ "part": "signal",
+ "at": "2026-11-17T06:13:52.088Z",
+ "test": [
+  {
+   "res": "360x640",
+   "tut_from": 2400,
+   "tut_to": 3168,
+   "finger": {
+    "contact": 0,
+    "from": 2400,
+    "pressStart": 2880,
+    "pressEnd": 3000,
+    "gone": 3170,
+    "goneLatest": 3170
+   },
+   "overlap_judge_ms": 0,
+   "overlap_screen_ms": 0,
+   "gap_to_danger_screen_ms": 122
+  },
+  {
+   "res": "412x915",
+   "tut_from": 2400,
+   "tut_to": 3168,
+   "finger": {
+    "contact": 0,
+    "from": 2400,
+    "pressStart": 2880,
+    "pressEnd": 3000,
+    "gone": 3170,
+    "goneLatest": 3170
+   },
+   "overlap_judge_ms": 0,
+   "overlap_screen_ms": 0,
+   "gap_to_danger_screen_ms": 122
+  },
+  {
+   "res": "640x360",
+   "tut_from": 2400,
+   "tut_to": 3168,
+   "finger": {
+    "contact": 0,
+    "from": 2400,
+    "pressStart": 2880,
+    "pressEnd": 3000,
+    "gone": 3170,
+    "goneLatest": 3170
+   },
+   "overlap_judge_ms": 0,
+   "overlap_screen_ms": 0,
+   "gap_to_danger_screen_ms": 122
+  },
+  {
+   "res": "1280x720",
+   "tut_from": 2400,
+   "tut_to": 3168,
+   "finger": {
+    "contact": 0,
+    "from": 2400,
+    "pressStart": 2880,
+    "pressEnd": 3000,
+    "gone": 3170,
+    "goneLatest": 3170
+   },
+   "overlap_judge_ms": 0,
+   "overlap_screen_ms": 0,
+   "gap_to_danger_screen_ms": 122
+  }
+ ],
+ "realtime": {
+  "tut_from": 2400.9,
+  "tut_to": 3167.5,
+  "frames_on": 47,
+  "overlap_judge_ms": 0,
+  "overlap_screen_ms": 0
+ },
+ "danger_next_contact_judge_ms": [
+  3250,
+  3770
+ ],
+ "danger_next_contact_screen_ms": [
+  3290,
+  3810
+ ],
+ "first_contact": {
+  "t": 3000,
+  "passStart": 2850,
+  "passEnd": 3170,
+  "zoneStart": 2650
+ },
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

@@ -1,0 +1,156 @@
+{
+ "part": "testeq",
+ "at": "2026-11-17T06:12:35.234Z",
+ "viewport": "412x915",
+ "cases": [
+  {
+   "level": 1,
+   "lm_normal": 1507.7,
+   "lm_test": 1507.7,
+   "meanAbsDiff": 0,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 1,
+   "lm_normal": 2709.5,
+   "lm_test": 2709.5,
+   "meanAbsDiff": 0,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": true,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": true,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 1,
+   "lm_normal": 2950.5,
+   "lm_test": 2950.5,
+   "meanAbsDiff": 0.007,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": true,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": true,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 1,
+   "lm_normal": 3109.4,
+   "lm_test": 3109.4,
+   "meanAbsDiff": 0.001,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 1,
+   "lm_normal": 5209.8,
+   "lm_test": 5209.8,
+   "meanAbsDiff": 0.002,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 6,
+   "lm_normal": 3010.4,
+   "lm_test": 3010.4,
+   "meanAbsDiff": 0.008,
+   "bigDiffShare": 0.0001,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  },
+  {
+   "level": 6,
+   "lm_normal": 9003.3,
+   "lm_test": 9003.3,
+   "meanAbsDiff": 0.005,
+   "bigDiffShare": 0,
+   "dom_same": true,
+   "dom_normal": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   },
+   "dom_test": {
+    "tut": false,
+    "hud": true,
+    "pause": true,
+    "phase": "run"
+   }
+  }
+ ],
+ "note": "일반 모드는 rAF 시각이 목표를 지난 첫 프레임, 테스트 모드는 그 시각까지 가상 시계로 진행. 픽셀은 7픽셀마다 RGB 표본",
+ "log": {
+  "console": [
+   "[412x915] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+   "[412x915?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+  ],
+  "external": [],
+  "failed": []
+ }
+}

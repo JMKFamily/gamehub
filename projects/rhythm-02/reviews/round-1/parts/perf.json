@@ -1,0 +1,305 @@
+{
+ "part": "perf",
+ "at": "2026-11-17T07:10:08.785Z",
+ "throttle": 6,
+ "viewport": "412x915",
+ "runs": [
+  {
+   "run": 1,
+   "dsf": 1,
+   "titleToLevels": {
+    "frames": 87,
+    "avgFps": 50.2,
+    "low1Fps": 3.5,
+    "maxMs": 283.4,
+    "long": [
+     [
+      265,
+      283.4
+     ],
+     [
+      315,
+      33.4
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 187,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 179,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "play": {
+    "frames": 479,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 186,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  },
+  {
+   "run": 1,
+   "dsf": 3,
+   "titleToLevels": {
+    "frames": 89,
+    "avgFps": 53.4,
+    "low1Fps": 5,
+    "maxMs": 200,
+    "long": [
+     [
+      194,
+      200
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 185,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 179,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "play": {
+    "frames": 479,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 184,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  },
+  {
+   "run": 2,
+   "dsf": 1,
+   "titleToLevels": {
+    "frames": 88,
+    "avgFps": 50.8,
+    "low1Fps": 4,
+    "maxMs": 249.9,
+    "long": [
+     [
+      -9,
+      33.4
+     ],
+     [
+      241,
+      249.9
+     ],
+     [
+      291,
+      33.4
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 187,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 179,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "play": {
+    "frames": 480,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 186,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  },
+  {
+   "run": 2,
+   "dsf": 3,
+   "titleToLevels": {
+    "frames": 86,
+    "avgFps": 49.6,
+    "low1Fps": 3.8,
+    "maxMs": 266.6,
+    "long": [
+     [
+      277,
+      266.6
+     ],
+     [
+      344,
+      66.7
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 185,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 180,
+    "avgFps": 60,
+    "low1Fps": 59.2,
+    "maxMs": 16.9,
+    "long": []
+   },
+   "play": {
+    "frames": 479,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 187,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  },
+  {
+   "run": 3,
+   "dsf": 1,
+   "titleToLevels": {
+    "frames": 87,
+    "avgFps": 50.7,
+    "low1Fps": 3.8,
+    "maxMs": 266.6,
+    "long": [
+     [
+      251,
+      266.6
+     ],
+     [
+      301,
+      33.3
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 186,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 179,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "play": {
+    "frames": 479,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 184,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  },
+  {
+   "run": 3,
+   "dsf": 3,
+   "titleToLevels": {
+    "frames": 85,
+    "avgFps": 48.1,
+    "low1Fps": 3.5,
+    "maxMs": 283.3,
+    "long": [
+     [
+      -10,
+      50
+     ],
+     [
+      273,
+      283.3
+     ],
+     [
+      340,
+      66.7
+     ]
+    ]
+   },
+   "levelStart": {
+    "frames": 186,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "restart": {
+    "frames": 179,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "play": {
+    "frames": 479,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   },
+   "levelStartL1": {
+    "frames": 185,
+    "avgFps": 60,
+    "low1Fps": 59.5,
+    "maxMs": 16.8,
+    "long": []
+   }
+  }
+ ],
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

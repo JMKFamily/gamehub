@@ -1,0 +1,202 @@
+{
+ "part": "blank",
+ "at": "2026-11-17T07:11:56.066Z",
+ "runs": [
+  {
+   "cond": "base",
+   "res": "412x915",
+   "firstFrameMs": -16,
+   "firstAnyImageMs": -16,
+   "allImagesMs": -16,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 3,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 84,
+    "at": -16
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 17,
+    "at": 3
+   },
+   "shot": "blank-base-412x915-250ms.png"
+  },
+  {
+   "cond": "base",
+   "res": "1280x720",
+   "firstFrameMs": -10,
+   "firstAnyImageMs": -10,
+   "allImagesMs": -10,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 3,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 50,
+    "at": -10
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 17,
+    "at": 3
+   },
+   "shot": "blank-base-1280x720-250ms.png"
+  },
+  {
+   "cond": "cpu6",
+   "res": "412x915",
+   "firstFrameMs": -47,
+   "firstAnyImageMs": -47,
+   "allImagesMs": -47,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 1,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 233,
+    "at": -47
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 50,
+    "at": 1
+   },
+   "shot": "blank-cpu6-412x915-250ms.png"
+  },
+  {
+   "cond": "cpu6",
+   "res": "1280x720",
+   "firstFrameMs": -68,
+   "firstAnyImageMs": -68,
+   "allImagesMs": -68,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": -6,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 250,
+    "at": -68
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 50,
+    "at": -6
+   },
+   "shot": "blank-cpu6-1280x720-250ms.png"
+  },
+  {
+   "cond": "cpu6-test(오디오 없음)",
+   "res": "412x915",
+   "firstFrameMs": -35,
+   "firstAnyImageMs": -35,
+   "allImagesMs": -35,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 8,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 117,
+    "at": -35
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 33,
+    "at": 8
+   },
+   "shot": "blank-cpu6-test(오디오 없음)-412x915-250ms.png"
+  },
+  {
+   "cond": "cpu6-test(오디오 없음)",
+   "res": "1280x720",
+   "firstFrameMs": -30,
+   "firstAnyImageMs": -30,
+   "allImagesMs": -30,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": -3,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 133,
+    "at": -30
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 33,
+    "at": -3
+   },
+   "shot": "blank-cpu6-test(오디오 없음)-1280x720-250ms.png"
+  },
+  {
+   "cond": "net150",
+   "res": "412x915",
+   "firstFrameMs": -2,
+   "firstAnyImageMs": -2,
+   "allImagesMs": -2,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 4,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 50,
+    "at": -2
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 17,
+    "at": 20
+   },
+   "shot": "blank-net150-412x915-250ms.png"
+  },
+  {
+   "cond": "net150",
+   "res": "1280x720",
+   "firstFrameMs": 0,
+   "firstAnyImageMs": 0,
+   "allImagesMs": 0,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 4,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 50,
+    "at": 0
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 17,
+    "at": 4
+   },
+   "shot": "blank-net150-1280x720-250ms.png"
+  },
+  {
+   "cond": "cpu6+net150",
+   "res": "412x915",
+   "firstFrameMs": -11,
+   "firstAnyImageMs": -11,
+   "allImagesMs": -11,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": -4,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 200,
+    "at": -11
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 33,
+    "at": -4
+   },
+   "shot": "blank-cpu6+net150-412x915-250ms.png"
+  },
+  {
+   "cond": "cpu6+net150",
+   "res": "1280x720",
+   "firstFrameMs": -22,
+   "firstAnyImageMs": -22,
+   "allImagesMs": -22,
+   "imgRequestsAfterTap": 0,
+   "secondEntryAllImagesMs": 1,
+   "imgRequestsSecondEntry": 0,
+   "firstEntryLongestFrame": {
+    "maxGapMs": 217,
+    "at": -22
+   },
+   "secondEntryLongestFrame": {
+    "maxGapMs": 33,
+    "at": 1
+   },
+   "shot": "blank-cpu6+net150-1280x720-250ms.png"
+  }
+ ],
+ "note": "serve.mjs 는 cache-control: no-store. buildGrid 가 showLevels 마다 img 를 새로 만듦",
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}

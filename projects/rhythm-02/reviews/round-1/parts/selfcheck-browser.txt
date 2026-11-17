@@ -1,0 +1,21 @@
+서버 pid 36300 포트 8730
+== 1) ?test=1 ==
+  ok 완벽·±40·σ25 입력 40/40 클리어, 무입력·일찍 실패 재시작 20/20, 연습 이어 하기 10/10
+== 2) 일반 모드 실시간(오디오 켜짐, rAF + PointerEvent) ==
+  ok 실시간 10/10 클리어, 등급 3,3,3,3,3,3,3,3,3,3, 최대 |오차| 11.08 ms
+  ok 새로고침 뒤 클리어 기록 10개 유지
+  ok 재시작 late 1114 · late 1104 · late 1111 · early 1105 · early 1103 ms (기준 940~1200)
+  ok 마우스(CDP) L1 클리어, 탭 오차 -3~-0 ms
+  ok 백그라운드 → 멈춤(누르면 이어서 해요), 이어 하기 뒤 레벨 시간 이어짐(401 → 401 ms)
+  ok 보호자 문: 짧게 = 보조 글, 1.5 s 길게 = 보호자 화면
+  ok 빌드 시도 93회 = tools/sim/judge.mjs 다시 판정, 불일치 0
+== 4) 4해상도 화면 ==
+  ok 화면 104장 → C:\gamehub-bench\gamehub\projects\rhythm-02\reviews\round-1\parts\selfcheck
+== 5) 6배 스로틀링 ==
+  ok DPR 1: 시작 {"frames":151,"avgFps":60,"low1Fps":59.2,"maxMs":16.9,"long":[]} · 재시작 {"frames":150,"avgFps":60,"low1Fps":59.2,"maxMs":16.9,"long":[]}
+  ok DPR 3: 시작 {"frames":151,"avgFps":60,"low1Fps":59.2,"maxMs":16.9,"long":[]} · 재시작 {"frames":150,"avgFps":60,"low1Fps":59.2,"maxMs":16.9,"long":[]}
+  ok 콘솔 에러·경고 0
+  ok 외부 요청 0
+
+결과: ALL PASS (보고 C:\gamehub-bench\gamehub\projects\rhythm-02\reviews\round-1\parts\selfcheck\selfcheck.json, 서버 pid 36300 종료)
+EXIT 0

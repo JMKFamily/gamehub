@@ -1,0 +1,51 @@
+서버 pid 25996 포트 8739
+== realtime ==
+autoplay L1: clear true grade 3 max|e| 0.1
+autoplay L2: clear true grade 3 max|e| 6.98
+autoplay L3: clear true grade 3 max|e| 7.06
+autoplay L4: clear true grade 3 max|e| 0.37
+autoplay L5: clear true grade 3 max|e| 6.64
+autoplay L6: clear true grade 3 max|e| 6.09
+autoplay L7: clear true grade 3 max|e| 5.31
+autoplay L8: clear true grade 3 max|e| 0.14
+autoplay L9: clear true grade 3 max|e| 0
+autoplay L10: clear true grade 3 max|e| 4.62
+mouse L1: clear true attempts 1 e -3.2~-0.3
+mouse L2: clear true attempts 1 e -3~0
+mouse L3: clear true attempts 1 e -3.7~-0.6
+mouse L4: clear true attempts 1 e -3.3~-0.1
+mouse L5: clear true attempts 1 e -3.2~-0.3
+mouse L6: clear true attempts 1 e -3.5~-0.7
+mouse L7: clear true attempts 1 e -3.2~0.2
+mouse L8: clear true attempts 1 e -3.5~-0.3
+mouse L9: clear true attempts 1 e -2.9~-1.5
+mouse L10: clear true attempts 1 e -3.5~-0.3
+입력 → 북 반응 프레임 1,1,1,1,1,1,1,1,1,1,1,1
+(realtime 562 s)
+== restart ==
+L1 늦음 재시작 build 1108.7 rAF 1108.3 · 실패 → 다음 첫 접촉 4.139 s
+L2 늦음 재시작 build 1107.2 rAF 1106.8 · 실패 → 다음 첫 접촉 4.024 s
+L3 늦음 재시작 build 1117.1 rAF 1116.9 · 실패 → 다음 첫 접촉 3.917 s
+L4 늦음 재시작 build 1108 rAF 1107.7 · 실패 → 다음 첫 접촉 3.867 s
+L5 늦음 재시작 build 1117.7 rAF 1117.5 · 실패 → 다음 첫 접촉 3.818 s
+L6 늦음 재시작 build 1105.1 rAF 1104.9 · 실패 → 다음 첫 접촉 3.771 s
+L7 늦음 재시작 build 1106.7 rAF 1106.4 · 실패 → 다음 첫 접촉 3.726 s
+L8 늦음 재시작 build 1102.9 rAF 1102.6 · 실패 → 다음 첫 접촉 3.682 s
+L9 늦음 재시작 build 1103.7 rAF 1103.5 · 실패 → 다음 첫 접촉 3.639 s
+L10 늦음 재시작 build 1110.6 rAF 1110.3 · 실패 → 다음 첫 접촉 3.598 s
+L1 일찍 재시작 1104.5,1119.1
+L5 일찍 재시작 1109.7,1109.5
+L10 일찍 재시작 1114.9,1119.3
+연습 L1: 실패 접촉 10 → 체크포인트 접촉 10 부활 1118.5 ms, 이어서 클리어 true
+연습 L6: 실패 접촉 15 → 체크포인트 접촉 15 부활 1114.4 ms, 이어서 클리어 true
+연습 L10: 실패 접촉 15 → 체크포인트 접촉 11 부활 1115.8 ms, 이어서 클리어 true
+(restart 202 s)
+== features ==
+저장 유지 true {"l2":"모래놀이터, 가 본 만큼","l2bar":"48","l3open":false}
+백그라운드(강제) {"audioBefore":"running","stateOnHidden":"pause","levelMsFrozen":1000.5,"audioWhileHidden":"suspended","stateAfterVisible":"pause","stateAfterResume":"play","pTitle":"누르면 이어서 해요"}
+실제 탭 전환(헤드리스) {"state":"play","vis":"visible"}
+음소거 {"before":{"sound":true,"aria":"소리 끄기"},"afterClick":{"sound":false,"aria":"소리 켜기"},"afterReload":false}
+보호자 문 {"short300":{"state":"levels","hint":true,"hintText":"어른이 길게 눌러요"},"release1000":"levels","slideOut":"levels","hold1650":"guardian"}
+멈춤 메뉴 {"retry":{"state":"play","lm":-594.7999999821186},"levels":"levels","esc":"pause"}
+(features 58 s)
+끝 (서버 pid 25996 종료)

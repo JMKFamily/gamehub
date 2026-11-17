@@ -1,0 +1,6 @@
+palette.mjs      OK   palette OK
+layout.mjs       OK   layout OK (공 ≥ 24 px, 꼭짓점 화면 안, 가장 짧은 튐 ≥ 1.2d, 구름 아닌 비행 공 윗점 ≤ 0.9·Hp, 숨는 시간 ≤ 1 s, 손가락 = fingerSchedule·겹침 0, 일찍 실패 ≤ 0.6 s, 클리어 연출 ⊂ 마무리 박, 바탕 min(n,3))
+cards.mjs        OK   cards OK (카드 키 = balance gimmicks = 파일 = strings, 남은 파일 없음, 카드 속 공 ≥ 16 px)
+icons.mjs        OK   icons OK (아이콘 20개·문구 키·터치 ≥ 48 px·rhythm-01 모양 피함)
+sound-check.mjs  OK   sound-check OK
+EXIT 0

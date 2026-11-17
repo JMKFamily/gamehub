@@ -1,0 +1,30 @@
+2026-11-17T06:10:59.009Z part=static,signal,sound,testeq server pid 29576 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:10:59.488Z part=static,signal,sound,testeq browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:12:53.222Z part=signal server pid 36584 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:12:53.641Z part=signal browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:13:42.659Z part=signal server pid 23416 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:13:43.008Z part=signal browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:13:59.949Z part=realtime,restart,features server pid 25996 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:14:00.315Z part=realtime,restart,features browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:27:53.414Z part=shots server pid 18584 port 8738 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:27:53.418Z part=bots server pid 34004 port 8737 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:27:53.820Z part=shots browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:27:53.820Z part=bots browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:28:48.248Z part=shots server pid 33988 port 8738 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:28:48.730Z part=shots browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T06:47:52.970Z part=bots server pid 22384 port 8737 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T06:47:53.317Z part=bots browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T07:03:17.152Z part=firstrun server pid 20360 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T07:03:17.564Z part=firstrun browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T07:05:32.310Z part=firstrun server pid 36912 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T07:05:32.630Z part=firstrun browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T07:07:49.712Z part=perf server pid 25860 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T07:07:50.039Z part=perf browser pid ? (playwright launch, browser.close 로 종료)
+2026-11-17T07:07:50.624Z perf run 1 browser pid ?
+2026-11-17T07:08:36.211Z perf run 2 browser pid ?
+2026-11-17T07:08:59.458Z perf run 2 browser pid ?
+2026-11-17T07:09:22.905Z perf run 3 browser pid ?
+2026-11-17T07:09:46.183Z perf run 3 browser pid ?
+2026-11-17T07:10:33.483Z part=blank server pid 10260 port 8739 (qa-round 자식, 끝에 이 PID 만 종료)
+2026-11-17T07:10:33.832Z part=blank browser pid ? (playwright launch, browser.close 로 종료)
+(수동 기록) 디버그 스크립트(scratchpad dbg*.mjs) 서버 pid 23060·18664·21960·37420(포트 8738·8735·8734) — 스크립트가 끝에 자기 자식만 kill. quick 검사(round-quick, 삭제) 서버 34964·38140·39448, node 36280 — TaskStop/timeout/Stop-Process로 자기 것만 종료. 다른 팀(rhythm-01 node 33044 + 그 Edge 38120) 프로세스는 건드리지 않음. 종료 후 확인: 위 PID 전부 없음, rhythm-02 node 프로세스 0.

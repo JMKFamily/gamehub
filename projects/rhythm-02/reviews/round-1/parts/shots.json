@@ -1,0 +1,1797 @@
+{
+ "part": "shots",
+ "at": "2026-11-17T06:35:30.367Z",
+ "shots": [
+  "360x640-ko-01-title.png",
+  "360x640-ko-02a-levels-30ms.png",
+  "360x640-ko-02a-levels-150ms.png",
+  "360x640-ko-02a-levels-400ms.png",
+  "360x640-ko-02a-levels-800ms.png",
+  "360x640-ko-02-levels.png",
+  "360x640-ko-03-start.png",
+  "360x640-ko-04-card.png",
+  "360x640-ko-05-play.png",
+  "360x640-ko-06-fail-late.png",
+  "360x640-ko-07-fail-retry.png",
+  "360x640-ko-08-pause.png",
+  "360x640-ko-09-clear.png",
+  "360x640-ko-10-result.png",
+  "360x640-ko-11-gate-hold.png",
+  "360x640-ko-12-guardian.png",
+  "360x640-ko-13-sync.png",
+  "360x640-ko-14-card-l1-first.png",
+  "360x640-ko-15-l1-finger.png",
+  "360x640-en-01-title.png",
+  "360x640-en-02-levels.png",
+  "360x640-en-03-start.png",
+  "360x640-en-04-card.png",
+  "360x640-en-05-play.png",
+  "360x640-en-06-fail-late.png",
+  "360x640-en-07-fail-retry.png",
+  "360x640-en-08-pause.png",
+  "360x640-en-09-clear.png",
+  "360x640-en-10-result.png",
+  "360x640-en-11-gate-hold.png",
+  "360x640-en-12-guardian.png",
+  "360x640-en-13-sync.png",
+  "360x640-en-14-card-l1-first.png",
+  "360x640-en-15-l1-finger.png",
+  "360x640-notext-01-title.png",
+  "360x640-notext-02-levels.png",
+  "360x640-notext-03-start.png",
+  "360x640-notext-card-L1.png",
+  "360x640-notext-card-L2.png",
+  "360x640-notext-card-L3.png",
+  "360x640-notext-card-L4.png",
+  "360x640-notext-card-L5.png",
+  "360x640-notext-card-L6.png",
+  "360x640-notext-card-L7.png",
+  "360x640-notext-card-L8.png",
+  "360x640-notext-play-L1.png",
+  "412x915-ko-01-title.png",
+  "412x915-ko-02a-levels-30ms.png",
+  "412x915-ko-02a-levels-150ms.png",
+  "412x915-ko-02a-levels-400ms.png",
+  "412x915-ko-02a-levels-800ms.png",
+  "412x915-ko-02-levels.png",
+  "412x915-ko-03-start.png",
+  "412x915-ko-04-card.png",
+  "412x915-ko-05-play.png",
+  "412x915-ko-06-fail-late.png",
+  "412x915-ko-07-fail-retry.png",
+  "412x915-ko-08-pause.png",
+  "412x915-ko-09-clear.png",
+  "412x915-ko-10-result.png",
+  "412x915-ko-11-gate-hold.png",
+  "412x915-ko-12-guardian.png",
+  "412x915-ko-13-sync.png",
+  "412x915-ko-14-card-l1-first.png",
+  "412x915-ko-15-l1-finger.png",
+  "412x915-en-01-title.png",
+  "412x915-en-02-levels.png",
+  "412x915-en-03-start.png",
+  "412x915-en-04-card.png",
+  "412x915-en-05-play.png",
+  "412x915-en-06-fail-late.png",
+  "412x915-en-07-fail-retry.png",
+  "412x915-en-08-pause.png",
+  "412x915-en-09-clear.png",
+  "412x915-en-10-result.png",
+  "412x915-en-11-gate-hold.png",
+  "412x915-en-12-guardian.png",
+  "412x915-en-13-sync.png",
+  "412x915-en-14-card-l1-first.png",
+  "412x915-en-15-l1-finger.png",
+  "412x915-notext-01-title.png",
+  "412x915-notext-02-levels.png",
+  "412x915-notext-03-start.png",
+  "412x915-notext-card-L1.png",
+  "412x915-notext-card-L2.png",
+  "412x915-notext-card-L3.png",
+  "412x915-notext-card-L4.png",
+  "412x915-notext-card-L5.png",
+  "412x915-notext-card-L6.png",
+  "412x915-notext-card-L7.png",
+  "412x915-notext-card-L8.png",
+  "412x915-notext-play-L1.png",
+  "640x360-ko-01-title.png",
+  "640x360-ko-02a-levels-30ms.png",
+  "640x360-ko-02a-levels-150ms.png",
+  "640x360-ko-02a-levels-400ms.png",
+  "640x360-ko-02a-levels-800ms.png",
+  "640x360-ko-02-levels.png",
+  "640x360-ko-03-start.png",
+  "640x360-ko-04-card.png",
+  "640x360-ko-05-play.png",
+  "640x360-ko-06-fail-late.png",
+  "640x360-ko-07-fail-retry.png",
+  "640x360-ko-08-pause.png",
+  "640x360-ko-09-clear.png",
+  "640x360-ko-10-result.png",
+  "640x360-ko-11-gate-hold.png",
+  "640x360-ko-12-guardian.png",
+  "640x360-ko-13-sync.png",
+  "640x360-ko-14-card-l1-first.png",
+  "640x360-ko-15-l1-finger.png",
+  "640x360-en-01-title.png",
+  "640x360-en-02-levels.png",
+  "640x360-en-03-start.png",
+  "640x360-en-04-card.png",
+  "640x360-en-05-play.png",
+  "640x360-en-06-fail-late.png",
+  "640x360-en-07-fail-retry.png",
+  "640x360-en-08-pause.png",
+  "640x360-en-09-clear.png",
+  "640x360-en-10-result.png",
+  "640x360-en-11-gate-hold.png",
+  "640x360-en-12-guardian.png",
+  "640x360-en-13-sync.png",
+  "640x360-en-14-card-l1-first.png",
+  "640x360-en-15-l1-finger.png",
+  "640x360-notext-01-title.png",
+  "640x360-notext-02-levels.png",
+  "640x360-notext-03-start.png",
+  "640x360-notext-card-L1.png",
+  "640x360-notext-card-L2.png",
+  "640x360-notext-card-L3.png",
+  "640x360-notext-card-L4.png",
+  "640x360-notext-card-L5.png",
+  "640x360-notext-card-L6.png",
+  "640x360-notext-card-L7.png",
+  "640x360-notext-card-L8.png",
+  "640x360-notext-play-L1.png",
+  "1280x720-ko-01-title.png",
+  "1280x720-ko-02a-levels-30ms.png",
+  "1280x720-ko-02a-levels-150ms.png",
+  "1280x720-ko-02a-levels-400ms.png",
+  "1280x720-ko-02a-levels-800ms.png",
+  "1280x720-ko-02-levels.png",
+  "1280x720-ko-03-start.png",
+  "1280x720-ko-04-card.png",
+  "1280x720-ko-05-play.png",
+  "1280x720-ko-06-fail-late.png",
+  "1280x720-ko-07-fail-retry.png",
+  "1280x720-ko-08-pause.png",
+  "1280x720-ko-09-clear.png",
+  "1280x720-ko-10-result.png",
+  "1280x720-ko-11-gate-hold.png",
+  "1280x720-ko-12-guardian.png",
+  "1280x720-ko-13-sync.png",
+  "1280x720-ko-14-card-l1-first.png",
+  "1280x720-ko-15-l1-finger.png",
+  "1280x720-en-01-title.png",
+  "1280x720-en-02-levels.png",
+  "1280x720-en-03-start.png",
+  "1280x720-en-04-card.png",
+  "1280x720-en-05-play.png",
+  "1280x720-en-06-fail-late.png",
+  "1280x720-en-07-fail-retry.png",
+  "1280x720-en-08-pause.png",
+  "1280x720-en-09-clear.png",
+  "1280x720-en-10-result.png",
+  "1280x720-en-11-gate-hold.png",
+  "1280x720-en-12-guardian.png",
+  "1280x720-en-13-sync.png",
+  "1280x720-en-14-card-l1-first.png",
+  "1280x720-en-15-l1-finger.png",
+  "1280x720-notext-01-title.png",
+  "1280x720-notext-02-levels.png",
+  "1280x720-notext-03-start.png",
+  "1280x720-notext-card-L1.png",
+  "1280x720-notext-card-L2.png",
+  "1280x720-notext-card-L3.png",
+  "1280x720-notext-card-L4.png",
+  "1280x720-notext-card-L5.png",
+  "1280x720-notext-card-L6.png",
+  "1280x720-notext-card-L7.png",
+  "1280x720-notext-card-L8.png",
+  "1280x720-notext-play-L1.png"
+ ],
+ "ui": [
+  {
+   "tag": "360x640-ko",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-ko",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "360x640-en",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-ko",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "412x915-en",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-ko",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "640x360-en",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "title",
+   "n": 0,
+   "minSide": 1000000000,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "levels",
+   "n": 12,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "start",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "card",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "play",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "pause",
+   "n": 4,
+   "minSide": 88,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "result",
+   "n": 3,
+   "minSide": 64,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "guardian",
+   "n": 4,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "sync",
+   "n": 2,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "card-first",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  },
+  {
+   "tag": "1280x720-en",
+   "screen": "play-finger",
+   "n": 1,
+   "minSide": 48,
+   "issues": []
+  }
+ ],
+ "px": [
+  {
+   "tag": "360x640-notext",
+   "level": 1,
+   "kind": "card",
+   "shot": "360x640-notext-card-L1.png",
+   "src": "card_bounce_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 2,
+   "kind": "card",
+   "shot": "360x640-notext-card-L2.png",
+   "src": "card_big_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 3,
+   "kind": "card",
+   "shot": "360x640-notext-card-L3.png",
+   "src": "card_cloud_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 4,
+   "kind": "card",
+   "shot": "360x640-notext-card-L4.png",
+   "src": "card_dot_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    18
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 18
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 5,
+   "kind": "card",
+   "shot": "360x640-notext-card-L5.png",
+   "src": "card_double_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 6,
+   "kind": "card",
+   "shot": "360x640-notext-card-L6.png",
+   "src": "card_twoballs_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    20,
+    20,
+    22,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 7,
+   "kind": "card",
+   "shot": "360x640-notext-card-L7.png",
+   "src": "card_three_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    20,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "level": 8,
+   "kind": "card",
+   "shot": "360x640-notext-card-L8.png",
+   "src": "card_roll_portrait.svg",
+   "img": [
+    151.5,
+    580
+   ],
+   "ballBlobsPx": [
+    18,
+    18,
+    22
+   ],
+   "minBallPx": 18,
+   "maxBallPx": 22
+  },
+  {
+   "tag": "360x640-notext",
+   "kind": "play",
+   "shot": "360x640-notext-play-L1.png",
+   "d": 28,
+   "dw": 89.6,
+   "dh": 26.6,
+   "Hp": 403.2,
+   "ballFillPx": [
+    175,
+    467
+   ]
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 1,
+   "kind": "card",
+   "shot": "412x915-notext-card-L1.png",
+   "src": "card_bounce_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 2,
+   "kind": "card",
+   "shot": "412x915-notext-card-L2.png",
+   "src": "card_big_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 3,
+   "kind": "card",
+   "shot": "412x915-notext-card-L3.png",
+   "src": "card_cloud_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 4,
+   "kind": "card",
+   "shot": "412x915-notext-card-L4.png",
+   "src": "card_dot_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    26
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 26
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 5,
+   "kind": "card",
+   "shot": "412x915-notext-card-L5.png",
+   "src": "card_double_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 6,
+   "kind": "card",
+   "shot": "412x915-notext-card-L6.png",
+   "src": "card_twoballs_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    29,
+    29,
+    33,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 7,
+   "kind": "card",
+   "shot": "412x915-notext-card-L7.png",
+   "src": "card_three_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    29,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "level": 8,
+   "kind": "card",
+   "shot": "412x915-notext-card-L8.png",
+   "src": "card_roll_portrait.svg",
+   "img": [
+    223.3,
+    855
+   ],
+   "ballBlobsPx": [
+    26,
+    26,
+    33
+   ],
+   "minBallPx": 26,
+   "maxBallPx": 33
+  },
+  {
+   "tag": "412x915-notext",
+   "kind": "play",
+   "shot": "412x915-notext-play-L1.png",
+   "d": 32,
+   "dw": 102.4,
+   "dh": 30.4,
+   "Hp": 587.8,
+   "ballFillPx": [
+    203,
+    675
+   ]
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 1,
+   "kind": "card",
+   "shot": "640x360-notext-card-L1.png",
+   "src": "card_bounce.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    28
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 28
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 2,
+   "kind": "card",
+   "shot": "640x360-notext-card-L2.png",
+   "src": "card_big.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 3,
+   "kind": "card",
+   "shot": "640x360-notext-card-L3.png",
+   "src": "card_cloud.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 4,
+   "kind": "card",
+   "shot": "640x360-notext-card-L4.png",
+   "src": "card_dot.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    23
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 23
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 5,
+   "kind": "card",
+   "shot": "640x360-notext-card-L5.png",
+   "src": "card_double.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 6,
+   "kind": "card",
+   "shot": "640x360-notext-card-L6.png",
+   "src": "card_twoballs.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    25,
+    26,
+    28,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 7,
+   "kind": "card",
+   "shot": "640x360-notext-card-L7.png",
+   "src": "card_three.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    25,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "level": 8,
+   "kind": "card",
+   "shot": "640x360-notext-card-L8.png",
+   "src": "card_roll.svg",
+   "img": [
+    608,
+    283.7
+   ],
+   "ballBlobsPx": [
+    23,
+    23,
+    29
+   ],
+   "minBallPx": 23,
+   "maxBallPx": 29
+  },
+  {
+   "tag": "640x360-notext",
+   "kind": "play",
+   "shot": "640x360-notext-play-L1.png",
+   "d": 24,
+   "dw": 76.8,
+   "dh": 22.8,
+   "Hp": 236.9,
+   "ballFillPx": [
+    313,
+    278
+   ]
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 1,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L1.png",
+   "src": "card_bounce.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    38,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 2,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L2.png",
+   "src": "card_big.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    38,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 3,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L3.png",
+   "src": "card_cloud.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 4,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L4.png",
+   "src": "card_dot.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    39,
+    39
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 39
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 5,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L5.png",
+   "src": "card_double.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    39,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 6,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L6.png",
+   "src": "card_twoballs.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    39,
+    39,
+    42,
+    42,
+    48,
+    48
+   ],
+   "minBallPx": 39,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 7,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L7.png",
+   "src": "card_three.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    42,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "level": 8,
+   "kind": "card",
+   "shot": "1280x720-notext-card-L8.png",
+   "src": "card_roll.svg",
+   "img": [
+    1008,
+    470.4
+   ],
+   "ballBlobsPx": [
+    38,
+    39,
+    48
+   ],
+   "minBallPx": 38,
+   "maxBallPx": 48
+  },
+  {
+   "tag": "1280x720-notext",
+   "kind": "play",
+   "shot": "1280x720-notext-play-L1.png",
+   "d": 44,
+   "dw": 140.8,
+   "dh": 41.8,
+   "Hp": 490.5,
+   "ballFillPx": [
+    642,
+    579
+   ]
+  }
+ ],
+ "blank": [
+  {
+   "tag": "360x640-ko",
+   "frames": 109,
+   "firstAllImagesMs": 5,
+   "first": [
+    {
+     "dt": 5,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 172,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 188,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 238,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 255,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 272,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "360x640-en",
+   "frames": 74,
+   "firstAllImagesMs": 10,
+   "first": [
+    {
+     "dt": 10,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 60,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 76,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 93,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 110,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 126,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "412x915-ko",
+   "frames": 119,
+   "firstAllImagesMs": 12,
+   "first": [
+    {
+     "dt": 12,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 46,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 62,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 79,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 96,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 112,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "412x915-en",
+   "frames": 74,
+   "firstAllImagesMs": 13,
+   "first": [
+    {
+     "dt": 13,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 47,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 63,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 80,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 97,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 113,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "640x360-ko",
+   "frames": 118,
+   "firstAllImagesMs": 1,
+   "first": [
+    {
+     "dt": 1,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 51,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 67,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 84,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 100,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 117,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "640x360-en",
+   "frames": 74,
+   "firstAllImagesMs": 1,
+   "first": [
+    {
+     "dt": 1,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 51,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 68,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 85,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 101,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 118,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "1280x720-ko",
+   "frames": 117,
+   "firstAllImagesMs": 2,
+   "first": [
+    {
+     "dt": 2,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 52,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 69,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 102,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 119,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 136,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  },
+  {
+   "tag": "1280x720-en",
+   "frames": 74,
+   "firstAllImagesMs": 12,
+   "first": [
+    {
+     "dt": 12,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 45,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 62,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 79,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 95,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    },
+    {
+     "dt": 112,
+     "n": 40,
+     "complete": 40,
+     "state": "levels"
+    }
+   ]
+  }
+ ],
+ "log": {
+  "console": [],
+  "external": [],
+  "failed": []
+ }
+}
