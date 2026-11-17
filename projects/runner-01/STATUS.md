@@ -2,7 +2,7 @@
 
 - 레퍼런스: Geometry Dash (장르·메커닉 벤치마크만, 리소스는 자체 제작)
 - 게임 이름: Reverbound (잔향 질주) · slug: reverbound (웹 빌드 경로 games/reverbound/)
-- 현재 단계: **round-2 1-3 빌드** (game-developer: 30-art 확정값 동기화, 콤보·판정 이름·% 구현). 기획 반영 완료: 레벨 10개 압축(L10 목표 17회), 자동 체크포인트, 천장 가시 판정 통일, 콤보(647cab4), 판정 %·이름(57bf276), 아트(f7bbcce). 다음: round-2 QA → 4역할 리뷰 → 점수 → 게이트
+- 현재 단계: **round-2 1-4 QA** (qa-engineer). round-2 1-3 빌드 2987470 완료(레벨 10, 자동 체크포인트, 천장 판정 통일, 콤보·판정 이름·%, 30-art 확정값, 첫 시도 지연 대기). 다음: 1-5 4역할 리뷰 → 1-6 점수 → 1-7 게이트. 담당: runner-01 전담 오케스트레이터 세션(Reverbound팀)
 - 라운드: 2 (round-1 점수는 reviews/round-1/score.md)
 - 미해결 이슈: 벤치마크 수치(점프·중력·히트박스)는 원 출처 미확인 추정치 → 빌드 후 자동 플레이 지표로 재보정 필요
 - 교차 리뷰 결과: 3역할 완료 (reviews/cross/). 남은 문서 간 사소한 문구 불일치(tut_tempo, tut_hold, 위험·템포 문 색 힌트, art의 x↔스텝 변환식)는 round-1 리뷰에서 처리. 데이터 파일(balance.json, levels/*.json)과 10-lore.md 확정값이 문서 서술보다 우선.
