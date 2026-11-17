@@ -112,6 +112,40 @@
       "mark_fx_s": { "10": 0.4, "20": 0.6 },
       "mark_sound_delay_beats": 0.5,
       "break_fade_s": 0.3
+    },
+    "judge_pct": {
+      "_note": "퍼센트 판정 (2026-11-17 요청자 추가 지시 '판정 이름과 퍼센트까지', harness/benchmarks/djmax-judgement.md 7절, 20-balance.md 15-10). 표시 층일 뿐 생사·등급·콤보·클리어를 바꾸지 않는다. 기준 구현 tools/sim/combo-ref.mjs pctOf/accuracyOf",
+      "enabled": true,
+      "delta_basis": "tick",
+      "_delta_note": "Δ = (사건 틱 k / physics_hz − 탭 t_s) × 1000 ms를 delta_round_ms 단위로 반올림. 등급(grade_ms)과 같은 Δ. 이르면 음수",
+      "delta_round_ms": 0.001,
+      "grade1_ms": [25, 50],
+      "grade1_pcts": [100, 90],
+      "grade2_pcts": [80, 70, 60],
+      "_grade2_note": "grade1_ms[1] < d ≤ grade_ms[1] 구간(50~100)을 칸 수만큼 똑같이 나눔: ≤66.7 → 80, ≤83.3 → 70, ≤100 → 60",
+      "grade3_pcts": [50, 40, 30, 20, 10],
+      "_grade3_note": "grade_ms[1] < d ≤ W 구간을 5칸으로 똑같이 나눔(안쪽부터). W = Δ 쪽 창 끝: Δ < 0 이면 그 탭 early_ms, 아니면 late_ms. 창 끝 = 10. 창 ≤ 100 인 탭은 3단이 없어 창 끝이 60 또는 70",
+      "edge_tol_ms": 0.15,
+      "_edge_note": "judge_taps의 t_s(0.1 ms 단위 4자리)와 early_ms/late_ms(0.1 ms) 반올림 오차 합이 최대 0.1 ms라, 창 안 판정(짝짓기)과 % 모두 창 끝을 이만큼 너그럽게 본다. 틱 간격 4.17 ms보다 훨씬 작아 다른 틱은 들어오지 않는다",
+      "boundary": "inclusive_inner",
+      "grade_min_pct": { "1": 90, "2": 60, "3": 10 },
+      "accuracy": {
+        "over": "cleared_attempt_judgements",
+        "formula": "floor(mean(pct))",
+        "failed_attempt": null,
+        "practice_mode": null
+      },
+      "best_accuracy_modes": ["normal"],
+      "best_accuracy_keep": "max",
+      "hud": {
+        "_note": "판정 이름 + % 표시 시간(벤치마크 7-3 권장값, 게임 시계). 모양·크기·색·자리는 30-art(art-director). 새 판정이 오면 이전 표시를 그 프레임에 지우고 다시 그림",
+        "pop_scale": 1.15,
+        "pop_ms": 80,
+        "hold_ms": 400,
+        "fade_ms": 150,
+        "replace_on_new": true,
+        "hide_on_death_s": 0.3
+      }
     }
   },
 

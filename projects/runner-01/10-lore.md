@@ -24,6 +24,7 @@
 | `name` 필드 언어 | 한국어(기본 언어). 영어 화면은 `levelN_name` 키를 씀 | 빌드 | 빌드는 언어 설정에 따라 문자열 테이블을 우선 사용 |
 | 화면 언어 선택 | `?lang=` 쿼리가 있으면 그것, 없으면 `navigator.language`가 `ko`로 시작하면 한국어, 아니면 영어 | 빌드 | 언어 설정 UI와 새 문자열 키는 만들지 않음 (round-2 오케스트레이터 결정, 구현은 game-developer) |
 | 플레이 중 문구 길이 | 한 문장, **한국어 12자 이내(공백 포함) / 영어 6단어 이내** | 튜토리얼 카드, 토스트, HUD | 세계관 용어 대신 화면에 보이는 모양 이름(가시, 상자, 발판, 얇은 판, 고리, 위 가시, 분홍 문, 하늘색 문, 깃발)을 씀 |
+| 판정 이름 (화면) | **딱이야 / 좋아 / 됐다**, **Wow! / Nice! / OK!** (`judge_name_1/2/3`) | 탭마다 판정 표시, 5-9절 | 기획·데이터 이름 딱/좋아/통과·등급 1/2/3은 그대로. 실패 이름 없음 (2026-11-17) |
 | 기믹 이름표 | 4절 공통 용어 표 | UI·튜토리얼·스토어 | 스키마 `type` 값(`spike`, `pad` 등)은 바꾸지 않음 |
 
 - 입력: `00-benchmark.md`, 교차 리뷰로 `20-balance.md`·`balance.json`·`levels/*.json`·`30-art.md` 반영 (2026-11-16), round-1 리뷰와 오케스트레이터 round-2 결정 반영 (2026-11-17), 요청자 지시 "레벨 10개"에 따른 `20-balance.md` 14장(레벨 4~10, 레벨 2·3 재설계) 반영 (2026-11-17)
@@ -277,6 +278,7 @@
 | new_best | 최고 기록! | New best! |
 
 - 콤보(점 10칸 줄·큰 표지)는 화면에 글·숫자를 더하지 않습니다. 화면 낭독용 이름만 5-8절에 둡니다.
+- 탭마다 뜨는 판정 이름·판정 %와 결과 화면 정확도·최고 콤보 문구는 5-9절입니다(2026-11-17 요청자 추가 지시).
 - 연습 모드 깃발 키 4개(`practice_checkpoint_placed`·`practice_checkpoint_removed`·`practice_place_btn`·`practice_remove_btn`)는 뺐습니다(2026-11-17). 연습 모드가 자동 체크포인트로 바뀌어 깃발 꽂기·빼기 버튼과 알림 토스트가 없습니다(`DEV_NOTES.md` "버튼" 줄, `games/reverbound/js/` 사용 0곳). 수동 깃발을 되살리면 예전 문구(깃발을 꽂았어요 / Flag placed, 깃발을 뺐어요 / Flag removed, 깃발 꽂기 / Place flag, 깃발 빼기 / Remove flag)로 이 표에 되돌립니다.
 
 ### 5-3. 일시정지와 설정
@@ -418,13 +420,58 @@ round-2 결정으로 **사망 토스트를 없앱니다.** 사망은 조각 연�
 | combo_best_aria | 레벨 선택 카드의 최고 콤보 표지 | 카드를 읽을 때 | 이어서 잘 뛴 최고 기록 | Most jumps in a row |
 | combo_mark_aria | (선택) 콤보 10·20 단계 | 단계 연출 때 한 번, 조용히 알림 | 이어서 잘 뛰어요! | Great jumps, keep going! |
 
-- **숫자는 이름에 넣지 않습니다.** 콤보 수는 값 속성으로만 줍니다(`harness/criteria.md` 세계관 절 "대체 글에 숫자·값을 이어 붙이지 않음"). 권장: `role="meter"`, `aria-valuemin` 0, `aria-valuemax` = 그 레벨 `judge_taps` 길이, `aria-valuenow` = 콤보 수, `aria-valuetext` = 콤보 수 숫자만(예 "7"). `aria-valuetext`를 두는 이유는 낭독기가 meter 값을 "47 %"처럼 퍼센트로 읽지 않게 하려는 것입니다. 읽히는 말은 "이어서 잘 뛴 수, 7" 정도가 됩니다.
+- **숫자는 이름에 넣지 않습니다.** 콤보 수는 값 속성으로만 줍니다(`harness/criteria.md` 세계관 절 "대체 글에 숫자·값을 이어 붙이지 않음"). 권장: `role="meter"`, `aria-valuemin` 0, `aria-valuemax` = 그 레벨 `judge_taps` 길이, `aria-valuenow` = 콤보 수, `aria-valuetext` = 콤보 수 숫자만(예 "7"). **콤보 점 줄에서** `aria-valuetext`를 두는 이유는, 콤보 수는 퍼센트가 아닌데 낭독기가 meter 값을 "47 %"처럼 퍼센트로 읽을 수 있기 때문입니다. 읽히는 말은 "이어서 잘 뛴 수, 7" 정도가 됩니다. 판정 %와 결과 화면 정확도는 실제 퍼센트이므로 이 규칙과 상관없이 "%"를 붙여 읽습니다(5-9절).
 - **숫자 읽기는 필요한 만큼만**: 점 몇 개·표지 몇 개를 따로 읽지 않고, 콤보 수 하나만 읽습니다. 등급(1·2·3단)은 판정마다 읽지 않습니다(가장 가까운 두 탭이 179 ms라 낭독이 따라가지 못하고 곡을 가림).
 - `combo_aria`: 콤보가 0~1이라 줄이 안 보일 때(`show_from` 2)는 낭독기에서도 숨깁니다(그림이 없는 것을 읽지 않음). `aria-live`를 붙이지 않습니다. 성공마다 읽으면 플레이를 방해합니다.
 - `combo_best_aria`: 일반 모드 기록만 있으므로(`best_record_modes` normal) 기록이 2 미만이거나 연습 모드 카드에서 표지를 안 보이면 숨깁니다. 값은 `aria-valuenow`(·`aria-valuetext`) = 최고 콤보 수. **주의**: 지금 레벨 카드는 `<button>`에 `aria-label`("번호. 이름")을 직접 붙이므로, 버튼 **안**에 넣은 표지는 낭독기에 읽히지 않습니다(버튼의 자식은 이름에 묻힘). 표지를 버튼 밖 형제 요소로 두거나, 버튼 이름을 `aria-labelledby`로 바꾸고 표지를 `aria-describedby`로 연결해 주세요. 접근성 트리(ariaSnapshot)에 "이어서 잘 뛴 최고 기록"과 값이 실제로 나오는지 확인합니다(insights 텍스트 절 rhythm-02 줄). aria-hidden 요소에 붙이면 읽히지 않습니다.
 - `combo_mark_aria`(선택): 10·20 단계에서만 `aria-live="polite"` 영역에 한 번 넣습니다(한 시도에 많아야 2번). 숫자를 넣지 않아 10과 20에서 같은 문장입니다. 끊길 때(사망)는 아무것도 읽지 않습니다(겁주지 않기, 벤치마크 4-5). 넣지 않아도 `combo_aria` 값으로 콤보 수를 알 수 있으므로 기본은 dev 판단입니다.
 - 원작 판정 이름·콤보 용어(영어 대문자 판정 이름 등)를 쓰지 않습니다. "콤보"라는 말도 아이에게 낯설어 쓰지 않고 "이어서 잘 뛴"으로 풀었습니다. 키 이름의 `combo`는 데이터용이라 화면에 나오지 않습니다.
+- `combo_best_aria` 같은 콤보 표지에도 숫자만 넣는 `aria-valuetext` 규칙을 그대로 씁니다(콤보 점 줄·콤보 표지에만 해당).
 - 글자 수(공백·문장부호 포함): `combo_aria` 9자 / 5단어, `combo_mark_aria` 10자 / 4단어(플레이 중 읽히므로 12자·6단어 한도 안), `combo_best_aria` 13자 / 5단어(레벨 선택 화면 전용. 플레이 중 한도 대상 아님. `level_locked`·`settings_reset_confirm`과 같은 메뉴 문구).
+
+### 5-9. 판정 이름과 결과 화면 (2026-11-17 요청자 추가 지시 "판정 이름과 퍼센트까지 해주세요.")
+
+탭마다 판정 이름 + 판정 %를 플레이어 위쪽에 잠깐 띄우고, 클리어 화면에 레벨 정확도 %와 최고 콤보를 더합니다. 계산·표시 시간은 `20-balance.md` 15-10, `balance.json combo.judge_pct`가 기준이고, 글꼴·크기·색·자리는 `30-art.md`(art-director)가 정합니다. 기준 문서: `harness/benchmarks/djmax-judgement.md` 7-3·7-5, `harness/criteria.md` 게임 감각 "판정 이름과 퍼센트 표시" 줄.
+
+**판정 이름 (확정)**
+
+| 키 | 등급 (데이터) | % 범위 | KR | EN |
+|---|---|---|---|---|
+| judge_name_1 | 1단 (`grade` 1, 기획 이름 "딱") | 90~100 | 딱이야 | Wow! |
+| judge_name_2 | 2단 (`grade` 2, "좋아") | 60~80 | 좋아 | Nice! |
+| judge_name_3 | 3단 (`grade` 3, "통과") | 10~50 | 됐다 | OK! |
+| judge_pct | 판정 % (이름 아래 작게) | 10~100 | {pct}% | {pct}% |
+
+- **모두 칭찬 말**입니다. 3단도 콤보가 이어지는 성공이라 시험 말투 "통과"를 화면에 쓰지 않습니다. 기획 문서·데이터의 딱/좋아/통과·등급 1/2/3은 그대로 둡니다.
+- 벤치마크 권장안(딱이야/좋아/됐어, Wow!/Nice/OK)에서 두 군데를 runner-01 톤에 맞췄습니다.
+  - 3단 "됐어" → **"됐다"**: "됐어"는 입말로 "그만해·필요 없어"(예: "됐어, 안 해")로도 쓰여 혼자 뜨면 퉁명스럽게 들릴 수 있습니다. "됐다!"는 뛰어서 넘었을 때 스스로 외치는 말이라 "괜찮아, 다시"·"끝까지 왔어요!" 같은 밝은 톤과 맞습니다.
+  - 영어는 셋 다 느낌표를 붙여 **Wow! / Nice! / OK!**로 맞췄습니다. 한 등급만 느낌표가 없으면 그 등급만 덜 칭찬처럼 보입니다.
+- 길이: 한국어 3·2·2자, 영어 4·5·3자(느낌표 포함). 벤치마크 7-3 "한국어 2~3자, 영어 2~4자 + 느낌표"와 플레이 중 한도(12자·6단어) 안입니다. 띄어쓰기 없음이라 한 줄에서 잘리지 않습니다.
+- 원본 보호: 레퍼런스 리듬 게임의 판정·칭호 이름(영어 대문자 판정 이름, "이름 + 숫자%"를 붙여 한 덩어리로 쓰는 표기)을 쓰지 않았습니다. 이름과 %는 **두 줄**(이름 위, % 아래 작게)로 따로 씁니다.
+- **실패에는 이름을 만들지 않습니다.** 0 %·빨간 글·"놓침" 같은 말 없음(겁주지 않기). 맞출 탭이 없는 점프(헛점프)·북 발판 자동 점프도 이름·%가 뜨지 않습니다.
+- 글을 못 읽는 아이는 크기·반응 모양으로 등급을 압니다(30-art). 이름은 보호자와 읽는 아이를 위한 덧붙임입니다.
+- 낭독: 판정 이름·%는 판정마다 읽지 않습니다(5-8절과 같은 이유, 가장 가까운 두 탭 179 ms). 판정 표시 요소는 `aria-hidden`으로 두고, 결과 화면 값만 읽습니다.
+
+**결과 화면 (클리어 화면에 더하는 줄)**
+
+| 키 | 붙는 곳 | KR | EN |
+|---|---|---|---|
+| result_accuracy | 정확도 줄의 작은 글 이름표(그림표 옆, 있으면) | 박자 맞히기 | Timing |
+| result_accuracy_value | 정확도 큰 숫자 | {pct}% | {pct}% |
+| result_best_combo | 최고 콤보 줄의 작은 글 이름표(점 줄 표지 옆, 있으면) | 이어서 잘 뛴 수 | Jumps in a row |
+| result_best_combo_value | 최고 콤보 숫자 | {n} | {n} |
+| result_new_best | 정확도 또는 최고 콤보가 일반 모드 기록을 넘었을 때 작은 표지 옆 | 신기록! | New record! |
+| result_accuracy_aria | 정확도 줄의 대체 글(이름) | 박자를 맞힌 정도 | How well you hit the beat |
+| result_best_combo_aria | 최고 콤보 줄의 대체 글(이름) | 가장 많이 이어서 잘 뛴 수 | Most good jumps in a row |
+| result_new_best_aria | 신기록 표지의 대체 글 | 새 최고 기록이에요 | A new best |
+| best_accuracy_aria | 레벨 선택 카드의 최고 정확도 표지 대체 글(표지를 둘 때만) | 박자 최고 기록 | Best timing |
+
+- 결과 화면은 **그림표가 주, 글은 보조**입니다(벤치마크 7-5: 정확도 앞 이름표는 그림 + 대체 글). art가 그림표만 두기로 하면 `result_accuracy`·`result_best_combo`는 화면에 쓰지 않고 대체 글 키만 씁니다.
+- "정확도"라는 말은 5~6세에게 어려워 쓰지 않고 "박자 맞히기"로 풀었습니다. 영어 "Timing"은 짧은 이름표용이고, 낭독은 `result_accuracy_aria`(문장)로 합니다. 레퍼런스 결과 화면 표기(영어 대문자 약어 등)는 쓰지 않습니다.
+- **진행도 %와 헷갈리지 않게**: 레벨 카드·HUD의 `best_normal`("최고 {pct}%")·`progress`("{pct}%")는 **진행도**입니다. 정확도 %는 결과 화면에만 이름표(그림·`result_accuracy`)와 함께 나오고, 레벨 카드에 정확도를 둘 때는 숫자 대신 표지 + `best_accuracy_aria`만 씁니다(카드에 "%" 숫자가 두 개 생기지 않게). 클리어 화면에서는 진행도 %를 다시 보이지 않습니다(클리어 = 100 %).
+- 값 읽기: 정확도·최고 콤보는 대체 글 이름 + 값 속성으로 줍니다(이름에 숫자를 이어 붙이지 않음, 5-8절과 같은 원칙). 정확도는 실제 퍼센트이므로 값을 "%"와 함께 읽어도 됩니다(예: "박자를 맞힌 정도, 87%"). 최고 콤보는 5-8절 콤보 규칙대로 `aria-valuetext` = 숫자만.
+- 실패한 시도·연습 모드에는 정확도가 없으므로 이 줄들을 띄우지 않습니다(빈 칸·"0%"·"-" 없음). 연습 모드 클리어 화면은 지금처럼 정확도·최고 콤보 없이 나옵니다.
+- 글자 수(공백 포함): `result_best_combo_aria` 15자 / 6단어, `result_accuracy_aria` 9자 / 6단어. 결과 화면 전용이라 플레이 중 한도 대상이 아니고, 화면에 보이는 이름표는 `result_accuracy` 6자 / 1단어, `result_best_combo` 9자 / 3단어입니다. 360 px 폭에서 줄바꿈 없이 들어가는지는 qa가 4해상도 × 영어로 확인합니다.
 
 ## 6. 스토어 등록 문구 초안
 
@@ -517,3 +564,11 @@ One more run. One more bar.
 
 - game-developer: `sync-data` 후 `strings.json`에 새 키 `combo_aria`·`combo_best_aria`·`combo_mark_aria`가 들어오고, `practice_checkpoint_placed`·`practice_checkpoint_removed`·`practice_place_btn`·`practice_remove_btn`이 빠짐(빌드 사용 0곳). `level_locked` 영어 문구가 바뀜. 콤보 대체 글은 5-8절 방식(이름은 키, 값은 `aria-valuenow`·`aria-valuetext`, 레벨 카드 버튼 밖에 표지 두기).
 - qa-engineer: 접근성 트리에서 콤보 줄·카드 최고 콤보의 이름과 값이 읽히는지, 콤보 0~1일 때 숨는지 확인.
+
+## 판정 이름·결과 화면 문구 처리 결과 (2026-11-17)
+
+보고서: `Docs/balance-designer/2026-11-17-r2-percent.md`(이번 차수는 balance-designer가 lore 몫을 함께 맡음). 근거: `harness/benchmarks/djmax-judgement.md` 7-3·7-5, `20-balance.md` 15-10. 다른 역할에 넘기는 것:
+
+- game-developer: `sync-data` 후 `strings.json`에 `judge_name_1`·`judge_name_2`·`judge_name_3`·`judge_pct`, `result_accuracy`·`result_accuracy_value`·`result_best_combo`·`result_best_combo_value`·`result_new_best`, 대체 글 `result_accuracy_aria`·`result_best_combo_aria`·`result_new_best_aria`·`best_accuracy_aria`가 들어옴. 판정 표시는 `aria-hidden`, 결과 화면 값은 이름 + 값 속성. 실패·연습 모드에는 정확도 줄을 띄우지 않음.
+- art-director: 판정 이름은 이름(위) + %(아래, 0.5~0.6배) 두 줄. 결과 화면 정확도·최고 콤보 이름표 그림(과녁·박자 표지 등 자체 제작). 레벨 카드에 정확도를 둔다면 숫자 없이 표지만(진행도 %와 구분).
+- qa-engineer: 영어 `Nice!`·`Jumps in a row`가 4해상도에서 잘리지 않는지, notext 화면에서 등급 구분, 접근성 트리에 결과 화면 이름과 값이 읽히는지.

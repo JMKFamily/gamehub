@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | round-2 | [퍼센트 판정·판정 이름 (judge_pct 계산, 정확도 분포, 판정 이름·결과 화면 문구, combo-ref 창 버그 수정)](balance-designer/2026-11-17-r2-percent.md) |
 | 2026-11-17 | art-director | round-2 | [아트·사운드 수정 (round-1 이슈 1~8, 레벨 4~10 팔레트·기믹·곡, 콤보·판정 이름·% 표시)](art-director/2026-11-17-r2-art-fixes.md) |
 | 2026-11-17 | benchmark-analyst | 공통 | [퍼센트 판정·판정 이름 벤치마크 (DJMAX식 % 계산식, 자체 판정 이름, 결과 화면 정확도)](benchmark-analyst/2026-11-17-djmax-percent.md) |
 | 2026-11-17 | lore-writer | round-2 | [콤보 대체 글과 문구 정리 (연습 깃발 키 삭제, level_locked)](lore-writer/2026-11-17-r2-combo-text.md) |
