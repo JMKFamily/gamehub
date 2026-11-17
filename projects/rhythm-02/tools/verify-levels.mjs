@@ -1087,6 +1087,135 @@ log('\n== P 판정 이름·퍼센트 (balance.json judgement_display, judge.mjs 
   }
 }
 
+// ---------- J1~J3 판정 기준 구현 단단히 (harness/insights.md QA·측정 57bf276: NaN 창 · 경계 부동소수 · 앞 탭 어긋난 뒤 창 밖 탭)
+log('\n== J 판정 기준 구현 (창 값 유한 확인 · Δ 0.001 ms 반올림 "경계는 이하" · 앞 탭 어긋난 뒤 창 밖 탭) ==');
+{
+  const KEYS = ['perfect_ms', 'good_ms', 'pass_early_ms', 'pass_late_ms', 'miss_zone_ms'];
+  // 검증기 쪽 독립 기준(judge.mjs 코드를 쓰지 않음): 정수 µs(0 기준 대칭 반올림)로 비교
+  const us = (x) => (x < 0 ? -Math.round(-x * 1000) : Math.round(x * 1000));
+  const refJudge = (L, taps) => {
+    const j = L.judge, C = L.contacts, E = us(j.pass_early_ms), Lt = us(j.pass_late_ms), P = us(j.perfect_ms), G = us(j.good_ms);
+    const ts = [...taps].sort((a, b) => a - b), grades = [];
+    let i = 0;
+    const holds = (tau) => { while (i < C.length && C[i].kind === 'nogo' && us(tau - C[i].t) > Lt) { grades.push({ i, grade: 'hold' }); i++; } };
+    for (const tau of ts) {
+      holds(tau);
+      if (i >= C.length) break;
+      const c = C[i], D = us(tau - c.t);
+      if (c.kind === 'nogo') { if (D >= -E) return { clear: false, failIndex: i, reason: 'bump_roof', grades }; continue; }
+      if (D > Lt) return { clear: false, failIndex: i, reason: 'late', grades };
+      if (D >= -E) { const a = Math.abs(D); grades.push({ i, grade: a <= P ? 'perfect' : a <= G ? 'good' : 'pass' }); i++; continue; }
+      let lo = c.t - j.pass_early_ms - j.miss_zone_ms;
+      if (i > 0) lo = Math.max(lo, C[i - 1].t + j.pass_late_ms);
+      lo = Math.min(lo, c.t - j.pass_early_ms);
+      if (D >= us(lo - c.t)) return { clear: false, failIndex: i, reason: 'early', grades };
+    }
+    holds(Infinity);
+    if (i < C.length) return { clear: false, failIndex: i, reason: 'late', grades };
+    return { clear: true, grades };
+  };
+  const same = (a, b) => a.clear === b.clear && a.failIndex === b.failIndex && a.reason === b.reason && a.grades.length === b.grades.length && a.grades.every((g, k) => g.i === b.grades[k].i && g.grade === b.grades[k].grade);
+  const desc = (r) => (r.clear ? 'clear' : `${r.reason}@${r.failIndex}`);
+  // J1: 창·등급 키를 지운(또는 NaN·문자열) 가짜 레벨 → judgeAttempt·pctOf 가 예외(데이터 오류). 조용히 통과·실패하지 않음
+  {
+    const err = [];
+    let n = 0;
+    const L0 = compiled[0];
+    const hitI = L0.contacts.find((c) => c.kind === 'hit').i;
+    for (const k of KEYS) {
+      for (const bad of ['delete', 'NaN', 'string']) {
+        const lv = structuredClone(L0.level), b2 = structuredClone(bal);
+        if (bad === 'delete') { if (lv.judge) delete lv.judge[k]; delete b2.judge_defaults[k]; }
+        else lv.judge = { ...(lv.judge || {}), [k]: bad === 'NaN' ? NaN : String(L0.judge[k]) };
+        const F = compileLevel(lv, b2);
+        n++;
+        let t1 = false, t2 = false;
+        try { judgeAttempt(F, perfectTaps(F)); } catch { t1 = true; }
+        try { pctOf(F, hitI, 10, b2); } catch { t2 = true; }
+        if (!t1) err.push(`${k} ${bad}: judgeAttempt 예외 없음`);
+        if (!t2) err.push(`${k} ${bad}: pctOf 예외 없음`);
+      }
+    }
+    const b3 = structuredClone(bal); b3.judgement_display.pct.perfect_100_max_ms = NaN;
+    let t3 = false; try { pctOf(L0, hitI, 10, b3); } catch { t3 = true; }
+    if (!t3) err.push('perfect_100_max_ms NaN: pctOf 예외 없음');
+    let okReal = true;
+    try { compiled.forEach((L) => { judgeAttempt(L, perfectTaps(L)); pctOf(L, L.contacts.find((c) => c.kind === 'hit').i, 0, bal); }); } catch (e) { okReal = false; err.push(`실제 레벨에서 예외: ${e.message}`); }
+    check('all', 'J1', !err.length, err.length ? err.slice(0, 5).join(' / ') : `판정 키 ${KEYS.length}개 × (지움·NaN·문자열) = 가짜 레벨 ${n}개 + 25 ms 경계 NaN: judgeAttempt·pctOf 모두 예외(데이터 오류. NaN 창으로 "창 밖이면 실패"가 늘 통과하는 일 없음) · 실제 10레벨은 예외 없음 ${okReal ? '예' : '아님'}`);
+  }
+  // J2: 정확히 25 / p / g / W 경계와 경계 ±0.0004·±0.0006 ms (모든 hit 접촉, 이른·늦은 쪽) — 판정 등급·% 가 기대값과 같음
+  {
+    const err = [];
+    let n = 0;
+    const R = bal.judgement_display.pct;
+    compiled.forEach((L) => {
+      const id = +L.level.id, j = L.judge;
+      for (const c of L.contacts.filter((x) => x.kind === 'hit')) {
+        for (const sgn of [-1, 1]) {
+          const W = sgn < 0 ? j.pass_early_ms : j.pass_late_ms;
+          const B = [[R.perfect_100_max_ms, 'perfect', 100, 'perfect', 90], [j.perfect_ms, 'perfect', 90, 'good', 80], [j.good_ms, 'good', 60, 'pass', 50], [W, 'pass', 10, null, null]];
+          for (const [m, gIn, pIn, gOut, pOut] of B) {
+            for (const off of [0, 0.0004, -0.0004, 0.0006, -0.0006]) {
+              const e = sgn * (m + off);
+              const outer = off > 0.0005;
+              const tap = c.t + e; // 실제 접촉 시각에 더함(부동소수 오차가 생기는 실제 경로)
+              const r = judgeAttempt(L, [tap], { startIndex: c.i });
+              const g = r.grades.find((x) => x.i === c.i);
+              const ref = refJudge(L, [tap]);
+              n++;
+              const wantG = outer ? gOut : gIn, wantP = outer ? pOut : pIn;
+              if (wantG == null) {
+                if (g || r.failIndex !== c.i) err.push(`L${id} #${c.i} e=${e} 창 밖인데 ${g ? g.grade : desc(r)}`);
+                if (pctOf(L, c.i, tap - c.t, bal) !== null) err.push(`L${id} #${c.i} e=${e} 창 밖인데 % ${pctOf(L, c.i, tap - c.t, bal)}`);
+              } else {
+                if (!g || g.grade !== wantG) err.push(`L${id} #${c.i} e=${e} 등급 ${g ? g.grade : desc(r)} ≠ ${wantG}`);
+                const p = g ? pctOf(L, c.i, g.e, bal) : null;
+                if (p !== wantP) err.push(`L${id} #${c.i} e=${e} % ${p} ≠ ${wantP}`);
+              }
+              if (c.i === 0 && !same(r, ref)) err.push(`L${id} #0 e=${e} ${desc(r)} ≠ 독립 ${desc(ref)}`);
+            }
+          }
+        }
+      }
+    });
+    check('all', 'J2', !err.length, err.length ? err.slice(0, 5).join(' / ') : `모든 hit 접촉(실제 접촉 시각 + Δ, 부동소수 오차 포함) × 이른·늦은 쪽 × 경계 4개(25 / 딱 p / 좋아 g / 창 끝 W) × (정확히 · ±0.0004 · ±0.0006 ms) = ${n}점: 경계·+0.0004 = 안쪽 등급·%, +0.0006 = 바깥(W 밖 = 그 접촉 실패·% 없음), −0.0004·−0.0006 = 안쪽`);
+  }
+  // J3: 앞 탭을 창 끝까지 어긋나게 한 뒤 다음 탭을 창 밖(0.6 ms)에 치면 그 접촉에서 실패 + 봇 무작위 시도 독립 기준 대조
+  {
+    const err = [];
+    let n = 0, nb = 0, nbClear = 0;
+    compiled.forEach((L, li) => {
+      const id = +L.level.id, j = L.judge, C = L.contacts;
+      const base = C.filter((c) => c.kind === 'hit').map((c) => [c.i, c.t]);
+      for (let k = 1; k < C.length; k++) {
+        if (C[k].kind !== 'hit' || C[k - 1].kind !== 'hit') continue;
+        for (const [pe, ne] of [[j.pass_late_ms, j.pass_late_ms + 0.6], [-j.pass_early_ms, -(j.pass_early_ms + 0.6)], [j.pass_late_ms, -(j.pass_early_ms + 0.6)], [-j.pass_early_ms, j.pass_late_ms + 0.6]]) {
+          const taps = base.map(([i, t]) => (i === k - 1 ? t + pe : i === k ? t + ne : t));
+          const r = judgeAttempt(L, taps), ref = refJudge(L, taps);
+          n++;
+          if (!same(r, ref)) err.push(`L${id} #${k} 앞 ${pe}·다음 ${f2(ne)}: ${desc(r)} ≠ 독립 ${desc(ref)}`);
+          if (Math.sign(pe) === Math.sign(ne) && (r.clear || r.failIndex !== k)) err.push(`L${id} #${k} 앞 ${pe}·다음 ${f2(ne)}: 창 밖 탭이 살아남음(${desc(r)})`);
+        }
+      }
+      // 봇 무작위 대조(σ70·σ25, 헛탭 포함): judgeAttempt = 독립 기준, 클리어 시도의 모든 hit 판정 Δ 가 그 쪽 창 안(0.001 ms 반올림)
+      for (const prof of ['child_sd70', 'skilled_sd25']) {
+        const rng = makeRng(SEED + 9100 + li);
+        for (let t = 0; t < (QUICK ? 500 : 3000); t++) {
+          const taps = botTaps(L, bal.bots.profiles[prof], rng, { extraAfter: bal.bots.extra_tap_after_s });
+          const r = judgeAttempt(L, taps), ref = refJudge(L, taps);
+          nb++;
+          if (!same(r, ref)) { err.push(`L${id} ${prof} 봇 시도 ${t}: ${desc(r)} ≠ 독립 ${desc(ref)}`); break; }
+          if (r.clear) {
+            nbClear++;
+            for (const g of r.grades) if (g.grade !== 'hold' && (us(g.e) < -us(j.pass_early_ms) || us(g.e) > us(j.pass_late_ms))) { err.push(`L${id} ${prof} 클리어인데 창 밖 Δ ${g.e} (#${g.i})`); break; }
+          }
+        }
+      }
+    });
+    check('all', 'J3', !err.length, err.length ? err.slice(0, 5).join(' / ') : `앞 hit 탭을 창 끝(+늦은 W / −이른 W)에 두고 다음 hit 탭을 창 밖 0.6 ms 에 친 ${n}경우: 같은 쪽 어긋남은 모두 그 접촉에서 실패(창 밖 탭이 살아남지 않음), 엇갈린 쪽 포함 모두 독립 기준(정수 µs)과 같음 · 봇 무작위 ${nb}회(σ70·σ25, 헛탭 포함) 결과(클리어·실패 접촉·이유·등급) = 독립 기준, 클리어 ${nbClear}회의 hit 판정 모두 창 안`);
+  }
+}
+
 // ---------- V24 바탕 단계 (1-2 R2-D4): art 식 1 + round(2(n−1)/(P−1)) 와 같은 계산
 {
   const err = [], rows = [];

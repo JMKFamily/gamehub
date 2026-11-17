@@ -115,30 +115,35 @@ export function compileLevel(level, bal) {
 //  - hit 접촉: 통과 창 [t-early, t+late] 안 → 성공(등급), 놓침 구역 [zoneStart, t-early) → 실패 "early", 그보다 이른 탭 무시, 창 끝까지 없으면 "late".
 //  - nogo 접촉(지붕 밑 착지): [t-early, t+late] 안 탭 → 실패 "bump_roof"(공이 지붕에 콩). 그보다 이른 탭은 무시(북만 톡).
 //    창 끝까지 탭이 없으면 성공 → 판정 목록에 { grade: 'hold', e: null } 한 칸(콤보 +1, 등급 계산에서는 뺌).
+// (insights QA·측정 57bf276) 판정 비교는 모두 "접촉 기준 Δ = 탭 − 접촉 시각"을 0.001 ms 로 반올림한 값으로, 경계는 "이하"(경계값 = 안쪽).
+//   창·등급 경계 값이 유한한 수가 아니면(없는 키 → undefined·NaN) 데이터 오류로 예외를 던진다(checkJudge). NaN 비교는 모두 false 라
+//   "창 밖이면 실패"가 늘 통과하므로, 조용히 실패 처리하면 고장 난 레벨이 "어려운 레벨"로 보여 원인을 숨긴다.
 export function judgeAttempt(L, taps, { startIndex = 0, carried = null } = {}) {
+  const j = checkJudge(L);
   const ts = [...taps].sort((a, b) => a - b);
   const cs = L.contacts;
-  const j = L.judge;
   const grades = carried ? [...carried] : [];
   let i = startIndex;
   let stray = 0;
-  const passHolds = (tau) => { while (i < cs.length && cs[i].kind === 'nogo' && tau > cs[i].passEnd) { grades.push({ i, e: null, grade: 'hold' }); i++; } };
+  const E = j.pass_early_ms, Lt = j.pass_late_ms;
+  const passHolds = (tau) => { while (i < cs.length && cs[i].kind === 'nogo' && roundMs(tau - cs[i].t) > Lt) { grades.push({ i, e: null, grade: 'hold' }); i++; } };
   for (const tau of ts) {
     passHolds(tau);
     if (i >= cs.length) break;
     const st = cs[i];
+    const d = roundMs(tau - st.t); // 판정용 Δ (0.001 ms)
     if (st.kind === 'nogo') {
-      if (tau >= st.passStart) return fail(L, i, tau, 'bump_roof', grades, stray);
+      if (d >= -E) return fail(L, i, tau, 'bump_roof', grades, stray);
       stray++;
       continue;
     }
-    if (tau > st.passEnd) return fail(L, i, st.passEnd, 'late', grades, stray);
-    if (tau >= st.passStart) {
-      const e = tau - st.t;
-      const a = Math.abs(e);
+    if (d > Lt) return fail(L, i, st.passEnd, 'late', grades, stray);
+    if (d >= -E) {
+      const e = tau - st.t; // 결과에는 원래 Δ 를 남김(표시 층 pctOf 가 같은 방식으로 다시 반올림)
+      const a = Math.abs(d);
       grades.push({ i, e, grade: a <= j.perfect_ms ? 'perfect' : a <= j.good_ms ? 'good' : 'pass' });
       i++;
-    } else if (tau >= st.zoneStart) {
+    } else if (d >= roundMs(st.zoneStart - st.t)) {
       return fail(L, i, tau, 'early', grades, stray);
     } else {
       stray++;
@@ -147,6 +152,19 @@ export function judgeAttempt(L, taps, { startIndex = 0, carried = null } = {}) {
   passHolds(Infinity);
   if (i < cs.length) return fail(L, i, cs[i].passEnd, 'late', grades, stray);
   return { clear: true, grades, stray, progress: 1, progressTime: 1 };
+}
+
+// Δ(ms) → 0.001 ms 반올림. 0 을 중심으로 대칭(Math.round 는 .5 를 +쪽으로 올려 이른·늦은 쪽이 달라지므로 크기로 반올림 뒤 부호).
+const roundMs = (x) => (x < 0 ? -Math.round(-x * 1000) : Math.round(x * 1000)) / 1000;
+
+const JUDGE_KEYS = ['perfect_ms', 'good_ms', 'pass_early_ms', 'pass_late_ms', 'miss_zone_ms'];
+function checkJudge(L) {
+  const j = L && L.judge;
+  if (!j) throw new Error('judge.mjs: L.judge 없음(compileLevel 결과가 아님)');
+  for (const k of JUDGE_KEYS) {
+    if (typeof j[k] !== 'number' || !Number.isFinite(j[k]) || j[k] < 0) throw new Error(`judge.mjs: 판정 값 ${k} = ${j[k]} (유한한 0 이상 수가 아님, 레벨 ${L.level?.id ?? '?'} judge·balance.json judge_defaults 확인)`);
+  }
+  return j;
 }
 
 function fail(L, i, timeMs, reason, grades, stray) {
@@ -402,13 +420,14 @@ const pctRule = (bal) => ({ ...PCT_DEFAULT, ...(bal?.judgement_display?.pct || {
 function stepIn(d, lo, hi, steps) {
   // (lo, hi] 를 steps.length 칸으로 똑같이 나눔: 칸 k(0부터) = (lo + k·(hi−lo)/n, lo + (k+1)·(hi−lo)/n]
   const n = steps.length;
-  for (let k = 1; k <= n; k++) if ((d - lo) * n <= k * (hi - lo) + 1e-9) return steps[k - 1];
+  // d 는 0.001 ms 로 반올림된 값. 칸 끝도 0.001 ms 로 반올림해 "이하"(66.666… → 66.667 이 안쪽 칸)
+  for (let k = 1; k <= n; k++) if (d <= roundMs(lo + (k * (hi - lo)) / n)) return steps[k - 1];
   return steps[n - 1];
 }
 
 export function pctBands(L, contactIndex = 0, bal = L.bal) {
   const R = pctRule(bal);
-  const j = L.judge;
+  const j = checkJudge(L);
   const side = (W) => {
     const raw = [{ pct: 100, maxMs: R.perfect_100_max_ms }, { pct: 90, maxMs: j.perfect_ms }];
     R.good_steps.forEach((p, k) => raw.push({ pct: p, maxMs: j.perfect_ms + ((k + 1) * (j.good_ms - j.perfect_ms)) / R.good_steps.length }));
@@ -422,17 +441,19 @@ export function pctBands(L, contactIndex = 0, bal = L.bal) {
   return { early: side(j.pass_early_ms), late: side(j.pass_late_ms) };
 }
 
+// 창·등급·25 ms 경계가 유한하지 않으면 judgeAttempt 와 같이 예외(데이터 오류). Δ 는 0.001 ms 반올림, 칸 경계도 0.001 ms 로 반올림해 "이하" 비교.
 export function pctOf(L, contactIndex, e, bal = L.bal) {
+  const j = checkJudge(L);
+  const R = pctRule(bal);
+  if (typeof R.perfect_100_max_ms !== 'number' || !Number.isFinite(R.perfect_100_max_ms)) throw new Error(`judge.mjs: perfect_100_max_ms = ${R.perfect_100_max_ms} (유한한 수가 아님)`);
   const c = L.contacts[contactIndex];
   if (!c || c.kind === 'nogo' || e == null || !Number.isFinite(e)) return null;
-  const R = pctRule(bal);
-  const j = L.judge;
-  const d = Math.abs(e);
+  const d = Math.abs(roundMs(e));
   const W = e < 0 ? j.pass_early_ms : j.pass_late_ms;
-  if (d > W + 1e-9) return null;
-  if (d <= R.perfect_100_max_ms + 1e-9) return 100;
-  if (d <= j.perfect_ms + 1e-9) return 90;
-  if (d <= j.good_ms + 1e-9) return stepIn(d, j.perfect_ms, j.good_ms, R.good_steps);
+  if (d > roundMs(W)) return null;
+  if (d <= roundMs(R.perfect_100_max_ms)) return 100;
+  if (d <= roundMs(j.perfect_ms)) return 90;
+  if (d <= roundMs(j.good_ms)) return stepIn(d, j.perfect_ms, j.good_ms, R.good_steps);
   return stepIn(d, j.good_ms, W, R.pass_steps);
 }
 

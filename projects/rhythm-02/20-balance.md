@@ -574,6 +574,8 @@ ALL PASS
 
 d = |e|, W = e < 0이면 `pass_early_ms`, e > 0이면 `pass_late_ms`, g = `good_ms`(L1~L3 100, L4부터 90). 경계는 모두 "이하"(경계값은 안쪽 칸). 창 밖은 실패라 표시 없음.
 
+- (2026-11-17 판정 기준 단단히, insights QA·측정 57bf276) judge.mjs `judgeAttempt`·`pctOf`는 Δ(탭 − 접촉 시각)를 0.001 ms로 반올림(0 기준 대칭)한 뒤 창·등급·% 칸 끝(이것도 0.001 ms 반올림)과 "이하"로 비교하고, 판정 값(perfect·good·pass_early·pass_late·miss_zone·perfect_100_max)이 유한한 0 이상 수가 아니면 데이터 오류로 예외를 던집니다(검증기 J1~J3).
+
 | 등급 | d 범위 | % |
 |---|---|---|
 | 딱 | ≤ 25 | **100** |
