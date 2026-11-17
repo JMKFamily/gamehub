@@ -14,11 +14,13 @@
 ## 난이도·레벨 설계
 - [rhythm-01·2026-11-17] "첫 클리어 시도 수 중앙값"을 정수로 판정하면 작은 값(2↔3)에서 경계에 걸려 외삽 목표가 19.8↔10.8로 뒤집힌다. 연속 중앙값 ln0.5/ln(1−p)(p = 첫 시도 클리어율)로, 시뮬레이터 전체 실행 한 원천에서만 판정하고 정수 중앙값은 참고로 적는다(빌드 봇 값은 일치 확인용). 근거: projects/rhythm-01/reviews/round-1/balance-designer.md, Docs/orchestrator/2026-11-17-1-7-round1-gate-and-round2-decisions.md(R3), harness/criteria.md 밸런스 절. 적용: balance-designer가 레벨 10 목표·곡선 검사에, qa-engineer가 집계에.
 - [rhythm-01·2026-11-17] 난이도를 낮출 때 새 기믹·BPM·판정 창을 건드리지 않고 마디 무늬만 별이 적은 기존 무늬로 바꾸면 카드·튜토리얼·곡 길이를 그대로 둔 채 곡선을 맞출 수 있다. 근거: projects/rhythm-01/Docs/balance-designer/2026-11-17-r2-balance-revision.md. 적용: balance-designer.
+- [rhythm-02·2026-11-17] 요청자의 레벨 10 제약(L6 외삽 ±20 %, 모든 레벨 30회 이하)은 L1~L3 배율 r에 상한을 건다: 목표 T = m̃1·r⁵, T·1.2 ≤ 30 → m̃1·r⁵ ≤ 25 (m̃1 1.9면 r ≤ 1.67). 아래로는 r ≥ 약 1.25여야 L3~L10 엄격 단조가 빠듯하지 않다. L1~L3를 설계할 때 r부터 정한다. 근거: projects/rhythm-02/00-benchmark.md 7-2. 적용: balance-designer(전 프로젝트).
 
 ## 5~6세 이해·튜토리얼·텍스트
 - [rhythm-01·2026-11-17] "볼 차례/칠 차례" 같은 차례 신호는 기획 단계에서 시간축으로 겹침을 검사해야 한다. 북채가 마디 끝까지 남아 첫 별 1박 전 손가락과 동시에 보인 문제를 다섯 리뷰가 모두 major로 잡았다. 신호는 마지막 시범 동작 직후 사라지게 하고, 다음 판정 위험 구간(놓침 구역~통과 창 끝)과 겹치지 않음을 검증기(S15·S16)로 자동 확인한다. 근거: projects/rhythm-01/reviews/round-1/score.md(M1), tools/verify-levels.mjs S15·S16. 적용: balance-designer(검증기), art-director(퇴장 연출), lore-writer(문장에 숫자 대신 규칙).
 - [rhythm-01·2026-11-17] 튜토리얼 손가락의 "누르기 시작" 동작이 판정의 놓침 구역 안에 있으면 그림을 따라 친 아이가 "너무 일찍"으로 실패한다. 손가락 누름 시작은 통과 창 안(이른 쪽 한계 이후)에 둔다. 근거: projects/rhythm-01/reviews/round-1/balance-designer.md 이슈 3. 적용: balance-designer, art-director.
 - [rhythm-01·2026-11-17] 그림 카드·튜토리얼 그림 크기는 원본 SVG가 아니라 실제 화면에 그려진 px로 잰다(세로 360x640에서 공 12.6 px로 기준 16 px 미달이 렌더 측정에서만 드러남). 세로 화면용 카드 판을 따로 둔다. 근거: projects/rhythm-01/reviews/round-1/art-director.md 이슈 2, assets/cards-portrait.mjs. 적용: art-director, qa-engineer.
+- [rhythm-02·2026-11-17] 새 코어 후보를 비교할 때 "신호 수"(한 순간 읽어야 하는 서로 다른 시각 단서 수) 열을 둔다. 신호가 하나뿐인 코어는 차례 신호 겹침(rhythm-01 M1)과 빌드/시뮬레이터 재판정 위험이 구조적으로 작고, 5~6세가 읽을 것도 적다. 근거: projects/rhythm-02/00-benchmark.md 2-3. 적용: benchmark-analyst(코어 선정), 모든 기획 역할(새 기믹이 신호를 늘리는지 확인).
 
 ## 시각·사운드
 - [rhythm-01·2026-11-17] 효과음 크기 순서는 표의 dB 값이 아니라 오프라인 렌더(OfflineAudioContext, 마스터 뒤) 최고값·RMS로 확인한다. 층이 여러 개인 소리는 표보다 1~2 dB 커서 "아이 탭이 가장 큰 소리" 순서가 깨졌다. 근거: projects/rhythm-01/reviews/round-1/art-director.md, assets/sound-check.mjs --render. 적용: art-director, qa-engineer.
