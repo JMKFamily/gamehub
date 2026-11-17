@@ -4,4 +4,5 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | benchmark-analyst | 1-0 | [벤치마크: 선 잇기 판 채우기 퍼즐(모던 재해석), 적합성·콤보/% 해석·난이도 해석·생성기](benchmark-analyst/2026-11-17-1-0-benchmark.md) |
 | 2026-11-17 | orchestrator | 1-0 | [착수: Flow Free 벤치마크(모던 재해석), 공통 지시 블록](orchestrator/2026-11-17-1-0-kickoff.md) |
