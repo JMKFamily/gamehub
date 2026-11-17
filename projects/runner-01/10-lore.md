@@ -238,7 +238,7 @@
 | menu_play | 시작 | Play |
 | menu_levels | 레벨 | Levels |
 | menu_settings | 설정 | Settings |
-| level_locked | 앞 레벨을 깨면 열려요 | Beat the last level first |
+| level_locked | 앞 레벨을 깨면 열려요 | Finish the level before it |
 | mode_normal | 일반 모드 | Normal |
 | mode_practice | 연습 모드 | Practice |
 | best_normal | 최고 {pct}% | Best {pct}% |
@@ -265,6 +265,9 @@
 | level9_tag | 다 섞였어요! | All mixed up! |
 | level10_tag | 마지막 무대! | The last stage! |
 
+- `level_locked`는 두 곳에 나옵니다(`main.js` 확인, 2026-11-17): ① 잠긴 카드를 누르면 자물쇠 그림 + 작은 글 토스트(1.2 s), ② 잠긴 카드 버튼의 대체 글 "번호. 이름 (`level_locked`)". 토스트에서는 자물쇠 그림이 본문이고 글은 보조라, 문장은 한 문장 12자 이내로 둡니다. 대체 글에서 레벨 이름 뒤 괄호 안에 붙어도 뜻이 통하는 상태 문장이어야 합니다.
+- 영어 `level_locked`를 "Beat the last level first"에서 "Finish the level before it"로 바꿨습니다. "last level"이 "마지막 레벨(레벨 10)"로도 읽혀, 레벨 3 카드에서 "레벨 10부터 깨라"로 들릴 수 있었습니다. 한국어 "앞 레벨"은 그대로입니다("깨다"는 `clear_all` "다 깼어요!"와 같은 말).
+
 ### 5-2. 플레이 중 HUD
 
 | 키 | KR | EN |
@@ -272,10 +275,9 @@
 | attempt | {n}번째 | Try {n} |
 | progress | {pct}% | {pct}% |
 | new_best | 최고 기록! | New best! |
-| practice_checkpoint_placed | 깃발을 꽂았어요 | Flag placed |
-| practice_checkpoint_removed | 깃발을 뺐어요 | Flag removed |
-| practice_place_btn | 깃발 꽂기 | Place flag |
-| practice_remove_btn | 깃발 빼기 | Remove flag |
+
+- 콤보(점 10칸 줄·큰 표지)는 화면에 글·숫자를 더하지 않습니다. 화면 낭독용 이름만 5-8절에 둡니다.
+- 연습 모드 깃발 키 4개(`practice_checkpoint_placed`·`practice_checkpoint_removed`·`practice_place_btn`·`practice_remove_btn`)는 뺐습니다(2026-11-17). 연습 모드가 자동 체크포인트로 바뀌어 깃발 꽂기·빼기 버튼과 알림 토스트가 없습니다(`DEV_NOTES.md` "버튼" 줄, `games/reverbound/js/` 사용 0곳). 수동 깃발을 되살리면 예전 문구(깃발을 꽂았어요 / Flag placed, 깃발을 뺐어요 / Flag removed, 깃발 꽂기 / Place flag, 깃발 빼기 / Remove flag)로 이 표에 되돌립니다.
 
 ### 5-3. 일시정지와 설정
 
@@ -406,6 +408,24 @@ round-2 결정으로 **사망 토스트를 없앱니다.** 사망은 조각 연�
 
 - `rotate_hint`는 웹 세로 모드 첫 진입 때 1회만 띄우는 권유 문구입니다(`30-art.md` 5절). Android는 가로 고정이라 쓰지 않습니다.
 
+### 5-8. 대체 글 (화면 낭독, 콤보)
+
+콤보는 숫자·글 없이 **점 10칸 줄 + 10마다 큰 표지 1개**로 보이는 보상입니다(`20-balance.md` 15-5, `harness/benchmarks/djmax-judgement.md` 4-3·4-4). 화면에는 글을 더하지 않고, 화면 낭독기와 보호자를 위한 이름만 둡니다. 보호자가 옆에서 소리로 들어도 아이가 알아듣는 말로 씁니다.
+
+| 키 | 붙는 곳 | 읽는 때 | KR | EN |
+|---|---|---|---|---|
+| combo_aria | 플레이 중 HUD의 콤보 점 줄(큰 표지 포함 전체) | 낭독기로 그 자리에 갔을 때만. 값이 바뀔 때 저절로 읽지 않음 | 이어서 잘 뛴 수 | Good jumps in a row |
+| combo_best_aria | 레벨 선택 카드의 최고 콤보 표지 | 카드를 읽을 때 | 이어서 잘 뛴 최고 기록 | Most jumps in a row |
+| combo_mark_aria | (선택) 콤보 10·20 단계 | 단계 연출 때 한 번, 조용히 알림 | 이어서 잘 뛰어요! | Great jumps, keep going! |
+
+- **숫자는 이름에 넣지 않습니다.** 콤보 수는 값 속성으로만 줍니다(`harness/criteria.md` 세계관 절 "대체 글에 숫자·값을 이어 붙이지 않음"). 권장: `role="meter"`, `aria-valuemin` 0, `aria-valuemax` = 그 레벨 `judge_taps` 길이, `aria-valuenow` = 콤보 수, `aria-valuetext` = 콤보 수 숫자만(예 "7"). `aria-valuetext`를 두는 이유는 낭독기가 meter 값을 "47 %"처럼 퍼센트로 읽지 않게 하려는 것입니다. 읽히는 말은 "이어서 잘 뛴 수, 7" 정도가 됩니다.
+- **숫자 읽기는 필요한 만큼만**: 점 몇 개·표지 몇 개를 따로 읽지 않고, 콤보 수 하나만 읽습니다. 등급(1·2·3단)은 판정마다 읽지 않습니다(가장 가까운 두 탭이 179 ms라 낭독이 따라가지 못하고 곡을 가림).
+- `combo_aria`: 콤보가 0~1이라 줄이 안 보일 때(`show_from` 2)는 낭독기에서도 숨깁니다(그림이 없는 것을 읽지 않음). `aria-live`를 붙이지 않습니다. 성공마다 읽으면 플레이를 방해합니다.
+- `combo_best_aria`: 일반 모드 기록만 있으므로(`best_record_modes` normal) 기록이 2 미만이거나 연습 모드 카드에서 표지를 안 보이면 숨깁니다. 값은 `aria-valuenow`(·`aria-valuetext`) = 최고 콤보 수. **주의**: 지금 레벨 카드는 `<button>`에 `aria-label`("번호. 이름")을 직접 붙이므로, 버튼 **안**에 넣은 표지는 낭독기에 읽히지 않습니다(버튼의 자식은 이름에 묻힘). 표지를 버튼 밖 형제 요소로 두거나, 버튼 이름을 `aria-labelledby`로 바꾸고 표지를 `aria-describedby`로 연결해 주세요. 접근성 트리(ariaSnapshot)에 "이어서 잘 뛴 최고 기록"과 값이 실제로 나오는지 확인합니다(insights 텍스트 절 rhythm-02 줄). aria-hidden 요소에 붙이면 읽히지 않습니다.
+- `combo_mark_aria`(선택): 10·20 단계에서만 `aria-live="polite"` 영역에 한 번 넣습니다(한 시도에 많아야 2번). 숫자를 넣지 않아 10과 20에서 같은 문장입니다. 끊길 때(사망)는 아무것도 읽지 않습니다(겁주지 않기, 벤치마크 4-5). 넣지 않아도 `combo_aria` 값으로 콤보 수를 알 수 있으므로 기본은 dev 판단입니다.
+- 원작 판정 이름·콤보 용어(영어 대문자 판정 이름 등)를 쓰지 않습니다. "콤보"라는 말도 아이에게 낯설어 쓰지 않고 "이어서 잘 뛴"으로 풀었습니다. 키 이름의 `combo`는 데이터용이라 화면에 나오지 않습니다.
+- 글자 수(공백·문장부호 포함): `combo_aria` 9자 / 5단어, `combo_mark_aria` 10자 / 4단어(플레이 중 읽히므로 12자·6단어 한도 안), `combo_best_aria` 13자 / 5단어(레벨 선택 화면 전용. 플레이 중 한도 대상 아님. `level_locked`·`settings_reset_confirm`과 같은 메뉴 문구).
+
 ## 6. 스토어 등록 문구 초안
 
 ### 짧은 설명 (80자 이내)
@@ -425,7 +445,8 @@ round-2 결정으로 **사망 토스트를 없앱니다.** 사망은 조각 연�
 - 음악이 곧 길입니다. 모든 장애물이 박자 위에 놓여 있어요.
 - 부딪혀도 바로 다시 시작. 메뉴도, 기다림도 없습니다.
 - 진행도 %로 매번 조금씩 더 멀리.
-- 연습 모드에서 깃발을 꽂고 어려운 곳만 다시 해 보세요.
+- 연습 모드에서는 깃발이 저절로 꽂혀, 어려운 곳부터 다시 할 수 있어요.
+- 박자에 맞춰 이어서 뛸수록 점이 하나씩 차올라요.
 - 박자 보정 기능으로 기기마다 다른 소리 지연을 맞출 수 있어요.
 - 레벨 10개: 새벽 조율장부터 해돋이 무대까지. 레벨마다 새로운 것이 하나씩 나와요(상자, 북 발판, 얇은 판, 템포 문, 울림 고리, 매달린 잡음).
 - 재시작 사이에 광고가 끼어들지 않습니다.
@@ -442,7 +463,8 @@ Tap to jump on the beat, hop over the Static Shards, and run all the way to the 
 - The music is the map. Every obstacle sits on the beat.
 - Crash and you're right back in. No menus, no waiting.
 - Watch your progress % grow with every run.
-- Practice mode: plant a flag and replay the tricky parts.
+- Practice mode drops flags for you, so you replay just the tricky parts.
+- Keep jumping on the beat and watch the dots fill up.
 - Audio offset calibration keeps the beat in sync on any device.
 - Ten levels, from Dawn Tuning Yard to Sunrise Stage. Each one adds one new thing: Echo Crates, Drum Pads, String Ledges, Tempo Gates, Echo Rings, Hanging Hiss.
 - No ads between retries.
@@ -488,3 +510,10 @@ One more run. One more bar.
 - balance-designer: `levels/04~10`의 `name`/`name_en`/`name_key`를 맨 위 확정값 표대로 채워 주세요(`name_key` = `level4_name` … `level10_name`). `theme_id`는 `level4`~`level10` 그대로. cue 키 5개(`tut_string` 4, `tut_tempo` 5, `tut_ring` 6, `tut_hanging` 7, `tut_tempo_slow` 8)는 지금 JSON과 같아 바꿀 것 없음. `tut_final`(레벨 10, 선택)은 넣을지 판단만.
 - game-developer: `sync-data` 후 `strings.json`에 `level4~10_name`, `level4~10_tag`, `clear_title_l4~l10`, `tut_string`·`tut_tempo`·`tut_ring`·`tut_hanging`·`tut_tempo_slow`(·`tut_final`)가 들어오는지 확인. `tut_tempo_slow` 그림 카드는 아직 `main.js`에 없음(하늘색 캡슐 + 꺾쇠 1개 + 짧은 점프 곡선). `clear_title_l3` 문구가 바뀜. 레벨 선택 카드에서 가장 긴 이름 "비눗방울 언덕"(7자)·"Wirebridge Night Market"이 360×640에서 잘리지 않는지 확인.
 - art-director: 레벨 4~10 팔레트·모티프는 4절 "시각" 칸을 분위기 힌트로 참고(정하는 것은 `30-art.md`). 위 가시는 고드름 색이 아니라 `hazard` 산호색 유지. 그림 카드 5장은 5-6절 그림 힌트와 부록 B 모양·색이 같아야 함. 스토어 스크린샷 장면 5 문구가 "열 곳, 열 개의 노래"로 바뀜.
+
+## 콤보 대체 글·문구 정리 처리 결과 (2026-11-17)
+
+보고서: `Docs/lore-writer/2026-11-17-r2-combo-text.md`. 근거: `20-balance.md` 15-5·15-9, `harness/benchmarks/djmax-judgement.md` 4·5-1절. 다른 역할에 넘기는 것:
+
+- game-developer: `sync-data` 후 `strings.json`에 새 키 `combo_aria`·`combo_best_aria`·`combo_mark_aria`가 들어오고, `practice_checkpoint_placed`·`practice_checkpoint_removed`·`practice_place_btn`·`practice_remove_btn`이 빠짐(빌드 사용 0곳). `level_locked` 영어 문구가 바뀜. 콤보 대체 글은 5-8절 방식(이름은 키, 값은 `aria-valuenow`·`aria-valuetext`, 레벨 카드 버튼 밖에 표지 두기).
+- qa-engineer: 접근성 트리에서 콤보 줄·카드 최고 콤보의 이름과 값이 읽히는지, 콤보 0~1일 때 숨는지 확인.

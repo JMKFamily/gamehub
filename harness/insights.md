@@ -47,6 +47,7 @@
 - [runner-01·2026-11-17] 레벨 선택 카드는 글 없이 서로 구분돼야 한다: 색 차이만으로는 부족하고, 바탕·테두리·지면 띠·대표 물체 1개처럼 모양 차이를 넣는다. 근거: projects/runner-01/reviews/round-1/score.md S22, projects/runner-01/reviews/round-1/dev-response.md S22. 적용: art-director·game-developer
 - [runner-01·2026-11-17] 매 사망 글 토스트는 빼고, 첫 사망에만 ↻ 그림 안내를 짧게 보인다(글을 못 읽어도 "다시 한다"를 앎). 근거: projects/runner-01/reviews/round-1/score.md S11, projects/runner-01/reviews/round-1/dev-response.md S11. 적용: lore-writer·game-developer
 - [rhythm-02·2026-11-17] 대체 글은 코드가 아니라 접근성 트리(Playwright ariaSnapshot)로 확인한다. aria-hidden 요소에 붙인 aria-label은 읽히지 않는다. 불러오기 실패 화면의 다시 버튼 그림은 부트 단계에 인라인으로 넣어야 글을 못 읽는 아이가 막히지 않는다. 근거: projects/rhythm-02/reviews/round-1/lore-writer.md 이슈 1·3. 적용: game-developer, lore-writer, qa-engineer.
+- [runner-01·2026-11-17] 콤보 대체 글: "콤보"는 아이에게 낯선 말이라 "이어서 잘 뛴 수"처럼 풀어 씁니다. 점 줄은 role="meter"·aria-valuenow로 하고, 퍼센트로 읽히지 않게 aria-valuetext에 숫자만 둡니다. 등급은 판정마다 읽지 않고, 끊길 때는 아무것도 읽지 않습니다. 레벨 카드 버튼에 aria-label이 붙어 있으면 그 안의 최고 콤보 표지는 낭독되지 않으니, 버튼 밖에 두거나 aria-describedby로 잇습니다. 근거: projects/runner-01/Docs/lore-writer/2026-11-17-r2-combo-text.md, 10-lore.md 5-8절. 적용: lore-writer, game-developer, qa-engineer.
 
 ## 시각·사운드
 - [rhythm-01·2026-11-17] 효과음 크기 순서는 표의 dB 값이 아니라 오프라인 렌더(OfflineAudioContext, 마스터 뒤) 최고값·RMS로 확인한다. 층이 여러 개인 소리는 표보다 1~2 dB 커서 "아이 탭이 가장 큰 소리" 순서가 깨졌다. 근거: projects/rhythm-01/reviews/round-1/art-director.md, assets/sound-check.mjs --render. 적용: art-director, qa-engineer.
