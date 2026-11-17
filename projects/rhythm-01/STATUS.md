@@ -2,7 +2,7 @@
 
 - 성격: runner-01(Reverbound, Geometry Dash 장르 벤치마크)의 **배리에이션** 프로젝트. 새 외부 레퍼런스를 베끼지 않고, runner-01의 핵심 재미를 유지한 채 새 코어를 설계합니다.
 - 게임 이름: 미정 (lore-writer가 1-1에서 제안) · slug: rhythm-01 (임시)
-- 현재 단계: **1-5 round-1 4역할 리뷰(병렬)** — 1-4 QA: blocker 0, major 2(6배 스로틀 1% low, L1 손가락·북채 동시 표시), minor 4, 기술 품질 7.5 (2026-11-17)
+- 현재 단계: **round-1 게이트 미통과(가중 약 6.93: 벤치 7.0·밸런스 7.0·아트 6.0·세계관 7.0·QA 7.5, blocker 0) → 1-6 집계 + round-2 기획 수정(balance·art·lore) 병렬** (2026-11-17, 결정 R1~R10: Docs/orchestrator/2026-11-17-1-7-round1-gate-and-round2-decisions.md)
 - 미해결: 게임 이름 확정(가안 똑딱북: Tickadrum, 요청자 결정), 블루투스 지연 처리·보호자 보정 흐름(major, 1-3에서), 북채와 손가락 마지막 1박 동시 표시(minor, 플레이 테스트 확인)
 - 라운드: 1
 - 레벨 10 목표(요청자 지시): L1~L3 σ70 중앙값 기하 평균 배율로 외삽한 L6 값 ±20 % (사전 계산 ≈20, 16~24)
@@ -21,3 +21,4 @@
 
 ## 공통 문서 변경 기록
 - 2026-11-17 `harness/criteria.md` 밸런스 절: 레벨 10 목표 항목 아래 측정 도구 줄 1개 덧붙임(rhythm-01 verify-levels B6·B7 전체 실행). 기존 줄 변경 없음.
+- 2026-11-17 `harness/criteria.md`: rhythm-01 round-1 1-6에서 qa-engineer가 12줄 덧붙임(기술 2·감각 3·밸런스 3·시각 3·세계관 1, 머리 `(rhythm-01 round-1 추가`), 삭제·변경 0.

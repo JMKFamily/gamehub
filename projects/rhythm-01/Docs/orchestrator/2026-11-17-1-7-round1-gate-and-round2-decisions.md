@@ -21,3 +21,7 @@
 ## 진행 순서
 - 병렬: qa-engineer 1-6 집계(score.md, criteria 추가) / balance·art·lore round-2 기획 수정.
 - 그다음 game-developer round-2 구현 → 1-4 QA → 1-5 리뷰.
+
+## 1-6 집계 감시 (qa-engineer)
+- score.md: 가중 6.925, 게이트 실패(총점), 전 영역 6.0 이상·blocker 0 통과. 이슈 35 → 22건(major 5: M1 북채·손가락, M2 1% low, M3 B6 경계, M4 카드 공 16 px, M5 멜로디).
+- `harness/criteria.md`: 12줄 덧붙임, `git diff --numstat` = 12 추가 / 0 삭제 직접 확인. 결정 R3(B6 연속 중앙값) 줄 포함.
