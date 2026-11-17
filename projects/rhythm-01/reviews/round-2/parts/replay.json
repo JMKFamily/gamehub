@@ -1,0 +1,1376 @@
+{
+ "results": [
+  {
+   "level": 1,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 0,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000007276,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000007276,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 33.89361105835269,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": -149,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 149.00000000001455,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": 169,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 169.00000000001455,
+   "judged": 20
+  },
+  {
+   "level": 1,
+   "off": -155,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 1,
+   "off": 175,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 1,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 2.363636363646947,
+   "firstStarPassEnd": 4533.636363636364
+  },
+  {
+   "level": 2,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 2.9103830456733704e-11,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000029104,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000001819,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 49.124882323420024,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": -139,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 139.0000000000291,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": 159,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 159.0000000000182,
+   "judged": 24
+  },
+  {
+   "level": 2,
+   "off": -145,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 2,
+   "off": 165,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 2,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 3.0344827586086467,
+   "firstStarPassEnd": 2228.9655172413795
+  },
+  {
+   "level": 3,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 5.820766091346741e-11,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.688593711936846,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": -134,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 134,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": 154,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 154,
+   "judged": 25
+  },
+  {
+   "level": 3,
+   "off": -140,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 3,
+   "off": 160,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 3,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 1,
+   "firstStarPassEnd": 2155
+  },
+  {
+   "level": 4,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 5.638867150992155e-11,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000005639,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000004911,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 43.21510914827013,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": -129,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 129.0000000000564,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": 149,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 149.0000000000491,
+   "judged": 25
+  },
+  {
+   "level": 4,
+   "off": -135,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 4,
+   "off": 155,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 4,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 2.516129032243043,
+   "firstStarPassEnd": 2085.483870967742
+  },
+  {
+   "level": 5,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 5.4569682106375694e-11,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000005457,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000116415,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 78.79670707039986,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": -129,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 129.00000000011278,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": 149,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 149.00000000010914,
+   "judged": 27
+  },
+  {
+   "level": 5,
+   "off": -135,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 5,
+   "off": 155,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 5,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 1.2380952381063253,
+   "firstStarPassEnd": 2054.7619047619046
+  },
+  {
+   "level": 6,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 0,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 53.07827100716531,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": -124,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 124,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": 144,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 144,
+   "judged": 26
+  },
+  {
+   "level": 6,
+   "off": -130,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 6,
+   "off": 150,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 6,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 0,
+   "firstStarPassEnd": 2020
+  },
+  {
+   "level": 7,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 1.0732037480920553e-10,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000010732,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000010732,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 44.98558434946153,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": -119,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 119.00000000010732,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": 139,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 139.00000000010732,
+   "judged": 26
+  },
+  {
+   "level": 7,
+   "off": -125,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 7,
+   "off": 145,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 7,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 1.8461538462433964,
+   "firstStarPassEnd": 1986.1538461538462
+  },
+  {
+   "level": 8,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 1.0595613275654614e-10,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000105956,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.0000000001055,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 65.57639660838686,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": -119,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 119.00000000010596,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": 139,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 139.0000000001055,
+   "judged": 27
+  },
+  {
+   "level": 8,
+   "off": -125,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 8,
+   "off": 145,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 8,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 1.818181818118319,
+   "firstStarPassEnd": 1958.1818181818182
+  },
+  {
+   "level": 9,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 1.0913936421275139e-10,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000010914,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000010914,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 59.769056819872276,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": -119,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 119.00000000010914,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": 139,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 139.00000000010914,
+   "judged": 29
+  },
+  {
+   "level": 9,
+   "off": -125,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 9,
+   "off": 145,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 9,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 3.294117646990344,
+   "firstStarPassEnd": 1904.7058823529412
+  },
+  {
+   "level": 10,
+   "off": 0,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 1.0186340659856796e-10,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": -40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.000000000100044,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": 40,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 40.00000000010186,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": 0,
+   "sd": 25,
+   "clear": true,
+   "simExpect": null,
+   "grade": 3,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 42.80896668033074,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": -114,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 114.00000000023283,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": 134,
+   "sd": 0,
+   "clear": true,
+   "simExpect": null,
+   "grade": 1,
+   "attempts": 1,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   },
+   "maxAbsErr": 134.0000000002001,
+   "judged": 27
+  },
+  {
+   "level": 10,
+   "off": -120,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "early"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 10,
+   "off": 140,
+   "sd": 0,
+   "clear": false,
+   "simExpect": null,
+   "grade": 0,
+   "attempts": 2,
+   "lastResult": {
+    "clear": false,
+    "progress": 0,
+    "failIndex": 0,
+    "reason": "miss"
+   },
+   "maxAbsErr": null,
+   "judged": 0
+  },
+  {
+   "level": 10,
+   "none": true,
+   "attempts": 2,
+   "failIndex": 0,
+   "reason": "miss",
+   "clear": false,
+   "failPhaseToRestartMs": 1080,
+   "levelTimeAfterRestart": 2.714285714086145,
+   "firstStarPassEnd": 1849.2857142857142
+  }
+ ],
+ "fails": [],
+ "summary": {
+  "perfect_clear": 10,
+  "perfect_maxAbsErr": 1.0913936421275139e-10,
+  "no_input_restart_ms": [
+   1080
+  ],
+  "fail_count": 0
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 43
+ },
+ "seconds": 2,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

@@ -1,0 +1,73 @@
+{
+ "files": 66,
+ "bytes": 322553,
+ "external_urls": [],
+ "reference_names": [],
+ "data_copies": [
+  {
+   "file": "balance.json",
+   "equal": true
+  },
+  {
+   "file": "levels/01-level1.json",
+   "equal": true
+  },
+  {
+   "file": "levels/02-level2.json",
+   "equal": true
+  },
+  {
+   "file": "levels/03-level3.json",
+   "equal": true
+  },
+  {
+   "file": "levels/04-level4.json",
+   "equal": true
+  },
+  {
+   "file": "levels/05-level5.json",
+   "equal": true
+  },
+  {
+   "file": "levels/06-level6.json",
+   "equal": true
+  },
+  {
+   "file": "levels/07-level7.json",
+   "equal": true
+  },
+  {
+   "file": "levels/08-level8.json",
+   "equal": true
+  },
+  {
+   "file": "levels/09-level9.json",
+   "equal": true
+  },
+  {
+   "file": "levels/10-level10.json",
+   "equal": true
+  },
+  {
+   "file": "assets/sound.json → data/sound.json (master·noise·sounds·parts)",
+   "equal": true
+  },
+  {
+   "file": "assets/sound.json music → data/music.json (levels·calib_check_hz·melody)",
+   "equal": true,
+   "calib_check_hz": 1046.5
+  },
+  {
+   "file": "tools/sim/judge.mjs vs js/judge.js",
+   "equal": true
+  }
+ ],
+ "html_links_forms": [],
+ "ads_js": "// 광고 어댑터 (웹 더미). 게임 코드는 이 인터페이스만 부른다. 웹 빌드에는 광고·결제·외부 링크 없음.\nexport const ads = {\n  init() { return Promise.resolve(false); },\n  showInterstitial() { return Promise.resolve(false); },\n  showRewarded() { return Promise.resolve(false); },\n  showBanner() {},\n  hideBanner() {},\n};",
+ "seconds": 0,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

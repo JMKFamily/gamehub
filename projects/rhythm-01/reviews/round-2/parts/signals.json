@@ -1,0 +1,1513 @@
+{
+ "table_vs_sim": [
+  {
+   "level": 1,
+   "bars": "0 (A)",
+   "sim": {
+    "from": 1636.4,
+    "lastShow": 2181.8,
+    "shrinkStart": 2454.5,
+    "gone": 2590.9,
+    "zone": 4073.6
+   },
+   "table": {
+    "level": 1,
+    "bars": "0 (A)",
+    "from": 1636,
+    "lastShow": 2182,
+    "shrinkStart": 2455,
+    "gone": 2591,
+    "zone": 4074
+   },
+   "match": true
+  },
+  {
+   "level": 1,
+   "bars": "3 (B)",
+   "sim": {
+    "from": 8181.8,
+    "lastShow": 9272.7,
+    "shrinkStart": 9545.5,
+    "gone": 9681.8,
+    "zone": 10619.1
+   },
+   "table": {
+    "level": 1,
+    "bars": "3 (B)",
+    "from": 8182,
+    "lastShow": 9273,
+    "shrinkStart": 9545,
+    "gone": 9682,
+    "zone": 10619
+   },
+   "match": true
+  },
+  {
+   "level": 1,
+   "bars": "7 (C)",
+   "sim": {
+    "from": 16909.1,
+    "lastShow": 18545.5,
+    "shrinkStart": 18818.2,
+    "gone": 18954.5,
+    "zone": 19346.4
+   },
+   "table": {
+    "level": 1,
+    "bars": "7 (C)",
+    "from": 16909,
+    "lastShow": 18545,
+    "shrinkStart": 18818,
+    "gone": 18955,
+    "zone": 19346
+   },
+   "match": true
+  },
+  {
+   "level": 1,
+   "bars": "10 (D)",
+   "sim": {
+    "from": 23454.5,
+    "lastShow": 25636.4,
+    "shrinkStart": 25735.5,
+    "gone": 25871.8,
+    "zone": 25891.8
+   },
+   "table": {
+    "level": 1,
+    "bars": "10 (D)",
+    "from": 23455,
+    "lastShow": 25636,
+    "shrinkStart": 25735,
+    "gone": 25872,
+    "zone": 25892
+   },
+   "match": true
+  },
+  {
+   "level": 2,
+   "bars": "2 (E)",
+   "sim": {
+    "from": 5689.7,
+    "lastShow": 6465.5,
+    "shrinkStart": 6724.1,
+    "gone": 6853.4,
+    "zone": 7995.9
+   },
+   "table": {
+    "level": 2,
+    "bars": "2 (E)",
+    "from": 5690,
+    "lastShow": 6466,
+    "shrinkStart": 6724,
+    "gone": 6853,
+    "zone": 7996
+   },
+   "match": true
+  },
+  {
+   "level": 2,
+   "bars": "6 (F)",
+   "sim": {
+    "from": 13965.5,
+    "lastShow": 15517.2,
+    "shrinkStart": 15775.9,
+    "gone": 15905.2,
+    "zone": 16271.7
+   },
+   "table": {
+    "level": 2,
+    "bars": "6 (F)",
+    "from": 13966,
+    "lastShow": 15517,
+    "shrinkStart": 15776,
+    "gone": 15905,
+    "zone": 16271.999999999998
+   },
+   "match": true
+  },
+  {
+   "level": 2,
+   "bars": "9 (G)",
+   "sim": {
+    "from": 20172.4,
+    "lastShow": 21982.8,
+    "shrinkStart": 22241.4,
+    "gone": 22370.7,
+    "zone": 22478.6
+   },
+   "table": {
+    "level": 2,
+    "bars": "9 (G)",
+    "from": 20172,
+    "lastShow": 21983,
+    "shrinkStart": 22241,
+    "gone": 22371,
+    "zone": 22479
+   },
+   "match": true
+  },
+  {
+   "level": 3,
+   "bars": "2 (H)",
+   "sim": {
+    "from": 5500,
+    "lastShow": 7500,
+    "shrinkStart": 7580,
+    "gone": 7705,
+    "zone": 7725
+   },
+   "table": {
+    "level": 3,
+    "bars": "2 (H)",
+    "from": 5500,
+    "lastShow": 7500,
+    "shrinkStart": 7580,
+    "gone": 7705,
+    "zone": 7725
+   },
+   "match": true
+  },
+  {
+   "level": 3,
+   "bars": "6 (K)",
+   "sim": {
+    "from": 13500,
+    "lastShow": 15250,
+    "shrinkStart": 15500,
+    "gone": 15625,
+    "zone": 15725
+   },
+   "table": {
+    "level": 3,
+    "bars": "6 (K)",
+    "from": 13500,
+    "lastShow": 15250,
+    "shrinkStart": 15500,
+    "gone": 15625,
+    "zone": 15725
+   },
+   "match": true
+  },
+  {
+   "level": 3,
+   "bars": "9 (J)",
+   "sim": {
+    "from": 19500,
+    "lastShow": 21500,
+    "shrinkStart": 21750,
+    "gone": 21875,
+    "zone": 22225
+   },
+   "table": {
+    "level": 3,
+    "bars": "9 (J)",
+    "from": 19500,
+    "lastShow": 21500,
+    "shrinkStart": 21750,
+    "gone": 21875,
+    "zone": 22225
+   },
+   "match": true
+  },
+  {
+   "level": 5,
+   "bars": "2 (O)",
+   "sim": {
+    "from": 5238.1,
+    "lastShow": 7142.9,
+    "shrinkStart": 7210,
+    "gone": 7329,
+    "zone": 7349
+   },
+   "table": {
+    "level": 5,
+    "bars": "2 (O)",
+    "from": 5238,
+    "lastShow": 7143,
+    "shrinkStart": 7210,
+    "gone": 7329,
+    "zone": 7349
+   },
+   "match": true
+  },
+  {
+   "level": 5,
+   "bars": "5 (P)",
+   "sim": {
+    "from": 10952.4,
+    "lastShow": 12857.1,
+    "shrinkStart": 12924.3,
+    "gone": 13043.3,
+    "zone": 13063.3
+   },
+   "table": {
+    "level": 5,
+    "bars": "5 (P)",
+    "from": 10952,
+    "lastShow": 12857,
+    "shrinkStart": 12924,
+    "gone": 13043,
+    "zone": 13063
+   },
+   "match": true
+  },
+  {
+   "level": 6,
+   "bars": "2~3 (U1·U2)",
+   "sim": {
+    "from": 5156.3,
+    "lastShow": 8437.5,
+    "shrinkStart": 8671.9,
+    "gone": 8789.1,
+    "zone": 9110
+   },
+   "table": {
+    "level": 6,
+    "bars": "2~3 (U1·U2)",
+    "from": 5156,
+    "lastShow": 8438,
+    "shrinkStart": 8672,
+    "gone": 8789,
+    "zone": 9110
+   },
+   "match": true
+  },
+  {
+   "level": 6,
+   "bars": "7~8 (T1·T2)",
+   "sim": {
+    "from": 14531.3,
+    "lastShow": 18046.9,
+    "shrinkStart": 18281.3,
+    "gone": 18398.4,
+    "zone": 18485
+   },
+   "table": {
+    "level": 6,
+    "bars": "7~8 (T1·T2)",
+    "from": 14531,
+    "lastShow": 18047,
+    "shrinkStart": 18281,
+    "gone": 18398,
+    "zone": 18485
+   },
+   "match": true
+  },
+  {
+   "level": 7,
+   "bars": "2 (R)",
+   "sim": {
+    "from": 5076.9,
+    "lastShow": 6230.8,
+    "shrinkStart": 6461.5,
+    "gone": 6576.9,
+    "zone": 7124.6
+   },
+   "table": {
+    "level": 7,
+    "bars": "2 (R)",
+    "from": 5077,
+    "lastShow": 6231,
+    "shrinkStart": 6462,
+    "gone": 6577,
+    "zone": 7125
+   },
+   "match": true
+  },
+  {
+   "level": 7,
+   "bars": "8 (S)",
+   "sim": {
+    "from": 16153.8,
+    "lastShow": 18000,
+    "shrinkStart": 18066.2,
+    "gone": 18181.5,
+    "zone": 18201.5
+   },
+   "table": {
+    "level": 7,
+    "bars": "8 (S)",
+    "from": 16154,
+    "lastShow": 18000,
+    "shrinkStart": 18066,
+    "gone": 18182,
+    "zone": 18202
+   },
+   "match": true
+  }
+ ],
+ "levels": [
+  {
+   "level": 2,
+   "frames": 2708,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 5689.7,
+     "b": 6851.3,
+     "next": 6852.3
+    },
+    {
+     "a": 13965.7,
+     "b": 15903,
+     "next": 15904
+    },
+    {
+     "a": 20173.3,
+     "b": 22369.3,
+     "next": 22370.3
+    }
+   ],
+   "hand_segments": [
+    {
+     "a": 150,
+     "b": 150,
+     "next": 166.7
+    }
+   ],
+   "windows": [
+    {
+     "from": 5689.7,
+     "gone": 6853.4,
+     "shrinkStart": 6724.1,
+     "nextZone": 7995.9,
+     "capped": false,
+     "pixelFirst": 5689.7,
+     "pixelLast": 6851.3,
+     "pixelFirstGoneFrame": 6852.3,
+     "ok": false
+    },
+    {
+     "from": 13965.5,
+     "gone": 15905.2,
+     "shrinkStart": 15775.9,
+     "nextZone": 16271.7,
+     "capped": false,
+     "pixelFirst": 13965.7,
+     "pixelLast": 15903,
+     "pixelFirstGoneFrame": 15904,
+     "ok": false
+    },
+    {
+     "from": 20172.4,
+     "gone": 22370.7,
+     "shrinkStart": 22241.4,
+     "nextZone": 22478.6,
+     "capped": false,
+     "pixelFirst": 20173.3,
+     "pixelLast": 22369.3,
+     "pixelFirstGoneFrame": 22370.3,
+     "ok": true
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 6,
+   "mismatch_sample": [
+    [
+     150,
+     0,
+     1049,
+     0,
+     0,
+     0
+    ],
+    [
+     6852.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     6853.3,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     15904,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     15905,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 1281,
+   "maxHandPx": 1049
+  },
+  {
+   "level": 3,
+   "frames": 2632,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 5500.3,
+     "b": 7703.3,
+     "next": 7704.3
+    },
+    {
+     "a": 13501,
+     "b": 15623.3,
+     "next": 15624.3
+    },
+    {
+     "a": 19500.3,
+     "b": 21873.7,
+     "next": 21874.7
+    }
+   ],
+   "hand_segments": [],
+   "windows": [
+    {
+     "from": 5500,
+     "gone": 7705,
+     "shrinkStart": 7580,
+     "nextZone": 7725,
+     "capped": true,
+     "pixelFirst": 5500.3,
+     "pixelLast": 7703.3,
+     "pixelFirstGoneFrame": 7704.3,
+     "ok": true
+    },
+    {
+     "from": 13500,
+     "gone": 15625,
+     "shrinkStart": 15500,
+     "nextZone": 15725,
+     "capped": false,
+     "pixelFirst": 13501,
+     "pixelLast": 15623.3,
+     "pixelFirstGoneFrame": 15624.3,
+     "ok": true
+    },
+    {
+     "from": 19500,
+     "gone": 21875,
+     "shrinkStart": 21750,
+     "nextZone": 22225,
+     "capped": false,
+     "pixelFirst": 19500.3,
+     "pixelLast": 21873.7,
+     "pixelFirstGoneFrame": 21874.7,
+     "ok": true
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 3,
+   "mismatch_sample": [
+    [
+     7704.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     15624.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     21874.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 1276,
+   "maxHandPx": 0
+  },
+  {
+   "level": 4,
+   "frames": 1861,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [],
+   "hand_segments": [],
+   "windows": [],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 0,
+   "mismatch_sample": [],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 0,
+   "maxHandPx": 0
+  },
+  {
+   "level": 5,
+   "frames": 2402,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 5238.7,
+     "b": 7327.7,
+     "next": 7328.7
+    },
+    {
+     "a": 10953,
+     "b": 13042,
+     "next": 13043
+    }
+   ],
+   "hand_segments": [],
+   "windows": [
+    {
+     "from": 5238.1,
+     "gone": 7329,
+     "shrinkStart": 7210,
+     "nextZone": 7349,
+     "capped": true,
+     "pixelFirst": 5238.7,
+     "pixelLast": 7327.7,
+     "pixelFirstGoneFrame": 7328.7,
+     "ok": true
+    },
+    {
+     "from": 10952.4,
+     "gone": 13043.3,
+     "shrinkStart": 12924.3,
+     "nextZone": 13063.3,
+     "capped": true,
+     "pixelFirst": 10953,
+     "pixelLast": 13042,
+     "pixelFirstGoneFrame": 13043,
+     "ok": true
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 2,
+   "mismatch_sample": [
+    [
+     7328.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     13043,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 1277,
+   "maxHandPx": 0
+  },
+  {
+   "level": 6,
+   "frames": 2404,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 5156.3,
+     "b": 8787.3,
+     "next": 8788.3
+    },
+    {
+     "a": 14532,
+     "b": 18396.3,
+     "next": 18397.3
+    }
+   ],
+   "hand_segments": [],
+   "windows": [
+    {
+     "from": 5156.3,
+     "gone": 8789.1,
+     "shrinkStart": 8671.9,
+     "nextZone": 9110,
+     "capped": false,
+     "pixelFirst": 5156.3,
+     "pixelLast": 8787.3,
+     "pixelFirstGoneFrame": 8788.3,
+     "ok": true
+    },
+    {
+     "from": 14531.3,
+     "gone": 18398.4,
+     "shrinkStart": 18281.3,
+     "nextZone": 18485,
+     "capped": false,
+     "pixelFirst": 14532,
+     "pixelLast": 18396.3,
+     "pixelFirstGoneFrame": 18397.3,
+     "ok": false
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 3,
+   "mismatch_sample": [
+    [
+     8788.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18397.3,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18398.3,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 1281,
+   "maxHandPx": 0
+  },
+  {
+   "level": 7,
+   "frames": 2098,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 5077.7,
+     "b": 6575.3,
+     "next": 6576.3
+    },
+    {
+     "a": 16154.3,
+     "b": 18179.7,
+     "next": 18180.7
+    }
+   ],
+   "hand_segments": [],
+   "windows": [
+    {
+     "from": 5076.9,
+     "gone": 6576.9,
+     "shrinkStart": 6461.5,
+     "nextZone": 7124.6,
+     "capped": false,
+     "pixelFirst": 5077.7,
+     "pixelLast": 6575.3,
+     "pixelFirstGoneFrame": 6576.3,
+     "ok": true
+    },
+    {
+     "from": 16153.8,
+     "gone": 18181.5,
+     "shrinkStart": 18066.2,
+     "nextZone": 18201.5,
+     "capped": true,
+     "pixelFirst": 16154.3,
+     "pixelLast": 18179.7,
+     "pixelFirstGoneFrame": 18180.7,
+     "ok": true
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 2,
+   "mismatch_sample": [
+    [
+     6576.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18180.7,
+     1,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 1279,
+   "maxHandPx": 0
+  },
+  {
+   "level": 8,
+   "frames": 1683,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [],
+   "hand_segments": [],
+   "windows": [],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 0,
+   "mismatch_sample": [],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 0,
+   "maxHandPx": 0
+  },
+  {
+   "level": 9,
+   "frames": 1641,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [],
+   "hand_segments": [],
+   "windows": [],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 0,
+   "mismatch_sample": [],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 0,
+   "maxHandPx": 0
+  },
+  {
+   "level": 10,
+   "frames": 1704,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [],
+   "hand_segments": [],
+   "windows": [],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 0,
+   "mismatch_sample": [],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": null,
+   "maxMalletPx": 0,
+   "maxHandPx": 0
+  }
+ ],
+ "l1_res": [
+  {
+   "level": 1,
+   "frames": 3131,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 1636.7,
+     "b": 2589.7,
+     "next": 2590.7
+    },
+    {
+     "a": 8182.7,
+     "b": 9680,
+     "next": 9681
+    },
+    {
+     "a": 16910,
+     "b": 18952.3,
+     "next": 18953.3
+    },
+    {
+     "a": 23455,
+     "b": 25869.7,
+     "next": 25870.7
+    }
+   ],
+   "hand_segments": [
+    {
+     "a": 150,
+     "b": 150,
+     "next": 166.7
+    },
+    {
+     "a": 3818.7,
+     "b": 4360.3,
+     "next": 4377
+    }
+   ],
+   "windows": [
+    {
+     "from": 1636.4,
+     "gone": 2590.9,
+     "shrinkStart": 2454.5,
+     "nextZone": 4073.6,
+     "capped": false,
+     "pixelFirst": 1636.7,
+     "pixelLast": 2589.7,
+     "pixelFirstGoneFrame": 2590.7,
+     "ok": true
+    },
+    {
+     "from": 8181.8,
+     "gone": 9681.8,
+     "shrinkStart": 9545.5,
+     "nextZone": 10619.1,
+     "capped": false,
+     "pixelFirst": 8182.7,
+     "pixelLast": 9680,
+     "pixelFirstGoneFrame": 9681,
+     "ok": true
+    },
+    {
+     "from": 16909.1,
+     "gone": 18954.5,
+     "shrinkStart": 18818.2,
+     "nextZone": 19346.4,
+     "capped": false,
+     "pixelFirst": 16910,
+     "pixelLast": 18952.3,
+     "pixelFirstGoneFrame": 18953.3,
+     "ok": false
+    },
+    {
+     "from": 23454.5,
+     "gone": 25871.8,
+     "shrinkStart": 25735.5,
+     "nextZone": 25891.8,
+     "capped": true,
+     "pixelFirst": 23455,
+     "pixelLast": 25869.7,
+     "pixelFirstGoneFrame": 25870.7,
+     "ok": false
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 7,
+   "mismatch_sample": [
+    [
+     150,
+     0,
+     918,
+     0,
+     0,
+     0
+    ],
+    [
+     2590.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     9681,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18953.3,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18954.3,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": {
+    "from": 3818.2,
+    "pressFrom": 4227.3,
+    "t": 4363.6
+   },
+   "maxMalletPx": 1013,
+   "maxHandPx": 1408,
+   "res": "360x640",
+   "firstFrame": {
+    "lt": -400,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   },
+   "firstFrame2": {
+    "lt": -250,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   }
+  },
+  {
+   "level": 1,
+   "frames": 3131,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 1636.7,
+     "b": 2588.7,
+     "next": 2589.7
+    },
+    {
+     "a": 8182.7,
+     "b": 9680,
+     "next": 9681
+    },
+    {
+     "a": 16910,
+     "b": 18952.3,
+     "next": 18953.3
+    },
+    {
+     "a": 23455,
+     "b": 25869.7,
+     "next": 25870.7
+    }
+   ],
+   "hand_segments": [
+    {
+     "a": 150,
+     "b": 150,
+     "next": 166.7
+    },
+    {
+     "a": 3818.7,
+     "b": 4360.3,
+     "next": 4377
+    }
+   ],
+   "windows": [
+    {
+     "from": 1636.4,
+     "gone": 2590.9,
+     "shrinkStart": 2454.5,
+     "nextZone": 4073.6,
+     "capped": false,
+     "pixelFirst": 1636.7,
+     "pixelLast": 2588.7,
+     "pixelFirstGoneFrame": 2589.7,
+     "ok": false
+    },
+    {
+     "from": 8181.8,
+     "gone": 9681.8,
+     "shrinkStart": 9545.5,
+     "nextZone": 10619.1,
+     "capped": false,
+     "pixelFirst": 8182.7,
+     "pixelLast": 9680,
+     "pixelFirstGoneFrame": 9681,
+     "ok": true
+    },
+    {
+     "from": 16909.1,
+     "gone": 18954.5,
+     "shrinkStart": 18818.2,
+     "nextZone": 19346.4,
+     "capped": false,
+     "pixelFirst": 16910,
+     "pixelLast": 18952.3,
+     "pixelFirstGoneFrame": 18953.3,
+     "ok": false
+    },
+    {
+     "from": 23454.5,
+     "gone": 25871.8,
+     "shrinkStart": 25735.5,
+     "nextZone": 25891.8,
+     "capped": true,
+     "pixelFirst": 23455,
+     "pixelLast": 25869.7,
+     "pixelFirstGoneFrame": 25870.7,
+     "ok": false
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 8,
+   "mismatch_sample": [
+    [
+     150,
+     0,
+     1081,
+     0,
+     0,
+     0
+    ],
+    [
+     2589.7,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     2590.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     9681,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18953.3,
+     2,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": {
+    "from": 3818.2,
+    "pressFrom": 4227.3,
+    "t": 4363.6
+   },
+   "maxMalletPx": 1280,
+   "maxHandPx": 1792,
+   "res": "412x915",
+   "firstFrame": {
+    "lt": -400,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   },
+   "firstFrame2": {
+    "lt": -250,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   }
+  },
+  {
+   "level": 1,
+   "frames": 3131,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 1636.7,
+     "b": 2588.7,
+     "next": 2589.7
+    },
+    {
+     "a": 8182.7,
+     "b": 9680,
+     "next": 9681
+    },
+    {
+     "a": 16910,
+     "b": 18952.3,
+     "next": 18953.3
+    },
+    {
+     "a": 23455,
+     "b": 25869.7,
+     "next": 25870.7
+    }
+   ],
+   "hand_segments": [
+    {
+     "a": 150,
+     "b": 150,
+     "next": 166.7
+    },
+    {
+     "a": 3818.7,
+     "b": 4360.3,
+     "next": 4377
+    }
+   ],
+   "windows": [
+    {
+     "from": 1636.4,
+     "gone": 2590.9,
+     "shrinkStart": 2454.5,
+     "nextZone": 4073.6,
+     "capped": false,
+     "pixelFirst": 1636.7,
+     "pixelLast": 2588.7,
+     "pixelFirstGoneFrame": 2589.7,
+     "ok": false
+    },
+    {
+     "from": 8181.8,
+     "gone": 9681.8,
+     "shrinkStart": 9545.5,
+     "nextZone": 10619.1,
+     "capped": false,
+     "pixelFirst": 8182.7,
+     "pixelLast": 9680,
+     "pixelFirstGoneFrame": 9681,
+     "ok": true
+    },
+    {
+     "from": 16909.1,
+     "gone": 18954.5,
+     "shrinkStart": 18818.2,
+     "nextZone": 19346.4,
+     "capped": false,
+     "pixelFirst": 16910,
+     "pixelLast": 18952.3,
+     "pixelFirstGoneFrame": 18953.3,
+     "ok": false
+    },
+    {
+     "from": 23454.5,
+     "gone": 25871.8,
+     "shrinkStart": 25735.5,
+     "nextZone": 25891.8,
+     "capped": true,
+     "pixelFirst": 23455,
+     "pixelLast": 25869.7,
+     "pixelFirstGoneFrame": 25870.7,
+     "ok": false
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 8,
+   "mismatch_sample": [
+    [
+     150,
+     0,
+     868,
+     0,
+     0,
+     0
+    ],
+    [
+     2589.7,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     2590.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     9681,
+     0,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18953.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": {
+    "from": 3818.2,
+    "pressFrom": 4227.3,
+    "t": 4363.6
+   },
+   "maxMalletPx": 726,
+   "maxHandPx": 1362,
+   "res": "640x360",
+   "firstFrame": {
+    "lt": -400,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   },
+   "firstFrame2": {
+    "lt": -250,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   }
+  },
+  {
+   "level": 1,
+   "frames": 3131,
+   "frameMs": 16.666666666666668,
+   "mallet_segments": [
+    {
+     "a": 1636.7,
+     "b": 2589.7,
+     "next": 2590.7
+    },
+    {
+     "a": 8182.7,
+     "b": 9680,
+     "next": 9681
+    },
+    {
+     "a": 16910,
+     "b": 18953.3,
+     "next": 18954.3
+    },
+    {
+     "a": 23455,
+     "b": 25870.7,
+     "next": 25871.7
+    }
+   ],
+   "hand_segments": [
+    {
+     "a": 150,
+     "b": 150,
+     "next": 166.7
+    },
+    {
+     "a": 3818.7,
+     "b": 4360.3,
+     "next": 4377
+    }
+   ],
+   "windows": [
+    {
+     "from": 1636.4,
+     "gone": 2590.9,
+     "shrinkStart": 2454.5,
+     "nextZone": 4073.6,
+     "capped": false,
+     "pixelFirst": 1636.7,
+     "pixelLast": 2589.7,
+     "pixelFirstGoneFrame": 2590.7,
+     "ok": true
+    },
+    {
+     "from": 8181.8,
+     "gone": 9681.8,
+     "shrinkStart": 9545.5,
+     "nextZone": 10619.1,
+     "capped": false,
+     "pixelFirst": 8182.7,
+     "pixelLast": 9680,
+     "pixelFirstGoneFrame": 9681,
+     "ok": true
+    },
+    {
+     "from": 16909.1,
+     "gone": 18954.5,
+     "shrinkStart": 18818.2,
+     "nextZone": 19346.4,
+     "capped": false,
+     "pixelFirst": 16910,
+     "pixelLast": 18953.3,
+     "pixelFirstGoneFrame": 18954.3,
+     "ok": true
+    },
+    {
+     "from": 23454.5,
+     "gone": 25871.8,
+     "shrinkStart": 25735.5,
+     "nextZone": 25891.8,
+     "capped": true,
+     "pixelFirst": 23455,
+     "pixelLast": 25870.7,
+     "pixelFirstGoneFrame": 25871.7,
+     "ok": true
+    }
+   ],
+   "both_frames": 0,
+   "both_sample": [],
+   "pixel_vs_state_mismatch": 5,
+   "mismatch_sample": [
+    [
+     150,
+     0,
+     1607,
+     0,
+     0,
+     0
+    ],
+    [
+     2590.7,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     9681,
+     2,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     18954.3,
+     1,
+     0,
+     1,
+     0,
+     1
+    ],
+    [
+     25871.7,
+     0,
+     0,
+     1,
+     0,
+     1
+    ]
+   ],
+   "dash_outside_window": 0,
+   "mallet_pixels_in_judge_danger": 0,
+   "cue": {
+    "from": 3818.2,
+    "pressFrom": 4227.3,
+    "t": 4363.6
+   },
+   "maxMalletPx": 2458,
+   "maxHandPx": 3509,
+   "res": "1280x720",
+   "firstFrame": {
+    "lt": -400,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   },
+   "firstFrame2": {
+    "lt": -250,
+    "mp": 0,
+    "hp": 0,
+    "malletOn": false,
+    "handOn": false,
+    "dash": false
+   }
+  }
+ ],
+ "realtime_l1": {
+  "frames": 2515,
+  "both": 0,
+  "mallet_frames": 415,
+  "hand_frames": 31,
+  "last_mallet_before_hand": {
+   "lastMallet": 2581,
+   "firstHand": 3832
+  }
+ },
+ "shots": [
+  "360x640-m1-level-first-frame.png",
+  "360x640-m1-mallet-last.png",
+  "360x640-m1-gap.png",
+  "360x640-m1-hand-first.png",
+  "412x915-m1-level-first-frame.png",
+  "412x915-m1-mallet-last.png",
+  "412x915-m1-gap.png",
+  "412x915-m1-hand-first.png",
+  "640x360-m1-level-first-frame.png",
+  "640x360-m1-mallet-last.png",
+  "640x360-m1-gap.png",
+  "640x360-m1-hand-first.png",
+  "1280x720-m1-level-first-frame.png",
+  "1280x720-m1-mallet-last.png",
+  "1280x720-m1-gap.png",
+  "1280x720-m1-hand-first.png"
+ ],
+ "table_rows": 16,
+ "sim_windows": 16,
+ "summary": {
+  "table_matches_sim": "16/16 (표 16줄)",
+  "windows_ok": "17/28",
+  "both_frames_total": 0,
+  "frames_total": 31657,
+  "pixel_vs_state_mismatch": 44,
+  "mallet_pixels_in_judge_danger": 0,
+  "dash_outside_window": 0,
+  "realtime_both": 0
+ },
+ "log": {
+  "console": [
+   "[360x640?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+   "[412x915?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+   "[640x360?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+   "[1280x720?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently",
+   "[412x915?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+  ],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 260
+ },
+ "seconds": 697,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

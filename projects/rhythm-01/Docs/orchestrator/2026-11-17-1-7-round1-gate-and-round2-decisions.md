@@ -47,3 +47,8 @@
 - **규칙 위반 시도 1건(경미)**: 읽기 전용 `git diff --stat`을 실행하려다 권한 검사에서 차단됨(실행 안 됨), 본인이 보고서에 자진 기록. 결과물 영향 없음 → 다음 지시부터 "git은 읽기 전용 명령도 금지" 문구를 넣음.
 - 직접 확인: `selfcheck-sim` 8127/8127 OK, `scripts/validate.mjs` OK, `js/judge.js` = `tools/sim/judge.mjs`(cmp 동일), 외부 URL 0.
 - 남은 것: 1% low 12창 중 10~11창 통과(첫 브라우저 컨텍스트의 긴 프레임 1개) → round-2 QA에서 판정.
+
+## round-2 1-4 QA 감시 (qa-engineer)
+- diff 확인: `reviews/round-2/`(qa.md·metrics.json·parts·shots 277장, 12 MB), `tools/qa-round.mjs`(+505/−17, 새 파트 signals·cards·r2·perfctl, 포트 8380~8399, pids.log), 보고서, README 한 줄. 빌드·기획·harness·games.json·runner-01 미수정, git 미사용(읽기 전용 포함). 같은 시각 `projects/rhythm-02/` 변경은 다른 팀(커밋 안 함). `scripts/validate.mjs` OK.
+- 결과: 기술 7.5, blocker 0, major 1(M2 1% low 3회 모두 10/12, 빌드 원인 6창), minor 2(warmScreens 튜토리얼 글 3프레임, 자동 지연 10→74 ms 고정). 회귀 22건 중 해결 20·부분 1(N7)·미해결 1(M2). M1 동시 표시 0/34,172 프레임, 재판정 불일치 0/101,413, B6 L10 13.363 통과.
+- 다음: 1-5 4역할 리뷰 병렬.

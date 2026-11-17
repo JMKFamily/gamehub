@@ -1,0 +1,22 @@
+[realtime] 시작
+  autoplay L4: clear g3 a1 max|e| 0.2
+  autoplay L5: clear g3 a1 max|e| 0.8
+  autoplay L3: clear g3 a1 max|e| 0.2
+  autoplay L2: clear g3 a1 max|e| 0.2
+  autoplay L1: clear g3 a1 max|e| 0.1
+  autoplay L9: clear g3 a1 max|e| 0.2
+  autoplay L8: clear g3 a1 max|e| 0.2
+  autoplay L10: clear g3 a1 max|e| 0.2
+  autoplay L7: clear g3 a1 max|e| 0.3
+  autoplay L6: clear g3 a1 max|e| 0.4
+  mouse L1: clear attempts 1 e -3..-1.1
+  mouse L5: clear attempts 1 e -10.5..-3.3
+  mouse L10: clear attempts 1 e -0.2..0.9
+[realtime] 끝 190s, console 0, failed 0, external 0
+[features] 시작
+[features] 끝 166s, console 0, failed 0, external 0
+[calib] 시작
+  calib mouse X=0: offset 0 expect 0
+  calib mouse X=120: offset 123.5 expect 120.5
+  calib mouse X=200: offset 200.9 expect 200.8
+[calib] 끝 49s, console 0, failed 0, external 0

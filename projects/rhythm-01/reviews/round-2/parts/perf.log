@@ -1,0 +1,14 @@
+[perf] 시작
+  perf run1 1280x720@1: 59.9/40.1(max 48.6) 60/49.2(max 22.2) 60/53.5(max 19.3) react 11.2
+  perf run1 412x915@3: 60/51.4(max 23.1) 60.1/52(max 24) 60/41.8(max 24.4) react 11.2
+  perf run1 360x640@3: 60/48.5(max 22.4) 60/48.5(max 25.3) 60/53.1(max 19.3) react 9.5
+  perf run1 640x360@3: 60/50.4(max 23) 60/50.5(max 22.8) 60/54.6(max 18.3) react 11.4
+  perf run2 1280x720@1: 59.5/26.4(max 105.9) 59.9/36.9(max 38.7) 60.1/51.4(max 19.6) react 10.2
+  perf run2 412x915@3: 60.1/49.5(max 23.5) 60/47.5(max 27.2) 60/50.8(max 20) react 10.4
+  perf run2 360x640@3: 60/53.2(max 19) 60/47.6(max 26.1) 60/47.6(max 21.8) react 9.1
+  perf run2 640x360@3: 60.1/53.1(max 19.2) 60/46.6(max 25.8) 60/51.8(max 19.5) react 9.2
+  perf run3 1280x720@1: 60/51.9(max 19.9) 60/46.7(max 22) 60/47.5(max 21.2) react 9.3
+  perf run3 412x915@3: 59.5/22.6(max 86.3) 60/49.8(max 22.3) 60/52.6(max 19.1) react 9.4
+  perf run3 360x640@3: 60/49.8(max 21.3) 60/43(max 31.3) 60/48.7(max 21.6) react 10.2
+  perf run3 640x360@3: 60.1/50.4(max 22.7) 60/45.1(max 27) 60/49.9(max 20.5) react 9.8
+[perf] 끝 1250s, console 0, failed 0, external 0

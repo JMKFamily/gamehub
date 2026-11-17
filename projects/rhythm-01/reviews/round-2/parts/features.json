@@ -1,0 +1,230 @@
+{
+ "restart": [
+  {
+   "level": 1,
+   "cpu": 1,
+   "failJudgeToFirstMovingFrameMs": 1091,
+   "failJudgeToFirstFailFrameMs": 24.2,
+   "firstFailFrameToMovingFrameMs": 1066.8,
+   "lastStillFrameLt": 5607.6,
+   "movingFrameLt": 11
+  },
+  {
+   "level": 5,
+   "cpu": 1,
+   "failJudgeToFirstMovingFrameMs": 1081.6,
+   "failJudgeToFirstFailFrameMs": 33,
+   "firstFailFrameToMovingFrameMs": 1049.8,
+   "lastStillFrameLt": 3119.1,
+   "movingFrameLt": 1.6
+  },
+  {
+   "level": 1,
+   "cpu": 6,
+   "failJudgeToFirstMovingFrameMs": 1089.5,
+   "failJudgeToFirstFailFrameMs": 25.3,
+   "firstFailFrameToMovingFrameMs": 1063.9,
+   "lastStillFrameLt": 5604.8,
+   "movingFrameLt": 9.2
+  },
+  {
+   "level": 10,
+   "cpu": 1,
+   "failJudgeToFirstMovingFrameMs": 1080.6,
+   "failJudgeToFirstFailFrameMs": 33.1,
+   "firstFailFrameToMovingFrameMs": 1048.8,
+   "lastStillFrameLt": 2912.9,
+   "movingFrameLt": 0.5
+  }
+ ],
+ "practice": {
+  "checkpoint": {
+   "bar": 5,
+   "t": 12000
+  },
+  "firstStarAfter": 10,
+  "failPhase": "fail",
+  "failHist": {
+   "clear": false,
+   "progress": 0.4,
+   "failIndex": 10,
+   "reason": "miss",
+   "practice": true,
+   "stray": 0
+  },
+  "afterRestart": {
+   "attempts": 2,
+   "levelTime": 12001,
+   "progress": 0.4,
+   "expectProgress": 0.4,
+   "cpT": 12000
+  },
+  "end": {
+   "state": "result",
+   "summary": {
+    "state": "result",
+    "phase": "done",
+    "clear": true,
+    "grade": 0,
+    "attempts": 2,
+    "progress": 1,
+    "lastResult": {
+     "clear": true,
+     "progress": 1
+    }
+   }
+  },
+  "ok": true,
+  "saveL3": {
+   "best": 0,
+   "grade": 0,
+   "flag": true,
+   "cardSeen": false,
+   "attempts": 1
+  },
+  "unlocked": 4
+ },
+ "flow": {
+  "firstFlowState": "card",
+  "handBeforeFirstStar": true,
+  "handAfterClear": false,
+  "result": {
+   "state": "result",
+   "btns": [
+    "bNext",
+    "bRetry",
+    "bLevels"
+   ]
+  },
+  "retry": {
+   "state": "play",
+   "level": 0,
+   "attempts": 1
+  },
+  "levels": "levels",
+  "save1": {
+   "unlocked": 2,
+   "l1": {
+    "best": 1,
+    "grade": 3,
+    "flag": false,
+    "cardSeen": true,
+    "attempts": 0
+   }
+  },
+  "lockedTap": "levels",
+  "l1Again": "play",
+  "l2First": "card",
+  "l2AfterFail": {
+   "state": "play",
+   "attempts": 2
+  },
+  "replayCard": "card",
+  "replayClose": "levels",
+  "practiceClear": {
+   "unlocked": 3,
+   "l2": {
+    "best": 0,
+    "grade": 0,
+    "flag": true,
+    "cardSeen": true,
+    "attempts": 1
+   }
+  },
+  "nextFromL2": {
+   "state": "card",
+   "level": 2
+  },
+  "afterReload": {
+   "unlocked": 3,
+   "l1": {
+    "best": 1,
+    "grade": 3,
+    "flag": false,
+    "cardSeen": true,
+    "attempts": 0
+   },
+   "l2": {
+    "best": 0,
+    "grade": 0,
+    "flag": true,
+    "cardSeen": true,
+    "attempts": 1
+   },
+   "offsetMs": -40,
+   "calibDone": true,
+   "sound": true
+  },
+  "titleTapAfterReload": "levels"
+ },
+ "flowChecks": {
+  "card_first_play": true,
+  "hand_shown": true,
+  "hand_hidden_after": true,
+  "result_3_buttons": true,
+  "retry_same_level": true,
+  "levels_btn": true,
+  "unlock_after_clear": true,
+  "locked_ignored": true,
+  "card_once_l1": true,
+  "card_l2_first": true,
+  "no_card_on_restart": true,
+  "replay_card": true,
+  "practice_unlocks": true,
+  "next_goes_l3": true,
+  "persist": true,
+  "no_recalib": true
+ },
+ "background": {
+  "before": {
+   "lt": 2104.415736955491,
+   "att": 1
+  },
+  "realTabSwitch": {
+   "hidden": false,
+   "state": "play"
+  },
+  "onHide": {
+   "state": "pause",
+   "ctx": "suspended",
+   "pausedBg": true
+  },
+  "onShow": {
+   "state": "pause",
+   "ctx": "suspended"
+  },
+  "afterTap": {
+   "state": "play",
+   "att": 1,
+   "lt": 180.45392293229588,
+   "ctx": "running"
+  },
+  "ok": true
+ },
+ "mute": {
+  "rmsOnMax": 0.24490001209773346,
+  "rmsOffMax": 0,
+  "savedAfterMute": false,
+  "savedAfterUnmute": true,
+  "ok": true
+ },
+ "controls": {
+  "before": 0,
+  "afterMove": 0,
+  "afterDown": 1,
+  "ok": true
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 451
+ },
+ "seconds": 166,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

@@ -1,0 +1,837 @@
+{
+ "res": {
+  "360x640": {
+   "levels": {
+    "bad": [],
+    "l2_progress_bar": true,
+    "l2_has_digits": false,
+    "l3_flag": true,
+    "l4_empty": true,
+    "names_shown": 10,
+    "card_icon": 3,
+    "labels": [
+     "아침 마당, 작은 북 셋",
+     "꽃밭, 아직 안 했어요",
+     "비 오는 창가, 깃발 받았어요",
+     "바닷가, 아직 안 했어요",
+     "숲속 길, 잠겨 있어요",
+     "노을 언덕, 잠겨 있어요",
+     "등불 골목, 잠겨 있어요",
+     "지붕 위, 잠겨 있어요",
+     "구름 위, 잠겨 있어요",
+     "달, 잠겨 있어요"
+    ]
+   },
+   "title": {
+    "rect": [
+     16,
+     508,
+     328,
+     95
+    ],
+    "ringOuter": 153,
+    "distToCenter": 220,
+    "clearOfRing": true,
+    "onScreen": true
+   },
+   "confirm": {
+    "focus": "cfNo",
+    "noImg": "data/svg/icon-next-ink.svg",
+    "yesImg": "data/svg/icon-reset.svg",
+    "noBg": "rgb(245, 241, 232)",
+    "yesBg": "rgba(0, 0, 0, 0)",
+    "noBorder": "rgb(11, 13, 18)",
+    "yesBorder": "rgb(230, 225, 211)",
+    "dialogLabelled": "cfText",
+    "sizes": [
+     [
+      139,
+      64
+     ],
+     [
+      139,
+      64
+     ]
+    ]
+   },
+   "hand": {
+    "size": 64.8,
+    "x": 180,
+    "y": 556.14,
+    "R": 144,
+    "cx": 180,
+    "cy": 288,
+    "thumb": {
+     "x": 16,
+     "y": 488.28,
+     "w": 328,
+     "h": 135.72000000000003
+    },
+    "W": 360,
+    "H": 640,
+    "expected": 64.8
+   },
+   "attempts": {
+    "role": "meter",
+    "label": "해 본 횟수",
+    "now": "3",
+    "max": "3",
+    "attempts": 3
+   },
+   "flags": [
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    }
+   ],
+   "resultL1": {
+    "grade": 3,
+    "role": "img",
+    "label": "작은 북 셋",
+    "btns": [
+     "bNext",
+     "bRetry",
+     "bLevels"
+    ],
+    "aria": [
+     {
+      "id": "sPlay",
+      "role": "application",
+      "label": "화면을 톡 쳐요",
+      "digits": false
+     },
+     {
+      "id": "progAria",
+      "role": "progressbar",
+      "label": "가는 길",
+      "digits": false
+     },
+     {
+      "id": "attAria",
+      "role": "meter",
+      "label": "해 본 횟수",
+      "digits": false
+     },
+     {
+      "id": "gradeAria",
+      "role": "img",
+      "label": "작은 북 셋",
+      "digits": false
+     },
+     {
+      "id": "bNext",
+      "role": null,
+      "label": "다음",
+      "digits": false
+     },
+     {
+      "id": "bRetry",
+      "role": null,
+      "label": "다시",
+      "digits": false
+     },
+     {
+      "id": "bLevels",
+      "role": null,
+      "label": "레벨 고르기",
+      "digits": false
+     }
+    ]
+   },
+   "resultPractice": {
+    "role": "img",
+    "label": "깃발 받았어요"
+   },
+   "resultL10": {
+    "btns": [
+     {
+      "id": "bRetry",
+      "label": "다시",
+      "img": "data/svg/icon-retry.svg"
+     },
+     {
+      "id": "bLevels",
+      "label": "레벨 고르기",
+      "img": "data/svg/icon-levels.svg"
+     }
+    ]
+   },
+   "gate": {
+    "label": "설정",
+    "describedBy": "guardian_hold",
+    "describedText": "어른이 길게 눌러요"
+   },
+   "ariaScreens": {
+    "title": [],
+    "levels": [],
+    "settings": [],
+    "pause": [],
+    "confirm": [],
+    "play": []
+   }
+  },
+  "412x915": {
+   "levels": {
+    "bad": [],
+    "l2_progress_bar": true,
+    "l2_has_digits": false,
+    "l3_flag": true,
+    "l4_empty": true,
+    "names_shown": 10,
+    "card_icon": 3,
+    "labels": [
+     "아침 마당, 작은 북 셋",
+     "꽃밭, 아직 안 했어요",
+     "비 오는 창가, 깃발 받았어요",
+     "바닷가, 아직 안 했어요",
+     "숲속 길, 잠겨 있어요",
+     "노을 언덕, 잠겨 있어요",
+     "등불 골목, 잠겨 있어요",
+     "지붕 위, 잠겨 있어요",
+     "구름 위, 잠겨 있어요",
+     "달, 잠겨 있어요"
+    ]
+   },
+   "title": {
+    "rect": [
+     16,
+     717,
+     380,
+     105
+    ],
+    "ringOuter": 175,
+    "distToCenter": 306,
+    "clearOfRing": true,
+    "onScreen": true
+   },
+   "confirm": {
+    "focus": "cfNo",
+    "noImg": "data/svg/icon-next-ink.svg",
+    "yesImg": "data/svg/icon-reset.svg",
+    "noBg": "rgb(245, 241, 232)",
+    "yesBg": "rgba(0, 0, 0, 0)",
+    "noBorder": "rgb(11, 13, 18)",
+    "yesBorder": "rgb(230, 225, 211)",
+    "dialogLabelled": "cfText",
+    "sizes": [
+     [
+      139,
+      64
+     ],
+     [
+      139,
+      64
+     ]
+    ]
+   },
+   "hand": {
+    "size": 74.16000000000001,
+    "x": 206,
+    "y": 769.75,
+    "R": 164.8,
+    "cx": 206,
+    "cy": 411.75,
+    "thumb": {
+     "x": 16,
+     "y": 640.5,
+     "w": 380,
+     "h": 258.5
+    },
+    "W": 412,
+    "H": 915,
+    "expected": 74.16000000000001
+   },
+   "attempts": {
+    "role": "meter",
+    "label": "해 본 횟수",
+    "now": "3",
+    "max": "3",
+    "attempts": 3
+   },
+   "flags": [
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    }
+   ],
+   "resultL1": {
+    "grade": 3,
+    "role": "img",
+    "label": "작은 북 셋",
+    "btns": [
+     "bNext",
+     "bRetry",
+     "bLevels"
+    ],
+    "aria": [
+     {
+      "id": "sPlay",
+      "role": "application",
+      "label": "화면을 톡 쳐요",
+      "digits": false
+     },
+     {
+      "id": "progAria",
+      "role": "progressbar",
+      "label": "가는 길",
+      "digits": false
+     },
+     {
+      "id": "attAria",
+      "role": "meter",
+      "label": "해 본 횟수",
+      "digits": false
+     },
+     {
+      "id": "gradeAria",
+      "role": "img",
+      "label": "작은 북 셋",
+      "digits": false
+     },
+     {
+      "id": "bNext",
+      "role": null,
+      "label": "다음",
+      "digits": false
+     },
+     {
+      "id": "bRetry",
+      "role": null,
+      "label": "다시",
+      "digits": false
+     },
+     {
+      "id": "bLevels",
+      "role": null,
+      "label": "레벨 고르기",
+      "digits": false
+     }
+    ]
+   },
+   "resultPractice": {
+    "role": "img",
+    "label": "깃발 받았어요"
+   },
+   "resultL10": {
+    "btns": [
+     {
+      "id": "bRetry",
+      "label": "다시",
+      "img": "data/svg/icon-retry.svg"
+     },
+     {
+      "id": "bLevels",
+      "label": "레벨 고르기",
+      "img": "data/svg/icon-levels.svg"
+     }
+    ]
+   },
+   "gate": {
+    "label": "설정",
+    "describedBy": "guardian_hold",
+    "describedText": "어른이 길게 눌러요"
+   },
+   "ariaScreens": {
+    "title": [],
+    "levels": [],
+    "settings": [],
+    "pause": [],
+    "confirm": [],
+    "play": []
+   }
+  },
+  "640x360": {
+   "levels": {
+    "bad": [],
+    "l2_progress_bar": true,
+    "l2_has_digits": false,
+    "l3_flag": true,
+    "l4_empty": true,
+    "names_shown": 10,
+    "card_icon": 3,
+    "labels": [
+     "아침 마당, 작은 북 셋",
+     "꽃밭, 아직 안 했어요",
+     "비 오는 창가, 깃발 받았어요",
+     "바닷가, 아직 안 했어요",
+     "숲속 길, 잠겨 있어요",
+     "노을 언덕, 잠겨 있어요",
+     "등불 골목, 잠겨 있어요",
+     "지붕 위, 잠겨 있어요",
+     "구름 위, 잠겨 있어요",
+     "달, 잠겨 있어요"
+    ]
+   },
+   "title": {
+    "rect": [
+     463,
+     151,
+     161,
+     95
+    ],
+    "ringOuter": 127,
+    "distToCenter": 143,
+    "clearOfRing": true,
+    "onScreen": true
+   },
+   "confirm": {
+    "focus": "cfNo",
+    "noImg": "data/svg/icon-next-ink.svg",
+    "yesImg": "data/svg/icon-reset.svg",
+    "noBg": "rgb(245, 241, 232)",
+    "yesBg": "rgba(0, 0, 0, 0)",
+    "noBorder": "rgb(11, 13, 18)",
+    "yesBorder": "rgb(230, 225, 211)",
+    "dialogLabelled": "cfText",
+    "sizes": [
+     [
+      139,
+      64
+     ],
+     [
+      139,
+      64
+     ]
+    ]
+   },
+   "hand": {
+    "size": 64,
+    "x": 492.26,
+    "y": 275.22,
+    "R": 118.80000000000001,
+    "cx": 320,
+    "cy": 198.00000000000003,
+    "thumb": null,
+    "W": 640,
+    "H": 360,
+    "expected": 64
+   },
+   "attempts": {
+    "role": "meter",
+    "label": "해 본 횟수",
+    "now": "3",
+    "max": "3",
+    "attempts": 3
+   },
+   "flags": [
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    }
+   ],
+   "resultL1": {
+    "grade": 3,
+    "role": "img",
+    "label": "작은 북 셋",
+    "btns": [
+     "bNext",
+     "bRetry",
+     "bLevels"
+    ],
+    "aria": [
+     {
+      "id": "sPlay",
+      "role": "application",
+      "label": "화면을 톡 쳐요",
+      "digits": false
+     },
+     {
+      "id": "progAria",
+      "role": "progressbar",
+      "label": "가는 길",
+      "digits": false
+     },
+     {
+      "id": "attAria",
+      "role": "meter",
+      "label": "해 본 횟수",
+      "digits": false
+     },
+     {
+      "id": "gradeAria",
+      "role": "img",
+      "label": "작은 북 셋",
+      "digits": false
+     },
+     {
+      "id": "bNext",
+      "role": null,
+      "label": "다음",
+      "digits": false
+     },
+     {
+      "id": "bRetry",
+      "role": null,
+      "label": "다시",
+      "digits": false
+     },
+     {
+      "id": "bLevels",
+      "role": null,
+      "label": "레벨 고르기",
+      "digits": false
+     }
+    ]
+   },
+   "resultPractice": {
+    "role": "img",
+    "label": "깃발 받았어요"
+   },
+   "resultL10": {
+    "btns": [
+     {
+      "id": "bRetry",
+      "label": "다시",
+      "img": "data/svg/icon-retry.svg"
+     },
+     {
+      "id": "bLevels",
+      "label": "레벨 고르기",
+      "img": "data/svg/icon-levels.svg"
+     }
+    ]
+   },
+   "gate": {
+    "label": "설정",
+    "describedBy": "guardian_hold",
+    "describedText": "어른이 길게 눌러요"
+   },
+   "ariaScreens": {
+    "title": [],
+    "levels": [],
+    "settings": [],
+    "pause": [],
+    "confirm": [],
+    "play": []
+   }
+  },
+  "1280x720": {
+   "levels": {
+    "bad": [],
+    "l2_progress_bar": true,
+    "l2_has_digits": false,
+    "l3_flag": true,
+    "l4_empty": true,
+    "names_shown": 10,
+    "card_icon": 3,
+    "labels": [
+     "아침 마당, 작은 북 셋",
+     "꽃밭, 아직 안 했어요",
+     "비 오는 창가, 깃발 받았어요",
+     "바닷가, 아직 안 했어요",
+     "숲속 길, 잠겨 있어요",
+     "노을 언덕, 잠겨 있어요",
+     "등불 골목, 잠겨 있어요",
+     "지붕 위, 잠겨 있어요",
+     "구름 위, 잠겨 있어요",
+     "달, 잠겨 있어요"
+    ]
+   },
+   "title": {
+    "rect": [
+     902,
+     349,
+     362,
+     95
+    ],
+    "ringOuter": 251,
+    "distToCenter": 262,
+    "clearOfRing": true,
+    "onScreen": true
+   },
+   "confirm": {
+    "focus": "cfNo",
+    "noImg": "data/svg/icon-next-ink.svg",
+    "yesImg": "data/svg/icon-reset.svg",
+    "noBg": "rgb(245, 241, 232)",
+    "yesBg": "rgba(0, 0, 0, 0)",
+    "noBorder": "rgb(11, 13, 18)",
+    "yesBorder": "rgb(230, 225, 211)",
+    "dialogLabelled": "cfText",
+    "sizes": [
+     [
+      139,
+      64
+     ],
+     [
+      139,
+      64
+     ]
+    ]
+   },
+   "hand": {
+    "size": 106.92000000000002,
+    "x": 984.52,
+    "y": 550.44,
+    "R": 237.60000000000002,
+    "cx": 640,
+    "cy": 396.00000000000006,
+    "thumb": null,
+    "W": 1280,
+    "H": 720,
+    "expected": 106.92000000000002
+   },
+   "attempts": {
+    "role": "meter",
+    "label": "해 본 횟수",
+    "now": "3",
+    "max": "3",
+    "attempts": 3
+   },
+   "flags": [
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    },
+    {
+     "role": "img",
+     "label": "깃발"
+    }
+   ],
+   "resultL1": {
+    "grade": 3,
+    "role": "img",
+    "label": "작은 북 셋",
+    "btns": [
+     "bNext",
+     "bRetry",
+     "bLevels"
+    ],
+    "aria": [
+     {
+      "id": "sPlay",
+      "role": "application",
+      "label": "화면을 톡 쳐요",
+      "digits": false
+     },
+     {
+      "id": "progAria",
+      "role": "progressbar",
+      "label": "가는 길",
+      "digits": false
+     },
+     {
+      "id": "attAria",
+      "role": "meter",
+      "label": "해 본 횟수",
+      "digits": false
+     },
+     {
+      "id": "gradeAria",
+      "role": "img",
+      "label": "작은 북 셋",
+      "digits": false
+     },
+     {
+      "id": "bNext",
+      "role": null,
+      "label": "다음",
+      "digits": false
+     },
+     {
+      "id": "bRetry",
+      "role": null,
+      "label": "다시",
+      "digits": false
+     },
+     {
+      "id": "bLevels",
+      "role": null,
+      "label": "레벨 고르기",
+      "digits": false
+     }
+    ]
+   },
+   "resultPractice": {
+    "role": "img",
+    "label": "깃발 받았어요"
+   },
+   "resultL10": {
+    "btns": [
+     {
+      "id": "bRetry",
+      "label": "다시",
+      "img": "data/svg/icon-retry.svg"
+     },
+     {
+      "id": "bLevels",
+      "label": "레벨 고르기",
+      "img": "data/svg/icon-levels.svg"
+     }
+    ]
+   },
+   "gate": {
+    "label": "설정",
+    "describedBy": "guardian_hold",
+    "describedText": "어른이 길게 눌러요"
+   },
+   "ariaScreens": {
+    "title": [],
+    "levels": [],
+    "settings": [],
+    "pause": [],
+    "confirm": [],
+    "play": []
+   }
+  }
+ },
+ "checks": {
+  "N1_level_card_rows": true,
+  "N2_title_hint_clear": true,
+  "N5_confirm_icons": true,
+  "N6_progress_on_card": true,
+  "N7_latency_one_value": false,
+  "N9_calib_1046": true,
+  "N11_icon_card": true,
+  "N12_hand_scaled": true,
+  "N13_attempts_meter": true,
+  "N14_grade_aria": true,
+  "N15_loading_error": true,
+  "N16_l10_two_buttons": true,
+  "R8_no_digits_in_aria": true,
+  "R8_strings_used_or_reason": true
+ },
+ "loading": {
+  "state": "loading",
+  "picRole": "img",
+  "picLabel": "불러오는 중…",
+  "text": "불러오는 중…",
+  "bg": "rgb(41, 35, 15)"
+ },
+ "loadError": {
+  "visible": true,
+  "label": "다시",
+  "described": "다시 해 주세요",
+  "w": 48
+ },
+ "latency": {
+  "samples": [
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 10
+   },
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 74
+   },
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 74
+   },
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 74
+   },
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 74
+   },
+   {
+    "auto": 10,
+    "manual": 0,
+    "comp": 10,
+    "autoNow": 74
+   },
+   {
+    "auto": 74,
+    "manual": 30,
+    "comp": 104,
+    "autoNow": 74
+   }
+  ],
+  "comp_eq_auto_plus_manual": true,
+  "auto_values": [
+   10,
+   74
+  ],
+  "autoNow_values": [
+   10,
+   74
+  ]
+ },
+ "calibCheck": {
+  "freqs": [
+   1046.5
+  ],
+  "soundJson": 1046.5
+ },
+ "cardHand": {
+  "hasHandRef": false,
+  "handSnippets": []
+ },
+ "strings": {
+  "keys": 64,
+  "dynamic_prefixes": [
+   "grade_"
+  ],
+  "unused": [],
+  "unused_without_reason": []
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 221
+ },
+ "seconds": 11,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

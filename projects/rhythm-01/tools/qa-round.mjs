@@ -13,13 +13,21 @@
 //   features  재시작 시간(실시간 프레임), 연습 모드, 저장 유지, 백그라운드, 음소거, 결과 버튼, 해금, 카드 1회, 손가락
 //   calib     결정 9: 첫 실행 보정·건너뛰기, 보정 계산 규칙, 실제 마우스 보정(오프셋 0/120/200), 보호자 문, 모래시계, 정지 화면
 //   static    빌드 파일 외부 URL·레퍼런스 이름 검색, data 사본 = 기획 원본
-// 콘솔·네트워크 로그는 모든 파트에서 모아 parts/<파트>.json 의 log 에 넣는다.
+//   --- round-2 추가 ---
+//   signals   M1: 화면 프레임(캔버스 픽셀)으로 북채·손가락 보임 판정 — 북채만/손가락만 빼고 다시 그린 프레임과의 픽셀 차.
+//             사라짐·등장 시각 = judge.mjs malletSchedule·20-balance 6-4 표, 동시 표시 0 (4해상도 L1 + 412x915 10레벨, 일반 모드 실시간 L1)
+//   cards     M4: notext 카드 5장 × 4해상도 스크린샷 픽셀에서 공·별 지름(px), 플레이 화면 공·별 px
+//   r2        round-1 이슈 회귀(N1·N2·N5·N6·N7·N9·N11·N12·N13~N16·N17) + aria R8(숫자 붙임·키 사용)
+//   perfctl   M2 원인 판별용 대조 페이지(게임 코드 없음, rAF + 캔버스 + AudioContext)를 같은 6배 스로틀·새 브라우저에서 잼
+//   옵션: --port N (기본 8380~8399 무작위, rhythm-01 팀 대역), --perf-runs N (perf·perfctl 을 새 브라우저로 N번), --perf-tag 이름 (parts/perf-<이름>.json),
+//         --perf-order 1280x720,412x915,... (창 순서 바꾸기), --perf-delay ms (오디오 시작 뒤 레벨 1 전에 기다림)
+// 콘솔·네트워크 로그는 모든 파트에서 모아 parts/<파트>.json 의 log 에 넣는다. 서버 PID 는 parts/pids.log 에 적고 자기 것만 종료한다.
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { dirname, resolve, join, extname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { compileLevel, judgeAttempt } from './sim/judge.mjs';
+import { compileLevel, judgeAttempt, malletSchedule } from './sim/judge.mjs';
 import { runProfile } from './sim/bots.mjs';
 
 const PROJ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -49,8 +57,11 @@ if (args.includes('--merge')) {
   const m = { round: +ROUND, game: 'rhythm-01', build: 'games/rhythm-01', generated: new Date().toISOString(), parts: {} };
   for (const f of readdirSync(PARTS).filter((x) => x.endsWith('.json')).sort()) m.parts[f.replace('.json', '')] = JSON.parse(readFileSync(join(PARTS, f), 'utf8'));
   const logs = Object.values(m.parts).map((p) => p.log).filter(Boolean);
+  // QA 계측이 낸 경고(signals 파트의 getImageData 반복 읽기)는 빌드 경고가 아니므로 따로 적음
+  const qaCaused = (s) => /willReadFrequently/.test(s);
   m.basic = {
-    console_errors_warnings: logs.flatMap((l) => [...l.console, ...l.pageerrors]),
+    console_errors_warnings: logs.flatMap((l) => [...l.console, ...l.pageerrors]).filter((s) => !qaCaused(s)),
+    console_qa_instrumentation_warnings: logs.flatMap((l) => l.console).filter(qaCaused).length,
     failed_requests: logs.flatMap((l) => l.failed),
     external_requests: logs.flatMap((l) => l.external),
     requests_total: logs.reduce((a, l) => a + l.requests, 0),
@@ -66,7 +77,15 @@ if (args.includes('--merge')) {
     input_to_frame_ms: P.perf && P.perf.reaction.map((r) => ({ res: r.res, dpr: r.dpr, median: r.median_ms, max: r.max_ms })),
     restart_ms: P.features && P.features.restart.map((r) => ({ level: r.level, cpu: r.cpu, failJudgeToFirstMovingFrame: r.failJudgeToFirstMovingFrameMs })),
     buttons_min_px: P.shots && P.shots.summary.min_button_px, button_issues: P.shots && P.shots.summary.button_issues.length, shots: P.shots && P.shots.summary.shots,
+    // round-2
+    perf_6x: P.perf && P.perf.summary, perf_control_page: P.perfctl && P.perfctl.summary,
+    perf_variants: Object.fromEntries(Object.keys(P).filter((k) => /^perf-/.test(k)).map((k) => [k, P[k].summary])),
+    signals_m1: P.signals && { ...P.signals.summary, windows_ok_frame_tolerance: (() => { const ws = [...P.signals.l1_res, ...P.signals.levels].flatMap((r) => r.windows); const ok = ws.filter((w) => w.pixelFirst != null && Math.abs(w.pixelFirst - w.from) <= 1.5 && w.pixelLast < w.gone && w.gone - w.pixelLast <= 1000 / 60 && (w.nextZone == null || w.pixelLast < w.nextZone)); return `${ok.length}/${ws.length} (첫 보임 = 등장 ±1.5 ms, 마지막 보임 < 사라짐·1프레임 안, 다음 별 놓침 구역 전)`; })(), max_gone_minus_last_visible_ms: Math.max(...[...P.signals.l1_res, ...P.signals.levels].flatMap((r) => r.windows).map((w) => +(w.gone - w.pixelLast).toFixed(1))) }, cards_m4: P.cards && P.cards.summary, r2_checks: P.r2 && P.r2.checks,
+    calib_definition_crosscheck: P.calib && P.calib.calibDefinitionCrossCheck && { cases: P.calib.calibDefinitionCrossCheck.cases, sim_vs_build_diff: P.calib.calibDefinitionCrossCheck.sim_vs_build_diff, build_vs_qa_ref_diff: P.calib.calibDefinitionCrossCheck.build_vs_qa_ref_diff },
   };
+  // 시뮬레이터 전체 실행(B6 판정 원천)·소리 크기 렌더 결과 (같은 폴더의 원자료)
+  try { const v = JSON.parse(readFileSync(join(PARTS, 'verify-levels.json'), 'utf8')); m.summary.verify_levels_full = { fails: v.fails.length, checks: Object.values(v.levels).reduce((a, l) => a + l.checks.length, 0), l10_target: v.l10_target, curve: v.curve_summary }; delete m.parts['verify-levels']; } catch {}
+  try { const t = readFileSync(join(PARTS, 'sound-check.txt'), 'utf8'); m.summary.sound_check_render = t.split('\n').filter((l) => /dB \(기준|sound-check|멜로디 음/.test(l)); } catch {}
   writeFileSync(join(OUT, 'metrics.json'), JSON.stringify(m, null, 1));
   console.log('metrics.json 작성', Object.keys(m.parts).join(', '), 'console', m.basic.console_errors_warnings.length, 'failed', m.basic.failed_requests.length, 'external', m.basic.external_requests.length);
   process.exit(0);
@@ -91,6 +110,13 @@ function partStatic() {
   const cmp = (a, b) => { const x = readFileSync(a), y = readFileSync(b); return createHash('sha1').update(x).digest('hex') === createHash('sha1').update(y).digest('hex'); };
   same.push({ file: 'balance.json', equal: cmp(join(PROJ, 'balance.json'), join(GAME, 'data/balance.json')) });
   for (const f of bal.levels) same.push({ file: f, equal: cmp(join(PROJ, f), join(GAME, 'data', f)) });
+  if (existsSync(join(PROJ, 'assets/sound.json'))) {
+    // build-web-data.mjs 가 원본을 sound.json(master·noise_buffer_s·sounds·parts) / music.json(levels·calib_check_hz·melody)으로 나눠 복사
+    const A = JSON.parse(readFileSync(join(PROJ, 'assets/sound.json'), 'utf8')), Bs = JSON.parse(readFileSync(join(GAME, 'data/sound.json'), 'utf8')), Bm = JSON.parse(readFileSync(join(GAME, 'data/music.json'), 'utf8'));
+    const j = JSON.stringify;
+    same.push({ file: 'assets/sound.json → data/sound.json (master·noise·sounds·parts)', equal: ['master', 'noise_buffer_s', 'sounds', 'parts'].every((k) => j(A[k]) === j(Bs[k])) });
+    same.push({ file: 'assets/sound.json music → data/music.json (levels·calib_check_hz·melody)', equal: ['levels', 'calib_check_hz', 'melody'].every((k) => j(A.music[k]) === j(Bm[k])), calib_check_hz: Bm.calib_check_hz });
+  }
   same.push({ file: 'tools/sim/judge.mjs vs js/judge.js', equal: readFileSync(join(PROJ, 'tools/sim/judge.mjs'), 'utf8').replace(/\r/g, '') === readFileSync(join(GAME, 'js/judge.js'), 'utf8').replace(/\r/g, '') });
   // DOM 의 링크·광고·구매 요소
   const html = readFileSync(join(GAME, 'index.html'), 'utf8');
@@ -108,18 +134,26 @@ async function loadPW() {
   }
   throw new Error('playwright-core 를 찾지 못함 (PLAYWRIGHT_CORE)');
 }
-const PORT = 8190 + Math.floor(Math.random() * 40);
+// 포트: rhythm-01 팀 대역 8300~8399 중 QA 몫 8380~8399 (game-developer 8300~8379)
+const PORT = +opt('--port', 8380 + Math.floor(Math.random() * 20));
+if (PORT < 8300 || PORT > 8399) { console.error('포트는 rhythm-01 대역 8300~8399 만'); process.exit(2); }
 const BASE = `http://localhost:${PORT}/games/rhythm-01/`;
 let server, browser;
 const LOG = { console: [], pageerrors: [], failed: [], external: [], requests: 0 };
+const pidLog = (s) => { try { writeFileSync(join(PARTS, 'pids.log'), `${new Date().toISOString()} ${s}\n`, { flag: 'a' }); } catch {} };
+async function launchBrowser() {
+  browser = await pw.chromium.launch({ channel: CHANNEL, headless: true });
+  return browser;
+}
 async function startAll() {
   pw = await loadPW();
   server = spawn(process.execPath, [join(PROJ, 'tools/serve.mjs'), String(PORT)], { stdio: 'ignore' });
+  pidLog(`serve.mjs pid ${server.pid} port ${PORT} (qa-round pid ${process.pid})`);
   process.on('exit', () => { try { server.kill(); } catch {} });
   for (let k = 0; k < 80; k++) { try { if ((await fetch(BASE)).ok) break; } catch {} await sleep(100); }
-  browser = await pw.chromium.launch({ channel: CHANNEL, headless: true });
+  await launchBrowser();
 }
-async function stopAll() { try { await browser.close(); } catch {} try { server.kill(); } catch {} }
+async function stopAll() { try { await browser.close(); } catch {} try { server.kill(); pidLog(`serve.mjs pid ${server.pid} 종료`); } catch {} }
 
 // 오디오 관찰(일반 모드): 시작 시각 기록, 출력 앞 분석기(음소거 확인), localStorage qaLat 으로 outputLatency 흉내
 function PROBE() {
@@ -146,6 +180,19 @@ function PROBE() {
     }
     return conn.call(this, dest, ...r);
   };
+  // round-2: AudioContext 만든 시각, long-animation-frame 기록, 1000~1100 Hz 음 높이 기록(보정 체크 방울 1046.5 Hz)
+  window.__qa.ctxAt = null; window.__qa.loaf = []; window.__qa.freqs = [];
+  try {
+    const AC0 = window.AudioContext;
+    window.AudioContext = new Proxy(AC0, { construct(t, a, nt) { const c = Reflect.construct(t, a, nt); if (window.__qa.ctxAt == null) window.__qa.ctxAt = performance.now(); return c; } });
+  } catch {}
+  try { new PerformanceObserver((l) => { for (const e of l.getEntries()) { const q = window.__qa.loaf; if (q.length < 3000) q.push({ start: e.startTime, dur: e.duration, block: e.blockingDuration, render: e.renderStart, style: e.styleAndLayoutStart, scripts: (e.scripts || []).reduce((a, s) => a + s.duration, 0), top: (e.scripts || []).slice(0, 2).map((s) => `${s.invoker || ''}:${(s.sourceURL || '').split('/').pop()}:${Math.round(s.duration)}`) }); } }).observe({ type: 'long-animation-frame', buffered: true }); } catch {}
+  if ((() => { try { return localStorage.getItem('qaFreq'); } catch { return null; } })()) try {
+    const rec = (v) => { if (v >= 1000 && v <= 1100 && window.__qa.freqs.length < 500) window.__qa.freqs.push({ v, at: performance.now() }); };
+    const svt = AudioParam.prototype.setValueAtTime; AudioParam.prototype.setValueAtTime = function (v, t) { rec(v); return svt.call(this, v, t); };
+    const d = Object.getOwnPropertyDescriptor(AudioParam.prototype, 'value');
+    Object.defineProperty(AudioParam.prototype, 'value', { configurable: true, get() { return d.get.call(this); }, set(v) { rec(v); d.set.call(this, v); } });
+  } catch {}
   document.addEventListener('pointerdown', (e) => { window.__qa.taps.push(e.timeStamp); }, true);
   window.__qaRms = () => { const an = window.__qa.an; if (!an) return null; const d = new Float32Array(an.fftSize); an.getFloatTimeDomainData(d); let s = 0; for (const x of d) s += x * x; return Math.sqrt(s / d.length); };
 }
@@ -515,43 +562,99 @@ async function fpsWindow(p, ms) {
   const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]);
   const total = t[t.length - 1] - t[0];
   const sorted = [...d].sort((a, b) => b - a), n1 = Math.max(1, Math.floor(d.length * 0.01));
-  return { frames: d.length, avg_fps: r1((d.length / total) * 1000), low1_fps: r1(1000 / (sorted.slice(0, n1).reduce((a, b) => a + b, 0) / n1)), max_ms: r1(sorted[0]), over_33ms: d.filter((x) => x > 33.4).length };
+  // round-2: 25 ms 넘는 프레임마다 창 시작 기준 시각·AudioContext 생성 뒤 시각·겹치는 long-animation-frame(스크립트·blocking)
+  const extra = await p.evaluate((t0) => ({ ctxAt: window.__qa.ctxAt, loaf: window.__qa.loaf.filter((e) => e.start + e.dur >= t0 - 1) }), t[0]);
+  const long = [];
+  for (let i = 1; i < t.length; i++) {
+    const dd = t[i] - t[i - 1];
+    if (dd <= 25) continue;
+    const lo = extra.loaf.filter((e) => e.start < t[i] && e.start + e.dur > t[i - 1]);
+    long.push({ ms: r1(dd), atWindowMs: r1(t[i - 1] - t[0]), sinceAudioCtxMs: extra.ctxAt == null ? null : r1(t[i - 1] - extra.ctxAt), loaf: lo.map((e) => ({ dur: r1(e.dur), block: r1(e.block), scripts: r1(e.scripts), top: e.top })) });
+  }
+  const low1Without = (k) => { const s = sorted.slice(k), m = Math.max(1, Math.floor((d.length - k) * 0.01)); return r1(1000 / (s.slice(0, m).reduce((a, b) => a + b, 0) / m)); };
+  return { frames: d.length, avg_fps: r1((d.length / total) * 1000), low1_fps: r1(1000 / (sorted.slice(0, n1).reduce((a, b) => a + b, 0) / n1)), max_ms: r1(sorted[0]), second_max_ms: r1(sorted[1]), over_33ms: d.filter((x) => x > 33.4).length, over_25ms: d.filter((x) => x > 25).length, low1_without_longest_fps: low1Without(1), long_frames: long.slice(0, 20), windowStartSinceAudioCtxMs: extra.ctxAt == null ? null : r1(t[0] - extra.ctxAt) };
 }
 async function partPerf() {
-  const out = { runs: [], reaction: [] };
-  const cases = [[1280, 720, 1], [412, 915, 3], [360, 640, 3], [640, 360, 3]];
+  const out = { runs: [], reaction: [], meta: {} };
+  const ALL = { '1280x720': [1280, 720, 1], '412x915': [412, 915, 3], '360x640': [360, 640, 3], '640x360': [640, 360, 3] };
+  const order = opt('--perf-order', '1280x720,412x915,360x640,640x360').split(',');
+  const cases = order.map((k) => ALL[k]);
+  const RUNS = +opt('--perf-runs', '1'), DELAY = +opt('--perf-delay', '0');
+  out.meta = { runs: RUNS, order, delayMs: DELAY, freshBrowserPerRun: true, throttle: 6 };
+  for (let run = 1; run <= RUNS; run++) {
+  if (run > 1) { try { await browser.close(); } catch {} await launchBrowser(); }
   for (const [w, h, dsf] of cases) {
     const { ctx, p } = await open(w, h, '', { dsf });
     await enterNormal(p);
     const cdp = await ctx.newCDPSession(p);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+    if (DELAY > 0) await sleep(DELAY);
     // 1) 레벨 시작 직후 10 s (실제 마우스로 레벨 1 진행)
     await G(p, () => window.__game.loadLevel(0));
     const mp = mousePlay(p, { maxAttempts: 1 });
     const fs = await fpsWindow(p, 10000);
-    out.runs.push({ res: `${w}x${h}`, dpr: dsf, window: 'L1 start 0-10s (mouse play)', ...fs });
+    out.runs.push({ run, res: `${w}x${h}`, dpr: dsf, window: 'L1 start 0-10s (mouse play)', ...fs });
     await mp;
     // 2) 레벨 10 시작 + 실제 마우스
     await G(p, () => window.__game.loadLevel(9));
     const mp2 = mousePlay(p, { maxAttempts: 1 });
     const fs2 = await fpsWindow(p, 12000);
-    out.runs.push({ res: `${w}x${h}`, dpr: dsf, window: 'L10 start 0-12s (mouse play)', ...fs2 });
+    out.runs.push({ run, res: `${w}x${h}`, dpr: dsf, window: 'L10 start 0-12s (mouse play)', ...fs2 });
     await G(p, () => window.__game.show('levels')); await mp2.catch(() => {});
     // 3) 무입력 실패 → 재시작 직후 (L7 첫 별 실패 ~ 재시작 뒤 3 s)
     await G(p, () => window.__game.loadLevel(6));
     await p.waitForFunction(() => window.__game.phase === 'fail', null, { timeout: 30000 });
     const fs3 = await fpsWindow(p, 4500);
-    out.runs.push({ res: `${w}x${h}`, dpr: dsf, window: 'L7 fail → restart +3.4s', ...fs3 });
+    out.runs.push({ run, res: `${w}x${h}`, dpr: dsf, window: 'L7 fail → restart +3.4s', ...fs3 });
     // 4) 입력 → 다음 프레임 (스로틀 중, 따라 치기 중 실제 마우스 20회)
     await G(p, () => window.__game.loadLevel(1));
     await p.evaluate(() => { window.__qaReact = []; let pend = []; document.addEventListener('pointerdown', (e) => pend.push(e.timeStamp), true); const f = () => { const now = performance.now(); for (const t of pend) window.__qaReact.push(now - t); pend = []; requestAnimationFrame(f); }; requestAnimationFrame(f); });
     await mousePlay(p, { maxAttempts: 1 }).catch(() => {});
     const re = await p.evaluate(() => window.__qaReact);
-    out.reaction.push({ res: `${w}x${h}`, dpr: dsf, n: re.length, median_ms: r1(med(re)), max_ms: r1(Math.max(...re)), within_1_frame_share: +(re.filter((x) => x <= 16.7 * 1.05).length / re.length).toFixed(3), within_2_frames_share: +(re.filter((x) => x <= 33.4).length / re.length).toFixed(3) });
+    out.reaction.push({ run, res: `${w}x${h}`, dpr: dsf, n: re.length, median_ms: r1(med(re)), max_ms: r1(Math.max(...re)), within_1_frame_share: +(re.filter((x) => x <= 16.7 * 1.05).length / re.length).toFixed(3), within_2_frames_share: +(re.filter((x) => x <= 33.4).length / re.length).toFixed(3) });
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
     await ctx.close();
-    console.log(`  perf ${w}x${h}@${dsf}: ${out.runs.slice(-3).map((r) => `${r.avg_fps}/${r.low1_fps}`).join(' ')} react ${out.reaction.slice(-1)[0].median_ms}`);
+    console.log(`  perf run${run} ${w}x${h}@${dsf}: ${out.runs.slice(-3).map((r) => `${r.avg_fps}/${r.low1_fps}(max ${r.max_ms})`).join(' ')} react ${out.reaction.slice(-1)[0].median_ms}`);
   }
+  }
+  out.summary = { windows: out.runs.length, low1_ge45: out.runs.filter((r) => r.low1_fps >= 45).length, avg_ge55: out.runs.filter((r) => r.avg_fps >= 55).length, per_run: [...new Set(out.runs.map((r) => r.run))].map((k) => ({ run: k, low1_ge45: out.runs.filter((r) => r.run === k && r.low1_fps >= 45).length + '/' + out.runs.filter((r) => r.run === k).length, fails: out.runs.filter((r) => r.run === k && r.low1_fps < 45).map((r) => `${r.res} ${r.window.split(' ').slice(0, 2).join(' ')} ${r.low1_fps} (max ${r.max_ms} ms)`) })) };
+  return out;
+}
+
+// ---------------- perfctl (게임 코드 없는 대조 페이지) ----------------
+// 같은 서버 출처의 가상 경로를 page.route 로 채움(파일을 만들지 않음). 6배 스로틀, 새 브라우저 첫 컨텍스트, 클릭으로 AudioContext 생성(게임과 같은 순서),
+// rAF 마다 캔버스에 원 몇 개를 그림. audio=false 변형은 클릭만 하고 AudioContext 를 만들지 않음.
+async function partPerfCtl() {
+  const out = { runs: [] };
+  const RUNS = +opt('--perf-runs', '3');
+  const HTML = `<!doctype html><meta charset="utf-8"><title>qa-control</title><body style="margin:0;background:#29230F"><canvas id="c"></canvas><script>
+const c=document.getElementById('c'),g=c.getContext('2d');function rs(){const d=Math.min(3,devicePixelRatio||1);c.width=innerWidth*d;c.height=innerHeight*d;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px';g.setTransform(d,0,0,d,0,0);}rs();
+function f(t){requestAnimationFrame(f);g.fillStyle='#29230F';g.fillRect(0,0,innerWidth,innerHeight);const R=Math.min(innerWidth,innerHeight)*0.3,a=t/1000*2;g.strokeStyle='#493F22';g.lineWidth=10;g.beginPath();g.arc(innerWidth/2,innerHeight/2,R,0,7);g.stroke();g.fillStyle='#7FE3FF';g.beginPath();g.arc(innerWidth/2+R*Math.cos(a),innerHeight/2+R*Math.sin(a),12,0,7);g.fill();}
+requestAnimationFrame(f);
+document.addEventListener('pointerdown',()=>{if(window.__ctl)return;window.__ctl=1;if(location.hash==='#noaudio')return;const ac=new AudioContext();const o=ac.createOscillator(),gn=ac.createGain();gn.gain.value=0.0001;o.connect(gn);gn.connect(ac.destination);o.start();window.__ac=ac;});
+</script>`;
+  for (let run = 1; run <= RUNS; run++) {
+    for (const audio of [true, false]) {
+      try { await browser.close(); } catch {} await launchBrowser();
+      for (const [w, h, dsf] of [[1280, 720, 1], [412, 915, 3]]) {
+        const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: dsf });
+        await ctx.addInitScript(PROBE);
+        const p = await ctx.newPage();
+        await p.route(`http://localhost:${PORT}/qa-control.html`, (r) => r.fulfill({ contentType: 'text/html', body: HTML }));
+        await p.goto(`http://localhost:${PORT}/qa-control.html${audio ? '' : '#noaudio'}`);
+        await sleep(300);
+        await p.mouse.click(w / 2, h * 0.6);
+        await p.waitForFunction(() => !window.__ac || window.__ac.state === 'running', null, { timeout: 5000 }).catch(() => {});
+        const cdp = await ctx.newCDPSession(p);
+        await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+        const fs = await fpsWindow(p, 10000);
+        out.runs.push({ run, audio, res: `${w}x${h}`, dpr: dsf, contextInBrowser: w === 1280 ? 1 : 2, ...fs });
+        console.log(`  perfctl run${run} audio=${audio} ${w}x${h}: ${fs.avg_fps}/${fs.low1_fps} max ${fs.max_ms}`);
+        await ctx.close();
+      }
+    }
+  }
+  out.summary = { first_context_audio_low1: out.runs.filter((r) => r.audio && r.contextInBrowser === 1).map((r) => r.low1_fps), first_context_noaudio_low1: out.runs.filter((r) => !r.audio && r.contextInBrowser === 1).map((r) => r.low1_fps), second_context_audio_low1: out.runs.filter((r) => r.audio && r.contextInBrowser === 2).map((r) => r.low1_fps), second_context_noaudio_low1: out.runs.filter((r) => !r.audio && r.contextInBrowser === 2).map((r) => r.low1_fps) };
   return out;
 }
 
@@ -809,6 +912,22 @@ async function partCalib() {
     let diff = 0; const gg = gaussRng(4242); const N = 20000;
     for (let k = 0; k < N; k++) { const used = Array.from({ length: 6 }, () => gg() * 70); if ((iqrRound(used) > 150) !== (iqrLin(used) > 150)) diff++; }
     out.iqrDefinitionDiffShare_sd70 = +(diff / N).toFixed(4);
+    // round-2 (N3·R4): 시뮬레이터 tools/sim/calib.mjs simulate = 빌드 js/calib.js simulate = QA 독립 구현, 무작위 4회분 3000묶음
+    {
+      const simC = await import(pathToFileURL(join(PROJ, 'tools/sim/calib.mjs')).href);
+      const bSrc = readFileSync(join(GAME, 'js/calib.js'), 'utf8');
+      const bldC = await import('data:text/javascript;charset=utf-8,' + encodeURIComponent(bSrc));
+      const gr = gaussRng(9090); let dSim = 0, dRef = 0; const n = 3000; const samples = [];
+      for (let k = 0; k < n; k++) {
+        const sd = [20, 40, 70, 120][k % 4], X = (k % 7) * 40 - 60;
+        const rounds = [0, 1, 2, 3].map(() => Array.from({ length: 8 }, () => X + gr() * sd));
+        const a = simC.simulate(rounds, gc), b = bldC.simulate(rounds, gc), r = refCalib(rounds, gc);
+        const key = (o) => (o && o.ok ? `ok:${(+o.offset).toFixed(6)}` : 'no');
+        if (key(a) !== key(b)) { dSim++; if (samples.length < 3) samples.push({ rounds, sim: a, build: b }); }
+        if (key(b) !== key(r)) dRef++;
+      }
+      out.calibDefinitionCrossCheck = { cases: n, sim_vs_build_diff: dSim, build_vs_qa_ref_diff: dRef, samples };
+    }
     await ctx.close();
   }
   // 3) 실제 마우스 보정 (일반 모드, 오디오 켜짐): 들리는 박(예약 시각 + 자동 지연) + X ms 에 누름 → 결과 오프셋
@@ -951,9 +1070,377 @@ async function partCalib() {
   return out;
 }
 
+// ---------------- signals (M1, round-2) ----------------
+// 화면 프레임(캔버스 픽셀) 기준. 각 프레임을 (1) 그대로 (2) 북채만 빼고 (3) 손가락만 빼고 세 번 그려 픽셀 차를 셈 → 북채·손가락 픽셀 수.
+// 북채 그리기 식별: translate(cx + off.x·R, cy + off.y·R) 뒤 restore 까지(render.js mallet), 손가락: 손가락 스프라이트 크기의 정사각 캔버스 drawImage.
+function parse64Table() {
+  const md = readFileSync(join(PROJ, '20-balance.md'), 'utf8');
+  const sec = md.slice(md.indexOf('### 6-4.'), md.indexOf('### 6-5.'));
+  const rows = [];
+  for (const line of sec.split('\n')) {
+    const m = line.match(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|\s*([\d.]+)\s*\|\s*\**([\d.]+)\**\s*\|\s*([\d.]+)\s*\|/);
+    if (m) rows.push({ level: +m[1], bars: m[2], from: +m[3] * 1000, lastShow: +m[4] * 1000, shrinkStart: +m[5] * 1000, gone: +m[6] * 1000, zone: +m[7] * 1000 });
+  }
+  return rows;
+}
+async function installSignalHooks(p, mOff) {
+  await p.evaluate((mOff) => {
+    const P = CanvasRenderingContext2D.prototype;
+    const sup = (window.__qaSup = { m: false, h: false, handPx: -1 });
+    const tr = P.translate, rs = P.restore, fi = P.fill, st = P.stroke, di = P.drawImage;
+    P.translate = function (x, y) { if (sup.m && this.canvas.id === 'cv') { const L = window.__game.layout(); if (Math.abs(x - (L.cx + mOff[0] * L.R)) < 0.01 && Math.abs(y - (L.cy + mOff[1] * L.R)) < 0.01) this.__skip = true; } return tr.call(this, x, y); };
+    P.restore = function () { const r = rs.call(this); this.__skip = false; return r; };
+    P.fill = function (...a) { if (this.__skip) return; return fi.apply(this, a); };
+    P.stroke = function (...a) { if (this.__skip) return; return st.apply(this, a); };
+    P.drawImage = function (src, ...a) { if (sup.h && this.canvas.id === 'cv' && src instanceof HTMLCanvasElement && src.width === src.height && src.width === sup.handPx) return; return di.call(this, src, ...a); };
+    window.__qaFrame = () => {
+      const g = window.__game, cv = document.getElementById('cv'), c2 = cv.getContext('2d');
+      const L = g.layout(); sup.handPx = Math.max(8, Math.ceil(L.hand.size * (cv.width / innerWidth)));
+      const W = cv.width, H = cv.height;
+      const info = g.drawNow(); const A = c2.getImageData(0, 0, W, H).data;
+      sup.m = true; g.drawNow(); sup.m = false; const B = c2.getImageData(0, 0, W, H).data;
+      sup.h = true; g.drawNow(); sup.h = false; const C = c2.getImageData(0, 0, W, H).data;
+      g.drawNow();
+      let mp = 0, hp = 0;
+      for (let i = 0; i < A.length; i += 4) {
+        if (Math.abs(A[i] - B[i]) + Math.abs(A[i + 1] - B[i + 1]) + Math.abs(A[i + 2] - B[i + 2]) > 12) mp++;
+        if (Math.abs(A[i] - C[i]) + Math.abs(A[i + 1] - C[i + 1]) + Math.abs(A[i + 2] - C[i + 2]) > 12) hp++;
+      }
+      return { lt: info.levelTime, mp, hp, malletOn: info.malletOn, handOn: info.handOn, dash: info.dashK > 0 };
+    };
+    // 레벨 하나를 완벽 입력으로 끝까지 진행하며 frameMs 간격(창 fine 안에서는 1 ms)으로 프레임을 잼
+    window.__qaScan = (level, frameMs, fine, maxMs) => {
+      const g = window.__game; g.loadLevel(level);
+      const stars = g.stars(); let si = 0;
+      let x = g.levelTime();
+      const fr = [];
+      while (g.state === 'play' && x < maxMs) {
+        while (si < stars.length && stars[si].t <= x) { g.pressAt(stars[si].t); si++; }
+        const lt = g.levelTime(); if (x > lt) g.step((x - lt) / 1000);
+        const f = window.__qaFrame();
+        fr.push([Math.round(f.lt * 10) / 10, f.mp, f.hp, f.malletOn ? 1 : 0, f.handOn ? 1 : 0, f.dash ? 1 : 0]);
+        const inFine = fine.some(([a, b]) => x >= a && x < b);
+        x += inFine ? 1 : frameMs;
+      }
+      return fr;
+    };
+  }, mOff);
+}
+// 픽셀 잡음: 같은 시각을 두 번 그려도 안티앨리어싱으로 1~2 px 이 다를 수 있어 2 px 이하 차이는 "안 보임"으로 봄 (원값은 frames 에 남김)
+const NOISE_PX = 2;
+const windowOk = (w, s) => !!s && Math.abs(s.a - w.from) <= 1.5 && s.b < w.gone && w.gone - s.b <= 1000 / 60 && (w.nextZone == null || s.b < w.nextZone);
+function segments(fr, col) {
+  const seg = []; let cur = null;
+  for (const f of fr) { const on = f[col] > NOISE_PX; if (on && !cur) cur = { a: f[0], b: f[0] }; else if (on) cur.b = f[0]; else if (cur) { cur.next = f[0]; seg.push(cur); cur = null; } }
+  if (cur) seg.push(cur);
+  return seg;
+}
+async function partSignals() {
+  const art = JSON.parse(readFileSync(join(GAME, 'data/art.json'), 'utf8'));
+  const mOff = art.mallet.off;
+  const table = parse64Table();
+  const ref = CL.map((c, i) => malletSchedule(c, bal).map((w) => ({ level: i + 1, ...w, nextZone: w.nextStar >= 0 ? c.stars[w.nextStar].zoneStart : null })));
+  const out = { table_vs_sim: [], levels: [], l1_res: [], realtime_l1: null, shots: [] };
+  // 1) 20-balance 6-4 표 = judge.mjs malletSchedule
+  const flat = ref.flat();
+  for (const w of flat) {
+    const t = table.find((r) => r.level === w.level && Math.abs(r.from - w.from) < 2);
+    out.table_vs_sim.push({ level: w.level, bars: t ? t.bars : null, sim: { from: r1(w.from), lastShow: r1(w.lastShow), shrinkStart: r1(w.shrinkStart), gone: r1(w.gone), zone: r1(w.nextZone) }, table: t || null, match: !!t && Math.abs(t.gone - w.gone) <= 1 && Math.abs(t.shrinkStart - w.shrinkStart) <= 1 && Math.abs(t.lastShow - w.lastShow) <= 1 && Math.abs(t.zone - w.nextZone) <= 1 });
+  }
+  out.table_rows = table.length; out.sim_windows = flat.length;
+  const scan = async (p, i, frameMs) => {
+    const ws = ref[i];
+    const cue = i === 0 ? CL[0] : null;
+    const fine = [];
+    for (const w of ws) { fine.push([w.from - 25, w.from + 25], [w.shrinkStart - 5, w.gone + 15]); }
+    // 손가락 등장: 레벨 1 cue (첫 꽉 찬 별 − 1박 또는 북채 gone 뒤) 근처
+    const lv = LV[i];
+    let cueT = null;
+    if (lv.cues && lv.cues.length) { const c = lv.cues[0]; const t = ((CL[i].countInBars + c.bar) * CL[i].beatsPerBar + c.slot / 2) * CL[i].beatMs; cueT = { t, from: t - c.show_from_beats_before * CL[i].beatMs, pressFrom: t - c.press_from_beats_before * CL[i].beatMs }; fine.push([cueT.from - 25, cueT.from + 25], [t + CL[i].judge.pass_late_ms - 10, t + CL[i].judge.pass_late_ms + 10]); }
+    void cue;
+    const fr = await p.evaluate(({ i, frameMs, fine, maxMs }) => window.__qaScan(i, frameMs, fine, maxMs), { i, frameMs, fine, maxMs: CL[i].stars[CL[i].stars.length - 1].t + 4000 });
+    const mSeg = segments(fr, 1), hSeg = segments(fr, 2);
+    const both = fr.filter((f) => f[1] > NOISE_PX && f[2] > NOISE_PX);
+    const stateMismatch = fr.filter((f) => (f[1] > NOISE_PX) !== (f[3] === 1) || (f[2] > NOISE_PX) !== (f[4] === 1));
+    const dashOutside = fr.filter((f) => f[5] === 1 && !ws.some((w) => f[0] >= w.from - 0.5 && f[0] < w.gone));
+    const wins = ws.map((w) => {
+      const s = mSeg.find((g) => g.b >= w.from - 1 && g.a <= w.gone + 1);
+      return { from: r1(w.from), gone: r1(w.gone), shrinkStart: r1(w.shrinkStart), nextZone: r1(w.nextZone), capped: w.capped,
+        pixelFirst: s ? s.a : null, pixelLast: s ? s.b : null, pixelFirstGoneFrame: s ? s.next : null,
+        // 판정: 첫 보임 = 등장 ±1 ms, 마지막 보임 < 사라짐 이고 사라짐 − 1프레임(16.7 ms) 안 (작아짐 끝 1~3 ms 는 1 px 미만이라 안 보임), 다음 별 놓침 구역 전
+        ok: windowOk(w, s) };
+    });
+    const stars = CL[i].stars;
+    // 북채 픽셀이 보이는 프레임이 판정 별 위험 구간 [zoneStart, passEnd] 안에 있는지
+    const inDanger = fr.filter((f) => f[1] > NOISE_PX && stars.some((s) => f[0] >= s.zoneStart && f[0] <= s.passEnd)).length;
+    return { level: i + 1, frames: fr.length, frameMs, mallet_segments: mSeg, hand_segments: hSeg, windows: wins, both_frames: both.length, both_sample: both.slice(0, 5), pixel_vs_state_mismatch: stateMismatch.length, mismatch_sample: stateMismatch.slice(0, 5), dash_outside_window: dashOutside.length, mallet_pixels_in_judge_danger: inDanger, cue: cueT && { from: r1(cueT.from), pressFrom: r1(cueT.pressFrom), t: r1(cueT.t) }, maxMalletPx: Math.max(0, ...fr.map((f) => f[1])), maxHandPx: Math.max(0, ...fr.map((f) => f[2])) };
+  };
+  // 2) 4해상도 L1 (16.67 ms 프레임 + 경계 1 ms)
+  for (const [w, h] of RES) {
+    const { ctx, p } = await open(w, h);
+    await installSignalHooks(p, mOff);
+    const r = await scan(p, 0, 1000 / 60);
+    r.res = `${w}x${h}`;
+    out.l1_res.push(r);
+    // 화면 증거: 북채 마지막 프레임 / 둘 다 없는 사이 / 손가락 첫 프레임
+    // 레벨 시작 첫 프레임(직전 레벨 결과 화면에서 loadLevel) — 손가락 픽셀 차가 생기는지 화면으로 확인
+    r.firstFrame = await G(p, () => { const g = window.__game; g.loadLevel(0); return window.__qaFrame(); });
+    await shot(p, `${w}x${h}-m1-level-first-frame.png`); out.shots.push(`${w}x${h}-m1-level-first-frame.png`);
+    r.firstFrame2 = await G(p, () => { window.__game.step(0.15); return window.__qaFrame(); });
+    const firstWin = r.windows[0], hand0 = r.hand_segments.find((s) => s.a > 1000);
+    for (const [nm, t] of [['m1-mallet-last', firstWin.pixelLast], ['m1-gap', (firstWin.gone + (hand0 ? hand0.a : firstWin.gone)) / 2], ['m1-hand-first', hand0 ? hand0.a : null]]) {
+      if (t == null) continue;
+      await G(p, (t) => { const g = window.__game; g.loadLevel(0); const s = g.stars(); for (const st of s) if (st.t <= t) g.pressAt(st.t); g.step((t - g.levelTime()) / 1000); g.drawNow(); }, t);
+      const f = `${w}x${h}-${nm}.png`; await shot(p, f); out.shots.push(f);
+    }
+    console.log(`  signals L1 ${w}x${h}: frames ${r.frames} both ${r.both_frames} mallet ${r.mallet_segments.map((s) => `${s.a}-${s.b}`).join(',')} hand ${r.hand_segments.map((s) => `${s.a}-${s.b}`).join(',')} winsOk ${r.windows.filter((x) => x.ok).length}/${r.windows.length}`);
+    await ctx.close();
+  }
+  // 3) 412x915 레벨 2~10 (북채 있는 레벨 전부, 레벨 4·8·9·10 은 북채 0 확인)
+  {
+    const { ctx, p } = await open(412, 915);
+    await installSignalHooks(p, mOff);
+    for (let i = 1; i < 10; i++) {
+      const r = await scan(p, i, 1000 / 60);
+      out.levels.push(r);
+      console.log(`  signals L${i + 1}: frames ${r.frames} both ${r.both_frames} mallet segs ${r.mallet_segments.length} winsOk ${r.windows.filter((x) => x.ok).length}/${r.windows.length} danger ${r.mallet_pixels_in_judge_danger}`);
+    }
+    await ctx.close();
+  }
+  // 4) 일반 모드 실시간 L1 (오디오 켜짐, rAF 마다 마지막으로 그린 프레임의 신호 상태, autoplay 로 끝까지)
+  {
+    const { ctx, p } = await open(412, 915, '');
+    await enterNormal(p);
+    await G(p, () => window.__game.loadLevel(0));
+    await p.evaluate(() => { window.__qaSig = []; const f = () => { const g = window.__game; if (g.state !== 'play') { window.__qaSigDone = true; return; } const i = g.frameInfo(); window.__qaSig.push([Math.round(i.levelTime), i.malletOn ? 1 : 0, i.handOn ? 1 : 0]); requestAnimationFrame(f); }; requestAnimationFrame(f); });
+    await G(p, () => window.__game.autoplay(0, 0));
+    const sig = await G(p, () => window.__qaSig);
+    out.realtime_l1 = { frames: sig.length, both: sig.filter((s) => s[1] && s[2]).length, mallet_frames: sig.filter((s) => s[1]).length, hand_frames: sig.filter((s) => s[2]).length, last_mallet_before_hand: (() => { const h = sig.find((s) => s[2]); if (!h) return null; const m = sig.filter((s) => s[1] && s[0] < h[0]).pop(); return { lastMallet: m ? m[0] : null, firstHand: h[0] }; })() };
+    await ctx.close();
+  }
+  const allWins = [...out.l1_res.flatMap((r) => r.windows), ...out.levels.flatMap((r) => r.windows)];
+  out.summary = {
+    table_matches_sim: out.table_vs_sim.filter((x) => x.match).length + '/' + out.table_vs_sim.length + ` (표 ${out.table_rows}줄)`,
+    windows_ok: allWins.filter((w) => w.ok).length + '/' + allWins.length,
+    both_frames_total: [...out.l1_res, ...out.levels].reduce((a, r) => a + r.both_frames, 0) + (out.realtime_l1 ? out.realtime_l1.both : 0),
+    frames_total: [...out.l1_res, ...out.levels].reduce((a, r) => a + r.frames, 0),
+    pixel_vs_state_mismatch: [...out.l1_res, ...out.levels].reduce((a, r) => a + r.pixel_vs_state_mismatch, 0),
+    mallet_pixels_in_judge_danger: [...out.l1_res, ...out.levels].reduce((a, r) => a + r.mallet_pixels_in_judge_danger, 0),
+    dash_outside_window: [...out.l1_res, ...out.levels].reduce((a, r) => a + r.dash_outside_window, 0),
+    realtime_both: out.realtime_l1 && out.realtime_l1.both,
+  };
+  return out;
+}
+
+// ---------------- cards (M4, round-2) ----------------
+// notext 화면에서 #cardImg 를 요소 스크린샷(DPR 1 → CSS px) → 페이지 캔버스로 읽어 공(#7FE3FF 면)·별(#FFD43B) 연결 성분 크기
+async function measureImage(p, buf, colors) {
+  return p.evaluate(async ({ b64, colors }) => {
+    const im = new Image(); im.src = 'data:image/png;base64,' + b64; await im.decode();
+    const c = document.createElement('canvas'); c.width = im.width; c.height = im.height;
+    const g = c.getContext('2d'); g.drawImage(im, 0, 0);
+    const d = g.getImageData(0, 0, c.width, c.height).data, W = c.width, H = c.height;
+    const res = {};
+    for (const [name, [r, gg, b], tol] of colors) {
+      const mask = new Uint8Array(W * H);
+      for (let i = 0; i < W * H; i++) if (Math.abs(d[i * 4] - r) <= tol && Math.abs(d[i * 4 + 1] - gg) <= tol && Math.abs(d[i * 4 + 2] - b) <= tol) mask[i] = 1;
+      const comps = []; const q = new Int32Array(W * H);
+      for (let s = 0; s < W * H; s++) {
+        if (mask[s] !== 1) continue;
+        let qh = 0, qt = 0; q[qt++] = s; mask[s] = 2; let x0 = W, x1 = 0, y0 = H, y1 = 0, n = 0;
+        while (qh < qt) { const k = q[qh++]; const x = k % W, y = (k / W) | 0; n++; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y;
+          for (const nb of [k - 1, k + 1, k - W, k + W]) { if (nb < 0 || nb >= W * H) continue; if ((nb === k - 1 && x === 0) || (nb === k + 1 && x === W - 1)) continue; if (mask[nb] === 1) { mask[nb] = 2; q[qt++] = nb; } } }
+        if (n >= 6) comps.push({ x: x0, y: y0, w: x1 - x0 + 1, h: y1 - y0 + 1, n });
+      }
+      comps.sort((a, b) => b.n - a.n);
+      res[name] = comps.slice(0, 40);
+    }
+    return { W, H, res };
+  }, { b64: buf.toString('base64'), colors });
+}
+async function partCards() {
+  const out = { cards: [], play: [] };
+  const cardLv = LV.map((l, i) => (l.card && l.card.id ? i : -1)).filter((i) => i >= 0);
+  for (const [w, h] of RES) {
+    const { ctx, p } = await open(w, h);
+    await blankText(p);
+    for (const i of cardLv) {
+      await G(p, (i) => window.__game.loadLevel(i, { card: true }), i);
+      await p.waitForFunction(() => { const im = document.getElementById('cardImg'); return im.complete && im.naturalWidth > 0; });
+      await sleep(120);
+      const meta = await G(p, () => { const im = document.getElementById('cardImg'); const r = im.getBoundingClientRect(); return { src: im.getAttribute('src'), x: r.left, y: r.top, w: r.width, h: r.height, inside: r.left >= -0.5 && r.top >= -0.5 && r.right <= innerWidth + 0.5 && r.bottom <= innerHeight + 0.5 }; });
+      const file = `${w}x${h}-card-${LV[i].card.id}-notext.png`;
+      const buf = await p.locator('#cardImg').screenshot({ path: join(SHOTS, file) });
+      const m = await measureImage(p, buf, [['ball', [127, 227, 255], 36], ['star', [255, 212, 59], 40]]);
+      // 별 성분: 반짝 선(작은 노란 조각)은 빼고 가장 큰 성분의 절반 이상 크기만 별로 봄 (꽉 찬 별 = 면 비율 > 0.25, 빈 별 = 테두리만)
+      const balls = m.res.ball, bigS = Math.max(0, ...m.res.star.map((c) => Math.max(c.w, c.h))), stars = m.res.star.filter((c) => Math.max(c.w, c.h) >= 0.5 * bigS);
+      const ball = balls[0];
+      // 별: 성분 중 크기 상위 (조각 제외) — 판정 대상(꽉 찬 별) 크기 = 면적 큰 성분들의 bbox
+      const starSizes = stars.map((c) => Math.max(c.w, c.h)).sort((a, b) => a - b);
+      const filledStars = stars.filter((c) => c.n > 0.25 * c.w * c.h).map((c) => Math.max(c.w, c.h)).sort((a, b) => a - b);
+      const portrait = w < h, unit = portrait ? 234 : 720;
+      out.cards.push({ res: `${w}x${h}`, card: LV[i].card.id, level: i + 1, ...meta, portraitFile: meta.src.endsWith('_portrait.svg'), scale: +(meta.w / unit).toFixed(4),
+        ball_fill_px: ball ? Math.max(ball.w, ball.h) : null, ball_count: balls.filter((c) => c.n > 30).length, ball_geom_px: +(28 * meta.w / unit).toFixed(1),
+        star_px_min: starSizes[0] ?? null, star_hollow_px: stars.filter((c) => c.n <= 0.25 * c.w * c.h).map((c) => Math.max(c.w, c.h)), star_geom_play_px: +(32.4 * meta.w / unit).toFixed(1), star_geom_hollow_px: +(29.8 * meta.w / unit).toFixed(1), star_px_filled_min: filledStars[0] ?? null, star_px_filled_max: filledStars[filledStars.length - 1] ?? null, star_components: stars.length, file });
+      console.log(`  card ${w}x${h} ${LV[i].card.id}: ball ${ball && Math.max(ball.w, ball.h)} px, star filled min ${filledStars[0]} (all min ${starSizes[0]})`);
+    }
+    // 플레이 화면 공·별 (레이아웃 값, CSS px)
+    await G(p, () => window.__game.loadLevel(0));
+    const lay = await G(p, () => { const L = window.__game.layout(); return { ballD: 2 * L.ballR, starD: 2 * L.starR, R: L.R, hand: L.hand.size }; });
+    out.play.push({ res: `${w}x${h}`, ...lay });
+    await ctx.close();
+  }
+  out.summary = { cards_checked: out.cards.length, ball_fill_min: Math.min(...out.cards.map((c) => c.ball_fill_px)), star_filled_min: Math.min(...out.cards.map((c) => c.star_px_filled_min ?? 999)), ball_fail: out.cards.filter((c) => !(c.ball_fill_px >= 16)).map((c) => `${c.res} ${c.card} ${c.ball_fill_px}`), star_fail: out.cards.filter((c) => !(c.star_px_filled_min >= 20)).map((c) => `${c.res} ${c.card} ${c.star_px_filled_min}`), orientation_ok: out.cards.every((c) => (c.res.split('x')[0] < +c.res.split('x')[1]) === c.portraitFile), inside_ok: out.cards.every((c) => c.inside), play_ball_min: Math.min(...out.play.map((x) => x.ballD)), play_star_min: Math.min(...out.play.map((x) => x.starD)) };
+  return out;
+}
+
+// ---------------- r2 (round-1 이슈 회귀 + aria R8) ----------------
+async function partR2() {
+  const S = JSON.parse(readFileSync(join(GAME, 'data/strings.json'), 'utf8'));
+  const art = JSON.parse(readFileSync(join(GAME, 'data/art.json'), 'utf8'));
+  const out = { res: {}, checks: {} };
+  const ariaAudit = (p) => G(p, () => {
+    const vis = (e) => { let n = e; while (n && n !== document.body) { const c = getComputedStyle(n); if (c.display === 'none' || c.visibility === 'hidden' || n.classList.contains('hidden')) return false; n = n.parentElement; } return true; };
+    const l = [];
+    for (const e of document.querySelectorAll('[aria-label], [role]')) { if (!vis(e)) continue; const lab = e.getAttribute('aria-label') || ''; l.push({ id: e.id || e.className.baseVal || e.className, role: e.getAttribute('role'), label: lab, digits: /\d/.test(lab) }); }
+    return l;
+  });
+  const ko = S.ko;
+  for (const [w, h] of RES) {
+    const tag = `${w}x${h}`; const R = (out.res[tag] = {});
+    const { ctx, p } = await open(w, h);
+    // N1·N6·N11: 레벨 카드 (진행 상태: L1 클리어, L2 반쯤 실패(최고 진행도), L3 연습 깃발)
+    await G(p, () => { const g = window.__game; g.loadLevel(0); g.autoplay(0, 0); g.loadLevel(1); const s = g.stars(); for (const st of s.slice(0, Math.floor(s.length / 2))) g.pressAt(st.t); let k = 0; while (g.attempts < 2 && k++ < 3000) g.step(0.02); g.loadLevel(2, { practice: true }); g.autoplay(0, 0); g.show('levels'); });
+    await sleep(100);
+    R.levels = await G(p, () => {
+      const bad = [], cards = [...document.querySelectorAll('.lcard')];
+      const rr = (e) => { const r = e.getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height, b: r.bottom, r: r.right }; };
+      cards.forEach((c, i) => {
+        const play = c.querySelector('.lplay'), pr = rr(play);
+        const kids = [...play.children].filter((e) => e.getBoundingClientRect().height > 0).map((e) => ({ k: e.tagName + (e.className.baseVal ?? e.className), ...rr(e) }));
+        for (let a = 0; a < kids.length; a++) { const A = kids[a]; if (A.x < pr.x - 0.5 || A.r > pr.r + 0.5 || A.y < pr.y - 0.5 || A.b > pr.b + 0.5) bad.push(`L${i + 1} ${A.k} 버튼 밖`); for (let b = a + 1; b < kids.length; b++) { const B = kids[b]; const ov = Math.min(A.b, B.b) - Math.max(A.y, B.y); const ox = Math.min(A.r, B.r) - Math.max(A.x, B.x); if (ox > 0.5 && ov > 0.5) bad.push(`L${i + 1} ${A.k}/${B.k} 겹침 ${ov.toFixed(1)}`); else if (ox > 0.5 && ov > -3.5) bad.push(`L${i + 1} ${A.k}/${B.k} 간격 ${(-ov).toFixed(1)} < 4`); } }
+        const nm = play.querySelector('.lname'); if (nm && nm.scrollWidth > nm.clientWidth + 0.5) bad.push(`L${i + 1} 이름 잘림`);
+      });
+      const gradeRow = (i) => { const svgs = cards[i].querySelectorAll('.lplay svg.lr'); return svgs[svgs.length - 1] ? svgs[svgs.length - 1].innerHTML : ''; };
+      return { bad, l2_progress_bar: /<rect/.test(gradeRow(1)) && /<circle/.test(gradeRow(1)), l2_has_digits: /\d+\s*%/.test(cards[1].textContent), l3_flag: /<polygon/.test(gradeRow(2)), l4_empty: gradeRow(3) === '', names_shown: cards.filter((c) => c.querySelector('.lname')).length, card_icon: [...document.querySelectorAll('.lrow img')].filter((im) => im.getAttribute('src').endsWith('icon-card.svg')).length, labels: cards.map((c) => c.querySelector('.lplay').getAttribute('aria-label')) };
+    });
+    await shot(p, `${tag}-r2-levels.png`);
+    // N2: 타이틀 힌트(손가락+글)와 궤도
+    await G(p, () => window.__game.show('title')); await sleep(80);
+    R.title = await G(p, () => { const L = window.__game.layout(); const e = document.getElementById('tapStart'); const r = e.getBoundingClientRect(); const ring = L.R + L.band / 2 + 2; const nx = Math.max(r.left, Math.min(L.cx, r.right)), ny = Math.max(r.top, Math.min(L.cy, r.bottom)); const dist = Math.hypot(nx - L.cx, ny - L.cy); const inside = r.left > L.cx - ring && r.right < L.cx + ring && r.top > L.cy - ring && r.bottom < L.cy + ring; return { rect: [r.left, r.top, r.width, r.height].map((v) => Math.round(v)), ringOuter: Math.round(ring), distToCenter: Math.round(dist), clearOfRing: dist > ring || inside && false, onScreen: r.left >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; });
+    await shot(p, `${tag}-r2-title.png`);
+    // N5: 확인 창
+    await G(p, () => window.__game.show('confirm')); await sleep(80);
+    R.confirm = await G(p, () => { const no = document.getElementById('cfNo'), yes = document.getElementById('cfYes'); const cs = (e) => getComputedStyle(e); return { focus: document.activeElement && document.activeElement.id, noImg: no.querySelector('img').getAttribute('src'), yesImg: yes.querySelector('img').getAttribute('src'), noBg: cs(no).backgroundColor, yesBg: cs(yes).backgroundColor, noBorder: cs(no).borderColor, yesBorder: cs(yes).borderColor, dialogLabelled: document.querySelector('#sConfirm .dialog').getAttribute('aria-labelledby'), sizes: [no, yes].map((b) => { const r = b.getBoundingClientRect(); return [Math.round(r.width), Math.round(r.height)]; }) }; });
+    // N12: 손가락 크기·위치 (플레이 레이아웃)
+    await G(p, () => window.__game.loadLevel(0));
+    R.hand = await G(p, () => { const L = window.__game.layout(); return { size: L.hand.size, x: L.hand.x, y: L.hand.y, R: L.R, cx: L.cx, cy: L.cy, thumb: L.thumb, W: L.W, H: L.H }; });
+    R.hand.expected = Math.max(art.hand.min, art.hand.k * R.hand.R);
+    // N13: 시도 점 줄 meter
+    await G(p, () => { const g = window.__game; g.loadLevel(0); let k = 0; while (g.attempts < 3 && k++ < 6000) g.step(0.02); });
+    R.attempts = await G(p, () => { const e = document.getElementById('attAria'); return { role: e.getAttribute('role'), label: e.getAttribute('aria-label'), now: e.getAttribute('aria-valuenow'), max: e.getAttribute('aria-valuemax'), attempts: window.__game.attempts }; });
+    // N14: 연습 깃발 aria, 결과 등급 aria (일반 L1 / 연습 L2), 설정 버튼
+    await G(p, () => { const g = window.__game; g.loadLevel(2, { practice: true }); g.step(0.5); });
+    R.flags = await G(p, () => [...document.querySelectorAll('#cpFlags > *')].map((e) => ({ role: e.getAttribute('role'), label: e.getAttribute('aria-label') })));
+    await G(p, () => { const g = window.__game; g.loadLevel(0); for (const s of g.stars()) g.pressAt(s.t + (s.i % 4 === 1 ? 70 : 0)); let k = 0; while (g.state !== 'result' && k++ < 300) g.step(0.1); });
+    R.resultL1 = await G(p, () => ({ grade: window.__game.grade, role: document.getElementById('gradeAria').getAttribute('role'), label: document.getElementById('gradeAria').getAttribute('aria-label'), btns: [...document.querySelectorAll('#resultBtns button')].filter((b) => b.offsetParent !== null).map((b) => b.id) }));
+    R.resultL1.aria = await ariaAudit(p);
+    await G(p, () => { const g = window.__game; g.loadLevel(1, { practice: true }); g.autoplay(0, 0); let k = 0; while (g.state !== 'result' && k++ < 300) g.step(0.1); });
+    R.resultPractice = await G(p, () => ({ role: document.getElementById('gradeAria').getAttribute('role'), label: document.getElementById('gradeAria').getAttribute('aria-label') }));
+    // N16: L10 결과 버튼
+    await G(p, () => { const g = window.__game; g.loadLevel(9); g.autoplay(0, 0); let k = 0; while (g.state !== 'result' && k++ < 300) g.step(0.1); });
+    R.resultL10 = await G(p, () => ({ btns: [...document.querySelectorAll('#resultBtns button')].filter((b) => b.offsetParent !== null).map((b) => ({ id: b.id, label: b.getAttribute('aria-label'), img: b.querySelector('img').getAttribute('src') })) }));
+    await shot(p, `${tag}-r2-result-l10.png`);
+    await G(p, () => window.__game.show('levels'));
+    R.gate = await G(p, () => { const b = document.getElementById('bGate'); const d = document.getElementById(b.getAttribute('aria-describedby')); return { label: b.getAttribute('aria-label'), describedBy: d && d.getAttribute('data-t'), describedText: d && d.textContent }; });
+    // aria 전 화면 감사 (숫자 이어 붙임)
+    R.ariaScreens = {};
+    for (const s of ['title', 'levels', 'settings', 'pause', 'confirm']) { await G(p, (s) => window.__game.show(s), s); R.ariaScreens[s] = (await ariaAudit(p)).filter((x) => x.digits); }
+    await G(p, () => { const g = window.__game; g.loadLevel(0); g.step(3); }); R.ariaScreens.play = (await ariaAudit(p)).filter((x) => x.digits);
+    await ctx.close();
+  }
+  // N15: 불러오기 화면·실패 화면 (data 요청을 늦추거나 끊음 — 의도한 실패는 로그에서 뺌)
+  {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const p = await ctx.newPage();
+    let release; const gateP = new Promise((r) => (release = r));
+    await p.route('**/data/balance.json', async (r) => { await gateP; r.continue(); });
+    await p.goto(BASE + '?test=1');
+    await sleep(400);
+    out.loading = await G(p, () => { const pic = document.getElementById('loadPic'); return { state: window.__game && window.__game.state, picRole: pic.getAttribute('role'), picLabel: pic.getAttribute('aria-label'), text: document.getElementById('loadTxt').textContent, bg: getComputedStyle(document.body).backgroundColor }; });
+    await shot(p, '412x915-r2-loading.png');
+    release(); await p.waitForFunction(() => window.__game?.ready === true, null, { timeout: 20000 });
+    await ctx.close();
+    const ctx2 = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const p2 = await ctx2.newPage();
+    await p2.route('**/data/balance.json', (r) => r.abort());
+    await p2.goto(BASE + '?test=1');
+    await p2.waitForFunction(() => !document.getElementById('bReload').classList.contains('hidden'), null, { timeout: 10000 }).catch(() => {});
+    out.loadError = await G(p2, () => { const b = document.getElementById('bReload'); const d = document.getElementById(b.getAttribute('aria-describedby')); return { visible: !b.classList.contains('hidden'), label: b.getAttribute('aria-label'), described: d && d.textContent, w: b.getBoundingClientRect().width }; });
+    await shot(p2, '412x915-r2-load-error.png');
+    await ctx2.close();
+  }
+  // N7: 자동 지연 표시값 = 판정 값 (일반 모드, 레벨 시작·플레이 중 여러 번)
+  {
+    const { ctx, p } = await open(1280, 720, '', { init: { fn: () => { try { localStorage.setItem('qaFreq', '1'); } catch {} }, arg: null } });
+    await enterNormal(p);
+    const lat = [];
+    lat.push(await G(p, () => window.__game.latency()));
+    await G(p, () => window.__game.loadLevel(0)); await sleep(1500);
+    for (let k = 0; k < 5; k++) { lat.push(await G(p, () => window.__game.latency())); await sleep(300); }
+    await G(p, () => window.__game.setOffset(30)); lat.push(await G(p, () => window.__game.latency()));
+    await G(p, () => window.__game.setOffset(0));
+    out.latency = { samples: lat, comp_eq_auto_plus_manual: lat.every((l) => Math.abs(l.comp - (l.auto + l.manual)) < 1e-6), auto_values: [...new Set(lat.map((l) => r1(l.auto)))], autoNow_values: [...new Set(lat.map((l) => r1(l.autoNow)))] };
+    // N9: 보정 체크 방울 음 높이 (보정 끝날 때 1000~1100 Hz 기록)
+    await G(p, () => { window.__qa.freqs = []; window.__game.show('calibRedo'); });
+    await G(p, () => { const g = window.__game; for (let k = 0; k < 16; k++) g.calibTap(5); });
+    await sleep(800);
+    out.calibCheck = { freqs: await G(p, () => [...new Set(window.__qa.freqs.map((f) => Math.round(f.v * 10) / 10))]), soundJson: JSON.parse(readFileSync(join(GAME, 'data/music.json'), 'utf8')).calib_check_hz ?? null };
+    await ctx.close();
+  }
+  // N17: card_star_tap 카드 속 손가락 위치 (그림 칸 기준) — SVG 원본에서 손가락 그림 위치를 읽음
+  {
+    const svg = readFileSync(join(GAME, 'data/svg/cards/card_star_tap.svg'), 'utf8');
+    out.cardHand = { hasHandRef: /hand/.test(svg), handSnippets: [...svg.matchAll(/<[^>]*(?:hand|thumb)[^>]*>/gi)].slice(0, 4).map((m) => m[0].slice(0, 200)) };
+  }
+  // 문자열 키 사용 (10-lore 키 표 = data/strings.json)
+  {
+    const src = ['js/main.js', 'js/render.js', 'js/audio.js', 'js/engine.js', 'js/calib.js', 'index.html'].map((f) => readFileSync(join(GAME, f), 'utf8')).join('\n') + readFileSync(join(PROJ, 'tools/build-web-data.mjs'), 'utf8');
+    const keys = Object.keys(S.ko);
+    const dyn = [...src.matchAll(/T\[\s*'([a-z_]+)'\s*\+/g)].map((m) => m[1]);
+    // 데이터가 키 이름을 주는 동적 사용: 레벨 name_key, 카드 id(T[cid]), balance.json 안의 문자열 값(T[gc.done_signal] 등)
+    const balStrings = JSON.stringify(bal).match(/"[a-z_]+"/g).map((s) => s.slice(1, -1));
+    const lvNameKeys = [...LV.map((l) => l.name_key), ...(/T\[cid\]/.test(src) ? LV.map((l) => l.card && l.card.id) : []), ...(/T\[gc\./.test(src) ? balStrings : [])].filter(Boolean);
+    const unused = keys.filter((k) => !new RegExp(`['"\`]${k}['"\`]|data-[ta]="${k}"|T\\.${k}\\b`).test(src) && !dyn.some((d) => k.startsWith(d)) && !lvNameKeys.includes(k));
+    const notes = readFileSync(join(PROJ, 'DEV_NOTES.md'), 'utf8');
+    out.strings = { keys: keys.length, dynamic_prefixes: [...new Set(dyn)], unused, unused_without_reason: unused.filter((k) => !notes.includes(k)) };
+  }
+  // 판정
+  const Rs = Object.values(out.res);
+  const tx = (k) => ko[k];
+  out.checks = {
+    N1_level_card_rows: Rs.every((r) => r.levels.bad.length === 0),
+    N2_title_hint_clear: out.res['640x360'].title.clearOfRing,
+    N5_confirm_icons: Rs.every((r) => r.confirm.focus === 'cfNo' && /next-ink/.test(r.confirm.noImg) && /icon-reset/.test(r.confirm.yesImg) && r.confirm.noBg !== r.confirm.yesBg && r.confirm.sizes.every(([a, b]) => a >= 48 && b >= 48)),
+    N6_progress_on_card: Rs.every((r) => r.levels.l2_progress_bar && !r.levels.l2_has_digits && r.levels.l3_flag),
+    N7_latency_one_value: out.latency.comp_eq_auto_plus_manual && out.latency.auto_values.length === 1,
+    N9_calib_1046: out.calibCheck.soundJson === 1046.5 && out.calibCheck.freqs.some((f) => Math.abs(f - 1046.5) < 0.2),
+    N11_icon_card: Rs.every((r) => r.levels.card_icon >= 1),
+    N12_hand_scaled: Rs.every((r) => Math.abs(r.hand.size - Math.min(r.hand.expected, r.hand.thumb ? r.hand.thumb.h - 16 : Infinity)) < 1 || r.hand.size >= 64),
+    N13_attempts_meter: Rs.every((r) => r.attempts.role === 'meter' && r.attempts.label === tx('aria_attempts') && +r.attempts.now === r.attempts.attempts && !/\d/.test(r.attempts.label)),
+    N14_grade_aria: Rs.every((r) => r.resultL1.role === 'img' && r.resultL1.label === tx('grade_' + r.resultL1.grade) && r.resultPractice.label === tx('practice_clear') && r.flags.length > 0 && r.flags.every((f) => f.role === 'img' && f.label === tx('aria_checkpoint')) && r.gate.label === tx('btn_settings') && r.gate.describedBy === 'guardian_hold'),
+    N15_loading_error: out.loading.picRole === 'img' && out.loading.picLabel === tx('loading') && out.loadError.visible && out.loadError.label === tx('btn_retry') && out.loadError.described === tx('load_error'),
+    N16_l10_two_buttons: Rs.every((r) => r.resultL10.btns.map((b) => b.id).join(',') === 'bRetry,bLevels'),
+    R8_no_digits_in_aria: Rs.every((r) => Object.values(r.ariaScreens).every((l) => l.length === 0) && r.resultL1.aria.filter((x) => x.digits).length === 0),
+    R8_strings_used_or_reason: out.strings.unused_without_reason.length === 0,
+  };
+  return out;
+}
+
 // ---------------- 실행 ----------------
-const parts = { static: async () => partStatic(), shots: partShots, replay: partReplay, realtime: partRealtime, bots: partBots, perf: partPerf, features: partFeatures, calib: partCalib };
-const list = PART === 'all' ? Object.keys(parts) : PART.split(',');
+const parts = { static: async () => partStatic(), shots: partShots, replay: partReplay, realtime: partRealtime, bots: partBots, perf: partPerf, features: partFeatures, calib: partCalib, signals: partSignals, cards: partCards, r2: partR2, perfctl: partPerfCtl };
+const list = PART === 'all' ? Object.keys(parts).filter((k) => k !== 'perfctl') : PART.split(',');
+const PERF_TAG = opt('--perf-tag', '');
 for (const name of list) {
   const t0 = Date.now();
   LOG.console = []; LOG.pageerrors = []; LOG.failed = []; LOG.external = []; LOG.requests = 0;
@@ -966,7 +1453,8 @@ for (const name of list) {
   res.log = name === 'static' ? undefined : JSON.parse(JSON.stringify(LOG));
   res.seconds = Math.round((Date.now() - t0) / 1000);
   res.env = { channel: CHANNEL, playwright: process.env.PLAYWRIGHT_CORE ? 'PLAYWRIGHT_CORE' : 'module', node: process.version };
-  writeFileSync(join(PARTS, `${name}.json`), JSON.stringify(res, null, 1));
+  const fname = (name === 'perf' || name === 'perfctl') && PERF_TAG ? `${name}-${PERF_TAG}` : name;
+  writeFileSync(join(PARTS, `${fname}.json`), JSON.stringify(res, null, 1));
   console.log(`[${name}] 끝 ${res.seconds}s, console ${LOG.console.length + LOG.pageerrors.length}, failed ${LOG.failed.length}, external ${LOG.external.length}`);
 }
 await stopAll();
