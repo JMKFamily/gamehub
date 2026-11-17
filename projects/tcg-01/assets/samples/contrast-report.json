@@ -1,0 +1,464 @@
+[
+ {
+  "what": "salt_white on bg_abyss",
+  "fg": "#F2EEE4",
+  "bg": "#0B151B",
+  "min": 4.5,
+  "ratio": 15.94
+ },
+ {
+  "what": "salt_dim on bg_abyss",
+  "fg": "#AEB9BD",
+  "bg": "#0B151B",
+  "min": 4.5,
+  "ratio": 9.21
+ },
+ {
+  "what": "salt_white on bg_panel",
+  "fg": "#F2EEE4",
+  "bg": "#14232B",
+  "min": 4.5,
+  "ratio": 13.89
+ },
+ {
+  "what": "salt_dim on bg_panel",
+  "fg": "#AEB9BD",
+  "bg": "#14232B",
+  "min": 4.5,
+  "ratio": 8.03
+ },
+ {
+  "what": "salt_white on board_wet_salt",
+  "fg": "#F2EEE4",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 11.3
+ },
+ {
+  "what": "salt_dim on board_wet_salt",
+  "fg": "#AEB9BD",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 6.53
+ },
+ {
+  "what": "card_ink on card_plate",
+  "fg": "#1A2227",
+  "bg": "#E6E0D2",
+  "min": 4.5,
+  "ratio": 12.26
+ },
+ {
+  "what": "card_ink_dim on card_plate",
+  "fg": "#4A5257",
+  "bg": "#E6E0D2",
+  "min": 4.5,
+  "ratio": 6.05
+ },
+ {
+  "what": "cost 숫자 wick_ink on wick_lit_bar",
+  "fg": "#1B1306",
+  "bg": "#E9A62E",
+  "min": 4.5,
+  "ratio": 8.72
+ },
+ {
+  "what": "숨 고르기 글자",
+  "fg": "#1B1306",
+  "bg": "#F4B740",
+  "min": 4.5,
+  "ratio": 10.24
+ },
+ {
+  "what": "기본 버튼 글자",
+  "fg": "#F2EEE4",
+  "bg": "#2E4650",
+  "min": 4.5,
+  "ratio": 8.6
+ },
+ {
+  "what": "damage 숫자 on stat_tab",
+  "fg": "#FF6F5E",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 6.07
+ },
+ {
+  "what": "damage 숫자 on board",
+  "fg": "#FF6F5E",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 4.79
+ },
+ {
+  "what": "heal 숫자 on stat_tab",
+  "fg": "#6EE7A8",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 10.79
+ },
+ {
+  "what": "heal 숫자 on board",
+  "fg": "#6EE7A8",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 8.51
+ },
+ {
+  "what": "buff 숫자 on stat_tab",
+  "fg": "#FFD166",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 11.51
+ },
+ {
+  "what": "buff 숫자 on board",
+  "fg": "#FFD166",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 9.08
+ },
+ {
+  "what": "debuff 숫자 on stat_tab",
+  "fg": "#C9A3FF",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 8.03
+ },
+ {
+  "what": "debuff 숫자 on board",
+  "fg": "#C9A3FF",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 6.34
+ },
+ {
+  "what": "shell 숫자 on stat_tab",
+  "fg": "#E9F2F5",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 14.6
+ },
+ {
+  "what": "shell 숫자 on board",
+  "fg": "#E9F2F5",
+  "bg": "#22333B",
+  "min": 4.5,
+  "ratio": 11.52
+ },
+ {
+  "what": "salt_white 숫자 on stat_tab",
+  "fg": "#F2EEE4",
+  "bg": "#142027",
+  "min": 4.5,
+  "ratio": 14.32
+ },
+ {
+  "what": "흰 피해 숫자 on splat_damage",
+  "fg": "#FFFFFF",
+  "bg": "#B3261C",
+  "min": 4.5,
+  "ratio": 6.54
+ },
+ {
+  "what": "흰 회복 숫자 on splat_heal",
+  "fg": "#FFFFFF",
+  "bg": "#1D6B45",
+  "min": 4.5,
+  "ratio": 6.48
+ },
+ {
+  "what": "이름 글자 h_warden ink on primary",
+  "fg": "#0E1418",
+  "bg": "#7590A0",
+  "min": 4.5,
+  "ratio": 5.52
+ },
+ {
+  "what": "이름 글자 h_choir ink on primary",
+  "fg": "#F4EFE2",
+  "bg": "#226A65",
+  "min": 4.5,
+  "ratio": 5.51
+ },
+ {
+  "what": "이름 글자 h_wreck ink on primary",
+  "fg": "#140A04",
+  "bg": "#C4642E",
+  "min": 4.5,
+  "ratio": 4.85
+ },
+ {
+  "what": "이름 글자 h_rider ink on primary",
+  "fg": "#160F05",
+  "bg": "#C69043",
+  "min": 4.5,
+  "ratio": 6.76
+ },
+ {
+  "what": "이름 글자 h_archive ink on primary",
+  "fg": "#1A1206",
+  "bg": "#F0AC3C",
+  "min": 4.5,
+  "ratio": 9.42
+ },
+ {
+  "what": "이름 글자 h_nameless ink on primary",
+  "fg": "#111316",
+  "bg": "#8F969C",
+  "min": 4.5,
+  "ratio": 6.21
+ },
+ {
+  "what": "이름 글자 neutral ink on primary",
+  "fg": "#1A1A14",
+  "bg": "#CFC19F",
+  "min": 4.5,
+  "ratio": 9.8
+ },
+ {
+  "what": "희귀도 글자 sand ink on fill",
+  "fg": "#1E1A10",
+  "bg": "#D9C79F",
+  "min": 4.5,
+  "ratio": 10.43
+ },
+ {
+  "what": "희귀도 글자 pearl ink on fill",
+  "fg": "#1A1D24",
+  "bg": "#F3F0F8",
+  "min": 4.5,
+  "ratio": 14.96
+ },
+ {
+  "what": "희귀도 글자 coral ink on fill",
+  "fg": "#200A04",
+  "bg": "#FF7A52",
+  "min": 4.5,
+  "ratio": 7.37
+ },
+ {
+  "what": "희귀도 글자 abyss ink on fill",
+  "fg": "#EAF9FF",
+  "bg": "#163562",
+  "min": 4.5,
+  "ratio": 11.33
+ },
+ {
+  "what": "키워드 아이콘 first_breath on stat_tab (그래픽 3:1)",
+  "fg": "#BFE9FF",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 12.89
+ },
+ {
+  "what": "키워드 아이콘 ebb on stat_tab (그래픽 3:1)",
+  "fg": "#8FB7D6",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 7.83
+ },
+ {
+  "what": "키워드 아이콘 breakwater on stat_tab (그래픽 3:1)",
+  "fg": "#D8D0BC",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 10.8
+ },
+ {
+  "what": "키워드 아이콘 saltskin on stat_tab (그래픽 3:1)",
+  "fg": "#FFFFFF",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 16.59
+ },
+ {
+  "what": "키워드 아이콘 seamist on stat_tab (그래픽 3:1)",
+  "fg": "#A9BCC6",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 8.45
+ },
+ {
+  "what": "키워드 아이콘 spur on stat_tab (그래픽 3:1)",
+  "fg": "#FFB547",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 9.44
+ },
+ {
+  "what": "키워드 아이콘 rapids on stat_tab (그래픽 3:1)",
+  "fg": "#5FD0FF",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 9.44
+ },
+ {
+  "what": "키워드 아이콘 drown on stat_tab (그래픽 3:1)",
+  "fg": "#6E8BFF",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 5.37
+ },
+ {
+  "what": "키워드 아이콘 draught on stat_tab (그래픽 3:1)",
+  "fg": "#7EE8B5",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 11.14
+ },
+ {
+  "what": "키워드 아이콘 unname on stat_tab (그래픽 3:1)",
+  "fg": "#C4C9CC",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 9.93
+ },
+ {
+  "what": "키워드 아이콘 anchor on stat_tab (그래픽 3:1)",
+  "fg": "#9DB2BF",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 7.55
+ },
+ {
+  "what": "키워드 아이콘 kindle on stat_tab (그래픽 3:1)",
+  "fg": "#FF9A4D",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 7.89
+ },
+ {
+  "what": "키워드 아이콘 sealwrit on stat_tab (그래픽 3:1)",
+  "fg": "#D9875A",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 5.98
+ },
+ {
+  "what": "키워드 아이콘 soot on stat_tab (그래픽 3:1)",
+  "fg": "#B9A99A",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 7.27
+ },
+ {
+  "what": "키워드 아이콘 wake on stat_tab (그래픽 3:1)",
+  "fg": "#9EE6E0",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 11.73
+ },
+ {
+  "what": "키워드 아이콘 salvage on stat_tab (그래픽 3:1)",
+  "fg": "#E0B866",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 8.86
+ },
+ {
+  "what": "키워드 아이콘 swell on stat_tab (그래픽 3:1)",
+  "fg": "#4FC9EC",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 8.61
+ },
+ {
+  "what": "키워드 아이콘 brine on stat_tab (그래픽 3:1)",
+  "fg": "#E8F7F2",
+  "bg": "#142027",
+  "min": 3,
+  "ratio": 15.03
+ },
+ {
+  "what": "희귀도 면 sand: 판 또는 윤곽(stat_tab)과 3:1",
+  "fg": "#9A8152",
+  "bg": "#E6E0D2/#142027",
+  "min": 3,
+  "ratio": 4.45
+ },
+ {
+  "what": "희귀도 면 pearl: 판 또는 윤곽(stat_tab)과 3:1",
+  "fg": "#C9DAF0",
+  "bg": "#E6E0D2/#142027",
+  "min": 3,
+  "ratio": 11.67
+ },
+ {
+  "what": "희귀도 면 coral: 판 또는 윤곽(stat_tab)과 3:1",
+  "fg": "#E8603A",
+  "bg": "#E6E0D2/#142027",
+  "min": 3,
+  "ratio": 4.87
+ },
+ {
+  "what": "희귀도 면 abyss: 판 또는 윤곽(stat_tab)과 3:1",
+  "fg": "#163562",
+  "bg": "#E6E0D2/#142027",
+  "min": 3,
+  "ratio": 9.28
+ },
+ {
+  "what": "세력 띠 h_warden vs deep 바탕 (그래픽 3:1)",
+  "fg": "#7590A0",
+  "bg": "#1E2E38",
+  "min": 3,
+  "ratio": 4.16
+ },
+ {
+  "what": "세력 띠 h_choir vs deep 바탕 (그래픽 3:1)",
+  "fg": "#226A65",
+  "bg": "#050F0E",
+  "min": 3,
+  "ratio": 3.07
+ },
+ {
+  "what": "세력 띠 h_wreck vs deep 바탕 (그래픽 3:1)",
+  "fg": "#C4642E",
+  "bg": "#2E1A10",
+  "min": 3,
+  "ratio": 4.1
+ },
+ {
+  "what": "세력 띠 h_rider vs deep 바탕 (그래픽 3:1)",
+  "fg": "#C69043",
+  "bg": "#2E2010",
+  "min": 3,
+  "ratio": 5.62
+ },
+ {
+  "what": "세력 띠 h_archive vs deep 바탕 (그래픽 3:1)",
+  "fg": "#F0AC3C",
+  "bg": "#221B12",
+  "min": 3,
+  "ratio": 8.65
+ },
+ {
+  "what": "세력 띠 h_nameless vs deep 바탕 (그래픽 3:1)",
+  "fg": "#8F969C",
+  "bg": "#1D1B24",
+  "min": 3,
+  "ratio": 5.68
+ },
+ {
+  "what": "세력 띠 neutral vs deep 바탕 (그래픽 3:1)",
+  "fg": "#CFC19F",
+  "bg": "#1E2A28",
+  "min": 3,
+  "ratio": 8.31
+ },
+ {
+  "what": "focus 테두리 on board (그래픽 3:1)",
+  "fg": "#7FE3FF",
+  "bg": "#22333B",
+  "min": 3,
+  "ratio": 8.93
+ },
+ {
+  "what": "켜진 심지 vs 쓴 심지 (그래픽 3:1)",
+  "fg": "#E9A62E",
+  "bg": "#4D585D",
+  "min": 2.2,
+  "ratio": 3.47
+ }
+]
