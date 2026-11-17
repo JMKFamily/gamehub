@@ -1,0 +1,127 @@
+{
+ "schema_version": 1,
+ "_source": "tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름.",
+ "ball": {
+  "d_of_S": 0.078,
+  "d_min": 24,
+  "d_max": 44,
+  "outline_of_d": 0.08,
+  "shine": {
+   "r_of_radius": 0.62,
+   "from_deg": 200,
+   "to_deg": 255,
+   "w_of_d": 0.12
+  }
+ },
+ "drum": {
+  "w_of_d": 3.2,
+  "h_of_d": 0.95,
+  "skin_h_of_d": 0.28,
+  "rx_of_d": 0.3,
+  "outline_of_d": 0.08,
+  "tap_lift_of_d": 0.22,
+  "tap_ms": [
+   50,
+   70
+  ],
+  "twoball_x_of_d": 0.78,
+  "_tap": "탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in). 합 120 ms = 00-benchmark 4-1"
+ },
+ "portrait": {
+  "skin_y_of_H": 0.76,
+  "hud_h": 60
+ },
+ "landscape": {
+  "floor_h_of_H": 0.11,
+  "floor_h_min": 40,
+  "hud_h": 52
+ },
+ "play_height": {
+  "top_margin": 8,
+  "apex_margin": 6,
+  "apex_budget": 1.2,
+  "cloud_edge_of_Hp": 0.9,
+  "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget. 공 높이 h = 공 아랫점과 북 가죽 윗면 사이 거리. 높이 식(balance): h_apex = c × 통 길이(s), c = 0.5·Hp/s(00-benchmark 5-2). apex_budget 1.2 = 100 BPM 구름 통(2.4 s) 꼭짓점이 화면 안(위 여백 안)에 들어가게 잡은 값. 구름 아랫선은 h = cloud_edge·Hp 높이(공 아랫점이 그 위면 공 전체가 구름 뒤)."
+ },
+ "cloud": {
+  "w_of_h": 2.6,
+  "w_max_of_W": 0.62,
+  "base_h_of_h": 0.5,
+  "bumps": [
+   [
+    -0.26,
+    0.36
+   ],
+   [
+    0.02,
+    0.5
+   ],
+   [
+    0.28,
+    0.32
+   ]
+  ],
+  "bump_r_max_of_w": 0.2,
+  "outline_of_d": 0.08,
+  "_shape": "아랫변이 평평한 둥근 사각형(높이의 50 %) + 원 3개(중심 x = 너비 비율, 중심 y = 아랫변 − 0.5·높이, 반지름 = min(높이 비율, 0.5·높이, 0.2·너비) — 원이 아랫변 밑으로 나오지 않음). 구름은 북 가운데 위. HUD 는 구름 위에 그림(구름 윗부분이 진행도 막대 뒤로 가도 됨)."
+ },
+ "hud": {
+  "bar_x0": 72,
+  "bar_x1_from_right": 24,
+  "bar_y": 18,
+  "bar_h": 12,
+  "best_r": 7,
+  "dots_dy": 22,
+  "dot_r": 4,
+  "dot_gap": 12,
+  "dots_max": 10,
+  "pause": {
+   "x": 12,
+   "y": 6,
+   "size": 48
+  },
+  "_dots": "시도 점: 시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개(반지름 7)로 묶고 다시 작은 점부터. 숫자 없음."
+ },
+ "shadow": {
+  "w_of_d_contact": 1,
+  "w_of_d_far": 0.45,
+  "h_of_w": 0.28,
+  "_rule": "그림자 너비 = d·lerp(1.0, 0.45, min(1, h / Hp)). 구름 뒤에 있는 동안도 그림자는 보임(G2: 내려올수록 커짐). 불투명 shadow 색, 북 가죽 위에만."
+ },
+ "finger": {
+  "anchor": "drum_right",
+  "dx_of_d": 0.7,
+  "h_of_d": 1.5,
+  "press_ms": 100,
+  "show_from": "toss",
+  "hide_after_ms": 300,
+  "press_start_beats": -0.2,
+  "press_start_min_ms_inside_pass": 20,
+  "_rule": "손가락은 화면 고정이 아니라 북 기준 위치(북 오른쪽 바닥 위, 손끝이 북 가죽 높이 아래). 누름 시작 = 접촉 − max(0.2박, …) 단, 누름 시작 ≥ 접촉 − (pass_early − 20 ms) — 통과 창 안(insights 5~6세 2번째 줄). 레벨 1 첫 접촉 1회만."
+ },
+ "grade_fx": {
+  "max_r_of_d": 1.6,
+  "area_max_of_screen": 0.05
+ },
+ "restart_timeline_s": {
+  "_owner": "balance.json restart 이 기준. 아래는 art 연출 배분 제안(1-2에서 맞춤). 실패 순간 = 0, 확인 버튼 없음, 자동.",
+  "fail_motion": [
+   0,
+   0.45
+  ],
+  "hold": [
+   0.45,
+   0.85
+  ],
+  "reappear": [
+   0.85,
+   1.1
+  ],
+  "music_fade_out_s": 0.08,
+  "best_slide_s": 0.2,
+  "reappear_grow": [
+   0.6,
+   1
+  ]
+ }
+}

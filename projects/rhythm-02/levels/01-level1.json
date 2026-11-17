@@ -1,0 +1,303 @@
+{
+ "schema_version": 1,
+ "id": "01",
+ "theme_id": "level01",
+ "name_key": "level1_name",
+ "bpm": 100,
+ "beats_per_bar": 4,
+ "judge": {
+  "perfect_ms": 50,
+  "good_ms": 100,
+  "pass_early_ms": 150,
+  "pass_late_ms": 170,
+  "miss_zone_ms": 200
+ },
+ "design_intent": "1박 통만. 공이 북에 닿는 순간 톡. 5·5·4·4번 묶음 사이에 받침 쉼(1마디 남짓, 숨 고르기). 박마다 치면 깨지는 \"박 배우기\" 레벨.",
+ "new_gimmick": {
+  "id": "B1",
+  "first_contact": 0
+ },
+ "card": {
+  "id": "card_bounce",
+  "timing": "pre_level_first_play"
+ },
+ "tutorial_finger": {
+  "contact_index": 0,
+  "press_start_beats": -0.2,
+  "press_end_beats": 0
+ },
+ "length_beats": 49,
+ "outro_beats": 4,
+ "duration_s": 29.4,
+ "contact_count": 18,
+ "phrases": [
+  {
+   "index": 0,
+   "start_beat": 0,
+   "rest_beats": 4,
+   "balls": 1,
+   "checkpoint": true,
+   "tosses": [
+    {
+     "ball": 1,
+     "beat": 4,
+     "to_contact": 0
+    }
+   ],
+   "landings": [
+    {
+     "ball": 1,
+     "from_contact": 4,
+     "beat": 10,
+     "exit": false
+    }
+   ],
+   "contact_range": [
+    0,
+    4
+   ]
+  },
+  {
+   "index": 1,
+   "start_beat": 10,
+   "rest_beats": 6,
+   "balls": 1,
+   "checkpoint": true,
+   "tosses": [
+    {
+     "ball": 1,
+     "beat": 16,
+     "to_contact": 5
+    }
+   ],
+   "landings": [
+    {
+     "ball": 1,
+     "from_contact": 9,
+     "beat": 22,
+     "exit": false
+    }
+   ],
+   "contact_range": [
+    5,
+    9
+   ]
+  },
+  {
+   "index": 2,
+   "start_beat": 22,
+   "rest_beats": 6,
+   "balls": 1,
+   "checkpoint": true,
+   "tosses": [
+    {
+     "ball": 1,
+     "beat": 28,
+     "to_contact": 10
+    }
+   ],
+   "landings": [
+    {
+     "ball": 1,
+     "from_contact": 13,
+     "beat": 33,
+     "exit": false
+    }
+   ],
+   "contact_range": [
+    10,
+    13
+   ]
+  },
+  {
+   "index": 3,
+   "start_beat": 33,
+   "rest_beats": 7,
+   "balls": 1,
+   "checkpoint": true,
+   "tosses": [
+    {
+     "ball": 1,
+     "beat": 40,
+     "to_contact": 14
+    }
+   ],
+   "landings": [
+    {
+     "ball": 1,
+     "from_contact": 17,
+     "beat": 45,
+     "exit": false
+    }
+   ],
+   "contact_range": [
+    14,
+    17
+   ]
+  }
+ ],
+ "contacts": [
+  {
+   "beat": 5,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 0,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 6,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 1,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 7,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 2,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 8,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 3,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 9,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 4,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 17,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 5,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 18,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 6,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 19,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 7,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 20,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 8,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 21,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 9,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 29,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 10,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 30,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 11,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 31,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 12,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 32,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 13,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 41,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 3,
+   "i": 14,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 42,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 3,
+   "i": 15,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 43,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 3,
+   "i": 16,
+   "gimmick": "B1"
+  },
+  {
+   "beat": 44,
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 3,
+   "i": 17,
+   "gimmick": "B1"
+  }
+ ]
+}

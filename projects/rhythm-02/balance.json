@@ -1,0 +1,181 @@
+{
+ "schema_version": 1,
+ "_units": "시간은 ms 또는 s(키 이름에 표기), 박자는 beat, 마디는 bar(4박). 레벨 시간 0 = 첫 받침 쉼의 첫 박(공이 북 위에 앉아 첫 똑딱). 판정 시계는 화면 시계(20-balance.md 4-4). 높이는 '놀이 높이'(북 윗면 ~ 화면 위 안전선) 대비 비율.",
+ "_source": "수치의 출처·근거는 20-balance.md. lore·art 문서는 숫자 대신 20-balance.md 절을 참조한다. 레벨 데이터는 levels/*.json(생성기 tools/build-levels.mjs).",
+ "input": {
+  "controls": ["tap_anywhere"],
+  "event": "pointerdown",
+  "use_event_timestamp": true,
+  "drum_pop_ms": 120,
+  "_note": "탭 1가지(화면 아무 곳, 메뉴 버튼 제외). 탭마다 북이 톡 올라갔다 내려옴(120 ms 왕복, 판정과 무관하게 항상). 홀드·떼기 의미 없음."
+ },
+ "judge_clock": {
+  "basis": "screen",
+  "visual_comp_ms": 40,
+  "visual_comp_range_ms": [0, 80],
+  "audio_used_for_judge": false,
+  "_note": "판정 = (event.timeStamp - 레벨 시간 0 이 그려진 시각 - visual_comp_ms) 과 접촉 시각의 차. visual_comp_ms 는 터치→이벤트·화면 표시 지연의 늦은 쪽 몫(초기 40 ms [추정], QA 실기기 측정). 오디오 지연은 판정에 넣지 않는다. 곡은 자동 지연(outputLatency+baseLatency, 이중 보정 금지)만큼 앞당겨 예약해 화면 접촉과 들리는 박을 맞춘다. judge.mjs tapToLevelMs()."
+ },
+ "judge_defaults": {
+  "perfect_ms": 50,
+  "good_ms": 100,
+  "pass_early_ms": 150,
+  "pass_late_ms": 170,
+  "miss_zone_ms": 200,
+  "_note": "레벨 파일 judge 블록이 덮어씀. 딱(perfect)·좋아(good)는 대칭, 통과 창만 늦은 쪽 +20 ms. 놓침 구역 = 통과 창 바로 앞 miss_zone_ms(200: 1-0 초안 140 에서 넓힘, 20-balance 4-2), 앞 접촉 통과 창 끝보다 앞으로 넓히지 않음. 그보다 이른 탭은 무시."
+ },
+ "judge_by_level": {
+  "01": [150, 170], "02": [145, 165], "03": [140, 160], "04": [135, 155], "05": [130, 150],
+  "06": [130, 150], "07": [125, 145], "08": [120, 140], "09": [120, 140], "10": [115, 135],
+  "_note": "[pass_early_ms, pass_late_ms] 요약(원본은 레벨 파일). 통과 폭 320→310→300→290→280→280→270→260→260→250, 직전의 94 % 이상."
+ },
+ "grade_rule": {
+  "one": "clear",
+  "two_good_ratio": 0.75,
+  "three_perfect_ratio": 0.6,
+  "count_range": [1, 3],
+  "normal_mode_only": true,
+  "_note": "클리어 후 접촉 전체 중 좋아 이상 비율·딱 비율. 숫자 없이 작은 그림 1~3개(모양은 art)."
+ },
+ "height": {
+  "c_play_height_per_s": 0.5,
+  "trajectory": "parabola_4H_s_1ms",
+  "cloud_line_ratio": 0.9,
+  "max_hidden_s": 1.0,
+  "contact_speed_play_heights_per_s": 2.0,
+  "ball_min_render_px": 24,
+  "ball_card_min_render_px": 16,
+  "_note": "꼭짓점 H = c × 비행 길이(s), y(t) = 4H·s(1-s). 북에 닿는 속도 4c = 놀이 높이 2배/s 로 모든 통이 같음. c 는 모든 레벨 고정. 구름선 = 놀이 높이의 90 %. 구름 통만 구름선을 넘어 숨고(숨는 시간 ≤ max_hidden_s, 그림자는 계속), 다른 통은 늘 구름선 아래(검증 V12). judge.mjs flightApex()/ballsAt()."
+ },
+ "bounces": {
+  "half":  { "beats": 0.5, "gimmick": "G4", "first_level": "05" },
+  "tong":  { "beats": 1,   "gimmick": "B1", "first_level": "01" },
+  "dot":   { "beats": 1.5, "gimmick": "G3", "first_level": "04" },
+  "big":   { "beats": 2,   "gimmick": "G1", "first_level": "02" },
+  "three": { "beats": 3,   "gimmick": "R1", "first_level": "07" },
+  "cloud": { "beats": 4,   "gimmick": "G2", "first_level": "03" },
+  "_note": "통 이름은 기능 id(lore 가 화면 이름을 정함). 두 공 G5(L6, 두 공 모두 big), 드르륵 G7(L8, 반박 4연속)."
+ },
+ "gimmicks": {
+  "B1": { "level": "01", "card": "card_bounce" },
+  "G1": { "level": "02", "card": "card_big" },
+  "G2": { "level": "03", "card": "card_cloud" },
+  "G3": { "level": "04", "card": "card_dot" },
+  "G4": { "level": "05", "card": "card_double" },
+  "G5": { "level": "06", "card": "card_twoballs" },
+  "R1": { "level": "07", "card": "card_three" },
+  "G7": { "level": "08", "card": "card_roll" },
+  "_dropped": { "G6": "빠른 곡 구간: 쓰지 않음(위험 K8, 5~6세 템포 변화). 예비 R1 세 박 통으로 교체" }
+ },
+ "rest": {
+  "min_rest_beats": 4,
+  "toss_on_bar_line": true,
+  "tick": "every_beat_while_seated",
+  "tick_on_downbeat_only": true,
+  "seated_bob": true,
+  "taps_during_rest": "ignored_drum_pop_only",
+  "auto_toss_judged": false,
+  "min_first_toss_beats": 1,
+  "second_ball_enter": "rolls_in_during_rest_tossed_1_beat_after_ball1",
+  "second_ball_exit": "rolls_off_on_landing",
+  "_note": "받침 쉼 = 공이 북 위에 앉아 박마다 까딱+똑딱(정박에만). 쉼 끝 박(마디 첫 박)에 게임이 공을 스스로 띄움(자동 토스, 판정 없음). 마지막 접촉을 친 공은 착지(판정 없음)해 다음 받침 쉼. 연습 모드 체크포인트 = 각 받침 쉼(자동, 버튼 없음)."
+ },
+ "restart": {
+  "restart_delay_s": 1.1,
+  "allowed_range_s": [0.94, 1.2],
+  "measure": "fail_judgement_to_first_frame_of_next_attempt",
+  "phases_s": {
+   "music_stop": [0, 0.08],
+   "ball_fall_fx": [0, 0.45],
+   "still_best_dot": [0.45, 0.85],
+   "ball_reappear_on_drum": [0.85, 1.1]
+  },
+  "restart_from": "level_start",
+  "first_tick_at_s": 1.1,
+  "audio_preroll_inside_delay": true,
+  "result_screen": "clear_only",
+  "confirm_button": false,
+  "_note": "실패 판정 시각(늦음 = 통과 창 끝, 일찍 = 그 탭) → 0.45 s 공 떨어짐(일찍: 헛스윙 미끄러짐 / 늦음: 북 옆으로) → 정지·최고 기록 점 → 0.85~1.1 s 공이 북 위에 다시 나타남 → 1.1 s 레벨 시간 0(첫 똑딱). 오디오 선행 대기는 1.1 s 안에 포함."
+ },
+ "practice": {
+  "checkpoints": "every_rest_auto",
+  "manual_checkpoint_buttons": false,
+  "respawn_delay_s": 1.1,
+  "_note": "연습 모드는 받침 쉼(공이 앉아 있는 안전한 지점)마다 자동 체크포인트. 부활 시간은 일반 재시작과 같음."
+ },
+ "tutorial_finger": {
+  "level": "01",
+  "contact_index": 0,
+  "appear": "at_toss",
+  "press_start_beats": -0.2,
+  "press_end_beats": 0,
+  "gone": "contact_pass_end_or_on_hit",
+  "position": "relative_to_drum",
+  "_note": "레벨 1 첫 접촉 1회. 토스 때 나타나 접촉 -0.2박(100 BPM -120 ms, 통과 창 -150 안)에 누르기 시작, 접촉 시각에 다 누름, 공을 치면(또는 통과 창 끝) 사라짐. 검증 S1."
+ },
+ "bots": {
+  "extra_tap_after_s": [0.15, 0.45],
+  "profiles": {
+   "skilled_sd25": { "sd_ms": 25, "miss": 0, "extra": 0 },
+   "novice_sd50": { "sd_ms": 50, "miss": 0.01, "extra": 0.01 },
+   "child_sd70": { "sd_ms": 70, "miss": 0.03, "extra": 0.02 }
+  },
+  "k2_model": {
+   "shorter_than_prev_sd_mult": 1.25,
+   "half_sd_mult": 1.15,
+   "two_ball_sd_mult": 1.15,
+   "first_gimmick_miss_add": 0.05,
+   "_note": "위험 K2(봇이 높이 읽기 부담을 모름) 손해 모델 [추정]: 바로 앞 비행보다 짧아진 접촉 σ×1.25, 반박 σ×1.15, 두 공 구절 σ×1.15(곱), 새 기믹 첫 등장 접촉 2개 놓침 +5 %p. B1~B7 은 criteria 정의(기본 σ70)로 판정하고 이 모델은 K2 검사(30회·2배 한도)로 따로 본다."
+  },
+  "along": { "tick": 0.3, "toss": 0.5, "land": 0.5, "_note": "따라 치는 아이: 똑딱·토스·착지 때도 그 확률로 침(σ 같음). 정보 행" },
+  "sound_follow": {
+   "bt_residual_delay_ms": [120, 170, 220],
+   "follow_weight": [0, 0.5, 1],
+   "_note": "위험 K3: 소리 따라 치는 아이 bias = w × (자동 보정으로 못 잡은 블루투스 지연). w=0 = 공을 보고 치는 아이. 보호자 보정 뒤 남은 오차는 ±30 ms 로 봄."
+  },
+  "_note": "criteria.md 정의: 접촉 시각 + N(0,σ) 탭, 접촉마다 놓침 miss, 헛탭 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 누름 100 ms(판정은 pointerdown 만 보므로 영향 없음)."
+ },
+ "verify": {
+  "level_count": 10,
+  "bpm_range": [96, 132],
+  "l1_contact_range": [16, 20],
+  "l1_rest_count_range": [2, 4],
+  "rest_count_range": [2, 4],
+  "max_contacts_between_rests": { "01": 8, "02": 8, "03": 8, "default": 12 },
+  "level_length_s": [25, 50],
+  "min_window_ratio_vs_prev": 0.94,
+  "min_window_ratio_floor": 0.5,
+  "l1_min_pass_window_ms": 266.7,
+  "mash_periods_ms": [40, 200, 5],
+  "mash_phase_step_ms": 5,
+  "signal_margin_ms": 150,
+  "fail_to_next_contact_max_s": 6,
+  "half_run_max": { "05": 2, "06": 2, "07": 2, "default": 4 },
+  "half_groups_budget": { "05": 2, "06": 2, "07": 2, "08": 3, "09": 3, "10": 4, "default": 0 },
+  "tail_tong_contacts": 4,
+  "sd70_continuous_max": 30,
+  "l1_sd70_continuous_max": 10,
+  "l1_sd70_continuous_target": 2.5,
+  "max_growth_vs_prev": 2.0,
+  "r_range": [1.3, 1.65],
+  "r_cap_m1_r5": 25,
+  "l10_target_rule": {
+   "base_levels": ["01", "02", "03"],
+   "extrapolate_to_level": "06",
+   "apply_to_level": "10",
+   "tolerance_ratio": 0.2,
+   "monotone_levels": ["03", "04", "05", "06", "07", "08", "09", "10"],
+   "estimator": "continuous_median_ln0.5_over_ln(1-p)"
+  },
+  "N_full": 40000,
+  "N_quick": 4000,
+  "sessions_full": 2000,
+  "sessions_quick": 300,
+  "N_skilled_full": 100000,
+  "seed": 20261117
+ },
+ "levels": [
+  "levels/01-level1.json", "levels/02-level2.json", "levels/03-level3.json", "levels/04-level4.json", "levels/05-level5.json",
+  "levels/06-level6.json", "levels/07-level7.json", "levels/08-level8.json", "levels/09-level9.json", "levels/10-level10.json"
+ ]
+}
