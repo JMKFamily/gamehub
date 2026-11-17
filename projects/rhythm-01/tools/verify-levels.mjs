@@ -37,6 +37,8 @@
 //      L6 외삽 T = m~03·r^3, L10 m~ ∈ [0.8T, 1.2T] (요청자 지시, round-2 R3). 정수 중앙값은 참고로 함께 출력
 //   B7 L3 → L10 σ70 연속 중앙값이 엄격히 단조 증가, L3~L9 는 L10 목표 상한 미만 (L3 와 L10 목표 사이를 나눔)
 //   C1 보정 계산 정의 일치: tools/sim/calib.mjs(시뮬레이터) = 빌드 games/rhythm-01/js/calib.js (있을 때만, round-2 R4)
+// 정보 R17 (round-3): 보정 때와 플레이 때 자동 지연 차이 Δ = 0·64 ms 에서 (a) round-2 방식, (b) R11 방식 σ70 첫 클리어 중앙값
+//   (b) Δ 64 가 Δ 0 과 같은지, R11 안정 대기 시각, 재시작 1.08 s 와의 관계, 빌드 calib.js 에 R11 함수가 있으면 C2 비교 (판정 안 함)
 // 정보 출력: 박마다 치기, 지연 오차 민감도(1~3), 보정 화면 영향(보호자 보정 포함), 큰 지연 감지, 따라 치기 변형, 연습 모드, 해석 예측
 
 import { readFileSync } from 'node:fs';
@@ -46,7 +48,7 @@ import { existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { compileLevel, judgeAttempt, previewSchedule, malletSchedule } from './sim/judge.mjs';
 import * as simCalib from './sim/calib.mjs';
-import { runProfile, runPractice, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng } from './sim/bots.mjs';
+import { runProfile, runPractice, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng, autoShiftCalibBias, stableWaitMs } from './sim/bots.mjs';
 import { buildPlanLevel } from './sim/plan.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -439,6 +441,71 @@ for (const [name, fn] of scen) {
     (report.calibration[name] ||= {})[L.level.id] = r.median_first_clear_sessions;
   }
   log(`${name} | ${row.join(' | ')}`);
+}
+
+// 정보 R17 (round-3): 보정 때와 플레이 때 자동 지연 차이 Δ. 판정에 섞지 않음(INFO). 20-balance.md 8-1·8-3
+{
+  const A = V.calibration_auto_shift, rd = bal.audio_latency.auto_latency_read, st = rd.stable_wait;
+  log(`\n== 정보 R17: 보정 때와 플레이 때 자동 지연 차이 Δ — σ70 아이가 플레이, 첫 클리어 중앙값 (보호자 흐름, 기기 남은 오차 ${V.calibration_device_residual_ms.join('~')}, 세션 ${SESS / 2}, 시드 555) ==`);
+  log(`  모델: 자동 지연 보고값이 잠금 해제 ${A.jump_at_ms} ms 뒤 ${A.stable_auto_ms - 64}→${A.stable_auto_ms} ms 처럼 Δ 만큼 바뀜. (a) round-2 = 보정 시작(${A.r2_calib_start_ms} ms)에 읽은 값으로 보정 내내 잼, (b) R11 = 안정 대기 뒤 탭마다 그 순간 autoNow 로 잼. 두 방식 모두 시도 시작마다 autoNow 다시 읽음`);
+  report.auto_shift = {};
+  const rows = [];
+  for (const sd of A.tappers_sd_ms) for (const method of ['r2', 'r11']) for (const delta of A.delta_ms) rows.push({ sd, method, delta, jump: A.jump_at_ms });
+  rows.push({ sd: A.tappers_sd_ms[0], method: 'r11', delta: Math.max(...A.delta_ms), jump: A.mid_calib_jump_at_ms });
+  log('경우 | ' + compiled.map((L) => 'L' + L.level.id).join(' | '));
+  for (const c of rows) {
+    const fn = autoShiftCalibBias(cal, gcal, { device: V.calibration_device_residual_ms, sd: c.sd, deltaMs: c.delta, method: c.method, jumpAtMs: c.jump, stableMs: A.stable_auto_ms, calibStartMs: A.r2_calib_start_ms, stable: st });
+    const name = `${c.method === 'r2' ? '(a) round-2 고정 auto' : '(b) R11 탭마다 autoNow'} · 보정한 사람 σ${c.sd} · Δ ${c.delta}${c.jump !== A.jump_at_ms ? ` · 보정 중 ${c.jump} ms 에 바뀜` : ''}`;
+    const res = {};
+    const row = [];
+    for (const L of compiled) {
+      const r = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: 200, sessions: SESS / 2, seed: 555, sessionBias: fn });
+      res[L.level.id] = r.median_first_clear_sessions;
+      row.push(r.median_first_clear_sessions);
+    }
+    report.auto_shift[name] = res;
+    c.res = res;
+    log(`${name} | ${row.join(' | ')}`);
+  }
+  const key = (c) => compiled.map((L) => c.res[L.level.id]).join(',');
+  for (const sd of A.tappers_sd_ms) {
+    const z = rows.find((c) => c.sd === sd && c.method === 'r11' && c.delta === 0);
+    for (const c of rows.filter((x) => x.sd === sd && x.method === 'r11' && x.delta !== 0)) {
+      const same = key(c) === key(z);
+      log(`  정보 R17 σ${sd} (b) Δ ${c.delta}${c.jump !== A.jump_at_ms ? `(보정 중 ${c.jump} ms)` : ''} = Δ 0: ${same ? '같음' : '다름(!)'} (L1 ${c.res['01']} / ${z.res['01']}, L10 ${c.res['10']} / ${z.res['10']})`);
+      (report.auto_shift_same ||= {})[`sd${sd}_d${c.delta}_j${c.jump}`] = same;
+    }
+    const a64 = rows.find((c) => c.sd === sd && c.method === 'r2' && c.delta !== 0);
+    const over = compiled.filter((L) => a64.res[L.level.id] > V.child_sd70_median_max_all).map((L) => 'L' + L.level.id);
+    log(`  정보 R17 σ${sd} (a) Δ ${a64.delta}: L1 ${a64.res['01']}회(한도 ${V.l1_child_sd70_median_max}) · 30회 넘는 레벨 ${over.join(',') || '없음'}`);
+  }
+  const gRow = report.calibration['[1-3] 보호자 보정(어른 σ40, 2회 12탭)'];
+  const z40 = rows.find((c) => c.sd === 40 && c.method === 'r11' && c.delta === 0);
+  log(`  정보 R17 (b) σ40 Δ 0 = 위 "[1-3] 보호자 보정(어른 σ40)" 행: ${key(z40) === compiled.map((L) => gRow[L.level.id]).join(',') ? '같음' : '다름(모델 차이 확인)'}`);
+  // 안정 대기 시각과 재시작 흐름
+  const waits = [100, 200, 300, 450].map((j) => [j, stableWaitMs(st, { deltaMs: 64, jumpAtMs: j, stableMs: A.stable_auto_ms }), stableWaitMs({ ...st, min_since_unlock_ms: 0 }, { deltaMs: 64, jumpAtMs: j, stableMs: A.stable_auto_ms })]);
+  log(`  정보 R17 안정 대기(창 ${st.window_ms} ms·변화 ≤ ${st.max_change_ms} ms·잠금 해제 뒤 ≥ ${st.min_since_unlock_ms} ms·최대 ${st.max_wait_ms} ms, 매 프레임): ` + waits.map(([j, w, w0]) => `바뀜 ${j} ms → 시작 ${w.t.toFixed(0)} ms(값 ${w.v}${w.stable ? '' : ', 시간 초과'}${w.v !== A.stable_auto_ms ? ', 바뀌기 전 값 → 탭마다 다시 읽기로 막음' : ''}) [최소 시간 없으면 ${w0.t.toFixed(0)} ms·값 ${w0.v}${w0.v !== A.stable_auto_ms ? ' 바뀌기 전 값(!)' : ''}]`).join(' · '));
+  const firstFail = Math.min(...compiled.map((L) => L.stars[0].t - L.judge.pass_early_ms - L.judge.miss_zone_ms));
+  const rs = bal.restart.restart_delay_s * 1000, [lo, hi] = bal.restart.allowed_range_s.map((x) => x * 1000);
+  log(`  정보 R17 재시작: 가장 이른 실패(첫 별 놓침 구역 시작) 시도 시작 뒤 ${firstFail.toFixed(0)} ms → 가장 이른 재시작 ${(firstFail + rs).toFixed(0)} ms > 최대 대기 ${st.max_wait_ms} ms ${firstFail + rs > st.max_wait_ms ? '(재시작은 안정 대기 안 함)' : '(!)'} · 시도 사이 다시 읽기로 comp 가 dc 바뀔 때 재시작 시각을 같이 옮기면 ${rs} ms, 안 옮기면 ${rs} + dc: ` + [0, 64, 150].map((dc) => `dc ${dc} → ${rs + dc} ms ${rs + dc >= lo && rs + dc <= hi ? '허용 안' : '허용 밖(!)'}`).join(' · '));
+  // 빌드 calib.js 에 R11 정의가 있으면 비교 (정보, 다음 dev 빌드부터)
+  const buildCalib = resolve(PROJECT, '..', '..', 'games', 'rhythm-01', 'js', 'calib.js');
+  if (existsSync(buildCalib)) {
+    const bc = await import(pathToFileURL(buildCalib).href);
+    if (typeof bc.autoStableAt !== 'function' || typeof bc.calibTapDiffR11 !== 'function') log('  정보 C2 빌드 calib.js 에 R11 함수(autoStableAt·calibTapDiffR11) 없음 → round-2 빌드, 비교 생략');
+    else {
+      const rng = makeRng(77);
+      let diff = 0;
+      for (let k = 0; k < 2000; k++) {
+        const tap = 1000 + rng.rnd() * 20000, an = rng.rnd() * 250, base = 600 + rng.rnd() * 900, beat = 600;
+        if (JSON.stringify(bc.calibTapDiffR11(tap, an, base, beat)) !== JSON.stringify(simCalib.calibTapDiffR11(tap, an, base, beat))) diff++;
+        const j = rng.rnd() * 1600, dl = rng.rnd() * 120, rd2 = [];
+        for (let t = 0; t <= 1520; t += 1000 / 60) rd2.push({ t, v: t < j ? 66 - dl : 66 });
+        if (JSON.stringify(bc.autoStableAt(rd2, st)) !== JSON.stringify(simCalib.autoStableAt(rd2, st))) diff++;
+      }
+      log(`  정보 C2 R11 정의 빌드 = 시뮬레이터: 무작위 2000묶음 다름 ${diff}건`);
+    }
+  }
 }
 
 // 정보: 큰 지연 감지 → 다시 보정 그림 신호 (audio_latency.drift_check)

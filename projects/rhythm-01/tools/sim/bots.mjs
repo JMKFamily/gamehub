@@ -13,7 +13,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { compileLevel, judgeAttempt, gradeRating } from './judge.mjs';
-import { median as calibMedian, iqr as calibIqr, simulate as calibSimulate } from './calib.mjs';
+import { median as calibMedian, iqr as calibIqr, simulate as calibSimulate, autoStableAt, calibTapDiffR11 } from './calib.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJECT = resolve(HERE, '..', '..');
@@ -155,6 +155,53 @@ export function guardianCalibrationBias(cal, g, { device = [-20, 40], sd = 40 } 
     if (!res.ok) return d; // 이전 오프셋(0) 유지
     return d - res.offset;
   };
+}
+
+// round-3 R17: "보정 때와 플레이 때 자동 지연 차이 Δ" 모델 (20-balance.md 8-1·8-3, balance.json verify.calibration_auto_shift).
+//   시간축: 오디오 잠금 해제 = 0 ms. 자동 지연 보고값 autoAt(t) = t < jumpAtMs 이면 stableMs − Δ, 그 뒤 stableMs.
+//   들리는 박 = 예약 시각 + 그 순간 autoAt (QA round-2 1-6 재측정 정의, 보고값 = 실제 출력 지연으로 봄).
+//   보호자 흐름(2회 × 8탭, ./calib.mjs simulate)을 sd 인 사람이 친다: 탭 = 들리는 박 + d + N(0, sd), d = 기기 남은 오차(세션마다 1회).
+//   method 'r2'  : round-2 빌드. 보정 시작(잠금 해제 13 ms 뒤, 첫 실행 타이틀 탭 직후)에 읽은 auto 를 보정 내내 고정해 탭 오차를 잼.
+//   method 'r11' : round-3 R11. 안정 대기(autoStableAt, 매 프레임 읽기) 뒤 시작, 탭마다 그 순간 autoNow 로 잼(calibTapDiffR11).
+//   플레이: 두 방식 모두 시도 시작 때 autoNow(= stableMs)를 읽어 comp = autoNow + 오프셋 → 남는 판정 치우침 = d − 오프셋.
+//   (round-2 빌드도 레벨 시작 beginRun 에서 다시 읽으므로 보정 뒤 첫 L1 은 stableMs. 바뀌는 것은 보정이 잰 오프셋뿐)
+//   RNG 소비 순서(d 1번 → 탭 오차 gauss)는 guardianCalibrationBias 와 같아서, Δ = 0 이면 그 행과 같은 값이 나온다.
+//   calibStartMs: r2 의 보정 시작 시각. jumpAtMs: 보고값이 바뀌는 시각(r11 에서 보정 중 바뀌는 경우를 보려면 크게 줌).
+export function autoShiftCalibBias(cal, g, { device = [-20, 40], sd = 40, deltaMs = 0, method = 'r11', jumpAtMs = 200, stableMs = 66, calibStartMs = 13, frameMs = 1000 / 60, stable } = {}) {
+  const maxRounds = (g.rounds + 1) * (g.max_retries + 1);
+  const beat = 60000 / g.bpm;
+  const autoAt = (t) => (t < jumpAtMs ? stableMs - deltaMs : stableMs);
+  let start;
+  if (method === 'r11') {
+    const rd = [];
+    for (let t = 0; t <= stable.max_wait_ms + frameMs; t += frameMs) rd.push({ t, v: autoAt(t) });
+    start = autoStableAt(rd, stable).t;
+  } else start = calibStartMs;
+  const fixedAuto = autoAt(start);
+  const base = start + beat;
+  return (rng) => {
+    const d = device[0] + rng.rnd() * (device[1] - device[0]);
+    const rounds = [];
+    for (let r = 0; r < maxRounds; r++) {
+      const row = [];
+      for (let k = 0; k < g.taps_per_round; k++) {
+        const sched = base + (r * g.taps_per_round + k) * beat;
+        const tap = sched + autoAt(sched) + d + rng.gauss() * sd;
+        const ref = method === 'r11' ? autoAt(tap) : fixedAuto;
+        const e = calibTapDiffR11(tap, ref, base, beat);
+        row.push(e === null ? tap - ref - base : e);
+      }
+      rounds.push(row);
+    }
+    const res = calibSimulate(rounds, g);
+    return d - (res.ok ? res.offset : 0);
+  };
+}
+// R11 안정 대기 시각(잠금 해제부터 ms): 보고값이 jumpAtMs 에 Δ 만큼 바뀌는 경우. 매 프레임 읽기
+export function stableWaitMs(stable, { deltaMs = 64, jumpAtMs = 200, stableMs = 66, frameMs = 1000 / 60 } = {}) {
+  const rd = [];
+  for (let t = 0; t <= stable.max_wait_ms + frameMs; t += frameMs) rd.push({ t, v: t < jumpAtMs ? stableMs - deltaMs : stableMs });
+  return autoStableAt(rd, stable);
 }
 
 // 플레이 중 큰 지연 감지(20-balance.md 8-5, audio_latency.drift_check) 모델. round-2 R4: 빌드 engine.js 정의(DEV_NOTES D15)에 맞춤.

@@ -29,3 +29,6 @@
 
 ## 인사이트 공유
 - `harness/insights.md`에 2줄 덧붙임(구현·성능: outputLatency 잠금 해제 직후 변화와 이중 보정 / QA: 자기 일관 지연 측정의 함정). `git diff --numstat` 2/0. 메인 세션에 알림.
+
+## round-3 기획 수정 감시
+- balance (R17·R11 판정 쪽): `20-balance.md`, `balance.json`(새 키 `audio_latency.auto_latency_read`·`verify.calibration_auto_shift`, 기존 키 삭제 0), `verify-levels.mjs`(INFO R17·C2), `tools/sim/calib.mjs`·`bots.mjs`, 보고서, README 한 줄. 빌드·levels·harness 미수정, git·서버 미사용. **전체 실행 직접: 종료 0, FAIL 0, ALL PASS.** R17 INFO: round-2 방식 Δ64 → L1 14·L2 48·L10 200회 / R11 방식 Δ64 = Δ0(3/4/16). 안정 대기에 "잠금 해제 뒤 400 ms 이상" 추가, `restart_keeps_delay`(시도 사이 보정값 변화만큼 재시작 시각 이동) 추가 — 근거 타당, 채택.
