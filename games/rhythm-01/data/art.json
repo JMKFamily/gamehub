@@ -99,7 +99,8 @@
   ],
   "growBeats": 0.25,
   "hitDeg": 6,
-  "hitMs": 80
+  "hitMs": 80,
+  "shrinkEase": "in"
  },
  "showDash": {
   "width": 0.35,
@@ -130,11 +131,25 @@
   "fxK": 2.05
  },
  "hand": {
-  "size": 64,
-  "landscapeFromRight": 72,
-  "landscapeFromBottom": 64,
+  "min": 64,
+  "k": 0.45,
+  "portraitPad": 16,
+  "landscapeAt": [
+   1.45,
+   0.65
+  ],
+  "edge": 16,
   "pressPx": 4,
-  "growBeats": 0.25
+  "pressRef": 64,
+  "growBeats": 0.25,
+  "tutGap": 8
+ },
+ "titleHint": {
+  "gap": 24,
+  "right": 16,
+  "handMax": 64,
+  "handPad": 16,
+  "textGap": 8
  },
  "fx": {
   "perfect": {
@@ -203,7 +218,52 @@
   "gap": 12,
   "border": 3,
   "practiceBtn": 48,
-  "landscapeMaxW": 0.8
+  "minW": 100,
+  "minH": 104,
+  "rows": {
+   "orbit": 28,
+   "orbitMin": 16,
+   "dots1": 6,
+   "dots2": 15,
+   "grade": 12,
+   "name": 14,
+   "gap": 4,
+   "reserve": 12
+  },
+  "orbitStroke": 3,
+  "dotR": 3,
+  "dotStep": 9,
+  "dotsPerRow": 5,
+  "gradeR": 6,
+  "gradeStep": 14,
+  "progress": {
+   "h": 4,
+   "w": 64,
+   "dotR": 4,
+   "dotOutline": 1.2,
+   "flag": 12,
+   "flagGap": 4
+  },
+  "landscapeMaxW": 0.8,
+  "img": {
+   "w": 720,
+   "h": 336
+  },
+  "portrait": {
+   "w": 234,
+   "h": 896,
+   "margin": 32,
+   "maxScale": 1.4
+  }
+ },
+ "confirm": {
+  "maxW": 328,
+  "side": 16,
+  "radius": 20,
+  "border": 1.5,
+  "icon": 48,
+  "btnH": 64,
+  "btnGap": 16
  },
  "calib": {
   "refR": 170,

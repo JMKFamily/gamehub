@@ -5,6 +5,8 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); c
 canvas { position: fixed; inset: 0; display: block; }
 .screen { position: fixed; inset: 0; display: none; z-index: 1; }
 .screen.show { display: block; }
+.screen.warm:not(.show) { display: block; opacity: 0.001; pointer-events: none; }
+.screen.warm * { pointer-events: none !important; }
 .screen.dim { background: color-mix(in srgb, var(--bg) 82%, transparent); z-index: 3; }
 #sResult { z-index: 2; pointer-events: none; }
 #sResult button { pointer-events: auto; }
@@ -27,9 +29,20 @@ button { font: inherit; color: inherit; }
 
 /* 타이틀 */
 .title { position: absolute; left: 16px; right: 16px; top: calc(14% - 28px); margin: 0; text-align: center; font-size: clamp(30px, 8vmin, 56px); font-weight: 800; letter-spacing: 0.04em; color: var(--hud); }
-.tapStart { position: absolute; left: 16px; right: 16px; bottom: calc(8% + var(--sab)); margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 20px; color: var(--edge); pointer-events: none; }
-.tapHand { width: 40px; height: 40px; }
-@media (orientation: landscape) { .title { top: 12px; left: 72px; right: 72px; font-size: clamp(26px, 7vmin, 52px); } .tapStart { bottom: 10px; } }
+/* 시작 힌트: 손가락 칸 + 아래 글 8 px, 영역(JS가 left·width·top=세로 가운데) 안 가운데 (30-art 4-6) */
+.tapStart { position: absolute; margin: 0; display: flex; flex-direction: column; align-items: center; gap: 8px; transform: translateY(-50%); font-size: 18px; line-height: 1.25; text-align: center; color: var(--edge); pointer-events: none; }
+.tapHand { width: 64px; height: 64px; flex: none; }
+@media (orientation: landscape) { .title { top: 12px; left: 72px; right: 72px; font-size: clamp(26px, 7vmin, 52px); } }
+
+/* 불러오기: 궤도 위 공 그림 (R8-5) */
+.loadPic { position: absolute; left: calc(50% - 48px); top: calc(45% - 120px); width: 96px; height: 96px; }
+.lpTrack { fill: none; stroke: var(--track1); stroke-width: 10; }
+.lpBall { fill: var(--ball); stroke: var(--ink); stroke-width: 2.5; }
+.lpSpin { animation: lpSpin 1.6s linear infinite; }
+.loadPic.stop .lpSpin { animation: none; }
+@keyframes lpSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .lpSpin { animation: none; } }
+.loadTxt { color: var(--edge); }
 
 /* 레벨 선택 */
 .gateWrap { width: 48px; height: 48px; }
@@ -43,14 +56,14 @@ button { font: inherit; color: inherit; }
 .grid.scrolls { -webkit-mask-image: linear-gradient(#000 85%, transparent); mask-image: linear-gradient(#000 85%, transparent); }
 .lcard { width: var(--cw); height: var(--ch); border-radius: 16px; border: 3px solid var(--tint); display: flex; flex-direction: column; overflow: hidden; }
 .lcard.locked { border-color: color-mix(in srgb, var(--edge) 50%, transparent) !important; }
-.lplay { flex: 1; min-height: 48px; width: 100%; background: transparent; border: 0; padding: 4px 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-.lplay svg { width: 100%; flex: 1; min-height: 0; }
-.lname { font-size: 12px; line-height: 1.15; color: var(--hud); text-align: center; max-width: 100%; }
+/* 줄 흐름: 궤도 → 점 → 등급 줄 → 이름, 사이 4 px (30-art 5-6 round 2) */
+.lplay { flex: 1; min-height: 48px; width: 100%; background: transparent; border: 0; padding: 0 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; cursor: pointer; overflow: hidden; }
+.lplay .lr { flex: none; display: block; }
+.lname { display: block; flex: none; height: 14px; font-size: 12px; line-height: 14px; color: var(--hud); text-align: center; max-width: 100%; white-space: nowrap; overflow: hidden; }
 .lrow { height: 48px; display: flex; justify-content: space-between; flex: none; }
 .lrow .ibtn { border-radius: 12px 0 13px 0; border-width: 0; background: color-mix(in srgb, var(--ink) 25%, transparent); }
 .lrow .ibtn:first-child { border-radius: 0 12px 0 13px; }
 .lrow .gap { width: 48px; }
-.lrow img.thumb { object-fit: contain; padding: 6px 2px; }
 .lrow .ibtn img { padding: 6px; }
 .shake { animation: shake 0.3s; }
 @keyframes shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
@@ -69,11 +82,18 @@ button { font: inherit; color: inherit; }
 .tog i { position: absolute; left: 10px; top: 14px; width: 20px; height: 20px; border-radius: 50%; background: var(--edge); }
 .tog.on::before { background: var(--hud); border-color: var(--hud); }
 .tog.on i { left: 38px; background: var(--bgFar); outline: 2px solid var(--ink); }
-.dialog { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(320px, calc(100% - 32px)); background: var(--bgFar); border: 2px solid var(--edge); border-radius: 16px; padding: 16px; text-align: center; }
-.dialog p { font-size: 18px; margin: 4px 0 16px; }
-.dbtns { display: flex; gap: 12px; justify-content: center; }
-.tbtn { min-width: 96px; min-height: 48px; border-radius: 12px; border: 2px solid var(--edge); background: transparent; font-size: 16px; cursor: pointer; padding: 0 12px; }
-.tbtn.warn { background: var(--hud); color: var(--ink); border-color: var(--hud); }
+/* 기록 지우기 확인 창 (30-art 10-1 round 2): 취소 = 왼쪽·크림 면·왼쪽 화살표·기본 초점, 지우기 = 테두리만 + 네모 안 × */
+.dialog { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(328px, calc(100% - 32px)); background: var(--bgFar); border: 1.5px solid var(--edge); border-radius: 20px; padding: 12px 16px 16px; text-align: center; }
+.dIcon { width: 48px; height: 48px; display: block; margin: 0 auto; }
+.dialog p { font-size: 16px; margin: 2px 0 12px; color: var(--hud); }
+.dbtns { display: flex; gap: 16px; }
+.dbtn { flex: 1 1 0; min-width: 0; height: 64px; border-radius: 16px; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 0 8px; font-size: 15px; cursor: pointer; }
+.dbtn img { width: 40px; height: 40px; flex: none; }
+.dbtn span { min-width: 0; overflow-wrap: anywhere; }
+.dbtn.no { background: var(--hud); color: var(--ink); border: 2px solid var(--ink); }
+.dbtn.yes { background: transparent; color: var(--hud); border: 2px solid var(--edge); }
+.dbtn:focus-visible { outline: 3px solid var(--hud); outline-offset: 2px; }
+.dbtn.no:focus { box-shadow: 0 0 0 3px var(--hud); }
 
 /* 보정 */
 .redo { position: absolute; left: calc(50% - 24px); bottom: calc(24px + var(--sab)); }
@@ -84,7 +104,11 @@ button { font: inherit; color: inherit; }
 
 /* 플레이 */
 #bPause { z-index: 2; }
+.cpFlags { left: 0; top: 0; width: 0; height: 0; pointer-events: none; }
+.cpFlags span { position: absolute; display: block; }
 .pracTag { width: 24px; height: 24px; pointer-events: none; }
+/* 튜토리얼 글은 숨겨도 배치는 유지 (첫 표시 때 글자 배치 비용 없음, 성능) */
+#tut.hidden { display: block !important; visibility: hidden; }
 .tut { margin: 0; font-size: 18px; font-weight: 700; color: var(--hud); pointer-events: none; }
 body[data-state="result"] #bPause, body[data-state="pause"] #bPause { display: none; }
 .pausedBg { position: absolute; left: 16px; right: 16px; top: 22%; text-align: center; font-size: 20px; margin: 0; }

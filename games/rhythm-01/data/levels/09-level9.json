@@ -29,13 +29,14 @@
     "O",
     "P",
     "R",
-    "S"
+    "S",
+    "A"
   ],
-  "design_intent": "새 기믹·보여 주기 없음. 빠른 템포(136)에서 아는 무늬를 레벨 8과 다른 순서로 섞음(둥두 둥·넷 / 둥 _ 둥두·4연속 / P·쉬는 박 / O·S). 4연속이 든 마디 뒤는 쉼. 끝은 둘(B). 판정 별 32개.",
+  "design_intent": "새 기믹·보여 주기 없음. 빠른 템포(136)에서 아는 무늬를 레벨 8과 다른 순서로 섞음(둥두 둥·둘 / 둥 _ 둥두·4연속 / P·쉬는 박 / O·S). 4연속이 든 마디 뒤는 쉼. 끝은 하나(A). 판정 별 29개(r2: 마디 1 D → B, 마디 12 B → A, 32 → 29).",
   "new_gimmicks": [],
   "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 21,
+    "target_child_sd70_median_max": 14,
     "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
   },
   "patterns": {
@@ -47,14 +48,12 @@
       ],
       "shape": "둥두 둥"
     },
-    "D": {
+    "B": {
       "slots": [
         0,
-        2,
-        4,
-        6
+        2
       ],
-      "shape": "넷"
+      "shape": "둘"
     },
     "K": {
       "slots": [
@@ -109,12 +108,11 @@
       ],
       "shape": "둥두둥두 _ 둥"
     },
-    "B": {
+    "A": {
       "slots": [
-        0,
-        2
+        0
       ],
-      "shape": "둘"
+      "shape": "하나"
     }
   },
   "sections": [
@@ -181,7 +179,7 @@
   ],
   "bars": [
     {"mode":"play","pattern":"F"},
-    {"mode":"play","pattern":"D"},
+    {"mode":"play","pattern":"B"},
     {"mode":"rest"},
     {"mode":"play","pattern":"K"},
     {"mode":"play","pattern":"R"},
@@ -192,7 +190,7 @@
     {"mode":"play","pattern":"O"},
     {"mode":"play","pattern":"S"},
     {"mode":"rest"},
-    {"mode":"play","pattern":"B"},
+    {"mode":"play","pattern":"A"},
     {"mode":"rest"},
     {"mode":"rest"}
   ]

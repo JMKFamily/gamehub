@@ -38,3 +38,12 @@
 
 ## 요청자 새 지시 전파 — 인사이트 공유 (메인 세션 경유)
 - `harness/insights.md`에 rhythm-01 배움 12줄 덧붙임(`git diff --numstat` 12/0). 진행 중 game-developer에 insights.md 읽기 지시 전달, 이후 모든 에이전트 지시에 포함. 메인 세션에 덧붙임 알림.
+- runner-01 인사이트 수신(insights.md 커밋 93f4d27, 44줄). rhythm-01 적용 판단: 재시작 1.08 s(이미 ±15 % 안), σ70 첫 레벨 우선(이미 적용), 2연속 장애물 예산(리듬 코어는 별 묶음 — balance 다음 작업 때 확인), 첫 프레임 미리 그리기·테스트 훅 화면=일반 모드(round-2 dev에 전달), 수동 체크포인트 금지(쉬는 마디 자동 체크포인트라 충족). 실측 안전 광고 수칙은 rhythm-01에 레퍼런스 실측이 없어 해당 없음.
+- 프로세스 규칙(메인 세션 요청): 자기가 띄운 프로세스만 PID로 종료, rhythm-01 팀 포트 대역 8300~8399. round-2 dev에 전달, 이후 모든 지시에 포함.
+- 커밋 방법 변경(CLAUDE.md "공유 체크아웃 커밋 방법", 10e05ff): autostash·stash·rebase·reset·checkout -- 금지. `git add <경로>` → commit → `git push -q || (git pull -q --no-rebase --no-edit && git push -q)`. 13:18 메인 세션 autostash 실패로 rhythm-01 미커밋 변경이 1~2분 HEAD로 돌아갔다가 복구됨 → 진행 중 dev에 파일 최신 여부 재확인 지시. 이 오케스트레이터 기록 파일은 끝 줄까지 남아 있음을 확인.
+
+## round-2 구현 감시 (game-developer)
+- diff 확인: `games/rhythm-01/`, DEV_NOTES, tools의 build-web-data·selfcheck-*, `reviews/round-1/dev-response.md`, 보고서, README 한 줄. 기획 데이터·검증기·qa-round·games.json·harness·runner-01 미수정.
+- **규칙 위반 시도 1건(경미)**: 읽기 전용 `git diff --stat`을 실행하려다 권한 검사에서 차단됨(실행 안 됨), 본인이 보고서에 자진 기록. 결과물 영향 없음 → 다음 지시부터 "git은 읽기 전용 명령도 금지" 문구를 넣음.
+- 직접 확인: `selfcheck-sim` 8127/8127 OK, `scripts/validate.mjs` OK, `js/judge.js` = `tools/sim/judge.mjs`(cmp 동일), 외부 URL 0.
+- 남은 것: 1% low 12창 중 10~11창 통과(첫 브라우저 컨텍스트의 긴 프레임 1개) → round-2 QA에서 판정.

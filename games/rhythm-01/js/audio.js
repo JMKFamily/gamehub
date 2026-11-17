@@ -8,7 +8,9 @@ export class AudioOut {
     this.live = []; // 예약된 소스 {src, t}
     this.song = null;
     this.prefs = { music: true, sfx: true, master: true };
-    this.lookahead = 0.1;
+    // 예약: 0.6 s 앞까지, 한 번에 최대 maxPer 개(급한 것 = urgent 안은 모두). 마디 시작 소리 묶음이 한 프레임에 몰리지 않게 나눔 (round-2 성능)
+    this.lookahead = 0.6; this.urgent = 0.08; this.maxPer = 1;
+    this.posts = new Map(); // 소리별 공용 post 필터 (선형이라 소리마다 하나를 같이 써도 결과 같음)
   }
 
   get ok() { return !!this.ctx; }
@@ -73,7 +75,12 @@ export class AudioOut {
     const peak = dbLin(gainDb ?? def.db);
     const dest = bus || (def.bus === 'music' ? (name === 'bass' ? this.duck : this.musicFade) : this.sfxTog);
     let out = dest;
-    if (def.post) { const pf = c.createBiquadFilter(); pf.type = def.post.type; pf.frequency.value = def.post.f; pf.Q.value = def.post.Q; pf.connect(dest); out = pf; }
+    if (def.post) {
+      const key = name + (dest === this.duck ? '|d' : dest === this.musicFade ? '|m' : dest === this.sfxTog ? '|s' : '');
+      let pf = key.includes('|') ? this.posts.get(key) : null;
+      if (!pf) { pf = c.createBiquadFilter(); pf.type = def.post.type; pf.frequency.value = def.post.f; pf.Q.value = def.post.Q; pf.connect(dest); if (key.includes('|')) this.posts.set(key, pf); }
+      out = pf;
+    }
     const noteF = f ?? (def.note ? this.levelMusic?.[def.note] : null);
     const notes = def.arpeggio ? this._arp(def, noteF) : [{ t, f: noteF, last: true }];
     for (const nt of notes) {
@@ -169,10 +176,12 @@ export class AudioOut {
     const s = this.song;
     if (!s || !this.ctx || this.ctx.state !== 'running') return;
     const now = this.ctx.currentTime, horizon = now + this.lookahead;
+    let n = 0;
     while (s.i < s.ev.length) {
       const e = s.ev[s.i], at = (s.base + e.x) / 1000;
       if (at > horizon) break;
-      s.i++;
+      if (n >= this.maxPer && at > now + this.urgent) break; // 나머지는 다음 pump
+      s.i++; n++;
       if (at < now - 0.02) continue;
       if (e.duck) this.duckAt(at);
       else this.play(e.name, at, e);
@@ -183,9 +192,34 @@ export class AudioOut {
   resume() { if (this.ctx && this.ctx.state !== 'running') return this.ctx.resume(); }
 }
 
+// 멜로디 동기 배치 (30-art 12-7, sound.json music.melody). 기준 구현 assets/sound-check.mjs placeMelody 와 같은 규칙.
+// 반환: 마디 번호 → [{slot, d, len, inst, harmony}]
+export function placeMelody(level, lm, rule) {
+  const stageOf = (b) => { let s = 1; for (const x of level.sections) if (x.start_bar <= b && x.stage) s = x.stage; return s; };
+  const byBar = new Map();
+  level.bars.forEach((bar, b) => {
+    if (bar.mode !== 'play' || stageOf(b) < rule.from_stage) return;
+    const stars = new Set(level.patterns[bar.pattern].slots);
+    const half = b % rule.frame_bars;
+    const used = new Set(), out = [];
+    lm.motif.forEach((n, idx) => {
+      if (Math.floor(n.s / 8) !== half) return;
+      const want = n.s % 8;
+      const slot = rule.avoid_star.try.map((o) => want + o).find((s) => s >= 0 && s < 8 && !stars.has(s) && !used.has(s));
+      if (slot == null) return; // 옮길 자리 없음 → 뺌
+      used.add(slot);
+      const inst = lm.melody[idx % lm.melody.length];
+      out.push({ slot, d: n.d, len: n.len, inst });
+      if (stageOf(b) >= rule.harmony.from_stage) out.push({ slot, d: n.d + rule.harmony.deg_plus, len: n.len, inst, harmony: true });
+    });
+    byBar.set(b, out);
+  });
+  return byBar;
+}
+
 // 레벨 곡 이벤트 목록 (12-1 마디별 파트). modeOf(x) = 마디 모드, stageOf(b)
 export function buildSong(L, t0, music, sound, modeOf, stageOf) {
-  const P = sound.parts, lm = music.levels[L.level.id];
+  const P = sound.parts, lm = music.levels[L.level.id], rule = music.melody;
   const ev = [];
   const beat = L.beatMs, eighth = L.eighthMs;
   const bars = L.countInBars + L.level.bars.length;
@@ -194,9 +228,10 @@ export function buildSong(L, t0, music, sound, modeOf, stageOf) {
   for (const s of L.stars) (playByBar.get(s.bar) || playByBar.set(s.bar, []).get(s.bar)).push(s);
   for (const s of L.shows) (showByBar.get(s.bar) || showByBar.set(s.bar, []).get(s.bar)).push(s);
   const third = Math.pow(2, (lm.minor ? 3 : 4) / 12), fifth = Math.pow(2, 7 / 12);
-  const mp = music.melody_placeholder;
-  const scaleF = (deg) => lm.root3 * mp.octave_mul * Math.pow(2, (lm.scale[deg % lm.scale.length] + 12 * Math.floor(deg / lm.scale.length)) / 12);
+  const scaleF = (deg) => lm.root3 * rule.octave_mul * Math.pow(2, (lm.scale[deg % lm.scale.length] + 12 * Math.floor(deg / lm.scale.length)) / 12);
   const harmDb = sound.sounds.harmony_db;
+  const duckOn = P.bass_duck_on || ['play'];
+  const mel = L.melody || (L.melody = placeMelody(L.level, lm, rule)); // 레벨마다 한 번 계산
   let outroNote = false;
   for (let k = Math.floor(t0 / L.barMs); k < bars; k++) {
     const x0 = k * L.barMs;
@@ -212,22 +247,19 @@ export function buildSong(L, t0, music, sound, modeOf, stageOf) {
     if (parts.includes('pad')) for (const m of [1, third, fifth]) ev.push({ x: x0, name: 'pad', f: lm.root3 * m, dur: L.barMs / 1000 });
     if (shakerOn && parts.includes('shaker')) for (let sl = 0; sl < 8; sl += 2) ev.push({ x: x0 + sl * eighth, name: 'shaker' });
     if (parts.includes('teacher')) for (const s of showByBar.get(b) || []) ev.push({ x: s.t, name: 'teacher' });
-    if (mode === 'play') for (const s of playByBar.get(b) || []) ev.push({ x: s.t, duck: true });
-    if (parts.includes('melody') && stageOf(b) >= P.melody_from_stage) {
-      const starSlots = new Set((playByBar.get(b) || []).map((s) => s.slot));
-      mp.slots.forEach((sl, n) => {
-        let slot = sl;
-        if (starSlots.has(slot)) slot += mp.shift_if_star_slots;
-        const deg = mp.degree_walk[(b * mp.slots.length + n) % mp.degree_walk.length];
-        const inst = 'mel_' + lm.melody[n % lm.melody.length];
-        const x = x0 + Math.max(0, slot) * eighth - (slot < 0 ? -slot * eighth : 0);
-        ev.push({ x, name: inst, f: scaleF(deg), dur: beat / 1000 });
-        if (stageOf(b) >= P.harmony_from_stage) ev.push({ x, name: inst, f: scaleF(deg + 2), dur: beat / 1000, gainDb: harmDb });
-      });
+    // 베이스 숙임: 판정 별·보여 주기 별 시각 (parts.bass_duck_on)
+    if (parts.includes('bass') && duckOn.includes(mode)) for (const s of (mode === 'show' ? showByBar : playByBar).get(b) || []) ev.push({ x: s.t, duck: true });
+    if (parts.includes('melody') && mode === 'play' && stageOf(b) >= P.melody_from_stage) {
+      for (const n of mel.get(b) || []) {
+        const ev1 = { x: x0 + n.slot * eighth, name: 'mel_' + n.inst, f: scaleF(n.d), dur: (n.len * eighth) / 1000 };
+        if (n.harmony) ev1.gainDb = harmDb;
+        ev.push(ev1);
+      }
     }
     if (mode === 'outro' && !outroNote) {
       outroNote = true;
-      ev.push({ x: x0, name: 'mel_' + lm.melody[0], f: scaleF(0), dur: (2 * beat) / 1000 });
+      const o = rule.outro;
+      ev.push({ x: x0 + o.slot * eighth, name: 'mel_' + lm.melody[0], f: scaleF(o.d), dur: (o.len * eighth) / 1000 });
     }
   }
   return ev.filter((e) => e.x >= t0 - 0.5).sort((a, b) => a.x - b.x);

@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | round-2 구현 | [북채 퇴장·손가락(R1·R2)·6배 스로틀 1% low 10~11/12창 ≥ 45(round-1 4/12)·세로 카드·레벨 카드·확인 창(R6)·sound.json·멜로디 동기(R7)·aria(R8)·지연 값 일치(R9), selfcheck ALL OK](game-developer/2026-11-17-r2-fixes.md) |
 | 2026-11-17 | balance-designer | round-2 기획 | [북채 퇴장(마지막 별 +0.5박, S15·S16)·손가락 0.25박·B6 연속 중앙값(T 13.70, L10 13.36)·L4~L10 별 1~3개 줄임·보정 정의 통일(C1), 검증 ALL PASS 193](balance-designer/2026-11-17-r2-balance-revision.md) |
 | 2026-11-17 | art-director | round-2 기획 | [아트·사운드 수정: 북채 퇴장(R1)·세로 카드·레벨 카드·확인 창(R6)·sound.json·멜로디 동기 10개·소리 크기 1.9/6.4 dB(R7)·카드 손가락(R10)](art-director/2026-11-17-r2-art-revision.md) |
 | 2026-11-17 | lore-writer | round-2 기획 | [10-lore 수정: 북채 마지막 타격 직후 퇴장·손가락은 그 뒤(R1), 7-10 aria 사용 규칙(R8), 키 64 그대로](lore-writer/2026-11-17-r2-lore-revision.md) |

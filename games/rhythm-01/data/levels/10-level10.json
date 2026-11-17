@@ -29,13 +29,15 @@
     "U1",
     "U2",
     "R",
-    "S"
+    "S",
+    "E",
+    "H"
   ],
-  "design_intent": "마지막 레벨. 새 기믹·보여 주기 없음. 1~9 무늬 모음: 하나·둥두 둥 / 두 마디 무늬 U / 둥 _ 둥두·4연속 / O·S, 끝은 둘 → 하나로 쉽게 닫음. 판정 별 30개. 난이도 = 기존 3레벨 곡선을 이어 간 레벨 6 수준(20-balance.md 11-1, 검증 B6).",
+  "design_intent": "마지막 레벨. 새 기믹·보여 주기 없음. 1~9 무늬 모음: 하나·둥두 / 두 마디 무늬 U / 둥두 → 4연속 / 쉬는 박·S, 끝은 둘 → 하나로 쉽게 닫음. 판정 별 27개(r2: 마디 1 F → E, 마디 6 K → E, 마디 9 O → H, 30 → 27). 난이도 = 기존 3레벨 곡선을 이어 간 레벨 6 수준(20-balance.md 11-1, 검증 B6: 연속 중앙값 기준).",
   "new_gimmicks": [],
   "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 23,
+    "target_child_sd70_median_max": 16,
     "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
   },
   "patterns": {
@@ -45,13 +47,12 @@
       ],
       "shape": "하나"
     },
-    "F": {
+    "E": {
       "slots": [
         0,
-        1,
-        4
+        1
       ],
-      "shape": "둥두 둥"
+      "shape": "둥두"
     },
     "U1": {
       "slots": [
@@ -70,14 +71,6 @@
       ],
       "shape": "두 마디 무늬 U 뒤(둥두 둥)"
     },
-    "K": {
-      "slots": [
-        0,
-        4,
-        5
-      ],
-      "shape": "둥 _ 둥두"
-    },
     "R": {
       "slots": [
         0,
@@ -87,14 +80,13 @@
       ],
       "shape": "둥두둥두"
     },
-    "O": {
+    "H": {
       "slots": [
         0,
         2,
-        3,
         6
       ],
-      "shape": "둥 둥두 _ 둥"
+      "shape": "둥 둥 _ 둥"
     },
     "S": {
       "slots": [
@@ -178,15 +170,15 @@
   ],
   "bars": [
     {"mode":"play","pattern":"A"},
-    {"mode":"play","pattern":"F"},
+    {"mode":"play","pattern":"E"},
     {"mode":"rest"},
     {"mode":"play","pattern":"U1"},
     {"mode":"play","pattern":"U2"},
     {"mode":"rest"},
-    {"mode":"play","pattern":"K"},
+    {"mode":"play","pattern":"E"},
     {"mode":"play","pattern":"R"},
     {"mode":"rest"},
-    {"mode":"play","pattern":"O"},
+    {"mode":"play","pattern":"H"},
     {"mode":"play","pattern":"S"},
     {"mode":"rest"},
     {"mode":"play","pattern":"B"},

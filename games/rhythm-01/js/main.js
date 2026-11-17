@@ -22,13 +22,13 @@ let lang = 'ko';
 let T = {};
 let levelIndex = 0, L = null, run = null, practice = false, th = null;
 let S = {}; // 렌더 상태
-let pauseV = 0, cardReturn = null;
+let pauseV = 0, cardReturn = null, cardShown = null;
 let lateVisible = false, sessionCounted = false;
 
 // ---------- 시계 ----------
 // V(ms) = 오디오 시계 - 지연 보정. 실시간: performance 시계 + (오디오 - performance) 차이 추정. 테스트: 가상 시계
 const clock = {
-  vt: 0, off: null, comp: 0,
+  vt: 0, off: null, comp: 0, auto: 0,
   sample() {
     if (TEST || !A || !A.ctx || A.ctx.state !== 'running') return;
     const d = A.ctx.currentTime - performance.now() / 1000;
@@ -41,7 +41,9 @@ const clock = {
   perfOfV(V) { return (V + this.comp) - (this.off ?? 0) * 1000; },
 };
 function autoLat() { return TEST || !A ? 0 : A.autoLatencyMs(); }
-function updateComp() { clock.comp = autoLat() + (store.offsetMs || 0); }
+// 자동 지연은 이 함수에서만 읽어 clock.auto 에 고정하고, 판정(comp)·보정·표시(latency().auto)가 모두 이 값을 씀 (R9).
+// 갱신 시점: 오디오 잠금 해제, 레벨 플레이 시작(beginRun), 보정 시작·끝, 오프셋 설정.
+function updateComp() { clock.auto = autoLat(); clock.comp = clock.auto + (store.offsetMs || 0); }
 
 // ---------- 데이터 ----------
 async function loadAll() {
@@ -77,6 +79,43 @@ function setTheme(t) {
 // ---------- 화면 ----------
 const SCREENS = ['sLoading', 'sTitle', 'sLevels', 'sSettings', 'sConfirm', 'sCalib', 'sCard', 'sPlay', 'sPause', 'sResult'];
 function show(...ids) { for (const id of SCREENS) $(id).classList.toggle('show', ids.includes(id)); }
+// 처음 보이는 화면의 그림·글 배치 비용을 타이틀 뒤에서 미리 냄 (거의 투명하게 2프레임, 탭 안 받음). 레벨 첫 시작 프레임이 길어지는 것 방지 (round-2 성능)
+function warmScreens() {
+  const ids = ['sPlay', 'sResult', 'sPause'];
+  for (const id of ids) $(id).classList.add('warm');
+  $('tut').classList.remove('hidden');
+  let n = 0;
+  const f = () => { if (++n < 3) { requestAnimationFrame(f); return; } for (const id of ids) $(id).classList.remove('warm'); if (!tutOn) $('tut').classList.add('hidden'); };
+  requestAnimationFrame(f);
+}
+// 화면 밖 미리 돌리기: 레벨 1 완벽 입력 + 실패 + 클리어 장면을 작은 캔버스에 그림 (게임 상태·저장은 건드리지 않음)
+function warmCode() {
+  try {
+    const Lw = D.L[0], th0 = themeOf(0);
+    const r = new Run(Lw, D.bal, { startV: 0 });
+    const S0 = { th: th0, L: Lw, art: D.art, bal: D.bal, best: 0.3, slideFrom: null, gradeStartX: slotTimeMs(Lw, Lw.lastPlayBar + 2, 0), run: r };
+    const off = document.createElement('canvas'); off.width = off.height = 64;
+    R.withTarget(off.getContext('2d'), () => {
+      // 완벽 입력 한 판 (시각은 처음에 정한 값으로만, 반복 수 상한)
+      const base = r.songStartV, draw0 = (rr, V) => { S0.run = rr; S0.V = V; rr.update(V); R.play(S0); rr.events.length = 0; };
+      for (let V = 0; V < base + Lw.stars[0].t - 30; V += 80) draw0(r, V);
+      for (const st of Lw.stars) { const V = base + st.t; draw0(r, V - 20); r.tap(V); draw0(r, V + 30); }
+      for (let V = base + Lw.clearTimeMs, n = 0; V < base + Lw.durationMs && n < 40; V += 200, n++) draw0(r, V);
+      // 무입력 → 실패 → 재시작 장면
+      const r2 = new Run(Lw, D.bal, { startV: 0 });
+      for (let V = 0; V < 9000; V += 150) draw0(r2, V);
+    });
+  } catch { /* 미리 돌리기 실패는 게임에 영향 없음 */ }
+  // 소리 만들기 코드도 렌더하지 않는 OfflineAudioContext 에서 한 번씩 돌려 둠 (소리는 나지 않음)
+  try {
+    const OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    if (!OAC) return;
+    const a = new AudioOut(D.sound, D.music);
+    a.ctx = new OAC(1, 4800, 48000); a._graph(); a.levelMusic = D.music.levels[D.levels[0].id];
+    const names = Object.keys(D.sound.sounds).filter((k) => typeof D.sound.sounds[k] === 'object' && !D.sound.sounds[k].delayMs && !D.sound.sounds[k].arpeggio);
+    for (let k = 0; k < 3; k++) for (const n of names) a.play(n, 0, { f: 440, dur: 0.1 }); // 시각 0 (렌더 안 함)
+  } catch { /* 없음 */ }
+}
 function setState(s) { state = s; document.body.dataset.state = s; }
 
 // ---------- 소리 설정 ----------
@@ -110,16 +149,67 @@ function afterTitle() {
 // ---------- 레벨 선택 ----------
 function lvSave(i) { return Store.lv(store, D.levels[i].id); }
 function cardIdOf(i) { const c = D.levels[i].card; return c && c.id ? c.id : null; }
-function miniSvg(i, locked) {
-  const C = D.palette.common, sv = lvSave(i), n = i + 1;
-  const a = locked ? D.palette.alpha.locked_card_trackEdge : 1;
-  let s = `<svg viewBox="0 0 100 74" aria-hidden="true"><g opacity="${a}"><circle cx="50" cy="18" r="14" fill="none" stroke="${C.trackEdge}" stroke-width="3"/>`;
-  for (let k = 0; k < n; k++) { const row = k < 5 ? 0 : 1, col = row ? k - 5 : k, cnt = row ? n - 5 : Math.min(n, 5); s += `<circle cx="${50 + (col - (cnt - 1) / 2) * 9}" cy="${42 + row * 9}" r="3" fill="${C.hud}"/>`; }
-  s += '</g>';
-  if (locked) s += `<g transform="translate(35,4)"><path d="M 9 13 V 9 A 6 6 0 0 1 21 9 V 13" fill="none" stroke="${C.trackEdge}" stroke-width="3"/><rect x="5" y="12" width="20" height="15" rx="3" fill="${C.trackEdge}"/></g>`;
-  else if (sv.grade > 0) for (let k = 0; k < 3; k++) s += k < sv.grade ? `<circle cx="${36 + k * 14}" cy="66" r="6" fill="${C.hud}" stroke="${C.outline}" stroke-width="1.6"/><circle cx="${36 + k * 14}" cy="66" r="3.8" fill="none" stroke="${C.outline}" stroke-width="1"/>` : `<circle cx="${36 + k * 14}" cy="66" r="6" fill="none" stroke="${C.trackEdge}" stroke-width="1.4" stroke-dasharray="3 2.4"/>`;
-  else if (sv.flag) s += `<g transform="translate(50,64) scale(0.12)" stroke="${C.outline}" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="${C.trackEdge}"/><polygon points="-27,-50 45,-32 -27,-6" fill="${C.hud}"/></g>`;
-  return s + '</svg>';
+// 레벨 카드 시작 버튼 영역 (30-art 5-6 round 2): 위 → 아래 "작은 궤도 → 점 → 등급 줄 → 이름", 줄 사이 gap, 겹침 0.
+// 높이가 모자라면 ① 궤도를 orbitMin 까지 줄임 → ② 이름 숨김(aria-label 은 유지) → ③ 궤도 숨김
+function cardRowsPlan(n, ch) {
+  const r = D.art.card.rows, A = ch - D.art.card.practiceBtn - r.reserve;
+  const dots = n > D.art.card.dotsPerRow ? r.dots2 : r.dots1;
+  const base = dots + r.gap + r.grade;
+  if (r.orbitMin + r.gap + base + r.gap + r.name <= A) return { orbit: Math.min(r.orbit, A - (r.gap + base + r.gap + r.name)), name: true, dots };
+  if (r.orbitMin + r.gap + base <= A) return { orbit: Math.min(r.orbit, A - (r.gap + base)), name: false, dots };
+  return { orbit: 0, name: false, dots };
+}
+function lockSvg(C, x, y, s) {
+  return `<g transform="translate(${x},${y}) scale(${s / 30})"><path d="M 9 13 V 9 A 6 6 0 0 1 21 9 V 13" fill="none" stroke="${C.trackEdge}" stroke-width="3"/><rect x="5" y="12" width="20" height="15" rx="3" fill="${C.trackEdge}"/></g>`;
+}
+function cardRowsHtml(i, locked, plan, cw) {
+  const C = D.palette.common, ca = D.art.card, t = themeOf(i), sv = lvSave(i), n = i + 1;
+  const op = locked ? D.palette.alpha.locked_card_trackEdge : 1;
+  let h = '';
+  // ① 작은 궤도 (잠김 = 자물쇠)
+  if (plan.orbit > 0) {
+    const o = plan.orbit, sw = ca.orbitStroke;
+    const body = locked ? lockSvg(C, 0, 0, o) : `<circle cx="${o / 2}" cy="${o / 2}" r="${(o - sw) / 2}" fill="none" stroke="${C.trackEdge}" stroke-width="${sw}"/>`;
+    h += `<svg class="lr" width="${o}" height="${o}" viewBox="0 0 ${o} ${o}" aria-hidden="true">${body}</svg>`;
+  }
+  // ② 점 = 레벨 번호
+  {
+    const per = ca.dotsPerRow, cols = Math.min(n, per), w = (cols - 1) * ca.dotStep + 2 * ca.dotR, dh = plan.dots;
+    let d = '';
+    for (let k = 0; k < n; k++) {
+      const row = k < per ? 0 : 1, col = row ? k - per : k, cnt = row ? n - per : cols;
+      d += `<circle cx="${w / 2 + (col - (cnt - 1) / 2) * ca.dotStep}" cy="${ca.dotR + row * ca.dotStep}" r="${ca.dotR}" fill="${C.hud}"/>`;
+    }
+    h += `<svg class="lr" width="${w}" height="${dh}" viewBox="0 0 ${w} ${dh}" opacity="${op}" aria-hidden="true">${d}</svg>`;
+  }
+  // ③ 등급 줄: 일반 클리어 = 등급 북 3자리 / 그 전 = 최고 진행도 막대 + 공 색 점 (+ 연습 깃발) / 처음 = 빈 줄
+  {
+    const gh = ca.rows.grade, gw = Math.max(40, cw);
+    let g = '';
+    if (locked) { if (plan.orbit <= 0) g = lockSvg(C, gw / 2 - gh / 2, 0, gh); }
+    else if (sv.grade > 0) {
+      for (let k = 0; k < 3; k++) {
+        const cx = gw / 2 + (k - 1) * ca.gradeStep, cy = gh / 2, r = ca.gradeR;
+        g += k < sv.grade
+          ? `<circle cx="${cx}" cy="${cy}" r="${r - 0.8}" fill="${C.hud}" stroke="${C.outline}" stroke-width="1.6"/><circle cx="${cx}" cy="${cy}" r="${r * 0.6}" fill="none" stroke="${C.outline}" stroke-width="1"/>`
+          : `<circle cx="${cx}" cy="${cy}" r="${r - 0.7}" fill="none" stroke="${C.trackEdge}" stroke-width="1.4" stroke-dasharray="3 2.4"/>`;
+      }
+    } else if ((sv.best || 0) > 0 || sv.flag) {
+      const p = ca.progress, best = Math.min(1, sv.best || 0), fw = sv.flag ? p.flag + p.flagGap : 0;
+      const bw = Math.min(p.w, gw - fw - 2 * p.dotR - 2);
+      const fx = gw / 2 - (bw + fw) / 2, bx = fx + fw, by = gh / 2 - p.h / 2;
+      if (sv.flag) g += `<g transform="translate(${fx + p.flag / 2},${gh / 2}) scale(${p.flag / 110})" stroke="${C.outline}" stroke-width="6" stroke-linejoin="round"><rect x="-40" y="-50" width="13" height="100" rx="6" fill="${C.trackEdge}"/><polygon points="-27,-50 45,-32 -27,-6" fill="${C.hud}"/></g>`;
+      g += `<rect x="${bx}" y="${by}" width="${bw}" height="${p.h}" rx="${p.h / 2}" fill="${t.bg}" stroke="${C.trackEdge}" stroke-opacity="0.5" stroke-width="1"/>`;
+      if (best > 0) {
+        g += `<rect x="${bx}" y="${by}" width="${Math.max(p.h, bw * best)}" height="${p.h}" rx="${p.h / 2}" fill="${C.hud}"/>`;
+        g += `<circle cx="${bx + bw * best}" cy="${gh / 2}" r="${p.dotR}" fill="${C.ball}" stroke="${C.outline}" stroke-width="${p.dotOutline}"/>`;
+      }
+    }
+    h += `<svg class="lr" width="${gw}" height="${gh}" viewBox="0 0 ${gw} ${gh}" aria-hidden="true">${g}</svg>`;
+  }
+  // ④ 이름 (보조 글, 버튼 aria-label 에 이미 있음)
+  if (plan.name) h += `<span class="lname" aria-hidden="true">${T[D.levels[i].name_key]}</span>`;
+  return h;
 }
 function buildLevels() {
   const grid = $('grid');
@@ -133,14 +223,13 @@ function buildLevels() {
     const play = document.createElement('button');
     play.className = 'lplay'; play.type = 'button';
     play.setAttribute('aria-label', `${T[lv.name_key]}, ${status}`);
-    play.innerHTML = miniSvg(i, locked) + `<span class="lname">${T[lv.name_key]}</span>`;
     play.addEventListener('click', () => { if (locked) { play.classList.remove('shake'); void play.offsetWidth; play.classList.add('shake'); return; } menuSnd(); startLevel(i, false); });
     card.appendChild(play);
     const row = document.createElement('div'); row.className = 'lrow';
     const cid = cardIdOf(i);
     if (cid && !locked) {
       const rb = document.createElement('button'); rb.type = 'button'; rb.className = 'ibtn sm'; rb.setAttribute('aria-label', T.btn_card_replay);
-      rb.innerHTML = `<img src="data/svg/cards/${cid}.svg" alt="" class="thumb">`;
+      rb.innerHTML = '<img src="data/svg/icon-card.svg" alt="">';
       rb.addEventListener('click', () => { menuSnd(); showCard(i, 'levels'); });
       row.appendChild(rb);
     } else row.appendChild(Object.assign(document.createElement('span'), { className: 'gap' }));
@@ -156,7 +245,7 @@ function buildLevels() {
   fitGrid();
 }
 function fitGrid() {
-  const grid = $('grid'); if (!grid) return;
+  const grid = $('grid'); if (!grid || !grid.children.length) return;
   const W = innerWidth, H = innerHeight, c = D.art.card, top = 72;
   const availW = W - 32, availH = H - top - 12;
   let best = null;
@@ -165,13 +254,22 @@ function fitGrid() {
     const w = Math.min(c.w, (availW - (cols - 1) * c.gap) / cols);
     const h = Math.min(c.h, (availH - (rows - 1) * c.gap) / rows);
     const k = Math.min(w / c.w, h / c.h);
-    const fits = w >= 100 && h >= 104;
+    const fits = w >= c.minW && h >= c.minH;
     const score = (fits ? 10 : 0) + k;
     if (!best || score > best.score) best = { cols, w, h, score, fits };
   }
-  if (!best.fits) { const cols = Math.max(1, Math.floor((availW + c.gap) / (100 + c.gap))); best = { cols, w: Math.min(c.w, (availW - (cols - 1) * c.gap) / cols), h: c.h }; }
-  grid.style.gridTemplateColumns = `repeat(${best.cols}, ${Math.floor(best.w)}px)`;
-  grid.style.setProperty('--cw', Math.floor(best.w) + 'px'); grid.style.setProperty('--ch', Math.floor(best.h) + 'px');
+  if (!best.fits) { const cols = Math.max(1, Math.floor((availW + c.gap) / (c.minW + c.gap))); best = { cols, w: Math.min(c.w, (availW - (cols - 1) * c.gap) / cols), h: c.h }; }
+  const cw = Math.floor(best.w), ch = Math.floor(best.h);
+  grid.style.gridTemplateColumns = `repeat(${best.cols}, ${cw}px)`;
+  grid.style.setProperty('--cw', cw + 'px'); grid.style.setProperty('--ch', ch + 'px');
+  // 카드 크기가 정해진 뒤 줄 흐름을 그림 (안쪽 폭 = 카드 − 테두리 − 여백 8)
+  [...grid.children].forEach((card, i) => {
+    const plan = cardRowsPlan(i + 1, ch);
+    const play = card.querySelector('.lplay');
+    play.innerHTML = cardRowsHtml(i, i + 1 > store.unlocked, plan, cw - 2 * c.border - 8);
+    const nm = play.querySelector('.lname');
+    if (nm && nm.scrollWidth > nm.clientWidth + 0.5) nm.remove(); // 잘린 글 금지 → 이름 숨김(②)
+  });
   grid.classList.toggle('scrolls', grid.scrollHeight > grid.clientHeight + 1);
 }
 function showLevels() {
@@ -236,11 +334,15 @@ function refreshLate() {
 // ---------- 설정 ----------
 function showSettings() { setState('settings'); show('sSettings'); applySound(); refreshLate(); }
 
+// 기록 지우기 확인 창: 첫 초점 = 취소 (10-1, 10-lore 7-10 R8-7)
+function showConfirm() { setState('confirm'); show('sConfirm'); $('cfNo').focus({ preventScroll: true }); }
+
 // ---------- 보정 ----------
 let cal = null;
 function startCalib(first) {
   const gc = D.bal.audio_latency.guardian_calibration;
   if (first) setTheme(themeOf(0));
+  updateComp();
   setState('calib'); show('sCalib');
   $('together').classList.toggle('hidden', !(first && gc.first_run_picture_only_on_first_run));
   $('bRedo').classList.add('hidden');
@@ -257,7 +359,7 @@ function setCalibAria() { const p = $('calibProg'); p.setAttribute('aria-valueno
 function calibTap(ts) {
   if (!cal || cal.phase !== 'tap') return;
   const gc = cal.gc;
-  const t = TEST || !audio.ok ? clock.vt : clock.ctOf(ts) * 1000 - autoLat();
+  const t = TEST || !audio.ok ? clock.vt : clock.ctOf(ts) * 1000 - clock.auto;
   const k = Math.round((t - cal.base) / cal.beatMs);
   if (t < cal.base - cal.beatMs / 2) return; // 첫 박 전
   calibDiff(t - (cal.base + k * cal.beatMs));
@@ -293,7 +395,7 @@ function calibEnd(ok, f) {
   cal.result = f || null;
   cal.endV = clock.V();
   if (ok) {
-    store.calibAutoLat = autoLat(); store.late.drift = false; store.late.device = false; store.late.sessions = 0;
+    store.calibAutoLat = clock.auto; store.late.drift = false; store.late.device = false; store.late.sessions = 0;
     if (A) A.play('bell_low', null, { f: D.music.calib_check_hz });
     $('calibLive').textContent = T[gc.done_signal];
     $('bRedo').classList.remove('hidden');
@@ -329,7 +431,7 @@ function showCard(i, ret) {
   const cid = cardIdOf(i);
   cardReturn = ret;
   setTheme(themeOf(i));
-  $('cardImg').src = `data/svg/cards/${cid}.svg`;
+  cardShown = cid;
   $('cardImg').setAttribute('aria-label', T[cid]);
   setState('card'); show('sCard');
   placeUi();
@@ -353,6 +455,7 @@ function startLevel(i, prac, { card = true } = {}) {
 function beginRun() {
   if (A) A.stopSong(0.02);
   updateComp();
+  R.prewarm();
   run = new Run(L, D.bal, { practice, startV: clock.V(), leadMs: START_LEAD_MS });
   const sv = lvSave(levelIndex);
   S = { th, L, art: D.art, bal: D.bal, best: sv.best || 0, slideFrom: null, gradeStartX: slotTimeMs(L, L.lastPlayBar + 2, 0) };
@@ -362,14 +465,26 @@ function beginRun() {
   placeUi();
   handleEvents();
 }
-function songFor(e) {
-  const modeOf = (x) => run.barMode(x);
-  const stageOf = (b) => { let st = 1; for (const s of L.level.sections) if (s.start_bar <= b && s.stage) st = s.stage; return st; };
-  return buildSong(L, e.t0, D.music, D.sound, modeOf, stageOf);
+// 곡 이벤트는 (레벨, 시작점 t0)마다 한 번만 만듦 (재시작·레벨 시작 프레임 비용 줄임, round-2 성능)
+function songOf(Lv, t0) {
+  const m = Lv._songs || (Lv._songs = new Map());
+  let ev = m.get(t0);
+  if (!ev) {
+    const modeOf = (x) => Run.prototype.barMode.call({ t0, L: Lv }, x);
+    const stageOf = (b) => { let st = 1; for (const s of Lv.level.sections) if (s.start_bar <= b && s.stage) st = s.stage; return st; };
+    ev = buildSong(Lv, t0, D.music, D.sound, modeOf, stageOf);
+    m.set(t0, ev);
+  }
+  return ev;
 }
+function songFor(e) { return songOf(L, e.t0); }
+// 플레이 중 저장은 판정 프레임 밖에서 (localStorage 쓰기를 실패·클리어 프레임에서 빼냄). 페이지를 떠날 때 바로 씀
+let saveTimer = 0;
+function saveSoon() { if (!saveTimer) saveTimer = setTimeout(saveNow, 250); }
+function saveNow() { clearTimeout(saveTimer); saveTimer = 0; Store.save(store); }
 function handleEvents() {
   if (!run) return;
-  for (const e of run.events.splice(0)) {
+  if (run.events.length) for (const e of run.events.splice(0)) {
     if (e.type === 'attempt') { if (A && audio.ok) A.setSong(e.songStartV, songFor(e)); }
     else if (e.type === 'abort') { if (A) A.stopSong(0.02); }
     else if (e.type === 'fail') {
@@ -377,10 +492,10 @@ function handleEvents() {
       if (!run.practice) {
         const sv = lvSave(levelIndex);
         S.slideFrom = S.best;
-        if (e.progress > (sv.best || 0)) { sv.best = e.progress; S.best = e.progress; $('live').textContent = T.aria_new_best; } else S.slideFrom = null;
+        if (e.progress > (sv.best || 0)) { sv.best = e.progress; S.best = e.progress; setTimeout(() => { $('live').textContent = T.aria_new_best; }, 300); } else S.slideFrom = null;
       }
       lvSave(levelIndex).attempts++;
-      Store.save(store);
+      saveSoon();
     } else if (e.type === 'clear') {
       const sv = lvSave(levelIndex);
       if (A) {
@@ -390,13 +505,22 @@ function handleEvents() {
       }
       if (run.practice) sv.flag = true; else { sv.grade = Math.max(sv.grade || 0, run.grade); sv.best = 1; S.best = 1; }
       store.unlocked = Math.max(store.unlocked, Math.min(D.levels.length, levelIndex + 2));
-      Store.save(store);
+      saveSoon();
     } else if (e.type === 'end') showResult();
-    else if (e.type === 'drift') { store.late.drift = true; Store.save(store); }
+    else if (e.type === 'drift') { store.late.drift = true; saveSoon(); }
   }
-  $('progAria').setAttribute('aria-valuenow', String(Math.round(run.progress * 100)));
-  $('attAria').setAttribute('aria-label', `${T.aria_attempts} ${run.attempts}`);
+  // 값은 aria-valuenow 로만 (10-lore 7-10 R8-1), 바뀔 때만 DOM 을 건드림
+  const pv = Math.round(run.progress * 100);
+  if (pv !== ariaCache.prog) { ariaCache.prog = pv; $('progAria').setAttribute('aria-valuenow', String(pv)); }
+  if (run.attempts !== ariaCache.att) {
+    ariaCache.att = run.attempts;
+    const a = $('attAria');
+    a.setAttribute('aria-valuemax', String(Math.max(1, run.attempts)));
+    a.setAttribute('aria-valuenow', String(run.attempts));
+  }
 }
+const ariaCache = { prog: -1, att: -1 };
+let tutOn = false; // 튜토리얼 글: display 대신 visibility 로 숨겨 첫 표시 때 글자 배치 비용이 안 생기게
 function gameTap(ts) {
   if (!run) return;
   const V = clock.tapV(ts);
@@ -416,9 +540,13 @@ function gameTap(ts) {
 }
 function showResult() {
   setState('result'); show('sPlay', 'sResult');
-  $('bNext').setAttribute('aria-label', levelIndex + 1 < D.levels.length ? T.btn_next : T.btn_levels);
+  // 다음 레벨이 없으면 버튼 2개(다시 / 레벨 고르기), → 그림을 다른 동작에 쓰지 않음 (30-art 8-2, 10-lore R8-6)
+  $('bNext').classList.toggle('hidden', !hasNext());
+  // 등급 줄 전체를 그림 하나로 (R8-2)
+  $('gradeAria').setAttribute('aria-label', run.practice ? T.practice_clear : T['grade_' + (run.grade || 1)]);
   placeUi();
 }
+function hasNext() { return levelIndex + 1 < D.levels.length; }
 function pauseGame(bg) {
   if (state !== 'play') return;
   pauseV = clock.V();
@@ -446,8 +574,22 @@ function placeUi() {
   const pa = $('progAria'); Object.assign(pa.style, { left: lay.bar.x + 'px', top: lay.bar.y + 'px', width: lay.bar.w + 'px', height: lay.bar.h + 'px' });
   const at = $('attAria'); Object.assign(at.style, { left: lay.bar.x + 'px', top: lay.dotsY - 6 + 'px', width: '140px', height: '12px' });
   const pt = $('pracTag'); Object.assign(pt.style, { left: lay.bar.x + 'px', top: lay.dotsY + 12 + 'px' });
-  // 결과 버튼
-  const c = D.art.clear, btnW = 3 * c.btn + 2 * c.btnGap, rb = $('resultBtns');
+  // 연습 체크포인트 깃발 표시 (R8-4, 그림은 캔버스, 여기는 대체 글 자리)
+  const cf = $('cpFlags');
+  const want = state === 'play' || state === 'pause' || state === 'result' ? (run && run.practice ? L.checkpoints.map((c) => c.firstStar / L.stars.length) : []) : [];
+  if (cf.dataset.k !== want.join() + '|' + lay.bar.w) {
+    cf.dataset.k = want.join() + '|' + lay.bar.w;
+    cf.innerHTML = '';
+    const fs = D.art.hud.flag;
+    for (const f of want) {
+      const e = document.createElement('span');
+      e.setAttribute('role', 'img'); e.setAttribute('aria-label', T.aria_checkpoint);
+      Object.assign(e.style, { left: lay.bar.x + lay.bar.w * f - fs / 2 + 'px', top: lay.bar.y - fs - 1 + 'px', width: fs + 'px', height: fs + 'px' });
+      cf.appendChild(e);
+    }
+  }
+  // 결과 버튼 (다음 레벨이 없으면 2개)
+  const c = D.art.clear, nb = run && !hasNext() ? 2 : 3, btnW = nb * c.btn + (nb - 1) * c.btnGap, rb = $('resultBtns');
   let x, y, col = false;
   if (lay.thumb) { x = lay.W / 2 - btnW / 2; y = lay.thumb.y + lay.thumb.h / 2 - c.btn / 2; }
   else {
@@ -460,14 +602,47 @@ function placeUi() {
   const ct = $('clearTitle');
   if (lay.thumb) Object.assign(ct.style, { left: '16px', right: '16px', top: (lay.thumb.y - 0) + 6 + 'px', textAlign: 'center' });
   else Object.assign(ct.style, { left: '16px', right: 'auto', top: lay.H / 2 - 20 + 'px', width: Math.max(80, lay.cx - lay.R - lay.starR - 32) + 'px', textAlign: 'left' });
-  // 튜토리얼 문구 (손가락 옆)
-  const tu = $('tut'), ha = D.art.hand;
-  if (lay.thumb) Object.assign(tu.style, { left: '16px', right: '16px', width: 'auto', top: lay.thumb.y + 8 + 'px', textAlign: 'center' });
-  else Object.assign(tu.style, { left: 'auto', right: '12px', width: Math.max(90, lay.W - (lay.cx + lay.R + lay.starR) - 24) + 'px', top: lay.H - ha.landscapeFromBottom - ha.size / 2 - 52 + 'px', textAlign: 'center' });
-  // 카드
-  const ci = $('cardImg'), k = D.art.card.landscapeMaxW;
-  const cw = lay.portrait ? lay.W - 32 : Math.min(lay.W * k, (lay.H - 40) * (720 / 300));
-  ci.style.width = cw + 'px';
+  // 등급 줄 대체 글 자리 (R8-2): 가운데 북 아래 등급 북 3자리
+  {
+    const cl = D.art.clear, r = cl.drumR * lay.R, gy = lay.cy + cl.drumY * lay.R, w = 2 * cl.drumGap * lay.R + 2 * r;
+    Object.assign($('gradeAria').style, { left: lay.cx - w / 2 + 'px', top: gy - r + 'px', width: w + 'px', height: 2 * r + 'px' });
+  }
+  // 튜토리얼 문구: 세로 = 엄지 받침 위쪽(D13), 가로 = 손가락 칸 바로 위(칸 위끝 − 8), 화면 밖이면 칸 아래 (4-4)
+  const tu = $('tut'), ha = D.art.hand, hb = lay.hand;
+  if (lay.thumb) Object.assign(tu.style, { left: '16px', right: '16px', width: 'auto', top: lay.thumb.y + 8 + 'px', bottom: 'auto', textAlign: 'center' });
+  else {
+    const tw = Math.min(lay.W - 32, Math.max(140, hb.size * 2));
+    const minL = lay.cx + lay.R + lay.starR + 8; // 궤도·별과 겹치지 않게
+    const left = Math.max(Math.min(hb.x - tw / 2, lay.W - 16 - tw), Math.min(minL, lay.W - 16 - tw));
+    const topY = hb.y - hb.size / 2 - ha.tutGap;
+    const up = topY - 48 >= 8;
+    Object.assign(tu.style, { left: left + 'px', right: 'auto', width: tw + 'px', textAlign: 'center',
+      top: up ? 'auto' : hb.y + hb.size / 2 + ha.tutGap + 'px', bottom: up ? lay.H - topY + 'px' : 'auto' });
+  }
+  // 타이틀 시작 힌트 (4-6): 세로 = 받침 자리, 가로 = 궤도 오른쪽 영역 세로 가운데
+  {
+    const th0 = lay.titleHint, ts = $('tapStart'), hand = ts.querySelector('img');
+    hand.style.width = hand.style.height = th0.hand + 'px';
+    Object.assign(ts.style, { left: th0.x0 + 'px', width: th0.x1 - th0.x0 + 'px', right: 'auto', bottom: 'auto', top: th0.cy + 'px' });
+  }
+  placeCard();
+}
+// 그림 카드: 세로 화면 = 세로판(9-1 배율), 가로 화면 = 가로판(폭 80 % 이하)
+function placeCard() {
+  if (!R || state !== 'card' || cardShown == null) return;
+  const lay = R.lay, ca = D.art.card, ci = $('cardImg');
+  const cs = getComputedStyle(document.documentElement);
+  const st = parseFloat(cs.getPropertyValue('--sat')) || 0, sb = parseFloat(cs.getPropertyValue('--sab')) || 0;
+  let w, src;
+  if (lay.portrait) {
+    const p = ca.portrait, s = Math.min((lay.W - p.margin) / p.w, (lay.H - p.margin - st - sb) / p.h, p.maxScale);
+    w = p.w * s; src = `data/svg/cards/${cardShown}_portrait.svg`;
+  } else {
+    w = Math.min(lay.W * ca.landscapeMaxW, (lay.H - 40) * (ca.img.w / ca.img.h));
+    src = `data/svg/cards/${cardShown}.svg`;
+  }
+  if (!ci.src.endsWith(src)) ci.src = src;
+  ci.style.width = w + 'px'; ci.style.maxHeight = 'none';
 }
 
 // ---------- 루프 ----------
@@ -491,7 +666,7 @@ function draw(V) {
   if ((state === 'play' || state === 'pause' || state === 'result') && run) {
     S.th = th; S.run = run; S.V = state === 'pause' ? pauseV : V;
     R.play(S);
-    $('tut').classList.toggle('hidden', !S.handOn);
+    if (tutOn !== !!S.handOn) { tutOn = !!S.handOn; $('tut').classList.toggle('hidden', !tutOn); }
   } else if (state === 'calib' && cal) {
     const ek = cal.emptyV >= 0 ? Math.min(1, (V - cal.emptyV) / 200) : null;
     R.calib(th, V, { filled: cal.filled, emptyK: ek, checkK: cal.phase === 'done' ? (V - cal.endV) / (D.art.calib.checkGrowS * 1000) : 0, hand: cal.hand });
@@ -534,10 +709,11 @@ function bindInput() {
   document.addEventListener('pointerup', () => { if (A && A.ctx && A.ctx.state === 'suspended' && state !== 'pause' && !document.hidden) A.ctx.resume().catch(() => {}); });
   document.addEventListener('contextmenu', (e) => e.preventDefault());
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { if (state === 'play') pauseGame(true); if (A) A.suspend(); }
+    if (document.hidden) { saveNow(); if (state === 'play') pauseGame(true); if (A) A.suspend(); }
     else if (A && state !== 'pause') A.resume();
   });
   addEventListener('resize', resize);
+  addEventListener('pagehide', saveNow);
   navigator.mediaDevices?.addEventListener?.('devicechange', () => { if (store.calibAutoLat != null) { store.late.device = true; Store.save(store); } });
   const click = (id, fn) => $(id).addEventListener('click', fn);
   click('bSoundT', toggleSound); click('bSoundP', toggleSound);
@@ -551,7 +727,7 @@ function bindInput() {
   click('tMusic', () => { store.music = !store.music; Store.save(store); applySound(); menuSnd(); });
   click('tSfx', () => { store.sfx = !store.sfx; Store.save(store); applySound(); menuSnd(); });
   click('bCalib', () => { menuSnd(); startCalib(false); });
-  click('bReset', () => { menuSnd(); setState('confirm'); show('sConfirm'); });
+  click('bReset', () => { menuSnd(); showConfirm(); });
   click('cfNo', () => { menuSnd(); showSettings(); });
   click('cfYes', () => { store = Store.reset(store); Store.save(store); menuSnd(); showSettings(); });
   click('bSkip', () => { menuSnd(); finishCalib(true); });
@@ -653,9 +829,9 @@ const api = {
   summary() { const h = run ? run.log[run.log.length - 1] : null; return { state, phase: run && run.phase, clear: !!(h && h.clear), grade: run ? run.grade ?? 0 : 0, attempts: run ? run.attempts : 0, progress: run ? run.progress : 0, lastResult: h ? { clear: h.clear, progress: h.progress, failIndex: h.failIndex, reason: h.reason } : null }; },
   setOffset(ms) { store.offsetMs = ms; Store.save(store); updateComp(); return clock.comp; },
   get offset() { return store.offsetMs; },
-  latency() { return { auto: autoLat(), manual: store.offsetMs, comp: clock.comp }; },
+  latency() { return { auto: clock.auto, manual: store.offsetMs, comp: clock.comp, autoNow: autoLat() }; },
   show(name) {
-    const m = { title: showTitle, levels: showLevels, settings: showSettings, calib: () => startCalib(true), calibRedo: () => startCalib(false), pause: () => pauseGame(false), confirm: () => { setState('confirm'); show('sConfirm'); } };
+    const m = { title: showTitle, levels: showLevels, settings: showSettings, calib: () => startCalib(true), calibRedo: () => startCalib(false), pause: () => pauseGame(false), confirm: showConfirm };
     m[name]?.(); return state;
   },
   calibTap(diffMs) { if (cal && cal.phase === 'tap') calibDiff(diffMs); return cal ? { phase: cal.phase, filled: cal.filled, rounds: cal.rounds.length, retries: cal.retries } : { state, offset: store.offsetMs }; },
@@ -664,6 +840,9 @@ const api = {
   lateHint() { return { visible: lateVisible, ...lateConds(), sessions: store.late.sessions, drift: run ? run.drift : null }; },
   save() { return JSON.parse(JSON.stringify(store)); },
   layout() { return R ? R.lay : null; },
+  // 마지막으로 그린 프레임의 신호 상태 (R1 검사용) / 지금 시각으로 바로 그리기
+  frameInfo() { return { handOn: !!S.handOn, malletOn: !!S.malletOn, dashK: S.dashK || 0, levelTime: run ? run.lt(clock.V()) : null }; },
+  drawNow() { draw(clock.V()); return this.frameInfo(); },
   layoutFor(W, H) { return layout(W, H, D.art); },
   ads,
 };
@@ -676,7 +855,7 @@ async function boot() {
   requestAnimationFrame(frame);
   try { D = await loadAll(); }
   catch (err) {
-    $('loadErr').classList.remove('hidden'); $('bReload').classList.remove('hidden');
+    $('loadErr').classList.remove('hidden'); $('bReload').classList.remove('hidden'); $('loadTxt').classList.add('hidden'); $('loadPic').classList.add('stop');
     $('bReload').addEventListener('click', () => location.reload());
     return;
   }
@@ -687,6 +866,11 @@ async function boot() {
   applySound();
   ads.init();
   showTitle();
+  warmScreens();
+  // 레벨 처음부터의 곡 이벤트를 미리 만들어 두고, 플레이 코드(판정·그리기)를 화면 밖에서 한 번 돌려 둠 (첫 플레이 프레임 비용 줄임)
+  // 로딩 화면 동안(준비 전) 한 번에 함: 플레이 중에 끼어들지 않게
+  D.L.forEach((Lv) => songOf(Lv, 0));
+  warmCode();
   api.ready = true;
 }
 boot();

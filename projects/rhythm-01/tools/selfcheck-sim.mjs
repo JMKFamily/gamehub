@@ -117,5 +117,69 @@ for (const [off, want] of [[100, true], [0, false]]) {
   ];
   for (const [name, rounds, okf] of cases) { checks++; const r = simulate(rounds, gc); if (!okf(r)) bad(`calib ${name}: ${JSON.stringify(r)}`); }
 }
+// ---- round-2 R1·R2: 북채(+점선)·손가락 시각 (엔진 malletAt·cueVisible = 렌더가 쓰는 함수) ----
+{
+  const { malletAt, cueVisible } = await import(pathToFileURL(join(GAME, 'js/engine.js')).href);
+  const { malletSchedule } = await import(pathToFileURL(join(PROJ, 'tools/sim/judge.mjs')).href);
+  const art = JSON.parse(readFileSync(join(GAME, 'data/art.json'), 'utf8'));
+  const tc = bal.teacher;
+  let wins = 0, capped = 0;
+  for (const lv of levels) {
+    const L = prepareLevel(lv, bal);
+    const ref = malletSchedule(compileLevel(lv, bal), bal);
+    checks++;
+    if (ref.length !== L.malletWins.length || ref.some((w, i) => Math.abs(w.gone - L.malletWins[i].gone) > 1e-6 || Math.abs(w.shrinkStart - L.malletWins[i].shrinkStart) > 1e-6 || Math.abs(w.from - L.malletWins[i].from) > 1e-6)) bad(`R1 L${lv.id}: 엔진 북채 창 ≠ malletSchedule`);
+    for (const w of L.malletWins) {
+      wins++; if (w.capped) capped++;
+      checks++;
+      const after = w.lastShow + (tc.mallet_hide_after_beats + tc.mallet_shrink_beats) * L.beatMs;
+      if (w.gone > after + 1e-6 || w.shrinkStart < w.lastShow - 1e-6 || Math.abs(w.gone - w.shrinkStart - tc.mallet_shrink_beats * L.beatMs) > 1e-6) bad(`R1 L${lv.id} 묶음 ${w.firstBar}: 시각 ${JSON.stringify(w)}`);
+    }
+    // 1 ms 간격: 북채 보이는 동안 판정 별 [놓침 구역 시작, 통과 창 끝] 없음, 손가락과 동시에 안 보임
+    const run = new Run(L, bal, { startV: 0 });
+    let handFirst = null, handMallet = 0, malletStar = 0;
+    for (let x = 0; x < L.durationMs; x += 1) {
+      const m = malletAt(L, x, art.mallet.growBeats * L.beatMs, art.mallet.grow[0]);
+      const h = cueVisible(L, run, x);
+      if (h && handFirst === null) handFirst = x;
+      if (m && h) handMallet++;
+      if (m && L.stars.some((s) => x >= s.zoneStart && x <= s.passEnd)) malletStar++;
+    }
+    checks++; if (handMallet || malletStar) bad(`R1 L${lv.id}: 손가락∩북채 ${handMallet} ms, 북채∩판정 별 위험 구간 ${malletStar} ms`);
+    if (L.cue) {
+      const st = L.stars[L.cue.star];
+      checks++;
+      if (L.cue.pressFrom < st.passStart - 1e-6 || Math.abs(L.cue.t - L.cue.pressFrom - lv.cues[0].press_from_beats_before * L.beatMs) > 1e-6) bad(`R2 L${lv.id}: 누름 시작 ${L.cue.pressFrom - st.t} ms (통과 창 시작 ${-L.judge.pass_early_ms})`);
+      console.log(`R1·R2 L${lv.id}: 손가락 ${handFirst} ms~, 누름 ${Math.round(L.cue.pressFrom - st.t)} ms(별 기준), 가장 가까운 북채 사라짐 ${Math.round(Math.max(...L.malletWins.filter((w) => w.gone <= handFirst).map((w) => w.gone)))} ms`);
+    }
+  }
+  console.log(`R1: 북채 묶음 ${wins}개(상한 ${capped}) 엔진 = malletSchedule, 손가락∩북채 0, 북채∩판정 별 위험 구간 0`);
+}
+// ---- round-2 R7: 멜로디 동기 배치 (audio.js buildSong) — 별 시각 시작 0, 음 수 = assets/sound-check.mjs ----
+{
+  const { buildSong } = await import(pathToFileURL(join(GAME, 'js/audio.js')).href);
+  const music = JSON.parse(readFileSync(join(GAME, 'data/music.json'), 'utf8'));
+  const sound = JSON.parse(readFileSync(join(GAME, 'data/sound.json'), 'utf8'));
+  let notes = 0, clash = 0, duckShow = 0, duckPlay = 0;
+  for (const lv of levels) {
+    const L = prepareLevel(lv, bal);
+    const r = new Run(L, bal, { startV: 0 });
+    const ev = buildSong(L, 0, music, sound, (x) => r.barMode(x), (b) => { let s = 1; for (const x of lv.sections) if (x.start_bar <= b && x.stage) s = x.stage; return s; });
+    const outroX = (L.countInBars + L.lastPlayBar + 1) * L.barMs;
+    const mel = ev.filter((e) => e.name && e.name.startsWith('mel_') && e.gainDb == null && e.x < outroX - 1);
+    notes += mel.length;
+    for (const e of mel) if (L.stars.some((s) => Math.abs(s.t - e.x) < 0.5)) clash++;
+    const ducks = ev.filter((e) => e.duck).map((e) => e.x);
+    duckPlay += L.stars.filter((s) => ducks.some((d) => Math.abs(d - s.t) < 0.5)).length;
+    duckShow += L.shows.filter((s) => ducks.some((d) => Math.abs(d - s.t) < 0.5)).length;
+    checks++; if (ducks.length !== L.stars.length + L.shows.length) bad(`R7 L${lv.id}: 베이스 숙임 ${ducks.length} ≠ 별 ${L.stars.length} + 보여 주기 ${L.shows.length}`);
+  }
+  const { spawnSync } = await import('node:child_process');
+  const sc = spawnSync(process.execPath, [join(PROJ, 'assets/sound-check.mjs')], { encoding: 'utf8' });
+  const want = +((sc.stdout.match(/멜로디 음 (\d+)개/) || [])[1]);
+  checks++; if (clash || notes !== want) bad(`R7 멜로디: 빌드 ${notes}음(기준 ${want}) 별 시각 시작 ${clash}`);
+  checks++; if (music.calib_check_hz !== 1046.5) bad(`R7 calib_check_hz ${music.calib_check_hz}`);
+  console.log(`R7: 멜로디 ${notes}음 = sound-check ${want}음, 별 시각 시작 ${clash}, 베이스 숙임 판정 별 ${duckPlay}·보여 주기 별 ${duckShow}, calib_check_hz ${music.calib_check_hz}`);
+}
 console.log(`${checks - fails}/${checks} OK`);
 process.exit(fails ? 1 : 0);

@@ -7,25 +7,44 @@
 <title>Tickadrum</title>
 <link rel="icon" href="data/svg/ball.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
+<!--boot:start (build-web-data.mjs 생성)-->
+<style id="bootStyle">:root{--bg:#29230F;--bgFar:#3D3419;--tint:#EFB480;--track1:#493F22;--edge:#E6E1D3;--hud:#F5F1E8;--ink:#0B0D12;--ball:#7FE3FF}</style>
+<script id="bootText" type="application/json">{"ko":{"loading":"불러오는 중…","load_error":"다시 해 주세요","btn_retry":"다시"},"en":{"loading":"Loading…","load_error":"Please try again","btn_retry":"Again"}}</script>
+<!--boot:end-->
 </head>
 <body data-state="loading">
 <canvas id="cv" aria-hidden="true"></canvas>
 
 <section id="sLoading" class="screen show">
-  <p class="center" data-t="loading"></p>
-  <p id="loadErr" class="center hidden" data-t="load_error"></p>
-  <button id="bReload" class="ibtn hidden mid" type="button" data-a="load_error"><img src="data/svg/icon-retry.svg" alt=""></button>
+  <svg id="loadPic" class="loadPic" viewBox="-50 -50 100 100" role="img"><circle r="34" class="lpTrack"/><g class="lpSpin"><circle cy="-34" r="9" class="lpBall"/></g></svg>
+  <p id="loadTxt" class="center loadTxt"></p>
+  <p id="loadErr" class="center loadTxt hidden"></p>
+  <button id="bReload" class="ibtn hidden mid" type="button" aria-describedby="loadErr"><img src="data/svg/icon-retry.svg" alt=""></button>
+  <script>
+  // 불러오기 화면 글 (build-web-data.mjs 가 넣은 bootText, 언어 규칙은 main.js 와 같음)
+  (function () {
+    try {
+      var all = JSON.parse(document.getElementById('bootText').textContent);
+      var q = new URLSearchParams(location.search).get('lang') || navigator.language || 'ko';
+      var t = all[q.toLowerCase().indexOf('ko') === 0 ? 'ko' : 'en'];
+      document.getElementById('loadPic').setAttribute('aria-label', t.loading);
+      document.getElementById('loadTxt').textContent = t.loading;
+      document.getElementById('loadErr').textContent = t.load_error;
+      document.getElementById('bReload').setAttribute('aria-label', t.btn_retry);
+    } catch (e) {}
+  })();
+  </script>
 </section>
 
 <section id="sTitle" class="screen">
   <h1 class="title" data-t="title"></h1>
-  <p class="tapStart"><img src="data/svg/hand-tap.svg" alt="" class="tapHand"><span data-t="tap_to_start"></span></p>
+  <p id="tapStart" class="tapStart"><img src="data/svg/hand-tap.svg" alt="" class="tapHand"><span data-t="tap_to_start"></span></p>
   <button id="bSoundT" class="ibtn tr" type="button"><img src="data/svg/icon-music.svg" alt=""></button>
 </section>
 
 <section id="sLevels" class="screen">
   <div class="gateWrap tl">
-    <button id="bGate" class="ibtn" type="button" data-a="guardian_hold"><img src="data/svg/icon-settings.svg" alt=""></button>
+    <button id="bGate" class="ibtn" type="button" data-a="btn_settings" aria-describedby="gateHint"><img src="data/svg/icon-settings.svg" alt=""></button>
     <svg id="gateRing" class="gateRing hidden" viewBox="-36 -36 72 72" aria-hidden="true"><circle r="31" class="ringBg"/><circle id="gateArc" r="31" class="ringArc" transform="rotate(-90)" stroke-dasharray="0 999"/></svg>
     <img id="gateBadge" class="badge hidden" src="data/svg/badge-hourglass.svg" role="img" data-a="latency_warn">
     <span id="gateHint" class="hint hidden" data-t="guardian_hold"></span>
@@ -45,9 +64,13 @@
 </section>
 
 <section id="sConfirm" class="screen dim">
-  <div class="dialog">
-    <p data-t="confirm_reset"></p>
-    <div class="dbtns"><button id="cfNo" class="tbtn" type="button" data-t="confirm_no"></button><button id="cfYes" class="tbtn warn" type="button" data-t="confirm_yes"></button></div>
+  <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="cfText">
+    <img src="data/svg/icon-reset.svg" alt="" class="dIcon">
+    <p id="cfText" data-t="confirm_reset"></p>
+    <div class="dbtns">
+      <button id="cfNo" class="dbtn no" type="button"><img src="data/svg/icon-next-ink.svg" alt="" class="flipX"><span data-t="confirm_no"></span></button>
+      <button id="cfYes" class="dbtn yes" type="button"><img src="data/svg/icon-reset.svg" alt=""><span data-t="confirm_yes"></span></button>
+    </div>
   </div>
 </section>
 
@@ -66,7 +89,8 @@
 <section id="sPlay" class="screen" role="application">
   <button id="bPause" class="ibtn abs" type="button" data-a="btn_pause"><img src="data/svg/icon-pause.svg" alt=""></button>
   <div id="progAria" class="abs" role="progressbar" data-a="aria_progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
-  <div id="attAria" class="abs" role="img" data-a="aria_attempts"></div>
+  <div id="cpFlags" class="abs cpFlags"></div>
+  <div id="attAria" class="abs" role="meter" data-a="aria_attempts" aria-valuemin="0" aria-valuemax="1" aria-valuenow="0"></div>
   <img id="pracTag" class="abs pracTag hidden" src="data/svg/flag.svg" role="img" data-a="practice_on">
   <p id="tut" class="abs tut hidden" data-t="tut_tap"></p>
   <p id="live" class="sr" aria-live="polite"></p>
@@ -84,6 +108,7 @@
 
 <section id="sResult" class="screen">
   <h2 id="clearTitle" class="abs clearTitle" data-t="clear_title"></h2>
+  <div id="gradeAria" class="abs" role="img"></div>
   <div id="resultBtns" class="abs btnrow">
     <button id="bNext" class="ibtn big" type="button" data-a="btn_next"><img src="data/svg/icon-next.svg" alt=""></button>
     <button id="bRetry" class="ibtn big" type="button" data-a="btn_retry"><img src="data/svg/icon-retry.svg" alt=""></button>

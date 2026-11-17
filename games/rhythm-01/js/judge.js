@@ -8,6 +8,7 @@
 //   gradeRating(L, result, rule) → 클리어 등급 1~3 (작은 북 1~3개, balance.json grade_rule)
 //   previewSchedule(L, bal)  → 별마다 '커지며 나타남' 시작·끝 시각 (20-balance.md 6-4)
 //   slotTimeMs(L, bar, slot) → 마디·자리(8분 단위)의 시각
+//   malletSchedule(L, bal)   → 북채(차례 신호) 묶음별 등장·작아짐·사라짐 시각 (round-2 R1)
 
 export function slotTimeMs(L, bar, slot) {
   return ((L.countInBars + bar) * L.beatsPerBar + slot / 2) * L.beatMs;
@@ -120,4 +121,34 @@ export function previewSchedule(L, bal) {
       const start = s.t - lead + after;
       return { t: s.t, bar: s.bar, slot: s.slot, kind: s.kind, growStart: start, growEnd: start + grow, readMs: s.t - (start + grow) };
     });
+}
+
+// 북채(차례 신호) 보이는 구간 (20-balance.md 6-4, 오케스트레이터 round-2 결정 R1, balance.json teacher)
+//   묶음 = 이어진 보여 주기 마디(두 마디 무늬 L6 은 2마디가 한 묶음).
+//   등장   from        = 묶음 첫 마디 시작 - mallet_appear_beats_before_show_bar 박 (0.4→1.0배로 커짐은 art)
+//   작아짐 shrinkStart = 묶음의 마지막 보여 주기 별 + mallet_hide_after_beats 박. 단 상한(cap)에 걸리면 cap - mallet_shrink_beats 박
+//   사라짐 gone        = shrinkStart + mallet_shrink_beats 박 (이 시각 이후 북채·점선 궤도·점선 북이 화면에 없음)
+//   상한   cap         = 다음 판정 별의 놓침 구역 시작(zoneStart) - mallet_gone_before_miss_zone_ms. gone ≤ cap 이 항상 성립
+//   북채가 보이는 구간 = [from, gone). 검증 S15(손가락 구간과 안 겹침)·S16(모든 판정 별 [zoneStart, passEnd] 와 안 겹침)
+export function malletSchedule(L, bal) {
+  const tc = bal.teacher;
+  const bars = L.level.bars;
+  const runs = [];
+  bars.forEach((b, i) => {
+    if (b.mode !== 'show') return;
+    const last = runs[runs.length - 1];
+    if (last && last.lastBar === i - 1) last.lastBar = i; else runs.push({ firstBar: i, lastBar: i });
+  });
+  const after = (tc.mallet_hide_after_beats ?? 0.5) * L.beatMs;
+  const shrink = (tc.mallet_shrink_beats ?? 0.25) * L.beatMs;
+  const margin = tc.mallet_gone_before_miss_zone_ms ?? 0;
+  return runs.map((r) => {
+    const from = slotTimeMs(L, r.firstBar, 0) - tc.mallet_appear_beats_before_show_bar * L.beatMs;
+    const shows = L.shows.filter((s) => s.bar >= r.firstBar && s.bar <= r.lastBar);
+    const lastShow = shows.length ? Math.max(...shows.map((s) => s.t)) : slotTimeMs(L, r.lastBar, 0);
+    const next = L.stars.find((s) => s.t > lastShow) || null;
+    const cap = next ? next.zoneStart - margin : Infinity;
+    const gone = Math.min(lastShow + after + shrink, cap);
+    return { firstBar: r.firstBar, lastBar: r.lastBar, from, lastShow, shrinkStart: gone - shrink, gone, cap, capped: gone < lastShow + after + shrink - 1e-9, nextStar: next ? next.i : -1 };
+  });
 }

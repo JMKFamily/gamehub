@@ -1,5 +1,5 @@
 {
- "_source": "30-art.md 12-4 합성 파라미터 표 (build-web-data.mjs 에 옮김). 게인 dB = 그 소리 최고 크기",
+ "_source": "assets/sound.json (build-web-data.mjs 복사)",
  "master": {
   "comp": {
    "threshold": -3,
@@ -39,7 +39,9 @@
       "decay": 8
      }
     }
-   ]
+   ],
+   "peak_db": -6.6,
+   "rms_db": -16.4
   },
   "tap_top": {
    "bus": "sfx",
@@ -68,7 +70,9 @@
       "decay": 8
      }
     }
-   ]
+   ],
+   "peak_db": -6.5,
+   "rms_db": -14.9
   },
   "tap_pass": {
    "bus": "sfx",
@@ -102,11 +106,13 @@
       "decay": 8
      }
     }
-   ]
+   ],
+   "peak_db": -6.6,
+   "rms_db": -16.2
   },
   "teacher": {
    "bus": "sfx",
-   "db": -12,
+   "db": -14,
    "post": {
     "type": "lowpass",
     "f": 600,
@@ -134,7 +140,9 @@
       "decay": 280
      }
     }
-   ]
+   ],
+   "peak_db": -13.4,
+   "rms_db": -22.8
   },
   "stray": {
    "bus": "sfx",
@@ -155,7 +163,9 @@
       "decay": 50
      }
     }
-   ]
+   ],
+   "peak_db": -23.7,
+   "rms_db": -40.7
   },
   "bell_high": {
    "bus": "sfx",
@@ -179,7 +189,9 @@
       "decay": 250
      }
     }
-   ]
+   ],
+   "peak_db": -11.9,
+   "rms_db": -23.2
   },
   "bell_low": {
    "bus": "sfx",
@@ -194,7 +206,9 @@
       "decay": 150
      }
     }
-   ]
+   ],
+   "peak_db": -18.2,
+   "rms_db": -30
   },
   "tick": {
    "bus": "sfx",
@@ -221,7 +235,9 @@
       "decay": 15
      }
     }
-   ]
+   ],
+   "peak_db": -12.5,
+   "rms_db": -31.1
   },
   "tick_one": {
    "bus": "sfx",
@@ -248,7 +264,9 @@
       "decay": 15
      }
     }
-   ]
+   ],
+   "peak_db": -10.1,
+   "rms_db": -28.8
   },
   "fail": {
    "bus": "sfx",
@@ -277,7 +295,9 @@
       "decay": 120
      }
     }
-   ]
+   ],
+   "peak_db": -9.1,
+   "rms_db": -15.4
   },
   "best": {
    "bus": "sfx",
@@ -292,11 +312,13 @@
       "decay": 150
      }
     }
-   ]
+   ],
+   "peak_db": -12.4,
+   "rms_db": -24.3
   },
   "clear": {
    "bus": "sfx",
-   "db": -8,
+   "db": -10,
    "arpeggio": {
     "major": [
      0,
@@ -328,7 +350,9 @@
       "decay": 90
      }
     }
-   ]
+   ],
+   "peak_db": -8.5,
+   "rms_db": -23.9
   },
   "menu": {
    "bus": "sfx",
@@ -342,7 +366,9 @@
       "decay": 30
      }
     }
-   ]
+   ],
+   "peak_db": -16.4,
+   "rms_db": -34.5
   },
   "kick": {
    "bus": "music",
@@ -358,7 +384,9 @@
       "decay": 120
      }
     }
-   ]
+   ],
+   "peak_db": -17.4,
+   "rms_db": -29.3
   },
   "kick_one": {
    "bus": "music",
@@ -374,11 +402,13 @@
       "decay": 120
      }
     }
-   ]
+   ],
+   "peak_db": -14.4,
+   "rms_db": -26.3
   },
   "bass": {
    "bus": "music",
-   "db": -14,
+   "db": -20,
    "post": {
     "type": "lowpass",
     "f": 400,
@@ -411,7 +441,9 @@
       "r": 80
      }
     }
-   ]
+   ],
+   "peak_db": -16.5,
+   "rms_db": -24.1
   },
   "pad": {
    "bus": "music",
@@ -444,7 +476,9 @@
       "r": 600
      }
     }
-   ]
+   ],
+   "peak_db": -20.1,
+   "rms_db": -32.5
   },
   "shaker": {
    "bus": "music",
@@ -462,11 +496,13 @@
       "decay": 25
      }
     }
-   ]
+   ],
+   "peak_db": -21.3,
+   "rms_db": -44.8
   },
   "mel_X": {
    "bus": "music",
-   "db": -16,
+   "db": -18,
    "layers": [
     {
      "wave": "sine",
@@ -485,11 +521,13 @@
       "decay": 350
      }
     }
-   ]
+   ],
+   "peak_db": -15.3,
+   "rms_db": -24.2
   },
   "mel_O": {
    "bus": "music",
-   "db": -16,
+   "db": -18,
    "layers": [
     {
      "wave": "sine",
@@ -508,11 +546,13 @@
       "decay": 600
      }
     }
-   ]
+   ],
+   "peak_db": -15.6,
+   "rms_db": -23.1
   },
   "mel_F": {
    "bus": "music",
-   "db": -16,
+   "db": -18,
    "layers": [
     {
      "wave": "triangle",
@@ -534,11 +574,13 @@
       "r": 120
      }
     }
-   ]
+   ],
+   "peak_db": -16.6,
+   "rms_db": -23.5
   },
   "mel_M": {
    "bus": "music",
-   "db": -16,
+   "db": -18,
    "layers": [
     {
      "wave": "sine",
@@ -557,9 +599,11 @@
       "decay": 80
      }
     }
-   ]
+   ],
+   "peak_db": -14.9,
+   "rms_db": -23.9
   },
-  "harmony_db": -22
+  "harmony_db": -24
  },
  "parts": {
   "countin": [
@@ -590,6 +634,10 @@
   ],
   "melody_from_stage": 2,
   "harmony_from_stage": 3,
-  "shaker_when_allowed_slots_not": "even"
+  "shaker_when_allowed_slots_not": "even",
+  "bass_duck_on": [
+   "play",
+   "show"
+  ]
  }
 }

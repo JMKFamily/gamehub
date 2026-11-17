@@ -1,22 +1,14 @@
 // 게임 진행 엔진 (DOM·오디오 없음). 시간 단위 ms.
 // V = 게임 시계(오디오 시계 - 지연 보정, 테스트 모드는 가상 시계). 레벨 시간 = V - songStartV.
 // 판정 규칙은 judge.js(tools/sim/judge.mjs 복사)의 judgeAttempt 와 같게 한 탭씩 처리한다.
-import { compileLevel, previewSchedule, gradeRating, slotTimeMs } from './judge.js';
+import { compileLevel, previewSchedule, gradeRating, slotTimeMs, malletSchedule } from './judge.js';
 
 export function prepareLevel(level, bal) {
   const L = compileLevel(level, bal);
   L.preview = previewSchedule(L, bal);
-  // 보여 주기 마디 묶음(북채): [시작 마디, 끝 마디]
-  L.showRuns = [];
-  level.bars.forEach((b, i) => {
-    if (b.mode !== 'show') return;
-    const last = L.showRuns[L.showRuns.length - 1];
-    if (last && last[1] === i - 1) last[1] = i; else L.showRuns.push([i, i]);
-  });
-  L.malletWins = L.showRuns.map(([a, b]) => ({
-    from: slotTimeMs(L, a, 0) - bal.teacher.mallet_appear_beats_before_show_bar * L.beatMs,
-    to: slotTimeMs(L, b + 1, 0),
-  }));
+  // 북채(차례 신호) 묶음: 등장 from, 작아짐 shrinkStart, 사라짐 gone (judge.js malletSchedule, round-2 R1).
+  // 점선 궤도·점선 북도 같은 창(teacher.mallet_hides_with): 묶음 첫 마디 시작 ~ gone
+  L.malletWins = malletSchedule(L, bal).map((w) => ({ ...w, dashFrom: slotTimeMs(L, w.firstBar, 0) }));
   L.checkpoints = level.sections.filter((s) => s.checkpoint).map((s) => {
     const t = slotTimeMs(L, s.start_bar, 0);
     const first = L.stars.findIndex((st) => st.t >= t);
@@ -26,9 +18,30 @@ export function prepareLevel(level, bal) {
   L.preview.forEach((p) => { p.si = p.kind === 'play' ? L.stars.findIndex((s) => Math.abs(s.t - p.t) < 0.5) : -1; });
   L.cue = (level.cues || []).map((c) => {
     const t = slotTimeMs(L, c.bar, c.slot);
-    return { ...c, t, star: L.stars.findIndex((s) => Math.abs(s.t - t) < 0.5) };
+    let from = t - c.show_from_beats_before * L.beatMs;
+    for (const w of L.malletWins) if (w.from < t && w.gone > from) from = w.gone;
+    return { ...c, t, from, pressFrom: t - c.press_from_beats_before * L.beatMs, star: L.stars.findIndex((s) => Math.abs(s.t - t) < 0.5) };
   })[0] || null;
   return L;
+}
+
+// 북채 상태 (레벨 시간 x): on = 보임, k = 작아짐 배율(1 → 0, ease-in), grow = 등장 커짐 배율, dash = 점선 창 안 (5-4)
+const MSTATE = { on: true, k: 1, scale: 1, dash: false }; // 프레임마다 새 객체를 만들지 않음
+export function malletAt(L, x, growMs, grow0) {
+  for (const w of L.malletWins) {
+    if (x < w.from || x >= w.gone) continue;
+    let k = 1;
+    if (x >= w.shrinkStart) { const q = Math.min(1, (x - w.shrinkStart) / (w.gone - w.shrinkStart)); k = 1 - q * q; }
+    const g = x < w.from + growMs ? grow0 + (1 - grow0) * ((x - w.from) / growMs) : 1;
+    MSTATE.k = k; MSTATE.scale = g * k; MSTATE.dash = x >= w.dashFrom;
+    return MSTATE;
+  }
+  return null;
+}
+// 손가락(레벨 1 첫 별) 보이는지: 북채가 다 사라진 뒤 cue.from ~ 첫 별 통과 창 끝, 첫 별 판정 전까지
+export function cueVisible(L, run, x) {
+  const c = L.cue;
+  return !!(c && !run.cueDone && c.star >= run.i0 && x >= c.from && x <= c.t + L.judge.pass_late_ms);
 }
 
 // 레벨 시간 → 마디 정보

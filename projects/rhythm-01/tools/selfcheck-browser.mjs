@@ -18,7 +18,7 @@ const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
 const channel = opt('--channel', 'msedge');
 const OUT = resolve(opt('--out', join(tmpdir(), 'rhythm01-selfcheck')));
 const QUICK = args.includes('--quick');
-const PORT = 8133 + Math.floor(Math.random() * 50);
+const PORT = 8320 + Math.floor(Math.random() * 60); // rhythm-01 전용 대역 8300~8399
 const BASE = `http://localhost:${PORT}/games/rhythm-01/`;
 mkdirSync(OUT, { recursive: true });
 
@@ -247,6 +247,132 @@ for (const [w, h] of [[360, 640], [412, 915], [640, 360], [1280, 720]]) {
   const st2 = await p.evaluate(() => ({ state: window.__game.state, attempts: window.__game.attempts, phase: window.__game.phase }));
   rep.background = { onHide: st, afterTap: st2 };
   if (st !== 'pause' || st2.state !== 'play' || st2.attempts !== 1) fail(`백그라운드 일시정지 ${JSON.stringify(rep.background)}`);
+  await ctx.close();
+}
+
+// ---- 6) round-2 검사 (R1·R4·R6·R8·R9) ----
+rep.r2 = {};
+{
+  // R1: 그린 프레임 기준 손가락·북채 동시 표시 0 (레벨 1, 8 ms 간격), L6 두 마디 묶음은 둘째 마디에도 북채
+  const { ctx, p } = await open(412, 915, '?test=1', { dsf: 1 });
+  const r1 = await p.evaluate(() => {
+    const G = window.__game; G.loadLevel(0);
+    let both = 0, firstHand = null, lastMallet = null, n = 0;
+    for (let k = 0; k < 900; k++) {
+      G.step(0.008); const f = G.drawNow(); n++;
+      if (f.handOn && f.malletOn) both++;
+      if (f.handOn && firstHand === null) firstHand = f.levelTime;
+      if (f.malletOn && firstHand === null) lastMallet = f.levelTime;
+    }
+    G.loadLevel(5); const L6 = []; for (let k = 0; k < 1500; k++) { G.step(0.008); L6.push(G.drawNow().malletOn ? 1 : 0); }
+    return { frames: n, both, firstHand, lastMallet, l6MalletFrames: L6.reduce((a, b) => a + b, 0) };
+  });
+  rep.r2.R1 = r1;
+  if (r1.both || r1.firstHand === null || r1.lastMallet === null || r1.firstHand <= r1.lastMallet) fail(`R1 손가락·북채 ${JSON.stringify(r1)}`);
+  console.log(`R1: 프레임 ${r1.frames}, 동시 표시 ${r1.both}, 북채 마지막 ${Math.round(r1.lastMallet)} ms → 손가락 ${Math.round(r1.firstHand)} ms`);
+  await ctx.close();
+}
+for (const [w, h] of [[360, 640], [412, 915], [640, 360], [1280, 720]]) {
+  const tag = `${w}x${h}`;
+  const { ctx, p } = await open(w, h);
+  const g = (f, a) => p.evaluate(f, a);
+  const out = {};
+  // R4: 그림 카드 (세로 = _portrait.svg), 카드 속 공 지름 28(카드 단위) → 화면 px ≥ 16
+  await g(() => window.__game.loadLevel(0, { card: true }));
+  await p.waitForFunction(() => document.getElementById('cardImg').complete);
+  out.card = await g(() => { const im = document.getElementById('cardImg'); const r = im.getBoundingClientRect(); const portrait = innerWidth < innerHeight; return { src: im.getAttribute('src'), w: r.width, h: r.height, ballPx: 28 * r.width / (portrait ? 234 : 720), inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; });
+  if ((w < h) !== out.card.src.endsWith('_portrait.svg') || out.card.ballPx < 16 || !out.card.inside) fail(`R4 ${tag} 카드 ${JSON.stringify(out.card)}`);
+  await shot(p, `${tag}-r2-card.png`);
+  // N12: 손가락 칸 = max(64, 0.45R)
+  out.hand = await g(() => { const l = window.__game.layout(); return { size: l.hand.size, x: l.hand.x, y: l.hand.y, R: l.R, thumbH: l.thumb ? l.thumb.h : null }; });
+  {
+    const want = out.hand.thumbH ? Math.min(Math.max(64, 0.45 * out.hand.R), out.hand.thumbH - 16) : Math.max(64, 0.45 * out.hand.R);
+    if (Math.abs(out.hand.size - want) > 0.5) fail(`N12 ${tag} 손가락 ${JSON.stringify(out.hand)}`);
+  }
+  // N2: 타이틀 힌트가 궤도(띠 + 별)와 겹치지 않음
+  await g(() => window.__game.show('title'));
+  out.title = await g(() => { const l = window.__game.layout(); const rs = [...document.getElementById('tapStart').children].map((e) => e.getBoundingClientRect()); const r = { left: Math.min(...rs.map((q) => q.left)), top: Math.min(...rs.map((q) => q.top)), right: Math.max(...rs.map((q) => q.right)), bottom: Math.max(...rs.map((q) => q.bottom)) }; r.width = r.right - r.left; r.height = r.bottom - r.top; const cx = Math.max(r.left, Math.min(l.cx, r.right)), cy = Math.max(r.top, Math.min(l.cy, r.bottom)); const far = [[r.left, r.top], [r.right, r.top], [r.left, r.bottom], [r.right, r.bottom]].map(([x, y]) => Math.hypot(x - l.cx, y - l.cy)); const near = Math.hypot(cx - l.cx, cy - l.cy); const ring = l.R + l.band / 2 + l.starR; return { rect: [r.left, r.top, r.width, r.height].map(Math.round), clearOfOrbit: near > ring || Math.max(...far) < l.R - l.band / 2 - 2, inside: r.left >= 0 && r.top >= 0 && r.right <= innerWidth && r.bottom <= innerHeight }; });
+  if (!out.title.clearOfOrbit || !out.title.inside) fail(`N2 ${tag} 타이틀 힌트 ${JSON.stringify(out.title)}`);
+  // N1·N6: 레벨 카드 줄 흐름 겹침 0, 진행도 줄
+  await g(() => { const G = window.__game; G.loadLevel(0); G.autoplay(0, 0); G.loadLevel(1); const s = G.stars(); for (const st of s.slice(0, 12)) G.pressAt(st.t); G.step(2); G.loadLevel(1, { practice: true }); G.autoplay(0, 0); G.show('levels'); });
+  out.levels = await g(() => {
+    const bad = [];
+    document.querySelectorAll('.lcard').forEach((c, i) => {
+      const pr = c.querySelector('.lplay').getBoundingClientRect();
+      const rows = [...c.querySelector('.lplay').children].map((e) => e.getBoundingClientRect());
+      rows.forEach((r, k) => {
+        if (r.top < pr.top - 0.5 || r.bottom > pr.bottom + 0.5) bad.push(`L${i + 1} 줄 ${k} 밖`);
+        if (k && r.top - rows[k - 1].bottom < 3.5) bad.push(`L${i + 1} 줄 ${k - 1}-${k} 간격 ${(r.top - rows[k - 1].bottom).toFixed(1)}`);
+      });
+      const nm = c.querySelector('.lname'); if (nm && nm.scrollWidth > nm.clientWidth + 0.5) bad.push(`L${i + 1} 이름 잘림`);
+    });
+    const l2 = document.querySelectorAll('.lcard')[1].querySelector('.lplay svg:nth-of-type(3)');
+    return { bad, l2Progress: !!(l2 && l2.querySelector('circle')), cardIcon: [...document.querySelectorAll('.lrow img')].some((im) => im.getAttribute('src').endsWith('icon-card.svg')) };
+  });
+  if (out.levels.bad.length || !out.levels.l2Progress || !out.levels.cardIcon) fail(`N1·N6·N11 ${tag} ${JSON.stringify(out.levels)}`);
+  await shot(p, `${tag}-r2-levels.png`);
+  // N5·R8-7: 확인 창 첫 초점 = 취소, 두 버튼 모두 그림
+  await g(() => window.__game.show('confirm'));
+  out.confirm = await g(() => ({ focus: document.activeElement && document.activeElement.id, imgs: ['cfNo', 'cfYes'].map((id) => !!document.getElementById(id).querySelector('img')), dialog: document.querySelector('#sConfirm [role=dialog]')?.getAttribute('aria-labelledby') }));
+  if (out.confirm.focus !== 'cfNo' || !out.confirm.imgs.every(Boolean) || !out.confirm.dialog) fail(`N5 ${tag} 확인 창 ${JSON.stringify(out.confirm)}`);
+  await shot(p, `${tag}-r2-confirm.png`);
+  // N16·R8-2: 레벨 10 결과 = 버튼 2개, 등급 줄 대체 글
+  await g(() => { const G = window.__game; G.loadLevel(9); G.autoplay(0, 0); for (let k = 0; k < 200 && G.state !== 'result'; k++) G.step(0.1); });
+  out.result = await g(() => { const vis = [...document.querySelectorAll('#resultBtns button')].filter((b) => b.offsetParent !== null).map((b) => b.id); return { vis, grade: document.getElementById('gradeAria').getAttribute('aria-label'), role: document.getElementById('gradeAria').getAttribute('role') }; });
+  if (out.result.vis.join() !== 'bRetry,bLevels' || !out.result.grade || out.result.role !== 'img') fail(`N16 ${tag} 결과 ${JSON.stringify(out.result)}`);
+  await checkButtons(p, `${tag} r2 result`);
+  await shot(p, `${tag}-r2-result-l10.png`);
+  rep.r2[tag] = out;
+  console.log(`r2 ${tag}: 카드 ${out.card.src.split('/').pop()} 공 ${out.card.ballPx.toFixed(1)} px, 손가락 ${out.hand.size.toFixed(0)} px, 타이틀 힌트 겹침 없음 ${out.title.clearOfOrbit}, 레벨 카드 문제 ${out.levels.bad.length}, 확인 창 초점 ${out.confirm.focus}, L10 결과 ${out.result.vis.join('+')}`);
+  await ctx.close();
+}
+{
+  // R8: aria (시도 meter, 설정 버튼 이름·설명, 체크포인트 깃발, 불러오기 실패 ↻)
+  const { ctx, p } = await open(640, 360);
+  const r8 = await p.evaluate(() => {
+    const G = window.__game, T = (k) => k; void T;
+    G.loadLevel(2, { practice: true }); G.step(1);
+    const at = document.getElementById('attAria');
+    const flags = [...document.querySelectorAll('#cpFlags [role=img]')].map((e) => e.getAttribute('aria-label'));
+    const a1 = { role: at.getAttribute('role'), now: at.getAttribute('aria-valuenow'), label: at.getAttribute('aria-label') };
+    let guard = 0; const att = G.attempts; while (G.attempts === att && guard++ < 400) G.step(0.05);
+    const a2 = at.getAttribute('aria-valuenow'), attempts = G.attempts;
+    G.show('levels');
+    const gb = document.getElementById('bGate');
+    return { a1, a2, attempts, flags, gate: { label: gb.getAttribute('aria-label'), desc: document.getElementById(gb.getAttribute('aria-describedby'))?.textContent } };
+  });
+  const strings = await p.evaluate(() => fetch('data/strings.json').then((r) => r.json()));
+  const T = strings.ko;
+  if (r8.a1.role !== 'meter' || r8.a1.label !== T.aria_attempts || r8.a1.now !== '1' || r8.a2 !== String(r8.attempts) || /\d/.test(r8.a1.label)) fail(`R8-1 ${JSON.stringify(r8)}`);
+  if (!r8.flags.length || r8.flags.some((f) => f !== T.aria_checkpoint)) fail(`R8-4 ${JSON.stringify(r8.flags)}`);
+  if (r8.gate.label !== T.btn_settings || r8.gate.desc !== T.guardian_hold) fail(`R8-3 ${JSON.stringify(r8.gate)}`);
+  rep.r2.R8 = r8;
+  await ctx.close();
+  // R8-5: 불러오기 실패 화면 (data/balance.json 막음)
+  const ctx2 = await browser.newContext({ viewport: { width: 360, height: 640 } });
+  const p2 = await ctx2.newPage();
+  p2.on('pageerror', (e) => rep.console.push(`[load-fail] pageerror: ${e.message}`));
+  await p2.route('**/data/balance.json', (r) => r.abort());
+  await p2.goto(BASE);
+  await p2.waitForSelector('#bReload:not(.hidden)', { timeout: 10000 });
+  const lf = await p2.evaluate(() => { const b = document.getElementById('bReload'); return { label: b.getAttribute('aria-label'), desc: document.getElementById(b.getAttribute('aria-describedby'))?.textContent, pic: document.getElementById('loadPic').getAttribute('aria-label') }; });
+  await p2.screenshot({ path: join(OUT, '360x640-r2-load-fail.png') }); rep.shots.push('360x640-r2-load-fail.png');
+  if (lf.label !== T.btn_retry || lf.desc !== T.load_error || lf.pic !== T.loading) fail(`R8-5 ${JSON.stringify(lf)}`);
+  rep.r2.R8_5 = lf;
+  await ctx2.close();
+  console.log(`R8: 시도 meter ${r8.a1.now}→${r8.a2}, 깃발 ${r8.flags.length}개, 설정 "${r8.gate.label}"+설명, 불러오기 실패 ↻ "${lf.label}"`);
+}
+{
+  // R9: 일반 모드 자동 지연 표시값 = 판정에 쓰는 값
+  const { ctx, p } = await open(1280, 720, '');
+  await p.mouse.click(640, 400);
+  await p.evaluate(() => window.__game.skipCalibration());
+  await p.evaluate(() => window.__game.loadLevel(0));
+  await p.waitForTimeout(1500);
+  const lat = await p.evaluate(() => window.__game.latency());
+  rep.r2.R9 = lat;
+  if (Math.abs(lat.auto + lat.manual - lat.comp) > 1e-6) fail(`R9 ${JSON.stringify(lat)}`);
+  console.log(`R9: auto ${lat.auto.toFixed(1)} + manual ${lat.manual} = comp ${lat.comp.toFixed(1)} (지금 값 ${lat.autoNow.toFixed(1)})`);
   await ctx.close();
 }
 

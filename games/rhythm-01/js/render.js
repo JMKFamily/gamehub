@@ -1,12 +1,22 @@
 // 캔버스 그리기 (30-art 2~8·10절, 값은 data/art.json·palette.json)
-import { barAt, stageAt } from './engine.js';
+import { stageAt, malletAt, cueVisible } from './engine.js';
 
 const TAU = Math.PI * 2;
+const NO_FLAGS = [];
 const lerp = (a, b, k) => a + (b - a) * k;
 const clamp01 = (k) => Math.max(0, Math.min(1, k));
 const easeOut = (k) => 1 - (1 - k) * (1 - k);
 function hex(c) { const n = parseInt(c.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+const mixCache = new Map();
+// 색 섞기 (k 는 1/64 단위로 묶어 문자열을 캐시, 프레임마다 새 문자열을 만들지 않음)
 export function mix(a, b, k) {
+  k = Math.round(clamp01(k) * 64) / 64;
+  const key = a + b + k;
+  let v = mixCache.get(key);
+  if (v === undefined) { v = mixRaw(a, b, k); if (mixCache.size > 2000) mixCache.clear(); mixCache.set(key, v); }
+  return v;
+}
+function mixRaw(a, b, k) {
   const A = hex(a), B = hex(b);
   return '#' + A.map((v, i) => Math.round(lerp(v, B[i], clamp01(k))).toString(16).padStart(2, '0')).join('');
 }
@@ -29,7 +39,24 @@ export function layout(W, H, art, safe = { t: 0, b: 0 }) {
     const top = Math.max(cy + R + t.fxK * starR + t.pad, t.minTop * H);
     thumb = { x: t.side, y: top, w: W - 2 * t.side, h: H - t.bottom - safe.b - top };
   }
-  return { W, H, portrait, R, cx, cy, starR, ballR, band, drumR: art.drum.k * R, mx, pause, bar, thumb, dotsY: bar.y + bar.h + h.dotsGap };
+  // 손가락 칸 (4-4 round 2): 세로 = 받침 가운데, 가로 = (cx + 1.45R, cy + 0.65R), 화면 가장자리 edge 안
+  const ha = art.hand;
+  let hs = Math.max(ha.min, ha.k * R), hx, hy;
+  if (thumb) { hs = Math.min(hs, thumb.h - ha.portraitPad); hx = thumb.x + thumb.w / 2; hy = thumb.y + thumb.h / 2; }
+  else {
+    hx = Math.min(W - ha.edge - hs / 2, Math.max(ha.edge + hs / 2, cx + ha.landscapeAt[0] * R));
+    hy = Math.min(H - ha.edge - hs / 2 - safe.b, Math.max(ha.edge + hs / 2, cy + ha.landscapeAt[1] * R));
+  }
+  const hand = { x: hx, y: hy, size: hs };
+  // 타이틀 시작 힌트 (4-6): 세로 = 받침 자리, 가로 = 궤도 오른쪽 영역
+  let titleHint;
+  if (thumb) titleHint = { x0: thumb.x, x1: thumb.x + thumb.w, cy: thumb.y + thumb.h / 2, hand: hs };
+  else {
+    const t = art.titleHint, x0 = cx + R + t.gap, x1 = W - t.right;
+    titleHint = { x0, x1, cy, hand: Math.max(0, Math.min(t.handMax, x1 - x0 - t.handPad)) };
+  }
+  const slots = []; for (let s = 0; s < 8; s++) { const a = (s / 8) * TAU - Math.PI / 2; slots.push([cx + Math.cos(a) * R, cy + Math.sin(a) * R]); }
+  return { slots, W, H, portrait, R, cx, cy, starR, ballR, band, drumR: art.drum.k * R, mx, pause, bar, thumb, hand, titleHint, dotsY: bar.y + bar.h + h.dotsGap };
 }
 
 function starPath(g, x, y, r, inner) {
@@ -54,6 +81,9 @@ export class Renderer {
     this.art = data.art; this.pal = data.palette; this.C = data.palette.common; this.A = data.palette.alpha;
     this.imgs = data.imgs;
     this.ripples = [];
+    this.sprites = new Map();
+    this.layers = new Map();
+    this.spareLayers = [];
   }
 
   resize(W, H, dpr, safe) {
@@ -61,6 +91,13 @@ export class Renderer {
     this.cv.width = Math.round(W * dpr); this.cv.height = Math.round(H * dpr);
     this.cv.style.width = W + 'px'; this.cv.style.height = H + 'px';
     this.lay = layout(W, H, this.art, safe);
+    this.sprites.clear();
+    // 바탕 층 캔버스를 지금 크기로 미리 만들어 둠
+    const keep = [...this.layers.values(), ...this.spareLayers];
+    this.layers.clear();
+    while (keep.length < 2) keep.push(document.createElement('canvas'));
+    for (const c of keep) { c.width = this.cv.width; c.height = this.cv.height; }
+    this.spareLayers = keep;
   }
 
   ripple(V, scale, ms) { this.ripples.push({ V, scale, ms }); if (this.ripples.length > 12) this.ripples.shift(); }
@@ -97,22 +134,41 @@ export class Renderer {
     g.save(); g.globalAlpha = this.A.thumb_rest_border_trackEdge; g.strokeStyle = this.C.trackEdge; g.lineWidth = 2; g.setLineDash([8, 6]); g.stroke(); g.restore();
   }
 
-  orbit(trackColor, dashed) {
+  // 정적 바탕 층(바탕색 + 실루엣 + 엄지 받침 + 궤도 띠·눈금) 캐시: 단계 색이 안정일 때만, 화면 크기가 바뀌면 버림 (round-2 성능)
+  staticLayer(th, track) {
+    const key = th.bg + th.bgFar + track;
+    let c = this.layers.get(key);
+    if (c) return c;
+    // 캔버스 2장을 크기마다 한 번만 만들고 돌려 씀 (큰 메모리 할당이 플레이 중 GC 를 부르지 않게)
+    if (this.layers.size >= 2) { const k0 = this.layers.keys().next().value; c = this.layers.get(k0); this.layers.delete(k0); }
+    else c = this.spareLayers.pop() || document.createElement('canvas');
+    if (c.width !== this.cv.width || c.height !== this.cv.height) { c.width = this.cv.width; c.height = this.cv.height; }
+    const g0 = this.g; this.g = c.getContext('2d');
+    try { this.bg(th); this.silhouettes(th, 0); this.thumbRest(th); this.orbit(track, 0); } finally { this.g = g0; }
+    this.layers.set(key, c);
+    return c;
+  }
+
+  orbit(trackColor, dashed, dashOnly = false) {
     const g = this.g, L = this.lay, C = this.C, a = this.art;
-    g.lineWidth = L.band; g.strokeStyle = trackColor;
-    g.beginPath(); g.arc(L.cx, L.cy, L.R, 0, TAU); g.stroke();
-    g.lineWidth = a.band.edge; g.strokeStyle = C.trackEdge;
-    for (const s of [-1, 1]) { g.beginPath(); g.arc(L.cx, L.cy, L.R + (s * L.band) / 2, 0, TAU); g.stroke(); }
-    if (dashed) {
+    if (!dashOnly) {
+      g.lineWidth = L.band; g.strokeStyle = trackColor;
+      g.beginPath(); g.arc(L.cx, L.cy, L.R, 0, TAU); g.stroke();
+      g.lineWidth = a.band.edge; g.strokeStyle = C.trackEdge;
+      for (let s = -1; s <= 1; s += 2) { g.beginPath(); g.arc(L.cx, L.cy, L.R + (s * L.band) / 2, 0, TAU); g.stroke(); }
+    }
+    if (dashed > 0) {
+      g.strokeStyle = C.trackEdge;
       const d = a.showDash, seg = (TAU * L.R) / d.segs;
-      g.save(); g.lineWidth = L.band * d.width; g.setLineDash([seg * d.on, seg * (1 - d.on)]);
+      g.save(); g.lineWidth = L.band * d.width; g.setLineDash([seg * d.on, seg * (1 - d.on) * dashed]);
       g.beginPath(); g.arc(L.cx, L.cy, L.R, -Math.PI / 2, TAU - Math.PI / 2); g.stroke(); g.restore();
     }
+    if (dashOnly) return;
     // 눈금
     const t = a.ticks, bs = L.mx(t.beat), hr = L.mx(t.half);
     g.fillStyle = C.trackEdge;
     for (let s = 1; s < 8; s++) {
-      const [x, y] = slotXY(L, s, t.at * L.R);
+      const ang = (s / 8) * TAU - Math.PI / 2, x = L.cx + Math.cos(ang) * t.at * L.R, y = L.cy + Math.sin(ang) * t.at * L.R;
       if (s % 2 === 0) g.fillRect(x - bs / 2, y - bs / 2, bs, bs);
       else { g.save(); g.globalAlpha = this.A.tick_halfbeat_dot; g.beginPath(); g.arc(x, y, hr, 0, TAU); g.fill(); g.restore(); }
     }
@@ -127,7 +183,7 @@ export class Renderer {
     const r = (r0 ?? L.drumR) * scale;
     g.fillStyle = th.drum; g.strokeStyle = C.outline; g.lineWidth = this.art.drum.outline;
     g.beginPath(); g.arc(L.cx, L.cy, r, 0, TAU); g.fill();
-    if (dashed) { g.save(); g.strokeStyle = C.trackEdge; g.setLineDash([8, 6]); g.stroke(); g.restore(); } else g.stroke();
+    if (dashed > 0) { g.save(); g.strokeStyle = C.trackEdge; g.setLineDash([8, 6 * dashed]); g.stroke(); g.restore(); } else g.stroke();
     g.save(); g.globalAlpha = this.A.drum_inner_ring_hud; g.strokeStyle = C.hud; g.lineWidth = 2;
     g.beginPath(); g.arc(L.cx, L.cy, (r * this.art.drum.innerK) / this.art.drum.k, 0, TAU); g.stroke(); g.restore();
     for (const rp of this.ripples) {
@@ -187,11 +243,28 @@ export class Renderer {
     g.restore();
   }
 
-  hand(x, y, size, pressPx) {
-    const im = this.imgs['hand-tap']; if (!im) return;
-    this.g.drawImage(im, x - size / 2, y - size / 2 + pressPx, size, size);
+  // SVG 그림을 기기 px 로 한 번만 래스터화해 둔 캔버스 (매 프레임 SVG drawImage 비용 제거)
+  sprite(name, cssPx) {
+    const im = this.imgs[name]; if (!im) return null;
+    const px = Math.max(8, Math.ceil(cssPx * this.dpr));
+    const key = name + '@' + px;
+    let c = this.sprites.get(key);
+    if (!c) {
+      c = document.createElement('canvas'); c.width = c.height = px;
+      c.getContext('2d').drawImage(im, 0, 0, px, px);
+      this.sprites.set(key, c);
+    }
+    return c;
   }
-  flagAt(x, y, size) { const im = this.imgs.flag; if (im) this.g.drawImage(im, x - size / 2, y - size / 2, size, size); }
+  hand(x, y, size, pressPx) {
+    const c = this.sprite('hand-tap', this.lay.hand.size); if (!c) return;
+    this.g.drawImage(c, x - size / 2, y - size / 2 + pressPx, size, size);
+  }
+  flagAt(x, y, size) { const c = this.sprite('flag', Math.max(size, 40)); if (c) this.g.drawImage(c, x - size / 2, y - size / 2, size, size); }
+  // 다른 캔버스에 잠깐 그리기 (코드 미리 돌리기용)
+  withTarget(g, fn) { const g0 = this.g; this.g = g; try { fn(); } finally { this.g = g0; } }
+  // 레벨 시작 전에 첫 그림 비용(래스터화)을 미리 냄
+  prewarm() { this.sprite('hand-tap', this.lay.hand.size); this.sprite('flag', 40); }
 
   gradeDrum(x, y, r, got, scale = 1) {
     const g = this.g, C = this.C;
@@ -233,41 +306,48 @@ export class Renderer {
     const failD = ph === 'fail' ? V - run.fail.V : -1;
     const x = ph === 'fail' ? run.fail.x : run.lt(V);
     const R = this.pal; void R;
-    this.bg(th);
     // 클리어 물듦
     let clearK = 0;
     if (run.clearV != null) clearK = clamp01((V - run.clearV) / Math.max(L.barMs, 2000));
-    this.silhouettes(th, clearK);
-    this.thumbRest(th);
     // 궤도 색
-    const tracks = [th.track1, th.track2, th.track3];
-    const { b } = barAt(L, x);
+    const tracks = th._tracks || (th._tracks = [th.track1, th.track2, th.track3]);
+    const b = Math.floor(x / L.barMs) - L.countInBars;
     const st = stageAt(L, b), sp = stageAt(L, b - 1);
     let track = tracks[st - 1];
     if (st !== sp && b >= 0 && x >= run.t0 + L.barMs) track = mix(tracks[sp - 1], tracks[st - 1], (x % L.barMs) / L.barMs);
     if (failD >= 0) track = mix(track, th.track1, failD / (this.art.fx.miss.ms));
     if (clearK > 0) track = mix(track, th.cardTint, clearK);
     const mode = failD >= 0 ? 'fail' : run.barMode(x);
-    this.orbit(track, mode === 'show');
-    // 북채
-    let mScale = 0, hitK = 0;
+    // 북채 + 점선 궤도·점선 북: [from, gone) 보임, [shrinkStart, gone) 동안 1 → 0 (ease-in), 점선 빈칸 × 같은 배율 (5-4 round 2)
+    let mScale = 0, hitK = 0, dashK = 0;
+    S.malletOn = false;
     if (failD < 0 && x >= run.t0) {
-      for (const w of L.malletWins) {
-        if (x < w.from || x >= w.to) continue;
-        const gb = art.mallet.growBeats * L.beatMs;
-        mScale = x < w.from + gb ? lerp(art.mallet.grow[0], 1, (x - w.from) / gb) : x > w.to - gb ? (w.to - x) / gb : 1;
+      const m = malletAt(L, x, art.mallet.growBeats * L.beatMs, art.mallet.grow[0]);
+      if (m) {
+        mScale = m.scale; S.malletOn = true;
+        if (mode === 'show' && m.dash) dashK = m.k;
+        for (const s of L.shows) { const d = x - s.t; if (d >= 0 && d < art.mallet.hitMs) hitK = Math.sin((d / art.mallet.hitMs) * Math.PI); }
       }
-      for (const s of L.shows) { const d = x - s.t; if (d >= 0 && d < art.mallet.hitMs) hitK = Math.sin((d / art.mallet.hitMs) * Math.PI); }
+    }
+    S.dashK = dashK;
+    const stable = clearK === 0 && failD < 0 && (track === tracks[0] || track === tracks[1] || track === tracks[2]);
+    if (stable) {
+      const layer = this.staticLayer(th, track);
+      g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(layer, 0, 0); g.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+      if (dashK > 0) this.orbit(track, dashK, true);
+    } else {
+      this.bg(th); this.silhouettes(th, clearK); this.thumbRest(th);
+      this.orbit(track, dashK);
     }
     const cin = mode === 'countin' ? Math.min(4, Math.floor((x - Math.max(run.t0, Math.floor(x / L.barMs) * L.barMs)) / L.beatMs) + 1) : -1;
-    this.drum(th, V, mode === 'show', cin);
+    this.drum(th, V, dashK, cin);
     this.mallet(mScale, hitK);
     // 별
     const fxA = art.fx;
     const shrinkK = failD >= this.RG ? clamp01((failD - this.RG) / (this.art.fail.pieceShrinkS * 1000)) : 0;
     for (const p of L.preview) {
       if (p.t < run.t0 || x < p.growStart) continue;
-      const [sx, sy] = slotXY(lay, p.slot);
+      const sp0 = lay.slots[p.slot], sx = sp0[0], sy = sp0[1];
       const grow = lerp(art.star.grow[0], 1, clamp01((x - p.growStart) / (p.growEnd - p.growStart)));
       if (p.kind === 'show') {
         if (x < p.t) this.star(sx, sy, lay.starR, true, grow * (1 - shrinkK));
@@ -311,14 +391,14 @@ export class Renderer {
     // 손가락 (레벨 1 첫 꽉 찬 별)
     S.handOn = false;
     const cue = L.cue;
-    if (cue && !run.cueDone && failD < 0 && cue.star >= run.i0 && x >= cue.t - cue.show_from_beats_before * L.beatMs && x <= cue.t + L.judge.pass_late_ms) {
-      const ha = art.hand;
-      const pos = lay.thumb ? [lay.thumb.x + lay.thumb.w / 2, lay.thumb.y + lay.thumb.h / 2] : [lay.W - ha.landscapeFromRight, lay.H - ha.landscapeFromBottom];
-      const pf = cue.t - cue.press_from_beats_before * L.beatMs;
-      const press = x >= pf ? ha.pressPx * clamp01((x - pf) / (cue.t - pf)) : 0;
-      const gk = clamp01((x - (cue.t - cue.show_from_beats_before * L.beatMs)) / (ha.growBeats * L.beatMs));
-      this.hand(pos[0], pos[1], ha.size * lerp(0.6, 1, gk), press);
-      S.handOn = true; S.handPos = pos;
+    // 손가락: 북채가 다 사라진 뒤(cue.from ≥ 북채 gone)에만, 누름은 pressFrom(0.25박 전)부터 (4-4·5-5, R1·R2)
+    if (failD < 0 && !S.malletOn && cueVisible(L, run, x)) {
+      const ha = art.hand, hb = lay.hand;
+      const pf = cue.pressFrom;
+      const press = x >= pf ? ha.pressPx * (hb.size / ha.pressRef) * clamp01((x - pf) / (cue.t - pf)) : 0;
+      const gk = clamp01((x - cue.from) / (ha.growBeats * L.beatMs));
+      this.hand(hb.x, hb.y, hb.size * lerp(0.6, 1, gk), press);
+      S.handOn = true;
     }
     // HUD
     let best = S.best;
@@ -326,7 +406,7 @@ export class Renderer {
       const k = clamp01((failD - this.BRK) / (S.bal.restart.best_record_slide_s * 1000));
       best = lerp(S.slideFrom, S.best, k);
     }
-    const flags = run.practice ? L.checkpoints.map((c) => c.firstStar / L.stars.length) : [];
+    const flags = run.practice ? (L._flags || (L._flags = L.checkpoints.map((c) => c.firstStar / L.stars.length))) : NO_FLAGS;
     const prog = failD >= 0 ? run.fail.index / L.stars.length : run.progress;
     this.hud(th, prog, run.practice ? null : best, run.attempts, flags);
     void g; void C;
@@ -392,7 +472,7 @@ export class Renderer {
       g.strokeStyle = C.hud; g.lineWidth = Math.max(6, r * 0.28); g.lineCap = 'round'; g.lineJoin = 'round';
       g.beginPath(); g.moveTo(lay.cx - r, lay.cy); g.lineTo(lay.cx - r * 0.25, lay.cy + r * 0.7); g.lineTo(lay.cx + r, lay.cy - r * 0.6); g.stroke();
     }
-    if (cs.hand && lay.thumb) this.hand(lay.thumb.x + lay.thumb.w / 2, lay.thumb.y + lay.thumb.h / 2, this.art.hand.size, 0);
+    if (cs.hand && lay.thumb) this.hand(lay.hand.x, lay.hand.y, lay.hand.size, 0);
   }
 
   // 메뉴 뒤 바탕
