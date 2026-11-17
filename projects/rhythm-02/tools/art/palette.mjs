@@ -49,6 +49,10 @@ const COMMON = {
   roofStripe: '#F1E4FA',// 지붕 차양 줄무늬(넓은 세로 띠 2색, 평면)
   branch: '#6E4520',    // 가지(W5·W7) 줄기
   leaf: '#1E6330',      // 가지 잎(렌즈 모양, 원 아님 — 공과 헷갈리지 않게)
+  // --- 판정 이름 글자 면 (30-art 6-3, 2026-11-17 요청자 지시 "판정 이름과 퍼센트까지") — 모두 ink 외곽선 3 px 와 함께, % 는 ink ---
+  judgePerfect: '#FFC861', // 딱: '딱' 가죽 빛·콤보 큰 표지와 같은 금빛(가장 밝은 강조색, 같은 뜻 = 같은 색)
+  judgeGood: '#B9EDC6',    // 좋아: 연한 민트(공·지붕·북과 색상각 멀리)
+  judgePass: '#FFFFFF',    // 됐어: 흰색(차분, 회색·빨강 아님 — 실패처럼 보이지 않게)
 };
 
 // [키, lore 이름 키, 색 방향, 색상각, 바탕 채도]. round-2: L5 작은 마을(새), L6 물웅덩이(L5에서 옮김) — lore 10-lore 4절
@@ -110,9 +114,10 @@ export function build() {
       '투명도(alpha) 없음. 그림자·튐 선·빛·콤보 연출 모두 불투명 단색.',
       '플레이 중 바탕 단계 = n번째 받침 쉼에서 min(n,3) 단계(bg1·bg2·bg3), 그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임·깜빡임 없음).',
       '클리어: 끝 구름 면 cloud → clearCloud(= cloud 와 accent 의 35 % 섞음) 1 s, 등급 칸만 진한 accent(N11). 바탕은 그때 단계 → bg1 로 1 s.',
-      '공 색(ball)은 공과 최고 기록 점에만(콤보·물체에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.',
+      '공 색(ball)은 공과 최고 기록 점에만(콤보·물체·판정 글자에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.',
       '콤보: 찬 칸 = ink, 빈 칸 = hudTrack + ink 외곽선, 10마다 큰 표지 = glow 둥근 네모 + ink 외곽선, 20 단계 색 조각 = 그 레벨 accent(HUD 띠 안). 바탕 단계(바탕 전체 색)와 모양이 겹치지 않음.',
       '노랑 별·하늘색 공·어두운 바탕(rhythm-01), 가시·네모 블록·발판·고리·포털 모양(runner-01·원작)을 쓰지 않음(30-art 10절).',
+      '판정 이름(30-art 6-3): 글자 면 judgePerfect(금빛, glow 와 같은 값)·judgeGood(민트)·judgePass(흰) + ink 외곽선 3 px(paint-order stroke), % 는 ink. 색은 보조 — 등급은 이름 위 튐 선 수(2·1·0쌍)·말로도 구분. 바탕 대비는 외곽선·% 의 ink 로(≥ 4.5).',
       'silhouette v2: anchor floor(dy = 바닥 위 높이) / sky(dy = HUD 띠 아래에서), 크기 S 단위, parallax(기본 0.5) 로 흘러감.',
     ],
     common: { ...COMMON },
@@ -148,6 +153,10 @@ export function pairs(P) {
     out.push([`${k} 콤보 20 색 조각(accent) / HUD 바탕 bg1~3`, t.accent, t.bg3, 3]);
     out.push([`${k} 실루엣 / bg1 (너무 튀지 않게 ≤ 1.6)`, t.sil, t.bg1, 1.0]);
     if (contrast(t.sil, t.bg1) > 1.6) out.push([`${k} 실루엣이 너무 진함`, '#000000', '#000000', 99]);
+    for (const bg of ['bg1', 'bg2', 'bg3', 'hill', 'sil']) { // 판정 표시(30-art 6-3): 바탕·지나간 언덕·실루엣 위
+      out.push([`${k} 판정 이름 외곽선(ink) / ${bg}`, C.ink, t[bg], 4.5]);
+      out.push([`${k} 판정 %(ink) / ${bg}`, C.ink, t[bg], 4.5]);
+    }
   }
   out.push(['공 / 북 가죽', C.ball, C.skin, 4.5]);
   out.push(['공 / 딱 빛(glow)', C.ball, C.glow, 3]);
@@ -164,6 +173,7 @@ export function pairs(P) {
   out.push(['콤보 찬 칸(ink) / 빈 칸(hudTrack)', C.ink, C.hudTrack, 7]);
   out.push(['외곽선 / 콤보 큰 표지(glow)', C.ink, C.glow, 7]);
   out.push(['외곽선 / 손가락 면', C.ink, C.finger, 7]);
+  for (const j of ['judgePerfect', 'judgeGood', 'judgePass']) out.push([`판정 이름 면 ${j} / 외곽선(ink)`, C[j], C.ink, 4.5]);
   return out;
 }
 
@@ -191,7 +201,21 @@ export function check(P) {
     if (/^(지붕|가지|구름|언덕)/.test(e.what)) silBad.push(`${k} ${e.what}: 위험·이유 물체와 같은 이름`);
   }
   if (silBad.length) fail++;
-  return { rows, fail, diffs, objDiffs, silBad };
+  // 판정 글자 면: 공 색 아님, 채도 있는 색은 공과 색상각 ≥ 40°, 회색(채도 낮은 중간 명도) 아님, 세 색이 서로 다름
+  const judgeBad = [];
+  const satL = (hex) => { const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255); const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2; return { s: mx === mn ? 0 : (mx - mn) / (1 - Math.abs(2 * l - 1)), l }; };
+  const J3 = ['judgePerfect', 'judgeGood', 'judgePass'].map((k) => [k, P.common[k]]);
+  for (const [k, v] of J3) {
+    if (!v) { judgeBad.push(`${k} 없음`); continue; }
+    if (v.toUpperCase() === P.common.ball.toUpperCase()) judgeBad.push(`${k} = 공 색`);
+    const { s: sat, l } = satL(v), dh = Math.min(Math.abs(hueOf(v) - hueOf(P.common.ball)) % 360, 360 - Math.abs(hueOf(v) - hueOf(P.common.ball)) % 360);
+    if (sat > 0.15 && dh < 40 && contrast(v, P.common.ball) < 3) judgeBad.push(`${k} 공과 색상각 ${dh}° < 40° · 명도 대비 < 3 (공과 헷갈림)`);
+    if (sat > 0.4 && (hueOf(v) <= 15 || hueOf(v) >= 345) && l < 0.8) judgeBad.push(`${k} 빨강`);
+    if (sat <= 0.15 && l < 0.95) judgeBad.push(`${k} 회색(채도 ${sat.toFixed(2)}, 명도 ${l.toFixed(2)})`);
+  }
+  if (new Set(J3.map(([, v]) => v)).size !== 3) judgeBad.push('세 등급 색이 같음');
+  if (judgeBad.length) fail++;
+  return { rows, fail, diffs, objDiffs, silBad, judgeBad };
 }
 
 const args = process.argv.slice(2);
@@ -199,7 +223,7 @@ const isMain = process.argv[1] && process.argv[1].replace(/\\/g, '/').endsWith('
 if (isMain) {
   const P = args.includes('--check') ? JSON.parse(readFileSync(OUT, 'utf8')) : build();
   if (!args.includes('--check')) writeFileSync(OUT, JSON.stringify(P, null, 1) + '\n');
-  const { rows, fail, diffs, objDiffs, silBad } = check(P);
+  const { rows, fail, diffs, objDiffs, silBad, judgeBad } = check(P);
   const groups = {};
   for (const r of rows) {
     const g = r.n.replace(/^level\d\d /, '').replace(/ \/ bg\d/, ' / bg1~3');
@@ -212,6 +236,7 @@ if (isMain) {
   console.log(`이웃 레벨 색상각 차: ${diffs.join(' / ')} (기준 ≥ 30°)`);
   console.log(`물체 색상각 차: ${objDiffs.map(([n, d]) => `${n} ${d}°`).join(', ')} (기준 ≥ 40°)`);
   if (silBad.length) console.log('실루엣 형식 실패: ' + silBad.join(' / '));
+  console.log(judgeBad.length ? '판정 글자 색 실패: ' + judgeBad.join(' / ') : `판정 글자 면: 딱 ${P.common.judgePerfect} · 좋아 ${P.common.judgeGood} · 통과 ${P.common.judgePass} (공 색 아님 — 공과 색상각 ≥ 40° 또는 명도 대비 ≥ 3, 회색·빨강 아님, 세 색 다름)`);
   console.log('\n| 키 | bg1 | bg2 | bg3 | floor | accent | clearCloud | hill |');
   console.log('|---|---|---|---|---|---|---|---|');
   for (const [k, t] of Object.entries(P.themes)) console.log(`| ${k} ${t.direction} | \`${t.bg1}\` | \`${t.bg2}\` | \`${t.bg3}\` | \`${t.floor}\` | \`${t.accent}\` | \`${t.clearCloud}\` | \`${t.hill}\` |`);

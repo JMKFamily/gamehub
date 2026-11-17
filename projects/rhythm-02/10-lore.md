@@ -1,6 +1,6 @@
 # 10. 세계관: Tossaloft (높이통통) — 가안
 
-- 작성: 2026-11-17, lore-writer, 단계 1-1 / 1-2 2차 수정(D1~D16) / **round-2 수정: 2026-11-17** (요청자 피드백 "몰입감" 재설계 R2-A "흘러오는 길" + 전 프로젝트 콤보 지시 + round-1 lore 이슈. 처리표는 `Docs/lore-writer/2026-11-17-r2-lore-redesign.md`) / **round-2 1-2 교차 리뷰 + 1회 수정: 2026-11-17** (오케스트레이터 R2-D1·D6·D7·D8 + 교차 리뷰 `reviews/cross-r2/lore-writer.md`. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-cross-review.md`) / **1-2 후속: 2026-11-17** (balance 교차 리뷰 X1·X2·X6 + 오케스트레이터 "rhythm-01 새 코어와의 수렴": 8-1을 rhythm-01 북길 기준 사실로 갱신, `card_three` 문구 변경(X2), 3절 W5 0.34. 요청자 결정 "게임 간 겹침 다 허용, 동사도 같아도 됨"에 따라 겹침 때문에 바꾼 문구는 없음. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-followup.md`)
+- 작성: 2026-11-17, lore-writer, 단계 1-1 / 1-2 2차 수정(D1~D16) / **round-2 수정: 2026-11-17** (요청자 피드백 "몰입감" 재설계 R2-A "흘러오는 길" + 전 프로젝트 콤보 지시 + round-1 lore 이슈. 처리표는 `Docs/lore-writer/2026-11-17-r2-lore-redesign.md`) / **round-2 1-2 교차 리뷰 + 1회 수정: 2026-11-17** (오케스트레이터 R2-D1·D6·D7·D8 + 교차 리뷰 `reviews/cross-r2/lore-writer.md`. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-cross-review.md`) / **1-2 후속: 2026-11-17** (balance 교차 리뷰 X1·X2·X6 + 오케스트레이터 "rhythm-01 새 코어와의 수렴": 8-1을 rhythm-01 북길 기준 사실로 갱신, `card_three` 문구 변경(X2), 3절 W5 0.34. 요청자 결정 "게임 간 겹침 다 허용, 동사도 같아도 됨"에 따라 겹침 때문에 바꾼 문구는 없음. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-followup.md`) / **판정 이름·퍼센트: 2026-11-17** (요청자 지시 "판정 이름과 퍼센트까지 해주세요.", `harness/benchmarks/djmax-judgement.md` 7절, criteria 게임 감각 "판정 이름과 퍼센트 표시", `20-balance.md` 18절. 화면 판정 이름 3개 + 결과 화면 대체 글 3개 = 키 6개 추가, 5절·6절·7-4·7-5·7-9·7-10. 보고서 `Docs/lore-writer/2026-11-17-r2-judgement-names.md`)
 - 입력: `00-benchmark.md` 14절(R2-A, 기믹 어휘 W0~W7, 14-5 S6~S10, 14-8 콤보, 14-9 lore 몫), `Docs/orchestrator/2026-11-17-r2-immersion-kickoff.md`(D-R2-1~6), `reviews/round-1/score.md`(N15~N21)·`reviews/round-1/lore-writer.md`(이슈 1~8), `harness/benchmarks/djmax-judgement.md`(4절·5-3절), `harness/criteria.md`(세계관·텍스트·대상 연령·원본 보호), `harness/insights.md`
 - 참고(읽기만): `games/rhythm-01/data/strings.json`·`games/reverbound/data/strings.json`(문구·용어 겹침 검사), `30-art.md`·`20-balance.md`·`DEV_NOTES.md`(1-2 맞출 것 확인용)
 - 원본 보호: 상용 게임(레퍼런스 러너 게임, DJMAX 계열)의 이름·캐릭터·설정·판정 문구를 쓰지 않았습니다. runner-01(Reverbound)·rhythm-01(Tickadrum) 이름·레벨 이름·게임 정체성 문구도 가져오지 않았습니다(8절). 아래 이름·문구는 모두 새로 만든 것이고, 시스템 UI 문구 일부만 허브 공통 UX로 일부러 같게 둡니다(8-3).
@@ -23,7 +23,9 @@
 | 플레이 중 문구 | 한 문장, **한국어 12자 이내(공백 포함) / 영어 6단어 이내** | 어른·스토어를 뺀 **모든 키** | criteria, 7-9 자동 검사 |
 | 대체 글 | 숫자·값을 이름에 이어 붙이지 않음. 값은 `aria-valuenow`, **개수(콤보·최고 콤보·시도·보정 횟수)는 `aria-valuetext` = 숫자만**(퍼센트로 안 읽히게). **확인은 접근성 트리**(6절 4·11) | 빌드 전체 | round-1 이슈 3·6, criteria, insights(콤보 대체 글) |
 | 콤보 | **글·숫자 없음**(점 10칸 + 큰 표지, art). "콤보"라는 말 대신 **"이어서 잘한 수"**. 대체 글 `aria_combo`(meter), 최고 콤보 `aria_best_combo`(레벨 카드, **버튼 밖**). 판정마다·끊길 때 읽지 않음 | HUD·레벨 카드 | 5절·6절 4·5·11·7-4. `aria-live` 없음(R2-D7) |
-| 텍스트 키 수 | **83개** (`_meta` 제외, round-2 1-1 84 − `card_twoballs`) | `strings.json` | 7-9 검사 PASS |
+| **판정 이름 (화면)** | **딱이야 / 좋아 / 됐어**, **Wow! / Nice / OK** (`grade_perfect_name`·`grade_good_name`·`grade_pass_name` = `balance.json judgement_display.names`) + 이름 아래 작게 판정 %("90%") | 탭마다 북 옆(자리·크기·색은 art) | 7-4·7-10. 기획·데이터 이름 딱/좋아/통과(perfect/good/pass)는 그대로, **화면 말은 모두 칭찬**. 지붕 참기·실패는 이름·% 없음. 판정마다 읽지 않음. 원작(DJMAX) 판정 이름 금지 |
+| **결과 화면 정확도·최고 콤보** | 대체 글 `result_accuracy`(meter, 값 = 정확도 정수 %) · `result_combo`(meter, valuetext 숫자만) · `result_new_best`(정확도 신기록 표지 img) | 클리어 결과(일반 모드만) | 7-5·7-10. 크기 순서 구름 등급 > 정확도 > 최고 콤보 |
+| 텍스트 키 수 | **89개** (`_meta` 제외, 1-2 후속 83 + 판정 이름 3 + 결과 대체 글 3) | `strings.json` | 7-9 검사 PASS |
 | 실패·재시작 문구 | **없음** (자동 재시작 1.1 s, 첫 실패만 ↻ 그림) | 플레이 | 지붕 부딪힘도 글 없음 |
 
 ---
@@ -125,7 +127,8 @@
 
 - **실패**: 글·토스트 없음. 늦음 = 공이 북 옆으로 떨어짐, 일찍 = 헛스윙 뒤 떨어짐(D9), **지붕 부딪힘 = 공이 지붕에 살짝 닿고 내려와 떨어짐**(art, 아이 탭보다 작은 부드러운 소리). 무섭거나 아픈 느낌(울음·폭발·빨간 번쩍임·흔들림·✕) 없음.
 - **지붕 밑 참기 성공**: 글 없음. 공이 앉아 쉬는 모습 자체가 반응(S9: 그 박 ±1박 안 판정 이펙트·콤보 연출 시작 없음). 콤보는 +1(14-8) — 점이 차는 것은 S9 창이 끝난 뒤(balance·art).
-- **판정 등급**: 화면 글 없음. 튐 선 2/1/0쌍 + 북 가죽 납작 정도(art 6절). 판정 이름 "딱/좋아/통과"는 기획 문서 안에서만.
+- **판정 등급**: 튐 선 2/1/0쌍 + 북 가죽 납작 정도(art 6절)가 주 신호(글을 못 읽어도 구분). **요청자 지시(2026-11-17)로 화면 판정 이름 + 판정 %를 더합니다**: 딱이야 / 좋아 / 됐어(Wow! / Nice / OK), 이름 아래 작게 "90%"(7-4·7-10). 기획 이름 "딱/좋아/통과"는 기획 문서·데이터 키에만 남고 화면에는 나오지 않습니다(특히 "통과"는 화면에 쓰지 않음, 3단도 칭찬 "됐어"). 지붕 참기·실패에는 이름·%가 없습니다.
+- **등급 구름과 판정 이름은 다른 것**: 판정 이름은 **탭 하나**의 결과(플레이 중, 북 옆, 글자), 등급 구름 1~3칸은 **레벨 한 판**의 성과(레벨 카드·시작 판·결과, 그림, 대체 글 `grade_N` "구름 하나/둘/셋"). 판정 이름에는 "구름·하나·둘·셋" 같은 낱말을 쓰지 않고, 등급 대체 글에는 "딱이야·좋아·됐어"를 쓰지 않습니다. 결과 화면의 정확도 %도 등급을 대신하지 않습니다(구름 > 정확도 > 최고 콤보).
 - **콤보**: **화면 글·숫자 없음**(djmax 4-3). 점 10칸 + 10마다 큰 표지, 5·10·20 단계 연출·화음(art). 끊김은 소리 없이 조용히 작아짐(4-5). **콤보에 화면 문구 키를 두지 않습니다**: "콤보", "○ 연속", "잘했어!" 같은 글은 신호를 늘리고 글을 읽는 아이에게만 보상이 됩니다. 대체 글만 `aria_combo`(7-4). "콤보"는 5~6세에게 낯선 말이라 대체 글도 **"이어서 잘한 수"**로 풀어 씁니다(insights 콤보 대체 글). 판정마다·단계(5·10·20)·끊길 때 **아무것도 읽지 않습니다**(6절 5).
 - **새 기록**: 화면 글 없음. 최고 기록 점이 미끄러짐 + `best` 소리. `new_best`는 `aria-live` 알림만.
 - **클리어**: `clear_title_n`(등급 n, N4 승인), 연습 클리어 `clear_title_1`, 레벨 10 `clear_last`. 등급 구름 늘 3칸. 버튼 다음/다시/레벨 고르기(L10은 2개).
@@ -139,11 +142,12 @@
 4. **대체 글(aria) 이름에 숫자·값을 이어 붙이지 않습니다.** 값은 `aria-valuenow`(·min·max)로만 줍니다. 두 종류로 나눕니다(round-2 1-2, R2-D7):
    - **비율**(진행도 `aria_progress`, 최고 기록 `aria_best`, 길게 누르기 `hold_progress`): `role="progressbar"`, min 0·max 100, `aria-valuetext` 없음(퍼센트로 읽혀도 뜻이 맞음).
    - **개수**(콤보 `aria_combo`, 최고 콤보 `aria_best_combo`, 시도 `aria_attempts`, 보정 횟수 `sync_progress`): `role="meter"`(시도·보정은 progressbar여도 됨), `aria-valuenow` = 그 수, **`aria-valuetext` = 그 수 숫자만**(예 "7"). 낭독기가 "47 %"처럼 퍼센트로 읽지 않게 하는 용도이고, 숫자 뒤에 낱말("번·개·연속")을 붙이지 않습니다. 읽히는 말은 "이어서 잘한 수, 7" 정도.
+   - **정확도**(결과 화면 `result_accuracy`, 2026-11-17): 실제 퍼센트이므로 `role="meter"`, min 0·max 100, `aria-valuenow` = 정확도 정수, `aria-valuetext` = 화면 글과 같은 숫자 + %만(예 "87%", 낱말 없음). 결과 화면 최고 콤보(`result_combo`)는 개수 규칙(valuetext 숫자만, 예 "23").
    - 키 두 개를 잇는 곳은 레벨 카드 한 곳뿐(`levelN_name` + 쉼표 + 상태 키, 7-2).
-5. 플레이 중 `aria-live` 알림은 `new_best`·`sync_kept` 두 개만. **콤보는 어떤 때도 알리지 않습니다**: 판정마다 값이 바뀌어도, 단계 5·10·20 연출 때도, **끊길 때(값이 0이 될 때)도 아무것도 읽지 않음**(live 아님, 낭독이 박자를 방해, 끊김에 벌칙 말이 붙지 않게). 등급(딱·좋아·통과)도 판정마다 읽지 않습니다. 콤보 meter는 플레이 내내 접근성 트리에 그대로 두고(값 0·1도 그대로, 화면에 점이 보이기 시작하는 콤보 2를 기다리지 않음) `aria-hidden`을 켰다 껐다 하지 않습니다.
+5. 플레이 중 `aria-live` 알림은 `new_best`·`sync_kept` 두 개만. **콤보는 어떤 때도 알리지 않습니다**: 판정마다 값이 바뀌어도, 단계 5·10·20 연출 때도, **끊길 때(값이 0이 될 때)도 아무것도 읽지 않음**(live 아님, 낭독이 박자를 방해, 끊김에 벌칙 말이 붙지 않게). 등급(딱·좋아·통과)도 판정마다 읽지 않습니다. **화면 판정 이름(딱이야·좋아·됐어)과 판정 %도 판정마다 읽지 않습니다**(2026-11-17): 캔버스에 그리고, DOM으로 그리면 `aria-hidden="true"`·`aria-live` 없음. 낭독기가 읽는 정확도·최고 콤보는 결과 화면에서만(7-10). 콤보 meter는 플레이 내내 접근성 트리에 그대로 두고(값 0·1도 그대로, 화면에 점이 보이기 시작하는 콤보 2를 기다리지 않음) `aria-hidden`을 켰다 껐다 하지 않습니다.
 6. **튜토리얼 그림은 바로 뒤에 처음 만나는 물체의 실제 색·모양과 같아야 합니다.** 지붕 카드 지붕 = L5 첫 지붕, 가지 카드 가지 = L6 첫 가지. 카드 속 공 렌더 ≥ 16 px.
 7. **글을 못 읽어도 플레이 가능**: 시작(▶·손가락), 레벨 선택(카드 그림), 튜토리얼(그림 카드·L1 손가락), 실패(그림), 클리어(등급 구름·그림 버튼), 멈춤 메뉴(그림 버튼), **불러오기 오류(↻ 그림, 아래 9)**. `notext` 화면에서 L1을 시작·클리어할 수 있어야 함(QA).
-8. 치환 자리 없음. 화면 문구에 rhythm-01 용어(8-1)·runner-01 용어(8-2)를 쓰지 않음. 게임 정체성 문구는 두 게임과 글자까지 같으면 안 됨(7-9 ⑦).
+8. 치환 자리 없음(예외: 판정 %와 결과 화면 정확도·최고 콤보 **숫자 글 하나**만 따로 그림. 문장 안에 숫자를 끼우지 않고 "딱이야 90%"처럼 이름과 한 줄로 붙이지 않음, 7-10). 화면 문구에 rhythm-01 용어(8-1)·runner-01 용어(8-2)를 쓰지 않음. 게임 정체성 문구는 두 게임과 글자까지 같으면 안 됨(7-9 ⑦).
 9. **부트 단계(불러오기·오류 화면)는 JSON을 읽기 전이므로 빌드 스크립트가 `strings.json`에서 부트 키 5개(`title`·`loading`·`load_error`·`load_error_detail`·`btn_retry`)를 두 언어로 꺼내 `index.html` 부트 블록에 넣습니다.** 부트 코드는 언어를 정한 **직후** `document.documentElement.lang`과 `document.title`(= 그 언어 `title`)을 바꿉니다(`<html lang>`·`<title>` 고정값에 기대지 않음). **↻ 그림(`icon-retry.svg`)도 부트 블록에 인라인**으로 넣어 데이터 로드 실패와 무관하게 보이게 하고, 버튼 대체 글 = `btn_retry`, 설명 = `load_error`(round-1 N15·N16, criteria 세계관 rhythm-02 줄).
 10. 언어는 `navigator.language`로 자동(ko면 ko, 그 밖 en). 보호자 화면에서만 바꿈. `lang_ko`·`lang_en`은 어느 화면에서도 자기 이름.
 11. **대체 글은 접근성 트리로 확인합니다**(Playwright `ariaSnapshot()` 등). `aria-hidden` 요소에 붙인 `aria-label`은 없는 것과 같습니다. 화면별로 트리에 나와야 하는 것(QA·lore 리뷰 확인 목록):
@@ -152,9 +156,10 @@
       `aria_best_combo`는 일반 모드로 해 본 레벨에 최고 콤보 기록이 있을 때 하나(금빛 네모가 0개여도 값은 그 수), 연습 기록은 쓰지 않음.
     - 레벨 시작 판: 레벨 이름 img(`role="img"`, 이름 `levelN_name`) + 깬 레벨이면 등급 img `grade_N` 하나, ▶ 버튼 = `tap_to_start`, 연습 `btn_practice`, 그림 다시 보기 `btn_card_replay`, 닫기 `btn_close`(N17).
     - 플레이: 캔버스 `aria_play_area`, progressbar `aria_progress`·`aria_best`, 시도 `aria_attempts`(valuetext 숫자), **콤보 meter `aria_combo`(valuetext 숫자, 플레이 내내)**, 멈춤 `btn_pause`.
-    - 결과: 레벨 이름(화면 글), 클리어 제목(화면 글), **등급 img `grade_N` 하나**(연습 클리어는 `practice_clear`), 버튼 3개(N18).
+    - 플레이 중 판정 이름·%는 트리에 나오지 않아야 함(캔버스 또는 `aria-hidden`).
+    - 결과: 레벨 이름(화면 글), 클리어 제목(화면 글), **등급 img `grade_N` 하나**(연습 클리어는 `practice_clear`), **일반 모드 클리어면 정확도 meter `result_accuracy`(valuetext "87%") → 신기록이면 img `result_new_best` → 최고 콤보 meter `result_combo`(valuetext 숫자만)**, 버튼 3개(N18). 연습 클리어에는 정확도·최고 콤보·신기록 표지 없음.
     - 불러오기 오류: 오류 글 2개, ↻ 버튼 `btn_retry`, html lang = 선택 언어(N15·N16).
-12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. round-2 1-2 기준 83개 키는 모두 쓰는 키입니다(예비 키 없음, art가 최고 콤보 표지를 그리므로 `aria_best_combo`도 씀). 안 쓰는 키가 생기면 DEV_NOTES에 이유(criteria).
+12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. 판정 이름·결과 대체 글 6개를 더한 89개 키는(round-2 1-2 기준 83개 키도) 모두 쓰는 키입니다(예비 키 없음, art가 최고 콤보 표지를 그리므로 `aria_best_combo`도 씀). 안 쓰는 키가 생기면 DEV_NOTES에 이유(criteria).
 
 ## 7. 텍스트 키 표 (KR / EN)
 
@@ -223,7 +228,9 @@
 | `card_three` | ★ | 큰 언덕은 셋에 톡 | Big hill: tap on three | 7 | **1-2 후속 변경(X2)**(이전 "큰 언덕은 셋 세고 톡 / Big hill: count three, tap"): "셋 세고 톡"은 두 가지로 틀릴 수 있음 — ① 공이 떠나는 순간(탭)을 "하나"로 세고 셋에 치면 **1박 일찍 = 무시 탭**(실패 아님, 표시가 북에 올 때 다시 치면 됨) ② 떠난 다음 박부터 세고 "셋 **다음**"에 치면 **1박 늦음 = 놓침(실패)**. "셋에 톡"은 셋과 탭을 한순간으로 묶어 ②를 없애고, 남는 착각은 ①(이른 무시 탭)뿐이라 안전한 쪽. 그림 힌트(art 8절에 넘김): 표시 간격 3박 위에 박 점 3개를 **떠난 다음 박부터** 찍고 셋째 점 = 표시가 북에 오는 칸 = 손가락. 실제 신호는 여전히 표시(셈은 보조). round-2 그림: 큰 언덕이 오고 표시 간격 3박 → 공이 언덕 위로 아주 높이 → 언덕이 지나가고 표시가 북에 올 때 손가락(art 8절 그림과 대조 끝, round-2 1-2). L7 첫 언덕은 받침 쉼 끝 자동 토스로 넘어가므로 아이는 토스 다음 박부터 세어 셋째 박 착지 때 한 번 톡 = 문구와 맞음. L7 둘째 언덕·L9·L10은 앞 hit(공이 떠나는 탭) 다음 박부터 같은 셈 |
 | `card_roll` | ★ | 긴 가지 밑엔 톡톡톡톡 | Long branch: four quick taps | 8 | **round-2 변경**. 넓은 간격 → 긴 가지 밑 촘촘한 표시 4개 → 손가락 + 누름 표시 4 |
 
-### 7-4. 플레이 화면·토스트 (11개)
+### 7-4. 플레이 화면·토스트 (14개)
+
+- 판정 이름 3개(`grade_*_name`, 2026-11-17 새)는 ★(플레이 중 글)이라 12자·6단어 한도 안이고, 한국어 2~3자·영어 2~4자(느낌표 포함)입니다(7-9 ⑨). 자세한 규칙 7-10.
 
 | 키 | 구분 | KR | EN | 쓰는 곳 |
 |---|---|---|---|---|
@@ -238,10 +245,14 @@
 | `aria_checkpoint` | aria | 깃발 | Flag | 연습 체크포인트 깃발 |
 | `aria_combo` | aria | 이어서 잘한 수 | Good taps in a row | **콤보(round-2 1-2 문구 변경, R2-D7)**. HUD 콤보 칸 줄(큰 표지 포함 전체 하나)의 `role="meter"` 이름. `aria-valuenow` = 이번 시도 콤보(balance `comboEvents` = grades 길이, 지붕 참기 포함), min 0, max = 그 레벨 판정 대상 수(hit + nogo), **`aria-valuetext` = 숫자만**. 이름에 숫자·"○ 연속"을 잇지 않음. **판정마다·단계 때·끊길 때 읽지 않음**(`aria-live` 아님, 6절 5). 플레이 내내 트리에 있음(값 0·1 포함). "콤보"는 아이에게 낯선 말이라 쓰지 않음. 지붕 참기도 +1이라 "친"이 아니라 "잘한". EN은 쉬운 낱말로(round-2 1-1 "Streak"은 어렵고 rhythm-01 `aria_streak_best` "Best streak"과 글자가 같아 바꿈) |
 | `aria_best_combo` | aria | 이어서 잘한 최고 기록 | Most good taps in a row | **최고 콤보(round-2 1-2 문구 변경)**. 레벨 선택 카드의 최고 콤보 표지(art 금빛 네모 0~2개)의 `role="meter"` 이름. `aria-valuenow`·**`aria-valuetext`(숫자만)** = 일반 모드 최고 콤보 수. **카드 버튼 밖 형제 요소**(6절 11), 상태 키로 잇지 않음 |
+| `grade_perfect_name` | ★ | 딱이야 | Wow! | **판정 이름 1단(데이터 `perfect`, 기획 이름 "딱", % 100·90)**. 북 옆 큰 글자 + 튐 선 2쌍(art). 기획 이름과 첫 글자가 같아 문서와 화면이 이어짐. 1글자 "딱"은 탭 소리와 겹쳐 글로 읽기 어려워 입말 칭찬으로 늘림. 판정마다 읽지 않음(aria 없음) |
+| `grade_good_name` | ★ | 좋아 | Nice | **판정 이름 2단(`good`, "좋아", % 80·70·60)**. 중간 글자 + 튐 선 1쌍 |
+| `grade_pass_name` | ★ | 됐어 | OK | **판정 이름 3단(`pass`, 기획 이름 "통과", % 50~10)**. 작은 글자 + 튐 선 없음(가죽 납작은 art 6-1). 콤보가 이어지는 성공이라 시험 말투 "통과" 대신 칭찬 "됐어". 회색·빨강 금지(실패처럼 보이지 않게, art) |
 
-### 7-5. 클리어 (4개)
+### 7-5. 클리어 (7개)
 
 - **선택 규칙(DEV_NOTES N4 승인)**: 등급 n → `clear_title_n`, 연습 클리어 → `clear_title_1`, 레벨 10 → `clear_last`.
+- **정확도·최고 콤보(2026-11-17 새)**: 일반 모드 클리어 결과 화면에만, 구름 등급 아래. 화면 글은 숫자만("87%", "23"), 앞 이름표는 그림(art 자체 제작). `result_*` 3개는 대체 글 전용이라 화면에 "정확도·콤보·RATE" 같은 글자를 띄우지 않습니다(7-10).
 
 | 키 | 구분 | KR | EN | 쓰는 곳 |
 |---|---|---|---|---|
@@ -249,6 +260,9 @@
 | `clear_title_2` | 화면 | 멀리 왔어요! | Look how far you went! | 등급 2. **round-2 변경**(round-1 "구름까지 갔어요!": 고정 구름이 없어져 클리어 연출과 안 맞을 수 있음 → 여행 세계관 말로) |
 | `clear_title_3` | 화면 | 통통 최고! | Super bouncing! | 등급 3 |
 | `clear_last` | 화면 | 하늘 꼭대기다! | Top of the sky! | 레벨 10 클리어(레벨 이름 되부름, 의도) |
+| `result_accuracy` | aria | 표시에 맞춘 정도 | How well you hit the marks | **결과 화면 정확도**(큰 숫자 + 그림 이름표 묶음)의 `role="meter"` 이름. min 0·max 100, `aria-valuenow` = 정확도 정수(`levelAccuracy`, 일반 모드 클리어 hit 평균 내림, 지붕 참기 제외), `aria-valuetext` = 화면 글과 같은 "87%". 이름에 숫자를 잇지 않음. "정확도"는 아이에게 어려운 말이라 세계관 말(표시)로 |
+| `result_combo` | aria | 이번에 이어서 잘한 수 | Longest row of good taps | **결과 화면 최고 콤보**(숫자 + 점 줄 표지)의 `role="meter"` 이름. `aria-valuenow` = 이번 판 최고 콤보(클리어면 그 레벨 판정 대상 수, 지붕 참기 포함), **`aria-valuetext` = 숫자만**. 레벨 카드의 일반 모드 최고 기록 `aria_best_combo`와 구분("이번에") |
+| `result_new_best` | aria | 제일 잘 맞췄어요 | Your closest yet! | **정확도 신기록 작은 표지**(`bestAccuracy`를 넘었을 때, art 그림)의 `role="img"` 이름. `aria-live` 없음(결과를 읽을 때 정확도 다음에 같이 읽힘). 비교 숫자·경고 글 없음. 최고 콤보 신기록 표지는 두지 않음(클리어 판은 늘 판정 대상 수) |
 
 ### 7-6. 버튼 (11개)
 
@@ -307,7 +321,9 @@
 | `load_error_detail` | 어른 | 게임을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요. | The game couldn't load. Check your internet connection, then tap to try again. | **부트 키**. 오류 화면 작은 글 |
 | `store_short` | 스토어 | 다가오는 표시가 북에 오면 톡! 공이 높이 통통. 지붕 밑에선 쉬어요. 손가락 하나 공놀이. | Tap when a mark reaches the drum! Rest under roofs. One-finger ball fun. | 스토어 짧은 설명(80자 이내). **round-2 변경** |
 
-**합계: 3 + 20 + 9 + 11 + 4 + 11 + 21 + 4 = 83개** (`_meta` 제외, 7-9 검사로 확인).
+**합계: 3 + 20 + 9 + 14 + 7 + 11 + 21 + 4 = 89개** (`_meta` 제외, 7-9 검사로 확인).
+
+**1-2 후속(83) → 판정 이름·%(89) 키 변화 (2026-11-17)**: 추가 6(`grade_perfect_name`·`grade_good_name`·`grade_pass_name` ★, `result_accuracy`·`result_combo`·`result_new_best` aria), 삭제 0, 문구 변경 0.
 
 **round-2 1-1(84) → round-2 1-2(83) 키 변화**: 삭제 1(`card_twoballs`, R2-D1 — 예비 문구 후보는 3절 표에만), 문구 변경 2(`aria_combo` "이어서 잘한 만큼 / Streak" → "이어서 잘한 수 / Good taps in a row", `aria_best_combo` "제일 길게 이어서 / Best streak" → "이어서 잘한 최고 기록 / Most good taps in a row", R2-D7), 쓰는 곳 변경 3(`aria_best`·`aria_best_combo` 버튼 밖, `audio_unlock` 그림 = `icon-unlock_sound`), 추가 0.
 
@@ -315,6 +331,7 @@
 
 **키를 두지 않은 것(그림으로 대신)**
 - 실패·재시작 문구 없음(지붕 부딪힘 포함). 첫 실패에만 ↻ 그림(글·키 없음).
+- **실패 판정 이름·0 % 없음, 지붕 참기 판정 이름·% 없음**(balance 18-2, 겁주지 않기). 이르고 늦음(빠름/느림) 표시 글 없음. 플레이 중 평균 정확도 글 없음.
 - **콤보 화면 문구 없음**: "콤보·연속·○번" 글·숫자, 단계(5·10·20) 칭찬 글, 끊김 글 모두 없음(5절). 대체 글만.
 - **지붕 경고 문구 없음**: 플레이 중 "조심·참아·치지 마" 토스트 없음(카드 1장과 그림으로만, S8·S9).
 - 흘러오는 물체(표시·지붕·가지·언덕·구름)마다의 대체 글 없음: 플레이 중 낭독은 박자를 방해함(6절 5). 캔버스 이름 하나(`aria_play_area`).
@@ -324,19 +341,24 @@
 
 ### 7-9. 문서 표 = `strings.json` 확인 (node)
 
-검사: ① 7절 표 키 행과 `strings.json` 키(`_meta` 제외)가 같은 집합, 중복 없음 ② KR·EN 글자 하나까지 같음 ③ 구분이 `어른`·`스토어`가 아닌 키는 한국어 12자 이내(공백 포함)·영어 6단어 이내, **구분 `예비` 키가 있으면 실패**(R2-D1) ④ `store_short` 80자 이내 ⑤ **금지어**: rhythm-01 용어(별·궤도·북채·둥둥이·똑딱·박자·Tickadrum·star·orbit·drumstick·tick) + **runner-01 용어(가시·점프·뛰어·달려·블록·상자·발판·고리·포털·Reverbound·spike·jump·run·block·pad·ring·portal)** + **콤보 낯선 말(콤보·combo·streak, R2-D7)** 0 ⑥ **카드 키 엄격 대조(round-2 1-2)**: `strings.json`의 `card_*` 전부 = 7-3 8개 = `balance.json gimmicks.W0~W7.card` = `levels/*.json card.id` 집합, gimmicks id가 W0~W7이 아니면 실패("대기" 없음) ⑦ **문구 겹침**: KR·EN 어느 쪽이든 `games/rhythm-01/data/strings.json` 또는 `games/reverbound/data/strings.json` 문구와 글자까지 같으면 실패, 8-3 공통 UI 키만 예외 ⑧ 카드 그림 파일 `assets/cards/<키>.svg`·`_portrait.svg`가 키마다 2장(없으면 실패), 키 없는 카드 그림이 남아 있으면 "art 대기"로 출력.
+검사: ① 7절 표 키 행과 `strings.json` 키(`_meta` 제외)가 같은 집합, 중복 없음 ② KR·EN 글자 하나까지 같음 ③ 구분이 `어른`·`스토어`가 아닌 키는 한국어 12자 이내(공백 포함)·영어 6단어 이내, **구분 `예비` 키가 있으면 실패**(R2-D1) ④ `store_short` 80자 이내 ⑤ **금지어**: rhythm-01 용어(별·궤도·북채·둥둥이·똑딱·박자·Tickadrum·star·orbit·drumstick·tick) + **runner-01 용어(가시·점프·뛰어·달려·블록·상자·발판·고리·포털·Reverbound·spike·jump·run·block·pad·ring·portal)** + **콤보 낯선 말(콤보·combo·streak, R2-D7)** 0 ⑥ **카드 키 엄격 대조(round-2 1-2)**: `strings.json`의 `card_*` 전부 = 7-3 8개 = `balance.json gimmicks.W0~W7.card` = `levels/*.json card.id` 집합, gimmicks id가 W0~W7이 아니면 실패("대기" 없음) ⑦ **문구 겹침**: KR·EN 어느 쪽이든 `games/rhythm-01/data/strings.json` 또는 `games/reverbound/data/strings.json` 문구와 글자까지 같으면 실패, 8-3 공통 UI 키만 예외 ⑧ 카드 그림 파일 `assets/cards/<키>.svg`·`_portrait.svg`가 키마다 2장(없으면 실패), 키 없는 카드 그림이 남아 있으면 "art 대기"로 출력. ⑨ **판정 이름·결과 키(2026-11-17)**: `grade_perfect_name`·`grade_good_name`·`grade_pass_name`이 7-4 표에 ★로 있고 `balance.json judgement_display.names`(perfect·good·pass = 세 키, hold·fail = null)와 같음, 한국어 2~3자·영어 영문자 2~4자 + 느낌표 허용, 여섯 문구가 서로 다름, 이름에 등급 구름 말(구름·하나·둘·셋·통과·cloud) 없음 + `grade_1~3`에 판정 이름 없음, `result_accuracy`·`result_combo`·`result_new_best`가 aria로 있음, **원작 판정·칭호 말(MAX·BREAK·GREAT·COOL·RATE·perfect·fever, 대소문자 무시) 전 키 0**. ⑦에서 판정 이름 3개는 rhythm-01·runner-01 판정 이름과 같아도 됨(요청자 허용, 공통 문서 7-3 권장 문구) — `judge` 예외 집합.
 
 명령(`projects/rhythm-02/`에서, node만):
 
 ```
-node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.parse(fs.readFileSync("strings.json","utf8"));delete js._meta;const bal=JSON.parse(fs.readFileSync("balance.json","utf8"));const flat=(o,a=[])=>{for(const v of Object.values(o)){if(typeof v==="string")a.push(v);else if(v&&typeof v==="object")flat(v,a)}return a};const r1=JSON.parse(fs.readFileSync("../../games/rhythm-01/data/strings.json","utf8")),rn=JSON.parse(fs.readFileSync("../../games/reverbound/data/strings.json","utf8"));const r1v=new Set([...Object.values(r1.ko),...Object.values(r1.en)]),rnv=new Set(flat(rn.strings||rn));const sec=md.slice(md.indexOf("## 7."),md.indexOf("## 8.")),rows={},err=[],wait=[];for(const l of sec.split(/\r?\n/)){const c=l.split("|").map(s=>s.trim()),m=/^`([a-z0-9_]+)`$/.exec(c[1]||"");if(!m)continue;if(rows[m[1]])err.push("dup "+m[1]);rows[m[1]]={kind:c[2],ko:c[3],en:c[4]}}const ban=/별|궤도|북채|둥둥이|똑딱|박자|Tickadrum|\bstar\b|orbit|drumstick|\btick|가시|점프|뛰어|달려|블록|상자|발판|고리|포털|Reverbound|spike|jump|\brun|block|\bpad\b|\brings?\b|portal|콤보|combo|streak/i;const common=new Set("tap_to_start btn_next btn_retry btn_levels btn_pause btn_practice btn_close btn_back btn_sound_on btn_sound_off btn_skip levelcard_new levelcard_locked btn_card_replay practice_on pause_screen paused_background aria_progress aria_attempts aria_checkpoint new_best settings_reset confirm_reset confirm_yes confirm_no guardian_hold sync_with_grownup sync_progress sync_kept sync_redo sound_late loading load_error".split(" "));for(const k of Object.keys(js))if(!rows[k])err.push("doc missing "+k);let same1=0,sameN=0;for(const [k,r] of Object.entries(rows)){const j=js[k];if(!j){err.push("json missing "+k);continue}if(r.kind==="예비")err.push("reserve key "+k);if(r.ko!==j.ko)err.push("ko diff "+k);if(r.en!==j.en)err.push("en diff "+k);const free=["어른","스토어"].includes(r.kind);if(!free&&([...j.ko].length>12||j.en.split(/\s+/).length>6))err.push("len "+k);if(r.kind==="스토어"&&([...j.ko].length>80||j.en.length>80))err.push("store>80 "+k);if(ban.test(j.ko+" "+j.en))err.push("banned "+k);const s1=r1v.has(j.ko)||r1v.has(j.en),sN=rnv.has(j.ko)||rnv.has(j.en);if(s1)same1++;if(sN)sameN++;if(!common.has(k)&&(s1||sN))err.push((s1?"r01":"run01")+" same "+k)}const want="card_bounce card_big card_cloud card_dot card_roof card_double card_three card_roll".split(" ").sort().join();const jc=Object.keys(js).filter(k=>k.startsWith("card_")).sort();const g=Object.entries(bal.gimmicks).filter(([id])=>!id.startsWith("_"));if(!g.every(([id])=>/^W\d$/.test(id)))err.push("balance gimmicks not W ids");const bc=g.map(([,v])=>v.card).sort().join();const lc=[...new Set(fs.readdirSync("levels").filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync("levels/"+f,"utf8")).card).filter(c=>c&&c.id).map(c=>c.id))].sort().join();if(jc.join()!==want)err.push("strings cards "+jc.join());if(bc!==want)err.push("balance cards "+bc);if(lc!==want)err.push("level card.id "+lc);let f=0;for(const c of jc)for(const s of ["","_portrait"])if(fs.existsSync("assets/cards/"+c+s+".svg"))f++;else err.push("no file "+c+s);const extra=fs.readdirSync("assets/cards").filter(x=>/\.svg$/.test(x)&&!jc.includes(x.replace(/(_portrait)?\.svg$/,"")));if(extra.length)wait.push("art 대기: 키 없는 카드 그림 "+extra.join("+"));console.log("doc",Object.keys(rows).length,"json",Object.keys(js).length,"| cards strings=balance=levels",jc.length,jc.join()===want&&bc===want&&lc===want?"OK":"NG","| same-as r01",same1,"runner",sameN,"(common만 허용) | card files",f+"/"+jc.length*2,"|",wait.length?"WAIT "+wait.join("; ")+" |":"",err.length?"FAIL "+err.join(", "):"PASS")'
+node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.parse(fs.readFileSync("strings.json","utf8"));delete js._meta;const bal=JSON.parse(fs.readFileSync("balance.json","utf8"));const flat=(o,a=[])=>{for(const v of Object.values(o)){if(typeof v==="string")a.push(v);else if(v&&typeof v==="object")flat(v,a)}return a};const r1=JSON.parse(fs.readFileSync("../../games/rhythm-01/data/strings.json","utf8")),rn=JSON.parse(fs.readFileSync("../../games/reverbound/data/strings.json","utf8"));const r1v=new Set([...Object.values(r1.ko),...Object.values(r1.en)]),rnv=new Set(flat(rn.strings||rn));const sec=md.slice(md.indexOf("## 7."),md.indexOf("## 8.")),rows={},err=[],wait=[];for(const l of sec.split(/\r?\n/)){const c=l.split("|").map(s=>s.trim()),m=/^`([a-z0-9_]+)`$/.exec(c[1]||"");if(!m)continue;if(rows[m[1]])err.push("dup "+m[1]);rows[m[1]]={kind:c[2],ko:c[3],en:c[4]}}const ban=/별|궤도|북채|둥둥이|똑딱|박자|Tickadrum|\bstar\b|orbit|drumstick|\btick|가시|점프|뛰어|달려|블록|상자|발판|고리|포털|Reverbound|spike|jump|\brun|block|\bpad\b|\brings?\b|portal|콤보|combo|streak/i;const common=new Set("tap_to_start btn_next btn_retry btn_levels btn_pause btn_practice btn_close btn_back btn_sound_on btn_sound_off btn_skip levelcard_new levelcard_locked btn_card_replay practice_on pause_screen paused_background aria_progress aria_attempts aria_checkpoint new_best settings_reset confirm_reset confirm_yes confirm_no guardian_hold sync_with_grownup sync_progress sync_kept sync_redo sound_late loading load_error".split(" "));const judge=new Set("grade_perfect_name grade_good_name grade_pass_name".split(" "));for(const k of Object.keys(js))if(!rows[k])err.push("doc missing "+k);let same1=0,sameN=0;for(const [k,r] of Object.entries(rows)){const j=js[k];if(!j){err.push("json missing "+k);continue}if(r.kind==="예비")err.push("reserve key "+k);if(r.ko!==j.ko)err.push("ko diff "+k);if(r.en!==j.en)err.push("en diff "+k);const free=["어른","스토어"].includes(r.kind);if(!free&&([...j.ko].length>12||j.en.split(/\s+/).length>6))err.push("len "+k);if(r.kind==="스토어"&&([...j.ko].length>80||j.en.length>80))err.push("store>80 "+k);if(ban.test(j.ko+" "+j.en))err.push("banned "+k);const s1=r1v.has(j.ko)||r1v.has(j.en),sN=rnv.has(j.ko)||rnv.has(j.en);if(s1)same1++;if(sN)sameN++;if(!common.has(k)&&!judge.has(k)&&(s1||sN))err.push((s1?"r01":"run01")+" same "+k)}const want="card_bounce card_big card_cloud card_dot card_roof card_double card_three card_roll".split(" ").sort().join();const jc=Object.keys(js).filter(k=>k.startsWith("card_")).sort();const g=Object.entries(bal.gimmicks).filter(([id])=>!id.startsWith("_"));if(!g.every(([id])=>/^W\d$/.test(id)))err.push("balance gimmicks not W ids");const bc=g.map(([,v])=>v.card).sort().join();const lc=[...new Set(fs.readdirSync("levels").filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync("levels/"+f,"utf8")).card).filter(c=>c&&c.id).map(c=>c.id))].sort().join();if(jc.join()!==want)err.push("strings cards "+jc.join());if(bc!==want)err.push("balance cards "+bc);if(lc!==want)err.push("level card.id "+lc);let f=0;for(const c of jc)for(const s of ["","_portrait"])if(fs.existsSync("assets/cards/"+c+s+".svg"))f++;else err.push("no file "+c+s);const extra=fs.readdirSync("assets/cards").filter(x=>/\.svg$/.test(x)&&!jc.includes(x.replace(/(_portrait)?\.svg$/,"")));if(extra.length)wait.push("art 대기: 키 없는 카드 그림 "+extra.join("+"));const nm=bal.judgement_display&&bal.judgement_display.names||{};if([nm.perfect,nm.good,nm.pass].join()!=="grade_perfect_name,grade_good_name,grade_pass_name"||nm.hold!==null||nm.fail!==null)err.push("balance names");const nv=[];for(const k of judge){const j=js[k],r=rows[k];if(!j||!r){err.push("judge missing "+k);continue}if(r.kind!=="★")err.push("judge kind "+k);const n=[...j.ko].length;if(n<2||n>3)err.push("judge ko len "+k);if(!/^[A-Za-z]{2,4}!?$/.test(j.en))err.push("judge en "+k);if(/구름|하나|둘|셋|통과|cloud/i.test(j.ko+j.en))err.push("judge vs grade "+k);nv.push(j.ko,j.en)}if(new Set(nv).size!==nv.length)err.push("judge dup");for(const g of ["grade_1","grade_2","grade_3"])if(nv.some(v=>js[g].ko.includes(v)||js[g].en.includes(v)))err.push("grade has judge name "+g);for(const k of ["result_accuracy","result_combo","result_new_best"])if(!rows[k]||rows[k].kind!=="aria")err.push("result key "+k);const djm=/MAX|BREAK|GREAT|COOL|RATE|perfect|fever/i;for(const [k,j] of Object.entries(js))if(djm.test(j.ko+" "+j.en))err.push("djmax word "+k);console.log("judge names",nv.join("/"),"=balance","|","doc",Object.keys(rows).length,"json",Object.keys(js).length,"| cards strings=balance=levels",jc.length,jc.join()===want&&bc===want&&lc===want?"OK":"NG","| same-as r01",same1,"runner",sameN,"(common만 허용) | card files",f+"/"+jc.length*2,"|",wait.length?"WAIT "+wait.join("; ")+" |":"",err.length?"FAIL "+err.join(", "):"PASS")'
 ```
 
-**검사 결과 (2026-11-17, round-2 1-2 후속 다시 실행 — `card_three` 문구 변경 뒤):**
+**검사 결과 (2026-11-17, 판정 이름·% 키 6개 추가 뒤 ⑨를 더해 다시 실행):**
 
 ```
-doc 83 json 83 | cards strings=balance=levels 8 OK | same-as r01 32 runner 12 (common만 허용) | card files 16/16 |  PASS
+judge names 딱이야/Wow!/좋아/Nice/됐어/OK =balance | doc 89 json 89 | cards strings=balance=levels 8 OK | same-as r01 35 runner 12 (common만 허용) | card files 16/16 |  PASS
 ```
+
+- ①~⑨ PASS, 대기 0. ⑦ rhythm-01 겹침 32 → 35는 판정 이름 3개(`games/rhythm-01/data/strings.json judge_perfect/good/pass` = 딱이야·Wow! / 좋아·Nice / 됐어·OK, 요청자 허용 `judge` 예외)뿐, 결과 키 3개는 두 게임과 글자 겹침 0(rhythm-01 `result_accuracy` "잘 맞힌 정도 / How well you hit"·`result_new_best` "가장 잘 맞혔어요 / Your best timing yet"과도 다름). runner-01 빌드(`games/reverbound`)에는 아직 판정 이름이 없어 12 그대로(프로젝트 문서 "됐다 / OK!"와도 글자 다름).
+- 새 키 한도: `grade_*_name` KR 3·2·2자 / EN 1단어, `result_accuracy` KR 9자 / EN 6단어(한도 딱), `result_combo` KR 12자(한도 딱) / EN 5단어, `result_new_best` KR 8자 / EN 3단어.
+
+이전 결과(1-2 후속): `doc 83 json 83 | cards strings=balance=levels 8 OK | same-as r01 32 runner 12 (common만 허용) | card files 16/16 |  PASS`
 
 - 1-2 후속: 출력은 1-2와 같음(①~⑧ PASS, 대기 0). 덧붙여 rhythm-01 round-3 새 문구(rhythm-01 `10-lore.md` R3-7 표 KR·EN 22개)와 글자까지 같은 문구 0(node로 표를 읽어 대조, 검사 명령 밖).
 - ①~⑧ 모두 PASS, 대기 없음. ⑥ `strings.json` 카드 8개 = `balance.json gimmicks` W0~W7 카드 8개 = 레벨 JSON `card.id` 8개(L1~L8). ⑧ 카드 그림 16/16, `card_twoballs` 그림은 art가 이미 지움(키 없는 그림 0).
@@ -344,6 +366,42 @@ doc 83 json 83 | cards strings=balance=levels 8 OK | same-as r01 32 runner 12 (c
 - 한도 적용 키 중 가장 긴 문구(1-2 후속): `tut_tap`·`card_bounce`·`card_big`·`card_roll` 한국어 12자(한도 딱 맞음) + `aria_best_combo` 12자, `card_three`는 12 → 10자(X2). 영어 최대 6단어(`card_bounce`·`card_cloud`·`aria_best_combo`), `card_three` EN 5단어. 새 콤보 문구 `aria_combo`(KR 8자 / EN 5단어)·`aria_best_combo`는 두 게임 문구와 글자 겹침 0(⑦), rhythm-01 프로젝트 문서의 `aria_streak` "이어서 친 별 / Stars in a row"·`aria_streak_best` "가장 길게 이어 침 / Best streak"·runner-01 `combo_aria` "이어서 잘 뛴 수 / Good jumps in a row"와도 다름(손으로 대조). `store_short` KR 51자 / EN 72자.
 - ⑦ 글자 같은 문구: rhythm-01 32개 키, runner-01 12개 키 — **모두 8-3 공통 UI 목록 안**(게임 정체성 문구 겹침 0). runner-01과 같은 것은 `tap_to_start`(눌러서 시작/Tap to start)·`btn_levels`(레벨 고르기/Levels)·`pause_screen` EN·`new_best` EN·`btn_next`·`btn_retry`·`btn_practice` EN·`loading`·기록 지우기 흐름 4개.
 - ⑤ 이 문서 8절에는 비교용으로 두 게임 용어를 적지만, 검사는 `strings.json`만 봅니다.
+
+### 7-10. 판정 이름·판정 %·결과 화면 정확도 (2026-11-17 요청자 지시 "판정 이름과 퍼센트까지 해주세요.")
+
+기준: `harness/benchmarks/djmax-judgement.md` 7-3·7-5, `harness/criteria.md` 게임 감각 "판정 이름과 퍼센트 표시", 계산·표시 시간은 `20-balance.md` 18절·`balance.json judgement_display`, 글꼴·크기·색·자리는 `30-art.md`(art). 이 절은 문구와 읽기 규칙만 정합니다.
+
+**판정 이름 (탭마다, 북 옆)**
+
+| 등급 (데이터 키 / 기획 이름) | % | 화면 KR | 화면 EN | 글자 크기 (art) | 함께 보이는 모양 (주 신호, art 6절) |
+|---|---|---|---|---|---|
+| 1단 perfect / 딱 | 100 · 90 | 딱이야 | Wow! | 가장 큼 | 튐 선 2쌍 + 가죽 납작(art 6-1) |
+| 2단 good / 좋아 | 80 · 70 · 60 | 좋아 | Nice | 중간 | 튐 선 1쌍 + 가죽 납작(art 6-1) |
+| 3단 pass / 통과 | 50 · 40 · 30 · 20 · 10 | 됐어 | OK | 작음 | 튐 선 없음 + 가죽 납작(art 6-1) |
+| 지붕 참기 (hold) | 없음 | 없음 | 없음 | - | 앉은 공(지금 그대로) |
+| 실패 | 없음 | 없음 | 없음 | - | 실패 연출만(글·0 %·빨강 없음) |
+
+- **세 이름은 모두 칭찬**입니다. 3단도 콤보가 이어지는 성공이라 시험 말투 "통과"를 화면에 쓰지 않습니다. 5~6세 입말(반말 감탄)로 짧게, 2~3글자 큰 글씨. 글을 못 읽어도 크기·튐 선·소리로 등급이 구분됩니다(notext 화면 확인, QA).
+- **원작 금지**: DJMAX 판정·칭호 이름(MAX·BREAK·PERFECT PLAY·FEVER 등), "MAX 90%"식 이름 + % 한 줄 표기, 원작 판정 글자 모양·색 배합. 7-9 ⑨가 원작 말 0을 검사합니다.
+- **다른 게임과 같아도 됨**: rhythm-01 빌드 판정 이름(딱이야/좋아/됐어 · Wow!/Nice/OK)과 글자까지 같고, runner-01(딱이야/좋아/됐다 · Wow!/Nice!/OK!)과 거의 같습니다. 요청자 허용 겹침이고 공통 문서 7-3 권장 문구라 허브 전체가 같은 판정 말을 쓰는 편이 아이에게 쉽습니다(7-9 ⑦ `judge` 예외).
+- **%는 이름 아래 작게, 두 줄**: 위 줄 이름, 아래 줄 숫자 + % ("90%", 소수점 없음, 크기 = 이름의 0.5~0.6배, art). "딱이야 90%"·"Nice 80%"처럼 한 줄로 붙이지 않습니다. % 숫자는 문구 키가 아니라 숫자 글입니다(6절 8 예외).
+- **문구 한도**: 이름은 ★ 키라 플레이 중 한도(12자 / 6단어) 안이고 실제로는 KR 2~3자 / EN 1단어. 이름 + % 두 줄을 합쳐도 한 판정 표시는 "이름 한 낱말 + 숫자 하나"뿐입니다.
+- **바꿔 그림**: 한 판정 자리에 표시 하나(새 판정이 오면 그 프레임에 이전 표시를 지우고 다시 그림, 쌓지 않음). 시간은 balance 18-4(튐 80 ms · 유지 400 ms · 흐려짐 150 ms).
+- **낭독 안 함**: 판정 이름·%는 판정마다 읽지 않습니다(박자 방해, 콤보 규칙과 같음, 6절 5). 캔버스에 그리고 DOM이면 `aria-hidden="true"`, `aria-live` 없음. 대체 글 키를 따로 두지 않습니다.
+- **등급 구름과 섞지 않기**: 판정 이름 = 탭 하나, 등급 구름(`grade_N` "구름 하나/둘/셋") = 레벨 한 판(5절). 판정 이름에 구름·숫자 낱말을 쓰지 않고, 클리어 제목(`clear_title_n`)·등급 대체 글에 판정 이름을 쓰지 않습니다(7-9 ⑨). 데이터 키 이름 `grade_*_name`은 balance가 정한 키라 그대로 두지만, 등급 키 `grade_1~3`과 화면 말이 겹치지 않습니다.
+
+**결과 화면 (일반 모드 클리어만, 구름 등급 아래)**
+
+| 표시 | 화면 글 | 대체 글 키 | 접근성 | 나오지 않는 때 |
+|---|---|---|---|---|
+| 정확도 (큰 숫자 하나 + 그림 이름표) | "87%" (정수 내림, 100은 모두 100일 때만) | `result_accuracy` 표시에 맞춘 정도 / How well you hit the marks | `role="meter"`, min 0·max 100, `aria-valuenow` = 정확도, `aria-valuetext` = "87%" | 실패(결과 화면 없음), 연습 클리어 |
+| 정확도 신기록 작은 표지 | 없음(그림) | `result_new_best` 제일 잘 맞췄어요 / Your closest yet! | `role="img"`, `aria-live` 없음 | 신기록이 아닐 때, 연습 |
+| 최고 콤보 (숫자 + 점 줄 표지) | "23" (숫자만) | `result_combo` 이번에 이어서 잘한 수 / Longest row of good taps | `role="meter"`, min 0·max = 판정 대상 수, `aria-valuenow` = 이번 판 최고 콤보, **`aria-valuetext` = 숫자만** | 실패, 연습 클리어 |
+
+- 크기 순서: 구름 등급 > 정확도 > 최고 콤보. 정확도가 등급을 대신하지 않습니다.
+- 읽는 순서(권장): 레벨 이름 → 클리어 제목 → 등급(`grade_N`) → 정확도(`result_accuracy`) → 신기록(`result_new_best`, 있을 때) → 최고 콤보(`result_combo`) → 버튼.
+- 화면에 "정확도·콤보·RATE·%점" 같은 글자를 쓰지 않습니다. 앞 이름표는 그림(art). 지붕 참기는 정확도 평균에서 빠지고(balance 18-2) 최고 콤보에는 들어갑니다(+1).
+- 레벨 카드에 최고 정확도 표지를 art가 그리게 되면 이름은 `result_accuracy`를 같이 쓰고(값 = 일반 모드 최고 기록), 최고 콤보와 같이 **카드 버튼 밖 형제 요소**로 둡니다(6절 11). 지금은 그리지 않으므로 키를 더하지 않습니다.
 
 ## 8. 다른 게임과의 구분
 
@@ -455,4 +513,5 @@ One drum and one ball set off down the path together. Tap the moment a mark on t
 | L9 | `aria_best_combo`를 art가 그리지 않을 수 있음 | minor | **1-2 닫음**: art가 카드 오른쪽 위 금빛 네모로 그림(30-art 6-2·11-1). 남은 위험은 빌드가 버튼 안에 넣는 것(6절 11, dev) |
 | L1 | 게임 이름 미확정 + 이름 짜임 | minor | 가안 유지(D15) |
 | L3 | "Top of the Sky" ↔ `clear_last` 비슷 | minor | 의도 |
+| L11 | 판정 이름이 약 0.25 s마다 바뀌어 어지럽거나, 이름 키 `grade_*_name`이 등급 구름 `grade_N`과 섞임 | minor | 크기·튐 선이 주 신호, 바꿔 그림(쌓지 않음). 어지러우면 공통 문서 7-3 선택안(같은 등급이 이어지면 글자는 두고 %만 바꿈). 섞임은 5절 구분 줄 + 7-9 ⑨로 검사 |
 | K9 | 구름에 숨는 동안 박 놓침 | minor | `card_cloud` 그림자 작게 → 크게 + 다음 표시 |

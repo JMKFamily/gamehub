@@ -410,7 +410,7 @@
     "landscape": 4
    },
    "portrait": "바닥 띠 안, 길·손가락 아래: x 16 ~ W−16 가운데 맞춤, y = max(길 아랫선, 손가락 아랫선) + 8 ~ H − safeBottom − 8",
-   "landscape": "북 왼쪽 세로 칸: x 12 ~ 북 왼쪽 끝 − 8 왼쪽 맞춤, y = HUD 띠 아래 + 8 ~ 손가락 윗선 − 8",
+   "landscape": "북 왼쪽 세로 칸: x 12 ~ 북 왼쪽 끝 − 8 왼쪽 맞춤, y = HUD 띠 아래 + 8 ~ min(손가락 윗선, 판정 표시 상자 윗선(튐 1.15배)) − 8 (판정 표시 6-3 과 겹치지 않게, 2026-11-17)",
    "wrap": "keep-all(낱말 중간 줄바꿈 없음)",
    "_rule": "다가오는 길 영역 밖(S10), 플레이 물체 외곽선을 가로지르지 않음(N10). 가장 긴 언어로 검사."
   },
@@ -426,5 +426,133 @@
  "grade_fx": {
   "max_r_of_d": 1.6,
   "area_max_of_screen": 0.05
+ },
+ "judgement": {
+  "_src": "요청자 지시(2026-11-17, 전 프로젝트) \"판정 이름과 퍼센트까지 해주세요.\" · harness/benchmarks/djmax-judgement.md 7절 · criteria 게임 감각 \"판정 이름과 퍼센트 표시\" · balance.json judgement_display(값·시간 원본) · 30-art 6-3. 여기에는 자리·크기·색·모양만.",
+  "source": "balance.json judgement_display: 이름 키 names(strings.json grade_perfect_name·grade_good_name·grade_pass_name), % = judge.mjs pctOf(L, g.i, g.e), 시간 timing(튐 80 / 유지 400 / 흐려짐 150 ms, 새 판정은 그 프레임에 바꿔 그림, 쌓지 않음)",
+  "shown_for": "hit 성공(딱·좋아·통과)만. 지붕 참기(hold)·실패·받침 쉼 탭(북만 톡)·지붕 밑 헛탭에는 그리지 않음. 두 공 구절 없음(예비 D-R2-1)",
+  "font": {
+   "name_px_min": 28,
+   "name_px_of_d": 0.9,
+   "pct_of_name": 0.55,
+   "pct_px_min": 14,
+   "weight": 800,
+   "family": "body 와 같은 system-ui 계열(외부 글꼴 없음)",
+   "letter_spacing": 0,
+   "line_height": 1,
+   "_rule": "이름 글자 크기 name_px = max(28, round(0.9·d)) CSS px(글꼴 크기 = 글자 칸 높이), % 크기 pct_px = max(14, round(0.55·name_px)) — 0.5~0.6배. 360x640 28 / 15 px. 등급마다 크기는 같음(360 세로 칸이 3글자 딱이야에 꼭 맞아 더 키울 수 없음) → 등급은 크기 대신 튐 선 수·글자색·말로 구분"
+  },
+  "style": {
+   "name_fill": {
+    "perfect": "judgePerfect",
+    "good": "judgeGood",
+    "pass": "judgePass"
+   },
+   "name_stroke": "ink",
+   "name_stroke_px": 3,
+   "paint_order": "stroke(외곽선을 먼저 그리고 글자 면을 위에 — 보이는 외곽선 1.5 px)",
+   "pct_fill": "ink",
+   "pct_stroke": null,
+   "pct_format": "<n>% (숫자 + % 만, 소수점 없음, 이름과 붙여 쓰지 않음 — 줄을 나눔)",
+   "ticks": {
+    "pairs_by_grade": {
+     "perfect": 2,
+     "good": 1,
+     "pass": 0
+    },
+    "h_of_name": 0.3,
+    "w_px": 3,
+    "color": "ink",
+    "x_of_name": [
+     0.36,
+     0.62
+    ],
+    "splay_px": 3,
+    "_rule": "이름 위 짧은 튐 선(위로 살짝 벌어진 세로 선): 딱 2쌍·좋아 1쌍·통과 없음 = 공 옆 튐 선(bounce_lines.pairs_by_grade)과 같은 수. 쌍 i 는 이름 가운데에서 ±x_of_name[i]·name_px, 아래 끝 → 위 끝이 바깥으로 splay_px 벌어짐"
+   },
+   "forbidden": [
+    "공 색 ball",
+    "빨강·회색(통과도 칭찬)",
+    "원작 판정 글자 모양·글꼴·색 배합, MAX·BREAK 등 이름, \"이름 + %\" 붙임 표기",
+    "번쩍임·발광·그라데이션·투명도(흐려짐 150 ms 만 불투명도 1 → 0)",
+    "실패 이름·0 %·빨간 표시",
+    "별 모양(rhythm-01)"
+   ]
+  },
+  "box": {
+   "stack": [
+    "ticks",
+    "name",
+    "pct"
+   ],
+   "gap_px": 4,
+   "align": "right",
+   "_rule": "위에서부터 튐 선 줄(높이 round(0.3·name_px)) · 이름 줄(name_px) · % 줄(pct_px), 사이 4 px. 이름·% 는 오른쪽 맞춤(text-anchor end, 오른쪽 끝 = 자리 x1 = 북·공 쪽), 튐 선은 그 이름 글자 폭의 가운데 위"
+  },
+  "zone": {
+   "portrait": {
+    "x0": 2,
+    "x1": "cx − (d/2 + outline_of_d·d) − gap_ball_px (공 세로 줄 왼쪽)",
+    "gap_ball_px": 2,
+    "y0": "skinY − min_under·Hp + 4 (min_under = 지붕·가지 아랫면 비율 중 작은 값 = 지붕·가지 그림은 모두 이 선 위)",
+    "y1": "skinY − d/2 − grade_fx.max_r_of_d·d − 2 (공이 가죽에 닿을 때 튐 선·등급 반응 범위 위)"
+   },
+   "landscape": {
+    "x0": 12,
+    "x1": "drumLeft − gap_drum_px (북 왼쪽, 튐 선 범위 1.07d < 북 반폭 1.6d 라 그 바깥)",
+    "gap_drum_px": 4,
+    "y0": "세로와 같음",
+    "y1": "min(손가락 상자 윗선, floorTop) − 4"
+   },
+   "_rule": "북 옆, 공이 떨어지는 세로 줄을 비킨 왼쪽(지나간 쪽). 오른쪽은 다가오는 길(표시·지붕·가지·언덕·구름이 들어오는 쪽)이라 쓰지 않음. HUD 띠 밖(HUD \"글·숫자 없음\" 유지). 다가오는 길 영역(S10)은 이 표시에 한해 \"공 세로 줄 오른쪽\"으로 봄 — 북 왼쪽 절반 위는 물체가 공을 지난 뒤에만 오는 곳"
+  },
+  "overflow": "빌드 글꼴로 잰 실제 이름 폭 + 외곽선(3 px) 이 자리 폭보다 넓으면 그 이름만 자리 폭에 맞게 글자 크기를 줄임(28 px 아래가 되면 콘솔 경고 — QA 가 360x640 에서 확인, 30-art 14절 A-10). art 검사는 한글 1.0em 으로 추정(Windows 맑은 고딕 실측 딱이야 28 px = 84.0 px)",
+  "place": "튐(1.15배)까지 커진 상자의 아랫변 = 자리 y1, 오른쪽 끝 = 자리 x1. 튐 기준점 = 상자 오른쪽 가운데",
+  "pop": {
+   "scale_from": "balance judgement_display.timing.pop_scale [1, 1.15, 1] · pop_ms 80",
+   "scale_x_max": "min(1.15, (x1 − x0) / 실제 이름 폭) — 360x640 세로 한국어 딱이야는 칸이 꼭 맞아 가로 튐이 1.0 근처로 줄고 세로만 1.15(통통 늘었다 돌아옴). 실제 폭은 빌드가 measureText 로 잼",
+   "origin": "right center"
+  },
+  "a11y": "낭독 없음(aria-hidden, aria-live 없음 — 판정마다 읽지 않음). 결과 화면 정확도·최고 콤보만 읽음(lore result_accuracy·result_combo)",
+  "notext": "글을 지운 화면에서도 기존 3단 구분(공 옆 튐 선 2·1·0쌍, 납작 0.75·0.85·0.92, 딱 가죽 glow, 소리) + 이름 위 튐 선 수가 남음",
+  "layer": "튐 선·등급 반응 위, HUD 아래(층 순서 … 구름·지붕·가지 → 튐 선 → 판정 표시 → HUD)"
+ },
+ "result_screen": {
+  "_src": "djmax-judgement.md 7-5 · balance judgement_display.accuracy·records · lore result_accuracy·result_combo·result_new_best(aria)",
+  "order": [
+   "grade_clouds",
+   "accuracy",
+   "best_combo"
+  ],
+  "_order_rule": "크기 순서 구름 등급 > 정확도 % > 최고 콤보(높이 비교: 등급 구름 높이 > 정확도 글자 크기 > 최고 콤보 글자 크기). 정확도가 등급을 대신하지 않음",
+  "grade_cloud_w_px": 48,
+  "grade_cloud_h_of_w": 0.62,
+  "accuracy": {
+   "font_px": 26,
+   "weight": 800,
+   "fill": "ink",
+   "format": "<n>%",
+   "sign": "icon-accuracy(작은 북 + 다리 밑 박 표시 = \"표시에 맞춘 정도\", 과녁·원형 고리·RATE 글 아님)",
+   "sign_px": 28,
+   "aria": "result_accuracy",
+   "_rule": "구름 등급 줄 바로 아래 한 줄, 가운데 맞춤. 일반 모드 클리어에만(연습 클리어·실패에는 없음 — levelAccuracy null)"
+  },
+  "best_combo": {
+   "font_px": 18,
+   "weight": 700,
+   "fill": "ink",
+   "format": "<n>(숫자만)",
+   "sign": "icon-best-combo(콤보 큰 표지 1 + 찬 칸 3 = HUD 콤보와 같은 모양)",
+   "sign_px": 20,
+   "aria": "result_combo",
+   "_rule": "정확도 줄 아래 한 줄. 이번 판 최고 콤보(클리어 = 그 레벨 판정 수)"
+  },
+  "new_best": {
+   "sign": "glow 둥근 네모 14 px + ink 위 꺾쇠(별 아님)",
+   "where": "정확도 숫자 오른쪽 6 px",
+   "aria": "result_new_best",
+   "_rule": "정확도 신기록일 때만. 비교 숫자·경고 글 없음"
+  },
+  "_flow": "클리어 화면이 뜨는 시간·버튼 흐름은 바꾸지 않음(clear_timeline 결과 length_beats 그대로, 값만 더함)"
  }
 }

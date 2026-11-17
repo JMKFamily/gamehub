@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ballSvg, drumSvg, fingerSvg, miniCloud, levelCard, cloudSvg } from './cards.mjs';
+import { ballSvg, drumSvg, fingerSvg, miniCloud, levelCard, cloudSvg, markSvg } from './cards.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = resolve(HERE, '../..');
@@ -42,6 +42,12 @@ const GLYPH = {
   lock: `<path d="M17 22 v-6 a7 7 0 0 1 14 0 v6" fill="none" stroke="#6B6F80" stroke-width="4"/><rect x="12" y="21" width="24" height="18" rx="4" fill="#6B6F80"/>`,
   tap: fingerSvg(22, 40, 32, true),
   // 소리 잠금 풀기(N20·lore A5): 스피커 + 누르는 손가락(글자 없음)
+  // 결과 화면 정확도 표지(30-art 6-3·11-3): 작은 북 + 다리 밑 박 표시 = "표시에 맞춘 정도". 과녁·원형 고리·RATE 글 아님
+  accuracy: drumSvg(24, 17, 38, 11, 3.2, { d: 12, legTo: 38 }) + markSvg(24, 38, 18),
+  // 결과 화면 최고 콤보 표지: HUD 콤보와 같은 모양(glow 큰 표지 1 + ink 찬 칸 3)
+  best_combo: `<rect x="4" y="17" width="14" height="14" rx="3" fill="${C.glow}" stroke="${C.ink}" stroke-width="2"/>` + [22, 31, 40].map((x) => `<rect x="${x}" y="20" width="8" height="8" rx="2" fill="${C.ink}"/>`).join(''),
+  // 정확도 신기록 표지: glow 둥근 네모 + 위 꺾쇠(별 아님)
+  new_best: `<rect x="8" y="8" width="32" height="32" rx="8" fill="${C.glow}" stroke="${C.ink}" stroke-width="3"/><polyline points="15,29 24,19 33,29" fill="none" ${ST} stroke-width="5"/>`,
   unlock_sound: `<rect x="6" y="15" width="6" height="9" rx="1.5" fill="${C.ink}"/><polygon points="11,15 19,9 19,30 11,24" fill="${C.ink}" ${ST} stroke-width="2"/><path d="M23 14 Q27 19.5 23 25" fill="none" ${ST} stroke-width="2.6"/>` + fingerSvg(34, 44, 24, true),
 };
 
@@ -67,6 +73,9 @@ export const ICONS = [
   { name: 'reset', key: 'settings_reset', where: '보호자 화면 맨 아래 줄(확인 confirm_reset)', shape: '휴지통', size: 48 },
   { name: 'lock', key: 'levelcard_locked', where: '잠긴 레벨 카드', shape: '자물쇠(회색)', size: 48, sign: true },
   { name: 'tap', key: 'tap_to_start', where: '타이틀', shape: '튜토리얼 손가락과 같은 손(누름)', size: 64, sign: true },
+  { name: 'accuracy', key: 'result_accuracy', where: '클리어 결과 정확도 % 앞(일반 모드 클리어만, 2026-11-17 판정 이름·% 지시)', shape: '작은 북 + 다리 밑 박 표시', size: 28, sign: true, avoid: '과녁·원형 판정 고리(rhythm-01), RATE 등 원작 표기' },
+  { name: 'best_combo', key: 'result_combo', where: '클리어 결과 최고 콤보 숫자 앞', shape: 'HUD 콤보와 같은 큰 표지 1 + 찬 칸 3', size: 20, sign: true },
+  { name: 'new_best', key: 'result_new_best', where: '클리어 결과 정확도 숫자 오른쪽(정확도 신기록일 때만)', shape: 'glow 둥근 네모 + 위 꺾쇠(별 아님)', size: 14, sign: true },
   { name: 'unlock_sound', key: 'audio_unlock', where: '소리 잠금 풀기 화면(첫 탭) 글 옆 그림(N20)', shape: '스피커 + 누르는 손가락(글자 없음)', size: 64, sign: true },
 ];
 
@@ -126,8 +135,15 @@ function mockups() {
     let s = `<rect width="${W}" height="${H}" fill="${T.bg1}"/><rect x="0" y="320" width="${W}" height="40" fill="${T.floor}"/>` + cloudSvg(60, 250, 106, 58, T.clearCloud);
     s += slot(200, 20, 240, 20, 'level1_name(작은 줄)') + slot(170, 50, 300, 34, 'clear_title_1~3 / clear_last');
     for (let i = 0; i < 3; i++) s += i < 2 ? miniCloud(260 + i * 60, 128, 48, T.accent) : miniCloud(260 + i * 60, 128, 48, 'none', true);
+    // 정확도 %(큰 숫자 하나) + 최고 콤보(숫자 + 점 줄 표지): 구름 등급 아래, 크기 순서 구름 등급 > 정확도 > 최고 콤보 (layout.json result_screen)
+    const R = resultScreen();
+    const fam = `font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif"`;
+    { const A = R.accuracy, nW = 2.16 * A.font_px, rowW = A.sign_px + 8 + nW + 6 + 14, x0 = W / 2 - rowW / 2, cy = 163;
+      s += iconSvg('accuracy', x0, cy - A.sign_px / 2, A.sign_px, { plain: true }) + `<text x="${f1(x0 + A.sign_px + 8)}" y="${f1(cy + A.font_px * 0.36)}" ${fam} font-weight="${A.weight}" font-size="${A.font_px}" fill="${C.ink}">92%</text>` + iconSvg('new_best', x0 + A.sign_px + 8 + nW + 6, cy - 7, 14, { plain: true }); }
+    { const B = R.best_combo, nW = 1.24 * B.font_px, rowW = B.sign_px + 6 + nW, x0 = W / 2 - rowW / 2, cy = 192;
+      s += iconSvg('best_combo', x0, cy - B.sign_px / 2, B.sign_px, { plain: true }) + `<text x="${f1(x0 + B.sign_px + 6)}" y="${f1(cy + B.font_px * 0.36)}" ${fam} font-weight="${B.weight}" font-size="${B.font_px}" fill="${C.ink}">23</text>`; }
     s += iconSvg('next', 400, 210, 64) + iconSvg('retry', 288, 210, 64) + iconSvg('levels', 176, 210, 64);
-    writeFileSync(join(PROJ, 'assets/mockup-result.svg'), wrap(W, H, s, '클리어 결과 640x360: 왼쪽 위 = 끝 구름(공이 그 속에 있음, 섞기 끝색 clearCloud = cloud·accent 35 % — 등급 칸 진한 accent 와 다른 연한 색, N11). 레벨 이름(작은 줄) → 클리어 제목 한 줄 → 등급 3칸(예: 구름 둘, 빈 칸 점선, 늘 3칸, 1-2 D12) → 레벨 고르기 · 다시 · 다음(64×64, 간격 48). L10 은 다음 없음. 연습 클리어는 등급 3칸 대신 깃발 1개. 일반 실패에는 이 화면 없음.'));
+    writeFileSync(join(PROJ, 'assets/mockup-result.svg'), wrap(W, H, s, '클리어 결과 640x360: 왼쪽 위 = 끝 구름(공이 그 속에 있음, 섞기 끝색 clearCloud = cloud·accent 35 % — 등급 칸 진한 accent 와 다른 연한 색, N11). 레벨 이름(작은 줄) → 클리어 제목 한 줄 → 등급 3칸(예: 구름 둘, 빈 칸 점선, 늘 3칸, 1-2 D12) → **정확도 %(작은 북 + 다리 밑 표시 표지 + 큰 숫자 26 px, 신기록이면 금빛 꺾쇠 표지) → 최고 콤보(콤보 점 줄 표지 + 숫자 18 px)** — 크기 순서 구름 등급 > 정확도 > 최고 콤보(2026-11-17 판정 이름·% 지시, layout.json result_screen) → 레벨 고르기 · 다시 · 다음(64×64, 간격 48). 정확도·최고 콤보는 일반 모드 클리어만(연습 클리어는 등급 3칸 대신 깃발 1개, 정확도 없음). L10 은 다음 없음. 일반 실패에는 이 화면 없음. 숫자 92%·23 은 예시.'));
   }
   // 4) 보호자 화면(640x360, 설정 길게 누르기 1.5 s 뒤)
   {
@@ -152,6 +168,11 @@ function mockups() {
   }
 }
 
+// 결과 화면 크기(layout.json result_screen — layout.mjs 원본). 없으면 기본값
+function resultScreen() {
+  try { const L = JSON.parse(readFileSync(join(PROJ, 'assets/layout.json'), 'utf8')); if (L.result_screen) return L.result_screen; } catch {}
+  return { grade_cloud_w_px: 48, grade_cloud_h_of_w: 0.62, accuracy: { font_px: 26, weight: 800, sign_px: 28 }, best_combo: { font_px: 18, weight: 700, sign_px: 20 } };
+}
 export function checkIcons() {
   const out = []; let fail = 0;
   const ok = (n, p, m) => { out.push(`${p ? 'OK  ' : 'FAIL'} ${n}: ${m}`); if (!p) fail++; };
@@ -172,6 +193,10 @@ export function checkIcons() {
   ok('설정 그림', circ.length === 2 && circ.every((r) => r <= 6) && !/<line/.test(GLYPH.settings), `머리 원 ${circ.length}개(r ${circ.join(',')}) + 몸 사각, 톱니·막대 3 + 손잡이 없음`);
   ok('길게 누르기 표시', /^<rect/.test(holdBar(0, 0, 48, 0.5)) && !/circle|A\d/.test(holdBar(0, 0, 48, 0.5)), '버튼 아래 가로 막대(원형 고리 아님)');
   ok('밀림 표지', /Q15 12 25 24/.test(GLYPH.look_ball) && !/hourglass|headphone/i.test(JSON.stringify(ICONS.find((x) => x.name === 'look_ball').shape)), '눈 + 공 하나');
+  // 결과 화면 크기 순서(djmax-judgement 7-5): 구름 등급 > 정확도 % > 최고 콤보
+  const R = resultScreen(), gh = R.grade_cloud_w_px * R.grade_cloud_h_of_w;
+  ok('결과 화면 크기 순서', gh > R.accuracy.font_px && R.accuracy.font_px > R.best_combo.font_px && R.accuracy.sign_px > R.best_combo.sign_px, `구름 등급 높이 ${gh.toFixed(1)} > 정확도 글자 ${R.accuracy.font_px} > 최고 콤보 글자 ${R.best_combo.font_px} px (표지 ${R.accuracy.sign_px} > ${R.best_combo.sign_px})`);
+  ok('정확도 표지 모양', !/<circle/.test(GLYPH.accuracy) && /<path|<rect/.test(GLYPH.accuracy), '작은 북 + 박 표시(원형 고리·과녁 없음)');
   return { out, fail };
 }
 

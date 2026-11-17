@@ -201,6 +201,8 @@ function panel(theme, sc, boxes) {
     if (o.type === 'branch') { const under = K.skinY - (0.14 * K.Hp + 1.3 * K.d); let [bx0, bx1] = [X(o.b0), X(o.b1)]; bx0 = Math.max(-6, bx0); bx1 = Math.min(K.panelW + 6, bx1); s += branchSvg(bx0, bx1, under, K.d); add({ x0: bx0, x1: bx1, y0: branchGeom(bx0, bx1, under, K.d).top - 2, y1: under + 1, what: 'branch', clip: true }); }
   }
   if (sc.lines) s += bounceLines(K.cx, sk, K.d, sc.lines);
+  // 박 점(card_three '셋에 톡', lore 7절·X2): 공이 떠난 다음 박부터 하나·둘·셋, 길 아래 바닥 띠에 작은 ink 점, 셋째 점(= 표시가 북에 오는 박 = 탭)은 glow 로 조금 크게. 카드에만(플레이 길에는 박 눈금 없음)
+  for (const [i, b] of (sc.dots || []).entries()) { const x = X(b); if (x < -8 || x > K.panelW + 8) continue; const third = i === 2, r = third ? 7 : 5.5, y = K.laneY + 14; s += third ? `<circle cx="${f1(x)}" cy="${y}" r="${r}" fill="${C.glow}" stroke="${C.ink}" stroke-width="2"/>` : `<circle cx="${f1(x)}" cy="${y}" r="${r}" fill="${C.ink}"/>`; add({ x0: x - r - 1, x1: x + r + 1, y0: y - r - 1, y1: y + r + 1, what: 'dot', clip: x - r < 4 || x + r > K.panelW - 4 }); }
   if (sc.finger) {
     const fh = 1.5 * K.d, fx = sc.lifted ? 160 : K.cx - 13, fy = sc.lifted ? 166 + 0.5 * fh : K.panelH - 14; // 떨어진 손(지붕 카드): 북 오른쪽, 길보다 한참 위 공중 — 바닥·북에 닿지 않음이 한눈에, 지붕 아래 // 카드는 북 왼쪽 자리가 좁아 북 아래 바닥 왼쪽(지나간 쪽)을 누름
     s += fingerSvg(fx, fy, fh, sc.press, sc.taps || 1, { mirror: true, lifted: !!sc.lifted });
@@ -239,10 +241,10 @@ export const DEFS = [
     { marks: [0.8, 1.3, 1.8], objs: [br(1.3, 2)], ball: { h: B * 1.92, dir: 'down' } }, // L6 첫 등장 "1 2 .5b .5b": 큰 통(2박)으로 높이 내려오는 공 → 가지
     { marks: [0, 0.5, 1.5], objs: [br(0, 2)], ball: { h: 0 }, finger: true, press: true, taps: 2, lines: 1 },
     { marks: [0.75], objs: [br(-0.75, 2)], ball: { h: 0.75 * B, dir: 'up' } }] }, // R2-D9: 가지 = [첫 반박 − 0.25, 마지막 + 0.2], 밑 표시 2, 들어가는 표시는 가지 밖
-  { gid: 'W6', key: 'card_three', level: '07', what: '큰 언덕(3박): 큰 언덕 위로 아주 높이, 셋 세고 톡', panels: [
+  { gid: 'W6', key: 'card_three', level: '07', what: '큰 언덕(3박): 큰 언덕 위로 아주 높이, 셋에 톡(박 점 셋 = 떠난 다음 박부터, 셋째 점 = 표시가 북에 오는 박 = 손가락)', panels: [
     { marks: [], objs: [{ type: 'hill', b0: 0.9, b1: 2.4, apexBeats: 3 }], ball: { h: 0, seat: true } },
-    { marks: [1.5], objs: [{ type: 'hill', b0: -0.75, b1: 0.75, apexBeats: 3 }], ball: { h: 3 * B, trail: true } },
-    { marks: [0, 1], objs: [{ type: 'hill', b0: -2.25, b1: -0.75, apexBeats: 3 }], ball: { h: 0 }, finger: true, press: true, lines: 1 }] }, // 언덕 = balance [접촉 − 2.25, − 0.75](1.5박 폭). L7 첫 등장 = 받침 쉼에 앉은 공 → 토스로 언덕 위 3박
+    { marks: [1.5], objs: [{ type: 'hill', b0: -0.75, b1: 0.75, apexBeats: 3 }], ball: { h: 3 * B, trail: true }, depart: -1.5, dots: [-0.5, 0.5, 1.5] },
+    { marks: [0, 1], objs: [{ type: 'hill', b0: -2.25, b1: -0.75, apexBeats: 3 }], ball: { h: 0 }, finger: true, press: true, lines: 1, depart: -3, dots: [-2, -1, 0] }] }, // 언덕 = balance [접촉 − 2.25, − 0.75](1.5박 폭). L7 첫 등장 = 받침 쉼에 앉은 공 → 토스로 언덕 위 3박
   { gid: 'W7', key: 'card_roll', level: '08', what: '긴 가지(반박 넷): 긴 가지 밑 표시 넷 → 톡톡톡톡', panels: [
     { marks: [0.8, 1.3, 1.8, 2.3, 2.8], objs: [br(1.3, 4)], ball: { h: B * 1.92, dir: 'down' } }, // L8 첫 등장: 토스 → 2박 비행 → 긴 가지
     { marks: [0, 0.5, 1, 1.5], objs: [br(0, 4)], ball: { h: 0 }, finger: true, press: true, taps: 4, lines: 1 },
@@ -406,6 +408,17 @@ export function checkCards(boxesByKey = null) {
       rows.push(`${d.key} 칸${i + 1} ${u.full}/${n}`); if (!okN || u.part) bad.push(`${d.key} 칸${i + 1}: 가지 밑 ${u.full}(기대 ${n}) 반쯤 걸침 ${u.part}`);
     } });
     ok('카드 가지 밑 표시 = 톡 횟수(R2-D9)', !bad.length, bad.length ? bad.join(' / ') : rows.join(' · ') + ', 반쯤 걸친 표시 0');
+  }
+  { // card_three '셋에 톡'(lore X2): 공이 떠난 다음 박부터 박 점 셋(1박 간격), 셋째 점 = 표시가 북·손가락 자리에 오는 박
+    const d3 = DEFS.find((d) => d.key === 'card_three'), bad = [], rows = [];
+    if (!d3) bad.push('card_three 없음');
+    else d3.panels.forEach((p, i) => { if (!p.dots) return; const dd = p.dots; rows.push(`칸${i + 1} 점 ${dd.join('/')}박(떠남 ${p.depart})`);
+      if (dd.length !== 3 || dd.some((b, k) => Math.abs(b - (p.depart + 1 + k)) > 1e-9)) bad.push(`칸${i + 1} 점이 떠난 다음 박부터 1박 간격 셋이 아님`);
+      if (!(p.marks || []).some((m) => Math.abs(m - dd[2]) < 1e-9)) bad.push(`칸${i + 1} 셋째 점에 표시 없음`);
+      if (p.finger && Math.abs(dd[2]) > 1e-9) bad.push(`칸${i + 1} 손가락 칸인데 셋째 점이 북 자리 아님`); });
+    const withFinger = d3?.panels.find((p) => p.finger && p.dots), inAir = d3?.panels.find((p) => !p.finger && p.dots && p.dots.every((b) => CARD.cx + b * CARD.ppb >= 0 && CARD.cx + b * CARD.ppb <= CARD.panelW));
+    if (!withFinger) bad.push('손가락 칸에 셋째 점 없음'); if (!inAir) bad.push('점 셋이 모두 보이는 칸 없음');
+    ok('card_three 박 점 셋(셋에 톡)', !bad.length, bad.length ? bad.join(' / ') : rows.join(' · ') + ' — 점 셋이 다 보이는 칸 1 + 셋째 점 = 손가락 칸');
   }
   if (boxesByKey) for (const [k, boxes] of Object.entries(boxesByKey)) { const bad = checkPanelBoxes(boxes); ok(`칸 안 ${k}`, !bad.length, bad.length ? bad.join(' / ') : '공·북·표시·손가락은 칸 안 4 px 여백, 지붕·가지·구름은 위아래 칸 안(N12)'); }
   return { out, fail, wait };

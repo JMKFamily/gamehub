@@ -6,9 +6,10 @@
   "투명도(alpha) 없음. 그림자·튐 선·빛·콤보 연출 모두 불투명 단색.",
   "플레이 중 바탕 단계 = n번째 받침 쉼에서 min(n,3) 단계(bg1·bg2·bg3), 그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임·깜빡임 없음).",
   "클리어: 끝 구름 면 cloud → clearCloud(= cloud 와 accent 의 35 % 섞음) 1 s, 등급 칸만 진한 accent(N11). 바탕은 그때 단계 → bg1 로 1 s.",
-  "공 색(ball)은 공과 최고 기록 점에만(콤보·물체에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.",
+  "공 색(ball)은 공과 최고 기록 점에만(콤보·물체·판정 글자에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.",
   "콤보: 찬 칸 = ink, 빈 칸 = hudTrack + ink 외곽선, 10마다 큰 표지 = glow 둥근 네모 + ink 외곽선, 20 단계 색 조각 = 그 레벨 accent(HUD 띠 안). 바탕 단계(바탕 전체 색)와 모양이 겹치지 않음.",
   "노랑 별·하늘색 공·어두운 바탕(rhythm-01), 가시·네모 블록·발판·고리·포털 모양(runner-01·원작)을 쓰지 않음(30-art 10절).",
+  "판정 이름(30-art 6-3): 글자 면 judgePerfect(금빛, glow 와 같은 값)·judgeGood(민트)·judgePass(흰) + ink 외곽선 3 px(paint-order stroke), % 는 ink. 색은 보조 — 등급은 이름 위 튐 선 수(2·1·0쌍)·말로도 구분. 바탕 대비는 외곽선·% 의 ink 로(≥ 4.5).",
   "silhouette v2: anchor floor(dy = 바닥 위 높이) / sky(dy = HUD 띠 아래에서), 크기 S 단위, parallax(기본 0.5) 로 흘러감."
  ],
  "common": {
@@ -25,7 +26,10 @@
   "roof": "#6B3E8E",
   "roofStripe": "#F1E4FA",
   "branch": "#6E4520",
-  "leaf": "#1E6330"
+  "leaf": "#1E6330",
+  "judgePerfect": "#FFC861",
+  "judgeGood": "#B9EDC6",
+  "judgePass": "#FFFFFF"
  },
  "themes": {
   "level01": {
