@@ -92,3 +92,9 @@
 - [runner-01·2026-11-17] 측정 전에 연습 모드 체크포인트 상태를 확인한다: 결과 화면 재시작 뒤에도 체크포인트가 남아, 피할 수 없는 자리였다면 부활·사망 고리가 계속되고 그동안 광고 타이머도 찬다. 근거: projects/runner-01/benchmark/measurements.md "round-2 추가 실측". 적용: benchmark-analyst
 - [runner-01·2026-11-17] 녹화 원본은 raw/(커밋 제외)에 두고, 근거 프레임에는 광고 화면을 넣지 않거나 제3자 광고 영역을 가린다. 레퍼런스 화면은 분석용으로만 쓴다. 근거: projects/runner-01/benchmark/measurements.md 장면 7. 적용: benchmark-analyst
 - [runner-01·2026-11-17] Windows Git Bash에서 adb를 쓰면 /sdcard/… 같은 기기 경로가 Windows 경로로 바뀌어 pull이 실패한다. MSYS_NO_PATHCONV=1을 켜고 쓴다. 근거: projects/runner-01/Docs/benchmark-analyst/2026-11-17-r2-insights-and-gimmick-benchmark.md 검증 결과. 적용: benchmark-analyst·qa-engineer
+
+## 대전형·TCG (tcg-01)
+- [tcg-01·2026-11-17] 대전형 게임의 "치열함"은 승률 하나가 아니라 지표 4개로 나눠야 시뮬레이터로 잴 수 있다: 아키타입 매트릭스 폭(칸별 35~65 %), 접전 비율(승자 마지막 체력 ≤ 시작의 1/3), 역전 빈도(형세 점수 −X 이하에서 이긴 비율), 선후공 편차. 근거: projects/tcg-01/00-benchmark.md 11절. 적용: balance-designer·qa-engineer가 대전형 지표를 이 4개로 정의
+- [tcg-01·2026-11-17] 중복 카드로 성능을 올리는 성장(레벨업·돌파)은 PvP 승률을 "수집량 지표"로 바꿀 위험이 있다(다른 게임은 대회 레벨 고정, 외형만 강화로 분리). 성장 장치를 넣으면 "같은 덱 최대 강화 vs 무강화 승률" 상한을 먼저 정한다. 근거: projects/tcg-01/00-benchmark.md 7절. 적용: balance-designer
+- [tcg-01·2026-11-17] 탐욕 AI만으로 돌린 대전 시뮬레이터는 빠른 공격 덱을 과대평가한다(아껴두기 판단 없음). AI 수준을 2단계 이상 두고 매트릭스를 따로 낸다. 근거: projects/tcg-01/00-benchmark.md 11절. 적용: balance-designer·qa-engineer (봇 실력 가정이 결과를 바꾼다는 점은 리듬 팀의 σ 봇에도 같음)
+- [tcg-01·2026-11-17] 원본 보호 검사는 영문 고유어뿐 아니라 **공식 한국어 번역어**도 걸러야 한다. 기능명 표를 먼저 만들고 이름은 lore가 새로 짓는다. 근거: projects/tcg-01/Docs/benchmark-analyst/2026-11-17-1-0-benchmark.md. 적용: 모든 기획 역할, 리뷰 때 grep 목록에 번역어 포함
