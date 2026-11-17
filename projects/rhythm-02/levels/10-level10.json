@@ -66,7 +66,7 @@
     {
      "ball": 1,
      "from_contact": 7,
-     "beat": 18,
+     "beat": 19,
      "exit": false
     }
    ],
@@ -91,8 +91,8 @@
   },
   {
    "index": 1,
-   "start_beat": 18,
-   "rest_beats": 6,
+   "start_beat": 19,
+   "rest_beats": 5,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
@@ -242,26 +242,24 @@
    "object": 5
   },
   {
-   "beat": 16.5,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 0.5,
-   "bounce": "half",
-   "phrase": 0,
-   "i": 6,
-   "gimmick": "W5",
-   "object": 6
-  },
-  {
    "beat": 17,
    "kind": "hit",
    "ball": 1,
-   "gap_beats": 0.5,
-   "bounce": "half",
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 6,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 18,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
    "phrase": 0,
    "i": 7,
-   "gimmick": "W5",
-   "object": 6
+   "gimmick": "W0"
   },
   {
    "beat": 25.5,
@@ -302,7 +300,7 @@
    "phrase": 1,
    "i": 11,
    "gimmick": "W2",
-   "object": 13
+   "object": 12
   },
   {
    "beat": 33,
@@ -333,7 +331,7 @@
    "gimmick": "W4",
    "phrase": 1,
    "i": 14,
-   "object": 17
+   "object": 16
   },
   {
    "beat": 39,
@@ -438,7 +436,7 @@
    "gimmick": "W4",
    "phrase": 2,
    "i": 24,
-   "object": 28
+   "object": 27
   },
   {
    "beat": 57,
@@ -545,46 +543,34 @@
    "id": 5
   },
   {
-   "type": "branch",
-   "beat_in": 16,
-   "beat_out": 17,
-   "contacts": [
-    6,
-    7
-   ],
-   "under_of_Hp": 0.3,
-   "long": false,
-   "id": 6
-  },
-  {
    "type": "mark",
    "beat_in": 16,
    "beat_out": 16,
    "contacts": [
     5
    ],
-   "next_beats": 0.5,
-   "id": 7
-  },
-  {
-   "type": "mark",
-   "beat_in": 16.5,
-   "beat_out": 16.5,
-   "contacts": [
-    6
-   ],
-   "next_beats": 0.5,
-   "id": 8
+   "next_beats": 1,
+   "id": 6
   },
   {
    "type": "mark",
    "beat_in": 17,
    "beat_out": 17,
    "contacts": [
+    6
+   ],
+   "next_beats": 1,
+   "id": 7
+  },
+  {
+   "type": "mark",
+   "beat_in": 18,
+   "beat_out": 18,
+   "contacts": [
     7
    ],
    "next_beats": 1,
-   "id": 9
+   "id": 8
   },
   {
    "type": "mark",
@@ -594,7 +580,7 @@
     8
    ],
    "next_beats": 1.5,
-   "id": 10
+   "id": 9
   },
   {
    "type": "mark",
@@ -604,7 +590,7 @@
     9
    ],
    "next_beats": 1,
-   "id": 11
+   "id": 10
   },
   {
    "type": "mark",
@@ -614,7 +600,7 @@
     10
    ],
    "next_beats": 4,
-   "id": 12
+   "id": 11
   },
   {
    "type": "cloud",
@@ -624,7 +610,7 @@
     11
    ],
    "bottom_of_Hp": 0.9,
-   "id": 13
+   "id": 12
   },
   {
    "type": "mark",
@@ -634,7 +620,7 @@
     11
    ],
    "next_beats": 1,
-   "id": 14
+   "id": 13
   },
   {
    "type": "mark",
@@ -644,7 +630,7 @@
     12
    ],
    "next_beats": 1,
-   "id": 15
+   "id": 14
   },
   {
    "type": "mark",
@@ -654,7 +640,7 @@
     13
    ],
    "next_beats": 1,
-   "id": 16
+   "id": 15
   },
   {
    "type": "roof",
@@ -665,7 +651,7 @@
    ],
    "under_of_Hp": 0.45,
    "sit_beats": 3,
-   "id": 17
+   "id": 16
   },
   {
    "type": "mark",
@@ -675,7 +661,7 @@
     15
    ],
    "next_beats": 1,
-   "id": 18
+   "id": 17
   },
   {
    "type": "mark",
@@ -685,21 +671,7 @@
     16
    ],
    "next_beats": 1,
-   "id": 19
-  },
-  {
-   "type": "branch",
-   "beat_in": 49,
-   "beat_out": 51,
-   "contacts": [
-    18,
-    19,
-    20,
-    21
-   ],
-   "under_of_Hp": 0.3,
-   "long": true,
-   "id": 20
+   "id": 18
   },
   {
    "type": "mark",
@@ -709,7 +681,21 @@
     17
    ],
    "next_beats": 0.5,
-   "id": 21
+   "id": 19
+  },
+  {
+   "type": "branch",
+   "beat_in": 49.25,
+   "beat_out": 51.2,
+   "contacts": [
+    18,
+    19,
+    20,
+    21
+   ],
+   "under_of_Hp": 0.34,
+   "long": true,
+   "id": 20
   },
   {
    "type": "mark",
@@ -719,7 +705,7 @@
     18
    ],
    "next_beats": 0.5,
-   "id": 22
+   "id": 21
   },
   {
    "type": "mark",
@@ -729,7 +715,7 @@
     19
    ],
    "next_beats": 0.5,
-   "id": 23
+   "id": 22
   },
   {
    "type": "mark",
@@ -739,7 +725,7 @@
     20
    ],
    "next_beats": 0.5,
-   "id": 24
+   "id": 23
   },
   {
    "type": "mark",
@@ -749,7 +735,7 @@
     21
    ],
    "next_beats": 1,
-   "id": 25
+   "id": 24
   },
   {
    "type": "mark",
@@ -759,7 +745,7 @@
     22
    ],
    "next_beats": 1,
-   "id": 26
+   "id": 25
   },
   {
    "type": "mark",
@@ -769,7 +755,7 @@
     23
    ],
    "next_beats": 1,
-   "id": 27
+   "id": 26
   },
   {
    "type": "roof",
@@ -780,7 +766,7 @@
    ],
    "under_of_Hp": 0.45,
    "sit_beats": 2,
-   "id": 28
+   "id": 27
   },
   {
    "type": "mark",
@@ -790,7 +776,7 @@
     25
    ],
    "next_beats": 1,
-   "id": 29
+   "id": 28
   },
   {
    "type": "mark",
@@ -800,7 +786,7 @@
     26
    ],
    "next_beats": 1,
-   "id": 30
+   "id": 29
   },
   {
    "type": "mark",
@@ -810,7 +796,7 @@
     27
    ],
    "next_beats": 1,
-   "id": 31
+   "id": 30
   },
   {
    "type": "mark",
@@ -820,7 +806,7 @@
     28
    ],
    "next_beats": 1,
-   "id": 32
+   "id": 31
   },
   {
    "type": "cloud",
@@ -829,7 +815,7 @@
    "beat_out": 64,
    "contacts": [],
    "bottom_of_Hp": 0.9,
-   "id": 33
+   "id": 32
   }
  ]
 }

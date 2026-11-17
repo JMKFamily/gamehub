@@ -20,6 +20,7 @@
 //   objectsAt(L, t, W, marginPx)    → 그 순간 화면에 보이는 세상 물체 [{...물체, x0, x1}] (x 는 beat_in/beat_out 자리)
 //   firstVisibleMs(L, beat)         → 박 위치 beat 가 화면 오른쪽 끝에 처음 들어오는 레벨 시각(ms)
 //   comboEvents(L, result)          → 콤보 표시 사건 [{i, kind, t, combo}] + 단계 [{stage, at_i, t, chordBeat, chordMs}] (결과에서 파생, 별도 상태 없음)
+//   bgStage(n, P) / bgStages(L)     → 바탕 단계: n번째 받침 쉼 = 1 + round(2(n−1)/(P−1)) (art 식과 같음, R2-D4)
 //   resumePoint(L, tPause, result)  → 이어 하기 되감기 위치 {fromMs, phrase, startIndex, carried} = 지금 구절의 받침 쉼 처음(세상 위치도 같은 시각으로)
 
 export const BOUNCE_BY_BEATS = { 0.5: 'half', 1: 'tong', 1.5: 'dot', 2: 'big', 3: 'three', 4: 'cloud' };
@@ -318,8 +319,12 @@ export function firstVisibleMs(L, beat) {
 // ---------------- 콤보 (round-2, harness/benchmarks/djmax-judgement.md 4절 + 00-benchmark 14-8) ----------------
 // 콤보 = 이번 시도에서 지금까지의 성공 판정 수 = result.grades 길이(hit 성공 모든 등급 + nogo 참기 hold). 별도 상태·난수 없음.
 //   표시 시각: hit = 판정 순간(친 시각, 이르게 친 통과도 친 시각), hold = 지붕이 북을 떠나는 순간(roof_out, 지붕 밑 착지 ±1박 안 연출 금지 S9).
-//   단계(bal.combo.stages): 그 수에 닿은 판정의 표시 시각에 그림 연출 시작. 화음(chord_stages)은 그 판정 접촉 박 다음 정박(floor(박)+1)에,
-//   그 정박이 어떤 지붕 밑 착지 박 ±avoid_roof_beats 안이면 그 창이 끝난 뒤 첫 정박으로 미룸.
+//   단계(bal.combo.stages): 그 수에 닿은 판정의 표시 시각에 그림 연출 시작. 화음(chord_stages)은 (round-2 1-2 R2-D2)
+//   그 판정 접촉 박 다음 정박(floor(박)+1)부터 차례로 보아, ① 어떤 hit 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고
+//   ② 어떤 nogo 접촉의 통과 창에도 들지 않고 ③ 어떤 지붕 밑 착지 박 ±avoid_roof_beats(닫힌 구간)도 아닌 첫 정박
+//   (공통 문서 4-4 "탭과 같은 순간에 겹치지 않게" — 아이 탭이 날 수 있는 모든 순간을 피함).
+//   그런 정박이 마지막 접촉 통과 창 끝(클리어 판정, HUD·콤보 페이드) 전에 없으면 화음은 없음(chordBeat null, chordSkip 'clear') —
+//   큰 튐 박의 클리어 소리와 겹치지 않게 하고, 그림 단계 연출은 판정 순간 그대로.
 export function comboEvents(L, result, bal = L.bal) {
   const C = bal.combo || {};
   const stages = C.stages || [];
@@ -334,14 +339,15 @@ export function comboEvents(L, result, bal = L.bal) {
     ev.push({ i: g.i, kind: g.grade === 'hold' ? 'hold' : 'hit', grade: g.grade, t, beat, combo: k + 1 });
   });
   const roofBeats = L.roofSits.map((r) => r.landMs / L.beatMs);
+  const chordBlocked = (b) => {
+    const ms = b * L.beatMs;
+    if (roofBeats.some((rb) => b >= rb - avoid - 1e-9 && b <= rb + avoid + 1e-9)) return true;
+    return L.contacts.some((c) => ms >= (c.kind === 'nogo' ? c.passStart : c.zoneStart) - 1e-6 && ms <= c.passEnd + 1e-6);
+  };
   const chordBeatAfter = (beat) => {
     let b = Math.floor(beat + 1e-9) + 1;
-    for (let guard = 0; guard < 64; guard++) {
-      const hit = roofBeats.find((rb) => b >= rb - avoid - 1e-9 && b <= rb + avoid + 1e-9);
-      if (hit == null) return b;
-      b = Math.floor(hit + avoid + 1e-9) + 1;
-    }
-    return b;
+    for (let guard = 0; guard < 256 && chordBlocked(b); guard++) b++;
+    return b * L.beatMs < L.clearTimeMs ? b : null;
   };
   const st = [];
   for (const s of stages) {
@@ -349,9 +355,20 @@ export function comboEvents(L, result, bal = L.bal) {
     if (!e) continue;
     const chord = chordStages.includes(s);
     const cb = chord ? chordBeatAfter(e.beat) : null;
-    st.push({ stage: s, at_i: e.i, t: e.t, chordBeat: cb, chordMs: cb != null ? cb * L.beatMs : null });
+    st.push({ stage: s, at_i: e.i, t: e.t, chordBeat: cb, chordMs: cb != null ? cb * L.beatMs : null, ...(chord && cb == null ? { chordSkip: 'clear' } : {}) });
   }
   return { events: ev, stages: st, final: result.grades.length };
+}
+
+// ---------------- 바탕 단계 (round-2 1-2 R2-D4, art 30-art 2-2·layout.json bg_stage 와 같은 식) ----------------
+// n번째 받침 쉼(1부터, 받침 쉼 P개 = 구절 수)이 시작할 때 단계 = 1 + round(2·(n − 1)/(P − 1)), P = 1 이면 1.
+// P=2: 1·3, P=3: 1·2·3, P=4: 1·2·2·3. 지붕 밑 쉼은 단계를 바꾸지 않음. 클리어 때 그 단계 → 1.
+export function bgStage(n, P) {
+  return P <= 1 ? 1 : 1 + Math.round((2 * (n - 1)) / (P - 1));
+}
+export function bgStages(L) {
+  const P = (L.level?.phrases || L.phrases || []).length;
+  return Array.from({ length: P }, (_, k) => bgStage(k + 1, P));
 }
 
 // ---------------- 이어 하기 (round-2, N7) ----------------

@@ -29,25 +29,25 @@
  },
  "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
- "length_beats": 55,
+ "length_beats": 54,
  "outro_beats": 4,
- "duration_s": 28.947,
- "contact_count": 25,
- "hit_count": 23,
+ "duration_s": 28.421,
+ "contact_count": 27,
+ "hit_count": 25,
  "nogo_count": 2,
  "clear_sequence": {
-  "big_toss_beat": 51,
+  "big_toss_beat": 50,
   "big_toss_flight_s": 2,
   "big_toss_apex_play_heights": 1,
   "after_apex": "stays_in_cloud",
   "grade_cloud_beats": [
+   52,
    53,
-   54,
-   55
+   54
   ],
-  "result_beat": 55,
+  "result_beat": 54,
   "result_buttons_after_ms": 500,
-  "scroll_stop_beat": 53
+  "scroll_stop_beat": 52
  },
  "phrases": [
   {
@@ -111,47 +111,47 @@
    "landings": [
     {
      "ball": 1,
-     "from_contact": 12,
-     "beat": 30,
+     "from_contact": 14,
+     "beat": 32,
      "exit": false
     }
    ],
    "roof_sits": [],
    "contact_range": [
     8,
-    12
+    14
    ]
   },
   {
    "index": 2,
-   "start_beat": 30,
-   "rest_beats": 6,
+   "start_beat": 32,
+   "rest_beats": 4,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
     {
      "ball": 1,
      "beat": 36,
-     "to_contact": 13
+     "to_contact": 15
     },
     {
      "ball": 1,
      "beat": 41,
-     "to_contact": 16,
+     "to_contact": 18,
      "after_roof": true
     }
    ],
    "landings": [
     {
      "ball": 1,
-     "from_contact": 24,
-     "beat": 51,
+     "from_contact": 26,
+     "beat": 50,
      "exit": false
     }
    ],
    "roof_sits": [
     {
-     "contact": 15,
+     "contact": 17,
      "beat": 39,
      "toss_beat": 41,
      "roof_in_beat": 38.4,
@@ -161,8 +161,8 @@
     }
    ],
    "contact_range": [
-    13,
-    24
+    15,
+    26
    ]
   }
  ],
@@ -277,7 +277,7 @@
    "phrase": 1,
    "i": 10,
    "gimmick": "W5",
-   "object": 9,
+   "object": 10,
    "first_of_gimmick": true
   },
   {
@@ -289,7 +289,7 @@
    "phrase": 1,
    "i": 11,
    "gimmick": "W5",
-   "object": 9,
+   "object": 10,
    "first_of_gimmick": true
   },
   {
@@ -303,13 +303,33 @@
    "gimmick": "W0"
   },
   {
+   "beat": 30,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 13,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 31,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 14,
+   "gimmick": "W0"
+  },
+  {
    "beat": 37,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 13,
+   "i": 15,
    "gimmick": "W0"
   },
   {
@@ -319,7 +339,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 14,
+   "i": 16,
    "gimmick": "W0"
   },
   {
@@ -330,8 +350,8 @@
    "bounce": "roof",
    "gimmick": "W4",
    "phrase": 2,
-   "i": 15,
-   "object": 16
+   "i": 17,
+   "object": 18
   },
   {
    "beat": 42,
@@ -340,7 +360,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 16,
+   "i": 18,
    "gimmick": "W0"
   },
   {
@@ -350,7 +370,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 17,
+   "i": 19,
    "gimmick": "W0"
   },
   {
@@ -360,9 +380,9 @@
    "gap_beats": 0.5,
    "bounce": "half",
    "phrase": 2,
-   "i": 18,
+   "i": 20,
    "gimmick": "W5",
-   "object": 18
+   "object": 21
   },
   {
    "beat": 44,
@@ -371,32 +391,12 @@
    "gap_beats": 0.5,
    "bounce": "half",
    "phrase": 2,
-   "i": 19,
-   "gimmick": "W5",
-   "object": 18
-  },
-  {
-   "beat": 46,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 2,
-   "bounce": "big",
-   "phrase": 2,
-   "i": 20,
-   "gimmick": "W1"
-  },
-  {
-   "beat": 47,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 2,
    "i": 21,
-   "gimmick": "W0"
+   "gimmick": "W5",
+   "object": 21
   },
   {
-   "beat": 48,
+   "beat": 45,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
@@ -406,7 +406,7 @@
    "gimmick": "W0"
   },
   {
-   "beat": 49,
+   "beat": 46,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
@@ -416,13 +416,33 @@
    "gimmick": "W0"
   },
   {
-   "beat": 50,
+   "beat": 47,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
    "i": 24,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 48,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 25,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 49,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 26,
    "gimmick": "W0"
   }
  ],
@@ -519,18 +539,6 @@
    "id": 8
   },
   {
-   "type": "branch",
-   "beat_in": 27,
-   "beat_out": 28,
-   "contacts": [
-    10,
-    11
-   ],
-   "under_of_Hp": 0.3,
-   "long": false,
-   "id": 9
-  },
-  {
    "type": "mark",
    "beat_in": 27,
    "beat_out": 27,
@@ -538,6 +546,18 @@
     9
    ],
    "next_beats": 0.5,
+   "id": 9
+  },
+  {
+   "type": "branch",
+   "beat_in": 27.25,
+   "beat_out": 28.2,
+   "contacts": [
+    10,
+    11
+   ],
+   "under_of_Hp": 0.34,
+   "long": false,
    "id": 10
   },
   {
@@ -572,8 +592,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 37,
-   "beat_out": 37,
+   "beat_in": 30,
+   "beat_out": 30,
    "contacts": [
     13
    ],
@@ -582,8 +602,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 38,
-   "beat_out": 38,
+   "beat_in": 31,
+   "beat_out": 31,
    "contacts": [
     14
    ],
@@ -591,20 +611,19 @@
    "id": 15
   },
   {
-   "type": "roof",
-   "beat_in": 38.4,
-   "beat_out": 40,
+   "type": "mark",
+   "beat_in": 37,
+   "beat_out": 37,
    "contacts": [
     15
    ],
-   "under_of_Hp": 0.45,
-   "sit_beats": 2,
+   "next_beats": 1,
    "id": 16
   },
   {
    "type": "mark",
-   "beat_in": 42,
-   "beat_out": 42,
+   "beat_in": 38,
+   "beat_out": 38,
    "contacts": [
     16
    ],
@@ -612,61 +631,62 @@
    "id": 17
   },
   {
-   "type": "branch",
-   "beat_in": 43,
-   "beat_out": 44,
+   "type": "roof",
+   "beat_in": 38.4,
+   "beat_out": 40,
    "contacts": [
-    18,
-    19
+    17
    ],
-   "under_of_Hp": 0.3,
-   "long": false,
+   "under_of_Hp": 0.45,
+   "sit_beats": 2,
    "id": 18
+  },
+  {
+   "type": "mark",
+   "beat_in": 42,
+   "beat_out": 42,
+   "contacts": [
+    18
+   ],
+   "next_beats": 1,
+   "id": 19
   },
   {
    "type": "mark",
    "beat_in": 43,
    "beat_out": 43,
    "contacts": [
-    17
+    19
    ],
    "next_beats": 0.5,
-   "id": 19
+   "id": 20
+  },
+  {
+   "type": "branch",
+   "beat_in": 43.25,
+   "beat_out": 44.2,
+   "contacts": [
+    20,
+    21
+   ],
+   "under_of_Hp": 0.34,
+   "long": false,
+   "id": 21
   },
   {
    "type": "mark",
    "beat_in": 43.5,
    "beat_out": 43.5,
    "contacts": [
-    18
+    20
    ],
    "next_beats": 0.5,
-   "id": 20
+   "id": 22
   },
   {
    "type": "mark",
    "beat_in": 44,
    "beat_out": 44,
-   "contacts": [
-    19
-   ],
-   "next_beats": 2,
-   "id": 21
-  },
-  {
-   "type": "mark",
-   "beat_in": 46,
-   "beat_out": 46,
-   "contacts": [
-    20
-   ],
-   "next_beats": 1,
-   "id": 22
-  },
-  {
-   "type": "mark",
-   "beat_in": 47,
-   "beat_out": 47,
    "contacts": [
     21
    ],
@@ -675,8 +695,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 48,
-   "beat_out": 48,
+   "beat_in": 45,
+   "beat_out": 45,
    "contacts": [
     22
    ],
@@ -685,8 +705,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 49,
-   "beat_out": 49,
+   "beat_in": 46,
+   "beat_out": 46,
    "contacts": [
     23
    ],
@@ -695,8 +715,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 50,
-   "beat_out": 50,
+   "beat_in": 47,
+   "beat_out": 47,
    "contacts": [
     24
    ],
@@ -704,13 +724,33 @@
    "id": 26
   },
   {
+   "type": "mark",
+   "beat_in": 48,
+   "beat_out": 48,
+   "contacts": [
+    25
+   ],
+   "next_beats": 1,
+   "id": 27
+  },
+  {
+   "type": "mark",
+   "beat_in": 49,
+   "beat_out": 49,
+   "contacts": [
+    26
+   ],
+   "next_beats": 1,
+   "id": 28
+  },
+  {
    "type": "cloud",
    "role": "clear",
-   "beat_in": 52,
-   "beat_out": 54,
+   "beat_in": 51,
+   "beat_out": 53,
    "contacts": [],
    "bottom_of_Hp": 0.9,
-   "id": 27
+   "id": 29
   }
  ]
 }

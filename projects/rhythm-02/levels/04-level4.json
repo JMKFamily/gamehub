@@ -8,8 +8,8 @@
  "judge": {
   "perfect_ms": 50,
   "good_ms": 90,
-  "pass_early_ms": 135,
-  "pass_late_ms": 155,
+  "pass_early_ms": 134,
+  "pass_late_ms": 154,
   "miss_zone_ms": 200
  },
  "scroll": {
@@ -20,7 +20,7 @@
  "design_intent": "엇간격(점 통 1.5·1.5·1) 도입. 짝수 박에서 시작하는 3+3+2. 점 통 앞뒤에 오는 모양(통·구름·넓은 간격)을 덩어리마다 바꿈.",
  "new_gimmick": {
   "id": "W3",
-  "first_contact": 2
+  "first_contact": 0
  },
  "card": {
   "id": "card_dot",
@@ -32,8 +32,8 @@
  "length_beats": 57,
  "outro_beats": 4,
  "duration_s": 31.091,
- "contact_count": 25,
- "hit_count": 25,
+ "contact_count": 24,
+ "hit_count": 24,
  "nogo_count": 0,
  "clear_sequence": {
   "big_toss_beat": 53,
@@ -66,42 +66,42 @@
    "landings": [
     {
      "ball": 1,
-     "from_contact": 5,
-     "beat": 12,
+     "from_contact": 4,
+     "beat": 11,
      "exit": false
     }
    ],
    "roof_sits": [],
    "contact_range": [
     0,
-    5
+    4
    ]
   },
   {
    "index": 1,
-   "start_beat": 12,
-   "rest_beats": 4,
+   "start_beat": 11,
+   "rest_beats": 5,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
     {
      "ball": 1,
      "beat": 16,
-     "to_contact": 6
+     "to_contact": 5
     }
    ],
    "landings": [
     {
      "ball": 1,
-     "from_contact": 12,
+     "from_contact": 11,
      "beat": 29,
      "exit": false
     }
    ],
    "roof_sits": [],
    "contact_range": [
-    6,
-    12
+    5,
+    11
    ]
   },
   {
@@ -114,66 +114,66 @@
     {
      "ball": 1,
      "beat": 36,
-     "to_contact": 13
+     "to_contact": 12
     }
    ],
    "landings": [
     {
      "ball": 1,
-     "from_contact": 24,
+     "from_contact": 23,
      "beat": 53,
      "exit": false
     }
    ],
    "roof_sits": [],
    "contact_range": [
-    13,
-    24
+    12,
+    23
    ]
   }
  ],
  "contacts": [
   {
-   "beat": 5,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 0,
-   "i": 0,
-   "gimmick": "W0"
-  },
-  {
-   "beat": 6,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 0,
-   "i": 1,
-   "gimmick": "W0"
-  },
-  {
-   "beat": 7.5,
+   "beat": 5.5,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 1.5,
    "bounce": "dot",
    "phrase": 0,
-   "i": 2,
+   "i": 0,
    "gimmick": "W3",
    "first_of_gimmick": true
+  },
+  {
+   "beat": 7,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1.5,
+   "bounce": "dot",
+   "phrase": 0,
+   "i": 1,
+   "gimmick": "W3",
+   "first_of_gimmick": true
+  },
+  {
+   "beat": 8,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 2,
+   "gimmick": "W0"
   },
   {
    "beat": 9,
    "kind": "hit",
    "ball": 1,
-   "gap_beats": 1.5,
-   "bounce": "dot",
+   "gap_beats": 1,
+   "bounce": "tong",
    "phrase": 0,
    "i": 3,
-   "gimmick": "W3",
-   "first_of_gimmick": true
+   "gimmick": "W0"
   },
   {
    "beat": 10,
@@ -186,25 +186,15 @@
    "gimmick": "W0"
   },
   {
-   "beat": 11,
-   "kind": "hit",
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 0,
-   "i": 5,
-   "gimmick": "W0"
-  },
-  {
    "beat": 20,
    "kind": "hit",
    "ball": 1,
    "gap_beats": 4,
    "bounce": "cloud",
    "phrase": 1,
-   "i": 6,
+   "i": 5,
    "gimmick": "W2",
-   "object": 6
+   "object": 5
   },
   {
    "beat": 21.5,
@@ -213,7 +203,7 @@
    "gap_beats": 1.5,
    "bounce": "dot",
    "phrase": 1,
-   "i": 7,
+   "i": 6,
    "gimmick": "W3"
   },
   {
@@ -223,7 +213,7 @@
    "gap_beats": 1.5,
    "bounce": "dot",
    "phrase": 1,
-   "i": 8,
+   "i": 7,
    "gimmick": "W3"
   },
   {
@@ -233,7 +223,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
-   "i": 9,
+   "i": 8,
    "gimmick": "W0"
   },
   {
@@ -243,7 +233,7 @@
    "gap_beats": 2,
    "bounce": "big",
    "phrase": 1,
-   "i": 10,
+   "i": 9,
    "gimmick": "W1"
   },
   {
@@ -253,7 +243,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
-   "i": 11,
+   "i": 10,
    "gimmick": "W0"
   },
   {
@@ -263,7 +253,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
-   "i": 12,
+   "i": 11,
    "gimmick": "W0"
   },
   {
@@ -273,7 +263,7 @@
    "gap_beats": 2,
    "bounce": "big",
    "phrase": 2,
-   "i": 13,
+   "i": 12,
    "gimmick": "W1"
   },
   {
@@ -283,7 +273,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 14,
+   "i": 13,
    "gimmick": "W0"
   },
   {
@@ -293,7 +283,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 15,
+   "i": 14,
    "gimmick": "W0"
   },
   {
@@ -303,7 +293,7 @@
    "gap_beats": 2,
    "bounce": "big",
    "phrase": 2,
-   "i": 16,
+   "i": 15,
    "gimmick": "W1"
   },
   {
@@ -313,7 +303,7 @@
    "gap_beats": 1.5,
    "bounce": "dot",
    "phrase": 2,
-   "i": 17,
+   "i": 16,
    "gimmick": "W3"
   },
   {
@@ -323,7 +313,7 @@
    "gap_beats": 1.5,
    "bounce": "dot",
    "phrase": 2,
-   "i": 18,
+   "i": 17,
    "gimmick": "W3"
   },
   {
@@ -333,7 +323,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 19,
+   "i": 18,
    "gimmick": "W0"
   },
   {
@@ -343,7 +333,7 @@
    "gap_beats": 2,
    "bounce": "big",
    "phrase": 2,
-   "i": 20,
+   "i": 19,
    "gimmick": "W1"
   },
   {
@@ -353,7 +343,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 21,
+   "i": 20,
    "gimmick": "W0"
   },
   {
@@ -363,7 +353,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 22,
+   "i": 21,
    "gimmick": "W0"
   },
   {
@@ -373,7 +363,7 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 23,
+   "i": 22,
    "gimmick": "W0"
   },
   {
@@ -383,39 +373,39 @@
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
-   "i": 24,
+   "i": 23,
    "gimmick": "W0"
   }
  ],
  "objects": [
   {
    "type": "mark",
-   "beat_in": 5,
-   "beat_out": 5,
+   "beat_in": 5.5,
+   "beat_out": 5.5,
    "contacts": [
     0
    ],
-   "next_beats": 1,
+   "next_beats": 1.5,
    "id": 0
   },
   {
    "type": "mark",
-   "beat_in": 6,
-   "beat_out": 6,
+   "beat_in": 7,
+   "beat_out": 7,
    "contacts": [
     1
    ],
-   "next_beats": 1.5,
+   "next_beats": 1,
    "id": 1
   },
   {
    "type": "mark",
-   "beat_in": 7.5,
-   "beat_out": 7.5,
+   "beat_in": 8,
+   "beat_out": 8,
    "contacts": [
     2
    ],
-   "next_beats": 1.5,
+   "next_beats": 1,
    "id": 2
   },
   {
@@ -439,29 +429,29 @@
    "id": 4
   },
   {
-   "type": "mark",
-   "beat_in": 11,
-   "beat_out": 11,
-   "contacts": [
-    5
-   ],
-   "next_beats": 1,
-   "id": 5
-  },
-  {
    "type": "cloud",
    "beat_in": 17,
    "beat_out": 19,
    "contacts": [
-    6
+    5
    ],
    "bottom_of_Hp": 0.9,
-   "id": 6
+   "id": 5
   },
   {
    "type": "mark",
    "beat_in": 20,
    "beat_out": 20,
+   "contacts": [
+    5
+   ],
+   "next_beats": 1.5,
+   "id": 6
+  },
+  {
+   "type": "mark",
+   "beat_in": 21.5,
+   "beat_out": 21.5,
    "contacts": [
     6
    ],
@@ -470,38 +460,38 @@
   },
   {
    "type": "mark",
-   "beat_in": 21.5,
-   "beat_out": 21.5,
-   "contacts": [
-    7
-   ],
-   "next_beats": 1.5,
-   "id": 8
-  },
-  {
-   "type": "mark",
    "beat_in": 23,
    "beat_out": 23,
    "contacts": [
-    8
+    7
    ],
    "next_beats": 1,
-   "id": 9
+   "id": 8
   },
   {
    "type": "mark",
    "beat_in": 24,
    "beat_out": 24,
    "contacts": [
-    9
+    8
    ],
    "next_beats": 2,
-   "id": 10
+   "id": 9
   },
   {
    "type": "mark",
    "beat_in": 26,
    "beat_out": 26,
+   "contacts": [
+    9
+   ],
+   "next_beats": 1,
+   "id": 10
+  },
+  {
+   "type": "mark",
+   "beat_in": 27,
+   "beat_out": 27,
    "contacts": [
     10
    ],
@@ -510,8 +500,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 27,
-   "beat_out": 27,
+   "beat_in": 28,
+   "beat_out": 28,
    "contacts": [
     11
    ],
@@ -520,8 +510,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 28,
-   "beat_out": 28,
+   "beat_in": 38,
+   "beat_out": 38,
    "contacts": [
     12
    ],
@@ -530,8 +520,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 38,
-   "beat_out": 38,
+   "beat_in": 39,
+   "beat_out": 39,
    "contacts": [
     13
    ],
@@ -540,28 +530,28 @@
   },
   {
    "type": "mark",
-   "beat_in": 39,
-   "beat_out": 39,
-   "contacts": [
-    14
-   ],
-   "next_beats": 1,
-   "id": 15
-  },
-  {
-   "type": "mark",
    "beat_in": 40,
    "beat_out": 40,
    "contacts": [
-    15
+    14
    ],
    "next_beats": 2,
-   "id": 16
+   "id": 15
   },
   {
    "type": "mark",
    "beat_in": 42,
    "beat_out": 42,
+   "contacts": [
+    15
+   ],
+   "next_beats": 1.5,
+   "id": 16
+  },
+  {
+   "type": "mark",
+   "beat_in": 43.5,
+   "beat_out": 43.5,
    "contacts": [
     16
    ],
@@ -570,38 +560,38 @@
   },
   {
    "type": "mark",
-   "beat_in": 43.5,
-   "beat_out": 43.5,
-   "contacts": [
-    17
-   ],
-   "next_beats": 1.5,
-   "id": 18
-  },
-  {
-   "type": "mark",
    "beat_in": 45,
    "beat_out": 45,
    "contacts": [
-    18
+    17
    ],
    "next_beats": 1,
-   "id": 19
+   "id": 18
   },
   {
    "type": "mark",
    "beat_in": 46,
    "beat_out": 46,
    "contacts": [
-    19
+    18
    ],
    "next_beats": 2,
-   "id": 20
+   "id": 19
   },
   {
    "type": "mark",
    "beat_in": 48,
    "beat_out": 48,
+   "contacts": [
+    19
+   ],
+   "next_beats": 1,
+   "id": 20
+  },
+  {
+   "type": "mark",
+   "beat_in": 49,
+   "beat_out": 49,
    "contacts": [
     20
    ],
@@ -610,8 +600,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 49,
-   "beat_out": 49,
+   "beat_in": 50,
+   "beat_out": 50,
    "contacts": [
     21
    ],
@@ -620,8 +610,8 @@
   },
   {
    "type": "mark",
-   "beat_in": 50,
-   "beat_out": 50,
+   "beat_in": 51,
+   "beat_out": 51,
    "contacts": [
     22
    ],
@@ -630,23 +620,13 @@
   },
   {
    "type": "mark",
-   "beat_in": 51,
-   "beat_out": 51,
+   "beat_in": 52,
+   "beat_out": 52,
    "contacts": [
     23
    ],
    "next_beats": 1,
    "id": 24
-  },
-  {
-   "type": "mark",
-   "beat_in": 52,
-   "beat_out": 52,
-   "contacts": [
-    24
-   ],
-   "next_beats": 1,
-   "id": 25
   },
   {
    "type": "cloud",
@@ -655,7 +635,7 @@
    "beat_out": 56,
    "contacts": [],
    "bottom_of_Hp": 0.9,
-   "id": 26
+   "id": 25
   }
  ]
 }

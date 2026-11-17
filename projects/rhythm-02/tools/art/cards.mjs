@@ -49,6 +49,11 @@ export function markSvg(x, laneY, d, { scale = 1 } = {}) {
   const rx = SHAPE.mark.w_of_d * d / 2 * scale, ry = SHAPE.mark.h_of_d * d * scale, by = laneY + SHAPE.mark.h_of_d * d / 2;
   return `<path d="M${f1(x - rx)} ${f1(by)} A${f1(rx)} ${f1(ry)} 0 0 1 ${f1(x + rx)} ${f1(by)} Z" fill="${C.drumBody}" stroke="${C.ink}" stroke-width="${SHAPE.mark.outline_px}" stroke-linejoin="round"/>`;
 }
+// R2-D9: 가지 그린 가로 = balance objects [beat_in, beat_out] 그대로(= [첫 반박 접촉 − 0.25박, 마지막 반박 접촉 + 0.2박], 좌우 여유 0).
+// 검사: 그 구간에 완전히 든 표시 = 2(가지)·4(긴 가지), 반쯤 걸친 표시 0 → 들어가는 표시(앞 비행 착지)·나가는 표시는 가지 밖에 완전히
+export function markHalfW(d) { return (SHAPE.mark.w_of_d * d) / 2 + SHAPE.mark.outline_px / 2; }
+// 표시들이 가지 [x0, x1] 밑에 완전히 든 수 / 반쯤 걸친 수
+export function marksUnder(xs, x0, x1, d) { const hw = markHalfW(d); let full = 0, part = 0; for (const x of xs) { const a = x - hw, b = x + hw; if (a >= x0 - 1e-6 && b <= x1 + 1e-6) full++; else if (b > x0 && a < x1) part++; } return { full, part }; }
 export const markBox = (x, laneY, d) => ({ x0: x - SHAPE.mark.w_of_d * d / 2, x1: x + SHAPE.mark.w_of_d * d / 2, y0: laneY - SHAPE.mark.h_of_d * d / 2, y1: laneY + SHAPE.mark.h_of_d * d / 2 });
 // 긴 구름(W2·끝 구름): x0~x1, 아랫선 bottomY, 높이 h. 아래 띠(0.55h) + 혹(반지름 0.45h, 간격 = 반지름) → 혹 사이 오목한 곳도 0.94h 덮음
 export function cloudGeom(x0, x1, bottomY, h) {
@@ -151,9 +156,9 @@ export const CARD = {
   W: 720, H: 336, panelW: 210, panelH: 276, panelX: [20, 255, 490], panelY: 30,
   pad: 12, gap: 22, border: 4, rx: 28, screenMargin: 16, textLine: 28,
   d: 30, drumW: 96, drumH: 28, skinH: 8.4, skinY: 178, floorY: 206, laneY: 222, cx: 63,
-  Hp: 140, aheadBeats: 2.5, minBallPx: 16,
+  Hp: 140, aheadBeats: 1.9, minBallPx: 16,
 };
-CARD.ppb = (CARD.panelW - CARD.cx) / CARD.aheadBeats; // 58.8 px/박(카드는 칸이 좁아 앞쪽 2.5박만 — 반박 표시 간격 29 px > 표시 너비 24 px)
+CARD.ppb = (CARD.panelW - CARD.cx) / CARD.aheadBeats; // 77.4 px/박(카드는 칸이 좁아 앞쪽 1.9박만 — R2-D9: 가지 뒤 끝 post 0.17박 × 77.4 = 13.2 px ≥ 표시 반폭 12 + 외곽선 1, 들어가는 표시도 가지 밖)
 CARD.beatH = 0.5 * CARD.Hp * 0.6; // 1박 꼭짓점(100 BPM, c = 0.5·Hp/s)
 const PW = CARD.panelW + CARD.pad * 2;
 const PH = CARD.pad * 2 + CARD.panelH * 3 + CARD.gap * 2;
@@ -193,7 +198,7 @@ function panel(theme, sc, boxes) {
     const x0 = Math.max(-6, X(o.b0)), x1 = Math.min(K.panelW + 6, X(o.b1));
     if (o.type === 'cloud') { const bottom = K.skinY - 0.9 * K.Hp, h = 50; s += cloudSvg(x0, x1, bottom + 6, h); add({ x0, x1, y0: bottom + 6 - h - 2.4, y1: bottom + 6, what: 'cloud', clip: true }); if (o.down) s += chevron(K.cx, bottom + 18, false); }
     if (o.type === 'roof') { const under = K.skinY - (0.3 * K.Hp + 1.35 * K.d); s += roofSvg(x0, x1, under, K.d); const g = roofGeom(x0, x1, under, K.d); add({ x0, x1, y0: g.domeTop - (g.bodyTop - g.domeTop) * 0.5 - 2, y1: under + 1, what: 'roof', clip: true }); }
-    if (o.type === 'branch') { const under = K.skinY - (0.14 * K.Hp + 1.3 * K.d), bm = SHAPE.branch.side_margin_of_d * K.d; s += branchSvg(x0 - bm, x1 + bm, under, K.d); add({ x0, x1, y0: branchGeom(x0, x1, under, K.d).top - 2, y1: under + 1, what: 'branch', clip: true }); }
+    if (o.type === 'branch') { const under = K.skinY - (0.14 * K.Hp + 1.3 * K.d); let [bx0, bx1] = [X(o.b0), X(o.b1)]; bx0 = Math.max(-6, bx0); bx1 = Math.min(K.panelW + 6, bx1); s += branchSvg(bx0, bx1, under, K.d); add({ x0: bx0, x1: bx1, y0: branchGeom(bx0, bx1, under, K.d).top - 2, y1: under + 1, what: 'branch', clip: true }); }
   }
   if (sc.lines) s += bounceLines(K.cx, sk, K.d, sc.lines);
   if (sc.finger) {
@@ -205,6 +210,9 @@ function panel(theme, sc, boxes) {
 }
 
 const B = CARD.beatH;
+// R2-D9: 가지 구간 = balance objects.branch [첫 반박 − cover_pre_beats, 마지막 반박 + cover_post_beats] (원본 balance, 읽기만)
+const BRC = (() => { try { const o = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8')).objects?.branch || {}; return { pre: o.cover_pre_beats ?? 0.25, post: o.cover_post_beats ?? 0.2 }; } catch { return { pre: 0.25, post: 0.2 }; } })();
+const br = (first, n) => ({ type: 'branch', b0: first - BRC.pre, b1: first + 0.5 * (n - 1) + BRC.post, n });
 // 카드 정의: gid = 00-benchmark 14-3 기믹 id, key = 카드 키(lore strings.json 과 같은 이름). 그림 = 그 레벨 첫 등장의 실제 모양(insights runner-01)
 export const DEFS = [
   { gid: 'W0', key: 'card_bounce', level: '01', what: '길·박 표시: 표시가 북 다리 밑에 오면 톡 → 공이 올라감', panels: [
@@ -213,34 +221,34 @@ export const DEFS = [
     { marks: [0.6, 1.6, 2.6], ball: { h: B * 0.75, dir: 'up', trail: true } }] },
   { gid: 'W1', key: 'card_big', level: '02', what: '넓은 간격(큰 통 2박): 표시가 멀면 높이 뜸(물체 없음 — 표시 간격이 실루엣)', panels: [
     { marks: [0.8, 2.8], ball: { h: B * 0.4, dir: 'down' } },
-    { marks: [1, 3], ball: { h: 2 * B, trail: true } },
-    { marks: [0, 2], ball: { h: 0 }, finger: true, press: true, lines: 1 }] },
+    { marks: [1, 2], ball: { h: 2 * B, trail: true } },
+    { marks: [0, 1], ball: { h: 0 }, finger: true, press: true, lines: 1 }] }, // L2 첫 등장 "1 1 2 1 1": 낮은 공 + 먼 표시 → 높은 공 → 먼 표시 닿을 때 손가락, 그 뒤는 1박
   { gid: 'W2', key: 'card_cloud', level: '03', what: '구름(4박): 구름이 와서 공이 그 속에 숨었다 내려옴(그림자만)', panels: [
-    { marks: [4.3], objs: [{ type: 'cloud', b0: 0.6, b1: 4.6 }], ball: { h: B * 0.6, dir: 'up', trail: true } },
-    { marks: [2], objs: [{ type: 'cloud', b0: -2.2, b1: 2.6, down: true }], ball: { hidden: true } },
-    { marks: [0, 1], objs: [{ type: 'cloud', b0: -4.6, b1: -0.6 }], ball: { h: 0 }, finger: true, press: true, lines: 1 }] },
+    { marks: [3.7], objs: [{ type: 'cloud', b0: 0.7, b1: 2.7 }], ball: { h: B * 1.1, dir: 'up', trail: true } },
+    { marks: [2], objs: [{ type: 'cloud', b0: -1, b1: 1, down: true }], ball: { hidden: true } },
+    { marks: [0, 1], objs: [{ type: 'cloud', b0: -3, b1: -1 }], ball: { h: 0 }, finger: true, press: true, lines: 1 }] }, // 구름 = balance objects [접촉 − 3, − 1](2박 폭), L3 첫 등장은 토스로 구름까지
   { gid: 'W3', key: 'card_dot', level: '04', what: '엇간격(점 통 1.5·1.5·1): 길게 · 길게 · 짧게(물체 없음 — 표시 간격이 실루엣)', panels: [
     { marks: [0, 1.5, 3, 4], ball: { h: 0 }, finger: true, press: true, lines: 1 },
     { marks: [0.75, 2.25, 3.25], ball: { h: 1.5 * B, trail: true } },
     { marks: [0.5, 1.5], ball: { h: 0.75 * B, dir: 'down' } }] },
   { gid: 'W4', key: 'card_roof', level: '05', what: '지붕(치지 마): 지붕 밑에 공이 앉아 쉬고 손은 떨어져 있음 → 지붕이 지나가면 공이 스스로 뜸', panels: [
-    { marks: [3.6], objs: [{ type: 'roof', b0: 0.6, b1: 3.1 }], ball: { h: B * 0.45, dir: 'down' }, finger: true, lifted: true },
-    { marks: [2.5], objs: [{ type: 'roof', b0: -1, b1: 1.5 }], ball: { h: 0, seat: true }, finger: true, lifted: true },
-    { marks: [1], objs: [{ type: 'roof', b0: -3.4, b1: -0.9 }], ball: { h: B * 0.6, dir: 'up', trail: true }, finger: true, lifted: true }] },
+    { marks: [0.3], objs: [{ type: 'roof', b0: 0.7, b1: 2.3 }], ball: { h: B * 0.84, dir: 'down' }, finger: true, lifted: true },
+    { marks: [2.5], objs: [{ type: 'roof', b0: -1.1, b1: 0.5 }], ball: { h: 0, seat: true }, finger: true, lifted: true },
+    { marks: [1], objs: [{ type: 'roof', b0: -2.5, b1: -0.9 }], ball: { h: B * 0.6, dir: 'up', trail: true }, finger: true, lifted: true }] }, // 지붕 = balance [착지 − 0.6, 착지 + s − 1], L5 첫 지붕 s 2 → 1.6박 폭. 칸 1 = 지붕 앞 마지막 hit 직전(그 표시는 지붕 밖)
   { gid: 'W5', key: 'card_double', level: '06', what: '낮은 가지(반박 짝): 가지 밑에서 표시 둘이 촘촘 → 톡톡', panels: [
-    { marks: [1.5, 2, 2.5, 3.5], objs: [{ type: 'branch', b0: 1.5, b1: 2.5 }], ball: { h: B * 0.7, dir: 'down' } },
-    { marks: [0, 0.5, 1, 2], objs: [{ type: 'branch', b0: 0, b1: 1 }], ball: { h: 0 }, finger: true, press: true, taps: 2, lines: 1 },
-    { marks: [0.25, 1.25], objs: [{ type: 'branch', b0: -0.75, b1: 0.25 }], ball: { h: 0.25 * B, dir: 'down' } }] },
+    { marks: [0.8, 1.3, 1.8], objs: [br(1.3, 2)], ball: { h: B * 1.92, dir: 'down' } }, // L6 첫 등장 "1 2 .5b .5b": 큰 통(2박)으로 높이 내려오는 공 → 가지
+    { marks: [0, 0.5, 1.5], objs: [br(0, 2)], ball: { h: 0 }, finger: true, press: true, taps: 2, lines: 1 },
+    { marks: [0.75], objs: [br(-0.75, 2)], ball: { h: 0.75 * B, dir: 'up' } }] }, // R2-D9: 가지 = [첫 반박 − 0.25, 마지막 + 0.2], 밑 표시 2, 들어가는 표시는 가지 밖
   { gid: 'W6', key: 'card_three', level: '07', what: '큰 언덕(3박): 큰 언덕 위로 아주 높이, 셋 세고 톡', panels: [
-    { marks: [0.6, 3.6], objs: [{ type: 'hill', b0: 0.6, b1: 3.6, apexBeats: 3 }], ball: { h: B * 0.4, dir: 'down' } },
-    { marks: [1.5], objs: [{ type: 'hill', b0: -1.5, b1: 1.5, apexBeats: 3 }], ball: { h: 3 * B, trail: true } },
-    { marks: [0, 1], objs: [{ type: 'hill', b0: -3, b1: 0, apexBeats: 3 }], ball: { h: 0 }, finger: true, press: true, lines: 1 }] },
+    { marks: [], objs: [{ type: 'hill', b0: 0.9, b1: 2.4, apexBeats: 3 }], ball: { h: 0, seat: true } },
+    { marks: [1.5], objs: [{ type: 'hill', b0: -0.75, b1: 0.75, apexBeats: 3 }], ball: { h: 3 * B, trail: true } },
+    { marks: [0, 1], objs: [{ type: 'hill', b0: -2.25, b1: -0.75, apexBeats: 3 }], ball: { h: 0 }, finger: true, press: true, lines: 1 }] }, // 언덕 = balance [접촉 − 2.25, − 0.75](1.5박 폭). L7 첫 등장 = 받침 쉼에 앉은 공 → 토스로 언덕 위 3박
   { gid: 'W7', key: 'card_roll', level: '08', what: '긴 가지(반박 넷): 긴 가지 밑 표시 넷 → 톡톡톡톡', panels: [
-    { marks: [1.2, 1.7, 2.2, 2.7, 3.2], objs: [{ type: 'branch', b0: 1.2, b1: 3.2 }], ball: { h: B * 0.5, dir: 'down' } },
-    { marks: [0, 0.5, 1, 1.5, 2], objs: [{ type: 'branch', b0: 0, b1: 2 }], ball: { h: 0 }, finger: true, press: true, taps: 4, lines: 1 },
-    { marks: [0.5, 1.5], objs: [{ type: 'branch', b0: -1.5, b1: 0.5 }], ball: { h: 0.25 * B, dir: 'up' } }] },
+    { marks: [0.8, 1.3, 1.8, 2.3, 2.8], objs: [br(1.3, 4)], ball: { h: B * 1.92, dir: 'down' } }, // L8 첫 등장: 토스 → 2박 비행 → 긴 가지
+    { marks: [0, 0.5, 1, 1.5], objs: [br(0, 4)], ball: { h: 0 }, finger: true, press: true, taps: 4, lines: 1 },
+    { marks: [0.75], objs: [br(-1.75, 4)], ball: { h: 0.75 * B, dir: 'up' } }] }, // R2-D9: 긴 가지 밑 표시 4
 ];
-export const RESERVE_CARD_FILES = ['card_twoballs.svg', 'card_twoballs_portrait.svg']; // 두 공(G5) 예비(D-R2-1): 다시 쓰면 round-1 그림 재사용, 지우지 않음
+export const RESERVE_CARD_FILES = []; // R2-D1: 두 공(G5) 예비 카드 card_twoballs 그림 2장 삭제 — 예비는 문서 표에만(30-art 8절)
 
 export function cardKeys() {
   const bal = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
@@ -287,7 +295,7 @@ export function checkPanelBoxes(boxes) {
 
 // ---------------- 레벨 선택 카드(글·숫자 없음) ----------------
 // 그림: 바탕(bg1) + 바닥 길 + 박 표시 2~3 + 작은 북(다리)·공 + 그 레벨 대표 물체 1개(모양이 레벨마다 다름) + (L9 연·L10 해) 실루엣. accent 테두리.
-// 최고 진행도 막대(일반 모드만) + 등급 3칸(카드 바깥 아래) + 최고 콤보 큰 표지(10마다, 0~2개, 카드 안 오른쪽 위, 글 없음 — aria_best_combo)
+// 최고 진행도 막대(일반 모드만) + 등급 3칸(카드 바깥 아래, 왼쪽으로 조금 밂) + 최고 콤보 큰 표지(10마다, 0~2개, 카드 안 오른쪽 위에 보임, 글 없음). DOM: 최고 기록 막대(progressbar aria_best)·최고 콤보(meter aria_best_combo)는 버튼 안이 아니라 같은 칸의 버튼 옆 형제 요소(R2-D7)
 const LEVEL_OBJ = { '01': [], '02': ['sand'], '03': ['cloud'], '04': ['swing'], '05': ['roof'], '06': ['branch'], '07': ['hill3'], '08': ['branchLong'], '09': ['kite', 'roof'], '10': ['sun', 'branch'] };
 export function levelCard(x, y, w, h, lv, st) {
   const T = P.themes['level' + lv];
@@ -310,7 +318,7 @@ export function levelCard(x, y, w, h, lv, st) {
   if (objs.includes('sun')) s += `<circle cx="${f1(x + w * 0.94)}" cy="${f1(y + h * 0.16)}" r="${f1(w * 0.2)}" fill="${T.accent}"/>`;
   if (objs.includes('kite')) s += `<polygon points="${f1(x + w * 0.86)},${f1(y + h * 0.08)} ${f1(x + w * 0.94)},${f1(y + h * 0.17)} ${f1(x + w * 0.86)},${f1(y + h * 0.27)} ${f1(x + w * 0.78)},${f1(y + h * 0.17)}" fill="${T.accent}"/><rect x="${f1(x + w * 0.857)}" y="${f1(y + h * 0.27)}" width="1.5" height="${f1(h * 0.2)}" fill="${T.accent}"/>`;
   if (lv === '01') s += `<polygon points="${f1(x + w * 0.85)},${f1(fy)} ${f1(x + w * 0.92)},${f1(fy)} ${f1(x + w * 0.885)},${f1(fy - h * 0.1)}" fill="${T.accent}"/>`;
-  const MB = { '02': [2], '04': [1.5, 3] }[lv] || [1, 2]; // 표시 간격 = 그 레벨 새 리듬(L2 넓게, L4 1.5박)
+  const MB = { '02': [2], '04': [1.5, 3], '06': [0.4, 2.5], '08': [0.2], '10': [0.4, 2.5] }[lv] || [1, 2]; // 표시 간격 = 그 레벨 새 리듬(L2 넓게, L4 1.5박). 가지 레벨은 썸네일이 좁아 가지 밑 표시를 그리지 않고 가지 밖에만(R2-D9: 반쯤 걸친 표시 0)
   for (const b of MB) if (!(lv === '05' && b === 1)) s += markSvg(dx + b * ppb, laneY, d);
   s += drumSvg(dx, fy - dH, dW, dH, dH * 0.3, { d, legTo: laneY });
   const seat = lv === '05';
@@ -325,7 +333,7 @@ export function levelCard(x, y, w, h, lv, st) {
   s += `<rect x="${bx}" y="${by}" width="${bw}" height="10" rx="5" fill="${C.hudTrack}" stroke="${C.ink}" stroke-width="2"/>`;
   if (st.best > 0) s += `<rect x="${bx + 2}" y="${by + 2}" width="${f1((bw - 4) * st.best)}" height="6" rx="3" fill="${C.drumBody}"/>`;
   if (st.best > 0 && st.best < 1) s += `<circle cx="${f1(bx + bw * st.best)}" cy="${by + 5}" r="6" fill="${C.ball}" stroke="${C.ink}" stroke-width="2"/>`;
-  for (let i = 0; i < Math.min(2, Math.floor((st.bestCombo || 0) / 10)); i++) s += `<rect x="${f1(x + w - 18 - i * 13)}" y="${y + 7}" width="10" height="10" rx="2.5" fill="${C.glow}" stroke="${C.ink}" stroke-width="1.6"/>`;
+  for (let i = 0; i < Math.min(2, Math.floor((st.bestCombo || 0) / 10)); i++) s += `<rect x="${f1(x + w - 18 - i * 13)}" y="${y + 7}" width="10" height="10" rx="2.5" fill="${C.glow}" stroke="${C.ink}" stroke-width="1.6"/>`; // 화면 자리 = 카드 오른쪽 위, DOM = 버튼 옆 형제 요소(R2-D7·D9 지시)
   for (let i = 0; i < 3; i++) { const gx = x + w / 2 + (i - 1) * 24, gy = y + h + 12; s += i < (st.grade || 0) ? miniCloud(gx, gy, 18, T.accent) : miniCloud(gx, gy, 18, 'none', true); }
   return s;
 }
@@ -385,9 +393,46 @@ export function checkCards(boxesByKey = null) {
     if (strings) { const s = strings[d.key]; s ? ok(`문구 ${d.key}`, true, `"${s.ko}" / "${s.en}"`) : pend(`문구 ${d.key}`, 'strings.json 키 없음(lore)'); }
   }
   const extra = existsSync(CARDS) ? readdirSync(CARDS).filter((f) => f.endsWith('.svg') && !want.has(f) && !RESERVE_CARD_FILES.includes(f)) : [];
-  ok('남은 카드 파일 없음', !extra.length, extra.length ? `쓰이지 않는 파일 ${extra.join(', ')}` : `카드 ${want.size / 2}장 × 2판 + 예비 ${RESERVE_CARD_FILES.join(', ')}`);
+  ok('남은 카드 파일 0', !extra.length, extra.length ? `쓰이지 않는 파일 ${extra.join(', ')}` : `카드 ${want.size / 2}장 × 2판, 남는 파일 0${RESERVE_CARD_FILES.length ? ' + 예비 ' + RESERVE_CARD_FILES.join(', ') : ' (R2-D1: card_twoballs 삭제)'}`);
+  if (existsSync(join(PROJ, 'assets/obj-second-ball.svg'))) ok('두 공 예비 그림 없음', false, 'assets/obj-second-ball.svg 남음(R2-D1)');
+  firstAppearance(ok, pend);
+  { // R2-D9: 카드 칸마다 가지 밑 표시 = 2(가지)·4(긴 가지), 반쯤 걸친 표시 0 (가지가 칸 밖으로 잘리면 ≤)
+    const bad = [], rows = [];
+    for (const d of DEFS) d.panels.forEach((p, i) => { for (const o of (p.objs || []).filter((o) => o.type === 'branch')) {
+      const n = o.n, X = (b) => CARD.cx + b * CARD.ppb, x0 = X(o.b0), x1 = X(o.b1);
+      const halves = Array.from({ length: n }, (_, k) => o.b0 + BRC.pre + 0.5 * k).filter((b) => b >= -1e-6 && X(b) <= CARD.panelW + 10); // 아직 안 친 · 칸에 그려지는 반박 표시
+      const xs = (p.marks || []).map(X).filter((x) => x <= CARD.panelW + 10); const u = marksUnder(xs, x0, x1, CARD.d);
+      const okN = u.full === halves.length && halves.every((b) => (p.marks || []).some((m) => Math.abs(m - b) < 1e-6));
+      rows.push(`${d.key} 칸${i + 1} ${u.full}/${n}`); if (!okN || u.part) bad.push(`${d.key} 칸${i + 1}: 가지 밑 ${u.full}(기대 ${n}) 반쯤 걸침 ${u.part}`);
+    } });
+    ok('카드 가지 밑 표시 = 톡 횟수(R2-D9)', !bad.length, bad.length ? bad.join(' / ') : rows.join(' · ') + ', 반쯤 걸친 표시 0');
+  }
   if (boxesByKey) for (const [k, boxes] of Object.entries(boxesByKey)) { const bad = checkPanelBoxes(boxes); ok(`칸 안 ${k}`, !bad.length, bad.length ? bad.join(' / ') : '공·북·표시·손가락은 칸 안 4 px 여백, 지붕·가지·구름은 위아래 칸 안(N12)'); }
   return { out, fail, wait };
+}
+// 튜토리얼 그림 = 실제 첫 등장(insights runner-01): 카드 속 물체 폭(박) = 그 레벨 첫 물체 [beat_in, beat_out] 폭, 물체 없는 기믹(W0·W1·W3)은 카드에도 물체 없음
+function firstAppearance(ok, pend) {
+  const dir = join(PROJ, 'levels');
+  if (!existsSync(dir)) { pend('첫 등장 대조', 'levels/ 없음'); return; }
+  const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
+  const rows = []; let bad = [];
+  for (const d of DEFS) {
+    const f = files.find((x) => x.startsWith(d.level + '-'));
+    if (!f) { pend(`첫 등장 ${d.key}`, `레벨 ${d.level} 파일 없음`); continue; }
+    const L = JSON.parse(readFileSync(join(dir, f), 'utf8'));
+    if (!L.objects) { pend(`첫 등장 ${d.key}`, 'levels v2 objects 대기'); continue; }
+    const types = [...new Set(d.panels.flatMap((p) => (p.objs || []).map((o) => o.type)))];
+    if (!types.length) { const lvObj = L.new_gimmick && L.objects.find((o) => o.type !== 'mark' && (o.contacts || []).includes(L.contacts.findIndex((c) => c.first_of_gimmick))); if (lvObj) bad.push(`${d.key}: 레벨 첫 등장에 ${lvObj.type} 있음, 카드엔 없음`); rows.push(`${d.key} 물체 없음`); continue; }
+    for (const t of types) {
+      const first = L.objects.find((o) => o.type === t && o.role !== 'clear');
+      if (!first) { bad.push(`${d.key}: 레벨 ${d.level}에 ${t} 없음`); continue; }
+      const want = +(first.beat_out - first.beat_in).toFixed(3);
+      const got = [...new Set(d.panels.flatMap((p) => (p.objs || []).filter((o) => o.type === t).map((o) => +(o.b1 - o.b0).toFixed(3))))];
+      if (got.some((g) => Math.abs(g - want) > 0.05)) bad.push(`${d.key} ${t} 폭 ${got.join('/')}박 ≠ 첫 ${t} ${want}박`);
+      rows.push(`${d.key} ${t} ${want}박`);
+    }
+  }
+  ok('카드 물체 폭 = 레벨 첫 등장 물체 폭', !bad.length, bad.length ? bad.join(' / ') : rows.join(' · '));
 }
 // 그림만 다시 계산해서 bbox 를 얻음(파일 쓰지 않음)
 export function cardBoxes() { const r = {}; for (const d of DEFS) { const b = []; cardSvg(d, b); r[d.key] = b; } return r; }
@@ -402,7 +447,7 @@ async function main() {
     const keep = new Set(RESERVE_CARD_FILES);
     for (const d of DEFS) { writeCard(d); keep.add(`${d.key}.svg`); keep.add(`${d.key}_portrait.svg`); }
     for (const f of readdirSync(CARDS)) if (f.endsWith('.svg') && !keep.has(f)) { rmSync(join(CARDS, f)); console.log(`지움 assets/cards/${f}`); }
-    if (existsSync(join(PROJ, 'assets/obj-second-ball.svg'))) console.log('유지 assets/obj-second-ball.svg (두 공 예비, round-1 그림)');
+    if (existsSync(join(PROJ, 'assets/obj-second-ball.svg'))) { rmSync(join(PROJ, 'assets/obj-second-ball.svg')); console.log('지움 assets/obj-second-ball.svg (두 공 예비 그림 — R2-D1, 예비는 문서에만)'); }
     objects();
     console.log(`카드 ${DEFS.length}장 × 2판, 오브젝트 SVG 씀(레벨 선택 목업은 icons.mjs)`);
   }

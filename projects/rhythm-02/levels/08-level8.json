@@ -258,7 +258,7 @@
    "phrase": 1,
    "i": 8,
    "gimmick": "W7",
-   "object": 8,
+   "object": 9,
    "first_of_gimmick": true
   },
   {
@@ -270,7 +270,7 @@
    "phrase": 1,
    "i": 9,
    "gimmick": "W7",
-   "object": 8,
+   "object": 9,
    "first_of_gimmick": true
   },
   {
@@ -282,7 +282,7 @@
    "phrase": 1,
    "i": 10,
    "gimmick": "W7",
-   "object": 8
+   "object": 9
   },
   {
    "beat": 28,
@@ -293,7 +293,7 @@
    "phrase": 1,
    "i": 11,
    "gimmick": "W7",
-   "object": 8
+   "object": 9
   },
   {
    "beat": 29,
@@ -520,20 +520,6 @@
    "id": 7
   },
   {
-   "type": "branch",
-   "beat_in": 26,
-   "beat_out": 28,
-   "contacts": [
-    8,
-    9,
-    10,
-    11
-   ],
-   "under_of_Hp": 0.3,
-   "long": true,
-   "id": 8
-  },
-  {
    "type": "mark",
    "beat_in": 26,
    "beat_out": 26,
@@ -541,6 +527,20 @@
     7
    ],
    "next_beats": 0.5,
+   "id": 8
+  },
+  {
+   "type": "branch",
+   "beat_in": 26.25,
+   "beat_out": 28.2,
+   "contacts": [
+    8,
+    9,
+    10,
+    11
+   ],
+   "under_of_Hp": 0.34,
+   "long": true,
    "id": 9
   },
   {

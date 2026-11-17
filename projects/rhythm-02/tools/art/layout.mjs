@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ballSvg, cloudSvg, cloudGeom, fingerSvg, fingerBox, drumSvg, markSvg, roofSvg, roofGeom, branchSvg, branchGeom, hillSvg, comboSvg, comboWidth, SHAPE } from './cards.mjs';
+import { ballSvg, cloudSvg, cloudGeom, fingerSvg, fingerBox, drumSvg, markSvg, roofSvg, roofGeom, branchSvg, branchGeom, marksUnder, hillSvg, comboSvg, comboWidth, SHAPE } from './cards.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = resolve(HERE, '../..');
@@ -39,6 +39,7 @@ export const LAYOUT = {
       _dots: '시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개로 묶음. 숫자 없음.' },
     practice: { flag_x: 70, flag_h: 14, bar_shift_px: 22, text: 'text_slots.practice_on(레벨 시작 2 s, 게임 시간)', _rule: '연습 모드일 때만 막대 왼쪽 끝에 작은 깃발(막대는 22 px 오른쪽에서 시작). HUD 안에 글 없음.' },
     aria: { bar: 'aria_progress', best: 'aria_best', dots: 'aria_attempts', flag: 'aria_checkpoint', pause: 'btn_pause', combo: 'aria_combo' },
+    combo_a11y: { role: 'meter', name: 'aria_combo', valuenow: '지금 콤보', valuetext: '숫자만(예 "7", 퍼센트로 읽히지 않게)', live: 'none(판정마다·끊김 때 읽지 않음)', _src: 'R2-D7 · insights runner-01 콤보 대체 글' },
   },
   combo: {
     source: 'balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이)',
@@ -49,7 +50,7 @@ export const LAYOUT = {
     update: { scale: [1, 1.15, 1], ms: 120, at: '판정 프레임(hit = 친 순간, hold = roof_out)' },
     stage: {
       '5': { fx: '5번째 칸만 1.0 → 1.3 → 1.0, 120 ms', sound: null },
-      '10': { fx: '점 10개가 큰 표지 자리로 0.25 s 미끄러지며 작아지고 큰 표지가 0.6 → 1.0 (0.4 s 합), 점 줄 비움', sound: 'chord_1 (balance chord_timing: 그 접촉 박 다음 정박, 지붕 ±1박 피함)' },
+      '10': { fx: '점 10개가 큰 표지 자리로 0.25 s 미끄러지며 작아지고 큰 표지가 0.6 → 1.0 (0.4 s 합), 점 줄 비움', sound: 'chord_1 (balance chord_timing, R2-D2: 그 판정 접촉 박 다음 정박 중 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고 지붕 착지 ±1박도 아닌 첫 정박 — sound-check 가 검사)' },
       '20': { fx: '10 과 같음 + 그 레벨 accent 색 네모 조각 5개(4 px)가 HUD 띠 안에서 띠 아래 6 px 위까지 내려옴(0.6 s)', sound: 'chord_2 (한 음 높은 화음)' },
       '30': { fx: '20 과 같음(자리만)', sound: 'chord_2' },
     },
@@ -65,12 +66,12 @@ export const LAYOUT = {
       _rule: '낮은 반원 돔, 북 몸통 색 + ink. 크기·색 하나(높이 정보 없음 — 간격이 시간). 친 순간 북 다리 밑에서 120 ms 동안 1 → 0 으로 작아짐(흡수). 실패하면 그 자리에 멈춤. 북을 지난 표시는 없음.' },
     roof: { under_ref: 'balance.json objects.roof.under_of_Hp (0.45)', body_h_of_d: SHAPE.roof.body_h_of_d, dome_of_d: SHAPE.roof.dome_of_d, scallop_d_of_d: SHAPE.roof.scallop_d_of_d, outline_px: SHAPE.roof.outline_px, x: '[beat_in, beat_out] 그대로(여유를 더하지 않음 — 앞 hit 접촉 때 북 위에 오지 않게)',
       _rule: '지붕(W4 치지 마): 차양. 윗변은 둥글게 솟음(평평한 발판 아님), 넓은 세로 줄무늬 roof/roofStripe, 아래 가장자리 반원 물결 끝 = 아랫면(h = under_of_Hp·Hp). 그 밑에 공이 앉아 까딱 + 콩. 가시·뾰족·빨강·경고 표지 없음.' },
-    branch: { under_ref: 'balance.json objects.branch.under_of_Hp (0.30)', twig_h_of_d: SHAPE.branch.twig_h_of_d, leaf_len_of_d: SHAPE.branch.leaf_len_of_d, leaf_w_of_d: SHAPE.branch.leaf_w_of_d, leaf_gap_of_d: SHAPE.branch.leaf_gap_of_d, long_if_beats_ge: 1.5, side_margin_of_d: SHAPE.branch.side_margin_of_d,
-      _rule: '가지(W5 낮은 가지 [beat_in, beat_out] < 1.5박, W7 긴 가지 ≥ 1.5박): 가로 줄기 + 렌즈 잎(원 아님), 그린 가로 = [beat_in, beat_out] 그대로(앞뒤 긴 비행이 가지 끝을 스치지 않게 여유를 더하지 않음). 긴 가지 = 레벨 objects long:true(없으면 1.5박 이상). 같은 모양 = 같은 행동(빠르게 톡톡), 길이·잎 수만 다름.' },
+    branch: { under_ref: 'balance.json objects.branch.under_of_Hp (0.30)', twig_h_of_d: SHAPE.branch.twig_h_of_d, leaf_len_of_d: SHAPE.branch.leaf_len_of_d, leaf_w_of_d: SHAPE.branch.leaf_w_of_d, leaf_gap_of_d: SHAPE.branch.leaf_gap_of_d, long_if_beats_ge: 1.5, side_margin_of_d: SHAPE.branch.side_margin_of_d, x: 'R2-D9: 그린 가로 = balance objects [beat_in, beat_out] 그대로(balance 가 [첫 반박 접촉 − 0.25박, 마지막 반박 접촉 + 0.2박]로 줌), 좌우 여유 0. 그 구간에 완전히 든 표시 = 2(가지)·4(긴 가지), 반쯤 걸친 표시 0 → 들어가는 표시(앞 비행 착지)·나가는 표시는 가지 밖에 완전히 — layout.mjs 4해상도 검사',
+      _rule: '가지(W5 낮은 가지 [beat_in, beat_out] < 1.5박, W7 긴 가지 ≥ 1.5박): 가로 줄기 + 렌즈 잎(원 아님), 그린 가로 = x 규칙(R2-D9, 들어가는 표시는 가지 밖에 완전히, 가지 밑 표시 수 = 톡 횟수). 긴 가지 = 레벨 objects long:true(없으면 1.5박 이상). 같은 모양 = 같은 행동(빠르게 톡톡), 길이·잎 수만 다름.' },
     hill: { top_ref: 'balance.json objects.hill.top_of_Hp (0.30)', layer: 'back', outline_px: SHAPE.hill.outline_px, _rule: '큰 언덕(W6): 바닥 윗선에서 솟은 반타원, 꼭대기 h = top_of_Hp·Hp(공 높이 기준), 북·공 뒤에 그림. 공이 언덕 위로 넘어가는 것처럼 보임.' },
     cloud_ref: 'cloud 절',
     deco: { parallax_default: 0.5, tile: 'palette.json themes.<키>.silhouette(v2, 너비 = W 띠가 끝없이 이어짐)', pebbles: { color: 'floorEdge', w_of_d: 0.32, h_px: 3, dy_of_d: 0.45, gaps_of_W: [0.23, 0.17, 0.31, 0.29], parallax: 1.0, _rule: '바닥 띠 길 아래 짧은 조약돌 — 흐름 속도감(박 격자가 아닌 엇간격, 표시보다 약한 대비)' } },
-    scroll_stop: { ref: 'clear_sequence.scroll_stop_beat', ease_beats: 1, _rule: '클리어 뒤 길 멈춤은 마지막 1박 동안 감속(ease-out, 판정 뒤라 판정과 무관). balance scrollBeatAt 에 넣거나 빌드 그리기만 감속 — 1-2 교차 리뷰' },
+    scroll_stop: { ref: 'clear_sequence.scroll_stop_beat', ease_beats: 1, draw_only: true, curve: 'drawn = stop − 1 + u − u²/4, u = scrollBeatAt − (stop − 1) 을 감속 없이 이어 센 박(0 ~ 2), u ≥ 2 면 stop', _rule: 'R2-D5: 클리어 뒤 길 멈춤 감속은 빌드 그리기만(judge.mjs scrollBeatAt·worldX 판정 쪽은 바꾸지 않음, 판정이 끝난 뒤). 마지막 1박 거리를 2박 시간에 걸쳐 속도 1 → 0 으로(속도 튐 없음). 끝 구름·공 숨김 검사는 이 그린 박으로 함' },
     restart_rewind: '실패 → 0.85 s(공 다시 나타남)와 같은 프레임에 세상 위치를 0박(연습 = 그 구절)으로 한 번에 되감음. 실패 순간~0.85 s 는 세상 멈춤',
     approach_rect: 'x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). HUD·콤보·글 자리·손가락이 이 안에 그려지지 않음(S10)',
   },
@@ -112,6 +113,7 @@ export const LAYOUT = {
     practice_on: '연습 모드 시작 2 s 동안 tut_tap 과 같은 자리(게임 시간)',
     clear_title: '등급 칸 줄 바로 위 한 줄(clear_title_1~3, L10 clear_last), 결과 화면에서만',
     level_name: '레벨 선택 카드에는 글 없음(aria-label). 이름은 클리어 화면 맨 위 작은 줄',
+    best_combo_mark: '레벨 선택 카드: 최고 기록 막대(progressbar aria_best)와 최고 콤보 금빛 네모(meter aria_best_combo, 10마다 1개·0~2개·일반 모드만, valuetext 숫자만)는 화면에서는 카드 그림 위 그대로(막대 = 카드 아래쪽 안, 네모 = 카드 오른쪽 위), DOM 은 카드 버튼 안이 아니라 같은 칸의 버튼 옆 형제 요소로 겹쳐 둠(R2-D7 — 버튼 aria-label 안의 자식은 낭독되지 않음)',
     card_text: '그림 카드 대화 상자 위쪽 한 줄(card_*), 카드 그림 배율 계산에서 text_line_px 만큼 비워 둠',
     look_ball: '레벨 선택 오른쪽 위 밀림 표지(눈 + 공), 화면 글 없음',
     sound_late: '보호자 화면 소리 맞추기 줄 옆 같은 표지 + sound_late 글',
@@ -226,7 +228,8 @@ export function levelChecks(L, D) {
     // 끝 구름: 공이 구름선을 넘는 순간(+enter)부터 북 위를 덮음(공 너비 + 여유)
     const goal = (lv.objects || []).find((o) => o.type === 'cloud' && o.role === 'clear');
     if (!v2 || cs.scroll_stop_beat == null || !goal) { pend(`clear L${lv.id} 끝 구름`, `레벨 v2 objects(cloud role clear)·scroll_stop_beat 대기 (v${lv.schema_version ?? 1})`); continue; }
-    const bAtEnter = Math.min(enter / beat, cs.scroll_stop_beat);
+    const stopB = cs.scroll_stop_beat, easeB = (b) => { const u = b - (stopB - 1); return u <= 0 ? b : u >= 2 ? stopB : stopB - 1 + u - (u * u) / 4; }; // R2-D5 그림만 감속
+    const bAtEnter = easeB(enter / beat);
     const marginB = (L.cloud.side_margin_of_d - 0.5 - L.ball.outline_of_d) * 0 + 0; // 여유는 화면 px 로 아래 4해상도에서
     ok(`clear L${lv.id} 끝 구름 자리`, goal.beat_in <= bAtEnter + marginB && goal.beat_out >= Math.max(bAtEnter, cs.scroll_stop_beat), `끝 구름 [${goal.beat_in}, ${goal.beat_out}]박 ∋ 공이 숨는 순간 길 박 ${bAtEnter.toFixed(2)}·멈춤 박 ${cs.scroll_stop_beat} (그린 구름은 양쪽 +0.8d)`);
   }
@@ -246,7 +249,7 @@ export function worldChecks(L, D) {
   const rows = [], crossBad = new Set();
   for (const [W, H, st, sb] of RES) {
     const g = compute(L, W, H, st, sb, bal.scroll?.drum_x_ratio ?? 0.3);
-    let minGap = { px: 1e9 }, objBad = [], objCount = { checked: 0 }, minClear = { roof: 9, branch: 9 };
+    let minGap = { px: 1e9 }, objBad = [], objCount = { checked: 0 }, minClear = { roof: 9, branch: 9 }; const branchRows = [], branchWait = [];
     for (const { lv, C, fromLevel, v2 } of D.comp) {
       const ppb = ((1 - C.scroll.drumX) * W) / C.scroll.ahead;
       const marks = C.contacts.filter((c) => c.kind !== 'nogo').map((c) => c.beat);
@@ -256,10 +259,17 @@ export function worldChecks(L, D) {
       const halfB = (g.d / 2 + L.ball.outline_of_d * g.d) / ppb;
       for (const o of lv.objects || []) {
         objCount.checked++;
-        const sideB = o.type === 'branch' ? (SHAPE.branch.side_margin_of_d * g.d) / ppb : 0;
-        const spanBeats = [o.beat_in - halfB - sideB, o.beat_out + halfB + sideB];
+        let spanBeats = [o.beat_in - halfB, o.beat_out + halfB];
+        if (o.type === 'branch') {
+          const x0 = o.beat_in * ppb, x1 = o.beat_out * ppb;
+          const u = marksUnder(marks.map((b) => b * ppb), x0, x1, g.d), want = o.long ? 4 : 2;
+          branchRows.push(`L${lv.id}@${o.beat_in} ${u.full}/${want}`);
+          if (u.full !== want || u.part || o.contacts.length !== want) objBad.push(`L${lv.id} 가지 [${o.beat_in},${o.beat_out}] 밑 표시 ${u.full}(기대 ${want}, 판정 ${o.contacts.length}) 반쯤 걸침 ${u.part} (R2-D9)`);
+        }
         const under = flights.filter((f) => f.from / C.beatMs < spanBeats[1] && f.to / C.beatMs > spanBeats[0]);
-        const topOfFlightsPx = (fl) => Math.max(0, ...fl.map((f) => { let mx = 0; for (let b = Math.max(spanBeats[0], f.from / C.beatMs); b <= Math.min(spanBeats[1], f.to / C.beatMs); b += 0.02) mx = Math.max(mx, flightAtBeat(C, f, b) ?? 0); return mx; })) * g.Hp + g.d;
+        // 공(원, 반지름 r = d/2 + 외곽선)과 물체 아랫면: 그 순간 물체 가로 구간(북 가운데 기준) 안에서 원 윗선이 가장 높은 점(원 모양 그대로 — 가장자리 스침은 원 옆면 높이로)
+        const r = g.d / 2 + L.ball.outline_of_d * g.d;
+        const topOfFlightsPx = (fl) => Math.max(0, ...fl.map((f) => { let mx = 0; for (let b = Math.max(spanBeats[0], f.from / C.beatMs); b <= Math.min(spanBeats[1], f.to / C.beatMs); b += 0.01) { const h = flightAtBeat(C, f, b); if (h == null) continue; const xa = (o.beat_in - b) * ppb, xb = (o.beat_out - b) * ppb; const xs = xa <= 0 && xb >= 0 ? 0 : Math.min(Math.abs(xa), Math.abs(xb)); if (xs >= r) continue; mx = Math.max(mx, h * g.Hp + r + Math.sqrt(r * r - xs * xs) - g.d); } return mx; })) + g.d;
         if (o.type === 'roof') {
           const uR = o.under_of_Hp ?? OB.roof?.under_of_Hp ?? 0.45, underY = g.skinY - uR * g.Hp, rg = roofGeom(0, 100, underY, g.d);
           const top = rg.domeTop - (rg.bodyTop - rg.domeTop), clear = uR * g.Hp - topOfFlightsPx(under);
@@ -268,7 +278,7 @@ export function worldChecks(L, D) {
         } else if (o.type === 'branch') {
           const uR = o.under_of_Hp ?? OB.branch?.under_of_Hp ?? 0.3, underY = g.skinY - uR * g.Hp, top = branchGeom(0, 100, underY, g.d).top, clear = uR * g.Hp - topOfFlightsPx(under);
           if (top < g.objTop) objBad.push(`L${lv.id} 가지 윗선 ${top.toFixed(0)} < HUD 띠`);
-          minClear.branch = Math.min(minClear.branch, clear / g.d); if (clear < 0.25 * g.d) objBad.push(`L${lv.id} 가지 밑 공간 ${clear.toFixed(0)} px < 0.25d`);
+          minClear.branch = Math.min(minClear.branch, clear / g.d); if (clear < 0.25 * g.d) branchWait.push(`L${lv.id} 가지 [${o.beat_in},${o.beat_out}] 밑 공간 ${clear.toFixed(0)} px < 0.25d`);
         } else if (o.type === 'hill') {
           const tR = o.top_of_Hp ?? OB.hill?.top_of_Hp ?? 0.3;
           const minBottom = Math.min(...under.map((f) => { let mn = 9; for (let b = Math.max(o.beat_in, f.from / C.beatMs); b <= Math.min(o.beat_out, f.to / C.beatMs); b += 0.02) mn = Math.min(mn, flightAtBeat(C, f, b) ?? 9); return mn; }));
@@ -295,7 +305,8 @@ export function worldChecks(L, D) {
     const gapOk = minGap.px >= (bal.scroll?.min_mark_gap_px ?? 32);
     if (!gapOk) fail++;
     rows.push({ g, minGap, gapOk });
-    if (D.comp.some((x) => x.v2)) ok(`세계 물체 ${W}x${H}`, !objBad.length, objBad.length ? objBad.slice(0, 6).join(' / ') : `v2 물체 ${objCount.checked}개: 윗선 ≥ HUD 띠, 지붕 밑 공간 최소 ${minClear.roof.toFixed(2)}d·가지 밑 ${minClear.branch.toFixed(2)}d (≥ 0.25d, 공 너비만큼 가장자리 스침 포함), 언덕 < 공, 구름 덮음, 한 화면 물체 상한`);
+    if (branchWait.length) pend(`가지 밑 공간 ${W}x${H}`, `balance 데이터(R2-D9 가지 덮는 구간 [첫 반박 − ${bal.objects?.branch?.cover_pre_beats}, 마지막 반박 + ${bal.objects?.branch?.cover_post_beats}]박 · 아랫면 ${bal.objects?.branch?.under_of_Hp}·Hp · 가지 뒤 나가는 비행)에서 나가는 공(원)이 가지 오른쪽 끝을 스침 — art 그림은 [beat_in, beat_out] 그대로: ${branchWait.slice(0, 6).join(' / ')}`);
+    if (D.comp.some((x) => x.v2)) ok(`세계 물체 ${W}x${H}`, !objBad.length, objBad.length ? objBad.slice(0, 6).join(' / ') : `v2 물체 ${objCount.checked}개: 윗선 ≥ HUD 띠, 지붕 밑 공간 최소 ${minClear.roof.toFixed(2)}d·가지 밑 ${minClear.branch.toFixed(2)}d${branchWait.length ? '(0.25d 미만 → 위 대기 줄, balance 데이터)' : ''} (기준 ≥ 0.25d, 공은 원 모양 그대로 가장자리 스침 포함), 언덕 < 공, 구름 덮음, 한 화면 물체 상한 · 가지 밑 표시 = 톡 횟수·반쯤 걸침 0(R2-D9) ${branchRows.join(' ')}`);
   }
   if (D.comp.some((x) => x.v2)) out.push(crossBad.size ? `교차 한 화면 물체 상한(14-5, balance 배치 — 1-2 교차 리뷰): ${[...crossBad].join(' / ')}` : 'OK   한 화면 물체 상한(14-5): 물체 종류 ≤ 2(L1~L6)/3, 지붕 ≤ 1, 구름 ≤ 1, 표시 ≤ 7');
   if (!D.comp.some((x) => x.v2)) pend('세계 물체(지붕·가지·언덕·구름)·한 화면 상한', `levels/*.json 이 아직 schema v1(objects 없음) — balance v2 레벨이 오면 4해상도 검사`);

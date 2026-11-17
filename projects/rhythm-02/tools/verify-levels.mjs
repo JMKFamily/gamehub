@@ -25,7 +25,7 @@
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs, restartPhases, hitsFromResult, objectsAt, pxPerBeat, firstVisibleMs, comboEvents, resumePoint, scrollBeatAt } from './sim/judge.mjs';
+import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs, restartPhases, hitsFromResult, objectsAt, pxPerBeat, firstVisibleMs, comboEvents, resumePoint, scrollBeatAt, bgStage, bgStages } from './sim/judge.mjs';
 import { runProfile, runPractice, analyticClear, contMedian } from './sim/bots.mjs';
 import { repeatStats, phraseStarts, windows8, chunksOf, tokenize } from './sim/repeat.mjs';
 
@@ -295,7 +295,7 @@ compiled.forEach((L, li) => {
         if (!prevToss && !okRep) shortInfo.push(`${key}@${cs[k].i}`);
       }
     }
-    // ② 반박(가지): 앞은 1박 이상 비행(토스 포함), 묶음 2(W5)·4(W7), 뒤는 1박 이상 또는 착지, 레벨당 묶음 예산
+    // ② 반박(가지): 앞은 1박 이상 비행(토스 포함), 묶음 2(W5)·4(W7), 뒤는 1박 비행(1-2 R2-D9·art B6: 늘린 가지 끝을 나가는 공이 스치지 않게) 또는 착지, 레벨당 묶음 예산
     const runMax = byLv(V.half_run_max, id);
     let groups = 0;
     for (let i = 0; i < C.length; i++) {
@@ -305,7 +305,7 @@ compiled.forEach((L, li) => {
       const prevIsHalf = i > 0 && C[i - 1].phrase === C[i].phrase && C[i - 1].gapBeats === 0.5;
       if (prevIsHalf) err.push(`②반박 묶음(접촉 ${i}) 앞이 반박`);
       if (len > runMax || (len !== 2 && len !== 4)) err.push(`②반박 ${len}연속(접촉 ${i}, 한도 ${runMax})`);
-      if (k < C.length && C[k].phrase === C[i].phrase && C[k].gapBeats < 1) err.push('②반박 묶음 뒤가 1박 미만');
+      if (k < C.length && C[k].phrase === C[i].phrase && C[k].gapBeats !== (bal.objects.branch.exit_flight_beats ?? 1)) err.push(`②반박 묶음 뒤 비행 ${C[k].gapBeats}박 ≠ ${bal.objects.branch.exit_flight_beats ?? 1}박(가지 끝을 나가는 공, R2-D9·art B6)`);
       if (C[i].gimmick !== (len >= 4 ? 'W7' : 'W5')) err.push(`②반박 묶음 ${i} 태그`);
       i = k - 1;
     }
@@ -691,7 +691,22 @@ compiled.forEach((L, li) => {
         }
       }
       if (o.type === 'roof' || o.type === 'branch') {
-        for (const g of res) { const gapPx = (o.under_of_Hp - ballTopMax) * g.Hp - g.d; if (gapPx < marginD * g.d) err.push(`${o.type} ${o.id} ${g.W}x${g.Hh} 공 윗점 여유 ${gapPx.toFixed(1)} px < ${(marginD * g.d).toFixed(1)}`); }
+        // (1-2 art B6) 공을 원 모양 그대로: 물체 끝이 공 가운데에서 dx 떨어져 있으면 그 자리 공 윗선 = 아랫점 + d/2 + √((d/2)² − dx²). 물체가 공 너비(±d/2)에 걸친 동안 전부
+        for (const g of res) {
+          const ppb = pxPerBeat(L, g.W), r = g.d / 2;
+          let worst = Infinity;
+          for (const x of Object.values(IN)) {
+            if (!x.res.clear) continue;
+            for (let t = (o.beat_in - r / ppb) * L.beatMs; t <= (o.beat_out + r / ppb) * L.beatMs; t += 5) {
+              const nowB = t / L.beatMs, xin = (o.beat_in - nowB) * ppb, xout = (o.beat_out - nowB) * ppb; // 공 가운데 = 0
+              const dx = xin > 0 ? xin : xout < 0 ? -xout : 0;
+              if (dx >= r) continue;
+              const yb = ballsAt(L, t, x.hits).find((q) => q.ball === 1).y * g.Hp;
+              worst = Math.min(worst, o.under_of_Hp * g.Hp - (yb + r + Math.sqrt(r * r - dx * dx)));
+            }
+          }
+          if (worst < marginD * g.d) err.push(`${o.type} ${o.id} ${g.W}x${g.Hh} 공(원 모양) 윗선 여유 ${worst.toFixed(1)} px < ${(marginD * g.d).toFixed(1)}`);
+        }
         if (!res.length && ballTopMax >= o.under_of_Hp) err.push(`${o.type} ${o.id} 공 아랫점 ${ballTopMax.toFixed(3)} ≥ 아랫면`);
         rows.push(`${o.type}@${o.beat_in}: 공 최고 ${ballTopMax.toFixed(3)} < 아랫면 ${o.under_of_Hp}`);
       } else if (o.type === 'hill') {
@@ -704,7 +719,7 @@ compiled.forEach((L, li) => {
       }
     }
     if (!L.objects.some(isHaz)) check(id, 'V22', true, '위험 물체 없음');
-    else check(id, 'V22', !err.length, (err.length ? err.slice(0, 4).join(' / ') : `세 입력 × 5 ms 표본에서 모든 물체 여유 통과${res.length ? `(4해상도 px, 여유 ≥ ${marginD}d)` : ''}`) + ` · ${rows.slice(0, 4).join(' · ')}${rows.length > 4 ? ` 외 ${rows.length - 4}` : ''}`);
+    else check(id, 'V22', !err.length, (err.length ? err.slice(0, 4).join(' / ') : `세 입력 × 5 ms 표본에서 모든 물체 여유 통과${res.length ? `(4해상도 px, 여유 ≥ ${marginD}d, 지붕·가지는 공을 원 모양으로, 공 너비 ±d/2 동안)` : ''}`) + ` · ${rows.slice(0, 4).join(' · ')}${rows.length > 4 ? ` 외 ${rows.length - 4}` : ''}`);
   }
 
   // ---------- V23 물체 윗선 ≥ HUD 띠 아래 + gap (art layout.json world·cloud·hud 를 읽음) · 보이는 공 윗점 ≥ HUD 띠 아래
@@ -890,7 +905,7 @@ log('\n== C1 콤보 (balance.json combo, judge.mjs comboEvents) ==');
     if (CB.update_pop.ms >= minGap) err.push(`L${id} 갱신 연출 ${CB.update_pop.ms} ms ≥ 가장 짧은 접촉 간격 ${f0(minGap)}`);
     rows.push(`L${+id} 끝 ${ce.final}·단계 ${ce.stages.map((s) => `${s.stage}@${f2(s.chordBeat ?? s.t / L.beatMs)}박`).join('/')}`);
   });
-  check('all', 'C1', !err.length, err.length ? err.slice(0, 5).join(' / ') : `콤보 = 성공 판정 수(hit 3등급 + 지붕 참기 hold) = 완벽 입력에서 접촉 수, 표시 시각 단조, hold 칸 채움 = 지붕이 떠날 때(착지 +1박 이상), 화음은 판정 뒤 다음 정박·지붕 ±1박 피함(S9), 갱신 ${CB.update_pop.ms} ms < 가장 짧은 접촉 간격 · ${rows.join(' · ')}`);
+  check('all', 'C1', !err.length, err.length ? err.slice(0, 5).join(' / ') : `콤보 = 성공 판정 수(hit 3등급 + 지붕 참기 hold) = 완벽 입력에서 접촉 수, 표시 시각 단조, hold 칸 채움 = 지붕이 떠날 때(착지 +1박 이상), 화음 시각은 C2, 갱신 ${CB.update_pop.ms} ms < 가장 짧은 접촉 간격 · ${rows.join(' · ')}`);
   // 켬/끔 봇 재판정 동일(시뮬 수준): 같은 시드로 콤보 계산을 켜고 끈 두 실행의 결과가 같음
   const diff = [];
   let mism = 0;
@@ -903,6 +918,99 @@ log('\n== C1 콤보 (balance.json combo, judge.mjs comboEvents) ==');
     if (JSON.stringify(a) !== JSON.stringify(bb)) diff.push(`L${L.level.id}`);
   });
   check('all', 'C1b', !diff.length && !mism, `콤보 켬/끔 σ70 봇(q_nogo 포함, 레벨당 ${Math.max(2000, N / 8)}회 같은 시드): 클리어율·실패 위치·이유·진행도·세션 결과 ${diff.length ? `다름 ${diff}` : '모두 같음'} · 콤보 ≠ 판정 수인 시도 ${mism}`);
+}
+
+// ---------- C2 콤보 화음 시각 (1-2 R2-D2): 판정 접촉 다음 정박 중 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고
+//            지붕 착지 ±1박(닫힌)도 아닌 첫 정박. 마지막 접촉 통과 창 끝(클리어 판정) 전에 없으면 화음 없음(큰 튐 클리어 소리와 겹침 방지)
+log('\n== C2 콤보 화음 시각 · V24 바탕 단계 ==');
+{
+  const err = [], rows = [];
+  let n = 0, skipped = 0, maxDelay = 0;
+  const avoid = bal.combo.chord_timing?.avoid_roof_beats ?? 1;
+  compiled.forEach((L) => {
+    const id = L.level.id;
+    const ce = comboEvents(L, judgeAttempt(L, perfectTaps(L)), bal);
+    const roofB = L.roofSits.map((r) => r.landMs / L.beatMs);
+    // 검증기 쪽 독립 계산(같은 정의, judge.mjs 코드를 쓰지 않음)
+    const zoneOf = (c) => (c.kind === 'nogo' ? c.passStart : c.zoneStart);
+    const busy = (b) => roofB.some((rb) => Math.abs(b - rb) <= avoid + 1e-9) || L.contacts.some((c) => b * L.beatMs >= zoneOf(c) - 1e-6 && b * L.beatMs <= c.passEnd + 1e-6);
+    for (const st of ce.stages.filter((x) => bal.combo.chord_stages.includes(x.stage))) {
+      const e = ce.events.find((x) => x.combo === st.stage);
+      let b = Math.floor(e.beat + 1e-9) + 1;
+      while (busy(b) && b < 1e4) b++;
+      const want = b * L.beatMs < L.clearTimeMs ? b : null;
+      if (want !== st.chordBeat) err.push(`L${+id} ${st.stage}: judge ${st.chordBeat} ≠ 검증 ${want}`);
+      if (st.chordBeat == null) { skipped++; rows.push(`L${+id} ${st.stage} 없음(클리어 전 빈 정박 없음)`); continue; }
+      n++;
+      const ms = st.chordMs;
+      const clash = L.contacts.filter((c) => ms >= zoneOf(c) - 1e-6 && ms <= c.passEnd + 1e-6);
+      if (clash.length) err.push(`L${+id} ${st.stage} 화음이 접촉 ${clash.map((c) => c.i)} 위험 구간 안`);
+      if (roofB.some((rb) => Math.abs(st.chordBeat - rb) <= avoid + 1e-9)) err.push(`L${+id} ${st.stage} 화음이 지붕 착지 ±${avoid}박 안`);
+      if (!(ms > e.t)) err.push(`L${+id} ${st.stage} 화음이 판정 전`);
+      if (!(ms < L.clearTimeMs)) err.push(`L${+id} ${st.stage} 화음이 클리어 판정 뒤`);
+      maxDelay = Math.max(maxDelay, st.chordBeat - e.beat);
+      rows.push(`L${+id} ${st.stage} ${f2(e.beat)}→${st.chordBeat}박(+${f2(st.chordBeat - e.beat)})`);
+    }
+  });
+  report.chords = rows;
+  check('all', 'C2', !err.length, err.length ? err.slice(0, 5).join(' / ') : `콤보 화음 ${n}개 모두 접촉 위험 구간([놓침 구역 시작, 통과 창 끝]·지붕 창) 밖·지붕 착지 ±1박 밖·판정 뒤·클리어 판정 전 = 아이 탭과 같은 순간 0(공통 문서 4-4), judge.mjs = 검증기 독립 계산 · 클리어 전 빈 정박이 없어 화음을 뺀 단계 ${skipped}개(그림 단계 연출은 그대로) · 최대 늦음 ${f2(maxDelay)}박 · ${rows.join(' · ')}`);
+}
+
+// ---------- V24 바탕 단계 (1-2 R2-D4): art 식 1 + round(2(n−1)/(P−1)) 와 같은 계산
+{
+  const err = [], rows = [];
+  const want = { 2: [1, 3], 3: [1, 2, 3], 4: [1, 2, 2, 3] };
+  for (const [P, arr] of Object.entries(want)) { const got = Array.from({ length: +P }, (_, k) => bgStage(k + 1, +P)); if (got.join() !== arr.join()) err.push(`P=${P} ${got} ≠ ${arr}`); }
+  compiled.forEach((L) => {
+    const st = bgStages(L);
+    if (st[0] !== 1) err.push(`L${+L.level.id} 첫 쉼 ${st[0]}`);
+    if (st.length >= 2 && st[st.length - 1] !== 3) err.push(`L${+L.level.id} 마지막 쉼 ${st[st.length - 1]} ≠ 3`);
+    for (let k = 1; k < st.length; k++) if (st[k] < st[k - 1]) err.push(`L${+L.level.id} 단계 내려감`);
+    rows.push(`L${+L.level.id} ${st.join('·')}`);
+  });
+  const rule = (LAYOUT && LAYOUT.bg_stage && LAYOUT.bg_stage.rule) || '';
+  const norm = rule.replace(/\s+/g, '').replace(/·/g, '').replace(/−/g, '-');
+  const artSame = norm.includes('1+round(2(n-1)/(P-1))');
+  const balSame = bal.rest.bg_stage_rule === V.bg_stage_rule_id;
+  if (err.length || !balSame) check('all', 'V24', false, `${err.join(' / ')}${balSame ? '' : ` · balance.json rest.bg_stage_rule ${bal.rest.bg_stage_rule} ≠ ${V.bg_stage_rule_id}`}`);
+  else if (!artSame) wait('all', 'V24', `layout.json bg_stage.rule 에 식 1 + round(2·(n − 1) / (P − 1)) 없음 — art 대기 · balance ${rows.join(' · ')}`);
+  else check('all', 'V24', true, `바탕 단계 = 1 + round(2(n−1)/(P−1)) — judge.mjs bgStage = art layout.json bg_stage.rule = balance rest.bg_stage_rule · P=2 1·3 / P=3 1·2·3 / P=4 1·2·2·3 · 마지막 받침 쉼 = bg3 · ${rows.join(' · ')}`);
+}
+
+// ---------- V25 가지 밑 표시 수 (1-2 R2-D9, lore 교차 리뷰 major): 가지 밑에 완전히 든 hit 표시 = 2(W5)/4(W7) = 카드 '톡톡'·'톡톡톡톡',
+//            들어가는 표시(앞 접촉)·나가는 표시는 가지 밖에 완전히. art layout.json world.mark 너비·world.branch 좌우 여유를 반영, 4해상도 px
+{
+  const WO = LAYOUT.world || {};
+  const want = bal.objects.branch.marks_under || { W5: 2, W7: 4 };
+  if (!layoutOk || !WO.mark?.w_of_d || !WO.branch) wait('all', 'V25', 'layout.json world.mark.w_of_d·world.branch 없음 — art 대기');
+  else {
+    const err = [], rows = [];
+    let nBr = 0, worstOut = Infinity, worstIn = Infinity;
+    const sideOf = (g) => (WO.branch.side_margin_of_d ?? 0) * g.d + (WO.branch.side_margin_px ?? 0);
+    compiled.forEach((L) => {
+      const marks = L.objects.filter((o) => o.type === 'mark');
+      for (const o of L.objects.filter((x) => x.type === 'branch')) {
+        nBr++;
+        const gm = o.long ? 'W7' : 'W5';
+        const cnt = [];
+        for (const [W, Hh, st, sb] of V.layout_resolutions) {
+          const g = layoutGeom(LAYOUT, W, Hh, st, sb), ppb = pxPerBeat(L, W), half = (WO.mark.w_of_d * g.d) / 2, sm = sideOf(g);
+          const x0 = o.beat_in * ppb - sm, x1 = o.beat_out * ppb + sm;
+          let full = 0, part = 0;
+          for (const mk of marks) {
+            const a = mk.beat_in * ppb - half, b = mk.beat_in * ppb + half;
+            if (a >= x0 - 1e-6 && b <= x1 + 1e-6) { full++; worstIn = Math.min(worstIn, Math.min(a - x0, x1 - b)); }
+            else if (b > x0 && a < x1) part++;
+            else worstOut = Math.min(worstOut, a >= x1 ? a - x1 : x0 - b);
+          }
+          if (full !== want[gm] || part) err.push(`L${+L.level.id} 가지 ${o.id}(${gm}) ${W}x${Hh}: 안 ${full}개·걸침 ${part}개 (기대 안 ${want[gm]}·걸침 0)`);
+          cnt.push(full);
+        }
+        rows.push(`L${+L.level.id} ${gm} [${o.beat_in}, ${o.beat_out}]박 안 ${[...new Set(cnt)].join('/')}`);
+      }
+    });
+    check('all', 'V25', !err.length, err.length ? err.slice(0, 5).join(' / ') : `가지 ${nBr}개 4해상도 모두 가지 밑 표시 = 가지 2·긴 가지 4(카드 톡톡·톡톡톡톡), 앞·뒤 표시는 가지 밖(걸침 0) · 가장 빠듯한 여유: 밑 표시 가장자리 ↔ 가지 끝 ${f2(worstIn)} px·밖 표시 ↔ 가지 끝 ${f2(worstOut)} px (art 좌우 여유 ${WO.branch.side_margin_of_d ?? 0}d 반영) · ${rows.join(' · ')}`);
+  }
 }
 
 // ---------- 봇
@@ -980,6 +1088,26 @@ bchk('01', 'B4', B['01'].child_sd70.median_fail_progress_time >= 10, `L1 σ70 �
   const sdv = Math.sqrt(devs.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, devs.length - 1));
   report.b6_seeds = { devs_pct: devs.map((x) => +x.toFixed(2)), mean_pct: +mean.toFixed(2), sd_pct: +sdv.toFixed(2) };
   bchk('10', 'B6s', Math.abs(mean) <= 100 * R.tolerance_ratio && devs.every((x) => Math.abs(x) <= 100 * R.tolerance_ratio), `시드 ${ns}개(L1·L3·L10 각 ${N}회) L10 의 T 대비 편차: ${rowsS.join(' ')} % → 평균 ${mean.toFixed(1)} %·sd ${sdv.toFixed(1)} %·범위 ${Math.min(...devs).toFixed(1)} ~ ${Math.max(...devs).toFixed(1)} % (모두 ±${100 * R.tolerance_ratio} % 안 ${devs.every((x) => Math.abs(x) <= 100 * R.tolerance_ratio) ? '예' : '아님(!)'})`);
+}
+
+// B7q (1-2 R2-D3): 곡선이 q_nogo 가정에 기대지 않음 — q 0(criteria 기본, 지붕은 늘 참음)에서도 L3~L10 엄격 단조·30회 이하·직전 2배 이하
+{
+  const R = V.l10_target_rule;
+  const q0 = {};
+  compiled.forEach((L, k) => { q0[L.level.id] = runProfile(L, bal.bots.profiles.child_sd70, bal, { N, sessions: SESS, seed: SEED + 101 * k + 'child_sd70'.length, qNogo: 0 }).median_continuous; });
+  report.curve_q0 = q0;
+  const ids = compiled.map((L) => L.level.id);
+  const seq = R.monotone_levels.map((id) => [id, q0[id]]);
+  const bad = [];
+  for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
+  const over = ids.filter((id) => !(q0[id] <= V.sd70_continuous_max));
+  const grow = ids.slice(1).filter((id, k) => q0[id] > V.max_growth_vs_prev * q0[ids[k]]);
+  const gaps = seq.slice(1).map(([id, x], k) => [id, x / seq[k][1] - 1]);
+  const minGap = gaps.reduce((a, b) => (b[1] < a[1] ? b : a));
+  const gaps15 = seq.slice(1).map(([id], k) => [id, m(id) / m(seq[k][0]) - 1]);
+  const minGap15 = gaps15.reduce((a, b) => (b[1] < a[1] ? b : a));
+  log(`\n== B7q 곡선의 q_nogo 의존 (R2-D3): q 0 와 q ${bal.bots.profiles.child_sd70.q_nogo} 두 곡선 ==\n  레벨 | q 0 | q ${bal.bots.profiles.child_sd70.q_nogo}(판정)\n` + ids.map((id) => `  ${id} | ${q0[id]} | ${m(id)}`).join('\n'));
+  bchk('10', 'B7q', !bad.length && !over.length && !grow.length, `q_nogo 0: ${seq.map(([id, x]) => `L${+id} ${x}`).join(' < ')} → ${bad.length ? `단조 아님 ${bad}` : '엄격 단조'} (가장 좁은 간격 L${+minGap[0]} +${(100 * minGap[1]).toFixed(1)} %) · 30회 초과 ${over.join(',') || '없음'} · 직전 2배 초과 ${grow.join(',') || '없음'} · q ${bal.bots.profiles.child_sd70.q_nogo} 판정 곡선(B7) 가장 좁은 간격 L${+minGap15[0]} +${(100 * minGap15[1]).toFixed(1)} % · B6 은 q ${bal.bots.profiles.child_sd70.q_nogo} 기준, q 0 의 L10 = ${q0['10']}`);
 }
 
 // K2

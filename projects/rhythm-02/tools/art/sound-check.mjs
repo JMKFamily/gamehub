@@ -165,11 +165,11 @@ console.log(`동기 10개 서로 다름(리듬+음정 간격 기준)`);
     console.log(`곡 음 시작 규칙 [${n}] 위반 ${clash.length} ${ok ? '기대대로' : 'FAIL'}`);
     if (!ok) bad(`곡 음 시작 규칙 ${n}`);
   }
-  // 지붕 밑 쉼 사례(합성): 착지 12박, 토스 15박, bob 13·14 → 12박 곡 음 0, 13·14 콩, 멜로디 없음
-  const fake = { id: '05', bpm: 112, length_beats: 20, phrases: [{ start_beat: 0, rest_beats: 4, roof_sits: [{ contact: 8, beat: 12, toss_beat: 15, bob_beats: [13, 14] }] }], contacts: [] };
+  // 지붕 밑 쉼 사례(합성, balance 6-2 와 같은 박): 착지 12박, 쉼 4박(roof_out 15), 토스 16박, bob 14·15(착지 +2박부터 — 착지 ±1박 밖) → 12·13박 곡 음 0, 14·15 콩, 멜로디 없음
+  const fake = { id: '05', bpm: 112, length_beats: 20, phrases: [{ start_beat: 0, rest_beats: 4, roof_sits: [{ contact: 8, beat: 12, toss_beat: 16, bob_beats: [14, 15] }] }], contacts: [] };
   const fo = musicOnsets(fake, S), at = (b) => fo.filter((o) => o.beat === b).map((o) => o.sound);
-  const okRoof = !at(12).length && at(13).includes(OR.rest.even_k) && at(14).includes(OR.rest.odd_k) && !fo.some((o) => o.beat > 12 && o.beat < 15 && /^mel_/.test(o.sound)) && at(16).length > 0;
-  console.log(`곡 음 시작 규칙 [지붕 밑 쉼: 착지 박 소리 0, 다음 박부터 콩, 멜로디 없음, 토스 뒤 플레이 규칙] ${okRoof ? '기대대로' : 'FAIL'} (12:${at(12).join('+') || '없음'} 13:${at(13).join('+')} 14:${at(14).join('+')} 16:${at(16).join('+')})`);
+  const okRoof = !at(12).length && !at(13).length && at(14).includes(OR.rest.even_k) && at(15).includes(OR.rest.odd_k) && !fo.some((o) => o.beat > 12 && o.beat < 16 && /^mel_/.test(o.sound)) && at(16).length > 0;
+  console.log(`곡 음 시작 규칙 [지붕 밑 쉼: 착지 박·다음 박 소리 0, bob_beats(착지 +2박부터)에 콩, 멜로디 없음, 토스 박부터 플레이 규칙] ${okRoof ? '기대대로' : 'FAIL'} (12:${at(12).join('+') || '없음'} 13:${at(13).join('+') || '없음'} 14:${at(14).join('+')} 15:${at(15).join('+')} 16:${at(16).join('+')})`);
   if (!okRoof) bad('지붕 밑 쉼 곡 규칙');
   if (!LV.length) pend('levels/ 없음: 규칙 사례만 검사');
   const rows = []; let clashN = 0;
@@ -269,19 +269,34 @@ if (v2) {
   try {
     const bal = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
     const J = await import(pathToFileURL(join(PROJ, 'tools/sim/judge.mjs')).href);
-    const rows = [];
+    const rows = [], chordBad = []; let nChord = 0;
     for (const L of LV) {
       const C = J.compileLevel(L, bal);
       const taps2 = C.contacts.filter((c) => c.kind !== 'nogo').map((c) => c.t);
       const r = J.judgeAttempt(C, taps2);
       const ev = J.comboEvents(C, r, bal);
+      const lands = C.roofSits.map((r) => r.landMs / C.beatMs);
       for (const st of ev.stages.filter((x) => x.chordMs != null)) {
-        const hitAt = C.contacts.find((c) => c.kind !== 'nogo' && Math.abs(c.t - st.chordMs) < 5);
-        const inZone = C.contacts.find((c) => c.kind !== 'nogo' && st.chordMs >= c.zoneStart && st.chordMs < c.passStart);
-        rows.push(`L${L.id} ${st.stage}: ${st.chordBeat}박${hitAt ? ' = 접촉과 같은 순간(탭과 겹침)' : ''}${inZone ? ' · 놓침 구역 안' : ''}`);
+        // R2-D2: 판정 접촉 박 다음 정박 중, 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고 지붕 착지 ±1박도 아닌 첫 정박
+        const inWin = (b) => C.contacts.some((c) => b * C.beatMs >= c.zoneStart - 1e-6 && b * C.beatMs <= c.passEnd + 1e-6);
+        const nearRoof = (b) => lands.some((lb) => Math.abs(b - lb) <= 1 + 1e-9);
+        const firstOk = (from) => { let w = Math.floor(from + 1e-9) + 1; while (w < 999 && (inWin(w) || nearRoof(w))) w++; return w; };
+        const wants = [...new Set([firstOk(C.contacts[st.at_i].beat), firstOk(st.t / C.beatMs)])]; // hold 단계는 착지 박 또는 roof_out 박 기준 둘 다 허용
+        const want = wants.includes(st.chordBeat) ? st.chordBeat : wants[0];
+        const b = st.chordBeat, isInt = Math.abs(b - Math.round(b)) < 1e-9;
+        const probs = [];
+        if (!isInt) probs.push('정박 아님');
+        if (inWin(b)) probs.push('접촉 [놓침 구역 시작, 통과 창 끝] 안');
+        if (nearRoof(b)) probs.push('지붕 착지 ±1박');
+        if (Math.abs(b - want) > 1e-9) probs.push(`규칙상 첫 정박 ${want}박이 아님`);
+        if (Math.abs(st.chordMs - b * C.beatMs) > 0.5) probs.push('chordMs ≠ chordBeat × 1박');
+        if (probs.length) chordBad.push(`L${L.id} ${st.stage}@${b}박: ${probs.join('·')}`);
+        rows.push(`L${L.id} ${st.stage}: ${st.chordBeat}박`);
+        nChord++;
       }
     }
-    console.log(`콤보 화음 시각(balance comboEvents, 정보 — 공통 문서 "탭과 같은 순간 겹치지 않게"·곡 음 놓침 구역 규칙과 맞출지 1-2 교차 리뷰): ${rows.join(' / ') || '없음'}`);
+    console.log(`콤보 화음 시각(R2-D2: 다음 정박 중 접촉 [놓침 구역 시작, 통과 창 끝]·지붕 착지 ±1박 밖 첫 정박, 모두 딱 시도) ${nChord}번 — 위반 ${chordBad.length}${chordBad.length ? ': ' + chordBad.join(' / ') : ''} | ${rows.join(' / ') || '없음'}`);
+    if (chordBad.length) bad(`콤보 화음 시각 R2-D2 위반 ${chordBad.length}건(balance judge.mjs comboEvents·balance.json combo.chord_timing)`);
   } catch (e) { pend(`comboEvents 실행 실패 ${e.message}`); }
 } else pend('콤보 화음 시각: levels v2 대기');
 

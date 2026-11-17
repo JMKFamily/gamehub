@@ -203,7 +203,7 @@
   "taps_during_rest": "ignored_drum_pop_only",
   "auto_toss_judged": false,
   "min_first_toss_beats": 1,
-  "bg_stage_rule": "nth_rest_min_n_3",
+  "bg_stage_rule": "one_plus_round_2(n-1)/(P-1)",
   "second_ball": {
    "enter_beats_from_rest_start": [
     0,
@@ -232,7 +232,7 @@
    "practice_respawn": "same_enter_sequence",
    "_note": "결정 D13: 공 2 는 두 공 구절의 받침 쉼 첫 박에 화면 오른쪽 밖 바닥에서 굴러와(1.5박) 북 옆에서 낮게 깡충(0.5박, ≤ 0.5d, 소리 없음) 가죽 오른쪽 자리(+0.78d)에 앉음. 공 1 은 쉼 둘째 박부터 1박 동안 왼쪽 자리(−0.78d)로 미끄러짐. 토스 전까지 둘 다 까딱. 나갈 때는 공 2 착지 박부터 1.5박 동안 북 오른쪽 끝에서 굴러 떨어져 화면 밖으로, 공 1 은 1박 동안 가운데로. 모두 받침 쉼 안(위험 구간 밖, 검증 S5). 레벨 파일 phrases[].second_ball 에 박으로 적음. judge.mjs ballsAt 상태 entering/seated/leaving 과 x."
   },
-  "_note": "받침 쉼 = 공이 북 위에 앉아 박마다 까딱 + '콩'(공 까딱 소리, 정박에만. rhythm-01 카운트인 소리와 다른 이름·합성, 결정 D7). 쉼 끝 박(마디 첫 박)에 게임이 공을 스스로 띄움(자동 토스, 판정 없음). 마지막 접촉을 친 공은 착지(판정 없음)해 다음 받침 쉼. 연습 모드 체크포인트 = 각 받침 쉼(자동, 버튼 없음). 바탕 단계 = n번째 받침 쉼에서 min(n, 3)단계(결정 D6, art 규칙, phrases 태그 없음), 클리어 때 그 단계 → 1단계."
+  "_note": "받침 쉼 = 공이 북 위에 앉아 박마다 까딱 + '콩'(공 까딱 소리, 정박에만. rhythm-01 카운트인 소리와 다른 이름·합성, 결정 D7). 쉼 끝 박(마디 첫 박)에 게임이 공을 스스로 띄움(자동 토스, 판정 없음). 마지막 접촉을 친 공은 착지(판정 없음)해 다음 받침 쉼. 연습 모드 체크포인트 = 각 받침 쉼(자동, 버튼 없음). 바탕 단계 = n번째 받침 쉼(받침 쉼 P개)에서 1 + round(2(n−1)/(P−1))단계(round-2 1-2 R2-D4 art 식, P=2 1·3 / P=3 1·2·3 / P=4 1·2·2·3, judge.mjs bgStage, phrases 태그 없음), 클리어 때 그 단계 → 1단계."
  },
  "restart": {
   "restart_delay_s": 1.1,
@@ -624,7 +624,7 @@
    ],
    "estimator": "continuous_median_ln0.5_over_ln(1-p)"
   },
-  "N_full": 40000,
+  "N_full": 100000,
   "N_quick": 4000,
   "sessions_full": 2000,
   "sessions_quick": 300,
@@ -831,7 +831,9 @@
   "resume_min_ms": 450,
   "b6_seeds": 10,
   "object_clear_margin_of_d": 0.25,
-  "hud_band_ref": "layout.json portrait.hud_h / landscape.hud_h + safeTop (art). 세계 물체 윗선 ≥ 이 아래. art 가 세계 물체 그림 높이(layout.json world)를 넣기 전에는 대기"
+  "hud_band_ref": "layout.json portrait.hud_h / landscape.hud_h + safeTop (art). 세계 물체 윗선 ≥ 이 아래. art 가 세계 물체 그림 높이(layout.json world)를 넣기 전에는 대기",
+  "bg_stage_rule_id": "one_plus_round_2(n-1)/(P-1)",
+  "N_full_note": "round-2 1-2: 4만 → 10만. B7·B7q(q 0.15·q 0 두 곡선) 이웃 레벨 간격이 6~8 %라 4만 회 표본 오차(연속 중앙값 ±2 %)로 뒤집힐 수 있음 — 10만 회 ±1.3 %"
  },
  "levels": [
   "levels/01-level1.json",
@@ -877,11 +879,18 @@
    "_note": "지붕 밑 착지 박 n, 지붕 밑 쉼 s 박(X2·X3·X4)이면 지붕이 북을 덮는 구간 [n − 0.6, n + s − 1] 박, 자동 토스 n + s 박. 덮기 시작 0.6 박 전 = 앞 hit 접촉의 통과 창이 끝난 뒤(늦은 쪽 + 47 ms 이상, L5~L10) — 지붕 밑에서 칠 것이 하나도 없게. 지붕 아랫면 0.45·Hp(들어오는 1박 비행 공 윗점보다 위, 4해상도 검사 V-O)."
   },
   "branch": {
-   "cover": "[앞 접촉 박, 마지막 반박 접촉 박]",
-   "under_of_Hp": 0.3,
+   "cover": "[첫 반박 접촉 − cover_pre_beats, 마지막 반박 접촉 + cover_post_beats]",
+   "cover_pre_beats": 0.25,
+   "cover_post_beats": 0.2,
+   "under_of_Hp": 0.34,
    "short": "W5 반박 2",
    "long": "W7 반박 4",
-   "_note": "가지 밑 비행은 반박뿐. 아랫면 0.30·Hp(반박 공 윗점보다 위)."
+   "marks_under": {
+    "W5": 2,
+    "W7": 4
+   },
+   "_note": "가지 밑 비행은 반박뿐. round-2 1-2 R2-D9(lore 교차 리뷰 major 1) + art 교차 리뷰 B6: 가지 밑에 완전히 든 표시 수 = 카드 횟수(가지 2 '톡톡', 긴 가지 4 '톡톡톡톡'), 들어가는 표시(앞 접촉)·나가는 표시는 가지 밖에 완전히(걸침 0). 앞 0.25박 = 앞 표시와 첫 반박 표시 사이 한가운데, 뒤 0.2박 ≥ 마지막 표시 반너비(0.4d, 360 폭 0.156박). 뒤로 늘린 끝을 나가는 공이 스치지 않게 아랫면 0.30 → 0.34·Hp(art 권장안), 가지 바로 뒤 비행은 1박만(exit_flight_beats, 2박이면 0.40·Hp 이상 필요). 반박 공 최고 0.132·Hp + d 보다 위. art 가지 그림 좌우 여유(world.branch.side_margin_of_d)는 앞 표시가 밖에 남는 360x640 0.24d 이하(검증기 V25), 공 여유는 원 모양 공으로 V22.",
+   "exit_flight_beats": 1
   },
   "cloud": {
    "cover": "[구름 통 접촉 − 3, − 1] 박",
@@ -965,9 +974,12 @@
   ],
   "chord_db_below_tap_min": 1,
   "chord_timing": {
-   "at": "next_downbeat_after_contact_beat",
+   "at": "first_free_downbeat_after_contact_beat",
+   "free_means": "어떤 hit 접촉의 [놓침 구역 시작, 통과 창 끝]·nogo 접촉의 통과 창에도 들지 않고 지붕 착지 박 ±avoid_roof_beats(닫힌 구간)도 아님",
    "avoid_roof_beats": 1,
-   "defer_to_rest_first_beat": false
+   "before": "clear_judgement (마지막 접촉 통과 창 끝) — 그 전에 빈 정박이 없으면 화음 없음(chordBeat null, 큰 튐 클리어 소리와 겹치지 않게)",
+   "defer_to_rest_first_beat": false,
+   "_note": "round-2 1-2 R2-D2: 공통 문서 4-4 '단계 소리는 성공 탭 소리와 같은 순간에 겹치지 않게'. 1-1 규칙(다음 정박)은 19번 중 13번이 다음 접촉과 같은 순간이었음. 그림 단계 연출은 판정 순간 그대로(화음만 빈 정박). judge.mjs comboEvents, 검증기 C2."
   },
   "break": {
    "on": "fail_only",

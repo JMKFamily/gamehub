@@ -29,25 +29,25 @@
  },
  "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
- "length_beats": 57,
+ "length_beats": 59,
  "outro_beats": 4,
- "duration_s": 30.536,
- "contact_count": 23,
- "hit_count": 21,
+ "duration_s": 31.607,
+ "contact_count": 25,
+ "hit_count": 23,
  "nogo_count": 2,
  "clear_sequence": {
-  "big_toss_beat": 53,
+  "big_toss_beat": 55,
   "big_toss_flight_s": 2,
   "big_toss_apex_play_heights": 1,
   "after_apex": "stays_in_cloud",
   "grade_cloud_beats": [
-   55,
-   56,
-   57
+   57,
+   58,
+   59
   ],
-  "result_beat": 57,
+  "result_beat": 59,
   "result_buttons_after_ms": 500,
-  "scroll_stop_beat": 55
+  "scroll_stop_beat": 57
  },
  "phrases": [
   {
@@ -154,15 +154,15 @@
    "landings": [
     {
      "ball": 1,
-     "from_contact": 22,
-     "beat": 53,
+     "from_contact": 24,
+     "beat": 55,
      "exit": false
     }
    ],
    "roof_sits": [],
    "contact_range": [
     18,
-    22
+    24
    ]
   }
  ],
@@ -400,6 +400,26 @@
    "bounce": "tong",
    "phrase": 2,
    "i": 22,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 53,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 23,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 54,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 24,
    "gimmick": "W0"
   }
  ],
@@ -647,13 +667,33 @@
    "id": 23
   },
   {
+   "type": "mark",
+   "beat_in": 53,
+   "beat_out": 53,
+   "contacts": [
+    23
+   ],
+   "next_beats": 1,
+   "id": 24
+  },
+  {
+   "type": "mark",
+   "beat_in": 54,
+   "beat_out": 54,
+   "contacts": [
+    24
+   ],
+   "next_beats": 1,
+   "id": 25
+  },
+  {
    "type": "cloud",
    "role": "clear",
-   "beat_in": 54,
-   "beat_out": 56,
+   "beat_in": 56,
+   "beat_out": 58,
    "contacts": [],
    "bottom_of_Hp": 0.9,
-   "id": 24
+   "id": 26
   }
  ]
 }

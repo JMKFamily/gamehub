@@ -56,10 +56,10 @@ export const DESIGNS = [
     ],
   },
   {
-    id: '04', bpm: 110, judge: J(135, 155, 90), gimmick: 'W3', outro: 4,
+    id: '04', bpm: 110, judge: J(134, 154, 90), gimmick: 'W3', outro: 4,
     intent: '엇간격(점 통 1.5·1.5·1) 도입. 짝수 박에서 시작하는 3+3+2. 점 통 앞뒤에 오는 모양(통·구름·넓은 간격)을 덩어리마다 바꿈.',
     phrases: [
-      { rest: 4, seq: '1 1 1.5 1.5 1 1' },
+      { rest: 4, seq: '1.5 1.5 1 1 1' },
       { rest: 4, seq: '4 1.5 1.5 1 2 1 1' },
       { rest: 4, seq: '2 1 1 2 1.5 1.5 1 2 1 1 1 1' },
     ],
@@ -70,7 +70,7 @@ export const DESIGNS = [
     phrases: [
       { rest: 4, seq: '1 1 X2 1 1 1' },
       { rest: 4, seq: '2 1.5 1.5 1 1 X3 1 1 2 2 1 1' },
-      { rest: 4, seq: '4 1 1 1 1' },
+      { rest: 4, seq: '4 1 1 1 1 1 1' },
     ],
   },
   {
@@ -78,15 +78,16 @@ export const DESIGNS = [
     intent: '낮은 가지(통통 반박 짝) 도입: 첫 가지는 받침 쉼 뒤(가지가 다가오는 동안 공은 앉아 있음), 큰 통 바로 다음. 지붕(참기)과 가지(빨리 두 번)는 다른 레벨에서 처음 나옴.',
     phrases: [
       { rest: 4, seq: '1 1 X3 1 1 1.5 1.5 1' },
-      { rest: 4, seq: '1 2 .5 .5 1' },
-      { rest: 4, seq: '1 1 X2 1 1 .5 .5 2 1 1 1 1' },
+      { rest: 4, seq: '1 2 .5 .5 1 1 1' },
+      { rest: 4, seq: '1 1 X2 1 1 .5 .5 1 1 1 1 1' },
     ],
   },
   {
     id: '07', bpm: 116, judge: J(125, 145, 90), gimmick: 'W6', outro: 4,
     intent: '큰 언덕(세 박 통 3박) 도입: 첫 언덕은 토스로. "셋까지 세기"를 짧은 모양과 섞음.',
     phrases: [
-      { rest: 4, seq: '3 1 1 X2 1 1 2 .5 .5 1 1 1' },
+      { rest: 4, seq: '3 1 1 X2 1 1' },
+      { rest: 4, seq: '2 .5 .5 1 1 1 1' },
       { rest: 4, seq: '2 1.5 1.5 1 3 1 1 X3 1 1 1 1' },
     ],
   },
@@ -104,7 +105,7 @@ export const DESIGNS = [
     intent: '새 기믹 없음: 배운 모양을 섞은 조합. 덩어리 여섯 이상이 모두 다르고, 지붕 쉼 길이 셋(X2·X3·X4).',
     phrases: [
       { rest: 4, seq: '2 1 1 X3 1 1 1.5 1.5 1' },
-      { rest: 4, seq: '3 1 2 1 1 X2 1 1' },
+      { rest: 4, seq: '3 2 1 1 1 1 X2 1 1' },
       { rest: 4, seq: '4 .5 .5 1 1 X4 1 1 1 1' },
     ],
   },
@@ -112,7 +113,7 @@ export const DESIGNS = [
     id: '10', bpm: 122, judge: J(125, 145, 90), gimmick: null, outro: 8,
     intent: '새 기믹 없음: 마지막 조합. 끝은 받침 쉼 뒤 1박 통 4번으로 레벨 1 동기를 되부름(클리어 직전 억울한 실패 없음).',
     phrases: [
-      { rest: 4, seq: '1 1 X4 1 1 3 .5 .5' },
+      { rest: 4, seq: '1 1 X4 1 1 3 1 1' },
       { rest: 4, seq: '1.5 1.5 1 4 1 1 X3 1 1' },
       { rest: 4, seq: '1 .5 .5 .5 .5 1 1 X2 1 1 1 1' },
     ],
@@ -175,7 +176,7 @@ export function buildLevel(d) {
   });
   // 기믹 태그·물체
   contacts.forEach((c, i) => { c.i = i; if (c.kind === 'hit') c.gimmick = GIM[c.bounce]; });
-  const prevEventBeat = (i) => {
+  const prevEventBeat = (i) => { // (round-2 1-1 가지 시작 자리, R2-D9 뒤로는 쓰지 않음)
     const c = contacts[i];
     const ph = phrases[c.phrase];
     const ts = ph.tosses.find((x) => x.to_contact === i);
@@ -188,7 +189,8 @@ export function buildLevel(d) {
     const len = k - i;
     const g = len >= 4 ? 'W7' : 'W5';
     for (let m = i; m < k; m++) contacts[m].gimmick = g;
-    objects.push({ type: 'branch', beat_in: prevEventBeat(i), beat_out: contacts[k - 1].beat, contacts: Array.from({ length: len }, (_, m) => i + m), under_of_Hp: OB.branch.under_of_Hp, long: len >= 4 });
+    // R2-D9: 가지 x 구간 = [첫 반박 접촉 − cover_pre, 마지막 반박 접촉 + cover_post] — 가지 밑 표시 수 = 2/4(카드 톡톡·톡톡톡톡), 들어가는 표시(앞 접촉)는 가지 밖
+    objects.push({ type: 'branch', beat_in: r3(contacts[i].beat - OB.branch.cover_pre_beats), beat_out: r3(contacts[k - 1].beat + OB.branch.cover_post_beats), contacts: Array.from({ length: len }, (_, m) => i + m), under_of_Hp: OB.branch.under_of_Hp, long: len >= 4 });
     i = k - 1;
   }
   for (const c of contacts) {
