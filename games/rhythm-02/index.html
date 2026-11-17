@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#ECF6E4">
+<title>Tossaloft</title>
+<link rel="icon" href="data:,">
+<!--boot:start (build-web-data.mjs 생성)-->
+<style id="bootStyle">:root{--bg:#ECF6E4;--floor:#C9DDBB;--ink:#23273A;--ball:#A42412;--drum:#234C88;--skin:#FFF3D6;--track:#FFFFFF;--card:#DDF4CD;--accent:#47801E}</style>
+<script id="bootText" type="application/json">{"ko":{"loading":"불러오는 중…","load_error":"다시 해 주세요","load_error_detail":"게임을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 다시 눌러 주세요.","btn_retry":"다시","title":"높이통통"},"en":{"loading":"Loading…","load_error":"Please try again","load_error_detail":"The game couldn't load. Check your internet connection, then tap to try again.","btn_retry":"Again","title":"Tossaloft"}}</script>
+<!--boot:end-->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cv" aria-hidden="true"></canvas>
+
+<div id="boot" class="screen show col">
+  <svg id="bootArt" viewBox="0 0 120 120" width="96" height="96" aria-hidden="true"><rect x="20" y="86" width="80" height="24" rx="8" fill="var(--drum)" stroke="var(--ink)" stroke-width="2.5"/><rect x="20" y="86" width="80" height="7" rx="3.5" fill="var(--skin)" stroke="var(--ink)" stroke-width="2.5"/><circle id="bootBall" cx="60" cy="70" r="13" fill="var(--ball)" stroke="var(--ink)" stroke-width="2.5"/></svg>
+  <p id="bootMsg" class="txt"></p>
+  <div id="bootErr" hidden class="col"><p id="bootErrDetail" class="txt small"></p><button id="bootRetry" class="ib s64" type="button"></button></div>
+</div>
+
+<div id="title" class="screen col tapzone">
+  <h1 id="tTitle" class="title"></h1>
+  <span id="tTap" class="sign s64" aria-hidden="true"></span>
+  <p id="tTapTxt" class="txt"></p>
+</div>
+
+<div id="levels" class="screen">
+  <button id="lBack" class="ib s48 abs" type="button"></button>
+  <span id="lDrift" class="sign s48 abs" role="img" hidden></span>
+  <div id="lGateWrap" class="abs">
+    <button id="lGate" class="ib s48" type="button"></button>
+    <div id="lGateBar" class="holdbar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>
+  </div>
+  <p id="lHint" class="txt small abs" hidden></p>
+  <div id="grid" role="list"></div>
+</div>
+
+<div id="start" class="screen col">
+  <div id="stPanel" class="panel">
+    <button id="stClose" class="ib s48 corner" type="button"></button>
+    <div id="stCard" class="lcard big" aria-hidden="true"></div>
+    <div id="stGrades" class="grades" aria-hidden="true"></div>
+    <div class="row gap24">
+      <button id="stPractice" class="ib s64" type="button"></button>
+      <button id="stPlay" class="ib s96" type="button"></button>
+      <button id="stReplay" class="ib s64" type="button"></button>
+    </div>
+    <p id="stUnlock" class="txt small" hidden></p>
+  </div>
+</div>
+
+<div id="card" class="screen col tapzone">
+  <div id="cdPanel">
+    <p id="cdText" class="txt cardtxt"></p>
+    <img id="cdImg" alt="">
+  </div>
+  <button id="cdClose" class="ib s48 abs" type="button"></button>
+</div>
+
+<div id="hud" hidden>
+  <button id="hPause" class="ib s48 abs" type="button"></button>
+  <p id="hPrac" class="txt tiny abs" hidden></p>
+  <p id="hTut" class="txt abs" hidden></p>
+  <div class="sr" role="progressbar" id="aProg" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+  <div class="sr" role="progressbar" id="aBest" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+  <div class="sr" role="meter" id="aTries" aria-valuemin="0" aria-valuemax="999" aria-valuenow="0"></div>
+  <div class="sr" role="img" id="aFlag" hidden></div>
+</div>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<div id="pause" class="screen col">
+  <div class="panel solid">
+    <p id="pTitle" class="txt"></p>
+    <div id="pBtns" class="pgrid">
+      <button id="pResume" class="ib s88" type="button"></button>
+      <button id="pRetry" class="ib s88" type="button"></button>
+      <button id="pLevels" class="ib s88" type="button"></button>
+      <button id="pSound" class="ib s88" type="button"></button>
+    </div>
+  </div>
+</div>
+
+<div id="result" class="screen col">
+  <div id="rText" class="col">
+    <p id="rName" class="txt small"></p>
+    <p id="rTitle" class="txt big"></p>
+  </div>
+  <div id="rBtns" class="row gap48" hidden>
+    <button id="rLevels" class="ib s64" type="button"></button>
+    <button id="rRetry" class="ib s64" type="button"></button>
+    <button id="rNext" class="ib s64" type="button"></button>
+  </div>
+</div>
+
+<div id="guardian" class="screen">
+  <div id="gScroll">
+    <div class="row top"><button id="gBack" class="ib s48" type="button"></button><h2 id="gTitle" class="txt"></h2></div>
+    <p id="gIntro" class="txt small para"></p>
+    <div class="grow"><span id="gSyncIcon" class="sign s48" aria-hidden="true"></span><button id="gSync" class="tbtn" type="button"></button><span id="gLate" class="late" hidden><span id="gLateIcon" class="sign s48" aria-hidden="true"></span><span id="gLateTxt" class="txt small"></span></span></div>
+    <p id="gSyncIntro" class="txt small para"></p>
+    <div class="grow"><span id="gLangIcon" class="sign s48" aria-hidden="true"></span><span id="gLangTxt" class="txt"></span><button id="gKo" class="tbtn" type="button" lang="ko"></button><button id="gEn" class="tbtn" type="button" lang="en"></button></div>
+  </div>
+  <div id="gMore" aria-hidden="true">▼</div>
+</div>
+
+<div id="sync" class="screen col">
+  <button id="sBack" class="ib s48 abs" type="button"></button>
+  <button id="sSkip" class="ib s48 abs" type="button"></button>
+  <p id="sTitle" class="txt"></p>
+  <p id="sSub" class="txt small"></p>
+  <svg id="sArt" viewBox="0 0 200 110" width="200" height="110" aria-hidden="true"></svg>
+  <div id="sDots" role="meter" aria-valuemin="0" aria-valuemax="16" aria-valuenow="0"></div>
+  <p id="sMsg" class="txt small" aria-live="polite"></p>
+  <button id="sRedo" class="tbtn" type="button" hidden></button>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

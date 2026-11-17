@@ -1,0 +1,37 @@
+{
+ "levels": [
+  "levels/01-level1.json",
+  "levels/02-level2.json",
+  "levels/03-level3.json",
+  "levels/04-level4.json",
+  "levels/05-level5.json",
+  "levels/06-level6.json",
+  "levels/07-level7.json",
+  "levels/08-level8.json",
+  "levels/09-level9.json",
+  "levels/10-level10.json"
+ ],
+ "icons": [
+  "back",
+  "card_replay",
+  "close",
+  "language",
+  "levels",
+  "lock",
+  "look_ball",
+  "next",
+  "pause",
+  "play",
+  "practice",
+  "reset",
+  "resume",
+  "retry",
+  "settings",
+  "skip",
+  "sound_off",
+  "sound_on",
+  "sync",
+  "tap"
+ ],
+ "built": "projects/rhythm-02/tools/build-web-data.mjs"
+}

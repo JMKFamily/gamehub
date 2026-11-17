@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | 1-3 | [웹 빌드 round-1: games/rhythm-02 10레벨·메뉴·보호자·연습, judge.mjs 그대로 복사, selfcheck node 50/50·브라우저 ALL PASS(재판정 불일치 0, 재시작 1.10~1.12 s), verify 266/266](game-developer/2026-11-17-1-3-web-build.md) |
 | 2026-11-17 | art-director | 1-2 | [교차 리뷰 2차 수정: D1~D7·D9~D14·D16 반영(카드 키 이름·G6 삭제, 손가락 = fingerSchedule, Hp 1.111·가로 d 24, 받침 쉼 "콩" rest_a/b, 튐 선, 아이콘 20·메뉴 목업 6), check-all 5개 OK, 대기 없음](art-director/2026-11-17-1-2-revision.md) |
 | 2026-11-17 | balance-designer | 1-2 | [교차 리뷰 2차 수정: D1·D3·D5·D10·D11·D13·D16 주 담당 + D4·D6~D9·D14 반영, ballsAt(L, t, hits)·V15~V17 신규, 266개 ALL PASS(곡선 1-1과 같음, 대기 없음)](balance-designer/2026-11-17-1-2-revision.md) |
 | 2026-11-17 | lore-writer | 1-2 | [교차 리뷰 2차 수정: D1·D2·D3·D7·D8·D11·D12·D15 반영, 키 81개, 7-9 검사 PASS(rhythm-01 정체성 문구 겹침 0), 카드 파일 0/16은 art 대기](lore-writer/2026-11-17-1-2-revision.md) |

@@ -1,0 +1,713 @@
+{
+ "schema_version": 1,
+ "_source": "assets/sound.json (art-director 원본). 30-art 9절 표는 사람이 읽는 요약이고, 표와 이 파일이 다르면 이 파일이 기준. 빌드는 이 파일만 읽는다(문서 표 파싱 금지). 외부 음원 파일 없음, 모두 WebAudio 합성.",
+ "_synth": "소리 하나 = layers 의 합. 층마다: OscillatorNode(wave sine|triangle) 또는 노이즈 버퍼(wave noise, 흰 잡음 noise_buffer_s 초 반복) → (filter 있으면 BiquadFilterNode) → GainNode(엔벨로프) → 소리의 (post 필터) → bus GainNode → master GainNode → destination. 엔벨로프: t0+delayMs 에서 0 → linearRamp 로 a ms 에 peak, 이어서 exponentialRamp 로 decay ms 에 peak×0.001, 그 뒤 정지. peak = 10^(db/20) × mul(기본 1). 주파수: f(Hz) 에서 시작, fTo 가 있으면 glideMs 동안 exponentialRamp. note:true 인 층은 f 대신 '연주 음 높이 × fMul'이고, fToMul 이 있으면 glideMs 동안 그 시작 높이 × fToMul 로 exponentialRamp. 받침 쉼 rest_a/rest_b 의 연주 음 높이 = 그 레벨 root_hz, bass 는 root_hz/2, 멜로디는 동기 음. square·sawtooth 는 쓰지 않음(node 검사식과 브라우저 band-limited 파형의 최고값 차이를 없애려고). 마스터 컴프레서 없음(자동 메이크업 게인으로 크기 순서가 바뀌지 않게), 대신 sound-check 가 '탭 + 가장 큰 곡 박' 합 최고값 ≤ −1 dBFS 를 확인.",
+ "_db_rule": "크기 규칙(30-art 9-3)은 db 값이 아니라 tools/art/sound-check.mjs 렌더 측정값으로 판단: peak_db = 소리 하나를 master 뒤까지 합성한 층 합산 최고값, rms_db = 소리 시작(delayMs 포함 첫 층 시작)부터 100 ms RMS. --write 가 적음. 빌드는 읽지 않아도 됨.",
+ "sample_rate": 48000,
+ "noise_buffer_s": 1,
+ "noise_seed": 20261117,
+ "master": {
+  "db": 0,
+  "compressor": null
+ },
+ "buses": {
+  "sfx": {
+   "db": 0
+  },
+  "music": {
+   "db": -3
+  }
+ },
+ "sounds": {
+  "tap_perfect": {
+   "bus": "sfx",
+   "db": -6,
+   "when": "딱 판정. pointerdown 처리 안에서 바로(추가 지연 0)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 170,
+     "fTo": 100,
+     "glideMs": 70,
+     "env": {
+      "a": 1,
+      "decay": 260
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.45,
+     "filter": {
+      "type": "bandpass",
+      "f": 2500,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 10
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 1320,
+     "mul": 0.22,
+     "delayMs": 6,
+     "env": {
+      "a": 2,
+      "decay": 200
+     }
+    }
+   ],
+   "peak_db": -5.5,
+   "rms_db": -16
+  },
+  "tap_good": {
+   "bus": "sfx",
+   "db": -6,
+   "when": "좋아 판정",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 170,
+     "fTo": 100,
+     "glideMs": 70,
+     "env": {
+      "a": 1,
+      "decay": 260
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.45,
+     "filter": {
+      "type": "bandpass",
+      "f": 2500,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 10
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 990,
+     "mul": 0.14,
+     "delayMs": 6,
+     "env": {
+      "a": 2,
+      "decay": 140
+     }
+    }
+   ],
+   "peak_db": -5.5,
+   "rms_db": -16.1
+  },
+  "tap_pass": {
+   "bus": "sfx",
+   "db": -6,
+   "when": "통과 판정(살아남음). 조금 먹먹한 통",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 170,
+     "fTo": 100,
+     "glideMs": 70,
+     "filter": {
+      "type": "lowpass",
+      "f": 900,
+      "Q": 0
+     },
+     "env": {
+      "a": 1,
+      "decay": 240
+     }
+    },
+    {
+     "wave": "noise",
+     "mul": 0.18,
+     "filter": {
+      "type": "bandpass",
+      "f": 2500,
+      "Q": 1
+     },
+     "env": {
+      "a": 0.5,
+      "decay": 8
+     }
+    }
+   ],
+   "peak_db": -5.9,
+   "rms_db": -16.3
+  },
+  "tap_empty": {
+   "bus": "sfx",
+   "db": -30,
+   "when": "헛탭·무시되는 탭(받침 쉼·이른 탭). 북 톡 움직임과 아주 작은 톡 하나",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 220,
+     "fTo": 160,
+     "glideMs": 40,
+     "env": {
+      "a": 1,
+      "decay": 60
+     }
+    }
+   ],
+   "peak_db": -30.1,
+   "rms_db": -46
+  },
+  "fail": {
+   "bus": "sfx",
+   "db": -15,
+   "when": "실패 순간(헛스윙·옆으로 떨어짐 같은 소리). 부드러운 삼각파 '또르르' 세 음 내려감, 저역 통과(insights runner-01 사망음)",
+   "post": {
+    "type": "lowpass",
+    "f": 1400,
+    "Q": 0
+   },
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 660,
+     "env": {
+      "a": 4,
+      "decay": 90
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 554,
+     "delayMs": 80,
+     "env": {
+      "a": 4,
+      "decay": 90
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 440,
+     "delayMs": 160,
+     "env": {
+      "a": 4,
+      "decay": 160
+     }
+    }
+   ],
+   "peak_db": -15.4,
+   "rms_db": -27.3
+  },
+  "clear": {
+   "bus": "sfx",
+   "db": -14,
+   "when": "클리어 확정 직후. 짧은 상승 네 음",
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 523,
+     "env": {
+      "a": 4,
+      "decay": 160
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 659,
+     "delayMs": 90,
+     "env": {
+      "a": 4,
+      "decay": 160
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 784,
+     "delayMs": 180,
+     "env": {
+      "a": 4,
+      "decay": 160
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 1047,
+     "delayMs": 270,
+     "env": {
+      "a": 4,
+      "decay": 320
+     }
+    }
+   ],
+   "peak_db": -14,
+   "rms_db": -26
+  },
+  "grade_cloud": {
+   "bus": "sfx",
+   "db": -17,
+   "when": "클리어 화면 등급 구름이 하나 놓일 때마다(1박 간격)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 880,
+     "env": {
+      "a": 3,
+      "decay": 220
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 1760,
+     "mul": 0.25,
+     "env": {
+      "a": 3,
+      "decay": 120
+     }
+    }
+   ],
+   "peak_db": -16.2,
+   "rms_db": -27.6
+  },
+  "best": {
+   "bus": "sfx",
+   "db": -17,
+   "when": "실패 뒤 최고 기록 점이 새 자리로 미끄러질 때(0.45 s 시점)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 784,
+     "env": {
+      "a": 3,
+      "decay": 110
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 1047,
+     "delayMs": 100,
+     "env": {
+      "a": 3,
+      "decay": 180
+     }
+    }
+   ],
+   "peak_db": -17,
+   "rms_db": -32.2
+  },
+  "ui_tap": {
+   "bus": "sfx",
+   "db": -20,
+   "when": "메뉴 버튼·카드 닫기",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 620,
+     "fTo": 520,
+     "glideMs": 30,
+     "env": {
+      "a": 1,
+      "decay": 70
+     }
+    }
+   ],
+   "peak_db": -20.2,
+   "rms_db": -35.7
+  },
+  "rest_a": {
+   "bus": "music",
+   "db": -18,
+   "when": "받침 쉼에서 공이 가죽 위에서 까딱할 때 '콩'(받침 쉼 k번째 박, k 짝수). 그림(까딱)과 같은 사건. 그 레벨 근음의 5도 위에서 짧게 내려가는 고무 소리. 잡음 없음",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1.5,
+     "fToMul": 0.89,
+     "glideMs": 25,
+     "env": {
+      "a": 1,
+      "decay": 80
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 0.75,
+     "mul": 0.5,
+     "env": {
+      "a": 1,
+      "decay": 60
+     }
+    }
+   ],
+   "peak_db": -20.1,
+   "rms_db": -36.9
+  },
+  "rest_b": {
+   "bus": "music",
+   "db": -19,
+   "when": "받침 쉼 '콩'(k 홀수 박). rest_a 보다 5도 낮음(근음). 콩-쿵 번갈아, 모두 같은 길이",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1,
+     "fToMul": 0.89,
+     "glideMs": 25,
+     "env": {
+      "a": 1,
+      "decay": 80
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 0.5,
+     "mul": 0.5,
+     "env": {
+      "a": 1,
+      "decay": 60
+     }
+    }
+   ],
+   "peak_db": -19.4,
+   "rms_db": -37.5
+  },
+  "bass": {
+   "bus": "music",
+   "db": -17,
+   "when": "마디 첫 박에 근음 한 옥타브 아래(root/2)",
+   "layers": [
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 6,
+      "decay": 520
+     }
+    },
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 2,
+     "mul": 0.2,
+     "env": {
+      "a": 6,
+      "decay": 260
+     }
+    }
+   ],
+   "peak_db": -19.7,
+   "rms_db": -27.3
+  },
+  "mel_soft": {
+   "bus": "music",
+   "db": -19,
+   "when": "멜로디 악기 1(부드러운 삼각파)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 10,
+      "decay": 520
+     }
+    }
+   ],
+   "peak_db": -22.1,
+   "rms_db": -31
+  },
+  "mel_bell": {
+   "bus": "music",
+   "db": -20,
+   "when": "멜로디 악기 2(작은 종: 사인 + 배음)",
+   "layers": [
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 3,
+      "decay": 700
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 3,
+     "mul": 0.18,
+     "env": {
+      "a": 3,
+      "decay": 260
+     }
+    }
+   ],
+   "peak_db": -24.2,
+   "rms_db": -29.5
+  }
+ },
+ "music": {
+  "_rule": "곡 = 박 격자. 판정 접촉 자리의 북은 곡에 없음(아이 탭이 북 파트). 곡 음 시작 규칙은 onset_rule(박 단위)이 원본이고 tools/art/music.mjs musicOnsets() 가 그대로 읽음(빌드·sound-check·balance 검증기 공통, 1-2 D16). 받침 쉼 = 박마다 공 까딱 '콩'(rest_a/rest_b 번갈아), 그 밖 = 2박 격자(짝수 박)에만 베이스·멜로디. 반박·점 리듬 자리에는 곡 음이 시작하지 않음 → 아이 탭만이 엇박을 채움. 꼭짓점·구름·자동 토스 소리 없음. 레벨마다 다른 동기(motif).",
+  "meter": 4,
+  "frame_bars": 4,
+  "frame_slots": 8,
+  "slot_beats": 2,
+  "melody_octave_mul": 2,
+  "max_degree": 7,
+  "max_len": 2,
+  "levels": {
+   "10": {
+    "root_hz": 261.63,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_bell",
+    "motif": [
+     { "s": 0, "d": 0, "len": 1 },
+     { "s": 1, "d": 2, "len": 1 },
+     { "s": 2, "d": 5, "len": 1 },
+     { "s": 3, "d": 4, "len": 1 },
+     { "s": 4, "d": 6, "len": 2 },
+     { "s": 6, "d": 4, "len": 2 }
+    ],
+    "recall": {
+     "motif_from": "01",
+     "from": "last_phrase_start",
+     "_note": "L10 마지막 구절(마지막 받침 쉼 46박~ 끝, 판정 접촉 4개 포함)과 마무리 박 동안 멜로디는 레벨 1 동기를 이 레벨 악기·근음으로 되부름. 받침 쉼 박은 규칙대로 콩만(멜로디 없음). 레벨 끝 = balance levels/10 length_beats(마지막 착지 + 마무리 8박)"
+    }
+   },
+   "01": {
+    "root_hz": 261.63,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_soft",
+    "motif": [
+     { "s": 0, "d": 0, "len": 1 },
+     { "s": 1, "d": 2, "len": 1 },
+     { "s": 2, "d": 4, "len": 2 },
+     { "s": 4, "d": 3, "len": 1 },
+     { "s": 5, "d": 2, "len": 1 },
+     { "s": 6, "d": 1, "len": 1 },
+     { "s": 7, "d": 0, "len": 1 }
+    ]
+   },
+   "02": {
+    "root_hz": 293.66,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_bell",
+    "motif": [
+     { "s": 0, "d": 4, "len": 1 },
+     { "s": 1, "d": 3, "len": 1 },
+     { "s": 2, "d": 2, "len": 1 },
+     { "s": 3, "d": 0, "len": 1 },
+     { "s": 4, "d": 1, "len": 2 },
+     { "s": 6, "d": 2, "len": 2 }
+    ]
+   },
+   "03": {
+    "root_hz": 329.63,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_soft",
+    "motif": [
+     { "s": 0, "d": 2, "len": 2 },
+     { "s": 2, "d": 5, "len": 2 },
+     { "s": 4, "d": 4, "len": 1 },
+     { "s": 5, "d": 3, "len": 1 },
+     { "s": 6, "d": 2, "len": 2 }
+    ]
+   },
+   "04": {
+    "root_hz": 349.23,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_bell",
+    "motif": [
+     { "s": 0, "d": 0, "len": 1 },
+     { "s": 1, "d": 1, "len": 1 },
+     { "s": 2, "d": 3, "len": 1 },
+     { "s": 3, "d": 1, "len": 1 },
+     { "s": 4, "d": 4, "len": 1 },
+     { "s": 5, "d": 3, "len": 1 },
+     { "s": 6, "d": 1, "len": 2 }
+    ]
+   },
+   "05": {
+    "root_hz": 392,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_soft",
+    "motif": [
+     { "s": 0, "d": 5, "len": 1 },
+     { "s": 1, "d": 4, "len": 1 },
+     { "s": 2, "d": 5, "len": 1 },
+     { "s": 3, "d": 2, "len": 1 },
+     { "s": 4, "d": 3, "len": 2 },
+     { "s": 6, "d": 0, "len": 2 }
+    ]
+   },
+   "06": {
+    "root_hz": 220,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_bell",
+    "motif": [
+     { "s": 0, "d": 1, "len": 1 },
+     { "s": 1, "d": 3, "len": 1 },
+     { "s": 2, "d": 2, "len": 1 },
+     { "s": 3, "d": 4, "len": 1 },
+     { "s": 4, "d": 3, "len": 1 },
+     { "s": 5, "d": 5, "len": 1 },
+     { "s": 6, "d": 4, "len": 2 }
+    ]
+   },
+   "07": {
+    "root_hz": 246.94,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_soft",
+    "motif": [
+     { "s": 0, "d": 3, "len": 2 },
+     { "s": 2, "d": 1, "len": 1 },
+     { "s": 3, "d": 2, "len": 1 },
+     { "s": 4, "d": 0, "len": 2 },
+     { "s": 6, "d": 1, "len": 1 },
+     { "s": 7, "d": 3, "len": 1 }
+    ]
+   },
+   "08": {
+    "root_hz": 277.18,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_bell",
+    "motif": [
+     { "s": 0, "d": 2, "len": 1 },
+     { "s": 1, "d": 4, "len": 1 },
+     { "s": 2, "d": 3, "len": 1 },
+     { "s": 3, "d": 1, "len": 1 },
+     { "s": 4, "d": 2, "len": 1 },
+     { "s": 5, "d": 0, "len": 1 },
+     { "s": 6, "d": 1, "len": 2 }
+    ]
+   },
+   "09": {
+    "root_hz": 311.13,
+    "scale": [
+     0,
+     2,
+     4,
+     7,
+     9
+    ],
+    "melody": "mel_soft",
+    "motif": [
+     { "s": 0, "d": 4, "len": 2 },
+     { "s": 2, "d": 2, "len": 1 },
+     { "s": 3, "d": 3, "len": 1 },
+     { "s": 4, "d": 5, "len": 2 },
+     { "s": 6, "d": 4, "len": 1 },
+     { "s": 7, "d": 2, "len": 1 }
+    ]
+   }
+  },
+  "onset_rule": {
+   "_def": "b = 레벨 박(정수, 레벨 시간 0 = 첫 받침 쉼 첫 박, 마디 = meter 박, 박 0 = 마디 첫 박). 받침 쉼 구절 = levels phrases[] [start_beat, start_beat + rest_beats).",
+   "rest": {
+    "every_beat": true,
+    "even_k": "rest_a",
+    "odd_k": "rest_b",
+    "k": "b − 그 받침 쉼 start_beat",
+    "bass_bar_beats": [
+     0
+    ],
+    "melody": false,
+    "_note": "공이 앉아 있는 박마다 까딱 + 콩. 받침 쉼은 마디 중간에서 시작할 수 있어 마디 단위가 아니라 박 단위로 읽음(balance 리뷰 이슈 11). 마지막 콩 → 다음 접촉 놓침 구역 시작 ≥ 150 ms 는 balance 검증기 S3"
+   },
+   "play": {
+    "grid_beats": 2,
+    "bass_bar_beats": [
+     0,
+     2
+    ],
+    "melody": "motif 자리 slot = (b / grid_beats) % frame_slots",
+    "_note": "플레이 구간(받침 쉼 밖, 마무리 박 포함) 곡 음은 짝수 박에만. 1-1 의 나무 딸깍 정박 소리는 rhythm-01 카운트인과 같은 계열이라 뺌(1-2 D7) — 박 격자는 베이스(마디 1·3박)와 멜로디가 맡음"
+   }
+  }
+ },
+ "verify": {
+  "loudness_rule": {
+   "child_tap": [
+    "tap_perfect",
+    "tap_good",
+    "tap_pass"
+   ],
+   "tap_over_sfx_peak_db": 1,
+   "tap_over_beat_rms_db": 6,
+   "tap_over_beat_peak_db": 1,
+   "beat_mix": "곡 박 합 2가지 중 큰 쪽: ① 플레이 마디 첫 박 = bass + 멜로디 한 음(레벨마다 동기 최고·최저 도수) ② 받침 쉼 마디 첫 박 = rest_a + bass. 레벨 근음 10개 모두",
+   "mix_peak_max_dbfs": -1
+  },
+  "measured": {
+   "tap_peak_min": -5.88,
+   "sfx_peak_max": -14.04,
+   "sfx_peak_max_sound": "clear",
+   "tap_over_sfx_peak_db": 8.15,
+   "tap_rms_min": -16.33,
+   "beat_mix_rms": -25.24,
+   "beat_mix_peak": -15.17,
+   "rest_only_rms": -36.86,
+   "tap_over_beat_rms_db": 8.91,
+   "tap_over_beat_peak_db": 9.29,
+   "mix_peak_dbfs": -3.86,
+   "how": "node tools/art/sound-check.mjs (node 합성식, 48 kHz, master 뒤, 소리 하나씩·곡 박 합 2종). 빌드 OfflineAudioContext 대조는 1-4 QA"
+  }
+ }
+}

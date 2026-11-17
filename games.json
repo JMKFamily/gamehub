@@ -30,5 +30,16 @@
       "wip"
     ],
     "released": "2026-11-17"
+  },
+  {
+    "slug": "rhythm-02",
+    "title": "Tossaloft 높이통통 (개발 중)",
+    "description": "개발 중인 빌드입니다. 공이 북에 닿을 때 톡! 높이 뜨면 오래, 낮게 뜨면 금방 내려와요. 손가락 하나로 하는 리듬 공받기.",
+    "tags": [
+      "rhythm",
+      "one-button",
+      "wip"
+    ],
+    "released": "2026-11-17"
   }
 ]
