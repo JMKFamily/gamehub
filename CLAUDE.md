@@ -36,4 +36,5 @@
 - 요청자 승인 없이 다음 대단계(모바일 포팅 → 수익화 → 출시)로 넘어가지 않습니다.
 - 레퍼런스 게임의 이름·캐릭터·아트·음악·레벨 배치를 재현하지 않습니다 (원본 보호 규칙). 리소스는 자체 제작합니다.
 - 비밀값(키, 서비스 계정, keystore)은 GitHub Secrets로만 다룹니다. 채팅·레포·로그에 남기지 않습니다.
+- **공유 체크아웃 커밋 방법** (2026-11-17 사고 후): 여러 세션이 한 작업 트리를 쓰므로 `--autostash`·`git stash`·`rebase`·`reset`·`checkout --`을 쓰지 않습니다(autostash가 다른 세션의 미커밋 작업을 잠시 지운 사고). 자기 경로만 `git add <경로>` → `git commit` → `git push -q || (git pull -q --no-rebase --no-edit && git push -q)`.
 - 커밋·푸시는 오케스트레이터만 합니다. 배포는 `games.json` 등록 → `node scripts/validate.mjs` 통과 → main 푸시로 Pages에 올라갑니다.

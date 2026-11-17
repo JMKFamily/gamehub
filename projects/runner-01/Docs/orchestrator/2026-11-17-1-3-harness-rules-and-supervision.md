@@ -66,3 +66,4 @@
 - 결정 11: 연습 모드는 00-benchmark 7-2·10절대로 자동 체크포인트(안전한 지점만)로 바꿉니다(5~6세 조작 1가지 원칙, 갇힘 고리 근거). game-developer에 지시.
 - 결정 12: 천장 가시 판정은 balance-designer가 바닥 가시와 맞출지 검토(다음 밸런스 작업), 템포 문 음악은 "곡 박자 그대로" 기본 가정으로 art에 전달. 기믹 녹화는 HUMAN_TASKS에 [요청, 급하지 않음]으로 올림.
 - 감시(2026-11-17, game-developer 결정 11 자동 체크포인트): 금지 파일 변경 0, 외부 URL 0, validate OK, verify ALL PASS 10/10 직접 확인. 주의: 개발 담당이 정리하며 node serve.mjs 프로세스 2개를 종료함 — 다른 팀 세션의 로컬 서버였을 수 있어 두 팀에 알림. 앞으로 에이전트는 자기가 띄운 프로세스만 종료하도록 지시에 넣습니다.
+- 사고(2026-11-17 13:18, 오케스트레이터 본인): `git pull --rebase --autostash` 중 다른 세션이 파일을 써서 rebase가 실패, autostash(rhythm-01·rhythm-02·runner-01 art의 미커밋 변경 32파일)가 작업 트리에서 빠진 채 남음. 즉시 stash를 다시 적용해 복구했고, 그 사이 새로 쓰인 rhythm-02 kickoff 파일은 더 최신 판(stash 판을 모두 포함)으로 되돌림. 손실 없음 확인. 조치: CLAUDE.md에 공유 체크아웃 커밋 방법(autostash·stash·rebase 금지) 추가, 두 팀 세션에 알림.
