@@ -383,3 +383,78 @@ export function resumePoint(L, tPause, result = null) {
   const carried = result ? result.grades.filter((g) => g.i < startIndex) : null;
   return { fromMs: ph.start_beat * L.beatMs, phrase: ph.index, startIndex, carried, rewound: true };
 }
+
+// ---------------- 판정 이름·퍼센트 (round-2, 요청자 추가 지시 "판정 이름과 퍼센트까지", djmax-judgement.md 7절, 20-balance 18절) ----------------
+// 표시 층만: judgeAttempt 결과(접촉별 e = 탭 − 접촉 시각)에서 계산. 판정 창·등급·클리어·콤보는 바꾸지 않는다. 별도 상태·난수 없음.
+//   d = |e|, W = e < 0 ? pass_early_ms : pass_late_ms(이른·늦은 쪽 따로), g = good_ms, p = perfect_ms (레벨 judge)
+//   d ≤ perfect_100_max_ms(25) → 100 · d ≤ p → 90 · (p, g] 3칸 → 80/70/60 · (g, W] 5칸 → 50/40/30/20/10 · d > W → null(표시 없음)
+//   칸 경계는 모두 "이하"(경계값은 안쪽 칸). 칸 = 구간을 똑같이 n 등분(나눗셈 오차 없게 곱셈으로 비교).
+//   지붕 참기(nogo·hold)는 탭 시각이 없어 % 없음(null): 이름·% 표시 없음, 레벨 정확도 평균에서 뺌(콤보 +1 은 그대로).
+//   pctBands(L, i)               → 그 접촉의 칸 경계 { early: [{pct, maxMs}], late: [...] } (표·검증용)
+//   pctOf(L, i, e)               → 10~100 정수 또는 null (nogo·e null·창 밖)
+//   gradeOfPct(pct, bal)         → 'perfect' | 'good' | 'pass' | null (% ≥ 90 / 60~80 / 10~50)
+//   pctEvents(L, result)         → [{i, grade, e, pct, name_key}] (result.grades 순서, hold 는 pct·name_key null)
+//   levelAccuracy(L, result, opt)→ 클리어한 일반 모드 시도의 hit 접촉 % 단순 평균 내림(정수), 실패·연습(opt.practice)이면 null
+const PCT_DEFAULT = { perfect_100_max_ms: 25, good_steps: [80, 70, 60], pass_steps: [50, 40, 30, 20, 10] };
+const NAME_DEFAULT = { perfect: 'grade_perfect_name', good: 'grade_good_name', pass: 'grade_pass_name' };
+const pctRule = (bal) => ({ ...PCT_DEFAULT, ...(bal?.judgement_display?.pct || {}) });
+
+function stepIn(d, lo, hi, steps) {
+  // (lo, hi] 를 steps.length 칸으로 똑같이 나눔: 칸 k(0부터) = (lo + k·(hi−lo)/n, lo + (k+1)·(hi−lo)/n]
+  const n = steps.length;
+  for (let k = 1; k <= n; k++) if ((d - lo) * n <= k * (hi - lo) + 1e-9) return steps[k - 1];
+  return steps[n - 1];
+}
+
+export function pctBands(L, contactIndex = 0, bal = L.bal) {
+  const R = pctRule(bal);
+  const j = L.judge;
+  const side = (W) => {
+    const raw = [{ pct: 100, maxMs: R.perfect_100_max_ms }, { pct: 90, maxMs: j.perfect_ms }];
+    R.good_steps.forEach((p, k) => raw.push({ pct: p, maxMs: j.perfect_ms + ((k + 1) * (j.good_ms - j.perfect_ms)) / R.good_steps.length }));
+    if (W > j.good_ms) R.pass_steps.forEach((p, k) => raw.push({ pct: p, maxMs: j.good_ms + ((k + 1) * (W - j.good_ms)) / R.pass_steps.length }));
+    // 창이 좁아 칸이 창 끝에서 잘리면(rhythm-02 에는 없음) 창 끝에서 자르고 빈 칸은 뺌
+    const out = [];
+    for (const b of raw) { const m = Math.min(b.maxMs, W); if (!out.length || m > out[out.length - 1].maxMs + 1e-9) out.push({ pct: b.pct, maxMs: m }); }
+    return out;
+  };
+  void contactIndex; // rhythm-02 는 레벨 안 모든 접촉이 같은 창(레벨 judge). 접촉별 창이 생기면 여기서 고름.
+  return { early: side(j.pass_early_ms), late: side(j.pass_late_ms) };
+}
+
+export function pctOf(L, contactIndex, e, bal = L.bal) {
+  const c = L.contacts[contactIndex];
+  if (!c || c.kind === 'nogo' || e == null || !Number.isFinite(e)) return null;
+  const R = pctRule(bal);
+  const j = L.judge;
+  const d = Math.abs(e);
+  const W = e < 0 ? j.pass_early_ms : j.pass_late_ms;
+  if (d > W + 1e-9) return null;
+  if (d <= R.perfect_100_max_ms + 1e-9) return 100;
+  if (d <= j.perfect_ms + 1e-9) return 90;
+  if (d <= j.good_ms + 1e-9) return stepIn(d, j.perfect_ms, j.good_ms, R.good_steps);
+  return stepIn(d, j.good_ms, W, R.pass_steps);
+}
+
+export function gradeOfPct(pct, bal) {
+  if (pct == null) return null;
+  const G = bal?.judgement_display?.grade_from_pct || { perfect: [90, 100], good: [60, 80], pass: [10, 50] };
+  for (const g of ['perfect', 'good', 'pass']) if (pct >= G[g][0] && pct <= G[g][1]) return g;
+  return null;
+}
+
+export function pctEvents(L, result, bal = L.bal) {
+  const names = { ...NAME_DEFAULT, ...(bal?.judgement_display?.names || {}) };
+  return result.grades.map((g) => {
+    const pct = g.grade === 'hold' ? null : pctOf(L, g.i, g.e, bal);
+    return { i: g.i, grade: g.grade, e: g.e, pct, name_key: pct == null ? null : names[g.grade] ?? null };
+  });
+}
+
+export function levelAccuracy(L, result, { practice = false } = {}, bal = L.bal) {
+  if (!result || !result.clear || practice) return null;
+  const ps = pctEvents(L, result, bal).filter((x) => x.grade !== 'hold').map((x) => x.pct);
+  if (!ps.length || ps.some((p) => p == null)) return null;
+  const sum = ps.reduce((a, b) => a + b, 0);
+  return Math.floor(sum / ps.length + 1e-9);
+}

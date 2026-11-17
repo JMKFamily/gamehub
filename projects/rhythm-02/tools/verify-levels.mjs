@@ -20,13 +20,14 @@
 //   V-R0 도구 검증(round-1 레벨 → 14-1 표)   V-R1~R7 반복 방지(14-4)
 //   S1~S5 신호(round-1)       S6 카드 닫힘 < 레벨 0   S7 L1 손가락 ∩ 위험 물체 보임 = 0   S8 지붕 레벨 손가락 없음·카드   S9 지붕 착지 ±1박 신호 0   S10 UI 자리(layout, art 대기)
 //   N7  이어 하기 되감기 → 다음 접촉 ≥ 450 ms   C1 콤보(결과 파생·화음 자리·켬/끔 봇 동일)
+//   P1~P5 판정 이름·퍼센트(칸 경계·단조·등급 범위·비대칭 칸·정확도·켬/끔 동일)   (정보) P6 봇 정확도 분포
 //   B1~B8 곡선(q_nogo 0.15 봇)   B6s 시드 10개 분포   K2 손해 모델   K3 화면 판정 + K3b 보정 뒤 잔차 ±15 두 쪽(w = 1)   (정보) Q q_nogo 민감도·criteria 기본 행, K3d, 따라 치기·연습·해석
 
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs, restartPhases, hitsFromResult, objectsAt, pxPerBeat, firstVisibleMs, comboEvents, resumePoint, scrollBeatAt, bgStage, bgStages } from './sim/judge.mjs';
-import { runProfile, runPractice, analyticClear, contMedian } from './sim/bots.mjs';
+import { compileLevel, judgeAttempt, ballsAt, flightApex, fingerSchedule, tapToLevelMs, restartPhases, hitsFromResult, objectsAt, pxPerBeat, firstVisibleMs, comboEvents, resumePoint, scrollBeatAt, bgStage, bgStages, pctOf, pctBands, gradeOfPct, pctEvents, levelAccuracy } from './sim/judge.mjs';
+import { runProfile, runPractice, analyticClear, contMedian, makeRng, botTaps } from './sim/bots.mjs';
 import { repeatStats, phraseStarts, windows8, chunksOf, tokenize } from './sim/repeat.mjs';
 
 const PROJECT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -954,6 +955,136 @@ log('\n== C2 콤보 화음 시각 · V24 바탕 단계 ==');
   });
   report.chords = rows;
   check('all', 'C2', !err.length, err.length ? err.slice(0, 5).join(' / ') : `콤보 화음 ${n}개 모두 접촉 위험 구간([놓침 구역 시작, 통과 창 끝]·지붕 창) 밖·지붕 착지 ±1박 밖·판정 뒤·클리어 판정 전 = 아이 탭과 같은 순간 0(공통 문서 4-4), judge.mjs = 검증기 독립 계산 · 클리어 전 빈 정박이 없어 화음을 뺀 단계 ${skipped}개(그림 단계 연출은 그대로) · 최대 늦음 ${f2(maxDelay)}박 · ${rows.join(' · ')}`);
+}
+
+// ---------- P1~P6 판정 이름·퍼센트 (요청자 추가 지시, djmax-judgement.md 7절, 20-balance 18절, balance.json judgement_display)
+log('\n== P 판정 이름·퍼센트 (balance.json judgement_display, judge.mjs pctOf·levelAccuracy) ==');
+{
+  const JD = bal.judgement_display;
+  if (!JD) check('all', 'P1', false, 'balance.json judgement_display 없음');
+  else {
+    const PCTS = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10];
+    const gradeByRule = (L, e) => { const a = Math.abs(e); return a <= L.judge.perfect_ms ? 'perfect' : a <= L.judge.good_ms ? 'good' : 'pass'; };
+    // 검증기 쪽 독립 경계(judge.mjs 코드를 쓰지 않음): djmax 7-2 식 그대로
+    const indepBands = (L, W) => {
+      const j = L.judge, R = JD.pct;
+      const b = [R.perfect_100_max_ms, j.perfect_ms];
+      for (let k = 1; k <= R.good_steps.length; k++) b.push(j.perfect_ms + (k * (j.good_ms - j.perfect_ms)) / R.good_steps.length);
+      for (let k = 1; k <= R.pass_steps.length; k++) b.push(j.good_ms + (k * (W - j.good_ms)) / R.pass_steps.length);
+      return b;
+    };
+    const indepPct = (bands, d) => { for (let k = 0; k < bands.length; k++) if (d <= bands[k] + 1e-9) return PCTS[k]; return null; };
+    const e1 = [], e2 = [], e3 = [], e4 = [], rows1 = [], rows3 = [];
+    let swept = 0;
+    compiled.forEach((L) => {
+      const id = +L.level.id, j = L.judge;
+      const hitI = L.contacts.find((c) => c.kind === 'hit').i;
+      const pb = pctBands(L, hitI, bal);
+      const tab = JD.bands_by_level?.[String(id)];
+      // P1: 칸 순서·표(balance.json)·독립 계산 일치
+      for (const [side, W] of [['early', j.pass_early_ms], ['late', j.pass_late_ms]]) {
+        const ib = indepBands(L, W);
+        const got = pb[side];
+        if (got.map((x) => x.pct).join() !== PCTS.join()) e1.push(`L${id} ${side} % 순서 ${got.map((x) => x.pct)}`);
+        got.forEach((x, k) => { if (Math.abs(x.maxMs - ib[k]) > 1e-6) e1.push(`L${id} ${side} ${x.pct}% 끝 ${x.maxMs} ≠ 독립 ${ib[k]}`); });
+        const t = tab?.[`${side}_max_ms`];
+        if (!t || t.length !== ib.length || t.some((v, k) => Math.abs(v - ib[k]) > 0.006)) e1.push(`L${id} balance.json bands_by_level ${side} ≠ 계산(다시 계산해 넣기)`);
+        if (tab && (tab.g !== j.good_ms || tab[side === 'early' ? 'W_early' : 'W_late'] !== W)) e1.push(`L${id} bands_by_level g·W ≠ 레벨 judge`);
+        if (Math.abs(ib[ib.length - 1] - W) > 1e-9) e1.push(`L${id} ${side} 창 끝 ≠ W`);
+      }
+      rows1.push(`L${id} g ${j.good_ms} 이른 ${pb.early.slice(4).map((x) => f2(x.maxMs)).join('/')} · 늦은 ${pb.late.slice(4).map((x) => f2(x.maxMs)).join('/')}`);
+      // P2·P3: 0.01 ms 간격 훑기(이른 쪽·늦은 쪽 따로) — 단조, 등급 ↔ % 범위, 독립 계산 일치, 창 끝 10, 창 밖 null
+      for (const sgn of [-1, 1]) {
+        const W = sgn < 0 ? j.pass_early_ms : j.pass_late_ms;
+        const ib = indepBands(L, W);
+        let prev = 101;
+        for (let s = 0; s <= Math.round(W * 100) + 50; s++) {
+          const d = s / 100, e = sgn * d;
+          const p = pctOf(L, hitI, e, bal);
+          swept++;
+          if (d > W + 1e-9) { if (p !== null) e2.push(`L${id} e=${e} 창 밖인데 ${p}`); continue; }
+          if (p == null) { e2.push(`L${id} e=${e} 창 안인데 null`); continue; }
+          if (p > prev) e2.push(`L${id} e=${e} % 증가 ${prev}→${p}`);
+          prev = p;
+          if (p !== indepPct(ib, d)) e3.push(`L${id} e=${e} ${p} ≠ 독립 ${indepPct(ib, d)}`);
+          const g = gradeByRule(L, e);
+          if (gradeOfPct(p, bal) !== g) e2.push(`L${id} e=${e} ${p}% → ${gradeOfPct(p, bal)} ≠ 등급 ${g}`);
+          const [lo, hi] = JD.grade_from_pct[g];
+          if (p < lo || p > hi) e2.push(`L${id} e=${e} ${g} 인데 ${p}%`);
+        }
+        if (pctOf(L, hitI, sgn * W, bal) !== JD.pct.window_end_pct) e2.push(`L${id} 창 끝 ${sgn * W} ≠ 10`);
+        // 경계값 정확히 = 안쪽 칸, 경계 + 0.001 = 다음 칸
+        ib.forEach((m, k) => {
+          if (pctOf(L, hitI, sgn * m, bal) !== PCTS[k]) e3.push(`L${id} 경계 ${sgn * m} ≠ ${PCTS[k]}`);
+          const nx = pctOf(L, hitI, sgn * (m + 0.001), bal);
+          if (nx !== (k + 1 < PCTS.length ? PCTS[k + 1] : null)) e3.push(`L${id} 경계 뒤 ${sgn * (m + 0.001)} = ${nx}`);
+        });
+      }
+      const we = (j.pass_early_ms - j.good_ms) / JD.pct.pass_steps.length, wl = (j.pass_late_ms - j.good_ms) / JD.pct.pass_steps.length;
+      // 비대칭: 같은 |e| 라도 이른 쪽이 더 빨리 낮아짐(통과 칸 폭이 좁음)
+      const probe = j.good_ms + 4.5 * we;
+      const asym = pctOf(L, hitI, -probe, bal) === 10 && pctOf(L, hitI, probe, bal) > 10;
+      if (!(we < wl) || !asym) e3.push(`L${id} 비대칭 칸 확인 실패(이른 ${we}·늦은 ${wl}, ±${f2(probe)} → ${pctOf(L, hitI, -probe, bal)}/${pctOf(L, hitI, probe, bal)})`);
+      rows3.push(`L${id} 통과 칸 이른 ${f2(we)}·늦은 ${f2(wl)} ms (±${f2(probe)} → ${pctOf(L, hitI, -probe, bal)}/${pctOf(L, hitI, probe, bal)}%)`);
+      // P4: 완벽 입력 = 정확도 100, hold % 없음, 창 끝 입력 = 10, 실패·연습 = null
+      const perf = judgeAttempt(L, perfectTaps(L));
+      const pe = pctEvents(L, perf, bal);
+      if (levelAccuracy(L, perf, {}, bal) !== 100) e4.push(`L${id} 완벽 입력 정확도 ${levelAccuracy(L, perf, {}, bal)}`);
+      if (pe.some((x) => x.grade === 'hold' && (x.pct !== null || x.name_key !== null))) e4.push(`L${id} hold 에 % 또는 이름`);
+      if (pe.some((x) => x.grade !== 'hold' && x.name_key !== JD.names[x.grade])) e4.push(`L${id} 이름 키 어긋남`);
+      if (levelAccuracy(L, perf, { practice: true }, bal) !== null) e4.push(`L${id} 연습 모드 정확도가 나옴`);
+      const edge = judgeAttempt(L, L.contacts.filter((c) => c.kind === 'hit').map((c) => c.t + j.pass_late_ms));
+      if (!edge.clear || levelAccuracy(L, edge, {}, bal) !== 10) e4.push(`L${id} 늦은 창 끝 입력 정확도 ${levelAccuracy(L, edge, {}, bal)}(클리어 ${edge.clear})`);
+      const fl = judgeAttempt(L, []);
+      if (levelAccuracy(L, fl, {}, bal) !== null) e4.push(`L${id} 실패 시도 정확도가 나옴`);
+      // 섞인 입력: 딱 100 하나 + 나머지 90 → 내림 확인
+      const hits = L.contacts.filter((c) => c.kind === 'hit');
+      const mix = judgeAttempt(L, hits.map((c, k) => c.t + (k === 0 ? 0 : 40)));
+      const wantMix = Math.floor((100 + 90 * (hits.length - 1)) / hits.length);
+      if (levelAccuracy(L, mix, {}, bal) !== wantMix) e4.push(`L${id} 섞인 입력 정확도 ${levelAccuracy(L, mix, {}, bal)} ≠ ${wantMix}`);
+    });
+    check('all', 'P1', !e1.length, e1.length ? e1.slice(0, 5).join(' / ') : `% 칸 경계 = 7-2 식(25 / 딱 / 좋아 3칸 / 통과 5칸, 이른·늦은 쪽 따로) = balance.json bands_by_level = 검증기 독립 계산, 순서 100→10, 마지막 칸 끝 = 창 끝 W · ${rows1.join(' · ')}`);
+    check('all', 'P2', !e2.length, e2.length ? e2.slice(0, 5).join(' / ') : `0.01 ms 간격 ${swept}점(10레벨 × 이른·늦은 쪽): d 가 커지면 % 는 줄거나 같음, 딱 = 100/90 · 좋아 = 80~60 · 통과 = 50~10(% → 등급 = judgeAttempt 등급 불일치 0), 창 끝 = 10 %, 창 밖 = 표시 없음`);
+    check('all', 'P3', !e3.length, e3.length ? e3.slice(0, 5).join(' / ') : `비대칭 창(늦은 쪽 +20 ms)에서도 통과 5칸이 각 쪽 (W−g)/5 로 똑같이 나뉨, 경계값 = 안쪽 칸·경계 +0.001 ms = 다음 칸, judge.mjs = 독립 계산 · ${rows3.join(' · ')}`);
+    check('all', 'P4', !e4.length, e4.length ? e4.slice(0, 5).join(' / ') : `레벨 정확도: 완벽 입력 = 100(10레벨), 늦은 창 끝 입력 = 10, 100 + 90… 섞임 = 내림 평균, 지붕 참기(hold) % ·이름 없음·평균 제외, 실패·연습 = 표시 없음, 이름 키 = ${JD.names.perfect}/${JD.names.good}/${JD.names.pass}`);
+    // P5: 켜고 끔 — 같은 시드 σ70·σ25 봇 시도에서 % 계산 전후 판정 결과·콤보가 같고, 결과 객체를 바꾸지 않음
+    const e5 = [], acc = [];
+    let tried = 0, hitN = 0;
+    compiled.forEach((L, k) => {
+      const id = +L.level.id;
+      const accs = { child_sd70: [], skilled_sd25: [] };
+      for (const prof of ['child_sd70', 'skilled_sd25']) {
+        const p = bal.bots.profiles[prof];
+        const n = QUICK ? 1500 : 6000;
+        const rngA = makeRng(SEED + 7700 + k), rngB = makeRng(SEED + 7700 + k);
+        for (let t = 0; t < n; t++) {
+          const taps = botTaps(L, p, rngA, { extraAfter: bal.bots.extra_tap_after_s });
+          const tapsB = botTaps(L, p, rngB, { extraAfter: bal.bots.extra_tap_after_s });
+          const off = judgeAttempt(L, tapsB);
+          const offCombo = JSON.stringify(comboEvents(L, off, bal));
+          const on = judgeAttempt(L, taps);
+          const before = JSON.stringify(on);
+          const pe = pctEvents(L, on, bal);
+          const a = levelAccuracy(L, on, {}, bal);
+          tried++;
+          if (JSON.stringify(on) !== before) e5.push(`L${id} % 계산이 결과를 바꿈`);
+          if (before !== JSON.stringify(off) || JSON.stringify(comboEvents(L, on, bal)) !== offCombo) e5.push(`L${id} 켬/끔 판정·콤보 다름`);
+          for (const x of pe) if (x.grade !== 'hold') { hitN++; if (gradeOfPct(x.pct, bal) !== x.grade) e5.push(`L${id} ${x.pct}% ↔ ${x.grade}`); }
+          if (on.clear !== (a != null)) e5.push(`L${id} 클리어 ${on.clear} 인데 정확도 ${a}`);
+          if (a != null) accs[prof].push(a);
+          if (e5.length > 5) break;
+        }
+      }
+      const q = (arr, u) => { const s = [...arr].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(u * (s.length - 1)))] : '-'; };
+      acc.push(`L${id} σ70 ${q(accs.child_sd70, 0.5)}(${q(accs.child_sd70, 0.1)}~${q(accs.child_sd70, 0.9)}, 클리어 ${accs.child_sd70.length})·σ25 ${q(accs.skilled_sd25, 0.5)}`);
+    });
+    const minGapAll = Math.min(...compiled.map((L) => Math.min(...L.contacts.slice(1).map((c, k) => c.t - L.contacts[k].t))));
+    if (!(JD.timing.pop_ms < minGapAll)) e5.push(`튐 ${JD.timing.pop_ms} ms ≥ 가장 짧은 접촉 간격 ${f0(minGapAll)}`);
+    if (JD.timing.hold_until_ms + JD.timing.fade_ms !== JD.timing.total_ms) e5.push('표시 시간 합 ≠ total_ms');
+    check('all', 'P5', !e5.length, e5.length ? e5.slice(0, 5).join(' / ') : `% ·이름 켬/끔: 같은 시드 봇 시도 ${tried}회(σ70·σ25, 헛탭 포함)에서 판정 결과·콤보 사건 완전히 같음, % 계산이 결과 객체를 바꾸지 않음, hit 판정 ${hitN}개 모두 % → 등급 = 판정 등급, 정확도는 클리어 시도에만 · 튐 ${JD.timing.pop_ms} ms < 가장 짧은 접촉 간격 ${f0(minGapAll)} ms, 표시 ${JD.timing.hold_until_ms}+${JD.timing.fade_ms} = ${JD.timing.total_ms} ms`);
+    report.accuracy = acc;
+    info('P6', `레벨 정확도(클리어한 시도만, 중앙값(10~90 백분위)) · ${acc.join(' · ')}`);
+  }
 }
 
 // ---------- V24 바탕 단계 (1-2 R2-D4): art 식 1 + round(2(n−1)/(P−1)) 와 같은 계산

@@ -993,5 +993,413 @@
   "best_combo": "normal_mode_only",
   "affects_clear": false,
   "_note": "harness/benchmarks/djmax-judgement.md 4절·5-3 + 00-benchmark 14-8. 콤보 = 이번 시도 성공 판정 수(hit 딱·좋아·통과 모두 +1, 지붕 참기 hold +1) = result.grades 길이(judge.mjs comboEvents, 별도 상태·난수 없음). 콤보 2부터 점 10칸 + 10마다 큰 표지(숫자 없음, HUD 띠 안). 판정 프레임에 칸 1.0→1.15→1.0배 120 ms(L10 가장 짧은 접촉 간격 246 ms 미만). 단계 5(작은 칭찬, 소리 없음)·10(0.4 s, 화음)·20(0.6 s, 한 음 높은 화음)·30(자리만). 화음은 아이 탭보다 1 dB 이상 작게, 그 판정 접촉 박의 다음 정박에 — 그 정박이 지붕 밑 착지 박 ±1박 안이면 그 창 뒤 첫 정박으로(S9). 받침 쉼 첫 박으로 미루지 않음(판정과 보상이 멀어짐). hold 의 칸 채움은 지붕이 북을 떠나는 순간(roof_out, 착지 +1박 이상). 실패 = 끊김 하나뿐, 0.3 s 안 조용히 작아짐, 재시작 1.1 s 그대로."
- }
+ },
+  "judgement_display": {
+    "_source": "요청자 추가 지시(2026-11-17, 전 프로젝트) '판정 이름과 퍼센트까지 해주세요.' + harness/benchmarks/djmax-judgement.md 7절 + criteria 게임 감각 '판정 이름과 퍼센트 표시'. 20-balance.md 18절. 표시 층만 — 판정 창·등급·클리어·콤보·봇 지표 불변(검증기 P1~P6).",
+    "pct": {
+      "rule": "d = |e| (e = 탭 − 접촉 시각, 화면 시계), W = e<0 ? pass_early_ms : pass_late_ms(이른·늦은 쪽 따로), p = perfect_ms, g = good_ms (레벨 judge). d ≤ perfect_100_max_ms → 100 · d ≤ p → 90 · (p, g] 를 good_steps 칸으로 똑같이 → 80/70/60 · (g, W] 를 pass_steps 칸으로 똑같이 → 50/40/30/20/10 · d > W → 표시 없음(실패)",
+      "perfect_100_max_ms": 25,
+      "perfect_90_max": "judge.perfect_ms",
+      "good_steps": [
+        80,
+        70,
+        60
+      ],
+      "good_range": "(judge.perfect_ms, judge.good_ms]",
+      "pass_steps": [
+        50,
+        40,
+        30,
+        20,
+        10
+      ],
+      "pass_range": "(judge.good_ms, W_side]",
+      "boundary": "inclusive_inner (경계값 = 안쪽 칸)",
+      "window_end_pct": 10,
+      "outside_window": null,
+      "ref": "judge.mjs pctOf(L, contactIndex, e) · pctBands(L, i)"
+    },
+    "grade_from_pct": {
+      "perfect": [
+        90,
+        100
+      ],
+      "good": [
+        60,
+        80
+      ],
+      "pass": [
+        10,
+        50
+      ],
+      "_note": "%에서 거꾸로 구한 등급 = judgeAttempt 등급(검증기 P2). judge.mjs gradeOfPct"
+    },
+    "bands_by_level": {
+      "1": {
+        "g": 100,
+        "W_early": 150,
+        "W_late": 170,
+        "early_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          110,
+          120,
+          130,
+          140,
+          150
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          114,
+          128,
+          142,
+          156,
+          170
+        ]
+      },
+      "2": {
+        "g": 100,
+        "W_early": 145,
+        "W_late": 165,
+        "early_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          109,
+          118,
+          127,
+          136,
+          145
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          113,
+          126,
+          139,
+          152,
+          165
+        ]
+      },
+      "3": {
+        "g": 100,
+        "W_early": 140,
+        "W_late": 160,
+        "early_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          108,
+          116,
+          124,
+          132,
+          140
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          66.67,
+          83.33,
+          100,
+          112,
+          124,
+          136,
+          148,
+          160
+        ]
+      },
+      "4": {
+        "g": 90,
+        "W_early": 134,
+        "W_late": 154,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          98.8,
+          107.6,
+          116.4,
+          125.2,
+          134
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          102.8,
+          115.6,
+          128.4,
+          141.2,
+          154
+        ]
+      },
+      "5": {
+        "g": 90,
+        "W_early": 130,
+        "W_late": 150,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          98,
+          106,
+          114,
+          122,
+          130
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          102,
+          114,
+          126,
+          138,
+          150
+        ]
+      },
+      "6": {
+        "g": 90,
+        "W_early": 130,
+        "W_late": 150,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          98,
+          106,
+          114,
+          122,
+          130
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          102,
+          114,
+          126,
+          138,
+          150
+        ]
+      },
+      "7": {
+        "g": 90,
+        "W_early": 125,
+        "W_late": 145,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          97,
+          104,
+          111,
+          118,
+          125
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          101,
+          112,
+          123,
+          134,
+          145
+        ]
+      },
+      "8": {
+        "g": 90,
+        "W_early": 125,
+        "W_late": 145,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          97,
+          104,
+          111,
+          118,
+          125
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          101,
+          112,
+          123,
+          134,
+          145
+        ]
+      },
+      "9": {
+        "g": 90,
+        "W_early": 125,
+        "W_late": 145,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          97,
+          104,
+          111,
+          118,
+          125
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          101,
+          112,
+          123,
+          134,
+          145
+        ]
+      },
+      "10": {
+        "g": 90,
+        "W_early": 125,
+        "W_late": 145,
+        "early_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          97,
+          104,
+          111,
+          118,
+          125
+        ],
+        "late_max_ms": [
+          25,
+          50,
+          63.33,
+          76.67,
+          90,
+          101,
+          112,
+          123,
+          134,
+          145
+        ]
+      },
+      "_note": "pctBands 계산값(ms, 각 칸의 '이하' 끝). pct 순서 [100,90,80,70,60,50,40,30,20,10]. 레벨 judge 를 바꾸면 검증기 P1 이 이 표와 다르다고 FAIL — 다시 계산해 넣음."
+    },
+    "names": {
+      "perfect": "grade_perfect_name",
+      "good": "grade_good_name",
+      "pass": "grade_pass_name",
+      "hold": null,
+      "fail": null,
+      "_note": "strings.json 키(lore 확정). 공통 권장 문구 딱이야/Wow! · 좋아/Nice · 됐어/OK(모두 칭찬, 원작 판정 이름 금지). 실패·지붕 참기에는 이름 없음. 기획·데이터 키 perfect/good/pass(딱/좋아/통과)는 그대로."
+    },
+    "hold": {
+      "pct": null,
+      "name": null,
+      "shown": false,
+      "in_accuracy": false,
+      "combo": 1,
+      "_note": "지붕 쉬기(nogo 참기 hold)는 탭 시각이 없어 '박과 얼마나 가까웠나'가 정의되지 않음 → % 없음·이름 없음·정확도 평균에서 뺌(분모 = hit 접촉 수). 콤보 +1·작은 반응(소리 없음, roof_out)은 그대로. 고정 100 을 넣으면 지붕 수(L5~L10 1~3개)만큼 정확도가 올라 레벨 사이 비교가 흐려지고 '참기 = 타이밍' 신호가 생김. 등급(gradeRating)도 hold 를 빼므로 같은 원칙."
+    },
+    "timing": {
+      "pop_ms": 80,
+      "pop_scale": [
+        1,
+        1.15,
+        1
+      ],
+      "hold_until_ms": 400,
+      "fade_ms": 150,
+      "total_ms": 550,
+      "start": "judgement_frame (hit = 친 순간, 이르게 친 통과도 친 순간)",
+      "replace_on_new": true,
+      "stack": false,
+      "on_fail": "vanish_with_combo_within_0.3s (실패 이름·0 %·빨강 없음)",
+      "on_clear": "fade_with_hud_0.2s",
+      "clock": "game_clock (레벨 시간, judge_clock 과 같음)",
+      "_note": "튐 80 ms < 가장 짧은 접촉 간격 246 ms(L10, 검증기 P5). 새 판정이 오면 그 프레임에 바꿔 그림(판정 자리 하나에 표시 하나). 낭독 없음(판정마다 읽지 않음)."
+    },
+    "text": {
+      "pct_format": "<n>%",
+      "decimals": 0,
+      "pct_below_name": true,
+      "pct_size_of_name": [
+        0.5,
+        0.6
+      ],
+      "_note": "글꼴·크기 px·색·자리(북 옆, 공 세로 줄 비킴, HUD 띠 밖)는 art 30-art / layout.json 이 정함. 공통 권장: 360 폭 이름 ≥ 28 px, % ≥ 14 px, 대비 4.5:1, 공 색 ball 금지."
+    },
+    "accuracy": {
+      "over": "hit_contacts_of_clear_attempt",
+      "excludes": [
+        "hold"
+      ],
+      "mean": "simple",
+      "round": "floor",
+      "decimals": 0,
+      "hundred_only_if_all_100": true,
+      "fail": null,
+      "practice": null,
+      "resume": "이어 하기(일반 모드)는 carried + 다시 친 판정 = hit 접촉마다 판정 하나라 그대로 평균",
+      "shown": "result_screen (구름 등급 아래, 크기 순서 구름 등급 > 정확도 % > 최고 콤보)",
+      "during_play": false,
+      "ref": "judge.mjs levelAccuracy(L, result, { practice })"
+    },
+    "records": {
+      "store": "store.levels[id]",
+      "fields": {
+        "bestAccuracy": "일반 모드 클리어 정확도 최댓값(정수 %)",
+        "bestCombo": "일반 모드 최고 콤보(클리어면 접촉 수)"
+      },
+      "normal_mode_only": true,
+      "separate_from": [
+        "best (진행도)",
+        "cleared",
+        "등급 구름 1~3"
+      ],
+      "new_record": "결과 화면 작은 표지로만(비교 숫자·경고 글 없음)"
+    }
+  }
 }
