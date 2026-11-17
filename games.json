@@ -3,14 +3,32 @@
     "slug": "orbit-dodge",
     "title": "Orbit Dodge",
     "description": "궤도를 돌며 날아오는 운석을 피하세요. 탭/스페이스로 회전 방향 전환.",
-    "tags": ["arcade", "one-button"],
+    "tags": [
+      "arcade",
+      "one-button"
+    ],
     "released": "2026-11-16"
   },
   {
     "slug": "reverbound",
     "title": "Reverbound",
     "description": "박자에 맞춰 탭해서 뛰어오르는 리듬 러너. 탭/스페이스로 점프, 누르고 있으면 계속 점프.",
-    "tags": ["rhythm", "runner", "one-button"],
+    "tags": [
+      "rhythm",
+      "runner",
+      "one-button"
+    ],
+    "released": "2026-11-17"
+  },
+  {
+    "slug": "rhythm-01",
+    "title": "Tickadrum (개발 중)",
+    "description": "개발 중인 빌드입니다. 공이 별에 닿을 때 톡! 북채가 보이면 보고, 없어지면 따라 치는 리듬 게임.",
+    "tags": [
+      "rhythm",
+      "one-button",
+      "wip"
+    ],
     "released": "2026-11-17"
   }
 ]
