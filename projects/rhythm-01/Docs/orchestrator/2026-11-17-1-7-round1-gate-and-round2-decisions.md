@@ -31,3 +31,7 @@
 - art: `30-art.md`, `assets/`(sound.json 원본, sound-check.mjs, 카드 5장 R10 + 세로판 5장, icon-card, 목업 8). 외부 href 0, `palette.mjs --check` 통과, `sound-check.mjs` OK(멜로디 168음 중 별 시각 시작 0), 탭−둥둥이 RMS 6.40 dB — 통과.
 - balance: `balance.json`, `levels/01`(press_from 0.25만)·`04~10`(무늬만 교체, 새 기믹·카드 0), `tools/sim/*`(calib.mjs 신설), `verify-levels.mjs`(S15 강화·S16·C1). 기존 키는 `_r1_deprecated`로 보존. **전체 실행 직접: 종료 0, FAIL 0, ALL PASS.** B6 연속 중앙값 L10 13.363 ∈ [10.96, 16.44](T 13.70, 배율 1.4849), B7 엄격 단조 — 통과.
 - 다음: game-developer round-2 구현.
+
+## 요청자 새 지시 전파 (메인 세션 경유, 2026-11-17)
+- 개발 중 빌드 허브 게시: games.json rhythm-01 = "Tickadrum (개발 중)"·wip(커밋 722e926). 라운드 빌드 커밋마다 validate 통과 후 푸시, 깨진 중간 상태 푸시 금지, 게이트 통과 시 표시 제거.
+- 전파: STATUS.md 기록, 진행 중인 game-developer에 SendMessage로 전달(빌드가 중간 상태일 때 커밋하지 않으므로 완료 전 `games/rhythm-01/`는 커밋 안 함), 이후 모든 에이전트 지시에 포함.
