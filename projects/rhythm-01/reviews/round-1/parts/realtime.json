@@ -1,0 +1,173 @@
+{
+ "autoplay": [
+  {
+   "level": 1,
+   "flow": {
+    "afterSkip": "card"
+   },
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 2,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 1.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 3,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 4,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 2.3,
+   "meanErrMs": 0.2
+  },
+  {
+   "level": 5,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 6,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 7,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.3,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 8,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 1.1,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 9,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.2,
+   "meanErrMs": 0.1
+  },
+  {
+   "level": 10,
+   "flow": null,
+   "clear": true,
+   "grade": 3,
+   "attempts": 1,
+   "audio": "running",
+   "autoLatencyMs": 66,
+   "maxAbsErrMs": 0.3,
+   "meanErrMs": 0.1
+  }
+ ],
+ "mouse": [
+  {
+   "level": 1,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "errMin": -1.8,
+   "errMax": 1.1,
+   "errMedian": -1.1,
+   "autoLatencyMs": 66,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   }
+  },
+  {
+   "level": 5,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "errMin": -2.1,
+   "errMax": 0,
+   "errMedian": -1.1,
+   "autoLatencyMs": 66,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   }
+  },
+  {
+   "level": 10,
+   "clear": true,
+   "attempts": 1,
+   "grade": 3,
+   "errMin": 0.3,
+   "errMax": 1.5,
+   "errMedian": 0.9,
+   "autoLatencyMs": 66,
+   "lastResult": {
+    "clear": true,
+    "progress": 1
+   }
+  }
+ ],
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 572
+ },
+ "seconds": 190,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

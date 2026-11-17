@@ -1,0 +1,9270 @@
+{
+ "round": 1,
+ "game": "rhythm-01",
+ "build": "games/rhythm-01",
+ "generated": "2026-11-17T02:48:13.900Z",
+ "parts": {
+  "bots": {
+   "levels": {
+    "10": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 234,
+      "sim_mismatch": 0,
+      "clear_rate": 0.4274,
+      "median_first_clear": 2,
+      "p90_first_clear": 4,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 67.1,
+      "median_fail_progress": 36.7,
+      "early_fail_share": 0.396,
+      "top_fail_star": 5,
+      "top_fail_star_share": 0.075,
+      "fail_progress_hist10": [
+       15,
+       23,
+       21,
+       8,
+       8,
+       16,
+       8,
+       17,
+       10,
+       8
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 15580,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0385,
+      "median_first_clear": 19,
+      "p90_first_clear": 59,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 27.2,
+      "median_fail_progress": 16.7,
+      "early_fail_share": 0.365,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.111,
+      "fail_progress_hist10": [
+       4318,
+       3341,
+       2346,
+       1636,
+       1055,
+       782,
+       562,
+       429,
+       295,
+       216
+      ],
+      "seconds": 32
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3390,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0021,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 53,
+      "cap": 60,
+      "mean_progress": 13,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.38,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.211,
+      "fail_progress_hist10": [
+       1659,
+       850,
+       459,
+       222,
+       87,
+       53,
+       28,
+       14,
+       9,
+       2
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 3216,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0311,
+      "median_first_clear": 23,
+      "p90_first_clear": 75,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 26.7,
+      "median_fail_progress": 16.7,
+      "early_fail_share": 0.371,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.111,
+      "fail_progress_hist10": [
+       896,
+       670,
+       497,
+       347,
+       233,
+       161,
+       145,
+       76,
+       46,
+       45
+      ],
+      "seconds": 6
+     }
+    },
+    "01": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 1
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 134,
+      "sim_mismatch": 0,
+      "clear_rate": 0.7463,
+      "median_first_clear": 1,
+      "p90_first_clear": 2,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 87.2,
+      "median_fail_progress": 55,
+      "early_fail_share": 0.206,
+      "top_fail_star": 8,
+      "top_fail_star_share": 0.118,
+      "fail_progress_hist10": [
+       3,
+       5,
+       1,
+       2,
+       5,
+       2,
+       5,
+       3,
+       4,
+       4
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 1952,
+      "sim_mismatch": 0,
+      "clear_rate": 0.3074,
+      "median_first_clear": 3,
+      "p90_first_clear": 7,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 57.7,
+      "median_fail_progress": 35,
+      "early_fail_share": 0.32,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.078,
+      "fail_progress_hist10": [
+       195,
+       208,
+       172,
+       139,
+       120,
+       146,
+       102,
+       88,
+       98,
+       84
+      ],
+      "seconds": 9
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 1192,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0478,
+      "median_first_clear": 14,
+      "p90_first_clear": 47,
+      "capped_sessions": 3,
+      "cap": 60,
+      "mean_progress": 31.9,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.416,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.118,
+      "fail_progress_hist10": [
+       254,
+       255,
+       151,
+       116,
+       109,
+       75,
+       67,
+       46,
+       37,
+       25
+      ],
+      "seconds": 4
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 304,
+      "sim_mismatch": 0,
+      "clear_rate": 0.3289,
+      "median_first_clear": 3,
+      "p90_first_clear": 6,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 59.2,
+      "median_fail_progress": 35,
+      "early_fail_share": 0.392,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.113,
+      "fail_progress_hist10": [
+       36,
+       19,
+       20,
+       27,
+       22,
+       25,
+       20,
+       14,
+       7,
+       14
+      ],
+      "seconds": 1
+     }
+    },
+    "02": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 131,
+      "sim_mismatch": 0,
+      "clear_rate": 0.7634,
+      "median_first_clear": 1,
+      "p90_first_clear": 2,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 85.5,
+      "median_fail_progress": 37.5,
+      "early_fail_share": 0.065,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.129,
+      "fail_progress_hist10": [
+       8,
+       2,
+       4,
+       2,
+       1,
+       5,
+       3,
+       4,
+       0,
+       2
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 2988,
+      "sim_mismatch": 0,
+      "clear_rate": 0.2008,
+      "median_first_clear": 4,
+      "p90_first_clear": 10,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 47.9,
+      "median_fail_progress": 29.2,
+      "early_fail_share": 0.28,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.093,
+      "fail_progress_hist10": [
+       602,
+       298,
+       353,
+       220,
+       173,
+       223,
+       137,
+       196,
+       84,
+       102
+      ],
+      "seconds": 11
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 1448,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0359,
+      "median_first_clear": 20,
+      "p90_first_clear": 60,
+      "capped_sessions": 8,
+      "cap": 60,
+      "mean_progress": 26.1,
+      "median_fail_progress": 16.7,
+      "early_fail_share": 0.332,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.148,
+      "fail_progress_hist10": [
+       552,
+       199,
+       238,
+       93,
+       91,
+       105,
+       39,
+       40,
+       21,
+       18
+      ],
+      "seconds": 3
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 513,
+      "sim_mismatch": 0,
+      "clear_rate": 0.1949,
+      "median_first_clear": 4,
+      "p90_first_clear": 12,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 47.5,
+      "median_fail_progress": 29.2,
+      "early_fail_share": 0.257,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.08,
+      "fail_progress_hist10": [
+       89,
+       57,
+       75,
+       31,
+       36,
+       41,
+       23,
+       33,
+       17,
+       11
+      ],
+      "seconds": 2
+     }
+    },
+    "03": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 130,
+      "sim_mismatch": 0,
+      "clear_rate": 0.7692,
+      "median_first_clear": 1,
+      "p90_first_clear": 2,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 86.7,
+      "median_fail_progress": 32,
+      "early_fail_share": 0.467,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.167,
+      "fail_progress_hist10": [
+       7,
+       3,
+       4,
+       3,
+       0,
+       2,
+       2,
+       1,
+       5,
+       3
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 3937,
+      "sim_mismatch": 0,
+      "clear_rate": 0.1524,
+      "median_first_clear": 5,
+      "p90_first_clear": 15,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 43.1,
+      "median_fail_progress": 28,
+      "early_fail_share": 0.393,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.093,
+      "fail_progress_hist10": [
+       842,
+       421,
+       543,
+       301,
+       346,
+       197,
+       270,
+       146,
+       193,
+       78
+      ],
+      "seconds": 13
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 2444,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0143,
+      "median_first_clear": 51,
+      "p90_first_clear": 60,
+      "capped_sessions": 25,
+      "cap": 60,
+      "mean_progress": 21.3,
+      "median_fail_progress": 12,
+      "early_fail_share": 0.445,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.158,
+      "fail_progress_hist10": [
+       980,
+       439,
+       405,
+       163,
+       172,
+       84,
+       91,
+       21,
+       43,
+       11
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 632,
+      "sim_mismatch": 0,
+      "clear_rate": 0.1582,
+      "median_first_clear": 5,
+      "p90_first_clear": 13,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 44.9,
+      "median_fail_progress": 32,
+      "early_fail_share": 0.389,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.094,
+      "fail_progress_hist10": [
+       118,
+       68,
+       79,
+       56,
+       56,
+       34,
+       58,
+       15,
+       36,
+       12
+      ],
+      "seconds": 2
+     }
+    },
+    "04": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 172,
+      "sim_mismatch": 0,
+      "clear_rate": 0.5814,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 76.7,
+      "median_fail_progress": 38.5,
+      "early_fail_share": 0.306,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.083,
+      "fail_progress_hist10": [
+       14,
+       3,
+       8,
+       12,
+       4,
+       5,
+       8,
+       4,
+       9,
+       5
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 5055,
+      "sim_mismatch": 0,
+      "clear_rate": 0.1187,
+      "median_first_clear": 6,
+      "p90_first_clear": 20,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 39.8,
+      "median_fail_progress": 26.9,
+      "early_fail_share": 0.353,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.095,
+      "fail_progress_hist10": [
+       1126,
+       851,
+       457,
+       588,
+       291,
+       335,
+       313,
+       150,
+       214,
+       130
+      ],
+      "seconds": 15
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 2857,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0077,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 38,
+      "cap": 60,
+      "mean_progress": 18.8,
+      "median_fail_progress": 11.5,
+      "early_fail_share": 0.347,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.188,
+      "fail_progress_hist10": [
+       1224,
+       656,
+       327,
+       265,
+       125,
+       102,
+       78,
+       27,
+       27,
+       4
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 796,
+      "sim_mismatch": 0,
+      "clear_rate": 0.1256,
+      "median_first_clear": 5,
+      "p90_first_clear": 20,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 41.3,
+      "median_fail_progress": 26.9,
+      "early_fail_share": 0.33,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.086,
+      "fail_progress_hist10": [
+       170,
+       132,
+       65,
+       88,
+       49,
+       57,
+       54,
+       26,
+       36,
+       19
+      ],
+      "seconds": 2
+     }
+    },
+    "05": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 169,
+      "sim_mismatch": 0,
+      "clear_rate": 0.5917,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 77.1,
+      "median_fail_progress": 43.3,
+      "early_fail_share": 0.304,
+      "top_fail_star": 6,
+      "top_fail_star_share": 0.072,
+      "fail_progress_hist10": [
+       9,
+       10,
+       9,
+       4,
+       5,
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 6553,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0916,
+      "median_first_clear": 8,
+      "p90_first_clear": 23,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 35.7,
+      "median_fail_progress": 23.3,
+      "early_fail_share": 0.366,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.085,
+      "fail_progress_hist10": [
+       1502,
+       1136,
+       823,
+       672,
+       512,
+       380,
+       328,
+       243,
+       195,
+       162
+      ],
+      "seconds": 20
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3136,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0041,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 47,
+      "cap": 60,
+      "mean_progress": 15.9,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.4,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.168,
+      "fail_progress_hist10": [
+       1392,
+       739,
+       433,
+       251,
+       132,
+       69,
+       58,
+       27,
+       16,
+       6
+      ],
+      "seconds": 6
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 1221,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0819,
+      "median_first_clear": 9,
+      "p90_first_clear": 27,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 34.1,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.382,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.1,
+      "fail_progress_hist10": [
+       305,
+       211,
+       138,
+       129,
+       107,
+       72,
+       50,
+       52,
+       36,
+       21
+      ],
+      "seconds": 4
+     }
+    },
+    "06": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 188,
+      "sim_mismatch": 0,
+      "clear_rate": 0.5319,
+      "median_first_clear": 1,
+      "p90_first_clear": 4,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 69.6,
+      "median_fail_progress": 28.6,
+      "early_fail_share": 0.341,
+      "top_fail_star": 12,
+      "top_fail_star_share": 0.091,
+      "fail_progress_hist10": [
+       13,
+       16,
+       16,
+       9,
+       12,
+       4,
+       8,
+       6,
+       1,
+       3
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 7739,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0775,
+      "median_first_clear": 9,
+      "p90_first_clear": 29,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 33.8,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.411,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.101,
+      "fail_progress_hist10": [
+       1962,
+       1412,
+       1063,
+       840,
+       377,
+       460,
+       395,
+       308,
+       196,
+       126
+      ],
+      "seconds": 23
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3459,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0026,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 51,
+      "cap": 60,
+      "mean_progress": 15.7,
+      "median_fail_progress": 10.7,
+      "early_fail_share": 0.433,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.178,
+      "fail_progress_hist10": [
+       1595,
+       855,
+       450,
+       264,
+       97,
+       88,
+       49,
+       29,
+       16,
+       7
+      ],
+      "seconds": 7
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 1373,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0728,
+      "median_first_clear": 12,
+      "p90_first_clear": 29,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 34.1,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.395,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.094,
+      "fail_progress_hist10": [
+       350,
+       251,
+       181,
+       139,
+       71,
+       88,
+       72,
+       51,
+       40,
+       30
+      ],
+      "seconds": 4
+     }
+    },
+    "07": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 193,
+      "sim_mismatch": 0,
+      "clear_rate": 0.5181,
+      "median_first_clear": 1,
+      "p90_first_clear": 4,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 72.2,
+      "median_fail_progress": 42.9,
+      "early_fail_share": 0.151,
+      "top_fail_star": 15,
+      "top_fail_star_share": 0.108,
+      "fail_progress_hist10": [
+       12,
+       10,
+       11,
+       12,
+       7,
+       18,
+       4,
+       10,
+       7,
+       2
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 9007,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0666,
+      "median_first_clear": 10,
+      "p90_first_clear": 32,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 32.1,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.305,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.102,
+      "fail_progress_hist10": [
+       2448,
+       1687,
+       1244,
+       880,
+       477,
+       537,
+       434,
+       327,
+       233,
+       140
+      ],
+      "seconds": 22
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3105,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0048,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 45,
+      "cap": 60,
+      "mean_progress": 15.6,
+      "median_fail_progress": 10.7,
+      "early_fail_share": 0.365,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.188,
+      "fail_progress_hist10": [
+       1494,
+       702,
+       401,
+       241,
+       81,
+       77,
+       52,
+       28,
+       8,
+       6
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 1490,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0671,
+      "median_first_clear": 12,
+      "p90_first_clear": 33,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 31.4,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.327,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.117,
+      "fail_progress_hist10": [
+       404,
+       290,
+       214,
+       139,
+       82,
+       93,
+       61,
+       62,
+       35,
+       10
+      ],
+      "seconds": 4
+     }
+    },
+    "08": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 196,
+      "sim_mismatch": 0,
+      "clear_rate": 0.5102,
+      "median_first_clear": 1,
+      "p90_first_clear": 4,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 73.2,
+      "median_fail_progress": 43.3,
+      "early_fail_share": 0.365,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.052,
+      "fail_progress_hist10": [
+       11,
+       14,
+       8,
+       12,
+       6,
+       10,
+       9,
+       10,
+       10,
+       6
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 12561,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0478,
+      "median_first_clear": 14,
+      "p90_first_clear": 48,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 29.9,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.397,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.097,
+      "fail_progress_hist10": [
+       3311,
+       2444,
+       1781,
+       1242,
+       994,
+       696,
+       574,
+       401,
+       291,
+       227
+      ],
+      "seconds": 25
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3215,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0031,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 50,
+      "cap": 60,
+      "mean_progress": 13.9,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.432,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.183,
+      "fail_progress_hist10": [
+       1546,
+       806,
+       432,
+       186,
+       104,
+       64,
+       37,
+       12,
+       11,
+       7
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 2160,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0463,
+      "median_first_clear": 14,
+      "p90_first_clear": 56,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 28.8,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.386,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.103,
+      "fail_progress_hist10": [
+       592,
+       430,
+       324,
+       201,
+       147,
+       122,
+       97,
+       68,
+       45,
+       34
+      ],
+      "seconds": 4
+     }
+    },
+    "09": {
+     "skilled_sd25": {
+      "sessions": 60,
+      "attempts": 60,
+      "sim_mismatch": 0,
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0,
+      "fail_progress_hist10": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "seconds": 0
+     },
+     "novice_sd50": {
+      "sessions": 100,
+      "attempts": 225,
+      "sim_mismatch": 0,
+      "clear_rate": 0.4444,
+      "median_first_clear": 2,
+      "p90_first_clear": 4,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 68.2,
+      "median_fail_progress": 40.6,
+      "early_fail_share": 0.28,
+      "top_fail_star": 4,
+      "top_fail_star_share": 0.064,
+      "fail_progress_hist10": [
+       17,
+       19,
+       15,
+       7,
+       10,
+       21,
+       8,
+       15,
+       7,
+       6
+      ],
+      "seconds": 1
+     },
+     "child_sd70": {
+      "sessions": 600,
+      "attempts": 13765,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0436,
+      "median_first_clear": 16,
+      "p90_first_clear": 50,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 29.1,
+      "median_fail_progress": 18.8,
+      "early_fail_share": 0.349,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.092,
+      "fail_progress_hist10": [
+       4453,
+       2501,
+       1686,
+       1174,
+       989,
+       1017,
+       517,
+       366,
+       259,
+       203
+      ],
+      "seconds": 27
+     },
+     "child_sd90": {
+      "sessions": 60,
+      "attempts": 3530,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0008,
+      "median_first_clear": 60,
+      "p90_first_clear": 60,
+      "capped_sessions": 57,
+      "cap": 60,
+      "mean_progress": 13.4,
+      "median_fail_progress": 9.4,
+      "early_fail_share": 0.358,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.179,
+      "fail_progress_hist10": [
+       2020,
+       738,
+       353,
+       159,
+       123,
+       79,
+       31,
+       11,
+       4,
+       9
+      ],
+      "seconds": 5
+     },
+     "child_sd70_along": {
+      "sessions": 100,
+      "attempts": 2318,
+      "sim_mismatch": 0,
+      "clear_rate": 0.0431,
+      "median_first_clear": 16,
+      "p90_first_clear": 55,
+      "capped_sessions": 0,
+      "cap": 200,
+      "mean_progress": 28.8,
+      "median_fail_progress": 18.8,
+      "early_fail_share": 0.362,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.095,
+      "fail_progress_hist10": [
+       745,
+       419,
+       289,
+       219,
+       174,
+       165,
+       85,
+       46,
+       31,
+       45
+      ],
+      "seconds": 5
+     }
+    }
+   },
+   "mismatch": 0,
+   "compared": 123308,
+   "notes": [],
+   "simulator": {
+    "10": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.4618,
+      "median_first_clear": 2,
+      "p90_first_clear": 4,
+      "mean_progress": 68.7,
+      "median_fail_progress": 40,
+      "early_fail_share": 0.342,
+      "top_fail_star": 3,
+      "top_fail_star_share": 0.046
+     },
+     "child_sd70": {
+      "clear_rate": 0.0377,
+      "median_first_clear": 20,
+      "p90_first_clear": 63,
+      "mean_progress": 27.3,
+      "median_fail_progress": 16.7,
+      "early_fail_share": 0.375,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.111
+     },
+     "child_sd90": {
+      "clear_rate": 0.0011,
+      "median_first_clear": 200,
+      "p90_first_clear": 200,
+      "mean_progress": 12.9,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.386,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.212
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.0377,
+      "median_first_clear": 20,
+      "mean_progress": 27.3
+     }
+    },
+    "01": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.7506,
+      "median_first_clear": 1,
+      "p90_first_clear": 2,
+      "mean_progress": 86.8,
+      "median_fail_progress": 45,
+      "early_fail_share": 0.286,
+      "top_fail_star": 7,
+      "top_fail_star_share": 0.063
+     },
+     "child_sd70": {
+      "clear_rate": 0.3061,
+      "median_first_clear": 2,
+      "p90_first_clear": 7,
+      "mean_progress": 57.5,
+      "median_fail_progress": 35,
+      "early_fail_share": 0.352,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.081
+     },
+     "child_sd90": {
+      "clear_rate": 0.062,
+      "median_first_clear": 12,
+      "p90_first_clear": 37,
+      "mean_progress": 32,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.384,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.128
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.3,
+      "median_first_clear": 2,
+      "mean_progress": 56.8
+     }
+    },
+    "02": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.7169,
+      "median_first_clear": 1,
+      "p90_first_clear": 2,
+      "mean_progress": 84,
+      "median_fail_progress": 41.7,
+      "early_fail_share": 0.173,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.064
+     },
+     "child_sd70": {
+      "clear_rate": 0.2099,
+      "median_first_clear": 3,
+      "p90_first_clear": 10,
+      "mean_progress": 48.2,
+      "median_fail_progress": 29.2,
+      "early_fail_share": 0.267,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.083
+     },
+     "child_sd90": {
+      "clear_rate": 0.0276,
+      "median_first_clear": 26,
+      "p90_first_clear": 86,
+      "mean_progress": 24.4,
+      "median_fail_progress": 16.7,
+      "early_fail_share": 0.322,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.144
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.2083,
+      "median_first_clear": 4,
+      "mean_progress": 48.4
+     }
+    },
+    "03": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.6573,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "mean_progress": 81.1,
+      "median_fail_progress": 44,
+      "early_fail_share": 0.331,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.055
+     },
+     "child_sd70": {
+      "clear_rate": 0.1527,
+      "median_first_clear": 5,
+      "p90_first_clear": 15,
+      "mean_progress": 42.9,
+      "median_fail_progress": 28,
+      "early_fail_share": 0.403,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.085
+     },
+     "child_sd90": {
+      "clear_rate": 0.0141,
+      "median_first_clear": 52,
+      "p90_first_clear": 162,
+      "mean_progress": 20.7,
+      "median_fail_progress": 12,
+      "early_fail_share": 0.425,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.156
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.1516,
+      "median_first_clear": 4,
+      "mean_progress": 42.8
+     }
+    },
+    "04": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.628,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "mean_progress": 79.6,
+      "median_fail_progress": 42.3,
+      "early_fail_share": 0.303,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.057
+     },
+     "child_sd70": {
+      "clear_rate": 0.1189,
+      "median_first_clear": 6,
+      "p90_first_clear": 19,
+      "mean_progress": 39.9,
+      "median_fail_progress": 26.9,
+      "early_fail_share": 0.349,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.088
+     },
+     "child_sd90": {
+      "clear_rate": 0.0095,
+      "median_first_clear": 83,
+      "p90_first_clear": 200,
+      "mean_progress": 19.5,
+      "median_fail_progress": 11.5,
+      "early_fail_share": 0.352,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.167
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.1189,
+      "median_first_clear": 6,
+      "mean_progress": 39.9
+     }
+    },
+    "05": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.5897,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "mean_progress": 76.9,
+      "median_fail_progress": 40,
+      "early_fail_share": 0.29,
+      "top_fail_star": 2,
+      "top_fail_star_share": 0.05
+     },
+     "child_sd70": {
+      "clear_rate": 0.0889,
+      "median_first_clear": 8,
+      "p90_first_clear": 25,
+      "mean_progress": 35.5,
+      "median_fail_progress": 23.3,
+      "early_fail_share": 0.358,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.087
+     },
+     "child_sd90": {
+      "clear_rate": 0.0046,
+      "median_first_clear": 149,
+      "p90_first_clear": 200,
+      "mean_progress": 16.6,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.396,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.167
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.0872,
+      "median_first_clear": 8,
+      "mean_progress": 35.5
+     }
+    },
+    "06": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.5695,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "mean_progress": 75.1,
+      "median_fail_progress": 39.3,
+      "early_fail_share": 0.359,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.053
+     },
+     "child_sd70": {
+      "clear_rate": 0.0784,
+      "median_first_clear": 9,
+      "p90_first_clear": 28,
+      "mean_progress": 33.8,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.404,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.095
+     },
+     "child_sd90": {
+      "clear_rate": 0.0037,
+      "median_first_clear": 163,
+      "p90_first_clear": 200,
+      "mean_progress": 15.9,
+      "median_fail_progress": 10.7,
+      "early_fail_share": 0.434,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.183
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.08,
+      "median_first_clear": 10,
+      "mean_progress": 34.3
+     }
+    },
+    "07": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.5505,
+      "median_first_clear": 1,
+      "p90_first_clear": 3,
+      "mean_progress": 74.1,
+      "median_fail_progress": 39.3,
+      "early_fail_share": 0.24,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.057
+     },
+     "child_sd70": {
+      "clear_rate": 0.0644,
+      "median_first_clear": 11,
+      "p90_first_clear": 34,
+      "mean_progress": 31.9,
+      "median_fail_progress": 21.4,
+      "early_fail_share": 0.305,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.104
+     },
+     "child_sd90": {
+      "clear_rate": 0.0034,
+      "median_first_clear": 200,
+      "p90_first_clear": 200,
+      "mean_progress": 15.1,
+      "median_fail_progress": 10.7,
+      "early_fail_share": 0.366,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.198
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.0648,
+      "median_first_clear": 11,
+      "mean_progress": 32
+     }
+    },
+    "08": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.5067,
+      "median_first_clear": 1,
+      "p90_first_clear": 4,
+      "mean_progress": 71.2,
+      "median_fail_progress": 40,
+      "early_fail_share": 0.346,
+      "top_fail_star": 1,
+      "top_fail_star_share": 0.052
+     },
+     "child_sd70": {
+      "clear_rate": 0.0498,
+      "median_first_clear": 14,
+      "p90_first_clear": 45,
+      "mean_progress": 29.3,
+      "median_fail_progress": 20,
+      "early_fail_share": 0.396,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.101
+     },
+     "child_sd90": {
+      "clear_rate": 0.0015,
+      "median_first_clear": 200,
+      "p90_first_clear": 200,
+      "mean_progress": 13.7,
+      "median_fail_progress": 10,
+      "early_fail_share": 0.439,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.195
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.0498,
+      "median_first_clear": 14,
+      "mean_progress": 29.3
+     }
+    },
+    "09": {
+     "skilled_sd25": {
+      "clear_rate": 1,
+      "median_first_clear": 1,
+      "p90_first_clear": 1,
+      "mean_progress": 100,
+      "median_fail_progress": null,
+      "early_fail_share": 0,
+      "top_fail_star": null,
+      "top_fail_star_share": 0
+     },
+     "novice_sd50": {
+      "clear_rate": 0.4884,
+      "median_first_clear": 2,
+      "p90_first_clear": 4,
+      "mean_progress": 70.7,
+      "median_fail_progress": 40.6,
+      "early_fail_share": 0.329,
+      "top_fail_star": 6,
+      "top_fail_star_share": 0.046
+     },
+     "child_sd70": {
+      "clear_rate": 0.0418,
+      "median_first_clear": 17,
+      "p90_first_clear": 55,
+      "mean_progress": 28.5,
+      "median_fail_progress": 18.8,
+      "early_fail_share": 0.349,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.095
+     },
+     "child_sd90": {
+      "clear_rate": 0.0009,
+      "median_first_clear": 200,
+      "p90_first_clear": 200,
+      "mean_progress": 13.4,
+      "median_fail_progress": 9.4,
+      "early_fail_share": 0.355,
+      "top_fail_star": 0,
+      "top_fail_star_share": 0.175
+     },
+     "child_sd70_along": {
+      "clear_rate": 0.0418,
+      "median_first_clear": 17,
+      "mean_progress": 28.5
+     }
+    }
+   },
+   "compare_sd70": [
+    {
+     "level": "10",
+     "build_median": 19,
+     "sim_median": 20,
+     "build_mean_progress": 27.2,
+     "sim_mean_progress": 27.3,
+     "build_clear_rate": 0.0385,
+     "sim_clear_rate": 0.0377,
+     "build_median_fail_progress": 16.7,
+     "sim_median_fail_progress": 16.7
+    },
+    {
+     "level": "01",
+     "build_median": 3,
+     "sim_median": 2,
+     "build_mean_progress": 57.7,
+     "sim_mean_progress": 57.5,
+     "build_clear_rate": 0.3074,
+     "sim_clear_rate": 0.3061,
+     "build_median_fail_progress": 35,
+     "sim_median_fail_progress": 35
+    },
+    {
+     "level": "02",
+     "build_median": 4,
+     "sim_median": 3,
+     "build_mean_progress": 47.9,
+     "sim_mean_progress": 48.2,
+     "build_clear_rate": 0.2008,
+     "sim_clear_rate": 0.2099,
+     "build_median_fail_progress": 29.2,
+     "sim_median_fail_progress": 29.2
+    },
+    {
+     "level": "03",
+     "build_median": 5,
+     "sim_median": 5,
+     "build_mean_progress": 43.1,
+     "sim_mean_progress": 42.9,
+     "build_clear_rate": 0.1524,
+     "sim_clear_rate": 0.1527,
+     "build_median_fail_progress": 28,
+     "sim_median_fail_progress": 28
+    },
+    {
+     "level": "04",
+     "build_median": 6,
+     "sim_median": 6,
+     "build_mean_progress": 39.8,
+     "sim_mean_progress": 39.9,
+     "build_clear_rate": 0.1187,
+     "sim_clear_rate": 0.1189,
+     "build_median_fail_progress": 26.9,
+     "sim_median_fail_progress": 26.9
+    },
+    {
+     "level": "05",
+     "build_median": 8,
+     "sim_median": 8,
+     "build_mean_progress": 35.7,
+     "sim_mean_progress": 35.5,
+     "build_clear_rate": 0.0916,
+     "sim_clear_rate": 0.0889,
+     "build_median_fail_progress": 23.3,
+     "sim_median_fail_progress": 23.3
+    },
+    {
+     "level": "06",
+     "build_median": 9,
+     "sim_median": 9,
+     "build_mean_progress": 33.8,
+     "sim_mean_progress": 33.8,
+     "build_clear_rate": 0.0775,
+     "sim_clear_rate": 0.0784,
+     "build_median_fail_progress": 21.4,
+     "sim_median_fail_progress": 21.4
+    },
+    {
+     "level": "07",
+     "build_median": 10,
+     "sim_median": 11,
+     "build_mean_progress": 32.1,
+     "sim_mean_progress": 31.9,
+     "build_clear_rate": 0.0666,
+     "sim_clear_rate": 0.0644,
+     "build_median_fail_progress": 21.4,
+     "sim_median_fail_progress": 21.4
+    },
+    {
+     "level": "08",
+     "build_median": 14,
+     "sim_median": 14,
+     "build_mean_progress": 29.9,
+     "sim_mean_progress": 29.3,
+     "build_clear_rate": 0.0478,
+     "sim_clear_rate": 0.0498,
+     "build_median_fail_progress": 20,
+     "sim_median_fail_progress": 20
+    },
+    {
+     "level": "09",
+     "build_median": 16,
+     "sim_median": 17,
+     "build_mean_progress": 29.1,
+     "sim_mean_progress": 28.5,
+     "build_clear_rate": 0.0436,
+     "sim_clear_rate": 0.0418,
+     "build_median_fail_progress": 18.8,
+     "sim_median_fail_progress": 18.8
+    }
+   ],
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 42
+   },
+   "seconds": 313,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "calib": {
+   "rule_cases": [
+    {
+     "name": "σ40 X=0 #0",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 3.3557383606222246,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 3.3557383606222246,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #1",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -18.131455195045852,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -18.131455195045852,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #2",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -2.6416208845913003,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -2.6416208845913003,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #3",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -26.61048294454649,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -26.61048294454649,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #4",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 4.746412954605479,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 4.746412954605479,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #5",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 19.504526204039422,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 19.504526204039422,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #6",
+     "X": 0,
+     "ref": {
+      "ok": false,
+      "why": "incomplete",
+      "consumed": 2
+     },
+     "build": {
+      "offset": -7,
+      "phase": "tap",
+      "taps": 16,
+      "sim": {
+       "ok": false,
+       "why": "incomplete"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #7",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -10.175575448608827,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -10.175575448608827,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #8",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 12.81629632703481,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 12.81629632703481,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #9",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 13.413002535116771,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 13.413002535116771,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #10",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 3.0870362298822,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 3.0870362298822,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #11",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 1.8676293160899422,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 1.8676293160899422,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #12",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 19.63969039228167,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 19.63969039228167,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #13",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 6.999015893536297,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 6.999015893536297,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #14",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -1.8706661779889122,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -1.8706661779889122,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #15",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -26.39132002868277,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -26.39132002868277,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #16",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -6.167044068679951,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -6.167044068679951,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #17",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 14.494951581685688,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 14.494951581685688,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #18",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 28.500812007362022,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 28.500812007362022,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=0 #19",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -10.178499133645374,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -10.178499133645374,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #0",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 123.92620602754528,
+      "offset": 123.92620602754528,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 123.92620602754528,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 123.92620602754528,
+       "offset": 123.92620602754528
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #1",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 127.8975031572829,
+      "offset": 127.8975031572829,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 127.8975031572829,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 127.8975031572829,
+       "offset": 127.8975031572829
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #2",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 116.44692210352542,
+      "offset": 116.44692210352542,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 116.44692210352542,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 116.44692210352542,
+       "offset": 116.44692210352542
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #3",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 126.86627052374058,
+      "offset": 126.86627052374058,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 126.86627052374058,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 126.86627052374058,
+       "offset": 126.86627052374058
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #4",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 118.02018212983194,
+      "offset": 118.02018212983194,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 118.02018212983194,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 118.02018212983194,
+       "offset": 118.02018212983194
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #5",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 128.32415547890633,
+      "offset": 128.32415547890633,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 128.32415547890633,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 128.32415547890633,
+       "offset": 128.32415547890633
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #6",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 132.50258135244738,
+      "offset": 132.50258135244738,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 132.50258135244738,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 132.50258135244738,
+       "offset": 132.50258135244738
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #7",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 127.22045308836321,
+      "offset": 127.22045308836321,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 127.22045308836321,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 127.22045308836321,
+       "offset": 127.22045308836321
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #8",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 119.31850106172368,
+      "offset": 119.31850106172368,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 119.31850106172368,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 119.31850106172368,
+       "offset": 119.31850106172368
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #9",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 131.6462095488862,
+      "offset": 131.6462095488862,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 131.6462095488862,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 131.6462095488862,
+       "offset": 131.6462095488862
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #10",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 111.24278526007842,
+      "offset": 111.24278526007842,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 111.24278526007842,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 111.24278526007842,
+       "offset": 111.24278526007842
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #11",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 123.13920295877088,
+      "offset": 123.13920295877088,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 123.13920295877088,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 123.13920295877088,
+       "offset": 123.13920295877088
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #12",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 138.65828716526582,
+      "offset": 138.65828716526582,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 138.65828716526582,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 138.65828716526582,
+       "offset": 138.65828716526582
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #13",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 108.74822652742635,
+      "offset": 108.74822652742635,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 108.74822652742635,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 108.74822652742635,
+       "offset": 108.74822652742635
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #14",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 127.77612369434054,
+      "offset": 127.77612369434054,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 127.77612369434054,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 127.77612369434054,
+       "offset": 127.77612369434054
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #15",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 115.79792107694372,
+      "offset": 115.79792107694372,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 115.79792107694372,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 115.79792107694372,
+       "offset": 115.79792107694372
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #16",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 109.42734972500013,
+      "offset": 109.42734972500013,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 109.42734972500013,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 109.42734972500013,
+       "offset": 109.42734972500013
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #17",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 106.70816027006374,
+      "offset": 106.70816027006374,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 106.70816027006374,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 106.70816027006374,
+       "offset": 106.70816027006374
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #18",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 134.36942808662877,
+      "offset": 134.36942808662877,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 134.36942808662877,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 134.36942808662877,
+       "offset": 134.36942808662877
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=120 #19",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 123.08314637783185,
+      "offset": 123.08314637783185,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 123.08314637783185,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 123.08314637783185,
+       "offset": 123.08314637783185
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #0",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 200.7819852774016,
+      "offset": 200.7819852774016,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 200.7819852774016,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 200.7819852774016,
+       "offset": 200.7819852774016
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #1",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 200.1551312838992,
+      "offset": 200.1551312838992,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 200.1551312838992,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 200.1551312838992,
+       "offset": 200.1551312838992
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #2",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 212.70435264225912,
+      "offset": 212.70435264225912,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 212.70435264225912,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 212.70435264225912,
+       "offset": 212.70435264225912
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #3",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 198.76788069249886,
+      "offset": 198.76788069249886,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 198.76788069249886,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 198.76788069249886,
+       "offset": 198.76788069249886
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #4",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 197.55734513172257,
+      "offset": 197.55734513172257,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 197.55734513172257,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 197.55734513172257,
+       "offset": 197.55734513172257
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #5",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 182.45829854304895,
+      "offset": 182.45829854304895,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 182.45829854304895,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 182.45829854304895,
+       "offset": 182.45829854304895
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #6",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 212.794426316046,
+      "offset": 212.794426316046,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 212.794426316046,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 212.794426316046,
+       "offset": 212.794426316046
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #7",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 197.5294405010417,
+      "offset": 197.5294405010417,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 197.5294405010417,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 197.5294405010417,
+       "offset": 197.5294405010417
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #8",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 191.1655678956452,
+      "offset": 191.1655678956452,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 191.1655678956452,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 191.1655678956452,
+       "offset": 191.1655678956452
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #9",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 208.76329125579463,
+      "offset": 208.76329125579463,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 208.76329125579463,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 208.76329125579463,
+       "offset": 208.76329125579463
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #10",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 201.39565489034896,
+      "offset": 201.39565489034896,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 201.39565489034896,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 201.39565489034896,
+       "offset": 201.39565489034896
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #11",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 201.49087059256414,
+      "offset": 201.49087059256414,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 201.49087059256414,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 201.49087059256414,
+       "offset": 201.49087059256414
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #12",
+     "X": 200,
+     "ref": {
+      "ok": false,
+      "why": "incomplete",
+      "consumed": 2
+     },
+     "build": {
+      "offset": -7,
+      "phase": "tap",
+      "taps": 16,
+      "sim": {
+       "ok": false,
+       "why": "incomplete"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #13",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 193.88614013861007,
+      "offset": 193.88614013861007,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 193.88614013861007,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 193.88614013861007,
+       "offset": 193.88614013861007
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #14",
+     "X": 200,
+     "ref": {
+      "ok": false,
+      "why": "incomplete",
+      "consumed": 2
+     },
+     "build": {
+      "offset": -7,
+      "phase": "tap",
+      "taps": 16,
+      "sim": {
+       "ok": false,
+       "why": "incomplete"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #15",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 181.914341470377,
+      "offset": 181.914341470377,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 181.914341470377,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 181.914341470377,
+       "offset": 181.914341470377
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #16",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 220.3794358424712,
+      "offset": 220.3794358424712,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 220.3794358424712,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 220.3794358424712,
+       "offset": 220.3794358424712
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #17",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 223.1201228973038,
+      "offset": 223.1201228973038,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 223.1201228973038,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 223.1201228973038,
+       "offset": 223.1201228973038
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #18",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 193.02765445315626,
+      "offset": 193.02765445315626,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 193.02765445315626,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 193.02765445315626,
+       "offset": 193.02765445315626
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ40 X=200 #19",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 193.41620551390227,
+      "offset": 193.41620551390227,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 193.41620551390227,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 193.41620551390227,
+       "offset": 193.41620551390227
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #0",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -64.77826568033453,
+      "offset": -64.77826568033453,
+      "consumed": 2
+     },
+     "build": {
+      "offset": -64.77826568033453,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -64.77826568033453,
+       "offset": -64.77826568033453
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #1",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -19.968158175056075,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -19.968158175056075,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #2",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 23.441852179633983,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 23.441852179633983,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #3",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -13.014349685338344,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -13.014349685338344,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #4",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -16.930030708607717,
+      "offset": 0,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": -16.930030708607717,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #5",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -15.957830676803088,
+      "offset": 0,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": -15.957830676803088,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #6",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -15.932242314433164,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -15.932242314433164,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #7",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": -8.112241053852326,
+      "offset": 0,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": -8.112241053852326,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #8",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 3.8673968942988224,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 3.8673968942988224,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=0 #9",
+     "X": 0,
+     "ref": {
+      "ok": true,
+      "m": 23.352004506208267,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 23.352004506208267,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #0",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 117.75010696288348,
+      "offset": 117.75010696288348,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 117.75010696288348,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 117.75010696288348,
+       "offset": 117.75010696288348
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #1",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 125.8930595781988,
+      "offset": 125.8930595781988,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 125.8930595781988,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 125.8930595781988,
+       "offset": 125.8930595781988
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #2",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 118.76799835881204,
+      "offset": 118.76799835881204,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 118.76799835881204,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 118.76799835881204,
+       "offset": 118.76799835881204
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #3",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 102.50546054277656,
+      "offset": 102.50546054277656,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 102.50546054277656,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 102.50546054277656,
+       "offset": 102.50546054277656
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #4",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 140.5951189062053,
+      "offset": 140.5951189062053,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 140.5951189062053,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": 140.5951189062053,
+       "offset": 140.5951189062053
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #5",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 131.8058105848782,
+      "offset": 131.8058105848782,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 131.8058105848782,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 131.8058105848782,
+       "offset": 131.8058105848782
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #6",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 146.7031874776964,
+      "offset": 146.7031874776964,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 146.7031874776964,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 146.7031874776964,
+       "offset": 146.7031874776964
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #7",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 133.3040265102576,
+      "offset": 133.3040265102576,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 133.3040265102576,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": 133.3040265102576,
+       "offset": 133.3040265102576
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #8",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 146.10590562498288,
+      "offset": 146.10590562498288,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 146.10590562498288,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 146.10590562498288,
+       "offset": 146.10590562498288
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=120 #9",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 137.23694568705332,
+      "offset": 137.23694568705332,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 137.23694568705332,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 137.23694568705332,
+       "offset": 137.23694568705332
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #0",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 238.38519636113156,
+      "offset": 238.38519636113156,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 238.38519636113156,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 238.38519636113156,
+       "offset": 238.38519636113156
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #1",
+     "X": 200,
+     "ref": {
+      "ok": false,
+      "why": "disagree",
+      "consumed": 3
+     },
+     "build": {
+      "offset": -7,
+      "phase": "kept",
+      "taps": 24,
+      "sim": {
+       "ok": false,
+       "why": "disagree"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #2",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 202.374658047874,
+      "offset": 202.374658047874,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 202.374658047874,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": 202.374658047874,
+       "offset": 202.374658047874
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #3",
+     "X": 200,
+     "ref": {
+      "ok": false,
+      "why": "disagree",
+      "consumed": 3
+     },
+     "build": {
+      "offset": -7,
+      "phase": "kept",
+      "taps": 24,
+      "sim": {
+       "ok": false,
+       "why": "disagree"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #4",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 152.49911365944087,
+      "offset": 152.49911365944087,
+      "consumed": 3
+     },
+     "build": {
+      "offset": 152.49911365944087,
+      "phase": "done",
+      "taps": 24,
+      "sim": {
+       "ok": true,
+       "m": 152.49911365944087,
+       "offset": 152.49911365944087
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #5",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 220.40464264854745,
+      "offset": 220.40464264854745,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 220.40464264854745,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": 220.40464264854745,
+       "offset": 220.40464264854745
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #6",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 189.8755155200322,
+      "offset": 189.8755155200322,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 189.8755155200322,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 189.8755155200322,
+       "offset": 189.8755155200322
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #7",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 176.85866770693957,
+      "offset": 176.85866770693957,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 176.85866770693957,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 176.85866770693957,
+       "offset": 176.85866770693957
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #8",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 218.1249775792071,
+      "offset": 218.1249775792071,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 218.1249775792071,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 218.1249775792071,
+       "offset": 218.1249775792071
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "σ70(아이) X=200 #9",
+     "X": 200,
+     "ref": {
+      "ok": true,
+      "m": 153.80665616895686,
+      "offset": 153.80665616895686,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 153.80665616895686,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 153.80665616895686,
+       "offset": 153.80665616895686
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "첫 2탭 무시",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 120,
+      "offset": 120,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 120,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 120,
+       "offset": 120
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "|m|=30 → 0",
+     "X": 30,
+     "ref": {
+      "ok": true,
+      "m": 30,
+      "offset": 0,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 0,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 30,
+       "offset": 0
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "|m|=31 → 31",
+     "X": 31,
+     "ref": {
+      "ok": true,
+      "m": 31,
+      "offset": 31,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 31,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 31,
+       "offset": 31
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "자름 350 → 300",
+     "X": 350,
+     "ref": {
+      "ok": true,
+      "m": 350,
+      "offset": 300,
+      "consumed": 2
+     },
+     "build": {
+      "offset": 300,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": 350,
+       "offset": 300
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "자름 -260 → -200",
+     "X": -260,
+     "ref": {
+      "ok": true,
+      "m": -260,
+      "offset": -200,
+      "consumed": 2
+     },
+     "build": {
+      "offset": -200,
+      "phase": "done",
+      "taps": 16,
+      "sim": {
+       "ok": true,
+       "m": -260,
+       "offset": -200
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "IQR 큼 1회 → 다시",
+     "X": 120,
+     "ref": {
+      "ok": true,
+      "m": 120,
+      "offset": 120,
+      "consumed": 3
+     },
+     "build": {
+      "offset": 120,
+      "phase": "done",
+      "taps": 24,
+      "sim": {
+       "ok": true,
+       "m": 120,
+       "offset": 120
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "IQR 큼 2회 → 이전 값 유지",
+     "X": null,
+     "ref": {
+      "ok": false,
+      "why": "iqr",
+      "consumed": 2
+     },
+     "build": {
+      "offset": -7,
+      "phase": "kept",
+      "taps": 16,
+      "sim": {
+       "ok": false,
+       "why": "iqr"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "두 회 차이 61 → 전체 다시 → 성공",
+     "X": 100,
+     "ref": {
+      "ok": true,
+      "m": 100,
+      "offset": 100,
+      "consumed": 4
+     },
+     "build": {
+      "offset": 100,
+      "phase": "done",
+      "taps": 32,
+      "sim": {
+       "ok": true,
+       "m": 100,
+       "offset": 100
+      }
+     },
+     "match": true,
+     "simMatch": true
+    },
+    {
+     "name": "두 회 차이 2번 → 유지",
+     "X": null,
+     "ref": {
+      "ok": false,
+      "why": "disagree",
+      "consumed": 4
+     },
+     "build": {
+      "offset": -7,
+      "phase": "kept",
+      "taps": 32,
+      "sim": {
+       "ok": false,
+       "why": "disagree"
+      }
+     },
+     "match": true,
+     "simMatch": true
+    }
+   ],
+   "mouse": [
+    {
+     "X": 0,
+     "offset": 0,
+     "expectFromEventTimestamps": 0,
+     "tapDiffMedian": 0.5,
+     "tapDiffRange": [
+      0.3,
+      0.9
+     ],
+     "autoLatencyMs": 66,
+     "state": "calib",
+     "ok": true
+    },
+    {
+     "X": 120,
+     "offset": 124.3,
+     "expectFromEventTimestamps": 120.5,
+     "tapDiffMedian": 120.5,
+     "tapDiffRange": [
+      120.4,
+      120.7
+     ],
+     "autoLatencyMs": 66,
+     "state": "calib",
+     "ok": true
+    },
+    {
+     "X": 200,
+     "offset": 205.9,
+     "expectFromEventTimestamps": 200.5,
+     "tapDiffMedian": 200.5,
+     "tapDiffRange": [
+      200.4,
+      200.8
+     ],
+     "autoLatencyMs": 66,
+     "state": "calib",
+     "ok": true
+    }
+   ],
+   "firstRun": {
+    "first": {
+     "together": true,
+     "skip": true,
+     "ctx": "running"
+    },
+    "staticCanvas": {
+     "distinctHashes": 1,
+     "samples": 20,
+     "seq": "00000000000000000000",
+     "ticksScheduled": 5
+    },
+    "afterSkip": {
+     "state": "card",
+     "offset": 0,
+     "calibDone": true
+    },
+    "secondLaunchTitleTap": "levels",
+    "settingsRedo": {
+     "together": false,
+     "state": "settings",
+     "offset": 150
+    }
+   },
+   "firstRunChecks": {
+    "auto_calib_on_first_run": true,
+    "together_picture": true,
+    "skip_visible": true,
+    "skip_sets_0": true,
+    "skip_goes_to_l1": true,
+    "not_again": true,
+    "static_screen": true,
+    "redo_no_together": true,
+    "redo_skip_keeps": true
+   },
+   "iqrDefinitionDiffShare_sd70": 0.0599,
+   "gate": {
+    "tap": {
+     "state": "levels",
+     "ring": true,
+     "ringAfter800": false
+    },
+    "hold1900": "levels",
+    "drainAfter100ms": "101.97751218435755 194.77874452256717",
+    "drainAfter350ms": "0 194.77874452256717",
+    "openedAfterMs": 2003.9,
+    "playScreenButtons": [
+     "bPause"
+    ],
+    "ok": true
+   },
+   "lateHint": {
+    "A": [
+     {
+      "state": "levels",
+      "gate": true,
+      "row": false,
+      "anyVisibleBadgeImg": 1
+     },
+     {
+      "state": "levels",
+      "gate": true,
+      "row": false,
+      "anyVisibleBadgeImg": 1
+     },
+     {
+      "state": "levels",
+      "gate": true,
+      "row": false,
+      "anyVisibleBadgeImg": 1
+     },
+     {
+      "state": "levels",
+      "gate": false,
+      "row": false,
+      "anyVisibleBadgeImg": 0
+     }
+    ],
+    "A_settings": {
+     "state": "settings",
+     "gate": false,
+     "row": true,
+     "anyVisibleBadgeImg": 1
+    },
+    "A_play": {
+     "state": "play",
+     "gate": false,
+     "row": false,
+     "anyVisibleBadgeImg": 0
+    },
+    "A_pause": {
+     "state": "pause",
+     "gate": false,
+     "row": false,
+     "anyVisibleBadgeImg": 0
+    },
+    "A_100": {
+     "state": "levels",
+     "gate": false,
+     "row": false,
+     "anyVisibleBadgeImg": 0
+    },
+    "B": {
+     "state": "levels",
+     "gate": true,
+     "row": false,
+     "anyVisibleBadgeImg": 1,
+     "lat": {
+      "auto": 150,
+      "manual": 0,
+      "comp": 150
+     }
+    },
+    "B_play": {
+     "state": "play",
+     "gate": false,
+     "row": false,
+     "anyVisibleBadgeImg": 0
+    },
+    "B2": {
+     "state": "levels",
+     "gate": true,
+     "row": false,
+     "anyVisibleBadgeImg": 1,
+     "calibAutoLat": 20,
+     "nowLat": 80
+    },
+    "C": {
+     "state": "levels",
+     "gate": true,
+     "row": false,
+     "anyVisibleBadgeImg": 1,
+     "steps": [
+      {
+       "attempt": 1,
+       "windows": 1,
+       "triggered": false
+      },
+      {
+       "attempt": 2,
+       "windows": 2,
+       "triggered": false
+      },
+      {
+       "attempt": 3,
+       "windows": 3,
+       "triggered": true
+      },
+      {
+       "attempt": 4,
+       "windows": 4,
+       "triggered": true
+      }
+     ],
+     "offsetAfter": 0
+    },
+    "C_afterCalib": {
+     "state": "levels",
+     "gate": false,
+     "row": false,
+     "anyVisibleBadgeImg": 0,
+     "save": {
+      "drift": false,
+      "sig": "000",
+      "sessions": 0,
+      "device": false
+     }
+    }
+   },
+   "lateChecks": {
+    "A_shows_levels_and_settings": true,
+    "not_on_play_or_pause": true,
+    "three_sessions_then_hidden": true,
+    "A_threshold_100_no_badge": true,
+    "B_latency_150": true,
+    "B_change_over_40": true,
+    "C_drift_badge": true,
+    "C_offset_unchanged": true,
+    "cleared_by_calibration": true
+   },
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 691
+   },
+   "seconds": 50,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "features": {
+   "restart": [
+    {
+     "level": 1,
+     "cpu": 1,
+     "failJudgeToFirstMovingFrameMs": 1088.2,
+     "failJudgeToFirstFailFrameMs": 21.9,
+     "firstFailFrameToMovingFrameMs": 1066.2,
+     "lastStillFrameLt": 5604.7,
+     "movingFrameLt": 8.2
+    },
+    {
+     "level": 5,
+     "cpu": 1,
+     "failJudgeToFirstMovingFrameMs": 1091.5,
+     "failJudgeToFirstFailFrameMs": 25,
+     "firstFailFrameToMovingFrameMs": 1066.4,
+     "lastStillFrameLt": 3129,
+     "movingFrameLt": 11.5
+    },
+    {
+     "level": 1,
+     "cpu": 6,
+     "failJudgeToFirstMovingFrameMs": 1098,
+     "failJudgeToFirstFailFrameMs": 36.2,
+     "firstFailFrameToMovingFrameMs": 1060.1,
+     "lastStillFrameLt": 5611.8,
+     "movingFrameLt": 17.4
+    },
+    {
+     "level": 10,
+     "cpu": 1,
+     "failJudgeToFirstMovingFrameMs": 1083.9,
+     "failJudgeToFirstFailFrameMs": 34.2,
+     "firstFailFrameToMovingFrameMs": 1049.7,
+     "lastStillFrameLt": 2916.2,
+     "movingFrameLt": 3.9
+    }
+   ],
+   "practice": {
+    "checkpoint": {
+     "bar": 5,
+     "t": 12000
+    },
+    "firstStarAfter": 10,
+    "failPhase": "fail",
+    "failHist": {
+     "clear": false,
+     "progress": 0.4,
+     "failIndex": 10,
+     "reason": "miss",
+     "practice": true,
+     "stray": 0
+    },
+    "afterRestart": {
+     "attempts": 2,
+     "levelTime": 12001,
+     "progress": 0.4,
+     "expectProgress": 0.4,
+     "cpT": 12000
+    },
+    "end": {
+     "state": "result",
+     "summary": {
+      "state": "result",
+      "phase": "done",
+      "clear": true,
+      "grade": 0,
+      "attempts": 2,
+      "progress": 1,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    },
+    "ok": true,
+    "saveL3": {
+     "best": 0,
+     "grade": 0,
+     "flag": true,
+     "cardSeen": false,
+     "attempts": 1
+    },
+    "unlocked": 4
+   },
+   "flow": {
+    "firstFlowState": "card",
+    "handBeforeFirstStar": true,
+    "handAfterClear": false,
+    "result": {
+     "state": "result",
+     "btns": [
+      "bNext",
+      "bRetry",
+      "bLevels"
+     ]
+    },
+    "retry": {
+     "state": "play",
+     "level": 0,
+     "attempts": 1
+    },
+    "levels": "levels",
+    "save1": {
+     "unlocked": 2,
+     "l1": {
+      "best": 1,
+      "grade": 3,
+      "flag": false,
+      "cardSeen": true,
+      "attempts": 0
+     }
+    },
+    "lockedTap": "levels",
+    "l1Again": "play",
+    "l2First": "card",
+    "l2AfterFail": {
+     "state": "play",
+     "attempts": 2
+    },
+    "replayCard": "card",
+    "replayClose": "levels",
+    "practiceClear": {
+     "unlocked": 3,
+     "l2": {
+      "best": 0,
+      "grade": 0,
+      "flag": true,
+      "cardSeen": true,
+      "attempts": 1
+     }
+    },
+    "nextFromL2": {
+     "state": "card",
+     "level": 2
+    },
+    "afterReload": {
+     "unlocked": 3,
+     "l1": {
+      "best": 1,
+      "grade": 3,
+      "flag": false,
+      "cardSeen": true,
+      "attempts": 0
+     },
+     "l2": {
+      "best": 0,
+      "grade": 0,
+      "flag": true,
+      "cardSeen": true,
+      "attempts": 1
+     },
+     "offsetMs": -40,
+     "calibDone": true,
+     "sound": true
+    },
+    "titleTapAfterReload": "levels"
+   },
+   "flowChecks": {
+    "card_first_play": true,
+    "hand_shown": true,
+    "hand_hidden_after": true,
+    "result_3_buttons": true,
+    "retry_same_level": true,
+    "levels_btn": true,
+    "unlock_after_clear": true,
+    "locked_ignored": true,
+    "card_once_l1": true,
+    "card_l2_first": true,
+    "no_card_on_restart": true,
+    "replay_card": true,
+    "practice_unlocks": true,
+    "next_goes_l3": true,
+    "persist": true,
+    "no_recalib": true
+   },
+   "background": {
+    "before": {
+     "lt": 2105.635600901069,
+     "att": 1
+    },
+    "realTabSwitch": {
+     "hidden": false,
+     "state": "play"
+    },
+    "onHide": {
+     "state": "pause",
+     "ctx": "suspended",
+     "pausedBg": true
+    },
+    "onShow": {
+     "state": "pause",
+     "ctx": "suspended"
+    },
+    "afterTap": {
+     "state": "play",
+     "att": 1,
+     "lt": 181.25392288461217,
+     "ctx": "running"
+    },
+    "ok": true
+   },
+   "mute": {
+    "rmsOnMax": 0.24154126753559518,
+    "rmsOffMax": 0,
+    "savedAfterMute": false,
+    "savedAfterUnmute": true,
+    "ok": true
+   },
+   "controls": {
+    "before": 0,
+    "afterMove": 0,
+    "afterDown": 1,
+    "ok": true
+   },
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 441
+   },
+   "seconds": 168,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "perf": {
+   "runs": [
+    {
+     "res": "1280x720",
+     "dpr": 1,
+     "window": "L1 start 0-10s (mouse play)",
+     "frames": 595,
+     "avg_fps": 59.8,
+     "low1_fps": 31.9,
+     "max_ms": 45.1,
+     "over_33ms": 2
+    },
+    {
+     "res": "1280x720",
+     "dpr": 1,
+     "window": "L10 start 0-12s (mouse play)",
+     "frames": 720,
+     "avg_fps": 60,
+     "low1_fps": 46.6,
+     "max_ms": 23.5,
+     "over_33ms": 0
+    },
+    {
+     "res": "1280x720",
+     "dpr": 1,
+     "window": "L7 fail → restart +3.4s",
+     "frames": 269,
+     "avg_fps": 60,
+     "low1_fps": 43.6,
+     "max_ms": 24.9,
+     "over_33ms": 0
+    },
+    {
+     "res": "412x915",
+     "dpr": 3,
+     "window": "L1 start 0-10s (mouse play)",
+     "frames": 596,
+     "avg_fps": 60,
+     "low1_fps": 35.7,
+     "max_ms": 38.2,
+     "over_33ms": 1
+    },
+    {
+     "res": "412x915",
+     "dpr": 3,
+     "window": "L10 start 0-12s (mouse play)",
+     "frames": 720,
+     "avg_fps": 60,
+     "low1_fps": 43.5,
+     "max_ms": 24,
+     "over_33ms": 0
+    },
+    {
+     "res": "412x915",
+     "dpr": 3,
+     "window": "L7 fail → restart +3.4s",
+     "frames": 269,
+     "avg_fps": 60,
+     "low1_fps": 48.3,
+     "max_ms": 21.5,
+     "over_33ms": 0
+    },
+    {
+     "res": "360x640",
+     "dpr": 3,
+     "window": "L1 start 0-10s (mouse play)",
+     "frames": 598,
+     "avg_fps": 59.9,
+     "low1_fps": 34.4,
+     "max_ms": 45.6,
+     "over_33ms": 1
+    },
+    {
+     "res": "360x640",
+     "dpr": 3,
+     "window": "L10 start 0-12s (mouse play)",
+     "frames": 720,
+     "avg_fps": 60.1,
+     "low1_fps": 44,
+     "max_ms": 24.3,
+     "over_33ms": 0
+    },
+    {
+     "res": "360x640",
+     "dpr": 3,
+     "window": "L7 fail → restart +3.4s",
+     "frames": 269,
+     "avg_fps": 60,
+     "low1_fps": 44.1,
+     "max_ms": 24.1,
+     "over_33ms": 0
+    },
+    {
+     "res": "640x360",
+     "dpr": 3,
+     "window": "L1 start 0-10s (mouse play)",
+     "frames": 599,
+     "avg_fps": 59.9,
+     "low1_fps": 37.9,
+     "max_ms": 36.7,
+     "over_33ms": 1
+    },
+    {
+     "res": "640x360",
+     "dpr": 3,
+     "window": "L10 start 0-12s (mouse play)",
+     "frames": 720,
+     "avg_fps": 60,
+     "low1_fps": 44.6,
+     "max_ms": 24.1,
+     "over_33ms": 0
+    },
+    {
+     "res": "640x360",
+     "dpr": 3,
+     "window": "L7 fail → restart +3.4s",
+     "frames": 269,
+     "avg_fps": 60,
+     "low1_fps": 46.4,
+     "max_ms": 23.2,
+     "over_33ms": 0
+    }
+   ],
+   "reaction": [
+    {
+     "res": "1280x720",
+     "dpr": 1,
+     "n": 24,
+     "median_ms": 10.6,
+     "max_ms": 18.5,
+     "within_1_frame_share": 0.958,
+     "within_2_frames_share": 1
+    },
+    {
+     "res": "412x915",
+     "dpr": 3,
+     "n": 24,
+     "median_ms": 10.9,
+     "max_ms": 18.1,
+     "within_1_frame_share": 0.917,
+     "within_2_frames_share": 1
+    },
+    {
+     "res": "360x640",
+     "dpr": 3,
+     "n": 24,
+     "median_ms": 12.7,
+     "max_ms": 17.8,
+     "within_1_frame_share": 0.958,
+     "within_2_frames_share": 1
+    },
+    {
+     "res": "640x360",
+     "dpr": 3,
+     "n": 24,
+     "median_ms": 10.2,
+     "max_ms": 23.6,
+     "within_1_frame_share": 0.875,
+     "within_2_frames_share": 1
+    }
+   ],
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 180
+   },
+   "seconds": 415,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "realtime": {
+   "autoplay": [
+    {
+     "level": 1,
+     "flow": {
+      "afterSkip": "card"
+     },
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 2,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 1.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 3,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 4,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 2.3,
+     "meanErrMs": 0.2
+    },
+    {
+     "level": 5,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 6,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 7,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.3,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 8,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 1.1,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 9,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.2,
+     "meanErrMs": 0.1
+    },
+    {
+     "level": 10,
+     "flow": null,
+     "clear": true,
+     "grade": 3,
+     "attempts": 1,
+     "audio": "running",
+     "autoLatencyMs": 66,
+     "maxAbsErrMs": 0.3,
+     "meanErrMs": 0.1
+    }
+   ],
+   "mouse": [
+    {
+     "level": 1,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "errMin": -1.8,
+     "errMax": 1.1,
+     "errMedian": -1.1,
+     "autoLatencyMs": 66,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     }
+    },
+    {
+     "level": 5,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "errMin": -2.1,
+     "errMax": 0,
+     "errMedian": -1.1,
+     "autoLatencyMs": 66,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     }
+    },
+    {
+     "level": 10,
+     "clear": true,
+     "attempts": 1,
+     "grade": 3,
+     "errMin": 0.3,
+     "errMax": 1.5,
+     "errMedian": 0.9,
+     "autoLatencyMs": 66,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     }
+    }
+   ],
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 572
+   },
+   "seconds": 190,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "replay": {
+   "results": [
+    {
+     "level": 1,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 0,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.000000000007276,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.000000000007276,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 33.89361105835269,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": -149,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 149.00000000001455,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": 169,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 169.00000000001455,
+     "judged": 20
+    },
+    {
+     "level": 1,
+     "off": -155,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 1,
+     "off": 175,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 1,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 2.363636363646947,
+     "firstStarPassEnd": 4533.636363636364
+    },
+    {
+     "level": 2,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 2.9103830456733704e-11,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.000000000029104,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000001819,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 49.124882323420024,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": -139,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 139.0000000000291,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": 159,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 159.0000000000182,
+     "judged": 24
+    },
+    {
+     "level": 2,
+     "off": -145,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 2,
+     "off": 165,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 2,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 3.0344827586086467,
+     "firstStarPassEnd": 2228.9655172413795
+    },
+    {
+     "level": 3,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 5.820766091346741e-11,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.688593711936846,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": -134,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 134,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": 154,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 154,
+     "judged": 25
+    },
+    {
+     "level": 3,
+     "off": -140,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 3,
+     "off": 160,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 3,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 1,
+     "firstStarPassEnd": 2155
+    },
+    {
+     "level": 4,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 5.638867150992155e-11,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000005639,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000005639,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 43.21510914827013,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": -129,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 129.0000000000564,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": 149,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 149.0000000000564,
+     "judged": 26
+    },
+    {
+     "level": 4,
+     "off": -135,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 4,
+     "off": 155,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 4,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 2.516129032243043,
+     "firstStarPassEnd": 2085.483870967742
+    },
+    {
+     "level": 5,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 5.4569682106375694e-11,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000005457,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010914,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 78.79670707051082,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": -129,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 129.00000000011278,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": 149,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 149.00000000010914,
+     "judged": 30
+    },
+    {
+     "level": 5,
+     "off": -135,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 5,
+     "off": 155,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 5,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 1.2380952381063253,
+     "firstStarPassEnd": 2054.7619047619046
+    },
+    {
+     "level": 6,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 0,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 53.07827100716531,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": -124,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 124,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": 144,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 144,
+     "judged": 28
+    },
+    {
+     "level": 6,
+     "off": -130,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 6,
+     "off": 150,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 6,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 0,
+     "firstStarPassEnd": 2020
+    },
+    {
+     "level": 7,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 1.0732037480920553e-10,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010732,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010732,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 44.985584349497,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": -119,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 119.00000000010732,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": 139,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 139.00000000010732,
+     "judged": 28
+    },
+    {
+     "level": 7,
+     "off": -125,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 7,
+     "off": 145,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 7,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 1.8461538462433964,
+     "firstStarPassEnd": 1986.1538461538462
+    },
+    {
+     "level": 8,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 1.0595613275654614e-10,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.000000000105956,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.0000000001055,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 65.57639660821587,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": -119,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 119.00000000010596,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": 139,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 139.0000000001055,
+     "judged": 30
+    },
+    {
+     "level": 8,
+     "off": -125,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 8,
+     "off": 145,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 8,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 1.818181818118319,
+     "firstStarPassEnd": 1958.1818181818182
+    },
+    {
+     "level": 9,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 1.0913936421275139e-10,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010914,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010914,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 59.76905682002325,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": -119,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 119.00000000010914,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": 139,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 139.00000000010914,
+     "judged": 32
+    },
+    {
+     "level": 9,
+     "off": -125,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 9,
+     "off": 145,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 9,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 3.294117646990344,
+     "firstStarPassEnd": 1904.7058823529412
+    },
+    {
+     "level": 10,
+     "off": 0,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 1.0186340659856796e-10,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": -40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.000000000100044,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": 40,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 40.00000000010186,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": 0,
+     "sd": 25,
+     "clear": true,
+     "simExpect": null,
+     "grade": 3,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 42.8089666801643,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": -114,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 114.00000000020009,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": 134,
+     "sd": 0,
+     "clear": true,
+     "simExpect": null,
+     "grade": 1,
+     "attempts": 1,
+     "lastResult": {
+      "clear": true,
+      "progress": 1
+     },
+     "maxAbsErr": 134.0000000002001,
+     "judged": 30
+    },
+    {
+     "level": 10,
+     "off": -120,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "early"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 10,
+     "off": 140,
+     "sd": 0,
+     "clear": false,
+     "simExpect": null,
+     "grade": 0,
+     "attempts": 2,
+     "lastResult": {
+      "clear": false,
+      "progress": 0,
+      "failIndex": 0,
+      "reason": "miss"
+     },
+     "maxAbsErr": null,
+     "judged": 0
+    },
+    {
+     "level": 10,
+     "none": true,
+     "attempts": 2,
+     "failIndex": 0,
+     "reason": "miss",
+     "clear": false,
+     "failPhaseToRestartMs": 1080,
+     "levelTimeAfterRestart": 2.714285714086145,
+     "firstStarPassEnd": 1849.2857142857142
+    }
+   ],
+   "fails": [],
+   "summary": {
+    "perfect_clear": 10,
+    "perfect_maxAbsErr": 1.0913936421275139e-10,
+    "no_input_restart_ms": [
+     1080
+    ],
+    "fail_count": 0
+   },
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 42
+   },
+   "seconds": 2,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "shots": {
+   "screens": [
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "title",
+     "file": "360x640-title.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "calib",
+     "file": "360x640-calib.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "calib-done",
+     "file": "360x640-calib-done.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "levels-new",
+     "file": "360x640-levels-new.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "card-l1",
+     "file": "360x640-card-l1.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l1-countin",
+     "file": "360x640-play-l1-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l1-show",
+     "file": "360x640-play-l1-show.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l1-hand",
+     "file": "360x640-play-l1-hand.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l1-perfect",
+     "file": "360x640-play-l1-perfect.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l1-follow",
+     "file": "360x640-play-l1-follow.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "fail-0.12s",
+     "file": "360x640-fail-0.12s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "fail-0.52s",
+     "file": "360x640-fail-0.52s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "fail-0.97s",
+     "file": "360x640-fail-0.97s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "restart-countin",
+     "file": "360x640-restart-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "pause",
+     "file": "360x640-pause.png",
+     "state": "pause",
+     "buttons": 4,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "play-l7",
+     "file": "360x640-play-l7.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "practice-l3",
+     "file": "360x640-practice-l3.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "clear-l10",
+     "file": "360x640-clear-l10.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "result-l10",
+     "file": "360x640-result-l10.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "result-l1",
+     "file": "360x640-result-l1.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "levels-progress-badge",
+     "file": "360x640-levels-progress-badge.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "settings-badge",
+     "file": "360x640-settings-badge.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "confirm",
+     "file": "360x640-confirm.png",
+     "state": "confirm",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "card-l2",
+     "file": "360x640-card-l2.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "360x640",
+     "mode": "text",
+     "name": "gate-holding",
+     "file": "360x640-gate-holding.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "title",
+     "file": "360x640-title-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "calib",
+     "file": "360x640-calib-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "calib-done",
+     "file": "360x640-calib-done-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "levels-new",
+     "file": "360x640-levels-new-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "card-l1",
+     "file": "360x640-card-l1-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l1-countin",
+     "file": "360x640-play-l1-countin-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l1-show",
+     "file": "360x640-play-l1-show-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l1-hand",
+     "file": "360x640-play-l1-hand-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l1-perfect",
+     "file": "360x640-play-l1-perfect-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l1-follow",
+     "file": "360x640-play-l1-follow-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "fail-0.12s",
+     "file": "360x640-fail-0.12s-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "fail-0.52s",
+     "file": "360x640-fail-0.52s-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "fail-0.97s",
+     "file": "360x640-fail-0.97s-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "restart-countin",
+     "file": "360x640-restart-countin-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "pause",
+     "file": "360x640-pause-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "play-l7",
+     "file": "360x640-play-l7-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "practice-l3",
+     "file": "360x640-practice-l3-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "clear-l10",
+     "file": "360x640-clear-l10-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "result-l10",
+     "file": "360x640-result-l10-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "result-l1",
+     "file": "360x640-result-l1-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "levels-progress-badge",
+     "file": "360x640-levels-progress-badge-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "settings-badge",
+     "file": "360x640-settings-badge-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "confirm",
+     "file": "360x640-confirm-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "name": "card-l2",
+     "file": "360x640-card-l2-notext.png"
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "title",
+     "file": "360x640-title-en.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "calib",
+     "file": "360x640-calib-en.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "calib-done",
+     "file": "360x640-calib-done-en.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "levels-new",
+     "file": "360x640-levels-new-en.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "settings",
+     "file": "360x640-settings-en.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "play-l1-hand",
+     "file": "360x640-play-l1-hand-en.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "360x640",
+     "mode": "en",
+     "name": "result-l10",
+     "file": "360x640-result-l10-en.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "title",
+     "file": "412x915-title.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "calib",
+     "file": "412x915-calib.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "calib-done",
+     "file": "412x915-calib-done.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "levels-new",
+     "file": "412x915-levels-new.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "card-l1",
+     "file": "412x915-card-l1.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l1-countin",
+     "file": "412x915-play-l1-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l1-show",
+     "file": "412x915-play-l1-show.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l1-hand",
+     "file": "412x915-play-l1-hand.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l1-perfect",
+     "file": "412x915-play-l1-perfect.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l1-follow",
+     "file": "412x915-play-l1-follow.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "fail-0.12s",
+     "file": "412x915-fail-0.12s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "fail-0.52s",
+     "file": "412x915-fail-0.52s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "fail-0.97s",
+     "file": "412x915-fail-0.97s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "restart-countin",
+     "file": "412x915-restart-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "pause",
+     "file": "412x915-pause.png",
+     "state": "pause",
+     "buttons": 4,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "play-l7",
+     "file": "412x915-play-l7.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "practice-l3",
+     "file": "412x915-practice-l3.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "clear-l10",
+     "file": "412x915-clear-l10.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "result-l10",
+     "file": "412x915-result-l10.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "result-l1",
+     "file": "412x915-result-l1.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "levels-progress-badge",
+     "file": "412x915-levels-progress-badge.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "settings-badge",
+     "file": "412x915-settings-badge.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "confirm",
+     "file": "412x915-confirm.png",
+     "state": "confirm",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "card-l2",
+     "file": "412x915-card-l2.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "name": "gate-holding",
+     "file": "412x915-gate-holding.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "title",
+     "file": "412x915-title-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "calib",
+     "file": "412x915-calib-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "calib-done",
+     "file": "412x915-calib-done-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "levels-new",
+     "file": "412x915-levels-new-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "card-l1",
+     "file": "412x915-card-l1-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l1-countin",
+     "file": "412x915-play-l1-countin-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l1-show",
+     "file": "412x915-play-l1-show-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l1-hand",
+     "file": "412x915-play-l1-hand-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l1-perfect",
+     "file": "412x915-play-l1-perfect-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l1-follow",
+     "file": "412x915-play-l1-follow-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "fail-0.12s",
+     "file": "412x915-fail-0.12s-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "fail-0.52s",
+     "file": "412x915-fail-0.52s-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "fail-0.97s",
+     "file": "412x915-fail-0.97s-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "restart-countin",
+     "file": "412x915-restart-countin-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "pause",
+     "file": "412x915-pause-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "play-l7",
+     "file": "412x915-play-l7-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "practice-l3",
+     "file": "412x915-practice-l3-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "clear-l10",
+     "file": "412x915-clear-l10-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "result-l10",
+     "file": "412x915-result-l10-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "result-l1",
+     "file": "412x915-result-l1-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "levels-progress-badge",
+     "file": "412x915-levels-progress-badge-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "settings-badge",
+     "file": "412x915-settings-badge-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "confirm",
+     "file": "412x915-confirm-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "name": "card-l2",
+     "file": "412x915-card-l2-notext.png"
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "title",
+     "file": "412x915-title-en.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "calib",
+     "file": "412x915-calib-en.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "calib-done",
+     "file": "412x915-calib-done-en.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "levels-new",
+     "file": "412x915-levels-new-en.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "settings",
+     "file": "412x915-settings-en.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "play-l1-hand",
+     "file": "412x915-play-l1-hand-en.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "412x915",
+     "mode": "en",
+     "name": "result-l10",
+     "file": "412x915-result-l10-en.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "title",
+     "file": "640x360-title.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "calib",
+     "file": "640x360-calib.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "calib-done",
+     "file": "640x360-calib-done.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "levels-new",
+     "file": "640x360-levels-new.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "card-l1",
+     "file": "640x360-card-l1.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l1-countin",
+     "file": "640x360-play-l1-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l1-show",
+     "file": "640x360-play-l1-show.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l1-hand",
+     "file": "640x360-play-l1-hand.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l1-perfect",
+     "file": "640x360-play-l1-perfect.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l1-follow",
+     "file": "640x360-play-l1-follow.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "fail-0.12s",
+     "file": "640x360-fail-0.12s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "fail-0.52s",
+     "file": "640x360-fail-0.52s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "fail-0.97s",
+     "file": "640x360-fail-0.97s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "restart-countin",
+     "file": "640x360-restart-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "pause",
+     "file": "640x360-pause.png",
+     "state": "pause",
+     "buttons": 4,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "play-l7",
+     "file": "640x360-play-l7.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "practice-l3",
+     "file": "640x360-practice-l3.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "clear-l10",
+     "file": "640x360-clear-l10.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "result-l10",
+     "file": "640x360-result-l10.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "result-l1",
+     "file": "640x360-result-l1.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "levels-progress-badge",
+     "file": "640x360-levels-progress-badge.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "settings-badge",
+     "file": "640x360-settings-badge.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "confirm",
+     "file": "640x360-confirm.png",
+     "state": "confirm",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "card-l2",
+     "file": "640x360-card-l2.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "name": "gate-holding",
+     "file": "640x360-gate-holding.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "title",
+     "file": "640x360-title-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "calib",
+     "file": "640x360-calib-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "calib-done",
+     "file": "640x360-calib-done-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "levels-new",
+     "file": "640x360-levels-new-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "card-l1",
+     "file": "640x360-card-l1-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l1-countin",
+     "file": "640x360-play-l1-countin-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l1-show",
+     "file": "640x360-play-l1-show-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l1-hand",
+     "file": "640x360-play-l1-hand-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l1-perfect",
+     "file": "640x360-play-l1-perfect-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l1-follow",
+     "file": "640x360-play-l1-follow-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "fail-0.12s",
+     "file": "640x360-fail-0.12s-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "fail-0.52s",
+     "file": "640x360-fail-0.52s-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "fail-0.97s",
+     "file": "640x360-fail-0.97s-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "restart-countin",
+     "file": "640x360-restart-countin-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "pause",
+     "file": "640x360-pause-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "play-l7",
+     "file": "640x360-play-l7-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "practice-l3",
+     "file": "640x360-practice-l3-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "clear-l10",
+     "file": "640x360-clear-l10-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "result-l10",
+     "file": "640x360-result-l10-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "result-l1",
+     "file": "640x360-result-l1-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "levels-progress-badge",
+     "file": "640x360-levels-progress-badge-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "settings-badge",
+     "file": "640x360-settings-badge-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "confirm",
+     "file": "640x360-confirm-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "name": "card-l2",
+     "file": "640x360-card-l2-notext.png"
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "title",
+     "file": "640x360-title-en.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "calib",
+     "file": "640x360-calib-en.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "calib-done",
+     "file": "640x360-calib-done-en.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "levels-new",
+     "file": "640x360-levels-new-en.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "settings",
+     "file": "640x360-settings-en.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "play-l1-hand",
+     "file": "640x360-play-l1-hand-en.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "640x360",
+     "mode": "en",
+     "name": "result-l10",
+     "file": "640x360-result-l10-en.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "title",
+     "file": "1280x720-title.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "calib",
+     "file": "1280x720-calib.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "calib-done",
+     "file": "1280x720-calib-done.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "levels-new",
+     "file": "1280x720-levels-new.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "card-l1",
+     "file": "1280x720-card-l1.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l1-countin",
+     "file": "1280x720-play-l1-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l1-show",
+     "file": "1280x720-play-l1-show.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l1-hand",
+     "file": "1280x720-play-l1-hand.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l1-perfect",
+     "file": "1280x720-play-l1-perfect.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l1-follow",
+     "file": "1280x720-play-l1-follow.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "fail-0.12s",
+     "file": "1280x720-fail-0.12s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "fail-0.52s",
+     "file": "1280x720-fail-0.52s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "fail-0.97s",
+     "file": "1280x720-fail-0.97s.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "restart-countin",
+     "file": "1280x720-restart-countin.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "pause",
+     "file": "1280x720-pause.png",
+     "state": "pause",
+     "buttons": 4,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "play-l7",
+     "file": "1280x720-play-l7.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "practice-l3",
+     "file": "1280x720-practice-l3.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "clear-l10",
+     "file": "1280x720-clear-l10.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "result-l10",
+     "file": "1280x720-result-l10.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "result-l1",
+     "file": "1280x720-result-l1.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "levels-progress-badge",
+     "file": "1280x720-levels-progress-badge.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "settings-badge",
+     "file": "1280x720-settings-badge.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "confirm",
+     "file": "1280x720-confirm.png",
+     "state": "confirm",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "card-l2",
+     "file": "1280x720-card-l2.png",
+     "state": "card",
+     "buttons": 0,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": null
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "name": "gate-holding",
+     "file": "1280x720-gate-holding.png",
+     "state": "levels",
+     "buttons": 27,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "title",
+     "file": "1280x720-title-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "calib",
+     "file": "1280x720-calib-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "calib-done",
+     "file": "1280x720-calib-done-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "levels-new",
+     "file": "1280x720-levels-new-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "card-l1",
+     "file": "1280x720-card-l1-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l1-countin",
+     "file": "1280x720-play-l1-countin-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l1-show",
+     "file": "1280x720-play-l1-show-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l1-hand",
+     "file": "1280x720-play-l1-hand-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l1-perfect",
+     "file": "1280x720-play-l1-perfect-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l1-follow",
+     "file": "1280x720-play-l1-follow-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "fail-0.12s",
+     "file": "1280x720-fail-0.12s-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "fail-0.52s",
+     "file": "1280x720-fail-0.52s-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "fail-0.97s",
+     "file": "1280x720-fail-0.97s-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "restart-countin",
+     "file": "1280x720-restart-countin-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "pause",
+     "file": "1280x720-pause-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "play-l7",
+     "file": "1280x720-play-l7-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "practice-l3",
+     "file": "1280x720-practice-l3-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "clear-l10",
+     "file": "1280x720-clear-l10-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "result-l10",
+     "file": "1280x720-result-l10-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "result-l1",
+     "file": "1280x720-result-l1-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "levels-progress-badge",
+     "file": "1280x720-levels-progress-badge-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "settings-badge",
+     "file": "1280x720-settings-badge-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "confirm",
+     "file": "1280x720-confirm-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "name": "card-l2",
+     "file": "1280x720-card-l2-notext.png"
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "title",
+     "file": "1280x720-title-en.png",
+     "state": "title",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "calib",
+     "file": "1280x720-calib-en.png",
+     "state": "calib",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "calib-done",
+     "file": "1280x720-calib-done-en.png",
+     "state": "calib",
+     "buttons": 2,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "levels-new",
+     "file": "1280x720-levels-new-en.png",
+     "state": "levels",
+     "buttons": 14,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "settings",
+     "file": "1280x720-settings-en.png",
+     "state": "settings",
+     "buttons": 5,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "play-l1-hand",
+     "file": "1280x720-play-l1-hand-en.png",
+     "state": "play",
+     "buttons": 1,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 48
+    },
+    {
+     "res": "1280x720",
+     "mode": "en",
+     "name": "result-l10",
+     "file": "1280x720-result-l10-en.png",
+     "state": "result",
+     "buttons": 3,
+     "issues": [],
+     "textIssues": [],
+     "docScroll": false,
+     "gridScroll": false,
+     "minBtn": 64
+    }
+   ],
+   "overlap": [
+    {
+     "res": "360x640",
+     "mode": "text",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 16,
+      "y": 496.265625,
+      "w": 328,
+      "h": 24
+     },
+     "pause": {
+      "x": 300,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 16,
+      "w": 272,
+      "h": 40
+     },
+     "orbit": {
+      "x": 14.400000000000002,
+      "y": 122.4,
+      "w": 331.2,
+      "h": 331.2
+     },
+     "issues": []
+    },
+    {
+     "res": "360x640",
+     "mode": "notext",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 16,
+      "y": 496.265625,
+      "w": 328,
+      "h": 0
+     },
+     "pause": {
+      "x": 300,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 16,
+      "w": 272,
+      "h": 40
+     },
+     "orbit": {
+      "x": 14.400000000000002,
+      "y": 122.4,
+      "w": 331.2,
+      "h": 331.2
+     },
+     "issues": []
+    },
+    {
+     "res": "412x915",
+     "mode": "text",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 16,
+      "y": 648.5,
+      "w": 380,
+      "h": 24
+     },
+     "pause": {
+      "x": 352,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 16,
+      "w": 324,
+      "h": 40
+     },
+     "orbit": {
+      "x": 16.479999999999986,
+      "y": 222.23,
+      "w": 379.04,
+      "h": 379.04
+     },
+     "issues": []
+    },
+    {
+     "res": "412x915",
+     "mode": "notext",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 16,
+      "y": 648.5,
+      "w": 380,
+      "h": 0
+     },
+     "pause": {
+      "x": 352,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 16,
+      "w": 324,
+      "h": 40
+     },
+     "orbit": {
+      "x": 16.479999999999986,
+      "y": 222.23,
+      "w": 379.04,
+      "h": 379.04
+     },
+     "issues": []
+    },
+    {
+     "res": "640x360",
+     "mode": "text",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 468.8125,
+      "y": 212,
+      "w": 159.1875,
+      "h": 24
+     },
+     "pause": {
+      "x": 580,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 12,
+      "w": 552,
+      "h": 40
+     },
+     "orbit": {
+      "x": 183.2,
+      "y": 61.20000000000002,
+      "w": 273.6,
+      "h": 273.6
+     },
+     "issues": []
+    },
+    {
+     "res": "640x360",
+     "mode": "notext",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 468.8125,
+      "y": 212,
+      "w": 159.1875,
+      "h": 0
+     },
+     "pause": {
+      "x": 580,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 12,
+      "w": 552,
+      "h": 40
+     },
+     "orbit": {
+      "x": 183.2,
+      "y": 61.20000000000002,
+      "w": 273.6,
+      "h": 273.6
+     },
+     "issues": []
+    },
+    {
+     "res": "1280x720",
+     "mode": "text",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 925.25,
+      "y": 572,
+      "w": 342.75,
+      "h": 24
+     },
+     "pause": {
+      "x": 1220,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 12,
+      "w": 1192,
+      "h": 40
+     },
+     "orbit": {
+      "x": 366.76,
+      "y": 122.76000000000003,
+      "w": 546.48,
+      "h": 546.48
+     },
+     "issues": []
+    },
+    {
+     "res": "1280x720",
+     "mode": "notext",
+     "screen": "play-l1-hand",
+     "tut": {
+      "x": 925.25,
+      "y": 572,
+      "w": 342.75,
+      "h": 0
+     },
+     "pause": {
+      "x": 1220,
+      "y": 12,
+      "w": 48,
+      "h": 48
+     },
+     "bar": {
+      "x": 16,
+      "y": 12,
+      "w": 1192,
+      "h": 40
+     },
+     "orbit": {
+      "x": 366.76,
+      "y": 122.76000000000003,
+      "w": 546.48,
+      "h": 546.48
+     },
+     "issues": []
+    }
+   ],
+   "scroll640": [
+    {
+     "mode": "text",
+     "screen": "levels",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    },
+    {
+     "mode": "text",
+     "screen": "settings",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    },
+    {
+     "mode": "text",
+     "screen": "title",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    },
+    {
+     "mode": "notext",
+     "screen": "levels",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    },
+    {
+     "mode": "notext",
+     "screen": "settings",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    },
+    {
+     "mode": "notext",
+     "screen": "title",
+     "docScroll": false,
+     "gridScroll": false,
+     "offscreen": []
+    }
+   ],
+   "summary": {
+    "screens_checked": 128,
+    "button_issues": [],
+    "text_issues": [],
+    "min_button_px": 48,
+    "overlap_issues": [],
+    "shots": 226
+   },
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 548
+   },
+   "seconds": 37,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "static": {
+   "files": 59,
+   "bytes": 233853,
+   "external_urls": [],
+   "reference_names": [],
+   "data_copies": [
+    {
+     "file": "balance.json",
+     "equal": true
+    },
+    {
+     "file": "levels/01-level1.json",
+     "equal": true
+    },
+    {
+     "file": "levels/02-level2.json",
+     "equal": true
+    },
+    {
+     "file": "levels/03-level3.json",
+     "equal": true
+    },
+    {
+     "file": "levels/04-level4.json",
+     "equal": true
+    },
+    {
+     "file": "levels/05-level5.json",
+     "equal": true
+    },
+    {
+     "file": "levels/06-level6.json",
+     "equal": true
+    },
+    {
+     "file": "levels/07-level7.json",
+     "equal": true
+    },
+    {
+     "file": "levels/08-level8.json",
+     "equal": true
+    },
+    {
+     "file": "levels/09-level9.json",
+     "equal": true
+    },
+    {
+     "file": "levels/10-level10.json",
+     "equal": true
+    },
+    {
+     "file": "tools/sim/judge.mjs vs js/judge.js",
+     "equal": true
+    }
+   ],
+   "html_links_forms": [],
+   "ads_js": "// 광고 어댑터 (웹 더미). 게임 코드는 이 인터페이스만 부른다. 웹 빌드에는 광고·결제·외부 링크 없음.\nexport const ads = {\n  init() { return Promise.resolve(false); },\n  showInterstitial() { return Promise.resolve(false); },\n  showRewarded() { return Promise.resolve(false); },\n  showBanner() {},\n  hideBanner() {},\n};",
+   "seconds": 0,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  }
+ },
+ "basic": {
+  "console_errors_warnings": [],
+  "failed_requests": [],
+  "external_requests": [],
+  "requests_total": 2516
+ },
+ "summary": {
+  "sd70_first_clear_median": {
+   "10": {
+    "build": 19,
+    "sim": 20,
+    "build_mean_progress": 27.2,
+    "sim_mean_progress": 27.3,
+    "build_median_fail_progress": 16.7,
+    "sim_median_fail_progress": 16.7
+   },
+   "01": {
+    "build": 3,
+    "sim": 2,
+    "build_mean_progress": 57.7,
+    "sim_mean_progress": 57.5,
+    "build_median_fail_progress": 35,
+    "sim_median_fail_progress": 35
+   },
+   "02": {
+    "build": 4,
+    "sim": 3,
+    "build_mean_progress": 47.9,
+    "sim_mean_progress": 48.2,
+    "build_median_fail_progress": 29.2,
+    "sim_median_fail_progress": 29.2
+   },
+   "03": {
+    "build": 5,
+    "sim": 5,
+    "build_mean_progress": 43.1,
+    "sim_mean_progress": 42.9,
+    "build_median_fail_progress": 28,
+    "sim_median_fail_progress": 28
+   },
+   "04": {
+    "build": 6,
+    "sim": 6,
+    "build_mean_progress": 39.8,
+    "sim_mean_progress": 39.9,
+    "build_median_fail_progress": 26.9,
+    "sim_median_fail_progress": 26.9
+   },
+   "05": {
+    "build": 8,
+    "sim": 8,
+    "build_mean_progress": 35.7,
+    "sim_mean_progress": 35.5,
+    "build_median_fail_progress": 23.3,
+    "sim_median_fail_progress": 23.3
+   },
+   "06": {
+    "build": 9,
+    "sim": 9,
+    "build_mean_progress": 33.8,
+    "sim_mean_progress": 33.8,
+    "build_median_fail_progress": 21.4,
+    "sim_median_fail_progress": 21.4
+   },
+   "07": {
+    "build": 10,
+    "sim": 11,
+    "build_mean_progress": 32.1,
+    "sim_mean_progress": 31.9,
+    "build_median_fail_progress": 21.4,
+    "sim_median_fail_progress": 21.4
+   },
+   "08": {
+    "build": 14,
+    "sim": 14,
+    "build_mean_progress": 29.9,
+    "sim_mean_progress": 29.3,
+    "build_median_fail_progress": 20,
+    "sim_median_fail_progress": 20
+   },
+   "09": {
+    "build": 16,
+    "sim": 17,
+    "build_mean_progress": 29.1,
+    "sim_mean_progress": 28.5,
+    "build_median_fail_progress": 18.8,
+    "sim_median_fail_progress": 18.8
+   }
+  },
+  "bot_attempts_compared": 123308,
+  "bot_attempt_mismatch": 0,
+  "replay": {
+   "perfect_clear": 10,
+   "perfect_maxAbsErr": 1.0913936421275139e-10,
+   "no_input_restart_ms": [
+    1080
+   ],
+   "fail_count": 0
+  },
+  "realtime_autoplay_clear": "10/10",
+  "realtime_mouse": [
+   {
+    "level": 1,
+    "clear": true,
+    "attempts": 1,
+    "err_ms": [
+     -1.8,
+     1.1
+    ]
+   },
+   {
+    "level": 5,
+    "clear": true,
+    "attempts": 1,
+    "err_ms": [
+     -2.1,
+     0
+    ]
+   },
+   {
+    "level": 10,
+    "clear": true,
+    "attempts": 1,
+    "err_ms": [
+     0.3,
+     1.5
+    ]
+   }
+  ],
+  "fps_6x": [
+   {
+    "res": "1280x720",
+    "dpr": 1,
+    "window": "L1 start 0-10s (mouse play)",
+    "avg": 59.8,
+    "low1": 31.9
+   },
+   {
+    "res": "1280x720",
+    "dpr": 1,
+    "window": "L10 start 0-12s (mouse play)",
+    "avg": 60,
+    "low1": 46.6
+   },
+   {
+    "res": "1280x720",
+    "dpr": 1,
+    "window": "L7 fail → restart +3.4s",
+    "avg": 60,
+    "low1": 43.6
+   },
+   {
+    "res": "412x915",
+    "dpr": 3,
+    "window": "L1 start 0-10s (mouse play)",
+    "avg": 60,
+    "low1": 35.7
+   },
+   {
+    "res": "412x915",
+    "dpr": 3,
+    "window": "L10 start 0-12s (mouse play)",
+    "avg": 60,
+    "low1": 43.5
+   },
+   {
+    "res": "412x915",
+    "dpr": 3,
+    "window": "L7 fail → restart +3.4s",
+    "avg": 60,
+    "low1": 48.3
+   },
+   {
+    "res": "360x640",
+    "dpr": 3,
+    "window": "L1 start 0-10s (mouse play)",
+    "avg": 59.9,
+    "low1": 34.4
+   },
+   {
+    "res": "360x640",
+    "dpr": 3,
+    "window": "L10 start 0-12s (mouse play)",
+    "avg": 60.1,
+    "low1": 44
+   },
+   {
+    "res": "360x640",
+    "dpr": 3,
+    "window": "L7 fail → restart +3.4s",
+    "avg": 60,
+    "low1": 44.1
+   },
+   {
+    "res": "640x360",
+    "dpr": 3,
+    "window": "L1 start 0-10s (mouse play)",
+    "avg": 59.9,
+    "low1": 37.9
+   },
+   {
+    "res": "640x360",
+    "dpr": 3,
+    "window": "L10 start 0-12s (mouse play)",
+    "avg": 60,
+    "low1": 44.6
+   },
+   {
+    "res": "640x360",
+    "dpr": 3,
+    "window": "L7 fail → restart +3.4s",
+    "avg": 60,
+    "low1": 46.4
+   }
+  ],
+  "input_to_frame_ms": [
+   {
+    "res": "1280x720",
+    "dpr": 1,
+    "median": 10.6,
+    "max": 18.5
+   },
+   {
+    "res": "412x915",
+    "dpr": 3,
+    "median": 10.9,
+    "max": 18.1
+   },
+   {
+    "res": "360x640",
+    "dpr": 3,
+    "median": 12.7,
+    "max": 17.8
+   },
+   {
+    "res": "640x360",
+    "dpr": 3,
+    "median": 10.2,
+    "max": 23.6
+   }
+  ],
+  "restart_ms": [
+   {
+    "level": 1,
+    "cpu": 1,
+    "failJudgeToFirstMovingFrame": 1088.2
+   },
+   {
+    "level": 5,
+    "cpu": 1,
+    "failJudgeToFirstMovingFrame": 1091.5
+   },
+   {
+    "level": 1,
+    "cpu": 6,
+    "failJudgeToFirstMovingFrame": 1098
+   },
+   {
+    "level": 10,
+    "cpu": 1,
+    "failJudgeToFirstMovingFrame": 1083.9
+   }
+  ],
+  "buttons_min_px": 48,
+  "button_issues": 0,
+  "shots": 226
+ }
+}

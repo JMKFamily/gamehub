@@ -1,0 +1,2551 @@
+{
+ "screens": [
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "title",
+   "file": "360x640-title.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "calib",
+   "file": "360x640-calib.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "calib-done",
+   "file": "360x640-calib-done.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "levels-new",
+   "file": "360x640-levels-new.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "card-l1",
+   "file": "360x640-card-l1.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l1-countin",
+   "file": "360x640-play-l1-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l1-show",
+   "file": "360x640-play-l1-show.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l1-hand",
+   "file": "360x640-play-l1-hand.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l1-perfect",
+   "file": "360x640-play-l1-perfect.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l1-follow",
+   "file": "360x640-play-l1-follow.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "fail-0.12s",
+   "file": "360x640-fail-0.12s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "fail-0.52s",
+   "file": "360x640-fail-0.52s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "fail-0.97s",
+   "file": "360x640-fail-0.97s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "restart-countin",
+   "file": "360x640-restart-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "pause",
+   "file": "360x640-pause.png",
+   "state": "pause",
+   "buttons": 4,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "play-l7",
+   "file": "360x640-play-l7.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "practice-l3",
+   "file": "360x640-practice-l3.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "clear-l10",
+   "file": "360x640-clear-l10.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "result-l10",
+   "file": "360x640-result-l10.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "result-l1",
+   "file": "360x640-result-l1.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "levels-progress-badge",
+   "file": "360x640-levels-progress-badge.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "settings-badge",
+   "file": "360x640-settings-badge.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "confirm",
+   "file": "360x640-confirm.png",
+   "state": "confirm",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "card-l2",
+   "file": "360x640-card-l2.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "360x640",
+   "mode": "text",
+   "name": "gate-holding",
+   "file": "360x640-gate-holding.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "title",
+   "file": "360x640-title-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "calib",
+   "file": "360x640-calib-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "calib-done",
+   "file": "360x640-calib-done-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "levels-new",
+   "file": "360x640-levels-new-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "card-l1",
+   "file": "360x640-card-l1-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l1-countin",
+   "file": "360x640-play-l1-countin-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l1-show",
+   "file": "360x640-play-l1-show-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l1-hand",
+   "file": "360x640-play-l1-hand-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l1-perfect",
+   "file": "360x640-play-l1-perfect-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l1-follow",
+   "file": "360x640-play-l1-follow-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "fail-0.12s",
+   "file": "360x640-fail-0.12s-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "fail-0.52s",
+   "file": "360x640-fail-0.52s-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "fail-0.97s",
+   "file": "360x640-fail-0.97s-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "restart-countin",
+   "file": "360x640-restart-countin-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "pause",
+   "file": "360x640-pause-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "play-l7",
+   "file": "360x640-play-l7-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "practice-l3",
+   "file": "360x640-practice-l3-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "clear-l10",
+   "file": "360x640-clear-l10-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "result-l10",
+   "file": "360x640-result-l10-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "result-l1",
+   "file": "360x640-result-l1-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "levels-progress-badge",
+   "file": "360x640-levels-progress-badge-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "settings-badge",
+   "file": "360x640-settings-badge-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "confirm",
+   "file": "360x640-confirm-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "name": "card-l2",
+   "file": "360x640-card-l2-notext.png"
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "title",
+   "file": "360x640-title-en.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "calib",
+   "file": "360x640-calib-en.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "calib-done",
+   "file": "360x640-calib-done-en.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "levels-new",
+   "file": "360x640-levels-new-en.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "settings",
+   "file": "360x640-settings-en.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "play-l1-hand",
+   "file": "360x640-play-l1-hand-en.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "360x640",
+   "mode": "en",
+   "name": "result-l10",
+   "file": "360x640-result-l10-en.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "title",
+   "file": "412x915-title.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "calib",
+   "file": "412x915-calib.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "calib-done",
+   "file": "412x915-calib-done.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "levels-new",
+   "file": "412x915-levels-new.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "card-l1",
+   "file": "412x915-card-l1.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l1-countin",
+   "file": "412x915-play-l1-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l1-show",
+   "file": "412x915-play-l1-show.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l1-hand",
+   "file": "412x915-play-l1-hand.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l1-perfect",
+   "file": "412x915-play-l1-perfect.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l1-follow",
+   "file": "412x915-play-l1-follow.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "fail-0.12s",
+   "file": "412x915-fail-0.12s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "fail-0.52s",
+   "file": "412x915-fail-0.52s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "fail-0.97s",
+   "file": "412x915-fail-0.97s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "restart-countin",
+   "file": "412x915-restart-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "pause",
+   "file": "412x915-pause.png",
+   "state": "pause",
+   "buttons": 4,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "play-l7",
+   "file": "412x915-play-l7.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "practice-l3",
+   "file": "412x915-practice-l3.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "clear-l10",
+   "file": "412x915-clear-l10.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "result-l10",
+   "file": "412x915-result-l10.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "result-l1",
+   "file": "412x915-result-l1.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "levels-progress-badge",
+   "file": "412x915-levels-progress-badge.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "settings-badge",
+   "file": "412x915-settings-badge.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "confirm",
+   "file": "412x915-confirm.png",
+   "state": "confirm",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "card-l2",
+   "file": "412x915-card-l2.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "name": "gate-holding",
+   "file": "412x915-gate-holding.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "title",
+   "file": "412x915-title-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "calib",
+   "file": "412x915-calib-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "calib-done",
+   "file": "412x915-calib-done-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "levels-new",
+   "file": "412x915-levels-new-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "card-l1",
+   "file": "412x915-card-l1-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l1-countin",
+   "file": "412x915-play-l1-countin-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l1-show",
+   "file": "412x915-play-l1-show-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l1-hand",
+   "file": "412x915-play-l1-hand-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l1-perfect",
+   "file": "412x915-play-l1-perfect-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l1-follow",
+   "file": "412x915-play-l1-follow-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "fail-0.12s",
+   "file": "412x915-fail-0.12s-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "fail-0.52s",
+   "file": "412x915-fail-0.52s-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "fail-0.97s",
+   "file": "412x915-fail-0.97s-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "restart-countin",
+   "file": "412x915-restart-countin-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "pause",
+   "file": "412x915-pause-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "play-l7",
+   "file": "412x915-play-l7-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "practice-l3",
+   "file": "412x915-practice-l3-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "clear-l10",
+   "file": "412x915-clear-l10-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "result-l10",
+   "file": "412x915-result-l10-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "result-l1",
+   "file": "412x915-result-l1-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "levels-progress-badge",
+   "file": "412x915-levels-progress-badge-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "settings-badge",
+   "file": "412x915-settings-badge-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "confirm",
+   "file": "412x915-confirm-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "name": "card-l2",
+   "file": "412x915-card-l2-notext.png"
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "title",
+   "file": "412x915-title-en.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "calib",
+   "file": "412x915-calib-en.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "calib-done",
+   "file": "412x915-calib-done-en.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "levels-new",
+   "file": "412x915-levels-new-en.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "settings",
+   "file": "412x915-settings-en.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "play-l1-hand",
+   "file": "412x915-play-l1-hand-en.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "412x915",
+   "mode": "en",
+   "name": "result-l10",
+   "file": "412x915-result-l10-en.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "title",
+   "file": "640x360-title.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "calib",
+   "file": "640x360-calib.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "calib-done",
+   "file": "640x360-calib-done.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "levels-new",
+   "file": "640x360-levels-new.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "card-l1",
+   "file": "640x360-card-l1.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l1-countin",
+   "file": "640x360-play-l1-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l1-show",
+   "file": "640x360-play-l1-show.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l1-hand",
+   "file": "640x360-play-l1-hand.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l1-perfect",
+   "file": "640x360-play-l1-perfect.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l1-follow",
+   "file": "640x360-play-l1-follow.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "fail-0.12s",
+   "file": "640x360-fail-0.12s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "fail-0.52s",
+   "file": "640x360-fail-0.52s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "fail-0.97s",
+   "file": "640x360-fail-0.97s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "restart-countin",
+   "file": "640x360-restart-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "pause",
+   "file": "640x360-pause.png",
+   "state": "pause",
+   "buttons": 4,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "play-l7",
+   "file": "640x360-play-l7.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "practice-l3",
+   "file": "640x360-practice-l3.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "clear-l10",
+   "file": "640x360-clear-l10.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "result-l10",
+   "file": "640x360-result-l10.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "result-l1",
+   "file": "640x360-result-l1.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "levels-progress-badge",
+   "file": "640x360-levels-progress-badge.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "settings-badge",
+   "file": "640x360-settings-badge.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "confirm",
+   "file": "640x360-confirm.png",
+   "state": "confirm",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "card-l2",
+   "file": "640x360-card-l2.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "name": "gate-holding",
+   "file": "640x360-gate-holding.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "title",
+   "file": "640x360-title-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "calib",
+   "file": "640x360-calib-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "calib-done",
+   "file": "640x360-calib-done-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "levels-new",
+   "file": "640x360-levels-new-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "card-l1",
+   "file": "640x360-card-l1-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l1-countin",
+   "file": "640x360-play-l1-countin-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l1-show",
+   "file": "640x360-play-l1-show-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l1-hand",
+   "file": "640x360-play-l1-hand-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l1-perfect",
+   "file": "640x360-play-l1-perfect-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l1-follow",
+   "file": "640x360-play-l1-follow-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "fail-0.12s",
+   "file": "640x360-fail-0.12s-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "fail-0.52s",
+   "file": "640x360-fail-0.52s-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "fail-0.97s",
+   "file": "640x360-fail-0.97s-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "restart-countin",
+   "file": "640x360-restart-countin-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "pause",
+   "file": "640x360-pause-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "play-l7",
+   "file": "640x360-play-l7-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "practice-l3",
+   "file": "640x360-practice-l3-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "clear-l10",
+   "file": "640x360-clear-l10-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "result-l10",
+   "file": "640x360-result-l10-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "result-l1",
+   "file": "640x360-result-l1-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "levels-progress-badge",
+   "file": "640x360-levels-progress-badge-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "settings-badge",
+   "file": "640x360-settings-badge-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "confirm",
+   "file": "640x360-confirm-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "name": "card-l2",
+   "file": "640x360-card-l2-notext.png"
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "title",
+   "file": "640x360-title-en.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "calib",
+   "file": "640x360-calib-en.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "calib-done",
+   "file": "640x360-calib-done-en.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "levels-new",
+   "file": "640x360-levels-new-en.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "settings",
+   "file": "640x360-settings-en.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "play-l1-hand",
+   "file": "640x360-play-l1-hand-en.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "640x360",
+   "mode": "en",
+   "name": "result-l10",
+   "file": "640x360-result-l10-en.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "title",
+   "file": "1280x720-title.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "calib",
+   "file": "1280x720-calib.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "calib-done",
+   "file": "1280x720-calib-done.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "levels-new",
+   "file": "1280x720-levels-new.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "card-l1",
+   "file": "1280x720-card-l1.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l1-countin",
+   "file": "1280x720-play-l1-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l1-show",
+   "file": "1280x720-play-l1-show.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l1-hand",
+   "file": "1280x720-play-l1-hand.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l1-perfect",
+   "file": "1280x720-play-l1-perfect.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l1-follow",
+   "file": "1280x720-play-l1-follow.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "fail-0.12s",
+   "file": "1280x720-fail-0.12s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "fail-0.52s",
+   "file": "1280x720-fail-0.52s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "fail-0.97s",
+   "file": "1280x720-fail-0.97s.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "restart-countin",
+   "file": "1280x720-restart-countin.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "pause",
+   "file": "1280x720-pause.png",
+   "state": "pause",
+   "buttons": 4,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "play-l7",
+   "file": "1280x720-play-l7.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "practice-l3",
+   "file": "1280x720-practice-l3.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "clear-l10",
+   "file": "1280x720-clear-l10.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "result-l10",
+   "file": "1280x720-result-l10.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "result-l1",
+   "file": "1280x720-result-l1.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "levels-progress-badge",
+   "file": "1280x720-levels-progress-badge.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "settings-badge",
+   "file": "1280x720-settings-badge.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "confirm",
+   "file": "1280x720-confirm.png",
+   "state": "confirm",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "card-l2",
+   "file": "1280x720-card-l2.png",
+   "state": "card",
+   "buttons": 0,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": null
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "name": "gate-holding",
+   "file": "1280x720-gate-holding.png",
+   "state": "levels",
+   "buttons": 27,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "title",
+   "file": "1280x720-title-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "calib",
+   "file": "1280x720-calib-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "calib-done",
+   "file": "1280x720-calib-done-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "levels-new",
+   "file": "1280x720-levels-new-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "card-l1",
+   "file": "1280x720-card-l1-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l1-countin",
+   "file": "1280x720-play-l1-countin-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l1-show",
+   "file": "1280x720-play-l1-show-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l1-hand",
+   "file": "1280x720-play-l1-hand-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l1-perfect",
+   "file": "1280x720-play-l1-perfect-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l1-follow",
+   "file": "1280x720-play-l1-follow-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "fail-0.12s",
+   "file": "1280x720-fail-0.12s-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "fail-0.52s",
+   "file": "1280x720-fail-0.52s-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "fail-0.97s",
+   "file": "1280x720-fail-0.97s-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "restart-countin",
+   "file": "1280x720-restart-countin-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "pause",
+   "file": "1280x720-pause-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "play-l7",
+   "file": "1280x720-play-l7-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "practice-l3",
+   "file": "1280x720-practice-l3-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "clear-l10",
+   "file": "1280x720-clear-l10-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "result-l10",
+   "file": "1280x720-result-l10-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "result-l1",
+   "file": "1280x720-result-l1-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "levels-progress-badge",
+   "file": "1280x720-levels-progress-badge-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "settings-badge",
+   "file": "1280x720-settings-badge-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "confirm",
+   "file": "1280x720-confirm-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "name": "card-l2",
+   "file": "1280x720-card-l2-notext.png"
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "title",
+   "file": "1280x720-title-en.png",
+   "state": "title",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "calib",
+   "file": "1280x720-calib-en.png",
+   "state": "calib",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "calib-done",
+   "file": "1280x720-calib-done-en.png",
+   "state": "calib",
+   "buttons": 2,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "levels-new",
+   "file": "1280x720-levels-new-en.png",
+   "state": "levels",
+   "buttons": 14,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "settings",
+   "file": "1280x720-settings-en.png",
+   "state": "settings",
+   "buttons": 5,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "play-l1-hand",
+   "file": "1280x720-play-l1-hand-en.png",
+   "state": "play",
+   "buttons": 1,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 48
+  },
+  {
+   "res": "1280x720",
+   "mode": "en",
+   "name": "result-l10",
+   "file": "1280x720-result-l10-en.png",
+   "state": "result",
+   "buttons": 3,
+   "issues": [],
+   "textIssues": [],
+   "docScroll": false,
+   "gridScroll": false,
+   "minBtn": 64
+  }
+ ],
+ "overlap": [
+  {
+   "res": "360x640",
+   "mode": "text",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 16,
+    "y": 496.265625,
+    "w": 328,
+    "h": 24
+   },
+   "pause": {
+    "x": 300,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 16,
+    "w": 272,
+    "h": 40
+   },
+   "orbit": {
+    "x": 14.400000000000002,
+    "y": 122.4,
+    "w": 331.2,
+    "h": 331.2
+   },
+   "issues": []
+  },
+  {
+   "res": "360x640",
+   "mode": "notext",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 16,
+    "y": 496.265625,
+    "w": 328,
+    "h": 0
+   },
+   "pause": {
+    "x": 300,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 16,
+    "w": 272,
+    "h": 40
+   },
+   "orbit": {
+    "x": 14.400000000000002,
+    "y": 122.4,
+    "w": 331.2,
+    "h": 331.2
+   },
+   "issues": []
+  },
+  {
+   "res": "412x915",
+   "mode": "text",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 16,
+    "y": 648.5,
+    "w": 380,
+    "h": 24
+   },
+   "pause": {
+    "x": 352,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 16,
+    "w": 324,
+    "h": 40
+   },
+   "orbit": {
+    "x": 16.479999999999986,
+    "y": 222.23,
+    "w": 379.04,
+    "h": 379.04
+   },
+   "issues": []
+  },
+  {
+   "res": "412x915",
+   "mode": "notext",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 16,
+    "y": 648.5,
+    "w": 380,
+    "h": 0
+   },
+   "pause": {
+    "x": 352,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 16,
+    "w": 324,
+    "h": 40
+   },
+   "orbit": {
+    "x": 16.479999999999986,
+    "y": 222.23,
+    "w": 379.04,
+    "h": 379.04
+   },
+   "issues": []
+  },
+  {
+   "res": "640x360",
+   "mode": "text",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 468.8125,
+    "y": 212,
+    "w": 159.1875,
+    "h": 24
+   },
+   "pause": {
+    "x": 580,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 12,
+    "w": 552,
+    "h": 40
+   },
+   "orbit": {
+    "x": 183.2,
+    "y": 61.20000000000002,
+    "w": 273.6,
+    "h": 273.6
+   },
+   "issues": []
+  },
+  {
+   "res": "640x360",
+   "mode": "notext",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 468.8125,
+    "y": 212,
+    "w": 159.1875,
+    "h": 0
+   },
+   "pause": {
+    "x": 580,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 12,
+    "w": 552,
+    "h": 40
+   },
+   "orbit": {
+    "x": 183.2,
+    "y": 61.20000000000002,
+    "w": 273.6,
+    "h": 273.6
+   },
+   "issues": []
+  },
+  {
+   "res": "1280x720",
+   "mode": "text",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 925.25,
+    "y": 572,
+    "w": 342.75,
+    "h": 24
+   },
+   "pause": {
+    "x": 1220,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 12,
+    "w": 1192,
+    "h": 40
+   },
+   "orbit": {
+    "x": 366.76,
+    "y": 122.76000000000003,
+    "w": 546.48,
+    "h": 546.48
+   },
+   "issues": []
+  },
+  {
+   "res": "1280x720",
+   "mode": "notext",
+   "screen": "play-l1-hand",
+   "tut": {
+    "x": 925.25,
+    "y": 572,
+    "w": 342.75,
+    "h": 0
+   },
+   "pause": {
+    "x": 1220,
+    "y": 12,
+    "w": 48,
+    "h": 48
+   },
+   "bar": {
+    "x": 16,
+    "y": 12,
+    "w": 1192,
+    "h": 40
+   },
+   "orbit": {
+    "x": 366.76,
+    "y": 122.76000000000003,
+    "w": 546.48,
+    "h": 546.48
+   },
+   "issues": []
+  }
+ ],
+ "scroll640": [
+  {
+   "mode": "text",
+   "screen": "levels",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  },
+  {
+   "mode": "text",
+   "screen": "settings",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  },
+  {
+   "mode": "text",
+   "screen": "title",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  },
+  {
+   "mode": "notext",
+   "screen": "levels",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  },
+  {
+   "mode": "notext",
+   "screen": "settings",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  },
+  {
+   "mode": "notext",
+   "screen": "title",
+   "docScroll": false,
+   "gridScroll": false,
+   "offscreen": []
+  }
+ ],
+ "summary": {
+  "screens_checked": 128,
+  "button_issues": [],
+  "text_issues": [],
+  "min_button_px": 48,
+  "overlap_issues": [],
+  "shots": 226
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 548
+ },
+ "seconds": 37,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

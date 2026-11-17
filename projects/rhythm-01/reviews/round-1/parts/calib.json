@@ -1,0 +1,2402 @@
+{
+ "rule_cases": [
+  {
+   "name": "σ40 X=0 #0",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 3.3557383606222246,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 3.3557383606222246,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #1",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -18.131455195045852,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -18.131455195045852,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #2",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -2.6416208845913003,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -2.6416208845913003,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #3",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -26.61048294454649,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -26.61048294454649,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #4",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 4.746412954605479,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 4.746412954605479,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #5",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 19.504526204039422,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 19.504526204039422,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #6",
+   "X": 0,
+   "ref": {
+    "ok": false,
+    "why": "incomplete",
+    "consumed": 2
+   },
+   "build": {
+    "offset": -7,
+    "phase": "tap",
+    "taps": 16,
+    "sim": {
+     "ok": false,
+     "why": "incomplete"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #7",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -10.175575448608827,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -10.175575448608827,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #8",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 12.81629632703481,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 12.81629632703481,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #9",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 13.413002535116771,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 13.413002535116771,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #10",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 3.0870362298822,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 3.0870362298822,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #11",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 1.8676293160899422,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 1.8676293160899422,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #12",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 19.63969039228167,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 19.63969039228167,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #13",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 6.999015893536297,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 6.999015893536297,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #14",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -1.8706661779889122,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -1.8706661779889122,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #15",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -26.39132002868277,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -26.39132002868277,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #16",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -6.167044068679951,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -6.167044068679951,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #17",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 14.494951581685688,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 14.494951581685688,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #18",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 28.500812007362022,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 28.500812007362022,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=0 #19",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -10.178499133645374,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -10.178499133645374,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #0",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 123.92620602754528,
+    "offset": 123.92620602754528,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 123.92620602754528,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 123.92620602754528,
+     "offset": 123.92620602754528
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #1",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 127.8975031572829,
+    "offset": 127.8975031572829,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 127.8975031572829,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 127.8975031572829,
+     "offset": 127.8975031572829
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #2",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 116.44692210352542,
+    "offset": 116.44692210352542,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 116.44692210352542,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 116.44692210352542,
+     "offset": 116.44692210352542
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #3",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 126.86627052374058,
+    "offset": 126.86627052374058,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 126.86627052374058,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 126.86627052374058,
+     "offset": 126.86627052374058
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #4",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 118.02018212983194,
+    "offset": 118.02018212983194,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 118.02018212983194,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 118.02018212983194,
+     "offset": 118.02018212983194
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #5",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 128.32415547890633,
+    "offset": 128.32415547890633,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 128.32415547890633,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 128.32415547890633,
+     "offset": 128.32415547890633
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #6",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 132.50258135244738,
+    "offset": 132.50258135244738,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 132.50258135244738,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 132.50258135244738,
+     "offset": 132.50258135244738
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #7",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 127.22045308836321,
+    "offset": 127.22045308836321,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 127.22045308836321,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 127.22045308836321,
+     "offset": 127.22045308836321
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #8",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 119.31850106172368,
+    "offset": 119.31850106172368,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 119.31850106172368,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 119.31850106172368,
+     "offset": 119.31850106172368
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #9",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 131.6462095488862,
+    "offset": 131.6462095488862,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 131.6462095488862,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 131.6462095488862,
+     "offset": 131.6462095488862
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #10",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 111.24278526007842,
+    "offset": 111.24278526007842,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 111.24278526007842,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 111.24278526007842,
+     "offset": 111.24278526007842
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #11",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 123.13920295877088,
+    "offset": 123.13920295877088,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 123.13920295877088,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 123.13920295877088,
+     "offset": 123.13920295877088
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #12",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 138.65828716526582,
+    "offset": 138.65828716526582,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 138.65828716526582,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 138.65828716526582,
+     "offset": 138.65828716526582
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #13",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 108.74822652742635,
+    "offset": 108.74822652742635,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 108.74822652742635,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 108.74822652742635,
+     "offset": 108.74822652742635
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #14",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 127.77612369434054,
+    "offset": 127.77612369434054,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 127.77612369434054,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 127.77612369434054,
+     "offset": 127.77612369434054
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #15",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 115.79792107694372,
+    "offset": 115.79792107694372,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 115.79792107694372,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 115.79792107694372,
+     "offset": 115.79792107694372
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #16",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 109.42734972500013,
+    "offset": 109.42734972500013,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 109.42734972500013,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 109.42734972500013,
+     "offset": 109.42734972500013
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #17",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 106.70816027006374,
+    "offset": 106.70816027006374,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 106.70816027006374,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 106.70816027006374,
+     "offset": 106.70816027006374
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #18",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 134.36942808662877,
+    "offset": 134.36942808662877,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 134.36942808662877,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 134.36942808662877,
+     "offset": 134.36942808662877
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=120 #19",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 123.08314637783185,
+    "offset": 123.08314637783185,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 123.08314637783185,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 123.08314637783185,
+     "offset": 123.08314637783185
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #0",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 200.7819852774016,
+    "offset": 200.7819852774016,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 200.7819852774016,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 200.7819852774016,
+     "offset": 200.7819852774016
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #1",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 200.1551312838992,
+    "offset": 200.1551312838992,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 200.1551312838992,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 200.1551312838992,
+     "offset": 200.1551312838992
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #2",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 212.70435264225912,
+    "offset": 212.70435264225912,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 212.70435264225912,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 212.70435264225912,
+     "offset": 212.70435264225912
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #3",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 198.76788069249886,
+    "offset": 198.76788069249886,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 198.76788069249886,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 198.76788069249886,
+     "offset": 198.76788069249886
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #4",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 197.55734513172257,
+    "offset": 197.55734513172257,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 197.55734513172257,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 197.55734513172257,
+     "offset": 197.55734513172257
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #5",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 182.45829854304895,
+    "offset": 182.45829854304895,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 182.45829854304895,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 182.45829854304895,
+     "offset": 182.45829854304895
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #6",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 212.794426316046,
+    "offset": 212.794426316046,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 212.794426316046,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 212.794426316046,
+     "offset": 212.794426316046
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #7",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 197.5294405010417,
+    "offset": 197.5294405010417,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 197.5294405010417,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 197.5294405010417,
+     "offset": 197.5294405010417
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #8",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 191.1655678956452,
+    "offset": 191.1655678956452,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 191.1655678956452,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 191.1655678956452,
+     "offset": 191.1655678956452
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #9",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 208.76329125579463,
+    "offset": 208.76329125579463,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 208.76329125579463,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 208.76329125579463,
+     "offset": 208.76329125579463
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #10",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 201.39565489034896,
+    "offset": 201.39565489034896,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 201.39565489034896,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 201.39565489034896,
+     "offset": 201.39565489034896
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #11",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 201.49087059256414,
+    "offset": 201.49087059256414,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 201.49087059256414,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 201.49087059256414,
+     "offset": 201.49087059256414
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #12",
+   "X": 200,
+   "ref": {
+    "ok": false,
+    "why": "incomplete",
+    "consumed": 2
+   },
+   "build": {
+    "offset": -7,
+    "phase": "tap",
+    "taps": 16,
+    "sim": {
+     "ok": false,
+     "why": "incomplete"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #13",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 193.88614013861007,
+    "offset": 193.88614013861007,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 193.88614013861007,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 193.88614013861007,
+     "offset": 193.88614013861007
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #14",
+   "X": 200,
+   "ref": {
+    "ok": false,
+    "why": "incomplete",
+    "consumed": 2
+   },
+   "build": {
+    "offset": -7,
+    "phase": "tap",
+    "taps": 16,
+    "sim": {
+     "ok": false,
+     "why": "incomplete"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #15",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 181.914341470377,
+    "offset": 181.914341470377,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 181.914341470377,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 181.914341470377,
+     "offset": 181.914341470377
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #16",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 220.3794358424712,
+    "offset": 220.3794358424712,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 220.3794358424712,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 220.3794358424712,
+     "offset": 220.3794358424712
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #17",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 223.1201228973038,
+    "offset": 223.1201228973038,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 223.1201228973038,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 223.1201228973038,
+     "offset": 223.1201228973038
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #18",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 193.02765445315626,
+    "offset": 193.02765445315626,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 193.02765445315626,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 193.02765445315626,
+     "offset": 193.02765445315626
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ40 X=200 #19",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 193.41620551390227,
+    "offset": 193.41620551390227,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 193.41620551390227,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 193.41620551390227,
+     "offset": 193.41620551390227
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #0",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -64.77826568033453,
+    "offset": -64.77826568033453,
+    "consumed": 2
+   },
+   "build": {
+    "offset": -64.77826568033453,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -64.77826568033453,
+     "offset": -64.77826568033453
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #1",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -19.968158175056075,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -19.968158175056075,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #2",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 23.441852179633983,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 23.441852179633983,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #3",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -13.014349685338344,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -13.014349685338344,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #4",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -16.930030708607717,
+    "offset": 0,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": -16.930030708607717,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #5",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -15.957830676803088,
+    "offset": 0,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": -15.957830676803088,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #6",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -15.932242314433164,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -15.932242314433164,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #7",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": -8.112241053852326,
+    "offset": 0,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": -8.112241053852326,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #8",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 3.8673968942988224,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 3.8673968942988224,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=0 #9",
+   "X": 0,
+   "ref": {
+    "ok": true,
+    "m": 23.352004506208267,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 23.352004506208267,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #0",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 117.75010696288348,
+    "offset": 117.75010696288348,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 117.75010696288348,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 117.75010696288348,
+     "offset": 117.75010696288348
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #1",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 125.8930595781988,
+    "offset": 125.8930595781988,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 125.8930595781988,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 125.8930595781988,
+     "offset": 125.8930595781988
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #2",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 118.76799835881204,
+    "offset": 118.76799835881204,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 118.76799835881204,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 118.76799835881204,
+     "offset": 118.76799835881204
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #3",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 102.50546054277656,
+    "offset": 102.50546054277656,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 102.50546054277656,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 102.50546054277656,
+     "offset": 102.50546054277656
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #4",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 140.5951189062053,
+    "offset": 140.5951189062053,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 140.5951189062053,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": 140.5951189062053,
+     "offset": 140.5951189062053
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #5",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 131.8058105848782,
+    "offset": 131.8058105848782,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 131.8058105848782,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 131.8058105848782,
+     "offset": 131.8058105848782
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #6",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 146.7031874776964,
+    "offset": 146.7031874776964,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 146.7031874776964,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 146.7031874776964,
+     "offset": 146.7031874776964
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #7",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 133.3040265102576,
+    "offset": 133.3040265102576,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 133.3040265102576,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": 133.3040265102576,
+     "offset": 133.3040265102576
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #8",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 146.10590562498288,
+    "offset": 146.10590562498288,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 146.10590562498288,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 146.10590562498288,
+     "offset": 146.10590562498288
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=120 #9",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 137.23694568705332,
+    "offset": 137.23694568705332,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 137.23694568705332,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 137.23694568705332,
+     "offset": 137.23694568705332
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #0",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 238.38519636113156,
+    "offset": 238.38519636113156,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 238.38519636113156,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 238.38519636113156,
+     "offset": 238.38519636113156
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #1",
+   "X": 200,
+   "ref": {
+    "ok": false,
+    "why": "disagree",
+    "consumed": 3
+   },
+   "build": {
+    "offset": -7,
+    "phase": "kept",
+    "taps": 24,
+    "sim": {
+     "ok": false,
+     "why": "disagree"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #2",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 202.374658047874,
+    "offset": 202.374658047874,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 202.374658047874,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": 202.374658047874,
+     "offset": 202.374658047874
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #3",
+   "X": 200,
+   "ref": {
+    "ok": false,
+    "why": "disagree",
+    "consumed": 3
+   },
+   "build": {
+    "offset": -7,
+    "phase": "kept",
+    "taps": 24,
+    "sim": {
+     "ok": false,
+     "why": "disagree"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #4",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 152.49911365944087,
+    "offset": 152.49911365944087,
+    "consumed": 3
+   },
+   "build": {
+    "offset": 152.49911365944087,
+    "phase": "done",
+    "taps": 24,
+    "sim": {
+     "ok": true,
+     "m": 152.49911365944087,
+     "offset": 152.49911365944087
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #5",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 220.40464264854745,
+    "offset": 220.40464264854745,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 220.40464264854745,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": 220.40464264854745,
+     "offset": 220.40464264854745
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #6",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 189.8755155200322,
+    "offset": 189.8755155200322,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 189.8755155200322,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 189.8755155200322,
+     "offset": 189.8755155200322
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #7",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 176.85866770693957,
+    "offset": 176.85866770693957,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 176.85866770693957,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 176.85866770693957,
+     "offset": 176.85866770693957
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #8",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 218.1249775792071,
+    "offset": 218.1249775792071,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 218.1249775792071,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 218.1249775792071,
+     "offset": 218.1249775792071
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "σ70(아이) X=200 #9",
+   "X": 200,
+   "ref": {
+    "ok": true,
+    "m": 153.80665616895686,
+    "offset": 153.80665616895686,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 153.80665616895686,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 153.80665616895686,
+     "offset": 153.80665616895686
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "첫 2탭 무시",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 120,
+    "offset": 120,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 120,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 120,
+     "offset": 120
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "|m|=30 → 0",
+   "X": 30,
+   "ref": {
+    "ok": true,
+    "m": 30,
+    "offset": 0,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 0,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 30,
+     "offset": 0
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "|m|=31 → 31",
+   "X": 31,
+   "ref": {
+    "ok": true,
+    "m": 31,
+    "offset": 31,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 31,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 31,
+     "offset": 31
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "자름 350 → 300",
+   "X": 350,
+   "ref": {
+    "ok": true,
+    "m": 350,
+    "offset": 300,
+    "consumed": 2
+   },
+   "build": {
+    "offset": 300,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": 350,
+     "offset": 300
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "자름 -260 → -200",
+   "X": -260,
+   "ref": {
+    "ok": true,
+    "m": -260,
+    "offset": -200,
+    "consumed": 2
+   },
+   "build": {
+    "offset": -200,
+    "phase": "done",
+    "taps": 16,
+    "sim": {
+     "ok": true,
+     "m": -260,
+     "offset": -200
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "IQR 큼 1회 → 다시",
+   "X": 120,
+   "ref": {
+    "ok": true,
+    "m": 120,
+    "offset": 120,
+    "consumed": 3
+   },
+   "build": {
+    "offset": 120,
+    "phase": "done",
+    "taps": 24,
+    "sim": {
+     "ok": true,
+     "m": 120,
+     "offset": 120
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "IQR 큼 2회 → 이전 값 유지",
+   "X": null,
+   "ref": {
+    "ok": false,
+    "why": "iqr",
+    "consumed": 2
+   },
+   "build": {
+    "offset": -7,
+    "phase": "kept",
+    "taps": 16,
+    "sim": {
+     "ok": false,
+     "why": "iqr"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "두 회 차이 61 → 전체 다시 → 성공",
+   "X": 100,
+   "ref": {
+    "ok": true,
+    "m": 100,
+    "offset": 100,
+    "consumed": 4
+   },
+   "build": {
+    "offset": 100,
+    "phase": "done",
+    "taps": 32,
+    "sim": {
+     "ok": true,
+     "m": 100,
+     "offset": 100
+    }
+   },
+   "match": true,
+   "simMatch": true
+  },
+  {
+   "name": "두 회 차이 2번 → 유지",
+   "X": null,
+   "ref": {
+    "ok": false,
+    "why": "disagree",
+    "consumed": 4
+   },
+   "build": {
+    "offset": -7,
+    "phase": "kept",
+    "taps": 32,
+    "sim": {
+     "ok": false,
+     "why": "disagree"
+    }
+   },
+   "match": true,
+   "simMatch": true
+  }
+ ],
+ "mouse": [
+  {
+   "X": 0,
+   "offset": 0,
+   "expectFromEventTimestamps": 0,
+   "tapDiffMedian": 0.5,
+   "tapDiffRange": [
+    0.3,
+    0.9
+   ],
+   "autoLatencyMs": 66,
+   "state": "calib",
+   "ok": true
+  },
+  {
+   "X": 120,
+   "offset": 124.3,
+   "expectFromEventTimestamps": 120.5,
+   "tapDiffMedian": 120.5,
+   "tapDiffRange": [
+    120.4,
+    120.7
+   ],
+   "autoLatencyMs": 66,
+   "state": "calib",
+   "ok": true
+  },
+  {
+   "X": 200,
+   "offset": 205.9,
+   "expectFromEventTimestamps": 200.5,
+   "tapDiffMedian": 200.5,
+   "tapDiffRange": [
+    200.4,
+    200.8
+   ],
+   "autoLatencyMs": 66,
+   "state": "calib",
+   "ok": true
+  }
+ ],
+ "firstRun": {
+  "first": {
+   "together": true,
+   "skip": true,
+   "ctx": "running"
+  },
+  "staticCanvas": {
+   "distinctHashes": 1,
+   "samples": 20,
+   "seq": "00000000000000000000",
+   "ticksScheduled": 5
+  },
+  "afterSkip": {
+   "state": "card",
+   "offset": 0,
+   "calibDone": true
+  },
+  "secondLaunchTitleTap": "levels",
+  "settingsRedo": {
+   "together": false,
+   "state": "settings",
+   "offset": 150
+  }
+ },
+ "firstRunChecks": {
+  "auto_calib_on_first_run": true,
+  "together_picture": true,
+  "skip_visible": true,
+  "skip_sets_0": true,
+  "skip_goes_to_l1": true,
+  "not_again": true,
+  "static_screen": true,
+  "redo_no_together": true,
+  "redo_skip_keeps": true
+ },
+ "iqrDefinitionDiffShare_sd70": 0.0599,
+ "gate": {
+  "tap": {
+   "state": "levels",
+   "ring": true,
+   "ringAfter800": false
+  },
+  "hold1900": "levels",
+  "drainAfter100ms": "101.97751218435755 194.77874452256717",
+  "drainAfter350ms": "0 194.77874452256717",
+  "openedAfterMs": 2003.9,
+  "playScreenButtons": [
+   "bPause"
+  ],
+  "ok": true
+ },
+ "lateHint": {
+  "A": [
+   {
+    "state": "levels",
+    "gate": true,
+    "row": false,
+    "anyVisibleBadgeImg": 1
+   },
+   {
+    "state": "levels",
+    "gate": true,
+    "row": false,
+    "anyVisibleBadgeImg": 1
+   },
+   {
+    "state": "levels",
+    "gate": true,
+    "row": false,
+    "anyVisibleBadgeImg": 1
+   },
+   {
+    "state": "levels",
+    "gate": false,
+    "row": false,
+    "anyVisibleBadgeImg": 0
+   }
+  ],
+  "A_settings": {
+   "state": "settings",
+   "gate": false,
+   "row": true,
+   "anyVisibleBadgeImg": 1
+  },
+  "A_play": {
+   "state": "play",
+   "gate": false,
+   "row": false,
+   "anyVisibleBadgeImg": 0
+  },
+  "A_pause": {
+   "state": "pause",
+   "gate": false,
+   "row": false,
+   "anyVisibleBadgeImg": 0
+  },
+  "A_100": {
+   "state": "levels",
+   "gate": false,
+   "row": false,
+   "anyVisibleBadgeImg": 0
+  },
+  "B": {
+   "state": "levels",
+   "gate": true,
+   "row": false,
+   "anyVisibleBadgeImg": 1,
+   "lat": {
+    "auto": 150,
+    "manual": 0,
+    "comp": 150
+   }
+  },
+  "B_play": {
+   "state": "play",
+   "gate": false,
+   "row": false,
+   "anyVisibleBadgeImg": 0
+  },
+  "B2": {
+   "state": "levels",
+   "gate": true,
+   "row": false,
+   "anyVisibleBadgeImg": 1,
+   "calibAutoLat": 20,
+   "nowLat": 80
+  },
+  "C": {
+   "state": "levels",
+   "gate": true,
+   "row": false,
+   "anyVisibleBadgeImg": 1,
+   "steps": [
+    {
+     "attempt": 1,
+     "windows": 1,
+     "triggered": false
+    },
+    {
+     "attempt": 2,
+     "windows": 2,
+     "triggered": false
+    },
+    {
+     "attempt": 3,
+     "windows": 3,
+     "triggered": true
+    },
+    {
+     "attempt": 4,
+     "windows": 4,
+     "triggered": true
+    }
+   ],
+   "offsetAfter": 0
+  },
+  "C_afterCalib": {
+   "state": "levels",
+   "gate": false,
+   "row": false,
+   "anyVisibleBadgeImg": 0,
+   "save": {
+    "drift": false,
+    "sig": "000",
+    "sessions": 0,
+    "device": false
+   }
+  }
+ },
+ "lateChecks": {
+  "A_shows_levels_and_settings": true,
+  "not_on_play_or_pause": true,
+  "three_sessions_then_hidden": true,
+  "A_threshold_100_no_badge": true,
+  "B_latency_150": true,
+  "B_change_over_40": true,
+  "C_drift_badge": true,
+  "C_offset_unchanged": true,
+  "cleared_by_calibration": true
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 691
+ },
+ "seconds": 50,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

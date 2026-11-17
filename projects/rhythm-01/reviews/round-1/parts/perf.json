@@ -1,0 +1,175 @@
+{
+ "runs": [
+  {
+   "res": "1280x720",
+   "dpr": 1,
+   "window": "L1 start 0-10s (mouse play)",
+   "frames": 595,
+   "avg_fps": 59.8,
+   "low1_fps": 31.9,
+   "max_ms": 45.1,
+   "over_33ms": 2
+  },
+  {
+   "res": "1280x720",
+   "dpr": 1,
+   "window": "L10 start 0-12s (mouse play)",
+   "frames": 720,
+   "avg_fps": 60,
+   "low1_fps": 46.6,
+   "max_ms": 23.5,
+   "over_33ms": 0
+  },
+  {
+   "res": "1280x720",
+   "dpr": 1,
+   "window": "L7 fail → restart +3.4s",
+   "frames": 269,
+   "avg_fps": 60,
+   "low1_fps": 43.6,
+   "max_ms": 24.9,
+   "over_33ms": 0
+  },
+  {
+   "res": "412x915",
+   "dpr": 3,
+   "window": "L1 start 0-10s (mouse play)",
+   "frames": 596,
+   "avg_fps": 60,
+   "low1_fps": 35.7,
+   "max_ms": 38.2,
+   "over_33ms": 1
+  },
+  {
+   "res": "412x915",
+   "dpr": 3,
+   "window": "L10 start 0-12s (mouse play)",
+   "frames": 720,
+   "avg_fps": 60,
+   "low1_fps": 43.5,
+   "max_ms": 24,
+   "over_33ms": 0
+  },
+  {
+   "res": "412x915",
+   "dpr": 3,
+   "window": "L7 fail → restart +3.4s",
+   "frames": 269,
+   "avg_fps": 60,
+   "low1_fps": 48.3,
+   "max_ms": 21.5,
+   "over_33ms": 0
+  },
+  {
+   "res": "360x640",
+   "dpr": 3,
+   "window": "L1 start 0-10s (mouse play)",
+   "frames": 598,
+   "avg_fps": 59.9,
+   "low1_fps": 34.4,
+   "max_ms": 45.6,
+   "over_33ms": 1
+  },
+  {
+   "res": "360x640",
+   "dpr": 3,
+   "window": "L10 start 0-12s (mouse play)",
+   "frames": 720,
+   "avg_fps": 60.1,
+   "low1_fps": 44,
+   "max_ms": 24.3,
+   "over_33ms": 0
+  },
+  {
+   "res": "360x640",
+   "dpr": 3,
+   "window": "L7 fail → restart +3.4s",
+   "frames": 269,
+   "avg_fps": 60,
+   "low1_fps": 44.1,
+   "max_ms": 24.1,
+   "over_33ms": 0
+  },
+  {
+   "res": "640x360",
+   "dpr": 3,
+   "window": "L1 start 0-10s (mouse play)",
+   "frames": 599,
+   "avg_fps": 59.9,
+   "low1_fps": 37.9,
+   "max_ms": 36.7,
+   "over_33ms": 1
+  },
+  {
+   "res": "640x360",
+   "dpr": 3,
+   "window": "L10 start 0-12s (mouse play)",
+   "frames": 720,
+   "avg_fps": 60,
+   "low1_fps": 44.6,
+   "max_ms": 24.1,
+   "over_33ms": 0
+  },
+  {
+   "res": "640x360",
+   "dpr": 3,
+   "window": "L7 fail → restart +3.4s",
+   "frames": 269,
+   "avg_fps": 60,
+   "low1_fps": 46.4,
+   "max_ms": 23.2,
+   "over_33ms": 0
+  }
+ ],
+ "reaction": [
+  {
+   "res": "1280x720",
+   "dpr": 1,
+   "n": 24,
+   "median_ms": 10.6,
+   "max_ms": 18.5,
+   "within_1_frame_share": 0.958,
+   "within_2_frames_share": 1
+  },
+  {
+   "res": "412x915",
+   "dpr": 3,
+   "n": 24,
+   "median_ms": 10.9,
+   "max_ms": 18.1,
+   "within_1_frame_share": 0.917,
+   "within_2_frames_share": 1
+  },
+  {
+   "res": "360x640",
+   "dpr": 3,
+   "n": 24,
+   "median_ms": 12.7,
+   "max_ms": 17.8,
+   "within_1_frame_share": 0.958,
+   "within_2_frames_share": 1
+  },
+  {
+   "res": "640x360",
+   "dpr": 3,
+   "n": 24,
+   "median_ms": 10.2,
+   "max_ms": 23.6,
+   "within_1_frame_share": 0.875,
+   "within_2_frames_share": 1
+  }
+ ],
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 180
+ },
+ "seconds": 415,
+ "env": {
+  "channel": "msedge",
+  "playwright": "PLAYWRIGHT_CORE",
+  "node": "v24.20.0"
+ }
+}

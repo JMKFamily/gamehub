@@ -49,3 +49,8 @@
 - 빌드 안 외부 URL 0(w3.org 네임스페이스 제외). playwright-core는 로컬 기존 것을 경로로 지정(설치·다운로드 없음, harness/qa/lib.mjs와 같은 방식).
 - 직접 실행: `tools/selfcheck-sim.mjs` 8078/8078 OK, `scripts/validate.mjs` OK.
 - 결정 9(블루투스·보호자 보정) 구현 보고됨 → QA 1-4에서 확인.
+
+### qa-engineer (1-4 round-1) — 통과
+- diff 확인: `reviews/round-1/`(qa.md·metrics.json·parts·shots 226장), `tools/qa-round.mjs`(신규), 보고서, README 한 줄. 빌드·기획·harness·runner-01 미수정, git 미사용. 같은 시각 `games/reverbound/` 변경은 runner-01 팀 작업(이 세션 범위 밖, 커밋하지 않음).
+- 결과: blocker 0, major 2(6배 스로틀 1% low 31.9~44.6 < 45 / L1 튜토리얼 손가락·북채 1박 동시 표시), minor 4. 기술 품질 7.5. 빌드 봇 123,308회 judge.mjs 재판정 불일치 0, L10 σ70 19(목표 15.8~23.7). 결정 9 전 항목 통과.
+- 다음: 1-5 4역할 리뷰 병렬.
