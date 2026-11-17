@@ -71,6 +71,7 @@
 - [runner-01·2026-11-17] quick(축소 표본) 실행은 도구 동작 확인용이고 판정·채점에 쓰지 않는다. 결과 폴더도 정식 라운드와 나눈다. 근거: projects/runner-01/Docs/qa-engineer/2026-11-17-r2-qa-tools.md. 적용: qa-engineer
 - [runner-01·2026-11-17] 레퍼런스 영상 실측은 프레임 번호로 잰다: 녹화 pts는 프레임마다 ±0.5프레임 흔들리고, 에뮬레이터·녹화 끊김으로 늘어난 궤적은 최빈값으로 걸러 낸다. 길이 단위는 플레이어 몸체 한 변으로 정의해 모든 값을 그 단위로 적는다. 근거: projects/runner-01/benchmark/measurements.md "측정 방법과 불확실성". 적용: benchmark-analyst
 - [runner-01·2026-11-17] 화면을 보지 않는 adb 자동 입력은 지연이 수십~수백 ms 흔들려 첫 레벨 초반(3 %)을 넘지 못한다. 깊은 구간(발판·고리 등)은 사람 녹화나 화면을 보는 원격 조작이 필요하니 일찍 HUMAN_TASKS로 요청한다. 대신 그 흔들림은 판정 경계 무작위 탐색에 쓸 수 있다. 근거: projects/runner-01/benchmark/measurements.md 장면 4·5·6, "round-2 추가 실측". 적용: benchmark-analyst·오케스트레이터
+- [runner-01·2026-11-17] 한 체크아웃을 여러 팀 세션이 함께 쓰므로, 에이전트는 자기가 띄운 프로세스(PID 기록)만 종료하고 로컬 서버 포트는 팀별로 겹치지 않게 고른다(개발 에이전트가 정리 중 다른 serve.mjs 2개를 종료한 사례). 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md. 적용: 모든 역할(특히 game-developer, qa-engineer).
 
 ## 실측 작업 안전
 - [runner-01·2026-11-17] 무료 게임 실측에서는 전면 광고가 사망 직후 갑자기 뜬다. 가드 없이 화면 중앙을 탭하다 광고를 눌러 광고 브라우저 로그인 화면이 열린 사고가 있었다. 자동 입력은 매번 포커스 창이 게임 액티비티인지 확인하고 아니면 즉시 멈추는 스크립트로만 보낸다. 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md "규칙 준수 확인", projects/runner-01/benchmark/tools/taps.sh·seq.sh. 적용: benchmark-analyst는 가드 스크립트만 쓴다(이번 세션에서도 가드가 광고 2회에서 탭 0회로 멈춤)
