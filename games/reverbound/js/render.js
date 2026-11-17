@@ -551,6 +551,13 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
         }
       }
       L.portals.forEach((p, i) => { if (p.x > xl - 1 && p.x < xr + 1) drawGate(p, i); });
+      // 연습 모드 자동 체크포인트 표식: 깃대 + 민트 깃발 (판정 없음)
+      if (view.cp && view.cp.x > xl - 1 && view.cp.x < xr + 1) {
+        const fx0 = sx(view.cp.x + 0.5), fy0 = sy(view.cp.s.y);
+        ctx.fillStyle = C.hud; ctx.fillRect(fx0 - 0.03 * T, fy0 - 1.4 * T, 0.06 * T, 1.4 * T);
+        poly([fx0 + 0.03 * T, fy0 - 1.4 * T, fx0 + 0.6 * T, fy0 - 1.2 * T, fx0 + 0.03 * T, fy0 - 1.0 * T]);
+        ctx.fillStyle = C.trigger; ctx.fill(); ctx.lineWidth = Math.max(1, 0.04 * T); ctx.strokeStyle = C.outline; ctx.stroke();
+      }
       // 결승선 (판정 없음): 바닥 위 얇은 세로 띠
       const fxp = sx(L.level.length_tiles);
       if (fxp > -10 && fxp < R.W + 10) { ctx.globalAlpha = 0.5; ctx.fillStyle = C.groundEdge; ctx.fillRect(fxp, R.gameTop + 1.2 * T, Math.max(2, 0.06 * T), base - R.gameTop - 1.2 * T); ctx.globalAlpha = 1; }

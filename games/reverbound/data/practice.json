@@ -1,0 +1,6 @@
+{
+ "_source": "game-developer 임시값 (round-2 후속, 오케스트레이터 결정 11). 연습 모드 자동 체크포인트 규칙. balance-designer 확정 전 개발이 정한 값이며 DEV_NOTES.md D18에 근거. 확정되면 balance.json으로 옮기고 이 파일은 지움",
+ "checkpoint_min_lead_s": 0.8,
+ "checkpoint_every_beats": 1,
+ "traces": ["taps", "on_beat_taps"]
+}

@@ -12,7 +12,7 @@ const OUT = join(ROOT, 'projects/runner-01/reviews/dev-selfcheck');
 const args = process.argv.slice(2);
 const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
 const channel = opt('--channel');
-const parts = new Set(opt('--part', 'replay,layout,shots,perf').split(','));
+const parts = new Set(opt('--part', 'replay,practice,layout,shots,perf').split(','));
 const BASE = process.env.BASE_URL || 'http://localhost:8123/games/reverbound/';
 let pw;
 try { pw = await import(process.env.PLAYWRIGHT_CORE ? pathToFileURL(join(process.env.PLAYWRIGHT_CORE, 'index.mjs')).href : 'playwright'); }
@@ -49,6 +49,39 @@ if (parts.has('replay')) {
   }
   const ok = R.replay.filter((r) => r.state === 'clear').length; // attempts 는 저장된 레벨별 누적이라 보지 않음
   console.log(`replay: ${ok}/${R.replay.length} clear (레벨 ${n}개)`);
+  await ctx.close();
+}
+
+// 1-2) 연습 모드 자동 체크포인트: 레벨마다 중간까지 입력열대로 가다가 입력을 멈춰 죽게 하고, 부활 지점·부활 직후 생존 확인
+if (parts.has('practice')) {
+  R.practice = [];
+  const { ctx, p } = await open(1280, 720);
+  const n = await p.evaluate(() => window.__game.levelCount);
+  for (let i = 0; i < n; i++) {
+    for (const frac of [0.3, 0.6, 0.85]) {
+      const r = await p.evaluate(([i, frac]) => {
+        const g = window.__game, lv = g.levelData(i), id = String(i + 1).padStart(2, '0');
+        const all = g.testInputs.levels[id].taps, cut = all[Math.floor(all.length * frac)];
+        g.seek(i, lv.length_tiles, { taps: all.filter((t) => t < cut), practice: true });
+        const deadAt = g.player.x, cps = g.checkpoints;
+        if (g.state !== 'dead') return { err: 'not dead ' + g.state };
+        let guard = 0; while (g.state === 'dead' && guard++ < 2000) g.step(1 / 240);
+        const back = g.player.x, last = cps[cps.length - 1];
+        let k = 0; for (; k < 192 && g.state === 'playing'; k++) g.step(1 / 240); // 0.8 s 무입력
+        return { deadAt: +deadAt.toFixed(2), cps: cps.length, respawnX: +back.toFixed(2), cpX: last ? +last.x.toFixed(2) : 0, survived08: g.state === 'playing', attempts: g.attempts };
+      }, [i, frac]);
+      R.practice.push({ level: i + 1, frac, ...r });
+    }
+    if (i === 4 || i === 6) {
+      await p.evaluate((i) => { const g = window.__game, id = String(i + 1).padStart(2, '0'), all = g.testInputs.levels[id].taps, cut = all[Math.floor(all.length * 0.6)];
+        g.seek(i, 1e9, { taps: all.filter((t) => t < cut), practice: true }); let k = 0; while (g.state === 'dead' && k++ < 2000) g.step(1 / 240); g.step(0.1); }, i);
+      await p.waitForTimeout(80);
+      await shot(p, `practice-L${i + 1}-respawn`);
+    }
+  }
+  const bad = R.practice.filter((r) => r.err || !r.survived08 || r.cps < 1 || Math.abs(r.respawnX - r.cpX) > 1e-6);
+  console.log(`practice: ${R.practice.length - bad.length}/${R.practice.length} OK (부활 = 마지막 자동 체크포인트, 부활 뒤 0.8 s 무입력 생존)`);
+  for (const b of bad) console.log('   ' + JSON.stringify(b));
   await ctx.close();
 }
 

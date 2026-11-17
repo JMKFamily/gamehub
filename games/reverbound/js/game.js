@@ -1,6 +1,7 @@
 // 게임 코어: 시도·사망·재시작·클리어·체크포인트 상태 기계. DOM 없음 (node 자체 확인에서도 그대로 돌림).
 // 시간은 advance(dt)로만 흐른다. 물리는 physics.js step()을 1/physics_hz 고정 스텝으로 호출.
 import { step, startState } from './physics.js';
+import { isSafe } from './practice.js';
 
 export function createGame(bal, hooks = {}) {
   const hz = bal.physics_hz;
@@ -22,6 +23,7 @@ export function createGame(bal, hooks = {}) {
     checkpoints: [],
     queue: [], held: false,
     lastPerf: 0,
+    safe: null,             // 연습 모드 안전 지점 표 (practice.js safePoints). 없으면 자동 체크포인트 없음
     ev: 0,                  // 마지막 틱 이벤트 비트 (physics.step ev)
     maxX: 0,
   };
@@ -42,8 +44,8 @@ export function createGame(bal, hooks = {}) {
     emit('onAttempt', G.attempts, G.k / hz);
   }
 
-  G.start = (L, levelIndex, { practice = false, attempts = 0, preroll = 0 } = {}) => {
-    G.L = L; G.levelIndex = levelIndex; G.practice = practice;
+  G.start = (L, levelIndex, { practice = false, attempts = 0, preroll = 0, safe = null } = {}) => {
+    G.L = L; G.levelIndex = levelIndex; G.practice = practice; G.safe = safe;
     G.attempts = attempts; G.checkpoints = []; G.preroll = preroll; G.paused = false;
     G.maxX = 0;
     resetAttempt(false);
@@ -93,6 +95,11 @@ export function createGame(bal, hooks = {}) {
     if (L.P[k] >= 0) emit('onGate', L.P[k], G);
     const x = L.X[G.k];
     if (x > G.maxX) G.maxX = x;
+    // 연습 모드 자동 체크포인트: 안전 지점(practice.js)에 도착하면 저장. 버튼 없음 (오케스트레이터 결정 11)
+    if (G.practice && G.safe && isSafe(G.safe, G.k, G.s) && !(G.checkpoints.length && G.checkpoints[G.checkpoints.length - 1].k >= G.k)) {
+      G.checkpoints.push({ k: G.k, s: { ...G.s, used: G.s.used.slice() }, rot: Math.round(G.rot / 90) * 90, x, auto: true });
+      emit('onCheckpoint', G.checkpoints[G.checkpoints.length - 1]);
+    }
     if (r.clear) {
       G.state = 'clear';
       G.clearT = 0;

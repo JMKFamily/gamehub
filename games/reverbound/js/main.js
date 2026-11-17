@@ -4,6 +4,7 @@ import { createGame } from './game.js';
 import { createRenderer } from './render.js';
 import { createAudio, deriveTheme } from './audio.js';
 import { ads } from './ads.js';
+import { safePoints } from './practice.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
@@ -158,7 +159,7 @@ async function fetchJSON(p) {
 }
 async function boot() {
   try {
-    const [bal, art, strings, music, prov] = await Promise.all(['data/balance.json', 'data/art.json', 'data/strings.json', 'data/music.json', 'data/provisional-art.json'].map(fetchJSON));
+    const [bal, art, strings, music, prov, practiceCfg] = await Promise.all(['data/balance.json', 'data/art.json', 'data/strings.json', 'data/music.json', 'data/provisional-art.json', 'data/practice.json'].map(fetchJSON));
     // 레벨 4~10 곡: music.json에 없으면 provisional-art.json music에서 파생 (임시값, art 확정 시 music.json에 옮김)
     for (const [th, spec] of Object.entries(prov.music)) if (!th.startsWith('_') && !music.levels[th]) music.levels[th] = deriveTheme(music, spec, prov.slow_default);
     STR = strings;
@@ -167,7 +168,7 @@ async function boot() {
     let testInputs = null;
     if (TEST) { try { testInputs = await fetchJSON('data/test-inputs.json'); } catch {} }
     else { try { DATA_demo = await fetchJSON('data/test-inputs.json'); } catch {} }
-    DATA = { bal, art, strings, music, testInputs };
+    DATA = { bal, art, strings, music, testInputs, practiceCfg };
     COMPILED = LEVELS.map((l) => compileLevel(l, bal));
     setup();
   } catch (err) {
@@ -255,10 +256,6 @@ function fillStaticText() {
   $('confirmText').textContent = t('settings_reset_confirm');
   $('cfYes').textContent = t('confirm_yes');
   $('cfNo').textContent = t('confirm_no');
-  $('cpPlace').innerHTML = ICON.flag + `<span class="lbl">${t('practice_place_btn')}</span>`;
-  $('cpRemove').innerHTML = ICON.flagX + `<span class="lbl">${t('practice_remove_btn')}</span>`;
-  $('cpPlace').setAttribute('aria-label', t('practice_place_btn'));
-  $('cpRemove').setAttribute('aria-label', t('practice_remove_btn'));
   $('rotateText').textContent = t('rotate_hint');
 }
 
@@ -395,6 +392,15 @@ function prerollS() {
   if (!audio.running()) return 0;
   return 0.05 + Math.max(0, audio.comp());
 }
+// 연습 모드 안전 지점 (practice.js): 레벨마다 처음 연습할 때 한 번 계산
+const SAFE = [];
+function safeFor(i) {
+  if (SAFE[i]) return SAFE[i];
+  const src = (DATA.testInputs || DATA_demo)?.levels?.[LEVELS[i].id];
+  const cfg = DATA.practiceCfg;
+  SAFE[i] = safePoints(COMPILED[i], (cfg.traces || ['taps']).map((k) => src?.[k]).filter(Boolean), cfg);
+  return SAFE[i];
+}
 function startLevel(i, practice) {
   selLevel = i;
   practiceSel = practice;
@@ -407,8 +413,7 @@ function startLevel(i, practice) {
   $('hud').classList.remove('fade');
   hudCache = {};
   show('playing');
-  G.start(L, i, { practice, attempts: practice ? 0 : lv(L.level.id).attempts, preroll: prerollS() });
-  $('cpPlace').parentElement.querySelectorAll('.practiceOnly').forEach((e) => e.classList.toggle('hidden', !practice));
+  G.start(L, i, { practice, attempts: practice ? 0 : lv(L.level.id).attempts, preroll: prerollS(), safe: practice ? safeFor(i) : null });
   updateHud(true);
 }
 function onAttempt(n, fromS) {
@@ -427,8 +432,8 @@ function onAttempt(n, fromS) {
   if (audio.running()) {
     clock.ctxStart = audio.startRun(L.level, L, L.level.theme_id, fromS, G.preroll);
   }
-  // 누른 채 재시작하면 바로 홀드 점프
-  if (inputHeld) G.press(G.k);
+  // 누른 채 재시작하면 바로 홀드 점프. 단, 연습 체크포인트 부활은 새로 눌러야 뜀 (부활 직후 원치 않는 점프로 죽는 고리 방지)
+  if (inputHeld && G.k === 0) G.press(G.k);
   updateHud(true);
   updateCue();
 }
@@ -571,7 +576,7 @@ function bindInput() {
       if (e.repeat) return;
       inputHeld = true;
       if (G.state === 'playing' && !G.paused) G.press(G.tickAtPerf(e.timeStamp));
-    } else if (e.code === 'KeyZ') placeCp(); else if (e.code === 'KeyX') removeCp();
+    }
   });
   window.addEventListener('keyup', (e) => {
     if (JUMP.has(e.code)) { inputHeld = false; if (screen === 'playing' && G.state === 'playing') G.release(G.tickAtPerf(e.timeStamp)); }
@@ -590,9 +595,6 @@ function bindInput() {
   click('modePractice', () => { practiceSel = true; renderCards(); });
   $('pauseBtn').addEventListener('pointerdown', (e) => { e.stopPropagation(); });
   click('pauseBtn', () => { if (!$('hud').classList.contains('fade')) pauseGame(); });
-  for (const id of ['cpPlace', 'cpRemove']) $(id).addEventListener('pointerdown', (e) => e.stopPropagation());
-  $('cpPlace').addEventListener('click', (e) => { e.stopPropagation(); placeCp(); });
-  $('cpRemove').addEventListener('click', (e) => { e.stopPropagation(); removeCp(); });
   click('pResume', resumeGame);
   click('pRestart', () => { G.paused = false; audio.resume(); G.checkpoints = []; startLevel(G.levelIndex, G.practice); });
   click('pPractice', () => { G.paused = false; audio.resume(); startLevel(G.levelIndex, !G.practice); });
@@ -616,13 +618,6 @@ function bindInput() {
   $('cards').addEventListener('scroll', () => { const w = $('cards'); $('cardsMore').classList.toggle('hidden', !w.classList.contains('scroll') || w.scrollTop + w.clientHeight >= w.scrollHeight - 4); }, { passive: true });
   $('setPanel').addEventListener('scroll', settingsScrollHint, { passive: true });
 }
-function placeCp() {
-  if (G.placeCheckpoint()) { audio.sfx('checkpoint'); toast(cueIconInlineFlag() + t('practice_checkpoint_placed'), 0.7); }
-}
-function removeCp() {
-  if (G.removeCheckpoint()) { audio.sfx('menu'); toast(t('practice_checkpoint_removed'), 0.7); }
-}
-const cueIconInlineFlag = () => `<span style="display:block;margin:0 auto 2px;color:${DATA.art.common.trigger}">${ICON.flag.replace('class="ico"', 'class="ico lg"')}</span>`;
 
 // 박자 보정 테스트: 메트로놈 8박, 탭 시각 평균 차이 → 보정값 제안·적용
 let offTest = null;
@@ -838,7 +833,7 @@ function draw(now, dt) {
     const beatS = 60 / L.level.bpm;
     const beat = G.time / beatS;
     const sec = sectionAt(L.level, Math.max(0, beat));
-    view = { x, y, rot, camX, beat, beatS, intensity: sec.intensity, showPlayer: G.state !== 'dead', G };
+    view = { x, y, rot, camX, beat, beatS, intensity: sec.intensity, showPlayer: G.state !== 'dead', G, cp: G.practice ? G.checkpoints[G.checkpoints.length - 1] : null };
     R.draw(view);
     drawDemo(view);
     if (screen === 'playing') { updateHud(false); updateCue(); }
@@ -873,10 +868,10 @@ const hook = {
   get audio() { return audio?.ctx ? audio.ctx.state : 'off'; },
   loadLevel(i, opts = {}) { hookRT = false; startLevel(i, !!opts.practice); return hook.state; },
   // 입력열을 넣고 x 지점까지 step()으로 진행 (스크린샷용)
-  seek(i, x, { taps } = {}) {
+  seek(i, x, { taps, practice = false } = {}) {
     hookRT = false;
     taps ??= DATA.testInputs?.levels?.[LEVELS[i].id]?.taps ?? [];
-    startLevel(i, false);
+    startLevel(i, practice);
     for (const k of taps) { G.press(k); G.release(k + 1); }
     let guard = 0;
     while (G.state === 'playing' && G.x() < x && guard++ < 400000) hook.step(1 / DATA.bal.physics_hz);
@@ -904,7 +899,9 @@ const hook = {
   },
   press() { inputHeld = true; G.press(); },
   release() { inputHeld = false; G.release(); },
-  placeCheckpoint: () => G.placeCheckpoint(),
+  placeCheckpoint: () => G.placeCheckpoint(), // QA 호환용 (화면에는 버튼 없음, 연습은 자동 체크포인트)
+  get checkpoints() { return G ? G.checkpoints.map((c) => ({ k: c.k, x: c.x, y: c.s.y, auto: !!c.auto })) : []; },
+  safePoints: (i) => [...safeFor(i).keys()],
   removeCheckpoint: () => G.removeCheckpoint(),
   pause: () => pauseGame(false),
   resume: () => resumeGame(),
