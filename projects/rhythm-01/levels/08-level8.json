@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "id": "08",
   "theme_id": "level08",
   "name_key": "level8_name",
@@ -21,167 +21,329 @@
   },
   "allowed_slots": "all",
   "known_patterns": [
+    "A",
     "B",
+    "C",
     "D",
-    "F",
-    "H",
-    "K",
-    "O",
-    "R",
-    "S",
-    "A"
+    "E",
+    "V",
+    "W",
+    "Q",
+    "Y",
+    "Z",
+    "R"
   ],
-  "design_intent": "새 기믹·보여 주기 없음. 아는 무늬만 두 마디씩 4묶음(둘·둘 / 쉬는 박·4연속 / 둥 _ 둥두·둥두 둥 / O·S), 4연속이 든 마디 뒤는 쉼. 끝은 하나(A) 한 마디. 판정 별 27개(r2: 마디 0 D → B, 마디 12 B → A, 30 → 27).",
+  "design_intent": "새 기믹 없음. 모든 덩어리 복습(3연속 Z·4연속 R 포함), 빈 1박 구절과 숨 고르기 톱니.",
   "new_gimmicks": [],
-  "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 13,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    "target_child_sd70_median_max": 18,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+  },
+  "path": {
+    "preview_lead_beats": 3,
+    "preview_lead_beats_portrait": 3,
+    "screen_chunks_max": 3,
+    "chunks": [
+      {"shape":"A","empty_before":2},
+      {"shape":"B","empty_before":2},
+      {"shape":"Z","empty_before":1},
+      {"shape":"D","empty_before":2},
+      {"shape":"A","empty_before":2},
+      {"shape":"E","empty_before":3},
+      {"shape":"C","empty_before":2},
+      {"shape":"E","empty_before":4},
+      {"shape":"R","empty_before":3},
+      {"shape":"A","empty_before":3},
+      {"shape":"B","empty_before":4}
+    ],
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
-    "B": {
-      "slots": [
-        0,
-        2
-      ],
-      "shape": "둘"
+    "c4": {
+      "slots": [4]
     },
-    "H": {
-      "slots": [
-        0,
-        2,
-        6
-      ],
-      "shape": "둥 둥 _ 둥"
+    "c24": {
+      "slots": [2,4]
     },
-    "R": {
-      "slots": [
-        0,
-        1,
-        2,
-        3
-      ],
-      "shape": "둥두둥두"
+    "c0234": {
+      "slots": [0,2,3,4]
     },
-    "K": {
-      "slots": [
-        0,
-        4,
-        5
-      ],
-      "shape": "둥 _ 둥두"
+    "c246": {
+      "slots": [2,4,6]
     },
-    "F": {
-      "slots": [
-        0,
-        1,
-        4
-      ],
-      "shape": "둥두 둥"
+    "c06": {
+      "slots": [0,6]
     },
-    "O": {
-      "slots": [
-        0,
-        2,
-        3,
-        6
-      ],
-      "shape": "둥 둥두 _ 둥"
+    "c67": {
+      "slots": [6,7]
     },
-    "S": {
-      "slots": [
-        0,
-        1,
-        2,
-        3,
-        6
-      ],
-      "shape": "둥두둥두 _ 둥"
+    "c46": {
+      "slots": [4,6]
     },
-    "A": {
-      "slots": [
-        0
-      ],
-      "shape": "하나"
+    "c0": {
+      "slots": [0]
+    },
+    "c23": {
+      "slots": [2,3]
+    },
+    "c2345": {
+      "slots": [2,3,4,5]
+    },
+    "c6": {
+      "slots": [6]
     }
   },
+  "bars": [
+    {"mode":"play","pattern":"c4"},
+    {"mode":"play","pattern":"c24"},
+    {"mode":"play","pattern":"c0234"},
+    {"mode":"play","pattern":"c246"},
+    {"mode":"play","pattern":"c06"},
+    {"mode":"play","pattern":"c67"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c23"},
+    {"mode":"play","pattern":"c2345"},
+    {"mode":"play","pattern":"c4"},
+    {"mode":"play","pattern":"c6"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ],
   "sections": [
     {
-      "name": "roof_1",
+      "name": "part1",
       "start_bar": 0,
-      "checkpoint": false,
       "stage": 1
     },
     {
-      "name": "breath",
-      "start_bar": 2,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "roof_2",
+      "name": "part2",
       "start_bar": 3,
-      "checkpoint": false,
-      "stage": 1
-    },
-    {
-      "name": "breath",
-      "start_bar": 5,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "roof_3",
-      "start_bar": 6,
-      "checkpoint": false,
       "stage": 2
     },
     {
-      "name": "breath",
+      "name": "part3",
       "start_bar": 8,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "roof_4",
-      "start_bar": 9,
-      "checkpoint": false,
-      "stage": 2
-    },
-    {
-      "name": "breath",
-      "start_bar": 11,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "mix",
-      "start_bar": 12,
-      "checkpoint": false,
       "stage": 3
     },
     {
       "name": "outro",
       "start_bar": 13,
-      "checkpoint": false,
       "stage": 3
     }
   ],
-  "bars": [
-    {"mode":"play","pattern":"B"},
-    {"mode":"play","pattern":"B"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"H"},
-    {"mode":"play","pattern":"R"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"K"},
-    {"mode":"play","pattern":"F"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"O"},
-    {"mode":"play","pattern":"S"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"A"},
-    {"mode":"rest"},
-    {"mode":"rest"}
-  ]
+  "practice": {
+    "checkpoint_rule": "breath_gap_start",
+    "checkpoints": [
+      {
+        "beat": 3,
+        "bar": 0,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 1,
+        "next_star_beat": 5
+      },
+      {
+        "beat": 11,
+        "bar": 2,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 3,
+        "next_star_beat": 13
+      },
+      {
+        "beat": 17,
+        "bar": 4,
+        "slot": 2,
+        "empty_beats": 2,
+        "next_chunk": 4,
+        "next_star_beat": 19
+      },
+      {
+        "beat": 20,
+        "bar": 5,
+        "slot": 0,
+        "empty_beats": 3,
+        "next_chunk": 5,
+        "next_star_beat": 23
+      },
+      {
+        "beat": 24,
+        "bar": 6,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 6,
+        "next_star_beat": 26
+      },
+      {
+        "beat": 29,
+        "bar": 7,
+        "slot": 2,
+        "empty_beats": 4,
+        "next_chunk": 7,
+        "next_star_beat": 33
+      },
+      {
+        "beat": 34,
+        "bar": 8,
+        "slot": 4,
+        "empty_beats": 3,
+        "next_chunk": 8,
+        "next_star_beat": 37
+      },
+      {
+        "beat": 39,
+        "bar": 9,
+        "slot": 6,
+        "empty_beats": 3,
+        "next_chunk": 9,
+        "next_star_beat": 42
+      },
+      {
+        "beat": 43,
+        "bar": 10,
+        "slot": 6,
+        "empty_beats": 4,
+        "next_chunk": 10,
+        "next_star_beat": 47
+      }
+    ]
+  },
+  "_r2_deprecated": {
+    "_status": "deprecated (round-3 R18~R21: 보여 주기 마디·쉬는 마디·12시 시작 폐기)",
+    "schema_version": 2,
+    "bars": [
+      {"mode":"play","pattern":"B"},
+      {"mode":"play","pattern":"B"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"H"},
+      {"mode":"play","pattern":"R"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"K"},
+      {"mode":"play","pattern":"F"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"O"},
+      {"mode":"play","pattern":"S"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"A"},
+      {"mode":"rest"},
+      {"mode":"rest"}
+    ],
+    "patterns": {
+      "B": {
+        "slots": [0,2],
+        "shape": "둘"
+      },
+      "H": {
+        "slots": [0,2,6],
+        "shape": "둥 둥 _ 둥"
+      },
+      "R": {
+        "slots": [0,1,2,3],
+        "shape": "둥두둥두"
+      },
+      "K": {
+        "slots": [0,4,5],
+        "shape": "둥 _ 둥두"
+      },
+      "F": {
+        "slots": [0,1,4],
+        "shape": "둥두 둥"
+      },
+      "O": {
+        "slots": [0,2,3,6],
+        "shape": "둥 둥두 _ 둥"
+      },
+      "S": {
+        "slots": [0,1,2,3,6],
+        "shape": "둥두둥두 _ 둥"
+      },
+      "A": {
+        "slots": [0],
+        "shape": "하나"
+      }
+    },
+    "sections": [
+      {
+        "name": "roof_1",
+        "start_bar": 0,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 2,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "roof_2",
+        "start_bar": 3,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 5,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "roof_3",
+        "start_bar": 6,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 8,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "roof_4",
+        "start_bar": 9,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 11,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "mix",
+        "start_bar": 12,
+        "checkpoint": false,
+        "stage": 3
+      },
+      {
+        "name": "outro",
+        "start_bar": 13,
+        "checkpoint": false,
+        "stage": 3
+      }
+    ],
+    "cues": [],
+    "length_bars": 15,
+    "duration_s": 29.091,
+    "design_intent": "새 기믹·보여 주기 없음. 아는 무늬만 두 마디씩 4묶음(둘·둘 / 쉬는 박·4연속 / 둥 _ 둥두·둥두 둥 / O·S), 4연속이 든 마디 뒤는 쉼. 끝은 하나(A) 한 마디. 판정 별 27개(r2: 마디 0 D → B, 마디 12 B → A, 30 → 27).",
+    "known_patterns": [
+      "B",
+      "D",
+      "F",
+      "H",
+      "K",
+      "O",
+      "R",
+      "S",
+      "A"
+    ],
+    "new_gimmicks": [],
+    "difficulty": {
+      "target_child_sd70_median_max": 13,
+      "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    }
+  }
 }

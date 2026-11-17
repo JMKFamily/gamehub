@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "id": "06",
   "theme_id": "level06",
   "name_key": "level6_name",
@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 18,
-  "duration_s": 35.625,
+  "length_bars": 15,
+  "duration_s": 30,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -21,159 +21,337 @@
   },
   "allowed_slots": "all",
   "known_patterns": [
+    "A",
+    "B",
     "C",
-    "G",
-    "B"
+    "D",
+    "E",
+    "V",
+    "W"
   ],
-  "design_intent": "새 기믹 = 두 마디 무늬(앞 마디와 뒤 마디가 다름). 북채가 두 바퀴(보여 주기 2마디)를 먼저 치고, 아이가 같은 순서로 두 바퀴 따라 침. U = 넷 → 둥두 둥, T = 셋 → 둥두 둥두. U를 한 번 더, 끝은 아는 무늬 둘(B) 한 마디. 판정 별 26개(r2: 마디 15 G → B, 28 → 26).",
+  "design_intent": "새 기믹 = 반박 3연속(둥두둥, Q·Y·Z). 첫 등장 Q 단독 앞뒤 4박 비움 → 4박 뒤 다른 시작 박의 Z → 후반 Z·Q 가 2박 사이로 아는 덩어리와 이어짐. v2 의 두 마디 무늬(보여 주기 2마디 전제)를 대신함.",
   "new_gimmicks": [
     {
-      "id": "two_bar_pattern",
-      "first_bar": 2,
-      "_note": "first_bar = 처음 나오는 마디(정보, 카드 시점 아님)"
+      "id": "eighth_run3",
+      "_note": "게임에서 처음인 기믹. 도입 3단계(안전한 첫 등장 → 8박 안 다른 시작 박 → 후반 조합)는 검증 N7"
     }
   ],
   "card": {
-    "id": "card_two_bar",
+    "id": "card_run3",
     "timing": "pre_level_first_play",
-    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 북채가 두 바퀴 쳐 줌 → 아이가 두 바퀴 따라 침. aria-label 키 card_two_bar"
+    "_note": "레벨을 처음 할 때 1회. 붙어 있는 별 셋(둥두둥)을 차례로 톡. aria-label 키 card_run3 (새 키, lore·art)"
   },
-  "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 10,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    "target_child_sd70_median_max": 14,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+  },
+  "path": {
+    "preview_lead_beats": 3.5,
+    "preview_lead_beats_portrait": 3.5,
+    "screen_chunks_max": 3,
+    "chunks": [
+      {"shape":"B","empty_before":2},
+      {"shape":"Q","empty_before":4},
+      {"shape":"Z","empty_before":4},
+      {"shape":"E","empty_before":2},
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":2},
+      {"shape":"B","empty_before":2},
+      {"shape":"E","empty_before":3},
+      {"shape":"Z","empty_before":3},
+      {"shape":"B","empty_before":2},
+      {"shape":"Q","empty_before":2}
+    ],
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
-    "C": {
-      "slots": [
-        0,
-        2,
-        4
-      ],
-      "shape": "셋"
+    "c46": {
+      "slots": [4,6]
     },
-    "U1": {
-      "slots": [
-        0,
-        2,
-        4,
-        6
-      ],
-      "shape": "두 마디 무늬 U 앞(넷)"
+    "c012": {
+      "slots": [0,1,2]
     },
-    "U2": {
-      "slots": [
-        0,
-        1,
-        4
-      ],
-      "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+    "c467": {
+      "slots": [4,6,7]
     },
-    "T1": {
-      "slots": [
-        0,
-        2,
-        4
-      ],
-      "shape": "두 마디 무늬 T 앞(셋)"
+    "c067": {
+      "slots": [0,6,7]
     },
-    "T2": {
-      "slots": [
-        0,
-        1,
-        4,
-        5
-      ],
-      "shape": "두 마디 무늬 T 뒤(둥두 둥두)"
+    "c4": {
+      "slots": [4]
     },
-    "B": {
-      "slots": [
-        0,
-        2
-      ],
-      "shape": "둘"
+    "c24": {
+      "slots": [2,4]
+    },
+    "c45": {
+      "slots": [4,5]
+    },
+    "c06": {
+      "slots": [0,6]
+    },
+    "c0": {
+      "slots": [0]
     }
   },
+  "bars": [
+    {"mode":"play","pattern":"c46"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c012"},
+    {"mode":"play","pattern":"c467"},
+    {"mode":"play","pattern":"c067"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c4"},
+    {"mode":"play","pattern":"c24"},
+    {"mode":"play","pattern":"c45"},
+    {"mode":"play","pattern":"c467"},
+    {"mode":"play","pattern":"c06"},
+    {"mode":"play","pattern":"c067"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ],
   "sections": [
     {
-      "name": "review",
+      "name": "part1",
       "start_bar": 0,
-      "checkpoint": false,
       "stage": 1
     },
     {
-      "name": "breath",
-      "start_bar": 1,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "learn_two_u",
-      "start_bar": 2,
-      "checkpoint": false,
-      "stage": 1
-    },
-    {
-      "name": "breath",
-      "start_bar": 6,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "learn_two_t",
-      "start_bar": 7,
-      "checkpoint": false,
+      "name": "part2",
+      "start_bar": 4,
       "stage": 2
     },
     {
-      "name": "breath",
-      "start_bar": 11,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "replay_u",
-      "start_bar": 12,
-      "checkpoint": false,
-      "stage": 3
-    },
-    {
-      "name": "breath",
-      "start_bar": 14,
-      "checkpoint": true,
-      "stage": 3
-    },
-    {
-      "name": "mix",
-      "start_bar": 15,
-      "checkpoint": false,
+      "name": "part3",
+      "start_bar": 9,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 16,
-      "checkpoint": false,
+      "start_bar": 13,
       "stage": 3
     }
   ],
-  "bars": [
-    {"mode":"play","pattern":"C"},
-    {"mode":"rest"},
-    {"mode":"show","pattern":"U1"},
-    {"mode":"show","pattern":"U2"},
-    {"mode":"play","pattern":"U1"},
-    {"mode":"play","pattern":"U2"},
-    {"mode":"rest"},
-    {"mode":"show","pattern":"T1"},
-    {"mode":"show","pattern":"T2"},
-    {"mode":"play","pattern":"T1"},
-    {"mode":"play","pattern":"T2"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"U1"},
-    {"mode":"play","pattern":"U2"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"B"},
-    {"mode":"rest"},
-    {"mode":"rest"}
-  ]
+  "practice": {
+    "checkpoint_rule": "breath_gap_start",
+    "checkpoints": [
+      {
+        "beat": 4,
+        "bar": 1,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 1,
+        "next_star_beat": 8
+      },
+      {
+        "beat": 10,
+        "bar": 2,
+        "slot": 4,
+        "empty_beats": 4,
+        "next_chunk": 2,
+        "next_star_beat": 14
+      },
+      {
+        "beat": 17,
+        "bar": 4,
+        "slot": 2,
+        "empty_beats": 2,
+        "next_chunk": 3,
+        "next_star_beat": 19
+      },
+      {
+        "beat": 20,
+        "bar": 5,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 4,
+        "next_star_beat": 22
+      },
+      {
+        "beat": 24,
+        "bar": 6,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 5,
+        "next_star_beat": 26
+      },
+      {
+        "beat": 27,
+        "bar": 6,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 6,
+        "next_star_beat": 29
+      },
+      {
+        "beat": 31,
+        "bar": 7,
+        "slot": 6,
+        "empty_beats": 3,
+        "next_chunk": 7,
+        "next_star_beat": 34
+      },
+      {
+        "beat": 35,
+        "bar": 8,
+        "slot": 6,
+        "empty_beats": 3,
+        "next_chunk": 8,
+        "next_star_beat": 38
+      },
+      {
+        "beat": 41,
+        "bar": 10,
+        "slot": 2,
+        "empty_beats": 2,
+        "next_chunk": 9,
+        "next_star_beat": 43
+      },
+      {
+        "beat": 45,
+        "bar": 11,
+        "slot": 2,
+        "empty_beats": 2,
+        "next_chunk": 10,
+        "next_star_beat": 47
+      }
+    ]
+  },
+  "_r2_deprecated": {
+    "_status": "deprecated (round-3 R18~R21: 보여 주기 마디·쉬는 마디·12시 시작 폐기)",
+    "schema_version": 2,
+    "bars": [
+      {"mode":"play","pattern":"C"},
+      {"mode":"rest"},
+      {"mode":"show","pattern":"U1"},
+      {"mode":"show","pattern":"U2"},
+      {"mode":"play","pattern":"U1"},
+      {"mode":"play","pattern":"U2"},
+      {"mode":"rest"},
+      {"mode":"show","pattern":"T1"},
+      {"mode":"show","pattern":"T2"},
+      {"mode":"play","pattern":"T1"},
+      {"mode":"play","pattern":"T2"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"U1"},
+      {"mode":"play","pattern":"U2"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"B"},
+      {"mode":"rest"},
+      {"mode":"rest"}
+    ],
+    "patterns": {
+      "C": {
+        "slots": [0,2,4],
+        "shape": "셋"
+      },
+      "U1": {
+        "slots": [0,2,4,6],
+        "shape": "두 마디 무늬 U 앞(넷)"
+      },
+      "U2": {
+        "slots": [0,1,4],
+        "shape": "두 마디 무늬 U 뒤(둥두 둥)"
+      },
+      "T1": {
+        "slots": [0,2,4],
+        "shape": "두 마디 무늬 T 앞(셋)"
+      },
+      "T2": {
+        "slots": [0,1,4,5],
+        "shape": "두 마디 무늬 T 뒤(둥두 둥두)"
+      },
+      "B": {
+        "slots": [0,2],
+        "shape": "둘"
+      }
+    },
+    "sections": [
+      {
+        "name": "review",
+        "start_bar": 0,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 1,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "learn_two_u",
+        "start_bar": 2,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 6,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "learn_two_t",
+        "start_bar": 7,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 11,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "replay_u",
+        "start_bar": 12,
+        "checkpoint": false,
+        "stage": 3
+      },
+      {
+        "name": "breath",
+        "start_bar": 14,
+        "checkpoint": true,
+        "stage": 3
+      },
+      {
+        "name": "mix",
+        "start_bar": 15,
+        "checkpoint": false,
+        "stage": 3
+      },
+      {
+        "name": "outro",
+        "start_bar": 16,
+        "checkpoint": false,
+        "stage": 3
+      }
+    ],
+    "cues": [],
+    "length_bars": 18,
+    "duration_s": 35.625,
+    "design_intent": "새 기믹 = 두 마디 무늬(앞 마디와 뒤 마디가 다름). 북채가 두 바퀴(보여 주기 2마디)를 먼저 치고, 아이가 같은 순서로 두 바퀴 따라 침. U = 넷 → 둥두 둥, T = 셋 → 둥두 둥두. U를 한 번 더, 끝은 아는 무늬 둘(B) 한 마디. 판정 별 26개(r2: 마디 15 G → B, 28 → 26).",
+    "known_patterns": [
+      "C",
+      "G",
+      "B"
+    ],
+    "new_gimmicks": [
+      {
+        "id": "two_bar_pattern",
+        "first_bar": 2,
+        "_note": "first_bar = 처음 나오는 마디(정보, 카드 시점 아님)"
+      }
+    ],
+    "difficulty": {
+      "target_child_sd70_median_max": 10,
+      "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
+    },
+    "card": {
+      "id": "card_two_bar",
+      "timing": "pre_level_first_play",
+      "_note": "레벨을 처음 할 때 카운트인 앞 1회. 북채가 두 바퀴 쳐 줌 → 아이가 두 바퀴 따라 침. aria-label 키 card_two_bar"
+    }
+  }
 }

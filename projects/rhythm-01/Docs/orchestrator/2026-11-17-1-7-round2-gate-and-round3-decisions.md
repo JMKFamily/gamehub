@@ -76,3 +76,13 @@
 - diff: `30-art.md` +252/−18(−18은 "round-3에서 대체" 표시 줄), `assets/` 새 파일(layout.json·road-layout.mjs·cards-r3/ 10장·cards-r3.mjs·mockup-r3), 수정(palette.json +32/−0, palette.mjs, sound.json +111/−11 — 지운 줄은 `--render --write`가 다시 쓴 측정 기록값, sound-check.mjs, cards-portrait.mjs `--dir`), 보고서, README 한 줄. 빌드·balance·levels·lore·harness 미수정, 서버 미사용. 직접: palette --check 0, sound-check 0, 새 SVG 외부 href 0.
 - **규칙 위반(경미)**: `git --version` 1회 실행(레포 조회·변경 없음), 본인 자진 보고. 결과물 영향 없음. 다음 지시에도 "git은 --version 포함 실행 자체 금지" 명시.
 - 콤보 연출은 공통 DJMAX 문서 기준(점 10칸·표지·무음 끊김, 노랑 미사용). 세로 겹침 해결안(세로 미리 보기 = min(가로, 3.5)) → balance에 전달.
+
+## balance 새 코어 기획 감시 — 통과
+- diff: `20-balance.md`(17장 덧붙임), `balance.json`(새 키, 옛 값 `*_r2_deprecated`, 삭제 0), `levels/01~10`(v3, v2 보존), `tools/sim/path.mjs` 신규, `bots.mjs`(덧붙임만), `verify-levels.mjs`, 보고서, README 한 줄. judge·calib·plan·빌드·다른 역할 문서 미수정, git·서버 미사용. **전체 실행 직접: 종료 0, FAIL 0, ALL PASS.** B6 L10 21.023 ∈ [18.20, 27.30](T 22.75, 배율 1.5173), 시드 10개 모두 ±20 % 안, N1~N11 PASS, 콤보 = 공통 문서안(R22 예비안 불채택, 근거 3개 타당).
+- **위험 감지·조치**: 진행 중인 dev(옛 코어 R11~R13 빌드)가 `build-web-data`를 다시 돌리면 v3 레벨이 옛 엔진에 들어감 → dev에 즉시 SendMessage(재생성 금지, data v2 확인, 섞였으면 보고).
+
+## round-3 추가 결정 (R23~R25)
+1. **R23 보호자 보정 적용 하한**: 이른 쪽 남은 오차 −30 ms에서 L7~L10이 32~74회(30회 한도 초과), L10 한계 약 12 ms → (a) `guardian_calibration.apply_only_if_abs_over_ms` 30 → 10 채택. 판정 창은 바꾸지 않음(b 기각), 정보로만 두기(c)는 한도 위반을 남겨 기각. balance가 교차 리뷰에서 바꾸고, 보정 측정 잡음(어른 σ40, 16탭)으로 10 ms 미만 보정이 오히려 오차를 키우지 않는지 봇 INFO로 확인.
+2. **R24 키 이름 통일**: L1 = lore 새 키 `tut_drum_tap`·`card_drum_tap`(뜻이 바뀌어 옛 `tut_tap`·`card_star_tap`은 폐기 유지), L6 = balance 확정 기믹 "반박 3연속" → 카드 키 `card_run3`(lore가 새 문구, `card_long_row`는 쓰지 않음 표시), art는 `cards-r3/` 파일 이름을 키와 같게(L1 `card_drum_tap`, L6 `card_run3`) 바꾸고 L6 그림을 "붙은 별 셋"으로.
+3. **R25 그 밖**: L3 좋아 ±90(공통 문서 권장 ±100)은 판정 창 불변 원칙으로 유지. 레벨 길이 30~45 s 미달 7개(1~3 s)는 balance가 숨 고르기로 맞출 수 있으면 교차 리뷰에서 반영(N 규칙·B6 유지 조건).
+- 다음: 1-2 교차 리뷰(balance·art·lore 각 1회 수정, 병렬).

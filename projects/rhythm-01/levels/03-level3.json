@@ -1,5 +1,5 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "id": "03",
   "theme_id": "level03",
   "name_key": "level3_name",
@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 18,
-  "duration_s": 38,
+  "length_bars": 16,
+  "duration_s": 34,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -21,144 +21,328 @@
   },
   "allowed_slots": "all",
   "known_patterns": [
-    "D"
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "V",
+    "W"
   ],
-  "design_intent": "쉬는 박(별 사이 빈 박) 도입. 둥 둥 _ 둥 / 둥 _ 둥두 / _ 둥 둥 둥(12시 비움). 쉼 길이는 최대 1박 반(별 간격 1000 ms 이하). 새 무늬마다 북채가 먼저 쳐 줌. 마지막에 세 무늬를 섞고 3마디 쉬며 끝냄. 1-2 수정: 판정 별 28 → 25, 통과 창 -135/+155.",
+  "design_intent": "새 기믹 = 짧은 쉼(덩어리 둘 사이 빈 1박). 첫 등장: 하나 _ 하나(A1) 앞뒤 4박 비움 → 4박 뒤 다른 시작 박에서 둘 _ 둘 → 후반에 빈 1박 구절이 2박 사이로 이웃 덩어리와 이어짐. 빈 1박 뒤에는 비싼 덩어리를 두지 않음(N8).",
   "new_gimmicks": [
     {
       "id": "rest_beat",
-      "first_bar": 2,
-      "_note": "별 사이 빈 자리. first_bar = 처음 나오는 마디(정보)"
+      "_note": "게임에서 처음인 기믹. 도입 3단계(안전한 첫 등장 → 8박 안 다른 시작 박 → 후반 조합)는 검증 N7"
     }
   ],
   "card": {
     "id": "card_rest_beat",
     "timing": "pre_level_first_play",
-    "_note": "레벨을 처음 할 때 카운트인 앞 1회. 빈 자리에서 손가락이 멈춰 기다림. aria-label 키 card_rest_beat"
+    "_note": "레벨을 처음 할 때 1회. 별 _ 별: 빈 칸에서는 기다림. aria-label 키 card_rest_beat"
   },
-  "cues": [],
   "difficulty": {
-    "target_child_sd70_median_max": 8,
-    "target_novice_sd50_median": [
-      1,
-      3
-    ]
+    "target_child_sd70_median_max": 9,
+    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+  },
+  "path": {
+    "preview_lead_beats": 4,
+    "preview_lead_beats_portrait": 3.5,
+    "screen_chunks_max": 2,
+    "chunks": [
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":4},
+      {"shape":"A","empty_before":1},
+      {"shape":"B","empty_before":4},
+      {"shape":"B","empty_before":1},
+      {"shape":"C","empty_before":4},
+      {"shape":"B","empty_before":3},
+      {"shape":"A","empty_before":2},
+      {"shape":"V","empty_before":1},
+      {"shape":"A","empty_before":2},
+      {"shape":"C","empty_before":3},
+      {"shape":"E","empty_before":2},
+      {"shape":"B","empty_before":3}
+    ],
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
   },
   "patterns": {
-    "D": {
-      "slots": [
-        0,
-        2,
-        4,
-        6
-      ],
-      "shape": "넷"
+    "c46": {
+      "slots": [4,6]
     },
-    "H": {
-      "slots": [
-        0,
-        2,
-        6
-      ],
-      "shape": "둥 둥 _ 둥"
+    "c04": {
+      "slots": [0,4]
     },
-    "K": {
-      "slots": [
-        0,
-        4,
-        5
-      ],
-      "shape": "둥 _ 둥두"
+    "c6": {
+      "slots": [6]
     },
-    "J": {
-      "slots": [
-        2,
-        4,
-        6
-      ],
-      "shape": "_ 둥 둥 둥"
+    "c046": {
+      "slots": [0,4,6]
+    },
+    "c024": {
+      "slots": [0,2,4]
+    },
+    "c4": {
+      "slots": [4]
+    },
+    "c023": {
+      "slots": [0,2,3]
+    },
+    "c0": {
+      "slots": [0]
+    },
+    "c23": {
+      "slots": [2,3]
+    },
+    "c24": {
+      "slots": [2,4]
     }
   },
+  "bars": [
+    {"mode":"play","pattern":"c46"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c04"},
+    {"mode":"play","pattern":"c6"},
+    {"mode":"play","pattern":"c046"},
+    {"mode":"rest"},
+    {"mode":"play","pattern":"c024"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c4"},
+    {"mode":"play","pattern":"c023"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c024"},
+    {"mode":"play","pattern":"c23"},
+    {"mode":"play","pattern":"c24"},
+    {"mode":"rest"},
+    {"mode":"rest"}
+  ],
   "sections": [
     {
-      "name": "review",
+      "name": "part1",
       "start_bar": 0,
-      "checkpoint": false,
       "stage": 1
     },
     {
-      "name": "breath",
-      "start_bar": 1,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "learn_rest",
-      "start_bar": 2,
-      "checkpoint": false,
-      "stage": 1
-    },
-    {
-      "name": "breath",
-      "start_bar": 5,
-      "checkpoint": true,
-      "stage": 1
-    },
-    {
-      "name": "learn_rest_pair",
+      "name": "part2",
       "start_bar": 6,
-      "checkpoint": false,
       "stage": 2
     },
     {
-      "name": "breath",
-      "start_bar": 8,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "learn_empty_top",
+      "name": "part3",
       "start_bar": 9,
-      "checkpoint": false,
-      "stage": 2
-    },
-    {
-      "name": "breath",
-      "start_bar": 11,
-      "checkpoint": true,
-      "stage": 2
-    },
-    {
-      "name": "mix",
-      "start_bar": 12,
-      "checkpoint": false,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 15,
-      "checkpoint": false,
+      "start_bar": 14,
       "stage": 3
     }
   ],
-  "bars": [
-    {"mode":"play","pattern":"D"},
-    {"mode":"rest"},
-    {"mode":"show","pattern":"H"},
-    {"mode":"play","pattern":"H"},
-    {"mode":"play","pattern":"H"},
-    {"mode":"rest"},
-    {"mode":"show","pattern":"K"},
-    {"mode":"play","pattern":"K"},
-    {"mode":"rest"},
-    {"mode":"show","pattern":"J"},
-    {"mode":"play","pattern":"J"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"H"},
-    {"mode":"play","pattern":"J"},
-    {"mode":"play","pattern":"K"},
-    {"mode":"rest"},
-    {"mode":"rest"},
-    {"mode":"rest"}
-  ]
+  "practice": {
+    "checkpoint_rule": "breath_gap_start",
+    "checkpoints": [
+      {
+        "beat": 4,
+        "bar": 1,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 1,
+        "next_star_beat": 8
+      },
+      {
+        "beat": 11,
+        "bar": 2,
+        "slot": 6,
+        "empty_beats": 4,
+        "next_chunk": 3,
+        "next_star_beat": 15
+      },
+      {
+        "beat": 20,
+        "bar": 5,
+        "slot": 0,
+        "empty_beats": 4,
+        "next_chunk": 5,
+        "next_star_beat": 24
+      },
+      {
+        "beat": 27,
+        "bar": 6,
+        "slot": 6,
+        "empty_beats": 3,
+        "next_chunk": 6,
+        "next_star_beat": 30
+      },
+      {
+        "beat": 32,
+        "bar": 8,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 7,
+        "next_star_beat": 34
+      },
+      {
+        "beat": 38,
+        "bar": 9,
+        "slot": 4,
+        "empty_beats": 2,
+        "next_chunk": 9,
+        "next_star_beat": 40
+      },
+      {
+        "beat": 41,
+        "bar": 10,
+        "slot": 2,
+        "empty_beats": 3,
+        "next_chunk": 10,
+        "next_star_beat": 44
+      },
+      {
+        "beat": 47,
+        "bar": 11,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 11,
+        "next_star_beat": 49
+      },
+      {
+        "beat": 50,
+        "bar": 12,
+        "slot": 4,
+        "empty_beats": 3,
+        "next_chunk": 12,
+        "next_star_beat": 53
+      }
+    ]
+  },
+  "_r2_deprecated": {
+    "_status": "deprecated (round-3 R18~R21: 보여 주기 마디·쉬는 마디·12시 시작 폐기)",
+    "schema_version": 2,
+    "bars": [
+      {"mode":"play","pattern":"D"},
+      {"mode":"rest"},
+      {"mode":"show","pattern":"H"},
+      {"mode":"play","pattern":"H"},
+      {"mode":"play","pattern":"H"},
+      {"mode":"rest"},
+      {"mode":"show","pattern":"K"},
+      {"mode":"play","pattern":"K"},
+      {"mode":"rest"},
+      {"mode":"show","pattern":"J"},
+      {"mode":"play","pattern":"J"},
+      {"mode":"rest"},
+      {"mode":"play","pattern":"H"},
+      {"mode":"play","pattern":"J"},
+      {"mode":"play","pattern":"K"},
+      {"mode":"rest"},
+      {"mode":"rest"},
+      {"mode":"rest"}
+    ],
+    "patterns": {
+      "D": {
+        "slots": [0,2,4,6],
+        "shape": "넷"
+      },
+      "H": {
+        "slots": [0,2,6],
+        "shape": "둥 둥 _ 둥"
+      },
+      "K": {
+        "slots": [0,4,5],
+        "shape": "둥 _ 둥두"
+      },
+      "J": {
+        "slots": [2,4,6],
+        "shape": "_ 둥 둥 둥"
+      }
+    },
+    "sections": [
+      {
+        "name": "review",
+        "start_bar": 0,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 1,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "learn_rest",
+        "start_bar": 2,
+        "checkpoint": false,
+        "stage": 1
+      },
+      {
+        "name": "breath",
+        "start_bar": 5,
+        "checkpoint": true,
+        "stage": 1
+      },
+      {
+        "name": "learn_rest_pair",
+        "start_bar": 6,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 8,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "learn_empty_top",
+        "start_bar": 9,
+        "checkpoint": false,
+        "stage": 2
+      },
+      {
+        "name": "breath",
+        "start_bar": 11,
+        "checkpoint": true,
+        "stage": 2
+      },
+      {
+        "name": "mix",
+        "start_bar": 12,
+        "checkpoint": false,
+        "stage": 3
+      },
+      {
+        "name": "outro",
+        "start_bar": 15,
+        "checkpoint": false,
+        "stage": 3
+      }
+    ],
+    "cues": [],
+    "length_bars": 18,
+    "duration_s": 38,
+    "design_intent": "쉬는 박(별 사이 빈 박) 도입. 둥 둥 _ 둥 / 둥 _ 둥두 / _ 둥 둥 둥(12시 비움). 쉼 길이는 최대 1박 반(별 간격 1000 ms 이하). 새 무늬마다 북채가 먼저 쳐 줌. 마지막에 세 무늬를 섞고 3마디 쉬며 끝냄. 1-2 수정: 판정 별 28 → 25, 통과 창 -135/+155.",
+    "known_patterns": [
+      "D"
+    ],
+    "new_gimmicks": [
+      {
+        "id": "rest_beat",
+        "first_bar": 2,
+        "_note": "별 사이 빈 자리. first_bar = 처음 나오는 마디(정보)"
+      }
+    ],
+    "difficulty": {
+      "target_child_sd70_median_max": 8,
+      "target_novice_sd50_median": [
+        1,
+        3
+      ]
+    },
+    "card": {
+      "id": "card_rest_beat",
+      "timing": "pre_level_first_play",
+      "_note": "레벨을 처음 할 때 카운트인 앞 1회. 빈 자리에서 손가락이 멈춰 기다림. aria-label 키 card_rest_beat"
+    }
+  }
 }

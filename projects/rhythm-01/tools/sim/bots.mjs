@@ -270,3 +270,124 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   }
   console.log(JSON.stringify(out, null, 1));
 }
+
+// ───────────────────────── round-3 (북길, 20-balance.md 17장) ─────────────────────────
+// "처음 보는 무늬 비용" (R20, 00-benchmark 8-4): 보여 주기 마디가 없어져 처음 보는 마디 내용은 잘못 읽을 수 있다.
+//   단위 = 마디 내용(그 마디의 별 자리 묶음, judge.mjs 별의 pattern = path.mjs 마디 내용 id).
+//   노출 e = 이 세션에서 그 마디 내용에 도달한 횟수(앞 시도들 + 같은 시도 앞쪽). 별마다 놓침 확률에
+//   extra_miss_first_exposure × max(0, 1 − e / exposures_to_zero) 를 더한다 (기본 3 %p → 2 → 1 → 0).
+//   도달 = 그 마디의 첫 별이 실패한 별 번호 이하(그 마디까지 와서 봤음). 클리어하면 모든 마디 도달.
+//   세션 = 첫 클리어까지(상한 maxAttempts). 연속 중앙값 = 생존 곡선 S(k) 가 0.5 를 지나는 시도의 기하 보간
+//   x = (k−1) + ln(0.5 / S(k−1)) / ln(S(k) / S(k−1)). 비용 0 이면 ln0.5/ln(1−p) 와 같은 식이 된다.
+export function noveltyTaps(L, p, rng, extraMiss, { bias = 0, extraAfter = [0.15, 0.45] } = {}) {
+  const taps = [];
+  L.stars.forEach((st, i) => {
+    if (rng.rnd() < p.miss + extraMiss[i]) return;
+    const tau = st.t + bias + rng.gauss() * p.sd_ms;
+    taps.push(tau);
+    if (rng.rnd() < p.extra) taps.push(tau + 1000 * (extraAfter[0] + rng.rnd() * (extraAfter[1] - extraAfter[0])));
+  });
+  return taps;
+}
+
+export function continuousMedianFromSurvival(S) {
+  // S[0] = 1, S[k] = k번째 시도까지 못 깬 비율
+  for (let k = 1; k < S.length; k++) {
+    if (S[k] <= 0.5) {
+      const q = S[k] / S[k - 1];
+      return q > 0 ? (k - 1) + Math.log(0.5 / S[k - 1]) / Math.log(q) : k - 1;
+    }
+  }
+  return null;
+}
+
+export function runNoveltySessions(L, p, bal, { sessions = 20000, seed = 24680, bias = 0, sessionBias = null, novelty, maxAttempts = 200 } = {}) {
+  const nv = novelty ?? bal.bots.novelty;
+  const c0 = nv.extra_miss_first_exposure, E = nv.exposures_to_zero;
+  const rng = makeRng(seed);
+  const extraAfter = bal.bots.extra_tap_after_s;
+  // 마디 출현(occurrence): 별이 있는 마디 순서대로, 내용 id 번호
+  const ids = [];
+  const occOfStar = [], occFirstStar = [], occCid = [];
+  let lastBar = null;
+  L.stars.forEach((s, i) => {
+    if (s.bar !== lastBar) { lastBar = s.bar; let c = ids.indexOf(s.pattern); if (c < 0) { ids.push(s.pattern); c = ids.length - 1; } occCid.push(c); occFirstStar.push(i); }
+    occOfStar.push(occCid.length - 1);
+  });
+  const nOcc = occCid.length;
+  // 같은 시도 안 앞쪽 같은 내용 출현 수
+  const occPrevSame = occCid.map((c, o) => occCid.slice(0, o).filter((x) => x === c).length);
+  const firstClear = new Array(maxAttempts + 2).fill(0);
+  let capped = 0;
+  const firstFailProgT = [];
+  let att1Clear = 0;
+  const extra = new Array(L.stars.length).fill(0);
+  for (let s = 0; s < sessions; s++) {
+    const b = sessionBias ? sessionBias(rng) : bias;
+    const exp = new Array(ids.length).fill(0);
+    let k = 1, done = false;
+    for (; k <= maxAttempts; k++) {
+      for (let i = 0; i < L.stars.length; i++) {
+        const o = occOfStar[i];
+        const e = exp[occCid[o]] + occPrevSame[o];
+        extra[i] = c0 * Math.max(0, 1 - e / E);
+      }
+      const r = judgeAttempt(L, noveltyTaps(L, p, rng, extra, { bias: b, extraAfter }));
+      const reached = r.clear ? L.stars.length - 1 : r.failIndex;
+      for (let o = 0; o < nOcc; o++) if (occFirstStar[o] <= reached) exp[occCid[o]]++;
+      if (k === 1) { if (r.clear) att1Clear++; else firstFailProgT.push(r.progressTime); }
+      if (r.clear) { firstClear[k]++; done = true; break; }
+    }
+    if (!done) capped++;
+  }
+  const S = [1];
+  let alive = sessions;
+  for (let k = 1; k <= maxAttempts; k++) { alive -= firstClear[k]; S.push(alive / sessions); }
+  const cont = continuousMedianFromSurvival(S);
+  const quant = (q) => { let acc = 0; for (let k = 1; k <= maxAttempts; k++) { acc += firstClear[k]; if (acc >= q * sessions) return k; } return maxAttempts; };
+  firstFailProgT.sort((a, b2) => a - b2);
+  return {
+    median_first_clear_continuous: cont === null ? null : +cont.toFixed(3),
+    median_first_clear_sessions: quant(0.5),
+    p90_first_clear_sessions: quant(0.9),
+    attempt1_clear_rate: +(att1Clear / sessions).toFixed(4),
+    attempt_clear_rate_1_to_5: [1, 2, 3, 4, 5].map((k) => +(1 - S[k] / S[k - 1]).toFixed(4)),
+    capped_sessions: capped,
+    first_fail_progress_time_median: firstFailProgT.length ? +(100 * firstFailProgT[Math.floor((firstFailProgT.length - 1) / 2)]).toFixed(1) : null,
+  };
+}
+
+// 별마다 위험률(hazard) = 그 별에서 실패한 수 / 그 별까지 온 수 (비용 상위 덩어리 찾기, N8)
+export function starHazards(L, p, bal, { N = 20000, seed = 13579 } = {}) {
+  const rng = makeRng(seed);
+  const fails = new Array(L.stars.length).fill(0);
+  for (let n = 0; n < N; n++) {
+    const r = judgeAttempt(L, botTaps(L, p, rng, { extraAfter: bal.bots.extra_tap_after_s }));
+    if (!r.clear) fails[r.failIndex]++;
+  }
+  let reach = N;
+  return fails.map((f) => { const h = reach ? f / reach : 0; reach -= f; return h; });
+}
+
+// 연습 모드 v3 (R21): 체크포인트 = 숨 고르기 틈 시작(박). 구간마다 깰 때까지, 부활 때만 카운트인(판정 영향 없음)
+export function runPracticeV3(L, p, bal, checkpointMs, { sessions = 2000, seed = 4321 } = {}) {
+  const rng = makeRng(seed);
+  const bounds = [-Infinity, ...checkpointMs, Infinity];
+  const segs = [];
+  for (let k = 0; k + 1 < bounds.length; k++) {
+    const stars = L.stars.filter((s) => s.t >= bounds[k] && s.t < bounds[k + 1]).map((s, i) => ({ ...s, i }));
+    if (stars.length) segs.push({ ...L, stars, shows: [] });
+  }
+  const tot = [];
+  for (let s = 0; s < sessions; s++) {
+    let n = 0;
+    for (const seg of segs) {
+      let k = 1;
+      while (k < 200 && !judgeAttempt(seg, botTaps(seg, p, rng, { extraAfter: bal.bots.extra_tap_after_s })).clear) k++;
+      n += k;
+    }
+    tot.push(n);
+  }
+  tot.sort((a, b) => a - b);
+  return { segments: segs.length, median_total_attempts: tot[Math.floor((sessions - 1) / 2)], p90_total_attempts: tot[Math.floor(sessions * 0.9)] };
+}
