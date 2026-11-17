@@ -4,6 +4,11 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | art-director | 1-5 | [round-1 시각·사운드 리뷰: 팔레트·소리값 일치, 북채-손가락 충돌·세로 카드 크기(6.0점, REVISE)](art-director/2026-11-17-1-5-round1-review.md) |
+| 2026-11-17 | benchmark-analyst | 1-5 | [round-1 감각 리뷰: 1프레임 반응·재시작 1.09 s 통과·L1 북채/손가락 신호 엇갈림(7.0점, REVISE)](benchmark-analyst/2026-11-17-1-5-round1-review.md) |
+| 2026-11-17 | balance-designer | 1-5 | [round-1 밸런스 리뷰: 곡선 한도 통과·B6 반올림 경계·북채 신호 겹침(7.0점, REVISE)](balance-designer/2026-11-17-1-5-round1-review.md) |
+| 2026-11-17 | lore-writer | 1-5 | [round-1 세계관·텍스트 리뷰: 문구 64키 일치·L1 손가락/북채 겹침 major(7.0점, REVISE)](lore-writer/2026-11-17-1-5-round1-review.md) |
+| 2026-11-17 | qa-engineer | 1-4 | [round-1 QA: 판정 일치 12만 시도·결정 9 통과·6배 스로틀 1% low 미달(7.5점, REVISE)](qa-engineer/2026-11-17-1-4-round1-qa.md) |
 | 2026-11-17 | game-developer | 1-3 | [웹 빌드 round-1: 박자 시계·보호자 보정·10레벨 실시간 클리어](game-developer/2026-11-17-1-3-web-build.md) |
 | 2026-11-17 | balance-designer | 1-3 | [레벨 4~10 데이터·L10 목표(σ70 20회, T 19.76)·보호자 보정 흐름](balance-designer/2026-11-17-1-3-levels-04-10.md) |
 | 2026-11-17 | art-director | 1-3 | [빌드 준비: palette.json·대비 320쌍 통과·보호자 문·소리 합성 표](art-director/2026-11-17-1-3-build-prep.md) |
