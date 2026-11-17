@@ -37,6 +37,8 @@
 - [ ] (round-1 추가, runner-01) 테스트 훅(`?test=1`)으로 찍은 화면이 일반 모드와 같음 (튜토리얼 문구·토스트 표시 시간이 게임 시간 기준)
 - [ ] (rhythm-01 round-1 추가, qa-engineer 제안) 빌드 판정 = 시뮬레이터 판정: 빌드에서 돌린 봇 시도 전부의 탭을 기준 판정 코드에 다시 넣었을 때 결과(클리어·실패 위치·이유) 불일치 0 (rhythm-01: `tools/sim/judge.mjs`, `qa-round.mjs --part bots`)
 - [ ] (rhythm-01 round-1 추가, qa-engineer 제안·balance-designer 지지·오케스트레이터 결정 R4) 보정·밀림 감지 같은 보조 계산의 정의(사분위·중앙값·재시도·표본 고르는 법)가 빌드와 시뮬레이터에서 같고, 실제 입력으로 잰 보정 결과가 들리는 박 기준 ±10 ms 이내 (rhythm-01: 빌드 `calib.js`·D15 밀림 표본이 기준, `bots.mjs`를 맞춤)
+- [ ] (rhythm-01 round-2 추가, qa-engineer 제안·benchmark-analyst 지지) 성능 기준(6배 스로틀 평균·1% low)은 매번 새 브라우저로 3회 이상 반복 측정해 모든 회에서 통과해야 통과로 봄. 떨어진 창은 long-animation-frame(스크립트·blocking)과 게임 코드 없는 대조 페이지로 원인(빌드/측정 환경)을 적음 (rhythm-01: `qa-round.mjs --part perf --perf-runs 3`·`--part perfctl`)
+- [ ] (rhythm-01 round-2 추가, balance-designer·qa-engineer 제안) 지연 보정은 보정 때와 플레이 때 자동 지연 값이 달라도 이중 보정이 없음: 빈 저장소 → 실제 UI 첫 실행 → 보정 → 레벨 1에서 `comp − 그 순간 자동 지연(autoNow)` = 보정 결과 오프셋이고, 그 오프셋은 사람이 들리는 박(예약 시각 + 탭 순간 autoNow)에 친 값의 규칙 기대값 ±10 ms. "들리는 박"을 게임 내부 고정값으로 잡은 자기 일관 측정은 근거로 쓰지 않음 (rhythm-01: `qa-round.mjs --part firstrun`, round-2 1-6 재측정에서 이중 보정 +62~70 ms)
 
 ### 게임 감각 (benchmark-analyst)
 - [ ] 입력 후 1프레임 이내 점프 시작
@@ -63,6 +65,7 @@
 - [ ] (rhythm-01 round-1 추가, balance-designer 제안·오케스트레이터 결정 R3) 레벨 10 목표(B6)는 σ70 첫 시도 클리어율 p에서 구한 **연속 중앙값 ln 0.5 / ln(1 − p)**로 판정하고, L1~L3·L10 값은 모두 **시뮬레이터 전체 실행 한 원천**에서 가져옴. 정수 중앙값은 참고로 함께 적고, 빌드 봇 값은 일치 확인용이며 B6 판정에 섞지 않음 (rhythm-01: round-1 정수 중앙값이 L1 2/3 경계 51.9 %에 걸려 목표가 19.76 ↔ 10.76으로 뒤집힘)
 - [ ] (rhythm-01 round-1 추가, balance-designer 제안·오케스트레이터 결정 R1·R2) 차례 신호(보여 주기 표시)가 보이는 구간이 어떤 판정 대상의 위험 구간과도 겹치지 않고, 튜토리얼 손가락의 누름 시작이 통과 창 안 (rhythm-01: 북채 창 ∩ 모든 판정 별 [놓침 구역 시작, 통과 창 끝] = 0 ms, 손가락 누름 시작 ≥ −pass_early, 검증기 S15·S16)
 - [ ] (rhythm-01 round-1 추가, balance-designer 제안) 위 숙련 봇(σ25) 몰림 항목의 리듬 등가: "한 지점(±3 t)"은 "같은 판정 별"로 읽고, σ25 실패가 레벨당 20회 미만이면 σ50으로 같은 판정 별 몰림 30 % 이하를 봄 (rhythm-01)
+- [ ] (rhythm-01 round-2 추가, balance-designer 제안) 보정 영향 봇 표에 "보정 때와 플레이 때 자동 지연 차이 Δ"(QA 실측값) 시나리오를 넣어 레벨 1 σ70 첫 클리어 기준과 전 레벨 30회 한도를 확인 (rhythm-01: Δ 56~64 ms, round-2 1-6 `qa-round.mjs --part firstrun` 실측)
 
 ### 시각·사운드 (art-director)
 - [ ] 위험 요소와 배경 명도 대비 4.5:1 이상
@@ -74,6 +77,7 @@
 - [ ] (rhythm-01 round-1 추가, art-director·qa-engineer·benchmark-analyst·balance-designer 제안·오케스트레이터 결정 R1) 튜토리얼·차례 신호가 같은 순간 서로 다른 행동(볼 차례 / 칠 차례)을 가리키지 않음: 레벨 1 시간축에서 신호 창 겹침 0 ms (rhythm-01: 북채·점선 궤도 창 ∩ 손가락·`tut_tap` 창 = 0)
 - [ ] (rhythm-01 round-1 추가, art-director 제안) 그림 카드·튜토리얼 그림의 크기 기준은 SVG 원본 단위가 아니라 **화면에 실제로 그려진 px**로 잼. 4해상도 notext에서 플레이어(공) ≥ 16 px, 판정 대상(별) ≥ 20 px
 - [ ] (rhythm-01 round-1 추가, art-director 제안·오케스트레이터 결정 R7) 소리 크기 순서는 오프라인 렌더(층 합산 최고값)로 확인: 아이 탭이 모든 효과음보다 1 dB 이상 크고, 탭과 둥둥이(보여 주기 소리)의 RMS 차 6 dB 이상 (rhythm-01)
+- [ ] (rhythm-01 round-2 추가, art-director 제안) 신호가 사라지거나 바뀌는 전환(작아짐·점선 → 실선 등) 중 어느 프레임에도 전환 앞뒤 상태 어디에도 없는 선·면이 생기지 않음 (rhythm-01: 북채 퇴장 0.25박 프레임 스캔)
 
 ### 세계관·텍스트 (lore-writer)
 - [ ] 화면의 모든 텍스트가 10-lore.md와 일치

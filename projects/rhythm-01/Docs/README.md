@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | qa-engineer | 1-6 round-2 | [round-2 점수 집계 + 첫 실행 보정 재측정: autoNow 기준 오프셋 오차 +63~69 ms(4/4)·σ70 L1 17·L2 60회 → blocker 확정 제안, 기술 7.5 → 6.5, 가중 7.95, 판정표 총점·blocker 미충족, criteria 4줄](qa-engineer/2026-11-17-r2-1-6-score.md) |
 | 2026-11-17 | balance-designer | 1-5 round-2 | [round-2 밸런스 리뷰: 검증 ALL PASS 193·B6 L10 13.36(−2.4 %)·M1·M3 해결, 13/13, 첫 실행 보정 auto 10→74 이중 보정(L1 σ70 14회) major — 7.5점, REVISE](balance-designer/2026-11-17-r2-1-5-review.md) |
 | 2026-11-17 | art-director | 1-5 round-2 | [round-2 시각·사운드 리뷰: round-1 지적 11건 해결 확인, 8/8 · 9.0점 PASS, minor 3(사라짐 끝 번쩍 고리·360x640 카드 여유 0·훅 글)](art-director/2026-11-17-r2-1-5-review.md) |
 | 2026-11-17 | benchmark-analyst | 1-5 round-2 | [round-2 감각 리뷰: 신호 겹침·최고 진행도 해결, 실패 → 다음 별 2.8~5.4 s, 입력 1프레임 16/16, 13/13(8.5점, PASS), minor 2](benchmark-analyst/2026-11-17-r2-1-5-review.md) |

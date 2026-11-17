@@ -2,7 +2,7 @@
  "round": 2,
  "game": "rhythm-01",
  "build": "games/rhythm-01",
- "generated": "2026-11-17T06:21:55.091Z",
+ "generated": "2026-11-17T06:48:56.476Z",
  "parts": {
   "bots": {
    "levels": {
@@ -5246,6 +5246,588 @@
     "requests": 451
    },
    "seconds": 166,
+   "env": {
+    "channel": "msedge",
+    "playwright": "PLAYWRIGHT_CORE",
+    "node": "v24.20.0"
+   }
+  },
+  "firstrun": {
+   "definition": "들리는 박 = 예약 시각 + 탭 순간 autoNow(outputLatency+baseLatency). 사람 = 들리는 박 + X ms 에 실제 마우스(CDP) 누름",
+   "runs": [
+    {
+     "res": "412x915",
+     "X": 0,
+     "skip": false,
+     "emptyStorageAtStart": true,
+     "timeline": [
+      {
+       "tag": "calib 진입 직후",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 10,
+       "state": "calib",
+       "sinceCtx": 13.1
+      },
+      {
+       "tag": "보정 화면 0.9 s (탭 전)",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 917.8
+      },
+      {
+       "tag": "보정 끝 직후",
+       "auto": 66,
+       "manual": 62.6299999880755,
+       "comp": 128.6299999880755,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 10499.8
+      },
+      {
+       "tag": "L1 카드",
+       "auto": 66,
+       "manual": 62.6299999880755,
+       "comp": 128.6299999880755,
+       "autoNow": 66,
+       "state": "card",
+       "sinceCtx": 11469
+      },
+      {
+       "tag": "L1 시작",
+       "auto": 66,
+       "manual": 62.6299999880755,
+       "comp": 128.6299999880755,
+       "autoNow": 66,
+       "state": "play",
+       "sinceCtx": 11483.6
+      }
+     ],
+     "calib": {
+      "taps": 16,
+      "tapMinusHeardMedian": 0.7,
+      "tapMinusHeardRange": [
+       0.5,
+       1.2
+      ],
+      "autoNowAtTaps": [
+       66
+      ],
+      "gameAutoAtTaps": [
+       10
+      ],
+      "offset": 62.6,
+      "expectOffset": 0,
+      "offsetErr": 62.6,
+      "calibAutoLatSaved": 10,
+      "ok_pm10": false
+     },
+     "l1Start": {
+      "auto": 66,
+      "autoNow": 66,
+      "manual": 62.6,
+      "comp": 128.6,
+      "compMinusAutoNow": 62.6,
+      "shouldBe": 0,
+      "doubleCorrectionMs": 62.6,
+      "ok_pm10": false
+     },
+     "l1Play": {
+      "humanTapsAt": "들리는 별 + 0 ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0",
+      "attempts": 1,
+      "clear": true,
+      "errMedian": -65.9,
+      "errRange": [
+       -68,
+       -64.9
+      ],
+      "n": 20,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    },
+    {
+     "res": "1280x720",
+     "X": 0,
+     "skip": false,
+     "emptyStorageAtStart": true,
+     "timeline": [
+      {
+       "tag": "calib 진입 직후",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 10,
+       "state": "calib",
+       "sinceCtx": 10.2
+      },
+      {
+       "tag": "보정 화면 0.9 s (탭 전)",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 913.9
+      },
+      {
+       "tag": "보정 끝 직후",
+       "auto": 66,
+       "manual": 62.85172335600873,
+       "comp": 128.85172335600873,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 10420.4
+      },
+      {
+       "tag": "L1 카드",
+       "auto": 66,
+       "manual": 62.85172335600873,
+       "comp": 128.85172335600873,
+       "autoNow": 66,
+       "state": "card",
+       "sinceCtx": 11392.1
+      },
+      {
+       "tag": "L1 시작",
+       "auto": 66,
+       "manual": 62.85172335600873,
+       "comp": 128.85172335600873,
+       "autoNow": 66,
+       "state": "play",
+       "sinceCtx": 11403.4
+      }
+     ],
+     "calib": {
+      "taps": 16,
+      "tapMinusHeardMedian": 0.5,
+      "tapMinusHeardRange": [
+       0.3,
+       0.8
+      ],
+      "autoNowAtTaps": [
+       66
+      ],
+      "gameAutoAtTaps": [
+       10
+      ],
+      "offset": 62.9,
+      "expectOffset": 0,
+      "offsetErr": 62.9,
+      "calibAutoLatSaved": 10,
+      "ok_pm10": false
+     },
+     "l1Start": {
+      "auto": 66,
+      "autoNow": 66,
+      "manual": 62.9,
+      "comp": 128.9,
+      "compMinusAutoNow": 62.9,
+      "shouldBe": 0,
+      "doubleCorrectionMs": 62.9,
+      "ok_pm10": false
+     },
+     "l1Play": {
+      "humanTapsAt": "들리는 별 + 0 ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0",
+      "attempts": 1,
+      "clear": true,
+      "errMedian": -65.5,
+      "errRange": [
+       -65.9,
+       -64.6
+      ],
+      "n": 20,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    },
+    {
+     "res": "360x640",
+     "X": 0,
+     "skip": false,
+     "emptyStorageAtStart": true,
+     "timeline": [
+      {
+       "tag": "calib 진입 직후",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 10,
+       "state": "calib",
+       "sinceCtx": 10
+      },
+      {
+       "tag": "보정 화면 0.9 s (탭 전)",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 913.5
+      },
+      {
+       "tag": "보정 끝 직후",
+       "auto": 74,
+       "manual": 68.46777777777697,
+       "comp": 142.46777777777697,
+       "autoNow": 74,
+       "state": "calib",
+       "sinceCtx": 10450.2
+      },
+      {
+       "tag": "L1 카드",
+       "auto": 74,
+       "manual": 68.46777777777697,
+       "comp": 142.46777777777697,
+       "autoNow": 74,
+       "state": "card",
+       "sinceCtx": 11445.6
+      },
+      {
+       "tag": "L1 시작",
+       "auto": 74,
+       "manual": 68.46777777777697,
+       "comp": 142.46777777777697,
+       "autoNow": 74,
+       "state": "play",
+       "sinceCtx": 11454.8
+      }
+     ],
+     "calib": {
+      "taps": 16,
+      "tapMinusHeardMedian": 0.6,
+      "tapMinusHeardRange": [
+       0.3,
+       1.4
+      ],
+      "autoNowAtTaps": [
+       74,
+       66
+      ],
+      "gameAutoAtTaps": [
+       10
+      ],
+      "offset": 68.5,
+      "expectOffset": 0,
+      "offsetErr": 68.5,
+      "calibAutoLatSaved": 10,
+      "ok_pm10": false
+     },
+     "l1Start": {
+      "auto": 74,
+      "autoNow": 74,
+      "manual": 68.5,
+      "comp": 142.5,
+      "compMinusAutoNow": 68.5,
+      "shouldBe": 0,
+      "doubleCorrectionMs": 68.5,
+      "ok_pm10": false
+     },
+     "l1Play": {
+      "humanTapsAt": "들리는 별 + 0 ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0",
+      "attempts": 1,
+      "clear": true,
+      "errMedian": -70.9,
+      "errRange": [
+       -71.4,
+       -70.2
+      ],
+      "n": 20,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    },
+    {
+     "res": "412x915",
+     "X": 120,
+     "skip": false,
+     "emptyStorageAtStart": true,
+     "timeline": [
+      {
+       "tag": "calib 진입 직후",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 10,
+       "state": "calib",
+       "sinceCtx": 9.9
+      },
+      {
+       "tag": "보정 화면 0.9 s (탭 전)",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 74,
+       "state": "calib",
+       "sinceCtx": 912.7
+      },
+      {
+       "tag": "보정 끝 직후",
+       "auto": 74,
+       "manual": 189.43904761308704,
+       "comp": 263.43904761308704,
+       "autoNow": 74,
+       "state": "calib",
+       "sinceCtx": 10558.4
+      },
+      {
+       "tag": "L1 카드",
+       "auto": 74,
+       "manual": 189.43904761308704,
+       "comp": 263.43904761308704,
+       "autoNow": 74,
+       "state": "card",
+       "sinceCtx": 11668.7
+      },
+      {
+       "tag": "L1 시작",
+       "auto": 74,
+       "manual": 189.43904761308704,
+       "comp": 263.43904761308704,
+       "autoNow": 74,
+       "state": "play",
+       "sinceCtx": 11683.5
+      }
+     ],
+     "calib": {
+      "taps": 16,
+      "tapMinusHeardMedian": 120.5,
+      "tapMinusHeardRange": [
+       120.4,
+       120.8
+      ],
+      "autoNowAtTaps": [
+       74
+      ],
+      "gameAutoAtTaps": [
+       10
+      ],
+      "offset": 189.4,
+      "expectOffset": 120.5,
+      "offsetErr": 69,
+      "calibAutoLatSaved": 10,
+      "ok_pm10": false
+     },
+     "l1Start": {
+      "auto": 74,
+      "autoNow": 74,
+      "manual": 189.4,
+      "comp": 263.4,
+      "compMinusAutoNow": 189.4,
+      "shouldBe": 120.5,
+      "doubleCorrectionMs": 68.9,
+      "ok_pm10": false
+     },
+     "l1Play": {
+      "humanTapsAt": "들리는 별 + 120 ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0",
+      "attempts": 1,
+      "clear": true,
+      "errMedian": -72.3,
+      "errRange": [
+       -81.8,
+       -71.6
+      ],
+      "n": 20,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    },
+    {
+     "res": "412x915",
+     "X": 0,
+     "skip": true,
+     "emptyStorageAtStart": true,
+     "timeline": [
+      {
+       "tag": "calib 진입 직후",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 10,
+       "state": "calib",
+       "sinceCtx": 10.9
+      },
+      {
+       "tag": "보정 화면 0.9 s",
+       "auto": 10,
+       "manual": 0,
+       "comp": 10,
+       "autoNow": 66,
+       "state": "calib",
+       "sinceCtx": 917.4
+      },
+      {
+       "tag": "L1 카드",
+       "auto": 66,
+       "manual": 0,
+       "comp": 66,
+       "autoNow": 66,
+       "state": "card",
+       "sinceCtx": 978.3
+      },
+      {
+       "tag": "L1 시작",
+       "auto": 66,
+       "manual": 0,
+       "comp": 66,
+       "autoNow": 66,
+       "state": "play",
+       "sinceCtx": 987.6
+      }
+     ],
+     "l1Start": {
+      "auto": 66,
+      "autoNow": 66,
+      "manual": 0,
+      "comp": 66,
+      "compMinusAutoNow": 0,
+      "shouldBe": 0,
+      "doubleCorrectionMs": 0,
+      "ok_pm10": true
+     },
+     "l1Play": {
+      "humanTapsAt": "들리는 별 + 0 ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0",
+      "attempts": 1,
+      "clear": true,
+      "errMedian": -2.5,
+      "errRange": [
+       -2.9,
+       -2.1
+      ],
+      "n": 20,
+      "lastResult": {
+       "clear": true,
+       "progress": 1
+      }
+     }
+    }
+   ],
+   "bots": {
+    "bias_ms": -66,
+    "note": "runProfile(child_sd70, N 20000, sessions 2000, seed 12345). device = 기기 남은 오차 U(−20, +40)(20-balance 8-1 가정)를 세션마다 더함",
+    "levels": [
+     {
+      "level": "01",
+      "base_median": 2,
+      "base_cont": 1.897,
+      "shifted_median": 17,
+      "shifted_cont": 15.351,
+      "shifted_dev_median": 10,
+      "shifted_clear_rate": 0.0442,
+      "base_clear_rate": 0.3061
+     },
+     {
+      "level": "02",
+      "base_median": 3,
+      "base_cont": 2.941,
+      "shifted_median": 60,
+      "shifted_cont": 58.394,
+      "shifted_dev_median": 28,
+      "shifted_clear_rate": 0.0118,
+      "base_clear_rate": 0.2099
+     },
+     {
+      "level": "03",
+      "base_median": 5,
+      "base_cont": 4.183,
+      "shifted_median": 147,
+      "shifted_cont": 160.85,
+      "shifted_dev_median": 49,
+      "shifted_clear_rate": 0.0043,
+      "base_clear_rate": 0.1527
+     },
+     {
+      "level": "04",
+      "base_median": 5,
+      "base_cont": 4.992,
+      "shifted_median": 200,
+      "shifted_cont": 247.206,
+      "shifted_dev_median": 77,
+      "shifted_clear_rate": 0.0028,
+      "base_clear_rate": 0.1296
+     },
+     {
+      "level": "05",
+      "base_median": 6,
+      "base_cont": 5.668,
+      "shifted_median": 200,
+      "shifted_cont": 346.227,
+      "shifted_dev_median": 103,
+      "shifted_clear_rate": 0.002,
+      "base_clear_rate": 0.1151
+     },
+     {
+      "level": "06",
+      "base_median": 8,
+      "base_cont": 7.162,
+      "shifted_median": 200,
+      "shifted_cont": 461.751,
+      "shifted_dev_median": 165,
+      "shifted_clear_rate": 0.0015,
+      "base_clear_rate": 0.0922
+     },
+     {
+      "level": "07",
+      "base_median": 9,
+      "base_cont": 8.456,
+      "shifted_median": 200,
+      "shifted_cont": 866.087,
+      "shifted_dev_median": 200,
+      "shifted_clear_rate": 0.0008,
+      "base_clear_rate": 0.0787
+     },
+     {
+      "level": "08",
+      "base_median": 10,
+      "base_cont": 9.58,
+      "shifted_median": 200,
+      "shifted_cont": 1980.074,
+      "shifted_dev_median": 200,
+      "shifted_clear_rate": 0.0003,
+      "base_clear_rate": 0.0698
+     },
+     {
+      "level": "09",
+      "base_median": 11,
+      "base_cont": 11.789,
+      "shifted_median": 200,
+      "shifted_cont": 2310.144,
+      "shifted_dev_median": 200,
+      "shifted_clear_rate": 0.0003,
+      "base_clear_rate": 0.0571
+     },
+     {
+      "level": "10",
+      "base_median": 13,
+      "base_cont": 13.363,
+      "shifted_median": 200,
+      "shifted_cont": 3465.389,
+      "shifted_dev_median": 200,
+      "shifted_clear_rate": 0.0002,
+      "base_clear_rate": 0.0505
+     }
+    ]
+   },
+   "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 225
+   },
+   "seconds": 288,
    "env": {
     "channel": "msedge",
     "playwright": "PLAYWRIGHT_CORE",
@@ -13451,7 +14033,7 @@
   "console_qa_instrumentation_warnings": 5,
   "failed_requests": [],
   "external_requests": [],
-  "requests_total": 3971
+  "requests_total": 4196
  },
  "summary": {
   "sd70_first_clear_median": {

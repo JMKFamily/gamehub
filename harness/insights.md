@@ -60,6 +60,7 @@
 - [runner-01·2026-11-17] 640x360(휴대폰 가로)에서 메뉴가 넘친다: 설정 패널을 가로에서 2열로 바꿔 넘침 0, 넘칠 수 있는 화면에는 아래 그림자·▼ 스크롤 표시. 세로에서는 위 줄 버튼을 같은 흐름(flex)에 두어 겹침 0. 근거: projects/runner-01/reviews/round-1/score.md S13·S14, projects/runner-01/reviews/round-1/dev-response.md. 적용: game-developer는 4해상도 × 모든 언어로 버튼 겹침·넘침을 자동 검사한다
 - [runner-01·2026-11-17] 고정 스텝(240 Hz) 결정론 물리를 빌드와 검증기·봇이 같은 모듈로 쓰면 10~144 Hz 어떤 프레임에서도 같은 결과가 나오고 시뮬레이터 봇 지표를 그대로 믿을 수 있다. 근거: projects/runner-01/reviews/round-1/qa.md 검사 3, projects/runner-01/Docs/game-developer/2026-11-17-r2-build.md 검증 결과. 적용: game-developer는 판정 코드를 한 모듈로 두고 검증기·봇이 그것을 가져다 쓴다
 - [runner-01·2026-11-17] 오디오 선행 대기(약 0.12 s)는 "새 시도 첫 프레임"과 "다시 움직임" 사이를 벌린다. 재시작 시간을 정할 때 어느 시점인지 정의하고 대기를 포함해 맞춘다. 근거: projects/runner-01/Docs/balance-designer/2026-11-17-r2-balance-redesign.md 개발 요청 2. 적용: balance-designer·game-developer
+- [rhythm-01·2026-11-17] WebAudio `outputLatency`(자동 지연)는 오디오 잠금 해제 직후 값(Edge 10 ms)이 약 0.2 s 뒤 실제 값(66~74 ms)으로 바뀐다. 첫 실행에서 오디오 시작과 지연 보정이 같은 탭에 겹치면, 보정이 옛 자동 지연 기준으로 차이를 재서 수동 오프셋에 +64 ms를 넣고 플레이 때 새 자동 지연과 이중 보정이 된다(σ70 L1 첫 클리어 2 → 17회). 보정은 탭마다 그 순간의 자동 지연 기준으로 재서 남는 차이만 저장하고, 시도 시작마다 자동 지연을 다시 읽으며, 첫 보정 전에 값이 안정될 때까지 기다린다. 근거: projects/rhythm-01/reviews/round-2/score.md B1, reviews/round-2/parts/firstrun.json. 적용: game-developer, balance-designer(리듬 입력 게임 전반).
 
 ## QA·측정 방법
 - [rhythm-01·2026-11-17] 빌드 판정과 시뮬레이터 판정의 일치는 같은 봇 탭을 양쪽에 다시 넣어 불일치 0으로 확인한다(123,308회 재판정). 보정·밀림 계산도 빌드 코드를 기준 정의로 삼아 시뮬레이터를 맞추고 무작위 대조(C1)한다. 근거: projects/rhythm-01/reviews/round-1/qa.md, tools/verify-levels.mjs C1. 적용: qa-engineer, balance-designer.
@@ -72,6 +73,7 @@
 - [runner-01·2026-11-17] 레퍼런스 영상 실측은 프레임 번호로 잰다: 녹화 pts는 프레임마다 ±0.5프레임 흔들리고, 에뮬레이터·녹화 끊김으로 늘어난 궤적은 최빈값으로 걸러 낸다. 길이 단위는 플레이어 몸체 한 변으로 정의해 모든 값을 그 단위로 적는다. 근거: projects/runner-01/benchmark/measurements.md "측정 방법과 불확실성". 적용: benchmark-analyst
 - [runner-01·2026-11-17] 화면을 보지 않는 adb 자동 입력은 지연이 수십~수백 ms 흔들려 첫 레벨 초반(3 %)을 넘지 못한다. 깊은 구간(발판·고리 등)은 사람 녹화나 화면을 보는 원격 조작이 필요하니 일찍 HUMAN_TASKS로 요청한다. 대신 그 흔들림은 판정 경계 무작위 탐색에 쓸 수 있다. 근거: projects/runner-01/benchmark/measurements.md 장면 4·5·6, "round-2 추가 실측". 적용: benchmark-analyst·오케스트레이터
 - [runner-01·2026-11-17] 한 체크아웃을 여러 팀 세션이 함께 쓰므로, 에이전트는 자기가 띄운 프로세스(PID 기록)만 종료하고 로컬 서버 포트는 팀별로 겹치지 않게 고른다(개발 에이전트가 정리 중 다른 serve.mjs 2개를 종료한 사례). 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md. 적용: 모든 역할(특히 game-developer, qa-engineer).
+- [rhythm-01·2026-11-17] 지연 보정 실측에서 "들리는 박"을 게임이 쓰는 값(고정 자동 지연)으로 계산하면 측정이 게임과 같은 가정을 공유해(자기 일관) 이중 보정을 놓친다. 들리는 박 = 예약 시각 + 탭 순간의 실제 autoNow로 잡고, 빈 저장소 → 실제 UI 첫 실행 → 보정 → L1까지 한 흐름으로 잰다. 근거: projects/rhythm-01/reviews/round-2/qa.md "1-6 재측정", harness/criteria.md 기술 품질 rhythm-01 round-2 추가. 적용: qa-engineer, balance-designer.
 
 ## 실측 작업 안전
 - [runner-01·2026-11-17] 무료 게임 실측에서는 전면 광고가 사망 직후 갑자기 뜬다. 가드 없이 화면 중앙을 탭하다 광고를 눌러 광고 브라우저 로그인 화면이 열린 사고가 있었다. 자동 입력은 매번 포커스 창이 게임 액티비티인지 확인하고 아니면 즉시 멈추는 스크립트로만 보낸다. 근거: projects/runner-01/Docs/orchestrator/2026-11-17-1-3-harness-rules-and-supervision.md "규칙 준수 확인", projects/runner-01/benchmark/tools/taps.sh·seq.sh. 적용: benchmark-analyst는 가드 스크립트만 쓴다(이번 세션에서도 가드가 광고 2회에서 탭 0회로 멈춤)

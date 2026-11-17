@@ -19,6 +19,7 @@
 //   cards     M4: notext 카드 5장 × 4해상도 스크린샷 픽셀에서 공·별 지름(px), 플레이 화면 공·별 px
 //   r2        round-1 이슈 회귀(N1·N2·N5·N6·N7·N9·N11·N12·N13~N16·N17) + aria R8(숫자 붙임·키 사용)
 //   perfctl   M2 원인 판별용 대조 페이지(게임 코드 없음, rAF + 캔버스 + AudioContext)를 같은 6배 스로틀·새 브라우저에서 잼
+//   firstrun  (round-2 1-6) 빈 저장소 → 실제 UI 첫 실행 보정 → L1, 들리는 박 = 예약 + 탭 순간 autoNow 기준 보정 오차·이중 보정, σ70 봇 영향 (--part all 에 안 들어감)
 //   옵션: --port N (기본 8380~8399 무작위, rhythm-01 팀 대역), --perf-runs N (perf·perfctl 을 새 브라우저로 N번), --perf-tag 이름 (parts/perf-<이름>.json),
 //         --perf-order 1280x720,412x915,... (창 순서 바꾸기), --perf-delay ms (오디오 시작 뒤 레벨 1 전에 기다림)
 // 콘솔·네트워크 로그는 모든 파트에서 모아 parts/<파트>.json 의 log 에 넣는다. 서버 PID 는 parts/pids.log 에 적고 자기 것만 종료한다.
@@ -1437,9 +1438,115 @@ async function partR2() {
   return out;
 }
 
+// ---------------- firstrun (round-2 1-6 재측정) ----------------
+// 빈 저장소 → 실제 타이틀 클릭 → 첫 실행 자동 보정(실제 마우스 16탭) → 카드 → L1 실제 마우스.
+// "들리는 박" = 예약 시각 + **그 순간의 자동 지연(autoNow)** (round-2 calib 파트는 게임 고정값 latency().auto 를 써서 이중 보정을 못 봄).
+// 판정: 보정 결과 오프셋이 (탭 − 들리는 박) 규칙 기대값 ±10 ms, L1 시작 때 comp − autoNow = 그 오프셋 ±10 ms, L1 판정 오차 중앙값.
+// 측정한 판정 치우침으로 σ70 봇(tools/sim/bots.mjs runProfile)을 다시 돌려 L1~L10 첫 클리어 중앙값을 냄. --part all 에는 들어가지 않음.
+async function heardPlay(p, { X = 0, leadMs = 3, maxAttempts = 3 } = {}) {
+  const vw = p.viewportSize();
+  await p.mouse.move(vw.width / 2, vw.height * 0.45);
+  const out = { attempts: [], taps: 0 };
+  for (let a = 0; a < maxAttempts; a++) {
+    await p.waitForFunction(() => window.__game.nextStarPerfTime() !== null && window.__game.phase === 'run', null, { timeout: 15000 }).catch(() => {});
+    const info = await p.evaluate(() => { const g = window.__game; const s = g.stars(); const t0 = g.nextStarPerfTime(); const i0 = Math.round(g.progress * s.length); const lat = g.latency(); return { att: g.attempts, i0, lat, times: s.slice(i0).map((st) => t0 + (st.t - s[i0].t)) }; });
+    const shift = info.lat.autoNow - info.lat.comp; // 게임 시계 기준 별 시각 → 들리는 시각
+    const cm = await clockMap(p);
+    for (const t of info.times) {
+      const target = t + shift + X - cm.d - leadMs;
+      const wait = target - performance.now();
+      if (wait > 25) await sleep(wait - 20);
+      while (performance.now() < target) { /* spin */ }
+      await p.mouse.down(); await p.mouse.up();
+      out.taps++;
+      if ((out.taps & 7) === 0) { const ph = await p.evaluate(() => [window.__game.phase, window.__game.attempts]); if (ph[0] !== 'run' && ph[0] !== 'clearing' || ph[1] !== info.att) break; }
+    }
+    await p.waitForFunction((att) => window.__game.state === 'result' || window.__game.attempts !== att, info.att, { timeout: 90000 }).catch(() => {});
+    const s = await p.evaluate(() => ({ ...window.__game.summary(), errs: window.__game.judgeLog().map((j) => Math.round(j.e * 10) / 10), lat: window.__game.latency() }));
+    out.attempts.push({ ...s, shiftUsed: r1(shift), latAtStart: info.lat });
+    if (s.state === 'result') break;
+  }
+  return out;
+}
+async function partFirstRun() {
+  const gc = bal.audio_latency.guardian_calibration;
+  const beat = 60 / gc.bpm;
+  const out = { definition: '들리는 박 = 예약 시각 + 탭 순간 autoNow(outputLatency+baseLatency). 사람 = 들리는 박 + X ms 에 실제 마우스(CDP) 누름', runs: [] };
+  const cases = [{ w: 412, h: 915, X: 0 }, { w: 1280, h: 720, X: 0 }, { w: 360, h: 640, X: 0 }, { w: 412, h: 915, X: 120 }, { w: 412, h: 915, X: 0, skip: true }];
+  for (const c of cases) {
+    const { ctx, p } = await open(c.w, c.h, '');
+    const vw = p.viewportSize();
+    const storeBefore = await G(p, () => { try { return localStorage.length; } catch { return -1; } });
+    const tl = [];
+    const sampleLat = async (tag) => { const s = await G(p, () => ({ ...window.__game.latency(), state: window.__game.state, sinceCtx: window.__qa.ctxAt == null ? null : performance.now() - window.__qa.ctxAt })); tl.push({ tag, ...s, sinceCtx: r1(s.sinceCtx) }); return s; };
+    await p.mouse.click(vw.width / 2, vw.height * 0.6);
+    await p.waitForFunction(() => window.__game.state === 'calib');
+    await sampleLat('calib 진입 직후');
+    const enterCt = await G(p, () => window.__qa.ctx ? window.__qa.ctx.currentTime : null);
+    const run = { res: `${c.w}x${c.h}`, X: c.X, skip: !!c.skip, emptyStorageAtStart: storeBefore === 0, timeline: tl };
+    if (c.skip) {
+      await sleep(900); await sampleLat('보정 화면 0.9 s');
+      await p.click('#bSkip');
+    } else {
+      await sleep(900);
+      await sampleLat('보정 화면 0.9 s (탭 전)');
+      const first = await G(p, (enterCt) => { const ws = [...new Set(window.__qa.starts.map((s) => Math.round(s.when * 1e6) / 1e6))].filter((w) => w > enterCt + 0.3).sort((a, b) => a - b); return ws[0]; }, enterCt);
+      const cm = await clockMap(p);
+      const heard = [], autoAtTap = [], autoGameAtTap = [];
+      for (let n = 0; n < 16; n++) {
+        const q = await G(p, () => { const ctx = window.__qa.ctx; let off = -1e9; for (let k = 0; k < 40; k++) off = Math.max(off, ctx.currentTime - performance.now() / 1000); const l = window.__game.latency(); return { ct: ctx.currentTime, off, autoNow: l.autoNow, auto: l.auto, state: window.__game.state }; });
+        if (q.state !== 'calib') break;
+        const k = Math.ceil((q.ct + 0.25 - first) / beat);
+        const heardPerf = (first + k * beat + q.autoNow / 1000 - q.off) * 1000;
+        const target = heardPerf + c.X - cm.d;
+        const wait = target - performance.now();
+        if (wait > 25) await sleep(wait - 20);
+        while (performance.now() < target) {}
+        await p.mouse.down(); await p.mouse.up();
+        heard.push(heardPerf); autoAtTap.push(q.autoNow); autoGameAtTap.push(q.auto);
+      }
+      await sleep(150);
+      const res = await G(p, () => ({ state: window.__game.state, offset: window.__game.offset, taps: window.__qa.taps.slice(-16), save: window.__game.save() }));
+      const diffs = res.taps.slice(-heard.length).map((t, i) => t - heard[i]);
+      const used = [...diffs.slice(2, 8), ...diffs.slice(10, 16)];
+      const m = med(used);
+      const expect = Math.abs(m) <= gc.apply_only_if_abs_over_ms ? 0 : m;
+      await sampleLat('보정 끝 직후');
+      run.calib = { taps: heard.length, tapMinusHeardMedian: r1(m), tapMinusHeardRange: [r1(Math.min(...diffs)), r1(Math.max(...diffs))], autoNowAtTaps: [...new Set(autoAtTap.map(r1))], gameAutoAtTaps: [...new Set(autoGameAtTap.map(r1))], offset: r1(res.offset), expectOffset: r1(expect), offsetErr: r1(res.offset - expect), calibAutoLatSaved: res.save.calibAutoLat, ok_pm10: Math.abs(res.offset - expect) <= 10 };
+      console.log(`  firstrun ${run.res} X=${c.X}: offset ${r1(res.offset)} expect ${r1(expect)} (game auto ${run.calib.gameAutoAtTaps} / autoNow ${run.calib.autoNowAtTaps})`);
+    }
+    await p.waitForFunction(() => ['card', 'play'].includes(window.__game.state), null, { timeout: 8000 });
+    await sampleLat('L1 카드');
+    if ((await G(p, () => window.__game.state)) === 'card') { await p.mouse.click(vw.width / 2, vw.height * 0.6); await p.waitForFunction(() => window.__game.state === 'play'); }
+    const atL1 = await sampleLat('L1 시작');
+    const manualExpected = run.calib ? run.calib.expectOffset : 0;
+    run.l1Start = { auto: r1(atL1.auto), autoNow: r1(atL1.autoNow), manual: r1(atL1.manual), comp: r1(atL1.comp), compMinusAutoNow: r1(atL1.comp - atL1.autoNow), shouldBe: r1(manualExpected), doubleCorrectionMs: r1(atL1.comp - atL1.autoNow - manualExpected), ok_pm10: Math.abs(atL1.comp - atL1.autoNow - manualExpected) <= 10 };
+    const pl = await heardPlay(p, { X: c.X, leadMs: 3 }); // 같은 사람: 보정 때와 같은 습관(들리는 박 + X)으로 침
+    const errs = pl.attempts.flatMap((a) => a.errs);
+    const last = pl.attempts[pl.attempts.length - 1];
+    run.l1Play = { humanTapsAt: `들리는 별 + ${c.X} ms (보정 때와 같은 사람), 바른 보정이면 판정 오차 ≈ X − 적용 오프셋 ≈ 0`, attempts: last.attempts, clear: last.clear, errMedian: r1(med(errs)), errRange: [r1(Math.min(...errs)), r1(Math.max(...errs))], n: errs.length, lastResult: last.lastResult };
+    console.log(`  firstrun ${run.res}${c.skip ? ' skip' : ''}: L1 comp-autoNow ${run.l1Start.compMinusAutoNow} (should ${run.l1Start.shouldBe}), err median ${run.l1Play.errMedian}`);
+    out.runs.push(run);
+    await ctx.close();
+  }
+  // 측정 치우침으로 σ70 봇 (판정 오차 = 탭 시각 기준 bias, 음수 = 이르게 판정)
+  const calibRuns = out.runs.filter((r) => !r.skip && r.X === 0);
+  const bias = Math.round(med(calibRuns.map((r) => r.l1Play.errMedian)));
+  const p70 = bal.bots.profiles.child_sd70;
+  out.bots = { bias_ms: bias, note: 'runProfile(child_sd70, N 20000, sessions 2000, seed 12345). device = 기기 남은 오차 U(−20, +40)(20-balance 8-1 가정)를 세션마다 더함', levels: [] };
+  for (const L of CL) {
+    const base = runProfile(L, p70, bal, { N: 20000, sessions: 2000, seed: 12345, bias: 0 });
+    const sh = runProfile(L, p70, bal, { N: 20000, sessions: 2000, seed: 12345, bias });
+    const shDev = runProfile(L, p70, bal, { N: 20000, sessions: 2000, seed: 12345, sessionBias: (rng) => bias - 20 + 60 * rng.rnd() });
+    out.bots.levels.push({ level: L.level.id, base_median: base.median_first_clear_sessions, base_cont: base.median_first_clear_continuous, shifted_median: sh.median_first_clear_sessions, shifted_cont: sh.median_first_clear_continuous, shifted_dev_median: shDev.median_first_clear_sessions, shifted_clear_rate: sh.clear_rate, base_clear_rate: base.clear_rate });
+    console.log(`  bots ${L.level.id}: base ${base.median_first_clear_sessions} → bias ${bias}: ${sh.median_first_clear_sessions} (dev ${shDev.median_first_clear_sessions})`);
+  }
+  return out;
+}
+
 // ---------------- 실행 ----------------
-const parts = { static: async () => partStatic(), shots: partShots, replay: partReplay, realtime: partRealtime, bots: partBots, perf: partPerf, features: partFeatures, calib: partCalib, signals: partSignals, cards: partCards, r2: partR2, perfctl: partPerfCtl };
-const list = PART === 'all' ? Object.keys(parts).filter((k) => k !== 'perfctl') : PART.split(',');
+const parts = { static: async () => partStatic(), shots: partShots, replay: partReplay, realtime: partRealtime, bots: partBots, perf: partPerf, features: partFeatures, calib: partCalib, signals: partSignals, cards: partCards, r2: partR2, perfctl: partPerfCtl, firstrun: partFirstRun };
+const list = PART === 'all' ? Object.keys(parts).filter((k) => k !== 'perfctl' && k !== 'firstrun') : PART.split(',');
 const PERF_TAG = opt('--perf-tag', '');
 for (const name of list) {
   const t0 = Date.now();

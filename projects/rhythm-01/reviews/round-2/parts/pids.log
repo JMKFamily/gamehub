@@ -22,3 +22,7 @@
 2026-11-17T06:19:56.995Z serve.mjs pid 20968 종료
 2026-11-17T06:21:43.785Z serve.mjs pid 38828 port 8382 (qa-round pid 31400)
 2026-11-17T06:21:54.869Z serve.mjs pid 38828 종료
+2026-11-17T06:38:04.575Z serve.mjs pid 12080 port 8384 (qa-round pid 39464)
+2026-11-17T06:43:02.975Z serve.mjs pid 12080 종료
+2026-11-17T06:43:38.637Z serve.mjs pid 32160 port 8386 (qa-round pid 33044)
+2026-11-17T06:48:26.763Z serve.mjs pid 32160 종료

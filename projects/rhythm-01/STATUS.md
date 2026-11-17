@@ -2,9 +2,9 @@
 
 - 성격: runner-01(Reverbound, Geometry Dash 장르 벤치마크)의 **배리에이션** 프로젝트. 새 외부 레퍼런스를 베끼지 않고, runner-01의 핵심 재미를 유지한 채 새 코어를 설계합니다.
 - 게임 이름: 미정 (lore-writer가 1-1에서 제안) · slug: rhythm-01 (임시)
-- 현재 단계: **1-5 리뷰 round-2** — round-2 QA 커밋 75e930f(기술 7.5, blocker 0, major 1 = M2 1% low), 4역할 리뷰 병렬 진행 (2026-11-17)
+- 현재 단계: **round-3 기획 수정** — round-2 게이트 미통과(가중 7.95, blocker 1 = 첫 실행 보정 이중 보정). 결정 R11~R17, art·balance 병렬 → dev (2026-11-17)
 - 미해결: 게임 이름 확정(가안 똑딱북: Tickadrum, 요청자 결정), 블루투스 지연 처리·보호자 보정 흐름(round-1 QA 전 항목 통과, 실기기 측정 남음), 북채와 손가락 동시 표시(round-1 major M1 → round-2 R1로 수정 중), round-1 major M2~M5(1% low, B6 경계, 카드 공 16 px, 멜로디)
-- 라운드: 2 (round-1 6.925)
+- 라운드: 3 (round-1 6.925 · round-2 7.95 — 8.5/7.5/9.0/9.0/6.5)
 - 레벨 10 목표(요청자 지시): L1~L3 σ70 첫 클리어 **연속 중앙값**(결정 R3) 기하 평균 배율로 외삽한 L6 값 ±20 % → T 13.70, 범위 10.96~16.44, 현재 L10 13.36
 - 웹 빌드 폴더: games/rhythm-01/ (이름 확정 전)
 
@@ -32,4 +32,6 @@
 - runner-01(Geometry Dash 벤치마크)은 계속 진행, 얻은 인사이트는 모든 팀에 전달. 공통 문서 `harness/insights.md`(커밋 e4417d4), CLAUDE.md "인사이트 공유", `.claude/agents/*.md` 끝 규칙.
 - 이후 모든 에이전트 지시에 insights.md를 읽게 하고, 적용하지 않으면 보고서에 이유를 적게 함.
 - rhythm-01 배움 12줄을 insights.md 각 절 끝에 덧붙임(B6 연속 중앙값, 차례 신호 겹침 S15·S16, 손가락 누름 위치, 렌더 px 측정, 오프라인 렌더 소리 크기, JSON 원본, 1% low, WebAudio 시계, 블루투스·보호자 보정, 빌드↔시뮬 재판정, 헤드리스 한계). 기존 줄 변경 0.
+- 2026-11-17 `harness/criteria.md`: rhythm-01 round-2 1-6에서 qa-engineer가 4줄 덧붙임(기술 2·밸런스 1·시각 1, 머리 `(rhythm-01 round-2 추가`), 삭제·변경 0.
+- 2026-11-17 `harness/insights.md`: rhythm-01 round-2 인사이트 2줄(구현·성능 1 outputLatency 변화·이중 보정, QA 1 자기 일관 측정) 절 끝에 덧붙임, 삭제·변경 0.
 - 2026-11-17 `harness/insights.md`: rhythm-01 인사이트 12줄을 난이도(2)·5~6세(3)·시각·사운드(2)·구현·성능(3)·QA(2) 절 끝에 덧붙임, 삭제·변경 0.
