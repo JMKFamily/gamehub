@@ -9,7 +9,7 @@
 //
 // 사용: node tools/sim/bots.mjs [시도 수=20000] [프로필|all] [레벨 id 쉼표]
 
-import { compileLevel, judgeAttempt, gradeRating } from './judge.mjs';
+import { compileLevel, judgeAttempt, gradeRating, comboEvents } from './judge.mjs';
 
 export function makeRng(seed = 12345) {
   let s = seed;
@@ -27,21 +27,28 @@ export function makeRng(seed = 12345) {
 export function k2Factors(L, m) {
   const cs = L.contacts;
   return cs.map((c, i) => {
-    let sdMult = 1, missAdd = 0;
-    const prevGap = i > 0 ? cs[i - 1].gapBeats : null; // 바로 앞에 본 비행 길이(공 상관없이 시간 순)
+    let sdMult = 1, missAdd = 0, qAdd = 0;
+    if (c.kind === 'nogo') { if (c.first) qAdd += m.first_nogo_q_add ?? 0; return { sdMult, missAdd, qAdd }; }
+    const prevGap = i > 0 ? cs[i - 1].gapBeats : null; // 바로 앞에 본 비행 길이(시간 순)
     if (prevGap != null && c.gapBeats < prevGap) sdMult *= m.shorter_than_prev_sd_mult;
     if (c.gapBeats <= 0.5) sdMult *= m.half_sd_mult;
     if (c.ball === 2 || L.level.phrases[c.phrase].balls === 2) sdMult *= m.two_ball_sd_mult;
     if (c.first) missAdd += m.first_gimmick_miss_add;
-    return { sdMult, missAdd };
+    return { sdMult, missAdd, qAdd };
   });
 }
 
-export function botTaps(L, p, rng, { bias = 0, along = null, extraAfter = [0.15, 0.45], k2 = null } = {}) {
+export function botTaps(L, p, rng, { bias = 0, along = null, extraAfter = [0.15, 0.45], k2 = null, qNogo = null } = {}) {
   const taps = [];
   const cs = L.contacts;
+  const q0 = qNogo ?? p.q_nogo ?? 0;
   for (let i = 0; i < cs.length; i++) {
     const f = k2 ? k2[i] : null;
+    if (cs[i].kind === 'nogo') {
+      // 지붕 밑 착지: 박마다 치는 습관으로 참지 못하고 칠 확률 q_nogo(그 순간 노림 + 같은 흔들림). 참으면 탭 없음.
+      if (rng.rnd() < q0 + (f ? f.qAdd : 0)) taps.push(cs[i].t + bias + rng.gauss() * p.sd_ms);
+      continue;
+    }
     if (rng.rnd() < p.miss + (f ? f.missAdd : 0)) continue;
     const tau = cs[i].t + bias + rng.gauss() * p.sd_ms * (f ? f.sdMult : 1);
     taps.push(tau);
@@ -66,19 +73,20 @@ const median = (a) => {
 export const contMedian = (pc) => (pc > 0 && pc < 1 ? Math.log(0.5) / Math.log(1 - pc) : pc >= 1 ? 0 : null); // p = 1 이면 0 (ln(1-p) → -∞)
 
 // 한 프로필로 N회 독립 시도 + 세션(첫 클리어까지 시도 수, 상한 200)
-export function runProfile(L, p, bal, { N = 20000, sessions = 2000, seed = 12345, bias = 0, along = null, k2 = false } = {}) {
+export function runProfile(L, p, bal, { N = 20000, sessions = 2000, seed = 12345, bias = 0, along = null, k2 = false, qNogo = null, combo = false } = {}) {
   const rng = makeRng(seed);
   const extraAfter = bal.bots.extra_tap_after_s;
   const k2f = k2 ? k2Factors(L, bal.bots.k2_model) : null;
-  const opt = { bias, along, extraAfter, k2: k2f };
-  let clears = 0, prog = 0, early = 0;
+  const opt = { bias, along, extraAfter, k2: k2f, qNogo };
+  let clears = 0, prog = 0, early = 0, bump = 0, comboBad = 0, comboMaxSum = 0;
   const failIdx = new Array(L.contacts.length).fill(0);
   const failProg = [], failProgT = [];
   const rating = [0, 0, 0, 0];
   for (let n = 0; n < N; n++) {
     const r = judgeAttempt(L, botTaps(L, p, rng, opt));
+    if (combo) { const ce = comboEvents(L, r, bal); comboMaxSum += ce.final; if (ce.final !== r.grades.length || (r.clear && ce.final !== L.contacts.length)) comboBad++; }
     if (r.clear) { clears++; prog += 1; rating[gradeRating(L, r, bal.grade_rule)]++; }
-    else { prog += r.progress; failIdx[r.failIndex]++; failProg.push(r.progress); failProgT.push(r.progressTime); if (r.reason === 'early') early++; }
+    else { prog += r.progress; failIdx[r.failIndex]++; failProg.push(r.progress); failProgT.push(r.progressTime); if (r.reason === 'early') early++; if (r.reason === 'bump_roof') bump++; }
   }
   const sess = [];
   for (let s = 0; s < sessions; s++) {
@@ -98,6 +106,8 @@ export function runProfile(L, p, bal, { N = 20000, sessions = 2000, seed = 12345
     median_fail_progress: deaths ? +(100 * median(failProg)).toFixed(1) : null,
     median_fail_progress_time: deaths ? +(100 * median(failProgT)).toFixed(1) : null,
     early_fail_share: deaths ? +(early / deaths).toFixed(3) : 0,
+    roof_fail_share: deaths ? +(bump / deaths).toFixed(3) : 0,
+    ...(combo ? { combo_mismatch: comboBad, combo_mean_final: +(comboMaxSum / N).toFixed(3) } : {}),
     deaths,
     top_fail_contact_share: deaths ? +(top / deaths).toFixed(3) : 0,
     top_fail_contact: deaths ? failIdx.indexOf(top) : null,

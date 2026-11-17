@@ -1,21 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360">
-<!-- rhythm-02 플레이 화면 목업 640x360 (tools/art/layout.mjs 생성, 손으로 고치지 않음). 레벨 1 색, 공 d 24 px = 1박 꼭짓점(100 BPM), 손가락 = 레벨 1 첫 접촉 누름. 빨간 점선·글자는 치수 표시(빌드에 없음). 30-art 4절 -->
+<!-- rhythm-02 round-2 플레이 화면 목업 640x360 (tools/art/layout.mjs 생성, 손으로 고치지 않음). 레벨 1 색, 첫 접촉: 표시가 북 다리 밑에 옴 + 손가락(북 왼쪽 바닥) + tut_tap 글 자리, 콤보 2. 빨간 점선 = HUD 띠 아래·북 가죽·Hp·구름선·북 0.30 W, 초록 점선 = 다가오는 길 영역(S10: UI 금지), 빨간 상자 = 글 자리(빌드에 없음). 30-art 4절 -->
 <rect width="640" height="360" fill="#ECF6E4"/>
+<rect x="0.0" y="303.8" width="640.0" height="16.2" fill="#D7EACA"/>
 <rect x="0" y="320" width="640" height="40" fill="#C9DDBB"/><rect x="0" y="320" width="640" height="2" fill="#79A659"/>
-<rect x="281.6" y="297.2" width="76.8" height="22.8" rx="7.2" fill="#234C88" stroke="#23273A" stroke-width="2.0"/>
-<rect x="281.6" y="297.2" width="76.8" height="6.7" rx="3.4" fill="#FFF3D6" stroke="#23273A" stroke-width="2.0"/>
-<ellipse cx="320" cy="300.6" rx="10.0" ry="2.8" fill="#8F7748"/>
-<ellipse cx="320" cy="214.1" rx="12" ry="12" fill="#A42412" stroke="#23273A" stroke-width="2"/><path d="M313 211.6 A7.4 7.4 0 0 1 318.1 206.9" fill="none" stroke="#FFD9CC" stroke-width="2.9" stroke-linecap="round"/>
-<g fill="#FFFFFF" stroke="#23273A" stroke-width="2.4"><rect x="218.6" y="45" width="202.8" height="39" rx="19.5"/><circle cx="267.3" cy="45" r="28.1"/><circle cx="324.1" cy="45" r="39"/><circle cx="376.8" cy="45" r="25"/></g><g fill="#FFFFFF"><rect x="218.6" y="45" width="202.8" height="39" rx="19.5"/><circle cx="267.3" cy="45" r="28.1"/><circle cx="324.1" cy="45" r="39"/><circle cx="376.8" cy="45" r="25"/></g>
-<rect x="72" y="18" width="544" height="12" rx="6" fill="#FFFFFF" stroke="#23273A" stroke-width="2"/>
-<rect x="74" y="20" width="189.0" height="8" rx="4" fill="#234C88"/>
-<circle cx="409.3" cy="24" r="7" fill="#A42412" stroke="#23273A" stroke-width="2"/>
-<circle cx="76" cy="46" r="4" fill="#234C88"/>
-<circle cx="88" cy="46" r="4" fill="#234C88"/>
-<circle cx="100" cy="46" r="4" fill="#234C88"/>
-<circle cx="112" cy="46" r="4" fill="#234C88"/>
-<rect x="12" y="6" width="48" height="48" rx="14" fill="#FFFFFF" stroke="#23273A" stroke-width="2"/><rect x="28" y="20" width="6" height="20" rx="3" fill="#23273A"/><rect x="38" y="20" width="6" height="20" rx="3" fill="#23273A"/>
-<g stroke="#23273A" stroke-width="2" fill="#FFFFFF" stroke-linejoin="round" transform="translate(0 0)"><rect x="369.5" y="290.9" width="23.8" height="15.8" rx="6"/><rect x="379.9" y="300.4" width="8.9" height="9.5" rx="4.2"/><rect x="388.8" y="299.6" width="8.4" height="8.7" rx="4.2"/><rect x="370.5" y="298" width="9.4" height="22" rx="4.7"/></g><g stroke="#23273A" stroke-width="2" stroke-linecap="round"><line x1="365.8" y1="322.2" x2="361.2" y2="325"/><line x1="384.6" y1="322.2" x2="389.2" y2="325"/></g>
-<g stroke="#D11" stroke-width="1" fill="none" stroke-dasharray="4 3"><line x1="8" y1="297.2" x2="632" y2="297.2"/><line x1="8" y1="60.3" x2="632" y2="60.3"/><line x1="8" y1="84.0" x2="632" y2="84.0"/></g>
-<g font-family="sans-serif" font-size="10" fill="#D11"><text x="10" y="294.2">북 가죽 h=0</text><text x="10" y="57.3">h = Hp 237px</text><text x="10" y="95.0">구름 아랫선 h = 0.9 Hp</text></g>
+<rect x="32.0" y="345.2" width="7.7" height="3" rx="1.5" fill="#79A659"/>
+<rect x="179.2" y="345.2" width="7.7" height="3" rx="1.5" fill="#79A659"/>
+<rect x="288.0" y="345.2" width="7.7" height="3" rx="1.5" fill="#79A659"/>
+<rect x="486.4" y="345.2" width="7.7" height="3" rx="1.5" fill="#79A659"/>
+<rect x="189.4" y="318" width="5.3" height="16.4" fill="#234C88" stroke="#23273A" stroke-width="1.6"/><rect x="153.6" y="297.2" width="76.8" height="22.8" rx="7.2" fill="#234C88" stroke="#23273A" stroke-width="2"/><rect x="153.6" y="297.2" width="76.8" height="6.7" rx="3.4" fill="#FFF3D6" stroke="#23273A" stroke-width="2"/>
+<path d="M182.4 339.2 A9.6 9.6 0 0 1 201.6 339.2 Z" fill="#234C88" stroke="#23273A" stroke-width="2" stroke-linejoin="round"/>
+<path d="M294.4 339.2 A9.6 9.6 0 0 1 313.6 339.2 Z" fill="#234C88" stroke="#23273A" stroke-width="2" stroke-linejoin="round"/>
+<path d="M406.4 339.2 A9.6 9.6 0 0 1 425.6 339.2 Z" fill="#234C88" stroke="#23273A" stroke-width="2" stroke-linejoin="round"/>
+<path d="M518.4 339.2 A9.6 9.6 0 0 1 537.6 339.2 Z" fill="#234C88" stroke="#23273A" stroke-width="2" stroke-linejoin="round"/>
+<path d="M630.4 339.2 A9.6 9.6 0 0 1 649.6 339.2 Z" fill="#234C88" stroke="#23273A" stroke-width="2" stroke-linejoin="round"/>
+<ellipse cx="192" cy="300.6" rx="12.0" ry="3.4" fill="#8F7748"/>
+<ellipse cx="192" cy="285.2" rx="12" ry="12" fill="#A42412" stroke="#23273A" stroke-width="2"/><path d="M185 282.7 A7.4 7.4 0 0 1 190.1 278" fill="none" stroke="#FFD9CC" stroke-width="2.9" stroke-linecap="round"/>
+<g stroke="#23273A" stroke-width="2" fill="#FFFFFF" stroke-linejoin="round" transform="translate(0 0) translate(285.2 0) scale(-1 1)"><rect x="136.9" y="314.9" width="23.8" height="15.8" rx="6"/><rect x="147.3" y="324.4" width="8.9" height="9.5" rx="4.2"/><rect x="156.2" y="323.6" width="8.4" height="8.7" rx="4.2"/><rect x="137.9" y="322" width="9.4" height="22" rx="4.7"/></g><g stroke="#23273A" stroke-width="2" stroke-linecap="round"><line x1="133.2" y1="346.2" x2="128.6" y2="349"/><line x1="152" y1="346.2" x2="156.6" y2="349"/></g>
+<rect x="68" y="10" width="552" height="10" rx="5" fill="#FFFFFF" stroke="#23273A" stroke-width="2"/>
+<rect x="70" y="12" width="43.8" height="6" rx="3" fill="#234C88"/>
+<circle cx="410.2" cy="15" r="6" fill="#A42412" stroke="#23273A" stroke-width="2"/>
+<circle cx="72" cy="31" r="4" fill="#234C88"/>
+<rect x="513" y="27" width="8" height="8" rx="2" fill="#23273A" stroke="#23273A" stroke-width="1.4"/><rect x="524" y="27" width="8" height="8" rx="2" fill="#23273A" stroke="#23273A" stroke-width="1.4"/><rect x="535" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="546" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="557" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="568" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="579" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="590" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="601" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/><rect x="612" y="27" width="8" height="8" rx="2" fill="#FFFFFF" stroke="#23273A" stroke-width="1.4"/>
+<rect x="12" y="4" width="44" height="44" rx="13" fill="#FFFFFF" stroke="#23273A" stroke-width="2"/><rect x="26" y="16" width="6" height="20" rx="3" fill="#23273A"/><rect x="36" y="16" width="6" height="20" rx="3" fill="#23273A"/>
+<g stroke="#D11" stroke-width="1" fill="none" stroke-dasharray="4 3"><line x1="0" y1="48" x2="640" y2="48"/><line x1="8" y1="297.2" x2="632" y2="297.2"/><line x1="8" y1="60.3" x2="632" y2="60.3"/><line x1="8" y1="84.0" x2="632" y2="84.0"/><line x1="192" y1="48" x2="192" y2="360"/>
+<rect x="12" y="56.0" width="133.6" height="250.9"/>
+<rect x="153.6" y="48" width="486.4" height="293.2" stroke="#1A8" stroke-dasharray="2 4"/></g>
+<g font-family="sans-serif" font-size="10" fill="#D11"><text x="490" y="59">HUD 띠 아래 y 48</text><text x="10" y="294.2">북 가죽 h=0</text><text x="10" y="57.3">h = Hp 237px</text><text x="10" y="95.0">구름선 0.9 Hp</text><text x="196" y="354">북 0.30 W</text><text x="20" y="354">tut_tap 글 자리</text></g>
 </svg>

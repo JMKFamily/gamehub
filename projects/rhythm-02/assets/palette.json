@@ -1,13 +1,15 @@
 {
- "schema_version": 1,
+ "schema_version": 2,
  "_source": "tools/art/palette.mjs 가 생성(art-director 원본). 30-art 2절 표는 요약이고, 표와 이 파일이 다르면 이 파일이 기준. 빌드는 이 파일만 읽음(문서 표 파싱 금지).",
  "_rules": [
-  "공통 색(common)은 10레벨 같음. 레벨마다 바뀌는 것은 themes 의 바탕·바닥·accent 뿐.",
-  "투명도(alpha) 없음. 그림자·튐 선·빛도 불투명 단색.",
-  "플레이 중 바탕 단계 = n번째 받침 쉼에서 min(n,3) 단계(bg1·bg2·bg3, 1-2 D6), 그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임·깜빡임 없음).",
-  "클리어: 구름 면 cloud → accent 로 1 s 섞기, 바탕은 그때 단계 → bg1 로 1 s 섞기(밝아짐). 시각은 layout.json clear_timeline(마지막 착지 뒤 마무리 박 안).",
-  "공 색(ball)은 공과 최고 기록 점에만. 북 몸통 색(drumBody)은 북·진행도 채움·시도 점에만.",
-  "노랑 별·하늘색 공·어두운 바탕(rhythm-01) 을 쓰지 않음(30-art 10절)."
+  "공통 색(common)은 10레벨 같음. 흘러오는 물체(표시·지붕·가지·구름)도 공통 색 = 같은 모양은 어느 레벨에서나 같은 뜻. 레벨마다 바뀌는 것은 themes 의 바탕·바닥·accent·언덕·실루엣.",
+  "투명도(alpha) 없음. 그림자·튐 선·빛·콤보 연출 모두 불투명 단색.",
+  "플레이 중 바탕 단계 = n번째 받침 쉼에서 min(n,3) 단계(bg1·bg2·bg3), 그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임·깜빡임 없음).",
+  "클리어: 끝 구름 면 cloud → clearCloud(= cloud 와 accent 의 35 % 섞음) 1 s, 등급 칸만 진한 accent(N11). 바탕은 그때 단계 → bg1 로 1 s.",
+  "공 색(ball)은 공과 최고 기록 점에만(콤보·물체에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.",
+  "콤보: 찬 칸 = ink, 빈 칸 = hudTrack + ink 외곽선, 10마다 큰 표지 = glow 둥근 네모 + ink 외곽선, 20 단계 색 조각 = 그 레벨 accent(HUD 띠 안). 바탕 단계(바탕 전체 색)와 모양이 겹치지 않음.",
+  "노랑 별·하늘색 공·어두운 바탕(rhythm-01), 가시·네모 블록·발판·고리·포털 모양(runner-01·원작)을 쓰지 않음(30-art 10절).",
+  "silhouette v2: anchor floor(dy = 바닥 위 높이) / sky(dy = HUD 띠 아래에서), 크기 S 단위, parallax(기본 0.5) 로 흘러감."
  ],
  "common": {
   "ball": "#A42412",
@@ -19,7 +21,11 @@
   "glow": "#FFC861",
   "cloud": "#FFFFFF",
   "hudTrack": "#FFFFFF",
-  "finger": "#FFFFFF"
+  "finger": "#FFFFFF",
+  "roof": "#6B3E8E",
+  "roofStripe": "#F1E4FA",
+  "branch": "#6E4520",
+  "leaf": "#1E6330"
  },
  "themes": {
   "level01": {
@@ -32,29 +38,34 @@
    "floor": "#C9DDBB",
    "floorEdge": "#79A659",
    "accent": "#47801E",
+   "clearCloud": "#BFD3B0",
+   "hill": "#C4E9AA",
    "cardBg": "#DDF4CD",
    "sil": "#D7EACA",
    "silhouette": [
     {
      "t": "rect",
      "x": 0,
-     "y": 0.955,
+     "anchor": "floor",
+     "dy": 0,
      "w": "full",
-     "h": 0.05,
+     "h": 0.045,
      "what": "낮은 풀밭 띠"
     },
     {
      "t": "tri",
-     "x": 0.1,
-     "y": 1,
+     "x": 0.18,
+     "anchor": "floor",
+     "dy": 0,
      "w": 0.1,
      "h": 0.08,
      "what": "풀 한 포기"
     },
     {
      "t": "tri",
-     "x": 0.88,
-     "y": 1,
+     "x": 0.72,
+     "anchor": "floor",
+     "dy": 0,
      "w": 0.12,
      "h": 0.1,
      "what": "풀 한 포기"
@@ -71,21 +82,25 @@
    "floor": "#E1D5B7",
    "floorEdge": "#B0934F",
    "accent": "#916D1A",
+   "clearCloud": "#D9CCAF",
+   "hill": "#EDD8A6",
    "cardBg": "#F6E9CA",
    "sil": "#EDE1C8",
    "silhouette": [
     {
      "t": "ellipse",
-     "x": 0.12,
-     "y": 1,
+     "x": 0.15,
+     "anchor": "floor",
+     "dy": 0,
      "rx": 0.2,
      "ry": 0.1,
-     "what": "모래 더미(반원)"
+     "what": "모래 더미(반만 보임)"
     },
     {
      "t": "tri",
-     "x": 0.86,
-     "y": 1,
+     "x": 0.7,
+     "anchor": "floor",
+     "dy": 0,
      "w": 0.16,
      "h": 0.14,
      "what": "모래성 세모"
@@ -102,6 +117,8 @@
    "floor": "#B6D0E2",
    "floorEdge": "#4D88B3",
    "accent": "#1E77B7",
+   "clearCloud": "#B0CFE6",
+   "hill": "#A5D0EE",
    "cardBg": "#CAE4F7",
    "sil": "#C7DDED",
    "silhouette": []
@@ -116,37 +133,86 @@
    "floor": "#D1BEDA",
    "floorEdge": "#89629D",
    "accent": "#A14CCB",
+   "clearCloud": "#DEC0ED",
+   "hill": "#D3AEE5",
    "cardBg": "#E6CFF2",
    "sil": "#DECDE7",
    "silhouette": [
     {
      "t": "rect",
-     "x": 0.04,
-     "y": 0.62,
-     "w": 0.22,
+     "x": 0.55,
+     "anchor": "floor",
+     "dy": 0.4,
+     "w": 0.26,
      "h": 0.025,
      "what": "그네 가로 막대"
     },
     {
      "t": "rect",
-     "x": 0.07,
-     "y": 0.62,
-     "w": 0.012,
-     "h": 0.26,
-     "what": "그네 줄"
+     "x": 0.58,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.014,
+     "h": 0.4,
+     "what": "그네 기둥"
     },
     {
      "t": "rect",
-     "x": 0.21,
-     "y": 0.62,
-     "w": 0.012,
-     "h": 0.26,
-     "what": "그네 줄"
+     "x": 0.79,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.014,
+     "h": 0.4,
+     "what": "그네 기둥"
     }
    ]
   },
   "level05": {
    "name_key": "level5_name",
+   "direction": "마을 벽돌 장미",
+   "hue": 12,
+   "bg1": "#F6E8E4",
+   "bg2": "#F4DFD9",
+   "bg3": "#F3D5CD",
+   "floor": "#DCC2BC",
+   "floorEdge": "#A36A5C",
+   "accent": "#C24E30",
+   "clearCloud": "#EAC1B7",
+   "hill": "#E7B7AB",
+   "cardBg": "#F3D5CD",
+   "sil": "#E9D1CB",
+   "silhouette": [
+    {
+     "t": "rect",
+     "x": 0.12,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.16,
+     "h": 0.12,
+     "what": "멀리 작은 집(네모, 지붕 모양 없음)"
+    },
+    {
+     "t": "rect",
+     "x": 0.24,
+     "anchor": "floor",
+     "dy": 0.12,
+     "w": 0.03,
+     "h": 0.05,
+     "what": "굴뚝"
+    },
+    {
+     "t": "rect",
+     "x": 0.62,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.22,
+     "h": 0.035,
+     "what": "낮은 울타리 띠"
+    }
+   ]
+  },
+  "level06": {
+   "name_key": "level6_name",
    "direction": "물웅덩이 청록",
    "hue": 182,
    "bg1": "#E4F5F6",
@@ -155,55 +221,28 @@
    "floor": "#BCDBDC",
    "floorEdge": "#5CA1A3",
    "accent": "#217F83",
+   "clearCloud": "#B1D2D4",
+   "hill": "#ABE5E7",
    "cardBg": "#CDF2F3",
    "sil": "#CBE8E9",
    "silhouette": [
     {
      "t": "ellipse",
-     "x": 0.15,
-     "y": 1,
+     "x": 0.2,
+     "anchor": "floor",
+     "dy": 0,
      "rx": 0.17,
      "ry": 0.035,
      "what": "납작한 웅덩이"
     },
     {
      "t": "ellipse",
-     "x": 0.86,
-     "y": 1,
+     "x": 0.7,
+     "anchor": "floor",
+     "dy": 0,
      "rx": 0.12,
      "ry": 0.028,
      "what": "작은 웅덩이"
-    }
-   ]
-  },
-  "level06": {
-   "name_key": "level6_name",
-   "direction": "분홍",
-   "hue": 335,
-   "bg1": "#F7E3EC",
-   "bg2": "#F6D8E4",
-   "bg3": "#F5CCDD",
-   "floor": "#DFB9C9",
-   "floorEdge": "#AA5578",
-   "accent": "#D32E72",
-   "cardBg": "#F5CCDD",
-   "sil": "#EBC9D7",
-   "silhouette": [
-    {
-     "t": "rect",
-     "x": 0.74,
-     "y": 0.9,
-     "w": 0.24,
-     "h": 0.02,
-     "what": "시소 판(기울지 않음)"
-    },
-    {
-     "t": "tri",
-     "x": 0.86,
-     "y": 1,
-     "w": 0.07,
-     "h": 0.08,
-     "what": "시소 받침"
     }
    ]
   },
@@ -217,31 +256,36 @@
    "floor": "#C0D8C8",
    "floorEdge": "#669977",
    "accent": "#298247",
+   "clearCloud": "#B4D3BF",
+   "hill": "#B0E3C1",
    "cardBg": "#D0F1DB",
    "sil": "#CEE6D6",
    "silhouette": [
     {
-     "t": "ellipse",
-     "x": 0.1,
-     "y": 1,
-     "rx": 0.26,
-     "ry": 0.16,
-     "what": "언덕"
-    },
-    {
      "t": "rect",
-     "x": 0.875,
-     "y": 0.7,
-     "w": 0.01,
-     "h": 0.3,
+     "x": 0.7,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.012,
+     "h": 0.32,
      "what": "바람개비 막대"
     },
     {
      "t": "pinwheel",
-     "x": 0.88,
-     "y": 0.7,
+     "x": 0.706,
+     "anchor": "floor",
+     "dy": 0.32,
      "r": 0.06,
-     "what": "바람개비(세모 4개, 정지)"
+     "what": "바람개비(세모 4개, 정지, 회전 없음)"
+    },
+    {
+     "t": "rect",
+     "x": 0,
+     "anchor": "floor",
+     "dy": 0,
+     "w": "full",
+     "h": 0.03,
+     "what": "낮은 들 띠(배경 언덕 대신 — 큰 언덕 물체와 헷갈리지 않게)"
     }
    ]
   },
@@ -255,24 +299,28 @@
    "floor": "#E2CBB6",
    "floorEdge": "#B37C4D",
    "accent": "#AC5F1C",
+   "clearCloud": "#E2C7B0",
+   "hill": "#EEC7A5",
    "cardBg": "#F7DFCA",
    "sil": "#EDD9C7",
    "silhouette": [
     {
      "t": "rect",
-     "x": 0.06,
-     "y": 0.45,
-     "w": 0.08,
-     "h": 0.55,
+     "x": 0.66,
+     "anchor": "floor",
+     "dy": 0,
+     "w": 0.07,
+     "h": 0.42,
      "what": "나무 기둥"
     },
     {
      "t": "tri",
-     "x": 0.1,
-     "y": 0.5,
+     "x": 0.695,
+     "anchor": "floor",
+     "dy": 0.36,
      "w": 0.26,
      "h": 0.3,
-     "what": "잎(세모)"
+     "what": "잎(세모, 가지 물체와 다른 모양)"
     }
    ]
   },
@@ -286,23 +334,27 @@
    "floor": "#B9BEDF",
    "floorEdge": "#5561AA",
    "accent": "#5768DB",
+   "clearCloud": "#C4CAF2",
+   "hill": "#A9B1EA",
    "cardBg": "#CCD1F5",
    "sil": "#C9CEEB",
    "silhouette": [
     {
      "t": "diamond",
-     "x": 0.85,
-     "y": 0.3,
+     "x": 0.72,
+     "anchor": "sky",
+     "dy": 0.04,
      "w": 0.09,
      "h": 0.13,
      "what": "마름모 연"
     },
     {
      "t": "rect",
-     "x": 0.848,
-     "y": 0.365,
+     "x": 0.718,
+     "anchor": "sky",
+     "dy": 0.17,
      "w": 0.004,
-     "h": 0.4,
+     "h": 0.34,
      "what": "연 줄"
     }
    ]
@@ -317,23 +369,28 @@
    "floor": "#ECE1AC",
    "floorEdge": "#C9B136",
    "accent": "#86720B",
+   "clearCloud": "#D5CEAA",
+   "hill": "#EFE2A4",
    "cardBg": "#FDF3C4",
    "sil": "#F4EBC0",
    "silhouette": [
     {
      "t": "sun",
      "x": 0.97,
-     "y": 0.08,
+     "anchor": "sky",
+     "dy": 0.02,
      "r": 0.2,
-     "what": "큰 해(공 지름의 5배 이상, 오른쪽 위 구석에 반쯤 걸침 — 공과 크기·자리가 다름)"
+     "parallax": 0,
+     "what": "큰 해(공 지름 5배 이상, 오른쪽 구석에 반쯤 걸침, 멈춰 있음 — 공과 크기·자리 다름)"
     },
     {
      "t": "rect",
      "x": 0,
-     "y": 0.97,
+     "anchor": "floor",
+     "dy": 0,
      "w": "full",
      "h": 0.03,
-     "what": "가장 위 하늘 띠"
+     "what": "낮은 금빛 띠"
     }
    ]
   }

@@ -1,5 +1,5 @@
 {
- "schema_version": 1,
+ "schema_version": 2,
  "id": "07",
  "theme_id": "level07",
  "name_key": "level7_name",
@@ -12,10 +12,15 @@
   "pass_late_ms": 145,
   "miss_zone_ms": 200
  },
- "design_intent": "세 박 통(3박) 도입(빠른 곡 구간 G6 대신, 위험 K8). 첫 세 박 통은 받침 쉼 뒤 토스. 무늬 \"세박——— 통 큰통—\".",
+ "scroll": {
+  "drum_x_ratio": 0.3,
+  "ahead_beats": 3.5,
+  "speed": "constant_in_level"
+ },
+ "design_intent": "큰 언덕(세 박 통 3박) 도입: 첫 언덕은 토스로. \"셋까지 세기\"를 짧은 모양과 섞음.",
  "new_gimmick": {
-  "id": "R1",
-  "first_contact": 8
+  "id": "W6",
+  "first_contact": 0
  },
  "card": {
   "id": "card_three",
@@ -24,22 +29,25 @@
  },
  "level_select_to_level_start_ms": 800,
  "tutorial_finger": null,
- "length_beats": 57,
+ "length_beats": 52,
  "outro_beats": 4,
- "duration_s": 29.483,
- "contact_count": 26,
+ "duration_s": 26.897,
+ "contact_count": 24,
+ "hit_count": 22,
+ "nogo_count": 2,
  "clear_sequence": {
-  "big_toss_beat": 53,
+  "big_toss_beat": 48,
   "big_toss_flight_s": 2,
   "big_toss_apex_play_heights": 1,
   "after_apex": "stays_in_cloud",
   "grade_cloud_beats": [
-   55,
-   56,
-   57
+   50,
+   51,
+   52
   ],
-  "result_beat": 57,
-  "result_buttons_after_ms": 500
+  "result_beat": 52,
+  "result_buttons_after_ms": 500,
+  "scroll_stop_beat": 50
  },
  "phrases": [
   {
@@ -53,310 +61,619 @@
      "ball": 1,
      "beat": 4,
      "to_contact": 0
+    },
+    {
+     "ball": 1,
+     "beat": 12,
+     "to_contact": 4,
+     "after_roof": true
     }
    ],
    "landings": [
     {
      "ball": 1,
-     "from_contact": 7,
-     "beat": 15,
+     "from_contact": 11,
+     "beat": 21,
      "exit": false
+    }
+   ],
+   "roof_sits": [
+    {
+     "contact": 3,
+     "beat": 10,
+     "toss_beat": 12,
+     "roof_in_beat": 9.4,
+     "roof_out_beat": 11,
+     "bob_beats": [],
+     "sit_beats": 2
     }
    ],
    "contact_range": [
     0,
-    7
+    11
    ]
   },
   {
    "index": 1,
-   "start_beat": 15,
-   "rest_beats": 5,
-   "balls": 1,
-   "checkpoint": true,
-   "tosses": [
-    {
-     "ball": 1,
-     "beat": 20,
-     "to_contact": 8
-    }
-   ],
-   "landings": [
-    {
-     "ball": 1,
-     "from_contact": 16,
-     "beat": 33,
-     "exit": false
-    }
-   ],
-   "contact_range": [
-    8,
-    16
-   ]
-  },
-  {
-   "index": 2,
-   "start_beat": 33,
+   "start_beat": 21,
    "rest_beats": 7,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
     {
      "ball": 1,
-     "beat": 40,
-     "to_contact": 17
+     "beat": 28,
+     "to_contact": 12
+    },
+    {
+     "ball": 1,
+     "beat": 43,
+     "to_contact": 20,
+     "after_roof": true
     }
    ],
    "landings": [
     {
      "ball": 1,
-     "from_contact": 25,
-     "beat": 53,
+     "from_contact": 23,
+     "beat": 48,
      "exit": false
     }
    ],
+   "roof_sits": [
+    {
+     "contact": 19,
+     "beat": 40,
+     "toss_beat": 43,
+     "roof_in_beat": 39.4,
+     "roof_out_beat": 42,
+     "bob_beats": [
+      42
+     ],
+     "sit_beats": 3
+    }
+   ],
    "contact_range": [
-    17,
-    25
+    12,
+    23
    ]
   }
  ],
  "contacts": [
   {
-   "beat": 5,
+   "beat": 7,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
+   "gap_beats": 3,
+   "bounce": "three",
    "phrase": 0,
    "i": 0,
-   "gimmick": "B1"
+   "gimmick": "W6",
+   "object": 0,
+   "first_of_gimmick": true
   },
   {
-   "beat": 6,
+   "beat": 8,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 1,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 7,
+   "beat": 9,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 2,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 8,
+   "beat": 10,
+   "kind": "nogo",
    "ball": 1,
    "gap_beats": 1,
-   "bounce": "tong",
+   "bounce": "roof",
+   "gimmick": "W4",
    "phrase": 0,
    "i": 3,
-   "gimmick": "B1"
+   "object": 4
   },
   {
-   "beat": 9.5,
-   "ball": 1,
-   "gap_beats": 1.5,
-   "bounce": "dot",
-   "phrase": 0,
-   "i": 4,
-   "gimmick": "G3"
-  },
-  {
-   "beat": 11,
-   "ball": 1,
-   "gap_beats": 1.5,
-   "bounce": "dot",
-   "phrase": 0,
-   "i": 5,
-   "gimmick": "G3"
-  },
-  {
-   "beat": 12,
+   "beat": 13,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
-   "i": 6,
-   "gimmick": "B1"
+   "i": 4,
+   "gimmick": "W0"
   },
   {
    "beat": 14,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
+   "i": 5,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 16,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 2,
    "bounce": "big",
    "phrase": 0,
-   "i": 7,
-   "gimmick": "G1"
+   "i": 6,
+   "gimmick": "W1"
   },
   {
-   "beat": 23,
+   "beat": 16.5,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 3,
-   "bounce": "three",
-   "phrase": 1,
-   "i": 8,
-   "gimmick": "R1",
-   "first_of_gimmick": true
+   "gap_beats": 0.5,
+   "bounce": "half",
+   "phrase": 0,
+   "i": 7,
+   "gimmick": "W5",
+   "object": 7
   },
   {
-   "beat": 24,
+   "beat": 17,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 0.5,
+   "bounce": "half",
+   "phrase": 0,
+   "i": 8,
+   "gimmick": "W5",
+   "object": 7
+  },
+  {
+   "beat": 18,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
-   "phrase": 1,
+   "phrase": 0,
    "i": 9,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 26,
+   "beat": 19,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 2,
-   "bounce": "big",
-   "phrase": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
    "i": 10,
-   "gimmick": "G1"
+   "gimmick": "W0"
   },
   {
-   "beat": 28,
+   "beat": 20,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 2,
-   "bounce": "big",
-   "phrase": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 0,
    "i": 11,
-   "gimmick": "G1"
-  },
-  {
-   "beat": 28.5,
-   "ball": 1,
-   "gap_beats": 0.5,
-   "bounce": "half",
-   "phrase": 1,
-   "i": 12,
-   "gimmick": "G4"
-  },
-  {
-   "beat": 29,
-   "ball": 1,
-   "gap_beats": 0.5,
-   "bounce": "half",
-   "phrase": 1,
-   "i": 13,
-   "gimmick": "G4"
+   "gimmick": "W0"
   },
   {
    "beat": 30,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
+   "gap_beats": 2,
+   "bounce": "big",
    "phrase": 1,
-   "i": 14,
-   "gimmick": "B1"
+   "i": 12,
+   "gimmick": "W1"
   },
   {
-   "beat": 31,
+   "beat": 31.5,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1.5,
+   "bounce": "dot",
+   "phrase": 1,
+   "i": 13,
+   "gimmick": "W3"
+  },
+  {
+   "beat": 33,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1.5,
+   "bounce": "dot",
+   "phrase": 1,
+   "i": 14,
+   "gimmick": "W3"
+  },
+  {
+   "beat": 34,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
    "i": 15,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 32,
+   "beat": 37,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 3,
+   "bounce": "three",
+   "phrase": 1,
+   "i": 16,
+   "gimmick": "W6",
+   "object": 18,
+   "first_of_gimmick": true
+  },
+  {
+   "beat": 38,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
-   "i": 16,
-   "gimmick": "B1"
+   "i": 17,
+   "gimmick": "W0"
   },
   {
-   "beat": 43,
+   "beat": 39,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 3,
-   "bounce": "three",
-   "phrase": 2,
-   "i": 17,
-   "gimmick": "R1",
-   "first_of_gimmick": true
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 18,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 40,
+   "kind": "nogo",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "roof",
+   "gimmick": "W4",
+   "phrase": 1,
+   "i": 19,
+   "object": 22
   },
   {
    "beat": 44,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
-   "phrase": 2,
-   "i": 18,
-   "gimmick": "B1"
+   "phrase": 1,
+   "i": 20,
+   "gimmick": "W0"
   },
   {
-   "beat": 45.5,
+   "beat": 45,
+   "kind": "hit",
    "ball": 1,
-   "gap_beats": 1.5,
-   "bounce": "dot",
-   "phrase": 2,
-   "i": 19,
-   "gimmick": "G3"
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 21,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 46,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 1,
+   "i": 22,
+   "gimmick": "W0"
   },
   {
    "beat": 47,
-   "ball": 1,
-   "gap_beats": 1.5,
-   "bounce": "dot",
-   "phrase": 2,
-   "i": 20,
-   "gimmick": "G3"
-  },
-  {
-   "beat": 48,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
-   "phrase": 2,
-   "i": 21,
-   "gimmick": "B1"
-  },
-  {
-   "beat": 49,
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 2,
-   "i": 22,
-   "gimmick": "B1"
-  },
-  {
-   "beat": 50,
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 2,
+   "phrase": 1,
    "i": 23,
-   "gimmick": "B1"
+   "gimmick": "W0"
+  }
+ ],
+ "objects": [
+  {
+   "type": "hill",
+   "beat_in": 4.75,
+   "beat_out": 6.25,
+   "contacts": [
+    0
+   ],
+   "top_of_Hp": 0.3,
+   "layer": "back",
+   "id": 0
   },
   {
-   "beat": 51,
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 2,
-   "i": 24,
-   "gimmick": "B1"
+   "type": "mark",
+   "beat_in": 7,
+   "beat_out": 7,
+   "contacts": [
+    0
+   ],
+   "next_beats": 1,
+   "id": 1
   },
   {
-   "beat": 52,
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 2,
-   "i": 25,
-   "gimmick": "B1"
+   "type": "mark",
+   "beat_in": 8,
+   "beat_out": 8,
+   "contacts": [
+    1
+   ],
+   "next_beats": 1,
+   "id": 2
+  },
+  {
+   "type": "mark",
+   "beat_in": 9,
+   "beat_out": 9,
+   "contacts": [
+    2
+   ],
+   "next_beats": 1,
+   "id": 3
+  },
+  {
+   "type": "roof",
+   "beat_in": 9.4,
+   "beat_out": 11,
+   "contacts": [
+    3
+   ],
+   "under_of_Hp": 0.45,
+   "sit_beats": 2,
+   "id": 4
+  },
+  {
+   "type": "mark",
+   "beat_in": 13,
+   "beat_out": 13,
+   "contacts": [
+    4
+   ],
+   "next_beats": 1,
+   "id": 5
+  },
+  {
+   "type": "mark",
+   "beat_in": 14,
+   "beat_out": 14,
+   "contacts": [
+    5
+   ],
+   "next_beats": 2,
+   "id": 6
+  },
+  {
+   "type": "branch",
+   "beat_in": 16,
+   "beat_out": 17,
+   "contacts": [
+    7,
+    8
+   ],
+   "under_of_Hp": 0.3,
+   "long": false,
+   "id": 7
+  },
+  {
+   "type": "mark",
+   "beat_in": 16,
+   "beat_out": 16,
+   "contacts": [
+    6
+   ],
+   "next_beats": 0.5,
+   "id": 8
+  },
+  {
+   "type": "mark",
+   "beat_in": 16.5,
+   "beat_out": 16.5,
+   "contacts": [
+    7
+   ],
+   "next_beats": 0.5,
+   "id": 9
+  },
+  {
+   "type": "mark",
+   "beat_in": 17,
+   "beat_out": 17,
+   "contacts": [
+    8
+   ],
+   "next_beats": 1,
+   "id": 10
+  },
+  {
+   "type": "mark",
+   "beat_in": 18,
+   "beat_out": 18,
+   "contacts": [
+    9
+   ],
+   "next_beats": 1,
+   "id": 11
+  },
+  {
+   "type": "mark",
+   "beat_in": 19,
+   "beat_out": 19,
+   "contacts": [
+    10
+   ],
+   "next_beats": 1,
+   "id": 12
+  },
+  {
+   "type": "mark",
+   "beat_in": 20,
+   "beat_out": 20,
+   "contacts": [
+    11
+   ],
+   "next_beats": 1,
+   "id": 13
+  },
+  {
+   "type": "mark",
+   "beat_in": 30,
+   "beat_out": 30,
+   "contacts": [
+    12
+   ],
+   "next_beats": 1.5,
+   "id": 14
+  },
+  {
+   "type": "mark",
+   "beat_in": 31.5,
+   "beat_out": 31.5,
+   "contacts": [
+    13
+   ],
+   "next_beats": 1.5,
+   "id": 15
+  },
+  {
+   "type": "mark",
+   "beat_in": 33,
+   "beat_out": 33,
+   "contacts": [
+    14
+   ],
+   "next_beats": 1,
+   "id": 16
+  },
+  {
+   "type": "mark",
+   "beat_in": 34,
+   "beat_out": 34,
+   "contacts": [
+    15
+   ],
+   "next_beats": 3,
+   "id": 17
+  },
+  {
+   "type": "hill",
+   "beat_in": 34.75,
+   "beat_out": 36.25,
+   "contacts": [
+    16
+   ],
+   "top_of_Hp": 0.3,
+   "layer": "back",
+   "id": 18
+  },
+  {
+   "type": "mark",
+   "beat_in": 37,
+   "beat_out": 37,
+   "contacts": [
+    16
+   ],
+   "next_beats": 1,
+   "id": 19
+  },
+  {
+   "type": "mark",
+   "beat_in": 38,
+   "beat_out": 38,
+   "contacts": [
+    17
+   ],
+   "next_beats": 1,
+   "id": 20
+  },
+  {
+   "type": "mark",
+   "beat_in": 39,
+   "beat_out": 39,
+   "contacts": [
+    18
+   ],
+   "next_beats": 1,
+   "id": 21
+  },
+  {
+   "type": "roof",
+   "beat_in": 39.4,
+   "beat_out": 42,
+   "contacts": [
+    19
+   ],
+   "under_of_Hp": 0.45,
+   "sit_beats": 3,
+   "id": 22
+  },
+  {
+   "type": "mark",
+   "beat_in": 44,
+   "beat_out": 44,
+   "contacts": [
+    20
+   ],
+   "next_beats": 1,
+   "id": 23
+  },
+  {
+   "type": "mark",
+   "beat_in": 45,
+   "beat_out": 45,
+   "contacts": [
+    21
+   ],
+   "next_beats": 1,
+   "id": 24
+  },
+  {
+   "type": "mark",
+   "beat_in": 46,
+   "beat_out": 46,
+   "contacts": [
+    22
+   ],
+   "next_beats": 1,
+   "id": 25
+  },
+  {
+   "type": "mark",
+   "beat_in": 47,
+   "beat_out": 47,
+   "contacts": [
+    23
+   ],
+   "next_beats": 1,
+   "id": 26
+  },
+  {
+   "type": "cloud",
+   "role": "clear",
+   "beat_in": 49,
+   "beat_out": 51,
+   "contacts": [],
+   "bottom_of_Hp": 0.9,
+   "id": 27
   }
  ]
 }

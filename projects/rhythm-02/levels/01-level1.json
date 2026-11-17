@@ -1,5 +1,5 @@
 {
- "schema_version": 1,
+ "schema_version": 2,
  "id": "01",
  "theme_id": "level01",
  "name_key": "level1_name",
@@ -12,9 +12,14 @@
   "pass_late_ms": 170,
   "miss_zone_ms": 200
  },
- "design_intent": "1박 통만. 공이 북에 닿는 순간 톡. 5·5·4·4번 묶음 사이에 받침 쉼(1마디 남짓, 숨 고르기). 박마다 치면 깨지는 \"박 배우기\" 레벨.",
+ "scroll": {
+  "drum_x_ratio": 0.3,
+  "ahead_beats": 4,
+  "speed": "constant_in_level"
+ },
+ "design_intent": "1박 통만. 길 위 표시가 북에 오면 톡. 구절마다 접촉 수를 5·4·5·4로 바꿔 쉼 길이가 달라짐(4~7박). 박마다 치면 깨지는 \"박 배우기\" 레벨.",
  "new_gimmick": {
-  "id": "B1",
+  "id": "W0",
   "first_contact": 0
  },
  "card": {
@@ -32,6 +37,8 @@
  "outro_beats": 4,
  "duration_s": 29.4,
  "contact_count": 18,
+ "hit_count": 18,
+ "nogo_count": 0,
  "clear_sequence": {
   "big_toss_beat": 45,
   "big_toss_flight_s": 2,
@@ -43,7 +50,8 @@
    49
   ],
   "result_beat": 49,
-  "result_buttons_after_ms": 500
+  "result_buttons_after_ms": 500,
+  "scroll_stop_beat": 47
  },
  "phrases": [
   {
@@ -67,6 +75,7 @@
      "exit": false
     }
    ],
+   "roof_sits": [],
    "contact_range": [
     0,
     4
@@ -88,46 +97,48 @@
    "landings": [
     {
      "ball": 1,
-     "from_contact": 9,
-     "beat": 22,
+     "from_contact": 8,
+     "beat": 21,
      "exit": false
     }
    ],
+   "roof_sits": [],
    "contact_range": [
     5,
-    9
+    8
    ]
   },
   {
    "index": 2,
-   "start_beat": 22,
-   "rest_beats": 6,
+   "start_beat": 21,
+   "rest_beats": 7,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
     {
      "ball": 1,
      "beat": 28,
-     "to_contact": 10
+     "to_contact": 9
     }
    ],
    "landings": [
     {
      "ball": 1,
      "from_contact": 13,
-     "beat": 33,
+     "beat": 34,
      "exit": false
     }
    ],
+   "roof_sits": [],
    "contact_range": [
-    10,
+    9,
     13
    ]
   },
   {
    "index": 3,
-   "start_beat": 33,
-   "rest_beats": 7,
+   "start_beat": 34,
+   "rest_beats": 6,
    "balls": 1,
    "checkpoint": true,
    "tosses": [
@@ -145,6 +156,7 @@
      "exit": false
     }
    ],
+   "roof_sits": [],
    "contact_range": [
     14,
     17
@@ -154,165 +166,374 @@
  "contacts": [
   {
    "beat": 5,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 0,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 6,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 1,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 7,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 2,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 8,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 3,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 9,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 0,
    "i": 4,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 17,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
    "i": 5,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 18,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
    "i": 6,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 19,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
    "i": 7,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 20,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 1,
    "i": 8,
-   "gimmick": "B1"
-  },
-  {
-   "beat": 21,
-   "ball": 1,
-   "gap_beats": 1,
-   "bounce": "tong",
-   "phrase": 1,
-   "i": 9,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 29,
+   "kind": "hit",
+   "ball": 1,
+   "gap_beats": 1,
+   "bounce": "tong",
+   "phrase": 2,
+   "i": 9,
+   "gimmick": "W0"
+  },
+  {
+   "beat": 30,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
    "i": 10,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 30,
+   "beat": 31,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
    "i": 11,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 31,
+   "beat": 32,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
    "i": 12,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
-   "beat": 32,
+   "beat": 33,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 2,
    "i": 13,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 41,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 3,
    "i": 14,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 42,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 3,
    "i": 15,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 43,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 3,
    "i": 16,
-   "gimmick": "B1"
+   "gimmick": "W0"
   },
   {
    "beat": 44,
+   "kind": "hit",
    "ball": 1,
    "gap_beats": 1,
    "bounce": "tong",
    "phrase": 3,
    "i": 17,
-   "gimmick": "B1"
+   "gimmick": "W0"
+  }
+ ],
+ "objects": [
+  {
+   "type": "mark",
+   "beat_in": 5,
+   "beat_out": 5,
+   "contacts": [
+    0
+   ],
+   "next_beats": 1,
+   "id": 0
+  },
+  {
+   "type": "mark",
+   "beat_in": 6,
+   "beat_out": 6,
+   "contacts": [
+    1
+   ],
+   "next_beats": 1,
+   "id": 1
+  },
+  {
+   "type": "mark",
+   "beat_in": 7,
+   "beat_out": 7,
+   "contacts": [
+    2
+   ],
+   "next_beats": 1,
+   "id": 2
+  },
+  {
+   "type": "mark",
+   "beat_in": 8,
+   "beat_out": 8,
+   "contacts": [
+    3
+   ],
+   "next_beats": 1,
+   "id": 3
+  },
+  {
+   "type": "mark",
+   "beat_in": 9,
+   "beat_out": 9,
+   "contacts": [
+    4
+   ],
+   "next_beats": 1,
+   "id": 4
+  },
+  {
+   "type": "mark",
+   "beat_in": 17,
+   "beat_out": 17,
+   "contacts": [
+    5
+   ],
+   "next_beats": 1,
+   "id": 5
+  },
+  {
+   "type": "mark",
+   "beat_in": 18,
+   "beat_out": 18,
+   "contacts": [
+    6
+   ],
+   "next_beats": 1,
+   "id": 6
+  },
+  {
+   "type": "mark",
+   "beat_in": 19,
+   "beat_out": 19,
+   "contacts": [
+    7
+   ],
+   "next_beats": 1,
+   "id": 7
+  },
+  {
+   "type": "mark",
+   "beat_in": 20,
+   "beat_out": 20,
+   "contacts": [
+    8
+   ],
+   "next_beats": 1,
+   "id": 8
+  },
+  {
+   "type": "mark",
+   "beat_in": 29,
+   "beat_out": 29,
+   "contacts": [
+    9
+   ],
+   "next_beats": 1,
+   "id": 9
+  },
+  {
+   "type": "mark",
+   "beat_in": 30,
+   "beat_out": 30,
+   "contacts": [
+    10
+   ],
+   "next_beats": 1,
+   "id": 10
+  },
+  {
+   "type": "mark",
+   "beat_in": 31,
+   "beat_out": 31,
+   "contacts": [
+    11
+   ],
+   "next_beats": 1,
+   "id": 11
+  },
+  {
+   "type": "mark",
+   "beat_in": 32,
+   "beat_out": 32,
+   "contacts": [
+    12
+   ],
+   "next_beats": 1,
+   "id": 12
+  },
+  {
+   "type": "mark",
+   "beat_in": 33,
+   "beat_out": 33,
+   "contacts": [
+    13
+   ],
+   "next_beats": 1,
+   "id": 13
+  },
+  {
+   "type": "mark",
+   "beat_in": 41,
+   "beat_out": 41,
+   "contacts": [
+    14
+   ],
+   "next_beats": 1,
+   "id": 14
+  },
+  {
+   "type": "mark",
+   "beat_in": 42,
+   "beat_out": 42,
+   "contacts": [
+    15
+   ],
+   "next_beats": 1,
+   "id": 15
+  },
+  {
+   "type": "mark",
+   "beat_in": 43,
+   "beat_out": 43,
+   "contacts": [
+    16
+   ],
+   "next_beats": 1,
+   "id": 16
+  },
+  {
+   "type": "mark",
+   "beat_in": 44,
+   "beat_out": 44,
+   "contacts": [
+    17
+   ],
+   "next_beats": 1,
+   "id": 17
+  },
+  {
+   "type": "cloud",
+   "role": "clear",
+   "beat_in": 46,
+   "beat_out": 48,
+   "contacts": [],
+   "bottom_of_Hp": 0.9,
+   "id": 18
   }
  ]
 }

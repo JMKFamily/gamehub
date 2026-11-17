@@ -1,5 +1,5 @@
 {
- "schema_version": 1,
+ "schema_version": 2,
  "_units": "시간은 ms 또는 s(키 이름에 표기), 박자는 beat, 마디는 bar(4박). 레벨 시간 0 = 첫 받침 쉼의 첫 박(공이 북 위에 앉아 첫 '콩'). 판정 시계는 화면 시계(20-balance.md 4-2). 높이는 놀이 높이 Hp 대비 비율: Hp = assets/layout.json play_height 식(art, 결정 D5), 공 높이 y = 공 아랫점과 북 가죽 윗면 사이 거리. 가로 자리는 공 지름 d 단위(북 가운데 0).",
  "_source": "수치의 출처·근거는 20-balance.md. lore·art 문서는 숫자 대신 20-balance.md 절을 참조한다. 레벨 데이터는 levels/*.json(생성기 tools/build-levels.mjs).",
  "input": {
@@ -31,8 +31,8 @@
  },
  "judge_by_level": {
   "10": [
-   115,
-   135
+   125,
+   145
   ],
   "01": [
    150,
@@ -63,14 +63,14 @@
    145
   ],
   "08": [
-   120,
-   140
+   125,
+   145
   ],
   "09": [
-   120,
-   140
+   125,
+   145
   ],
-  "_note": "[pass_early_ms, pass_late_ms] 요약(원본은 레벨 파일). 통과 폭 320→310→300→290→280→280→270→260→260→250, 직전의 94 % 이상."
+  "_note": "[pass_early_ms, pass_late_ms] 요약(원본은 레벨 파일). round-2 통과 폭 320→310→300→290→280→280→270→270→270→270(직전 94 % 이상, 늘지 않음). round-1 대비 L8 260→270, L9 260→270, L10 250→270: 지붕(참기)·반복 없는 조합이 난이도를 맡고, 곡선 제약(L10 = T ±20 %, K2 ≤ 30) 안에서 hit 접촉 수를 확보(20-balance 4-1)."
  },
  "grade_rule": {
   "one": "clear",
@@ -103,72 +103,90 @@
  "bounces": {
   "half": {
    "beats": 0.5,
-   "gimmick": "G4",
-   "first_level": "05"
+   "gimmick": "W5",
+   "first_level": "06",
+   "long_run_gimmick": "W7",
+   "long_run_first_level": "08"
   },
   "tong": {
    "beats": 1,
-   "gimmick": "B1",
+   "gimmick": "W0",
    "first_level": "01"
   },
   "dot": {
    "beats": 1.5,
-   "gimmick": "G3",
+   "gimmick": "W3",
    "first_level": "04"
   },
   "big": {
    "beats": 2,
-   "gimmick": "G1",
+   "gimmick": "W1",
    "first_level": "02"
   },
   "three": {
    "beats": 3,
-   "gimmick": "R1",
+   "gimmick": "W6",
    "first_level": "07"
   },
   "cloud": {
    "beats": 4,
-   "gimmick": "G2",
+   "gimmick": "W2",
    "first_level": "03"
   },
-  "_note": "통 이름은 기능 id(lore 가 화면 이름을 정함). 두 공 G5(L6, 두 공 모두 big), 드르륵 G7(L8, 반박 4연속)."
+  "roof": {
+   "beats": 1,
+   "gimmick": "W4",
+   "first_level": "05",
+   "kind": "nogo"
+  },
+  "_note": "통 이름 = 들어오는 비행 길이(lore 가 화면 이름). roof = 지붕 밑 착지(nogo, 늘 1박 비행으로 들어옴). 반박 2연속 = W5 낮은 가지, 4연속 = W7 긴 가지."
  },
  "gimmicks": {
-  "B1": {
+  "W0": {
    "level": "01",
-   "card": "card_bounce"
+   "card": "card_bounce",
+   "what": "흐르는 길 + 박 표시 + 받침 쉼(1박 통)"
   },
-  "G1": {
+  "W1": {
    "level": "02",
-   "card": "card_big"
+   "card": "card_big",
+   "what": "넓은 간격(큰 통 2박)"
   },
-  "G2": {
+  "W2": {
    "level": "03",
-   "card": "card_cloud"
+   "card": "card_cloud",
+   "what": "구름 물체(구름 통 4박)"
   },
-  "G3": {
+  "W3": {
    "level": "04",
-   "card": "card_dot"
+   "card": "card_dot",
+   "what": "엇간격(점 통 1.5·1.5·1)"
   },
-  "G4": {
+  "W4": {
    "level": "05",
-   "card": "card_double"
+   "card": "card_roof",
+   "what": "지붕(치지 마, nogo)"
   },
-  "G5": {
+  "W5": {
    "level": "06",
-   "card": "card_twoballs"
+   "card": "card_double",
+   "what": "낮은 가지(통통 반박 짝)"
   },
-  "R1": {
+  "W6": {
    "level": "07",
-   "card": "card_three"
+   "card": "card_three",
+   "what": "큰 언덕(세 박 통 3박)"
   },
-  "G7": {
+  "W7": {
    "level": "08",
-   "card": "card_roll"
+   "card": "card_roll",
+   "what": "긴 가지(드르륵 반박 4)"
   },
-  "_dropped": {
-   "G6": "빠른 곡 구간: 쓰지 않음(위험 K8, 5~6세 템포 변화). 예비 R1 세 박 통으로 교체"
-  }
+  "_reserve": {
+   "G5": "두 공: 예비로 내림(오케스트레이터 D-R2-1). 카드 card_twoballs 는 쓰지 않음",
+   "G6": "빠른 곡 구간: 쓰지 않음(round-1 K8)"
+  },
+  "_note": "카드 키 원본(결정 D1). round-1 키 중 기능이 같은 것은 그대로 두고(card_bounce·card_big·card_cloud·card_dot·card_double·card_three·card_roll — 그림은 art 가 새 물체 모양으로 다시 그림), 새 키는 card_roof 하나, card_twoballs 는 뺌."
  },
  "rest": {
   "min_rest_beats": 4,
@@ -264,7 +282,25 @@
      1.1
     ]
    },
-   "_note": "late = 통과 창 끝까지 탭 없음: 가죽 위에서 기다리던 공이 북 옆으로 굴러 떨어짐. early = 놓침 구역 탭: 헛스윙(북 톡 + 바람선 0.12 s), 공은 같은 속도로 계속 내려와 북에 닿지 않고 옆으로 굴러 떨어짐. early 의 ball_fall_fx 끝과 still_best_dot 시작은 early_fall_rule 로 정함(위 값은 최댓값 0.6 s 판), 총합 1.1 s 고정. judge.mjs restartPhases()."
+   "_note": "late = 통과 창 끝까지 탭 없음: 가죽 위에서 기다리던 공이 북 옆으로 굴러 떨어짐. early = 놓침 구역 탭: 헛스윙(북 톡 + 바람선 0.12 s), 공은 같은 속도로 계속 내려와 북에 닿지 않고 옆으로 굴러 떨어짐. early 의 ball_fall_fx 끝과 still_best_dot 시작은 early_fall_rule 로 정함(위 값은 최댓값 0.6 s 판), 총합 1.1 s 고정. judge.mjs restartPhases(). bump_roof(round-2) = 지붕 밑 착지 창 안 탭: 공이 가죽에서 살짝 떠 지붕 아랫면에 부드럽게 닿고(소리는 아이 탭보다 작게, art) 북 옆으로 굴러 떨어짐 [0, 0.45] → 정지 → 다시 나타남. 실패 판정 시각 = 그 탭.",
+   "bump_roof": {
+    "music_stop": [
+     0,
+     0.08
+    ],
+    "bump_fx": [
+     0,
+     0.45
+    ],
+    "still_best_dot": [
+     0.45,
+     0.85
+    ],
+    "ball_reappear_on_drum": [
+     0.85,
+     1.1
+    ]
+   }
   },
   "early_fall_rule": {
    "fall_left_s": "contact_time_minus_fail_tap",
@@ -314,7 +350,12 @@
    "default": 4
   },
   "bg_stage_on_clear": 1,
-  "_note": "결정 D10(시간축 원본 = balance): 마지막 접촉을 친 순간 클리어 판정 → 공은 1박 비행 뒤 착지 박에 가죽에 닿자마자 큰 튐(판정 없음, 2.0 s 비행, 꼭짓점 1.0·Hp = 구름 속)으로 떠나 구름에 들어가 머묾(구름선 넘는 시각 = 착지 + 0.68 s) → 등급 구름 n개(1~3)가 끝 2박 전·1박 전·끝 박에 하나씩(받은 수만큼 앞에서부터) → 끝 박(length_beats)에 결과 화면, 버튼은 0.5 s 뒤. 마무리 박 = L1~L9 4박, L10 8박(L1 동기 되부름이 마지막 구절부터 이어짐). art 큰 튐·등급 구름 연출은 이 안에 넣음. 레벨 파일 clear_sequence 에 박으로 적음."
+  "_note": "결정 D10(시간축 원본 = balance): 마지막 접촉을 친 순간 클리어 판정 → 공은 1박 비행 뒤 착지 박에 가죽에 닿자마자 큰 튐(판정 없음, 2.0 s 비행, 꼭짓점 1.0·Hp = 구름 속)으로 떠나 구름에 들어가 머묾(구름선 넘는 시각 = 착지 + 0.68 s) → 등급 구름 n개(1~3)가 끝 2박 전·1박 전·끝 박에 하나씩(받은 수만큼 앞에서부터) → 끝 박(length_beats)에 결과 화면, 버튼은 0.5 s 뒤. 마무리 박 = L1~L9 4박, L10 8박(L1 동기 되부름이 마지막 구절부터 이어짐). art 큰 튐·등급 구름 연출은 이 안에 넣음. 레벨 파일 clear_sequence 에 박으로 적음. round-2: 큰 튐 구름은 다가오는 물체(role clear, 큰 튐 박 +1 ~ +3)로 오고, 길은 큰 튐 박 +2 에서 멈춤(scroll_stop_beat, 판정이 끝난 뒤) — 구름 가운데가 북 위에 머묾.",
+  "scroll_stop_beats_after_big_toss": 2,
+  "clear_cloud_beats_after_big_toss": [
+   1,
+   3
+  ]
  },
  "tutorial_finger": {
   "level": "01",
@@ -336,17 +377,20 @@
    "skilled_sd25": {
     "sd_ms": 25,
     "miss": 0,
-    "extra": 0
+    "extra": 0,
+    "q_nogo": 0
    },
    "novice_sd50": {
     "sd_ms": 50,
     "miss": 0.01,
-    "extra": 0.01
+    "extra": 0.01,
+    "q_nogo": 0.05
    },
    "child_sd70": {
     "sd_ms": 70,
     "miss": 0.03,
-    "extra": 0.02
+    "extra": 0.02,
+    "q_nogo": 0.15
    }
   },
   "k2_model": {
@@ -354,7 +398,8 @@
    "half_sd_mult": 1.15,
    "two_ball_sd_mult": 1.15,
    "first_gimmick_miss_add": 0.05,
-   "_note": "위험 K2(봇이 높이 읽기 부담을 모름) 손해 모델 [추정]: 바로 앞 비행보다 짧아진 접촉 σ×1.25, 반박 σ×1.15, 두 공 구절 σ×1.15(곱), 새 기믹 첫 등장 접촉 2개 놓침 +5 %p. B1~B7 은 criteria 정의(기본 σ70)로 판정하고 이 모델은 K2 검사(30회·2배 한도)로 따로 본다."
+   "_note": "위험 K2(봇이 높이 읽기 부담을 모름) 손해 모델 [추정]: 바로 앞 비행보다 짧아진 접촉 σ×1.25, 반박 σ×1.15, 두 공 구절 σ×1.15(곱), 새 기믹 첫 등장 접촉 2개 놓침 +5 %p. B1~B7 은 criteria 정의(기본 σ70)로 판정하고 이 모델은 K2 검사(30회·2배 한도)로 따로 본다. round-2: 그 레벨 새 기믹 첫 지붕 2개 q_nogo +0.10(= 0.25, 00-benchmark 14-3 [추정]).",
+   "first_nogo_q_add": 0.1
   },
   "along": {
    "rest": 0.3,
@@ -373,9 +418,24 @@
     0.5,
     1
    ],
-   "_note": "위험 K3: 소리 따라 치는 아이 bias = w × (자동 보정으로 못 잡은 블루투스 지연). w=0 = 공을 보고 치는 아이. 보호자 보정 뒤 남은 오차는 ±30 ms 로 봄."
+   "_note": "위험 K3: 소리 따라 치는 아이 bias = w × (남은 오디오 지연). round-2(M1, E3): 소리 맞추기 무시 구간 0 → 보정 뒤 남은 오차 ±15 ms 두 쪽을 w = 1 봇에 넣어 30회·2배 검사(K3b). 옛 무시 구간 경계 ±30 은 정보 행.",
+   "calibrated_residual_ms": [
+    -15,
+    15
+   ],
+   "old_deadzone_residual_ms": [
+    -30,
+    30
+   ]
   },
-  "_note": "criteria.md 정의: 접촉 시각 + N(0,σ) 탭, 접촉마다 놓침 miss, 헛탭 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 누름 100 ms(판정은 pointerdown 만 보므로 영향 없음)."
+  "_note": "criteria.md 정의: 접촉 시각 + N(0,σ) 탭, 접촉마다 놓침 miss, 헛탭 extra(그 탭 0.15~0.45 s 뒤 한 번 더). 누름 100 ms(판정은 pointerdown 만 보므로 영향 없음).",
+  "q_nogo_note": "오케스트레이터 D-R2-2: 5~6세 대리 봇(σ70)은 지붕 밑 착지 박에 참지 못하고 칠 확률 q_nogo 0.15(그 순간 노림 + σ 흔들림, [추정]). 곡선 판정(B1~B8)은 이 정의로. criteria 기본 정의(q 0 = 늘 참음)와 민감도(0·0.10·0.25·첫 지붕 2개 0.25)는 검증기 정보 행 Q.",
+  "q_nogo_sensitivity": [
+   0,
+   0.1,
+   0.15,
+   0.25
+  ]
  },
  "menus": {
   "play_hud_buttons": [
@@ -399,7 +459,16 @@
    "sound_sync",
    "language"
   ],
-  "_note": "결정 D11: 플레이 HUD 는 멈춤 버튼 하나. 멈춤 메뉴(아이용) = 이어 하기·다시·레벨 고르기·소리 켜기/끄기. 레벨 선택의 설정 그림(톱니 아님, art)을 1.5 s 길게 누르면(버튼 아래 가로 막대가 채워짐, 손을 떼면 비워짐) 보호자 화면(소리 맞추기, 언어). 짧게 누르면 아무 일 없이 guardian_hold 보조 글만. 그림·자리는 art, 글 키는 lore."
+  "_note": "결정 D11: 플레이 HUD 는 멈춤 버튼 하나. 멈춤 메뉴(아이용) = 이어 하기·다시·레벨 고르기·소리 켜기/끄기. 레벨 선택의 설정 그림(톱니 아님, art)을 1.5 s 길게 누르면(버튼 아래 가로 막대가 채워짐, 손을 떼면 비워짐) 보호자 화면(소리 맞추기, 언어). 짧게 누르면 아무 일 없이 guardian_hold 보조 글만. 그림·자리는 art, 글 키는 lore.",
+  "resume": {
+   "rule": "rewind_to_current_phrase_rest_start",
+   "world": "rewinds_with_level_time",
+   "judged_before_phrase": "kept",
+   "attempt_count": "unchanged",
+   "min_ms_to_next_contact": 450,
+   "ref": "judge.mjs resumePoint(L, tPause, result)",
+   "_note": "round-2 N7: 멈춤·백그라운드에서 이어 하면 지금 구절의 받침 쉼 처음(공이 앉아 콩 4~7박 → 토스)으로 되감음. 세상 위치도 같은 레벨 시각으로. 그 구절 앞 판정은 그대로, 이 구절 접촉부터 다시(연습 체크포인트와 같은 위치). 마지막 접촉 판정 뒤(클리어 연출)는 되감지 않음. 검증기 N7: 모든 멈춤 시각에서 이어 한 직후 다음 접촉까지 ≥ 450 ms."
+  }
  },
  "sound_sync": {
   "who": "guardian",
@@ -416,13 +485,14 @@
   "max_retries": 1,
   "on_fail": "keep_previous_offset",
   "subtract_visual_comp": true,
-  "apply_only_if_abs_over_ms": 30,
+  "apply_only_if_abs_over_ms": 0,
   "offset_clamp_ms": [
    -100,
    300
   ],
   "applies_to": "music_schedule_earlier_by_offset",
-  "_note": "소리 맞추기(보호자 화면). 화면은 박에 맞춰 움직이지 않고 '콩' 소리만(100 BPM). 8번 × 2회, 회마다 3번째 탭부터 6개, IQR 150 넘으면 그 회만 다시, 두 회 중앙값 차이 60 넘으면 둘 다 다시(흐름 전체 1번까지), 그래도 안 되면 이전 값 유지. 오프셋 = 12개 중앙값(탭 − 소리) − visual_comp_ms, |값| ≤ 30 이면 적용 안 함, [-100, 300] 로 자름. 곡 예약만 그만큼 앞당김 — 판정(화면 시계)은 바꾸지 않음(클리어 조건 아님). 분위수·중앙값 정의는 rhythm-01 guardian_calibration 과 같음(선형 보간 type 7, 짝수 개는 가운데 둘 평균)."
+  "_note": "소리 맞추기(보호자 화면). 화면은 박에 맞춰 움직이지 않고 '콩' 소리만(100 BPM). 8번 × 2회, 회마다 3번째 탭부터 6개, IQR 150 넘으면 그 회만 다시, 두 회 중앙값 차이 60 넘으면 둘 다 다시(흐름 전체 1번까지), 그래도 안 되면 이전 값 유지. 오프셋 = 12개 중앙값(탭 − 소리) − visual_comp_ms, 무시 구간 없음(round-2 M1·E3: 값이 작아도 그대로 적용 — 경계 뒤집힘이 원리적으로 없음, 12탭 중앙값 잡음 약 ±10 ms), [-100, 300] 로 자름. 곡 예약만 그만큼 앞당김 — 판정(화면 시계)은 바꾸지 않음(클리어 조건 아님). 분위수·중앙값 정의는 rhythm-01 guardian_calibration 과 같음(선형 보간 type 7, 짝수 개는 가운데 둘 평균).",
+  "deadzone_removed_round": "2"
  },
  "drift_check": {
   "enabled_modes": [
@@ -491,8 +561,8 @@
   ],
   "max_contacts_between_rests": {
    "01": 8,
-   "02": 8,
-   "03": 8,
+   "02": 9,
+   "03": 10,
    "default": 12
   },
   "level_length_s": [
@@ -511,14 +581,12 @@
   "signal_margin_ms": 150,
   "fail_to_next_contact_max_s": 6,
   "half_run_max": {
-   "05": 2,
    "06": 2,
    "07": 2,
    "default": 4
   },
   "half_groups_budget": {
-   "10": 4,
-   "05": 2,
+   "10": 3,
    "06": 2,
    "07": 2,
    "08": 3,
@@ -596,7 +664,174 @@
   ],
   "strings_file": "strings.json",
   "sound_file": "assets/sound.json",
-  "layout_file": "assets/layout.json"
+  "layout_file": "assets/layout.json",
+  "vr": {
+   "gram3_max": {
+    "02": 0.5,
+    "03": 0.5,
+    "default": 0.3
+   },
+   "gram4_max": {
+    "02": 0.35,
+    "03": 0.35,
+    "default": 0.15
+   },
+   "min_distinct_chunks": {
+    "10": 6,
+    "02": 2,
+    "03": 3,
+    "04": 4,
+    "05": 4,
+    "06": 5,
+    "07": 5,
+    "08": 5,
+    "09": 6
+   },
+   "max_chunk_occurrence": 2,
+   "phrase_start_beats": 8,
+   "shared_big_chunk_max": 1,
+   "big_chunk_risk_tokens": 3,
+   "gap_distinct_min": 2,
+   "gap_check_from_level": "04",
+   "gap_same_run_max": 2,
+   "sawtooth_big_chunk": 3,
+   "sawtooth_after_tongs": 2,
+   "half_ratio_slack": 0.15,
+   "r1_expected": {
+    "10": [
+     0.64,
+     3,
+     3,
+     1,
+     0.27,
+     0
+    ],
+    "02": [
+     0.29,
+     3,
+     1,
+     3,
+     0.6,
+     0.5
+    ],
+    "03": [
+     0.32,
+     6,
+     4,
+     2,
+     0.5,
+     0.17
+    ],
+    "04": [
+     0.4,
+     3,
+     3,
+     1,
+     0.33,
+     0.25
+    ],
+    "05": [
+     0.36,
+     4,
+     3,
+     1,
+     0.29,
+     0.21
+    ],
+    "06": [
+     0.42,
+     3,
+     3,
+     1,
+     0.38,
+     0.31
+    ],
+    "07": [
+     0.42,
+     3,
+     3,
+     1,
+     0.14,
+     0.07
+    ],
+    "08": [
+     0.44,
+     4,
+     4,
+     1,
+     0.33,
+     0.07
+    ],
+    "09": [
+     0.5,
+     3,
+     3,
+     1,
+     0.21,
+     0.08
+    ]
+   },
+   "r1_expected_note": "00-benchmark 14-1 [r1 실측] 표: [위험 토큰 비율, 덩어리 수, 서로 다른 수, 같은 덩어리 연속 최대, 3-gram, 4-gram 중복]. 도구 검증 V-R0 이 tools/fixtures/r1-levels(round-1 레벨 사본)로 다시 재어 소수 둘째 자리까지 같은지 봄.",
+   "r1_fixture_dir": "tools/fixtures/r1-levels"
+  },
+  "see": {
+   "hit_min_s": 1.7,
+   "hit_min_s_l1_l4": 2.1,
+   "nogo_min_s": 2,
+   "decide_min_s": 1.55,
+   "marks_on_screen_max": 7,
+   "hazard_types_max": {
+    "01": 2,
+    "02": 2,
+    "03": 2,
+    "04": 2,
+    "05": 2,
+    "06": 2,
+    "default": 3
+   },
+   "roof_on_screen_max": 1,
+   "cloud_on_screen_max": 1,
+   "sample_ms": 10
+  },
+  "roof_count": {
+   "10": [
+    3,
+    4
+   ],
+   "05": [
+    2,
+    2
+   ],
+   "06": [
+    2,
+    3
+   ],
+   "07": [
+    2,
+    3
+   ],
+   "08": [
+    2,
+    3
+   ],
+   "09": [
+    3,
+    4
+   ],
+   "default": [
+    0,
+    0
+   ]
+  },
+  "roof_sit_beats": [
+   2,
+   3,
+   4
+  ],
+  "resume_min_ms": 450,
+  "b6_seeds": 10,
+  "object_clear_margin_of_d": 0.25,
+  "hud_band_ref": "layout.json portrait.hud_h / landscape.hud_h + safeTop (art). 세계 물체 윗선 ≥ 이 아래. art 가 세계 물체 그림 높이(layout.json world)를 넣기 전에는 대기"
  },
  "levels": [
   "levels/01-level1.json",
@@ -609,5 +844,142 @@
   "levels/08-level8.json",
   "levels/09-level9.json",
   "levels/10-level10.json"
- ]
+ ],
+ "_round2": "round-2(2026-11-17) 흘러오는 길(00-benchmark 14절 R2-A): 북·공은 0.30 W 에 머물고 길·물체가 오른쪽에서 일정 속도로 흘러옴. 접촉 종류 hit/nogo(지붕 밑 참기), 세상 물체 objects[], 콤보, 이어 하기 되감기, 소리 맞추기 무시 구간 0. 근거 20-balance.md(round-2 표시 절).",
+ "scroll": {
+  "drum_x_ratio": 0.3,
+  "ahead_beats_by_level": {
+   "01": 4,
+   "02": 4,
+   "03": 4,
+   "04": 4,
+   "default": 3.5
+  },
+  "speed": "constant_in_level",
+  "px_per_beat": "(1 - drum_x_ratio) * W / ahead_beats",
+  "min_mark_gap_px": 32,
+  "before_level_start": "still_at_beat_0",
+  "on_clear": "stop_at_clear_sequence.scroll_stop_beat",
+  "resume_and_practice": "world_rewinds_with_level_time",
+  "_note": "길 위 박 위치 b 의 화면 x = drum_x_ratio·W + (b − 지금 박) × px_per_beat (judge.mjs worldX). 앞쪽 보이는 박 = L1~L4 4박, L5~L10 3.5박(반박 표시 간격 ≥ 32 px: 360 폭에서 1박 72 px·반박 36 px). 레벨 안 속도 고정(속도 변화 문 없음). 레벨 시간 0 전(카드 닫힘 0.8 s·재시작 1.1 s)에는 0 박 자리에 멈춰 있음. 연습·이어 하기는 레벨 시간을 되감으면 세상도 같은 함수로 되감김."
+ },
+ "objects": {
+  "mark": {
+   "per": "hit_contact",
+   "beat": "contact_beat",
+   "_note": "hit 접촉마다 길 위 박 표시 하나. 표시가 북 가운데에 오는 순간 = 접촉 = 탭. nogo(지붕 밑 착지)에는 표시 없음(누를 것 없음). 모양은 art(음표·노트 막대 모양 금지)."
+  },
+  "roof": {
+   "cover_pre_beats": 0.6,
+   "cover_post": "toss_beat − 1",
+   "under_of_Hp": 0.45,
+   "same_height_all_levels": true,
+   "_note": "지붕 밑 착지 박 n, 지붕 밑 쉼 s 박(X2·X3·X4)이면 지붕이 북을 덮는 구간 [n − 0.6, n + s − 1] 박, 자동 토스 n + s 박. 덮기 시작 0.6 박 전 = 앞 hit 접촉의 통과 창이 끝난 뒤(늦은 쪽 + 47 ms 이상, L5~L10) — 지붕 밑에서 칠 것이 하나도 없게. 지붕 아랫면 0.45·Hp(들어오는 1박 비행 공 윗점보다 위, 4해상도 검사 V-O)."
+  },
+  "branch": {
+   "cover": "[앞 접촉 박, 마지막 반박 접촉 박]",
+   "under_of_Hp": 0.3,
+   "short": "W5 반박 2",
+   "long": "W7 반박 4",
+   "_note": "가지 밑 비행은 반박뿐. 아랫면 0.30·Hp(반박 공 윗점보다 위)."
+  },
+  "cloud": {
+   "cover": "[구름 통 접촉 − 3, − 1] 박",
+   "bottom_of_Hp": 0.9,
+   "_note": "구름 통(4박) 비행의 가운데 2박 동안 북 위. 아랫선 = 구름선 0.9·Hp. 공은 그 위에서 구름에 숨음(≤ 1 s, V12). 클리어 큰 튐 구름(role clear)도 같은 모양."
+  },
+  "hill": {
+   "cover": "[세 박 통 접촉 − 2.25, − 0.75] 박",
+   "top_of_Hp": 0.3,
+   "layer": "back",
+   "_note": "세 박 통(3박) 비행 가운데 1.5박 동안 북 뒤(배경 층)를 지나는 큰 언덕. 꼭대기 0.30·Hp(그 구간 공 아랫점보다 아래, 가장 늦게 친 통과에서도)."
+  },
+  "_note": "레벨 objects[] = {type, beat_in, beat_out, contacts[], 높이 비율} — 박 위치는 길 위 자리(박), 화면 x 는 judge.mjs worldX. 높이 기준 Hp 는 layout.json play_height. 그림 두께·모양은 art(윗선 ≥ HUD 띠 아래, 30-art)."
+ },
+ "combo": {
+  "count": "grades_length_this_attempt",
+  "increments": {
+   "hit_success_any_grade": 1,
+   "nogo_hold": 1
+  },
+  "not_counted": [
+   "stray_tap",
+   "ignored_tap_in_rest_or_under_roof",
+   "auto_toss",
+   "landing",
+   "roof_sit",
+   "world_objects"
+  ],
+  "grades": [
+   "perfect",
+   "good",
+   "pass"
+  ],
+  "grade_windows": "unchanged (judge_defaults / level judge)",
+  "nogo_grade": "hold (no grade, one small reaction, no sound)",
+  "hold_shown_at": "roof_out",
+  "show_from": 2,
+  "display": {
+   "dots_per_row": 10,
+   "big_mark_every": 10,
+   "digits": false,
+   "place": "hud_band_under_progress_bar"
+  },
+  "update_pop": {
+   "scale": [
+    1,
+    1.15,
+    1
+   ],
+   "ms": 120
+  },
+  "stages": [
+   5,
+   10,
+   20,
+   30
+  ],
+  "stage_fx": {
+   "5": {
+    "ms": 120,
+    "sound": "none"
+   },
+   "10": {
+    "ms": 400,
+    "sound": "chord_1"
+   },
+   "20": {
+    "ms": 600,
+    "sound": "chord_2"
+   },
+   "30": {
+    "ms": 600,
+    "sound": "chord_2",
+    "reserved": true
+   }
+  },
+  "chord_stages": [
+   10,
+   20,
+   30
+  ],
+  "chord_db_below_tap_min": 1,
+  "chord_timing": {
+   "at": "next_downbeat_after_contact_beat",
+   "avoid_roof_beats": 1,
+   "defer_to_rest_first_beat": false
+  },
+  "break": {
+   "on": "fail_only",
+   "fx": "shrink_silent",
+   "within_s": 0.3,
+   "same_for_any_size": true,
+   "restart_s_unchanged": true
+  },
+  "practice": "from_zero_each_respawn",
+  "resume": "combo = carried grades length (rewound phrase contacts counted again)",
+  "best_combo": "normal_mode_only",
+  "affects_clear": false,
+  "_note": "harness/benchmarks/djmax-judgement.md 4절·5-3 + 00-benchmark 14-8. 콤보 = 이번 시도 성공 판정 수(hit 딱·좋아·통과 모두 +1, 지붕 참기 hold +1) = result.grades 길이(judge.mjs comboEvents, 별도 상태·난수 없음). 콤보 2부터 점 10칸 + 10마다 큰 표지(숫자 없음, HUD 띠 안). 판정 프레임에 칸 1.0→1.15→1.0배 120 ms(L10 가장 짧은 접촉 간격 246 ms 미만). 단계 5(작은 칭찬, 소리 없음)·10(0.4 s, 화음)·20(0.6 s, 한 음 높은 화음)·30(자리만). 화음은 아이 탭보다 1 dB 이상 작게, 그 판정 접촉 박의 다음 정박에 — 그 정박이 지붕 밑 착지 박 ±1박 안이면 그 창 뒤 첫 정박으로(S9). 받침 쉼 첫 박으로 미루지 않음(판정과 보상이 멀어짐). hold 의 칸 채움은 지붕이 북을 떠나는 순간(roof_out, 착지 +1박 이상). 실패 = 끊김 하나뿐, 0.3 s 안 조용히 작아짐, 재시작 1.1 s 그대로."
+ }
 }

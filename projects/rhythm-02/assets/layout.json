@@ -1,6 +1,6 @@
 {
- "schema_version": 2,
- "_source": "tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4·5·7절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름. 시각·박 값의 원본은 balance(levels/*.json, balance.json, tools/sim/judge.mjs)이고 여기에는 그림 비율·연출 배분만 둠.",
+ "schema_version": 3,
+ "_source": "tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4~7절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름. 박·시각·세상 위치 원본은 balance(levels/*.json, balance.json scroll·objects, tools/sim/judge.mjs worldX·pxPerBeat·objectsAt·comboEvents)이고 여기에는 그림 비율·연출 배분만 둠. round-2: 북·공 0.30 W, 오른쪽에서 흘러오는 바닥 길·박 표시·물체, HUD 띠(모든 세계 물체 윗선 ≥ HUD 띠 아래, M2 일반화), 콤보 자리.",
  "ball": {
   "d_of_S": 0.078,
   "d_of_S_landscape": 0.066,
@@ -13,9 +13,10 @@
    "to_deg": 255,
    "w_of_d": 0.12
   },
-  "_d": "d = round(clamp(k·S, d_min, d_max)), k = 세로 화면 d_of_S, 가로 화면 d_of_S_landscape(1-2 D5: 가로 화면 공 하한 24 px — 640x360 에서 24 px, 놀이 높이를 키워 반박 꼭짓점 ≥ 1.2d)"
+  "_d": "d = round(clamp(k·S, d_min, d_max)), k = 세로 d_of_S, 가로 d_of_S_landscape. 공 x = 북 가운데(drum_x)."
  },
  "drum": {
+  "x_ratio_ref": "balance.json scroll.drum_x_ratio (0.30)",
   "w_of_d": 3.2,
   "h_of_d": 0.95,
   "skin_h_of_d": 0.28,
@@ -26,93 +27,248 @@
    50,
    70
   ],
+  "leg_w_of_d": 0.22,
   "twoball_x_of_d": 0.78,
-  "_tap": "탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in). 합 120 ms = balance drum_pop_ms"
+  "_tap": "탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in) = 120 ms(balance drum_pop_ms). 이른 통과 탭(접촉 전)은 올라간 자세를 접촉 시각까지 유지했다가 공이 떠날 때 함께 내려옴(N4: 공이 멈춘 북에서 혼자 튀지 않게, tap_motion.early_hold).",
+  "_leg": "북 가운데 아래 다리(북 몸통 색, 너비 0.22d)가 북 아랫변에서 길(lane_y)까지. 박 표시가 이 다리 밑에 오는 순간 = 공이 가죽에 닿는 순간 = 탭."
  },
  "portrait": {
-  "skin_y_of_H": 0.76,
-  "hud_h": 60
+  "skin_y_of_H": 0.76
  },
  "landscape": {
   "floor_h_of_H": 0.11,
-  "floor_h_min": 40,
-  "hud_h": 52
+  "floor_h_min": 40
  },
  "play_height": {
   "top_margin": 6,
   "apex_margin": 4,
   "apex_budget": 1.111,
   "cloud_edge_of_Hp": 0.9,
-  "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget (1-2 D5: 이 식이 balance·art 공통 정의). 공 높이 h = 공 아랫점과 북 가죽 윗면 사이 거리(h = 0 이 접촉). 높이 식(balance): h_apex = c × 비행 길이(s), c = 0.5·Hp/s. apex_budget 1.111 = 10레벨 모든 비행(토스 포함)의 최대 꼭짓점(L3 구름 통 108 BPM 4박 = 1.111·Hp)과 같게 잡아, 그 공 윗점이 화면 위 여백 안에 들어감. 클리어 튐(clear_timeline)은 1.0·Hp 에서 멈춤. 검사가 levels 에서 최대 꼭짓점을 다시 계산해 apex_budget 이상이면 실패. 구름 아랫선 = h = cloud_edge·Hp(공 아랫점이 그 위면 공 전체가 구름 뒤). 구름 통이 아닌 비행은 공 윗점(h + d)이 구름 아랫선 아래."
- },
- "cloud": {
-  "w_of_h": 2.6,
-  "w_max_of_W": 0.62,
-  "base_h_of_h": 0.5,
-  "bumps": [
-   [
-    -0.26,
-    0.36
-   ],
-   [
-    0.02,
-    0.5
-   ],
-   [
-    0.28,
-    0.32
-   ]
-  ],
-  "bump_r_max_of_w": 0.2,
-  "outline_of_d": 0.08,
-  "_shape": "아랫변이 평평한 둥근 사각형(높이의 50 %) + 원 3개(중심 x = 너비 비율, 중심 y = 아랫변 − 0.5·높이, 반지름 = min(높이 비율, 0.5·높이, 0.2·너비) — 원이 아랫변 밑으로 나오지 않음). 구름은 북 가운데 위. HUD 는 구름 위에 그림(구름 윗부분이 진행도 막대 뒤로 가도 됨)."
+  "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget (1-2 D5 공통 정의, round-2 그대로). 공 높이 h = 공 아랫점과 북 가죽 윗면 사이. 구름선 = h = 0.9·Hp(공 아랫점이 그 위면 숨음 — 숨은 공은 그리지 않음). 구름 통 꼭짓점(1.111·Hp)은 숨은 상태라 HUD 띠와 겹쳐도 그려지지 않음. 보이는 공 윗점 최고 = 구름선 − d ≥ HUD 띠 아래(검사)."
  },
  "hud": {
-  "bar_x0": 72,
-  "bar_x1_from_right": 24,
-  "bar_y": 18,
-  "bar_h": 12,
-  "best_r": 7,
-  "dots_dy": 22,
-  "dot_r": 4,
-  "dot_gap": 12,
-  "dots_max": 10,
+  "_rule": "HUD 띠 = 화면 위 [safeTop, safeTop + band_h]. 글·숫자 없음. 플레이 중 버튼은 멈춤 하나. 흘러오는 모든 물체(구름·지붕·가지·언덕·배경 실루엣)와 보이는 공의 윗선 ≥ HUD 띠 아래 + gap(4해상도 검사, M2 일반화 — round-1 \"구름 윗부분이 진행도 막대 뒤로 가도 됨\" 문장 삭제). 콤보 표시·단계 연출도 이 띠 안에서만.",
+  "band_h": {
+   "portrait": 56,
+   "landscape": 48
+  },
+  "gap_below_band": 2,
   "pause": {
    "x": 12,
-   "y": 6,
-   "size": 48
+   "y": 4,
+   "size": 44,
+   "touch": {
+    "x": 10,
+    "y": 2,
+    "size": 48
+   }
+  },
+  "bar": {
+   "x0": 68,
+   "x1_from_right": 20,
+   "y": 10,
+   "h": 10,
+   "best_r": 6
+  },
+  "attempts": {
+   "cy": 31,
+   "x0": 72,
+   "dot_r": 4,
+   "pitch": 12,
+   "big_r": 6,
+   "big_pitch": 16,
+   "per_big": 10,
+   "max_big_shown": 4,
+   "_dots": "시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개로 묶음. 숫자 없음."
+  },
+  "practice": {
+   "flag_x": 70,
+   "flag_h": 14,
+   "bar_shift_px": 22,
+   "text": "text_slots.practice_on(레벨 시작 2 s, 게임 시간)",
+   "_rule": "연습 모드일 때만 막대 왼쪽 끝에 작은 깃발(막대는 22 px 오른쪽에서 시작). HUD 안에 글 없음."
   },
   "aria": {
    "bar": "aria_progress",
    "best": "aria_best",
    "dots": "aria_attempts",
    "flag": "aria_checkpoint",
-   "pause": "btn_pause"
+   "pause": "btn_pause",
+   "combo": "aria_combo"
+  }
+ },
+ "combo": {
+  "source": "balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이)",
+  "place": {
+   "portrait": {
+    "row": 3,
+    "align": "left",
+    "x": 68,
+    "cy": 47
+   },
+   "landscape": {
+    "row": 2,
+    "align": "right",
+    "x_from_right": 20,
+    "cy": 31
+   }
   },
-  "_dots": "시도 점: 시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개(반지름 7)로 묶고 다시 작은 점부터. 숫자 없음. 플레이 HUD 버튼은 멈춤 하나(1-2 D11)."
+  "shape": {
+   "slot_px": 8,
+   "slot_gap_px": 3,
+   "ten_px": 14,
+   "ten_gap_px": 4,
+   "group_gap_px": 6,
+   "slots": 10,
+   "tens_max_layout": 3,
+   "rx_px": 2,
+   "fill": {
+    "slot_empty": "hudTrack + ink 1.4 px",
+    "slot_on": "ink",
+    "ten": "glow + ink 2 px (둥근 네모, 별 아님)"
+   }
+  },
+  "show_from": 2,
+  "update": {
+   "scale": [
+    1,
+    1.15,
+    1
+   ],
+   "ms": 120,
+   "at": "판정 프레임(hit = 친 순간, hold = roof_out)"
+  },
+  "stage": {
+   "5": {
+    "fx": "5번째 칸만 1.0 → 1.3 → 1.0, 120 ms",
+    "sound": null
+   },
+   "10": {
+    "fx": "점 10개가 큰 표지 자리로 0.25 s 미끄러지며 작아지고 큰 표지가 0.6 → 1.0 (0.4 s 합), 점 줄 비움",
+    "sound": "chord_1 (balance chord_timing: 그 접촉 박 다음 정박, 지붕 ±1박 피함)"
+   },
+   "20": {
+    "fx": "10 과 같음 + 그 레벨 accent 색 네모 조각 5개(4 px)가 HUD 띠 안에서 띠 아래 6 px 위까지 내려옴(0.6 s)",
+    "sound": "chord_2 (한 음 높은 화음)"
+   },
+   "30": {
+    "fx": "20 과 같음(자리만)",
+    "sound": "chord_2"
+   }
+  },
+  "break": {
+   "fx": "실패 판정 순간부터 0.25 s 동안 점 줄·큰 표지가 제자리에서 1.0 → 0 으로 작아지며 사라짐(소리 없음)",
+   "within_s": 0.3,
+   "forbidden": [
+    "✕",
+    "경고음",
+    "흔들림",
+    "0 표시",
+    "잃은 개수",
+    "빨강"
+   ],
+   "restart": "1.1 s 뒤 빈 줄(콤보 1 까지는 안 보임)"
+  },
+  "_rule": "숫자 없이 점 10칸 + 10마다 큰 표지(십의 자리 = 큰 표지 수). 콤보 2부터 보임. 공 색 ball·바탕 단계(바탕 전체 색 바뀜)와 모양·색이 겹치지 않음. 다가오는 길 영역 밖(S10). 지붕 밑 착지 ±1박에는 칸 채움·단계 연출 시작 없음(hold 는 roof_out 에 채움, S9)."
+ },
+ "cloud": {
+  "base_of_h": 0.55,
+  "bump_r_of_h": 0.45,
+  "bump_gap_of_r": 1,
+  "below_edge_of_d": 0.3,
+  "side_margin_of_d": 0.8,
+  "outline_px": 2.4,
+  "_shape": "긴 구름(W2 구름 통·클리어 끝 구름 role clear): 윗선 = HUD 띠 아래 + gap, 아랫선 = 구름선(0.9·Hp) + 0.3d(공이 구름 속으로 들어가며 위부터 가려짐), 아래 띠 0.55h + 혹(반지름 0.45h, 간격 = 반지름) → 혹 사이 오목한 곳도 0.94h 덮음. 가로 = 레벨 물체 [beat_in, beat_out] 의 화면 x 에 양쪽 0.8d 를 더함(공이 숨는 동안 공 너비를 늘 덮음). 공은 늘 구름 뒤에 그림."
+ },
+ "world": {
+  "_rule": "세계 층(바닥 길·박 표시·물체·배경 실루엣·조약돌)만 오른쪽에서 흘러옴. 북·공·HUD·카드는 화면 고정. 화면 x 는 judge.mjs worldX(L, beat, t, W) 하나로(판정 시계와 같은 시계, 프레임 수와 무관). 물체는 화면 오른쪽 끝에서 미끄러져 들어옴(갑자기 나타남·사라짐·깜빡임 없음). 번쩍임·흔들림·속도선·잔상 없음.",
+  "lane": {
+   "dy_of_d": 0.6,
+   "_rule": "길(lane) = 바닥 띠 위쪽 줄 y = floorTop + 0.6d. 박 표시가 이 줄 위를 흐름. 북 다리가 이 줄까지 내려옴."
+  },
+  "mark": {
+   "w_of_d": 0.8,
+   "h_of_d": 0.4,
+   "outline_px": 2,
+   "per": "hit 접촉마다 하나(balance objects.mark), nogo 없음",
+   "absorb_ms": 120,
+   "_rule": "낮은 반원 돔, 북 몸통 색 + ink. 크기·색 하나(높이 정보 없음 — 간격이 시간). 친 순간 북 다리 밑에서 120 ms 동안 1 → 0 으로 작아짐(흡수). 실패하면 그 자리에 멈춤. 북을 지난 표시는 없음."
+  },
+  "roof": {
+   "under_ref": "balance.json objects.roof.under_of_Hp (0.45)",
+   "body_h_of_d": 0.85,
+   "dome_of_d": 0.3,
+   "scallop_d_of_d": 0.6,
+   "outline_px": 2.4,
+   "x": "[beat_in, beat_out] 그대로(여유를 더하지 않음 — 앞 hit 접촉 때 북 위에 오지 않게)",
+   "_rule": "지붕(W4 치지 마): 차양. 윗변은 둥글게 솟음(평평한 발판 아님), 넓은 세로 줄무늬 roof/roofStripe, 아래 가장자리 반원 물결 끝 = 아랫면(h = under_of_Hp·Hp). 그 밑에 공이 앉아 까딱 + 콩. 가시·뾰족·빨강·경고 표지 없음."
+  },
+  "branch": {
+   "under_ref": "balance.json objects.branch.under_of_Hp (0.30)",
+   "twig_h_of_d": 0.24,
+   "leaf_len_of_d": 0.55,
+   "leaf_w_of_d": 0.26,
+   "leaf_gap_of_d": 0.62,
+   "long_if_beats_ge": 1.5,
+   "side_margin_of_d": 0,
+   "_rule": "가지(W5 낮은 가지 [beat_in, beat_out] < 1.5박, W7 긴 가지 ≥ 1.5박): 가로 줄기 + 렌즈 잎(원 아님), 그린 가로 = [beat_in, beat_out] 그대로(앞뒤 긴 비행이 가지 끝을 스치지 않게 여유를 더하지 않음). 긴 가지 = 레벨 objects long:true(없으면 1.5박 이상). 같은 모양 = 같은 행동(빠르게 톡톡), 길이·잎 수만 다름."
+  },
+  "hill": {
+   "top_ref": "balance.json objects.hill.top_of_Hp (0.30)",
+   "layer": "back",
+   "outline_px": 2,
+   "_rule": "큰 언덕(W6): 바닥 윗선에서 솟은 반타원, 꼭대기 h = top_of_Hp·Hp(공 높이 기준), 북·공 뒤에 그림. 공이 언덕 위로 넘어가는 것처럼 보임."
+  },
+  "cloud_ref": "cloud 절",
+  "deco": {
+   "parallax_default": 0.5,
+   "tile": "palette.json themes.<키>.silhouette(v2, 너비 = W 띠가 끝없이 이어짐)",
+   "pebbles": {
+    "color": "floorEdge",
+    "w_of_d": 0.32,
+    "h_px": 3,
+    "dy_of_d": 0.45,
+    "gaps_of_W": [
+     0.23,
+     0.17,
+     0.31,
+     0.29
+    ],
+    "parallax": 1,
+    "_rule": "바닥 띠 길 아래 짧은 조약돌 — 흐름 속도감(박 격자가 아닌 엇간격, 표시보다 약한 대비)"
+   }
+  },
+  "scroll_stop": {
+   "ref": "clear_sequence.scroll_stop_beat",
+   "ease_beats": 1,
+   "_rule": "클리어 뒤 길 멈춤은 마지막 1박 동안 감속(ease-out, 판정 뒤라 판정과 무관). balance scrollBeatAt 에 넣거나 빌드 그리기만 감속 — 1-2 교차 리뷰"
+  },
+  "restart_rewind": "실패 → 0.85 s(공 다시 나타남)와 같은 프레임에 세상 위치를 0박(연습 = 그 구절)으로 한 번에 되감음. 실패 순간~0.85 s 는 세상 멈춤",
+  "approach_rect": "x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). HUD·콤보·글 자리·손가락이 이 안에 그려지지 않음(S10)"
  },
  "shadow": {
   "w_of_d_contact": 1,
   "w_of_d_far": 0.45,
   "h_of_w": 0.28,
-  "_rule": "그림자 너비 = d·lerp(1.0, 0.45, min(1, h / Hp)). 구름 뒤에 있는 동안도 그림자는 보임(G2: 내려올수록 커짐). 불투명 shadow 색, 북 가죽 위에만."
+  "_rule": "그림자 너비 = d·lerp(1.0, 0.45, min(1, h / Hp)). 구름 뒤에 있는 동안도 보임."
  },
  "bg_stage": {
-  "rule": "n번째 받침 쉼(레벨 처음 = 1) 이 시작할 때 min(n, 3) 단계 색(bg1·bg2·bg3)",
-  "blend": "그 받침 쉼 첫 마디 동안 앞 단계 → 새 단계 선형 섞기(번쩍임 없음)",
+  "rule": "n번째 받침 쉼(레벨 처음 = 1, 받침 쉼 P개) 이 시작할 때 단계 = 1 + round(2·(n − 1) / (P − 1)) (P = 1 이면 1). round-2: 받침 쉼이 2개인 레벨도 마지막 쉼에서 bg3 에 닿음(P=2: 1·3, P=3: 1·2·3, P=4: 1·2·2·3). 지붕 밑 쉼은 단계를 바꾸지 않음",
+  "blend": "그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임 없음)",
   "restart": "처음부터 = bg1, 연습 체크포인트 = 그 받침 쉼 단계 색으로 바로",
-  "clear": "그때 단계 → bg1, 1 s",
-  "_src": "1-2 D6. levels phrases[] 순서만으로 정해짐(stage 태그 없음)"
+  "clear": "그때 단계 → bg1, 1 s"
  },
  "finger": {
-  "anchor": "drum_right",
-  "dx_of_d": 0.7,
+  "anchor": "drum_left_floor",
+  "mirror": true,
+  "x": "북 왼쪽 끝 − 0.25·h − 2 px(손바닥이 북을 덮지 않게 좌우 뒤집음)",
+  "tip_dy_of_d": 0.4,
   "h_of_d": 1.5,
   "schedule": "tools/sim/judge.mjs fingerSchedule(L, bal)",
   "appear_grow_s": 0.15,
   "hide": "instant",
-  "_rule": "시각의 원본은 balance fingerSchedule() 하나(1-2 D4): from(토스 순간)에 0.15 s 커지며 나타남 → pressStart~pressEnd 누름 자세(양옆 짧은 선 2개) → 공을 친 순간 또는 gone(통과 창 끝) 중 이른 때 **바로 사라짐**(줄어드는 꼬리 없음, 다음 접촉 위험 구간과 겹침 0). 위치는 화면 고정이 아니라 북 기준(북 오른쪽 바닥 위, 손끝 = 바닥 윗선). 레벨 1 첫 접촉 1회만. 검사: 누름 시작 ≥ 접촉 − (pass_early − 20 ms), gone ≤ 다음 접촉 zoneStart, 숫자 hide_after_ms·press_ms 없음.",
-  "press_start_min_ms_inside_pass": 20
+  "press_start_min_ms_inside_pass": 20,
+  "_rule": "round-2: 손가락은 북 왼쪽(지나간 쪽) 바닥을 누름 — 다가오는 길·표시를 가리지 않음. 시각은 fingerSchedule() 하나(숫자 hide_after_ms·press_ms 없음). 레벨 1 첫 접촉 1회만, 지붕 레벨에는 없음(S8)."
  },
  "tap_motion": {
   "depart": "balance ballsAt(L, t, …, hits): 떠나는 시각 = max(성공 탭, 접촉 시각)",
@@ -123,7 +279,12 @@
    "pass": 0.92
   },
   "depart_sq_ms": 60,
-  "_rule": "1-2 D3 \"탭이 공을 올린다\". 공은 접촉 시각에 가죽에 닿고, 통과 창 동안 가죽 위에서 납작(0.9)하게 기다리다 **탭 순간** 튀어 오름(그 순간 등급 납작 60 ms + 튐 선 + 탭 소리). 이른 통과(접촉 전 탭)는 북 톡·탭 소리는 탭 때, 공의 납작·튐 선·튀어 오름은 접촉 시각. 탭 없이 통과 창이 끝나면 떨어짐(fail_fx.late). 북 톡은 판정과 무관하게 매 탭."
+  "early_hold": {
+   "rule": "이른 통과(접촉 전 탭): 북 톡 올라가기 50 ms 뒤 올라간 자세로 접촉 시각까지 멈춤 → 접촉 시각에 공 납작·튐 선과 함께 70 ms 내려옴. 북 움직임 시작은 여전히 탭 프레임(1프레임 반응)",
+   "max_hold_ms": "pass_early_ms(≤ 150)",
+   "_src": "N4"
+  },
+  "_rule": "공은 접촉 시각에 가죽에 닿고 통과 창 동안 가죽 위에서 납작(0.9) 기다리다 탭 순간 튀어 오름. 박 표시 흡수(120 ms)는 공이 떠나는 순간. 북 톡은 판정과 무관하게 매 탭."
  },
  "bounce_lines": {
   "pairs_by_grade": {
@@ -143,29 +304,36 @@
   "rise_of_d": 0.35,
   "dur_s": 0.18,
   "max_extent_of_d": 1.6,
-  "area_max_of_screen": 0.05,
-  "_rule": "판정 반응 \"튐 선\"(1-1 의 물결 호를 바꿈 — rhythm-01 탭 물결 고리와 모양·이름이 겹치지 않게, 세로 감각 강조). 친 공의 x 중심 양옆 x_of_d 자리에서 가죽 윗면부터 위로 뻗는 짧은 세로 선 쌍, 0.18 s 동안 rise_of_d 만큼 올라가며 짧아져 사라짐. ink 3 px, 원호 없음."
+  "area_max_of_screen": 0.05
  },
  "fail_fx": {
   "late": {
    "motion_s": 0.45,
-   "path": "가죽 위 납작하게 앉음(통과 창 동안) → 튕기지 않고 북 바깥쪽 끝으로 굴러 바닥에 떨어짐 → 굴러 멈춤",
+   "path": "가죽 위 납작하게 앉음(통과 창 동안) → 북 오른쪽 끝으로 굴러 바닥에 떨어짐 → 굴러 멈춤",
    "side": "right"
   },
   "early": {
    "motion_max_s": 0.6,
    "roll_s": 0.2,
    "swing_lines_s": 0.12,
-   "path": "탭 순간 북 위 양옆 짧은 바람선 2개(헛스윙) → 공은 같은 포물선으로 그대로 내려오며 북 바깥쪽 옆으로 비껴(x: 0 → 북 끝 + 0.5d) 가죽에 닿지 않음 → 북 옆 바닥까지 떨어져 굴러 멈춤",
+   "path": "헛스윙 바람선 2개 → 공은 같은 포물선으로 내려오며 북 왼쪽 옆으로 비껴 떨어져 굴러 멈춤",
    "side": "left",
-   "motion_rule": "움직임 길이 m = min(motion_max_s, max(late.motion_s, r + roll_s)), r = 접촉 시각 − 탭 시각(남은 낙하) = balance restart.early_fall_rule 과 같은 식. r + roll_s > motion_max_s 이면 낙하를 빠르게 압축. 정지 구간이 m 만큼 줄어 총 1.1 s 유지. 바람선 0.12 s = balance phases_s.early.swing_fx"
+   "motion_rule": "m = min(0.6, max(0.45, 남은 낙하 + 0.2)) = balance early_fall_rule"
   },
-  "two_balls": "실패한 공은 자기 쪽 바깥으로(왼 공 = 왼쪽, 오른 공 = 오른쪽, 일찍/늦음과 무관). 다른 공은 실패 순간 그 자리·모양에서 멈췄다가 reappear 시작(0.85 s)에 실패한 공과 같이 작아지며 사라짐. 튐 선·납작은 늘 친 공의 x 중심",
-  "no_dust": true,
-  "_src": "1-2 D9. 먼지·구름 퍼짐 없음(lore A5). 소리는 둘 다 fail 한 번"
+  "bump_roof": {
+   "motion_s": 0.45,
+   "rise_s": 0.15,
+   "touch_sq": 0.85,
+   "side": "right",
+   "path": "지붕 밑에 앉은 공을 친 탭: 북 톡과 함께 공이 0.15 s 동안 지붕 아랫면까지 떠 살짝 납작(0.85) 콩 닿음 → 북 오른쪽으로 떨어져 굴러 멈춤. 지붕은 움직이지 않음(흔들림·번쩍임 없음)",
+   "sound": "roof_bump(아이 탭보다 작게, 부드러운 삼각파)"
+  },
+  "world": "실패 순간 세상(길·표시·물체·배경)은 그 자리에 멈춤. 콤보는 0.25 s 안에 작아져 사라짐",
+  "two_balls": "예비(두 공 G5 내려감): 쓰면 round-1 규칙 그대로",
+  "no_dust": true
  },
  "restart_timeline_s": {
-  "_owner": "balance.json restart(phases_s 일찍/늦음 두 판)가 기준(1-2 D9). 아래는 art 연출 배분. 실패 순간 = 0, 확인 버튼 없음, 자동. 총 1.1 s 고정.",
+  "_owner": "balance.json restart(phases_s late·early·bump_roof)가 기준. 아래는 art 연출 배분. 실패 = 0, 자동, 총 1.1 s.",
   "fail_motion": {
    "late": [
     0,
@@ -174,8 +342,16 @@
    "early": [
     0,
     "m (0.45~0.6)"
+   ],
+   "bump_roof": [
+    0,
+    0.45
    ]
   },
+  "combo_break": [
+   0,
+   0.25
+  ],
   "hold": [
    "m",
    0.85
@@ -184,34 +360,24 @@
    0.85,
    1.1
   ],
+  "world_rewind_at": 0.85,
   "music_fade_out_s": 0.08,
   "best_slide_s": 0.2,
-  "retry_hint": "첫 실패 시도에만 ↻ 그림, 정지 구간 전체(0.25~0.40 s)",
+  "retry_hint": "첫 실패 시도에만 ↻ 그림, 정지 구간 전체",
   "reappear_grow": [
    0.6,
    1
   ]
  },
  "second_ball": {
-  "source": "levels/*.json phrases[].second_ball(enter_beats·hop_beats·hop_of_d·seat_x_of_d·ball1_to_left_beats·exit_beats·ball1_to_center_beats) — 시각·높이 원본은 balance",
-  "enter": {
-   "from": "right_offscreen_floor",
-   "roll": "enter_beats 시작 ~ (끝 − hop_beats): 바닥을 따라 일정 속도로 굴러 북 오른쪽 옆까지(회전 표시 없음)",
-   "hop": "마지막 hop_beats: 북 오른쪽 옆에서 포물선으로 hop_of_d(≤ 0.5d) 깡충 → 가죽 seat_x_of_d 자리에 앉으며 납작 0.92",
-   "ball1": "ball1_to_left_beats 동안 가운데 → −twoball_x 로 미끄러짐(ease-in-out)",
-   "sound": null
-  },
-  "exit": {
-   "path": "exit_beats: 앉은 자리에서 북 오른쪽 끝까지 굴러 떨어져(0.95d) 바닥을 따라 화면 오른쪽 밖으로",
-   "ball1": "ball1_to_center_beats 동안 −twoball_x → 가운데로",
-   "sound": null
-  },
-  "_src": "1-2 D13. 북 높이 0.95d 라 굴러서는 못 올라가므로 끝에 낮게 깡충(≤ 0.5d). 들어옴·나감 시각은 balance 레벨 데이터(받침 쉼 안). 토스 전까지 두 공 모두 박마다 까딱 + 콩. 연습 체크포인트가 두 공 구절이면 다시 시작할 때 같은 들어옴."
+  "status": "reserve(D-R2-1)",
+  "note": "round-1 규칙 그대로(쓰면 다시 확인)"
  },
  "clear_timeline": {
-  "source": "balance.json clear_sequence + levels/*.json clear_sequence(big_toss_beat = 마지막 착지, big_toss_flight_s, big_toss_apex_play_heights, grade_cloud_beats, result_beat, result_buttons_after_ms) — 시간축 원본은 balance(1-2 D10). art 는 그 안의 그림만",
+  "source": "balance clear_sequence + levels clear_sequence + level objects(type cloud, role clear) — 시간축·구름 자리 원본은 balance",
   "rise_to_of_Hp": 1,
   "cloud_blend_s": 1,
+  "cloud_blend_to": "palette themes.<키>.clearCloud (cloud 와 accent 35 % 섞음 — N11)",
   "bg_blend_s": 1,
   "clear_sound_at": "big_toss",
   "slots_appear_at": "big_toss",
@@ -220,17 +386,29 @@
    0.6,
    1
   ],
-  "hud_fade": "마지막 접촉 판정 확정(통과 창 끝 clearTimeMs) 때 0.2 s 게임 시간",
+  "hud_fade": "마지막 접촉 판정 확정(clearTimeMs) 때 0.2 s 게임 시간(콤보 줄도 같이)",
   "result_at": "length_beats",
-  "_rule": "큰 튐(big_toss_beat, 판정 없음): 착지해 가죽에 닿자마자 공이 스스로 크게 떠 balance 포물선(비행 big_toss_flight_s, 꼭짓점 1.0·Hp)의 꼭짓점까지 오른 뒤 구름 속에 머묾(그림자는 작게 남음). 같은 순간 clear 소리, 구름 cloud → accent 1 s, 바탕 그때 단계 → bg1 1 s, 큰 구름 아래 줄에 등급 칸 3개가 점선으로 나타남(늘 3칸, 1-2 D12). grade_cloud_beats[i](i < 받은 수)에 i번째 칸이 accent 채움 구름으로 0.6 → 1.0배 0.25 s(grade_cloud 소리). result_beat(= length_beats)에 결과 화면 글(레벨 이름·클리어 제목), result_buttons_after_ms 뒤 버튼. 검사: 첫 등급 칸 전에 공이 구름에 들어감, 마지막 칸 채움 끝 ≤ 버튼 시각, 섞기 1 s ≤ 마무리 시간."
+  "_rule": "큰 튐(판정 없음): 공이 스스로 1.0·Hp 까지 떠 끝 구름(role clear 물체, 길 멈춤 자리) 속에 머묾. 끝 구름 cloud → clearCloud 1 s(연한 테마색, 등급 칸 진한 accent 와 구분), 바탕 → bg1 1 s, 등급 칸 3개 점선 → 받은 칸 accent 채움."
  },
  "text_slots": {
+  "tut_tap": {
+   "font_px": 16,
+   "line_px": 22,
+   "max_lines": {
+    "portrait": 2,
+    "landscape": 4
+   },
+   "portrait": "바닥 띠 안, 길·손가락 아래: x 16 ~ W−16 가운데 맞춤, y = max(길 아랫선, 손가락 아랫선) + 8 ~ H − safeBottom − 8",
+   "landscape": "북 왼쪽 세로 칸: x 12 ~ 북 왼쪽 끝 − 8 왼쪽 맞춤, y = HUD 띠 아래 + 8 ~ 손가락 윗선 − 8",
+   "wrap": "keep-all(낱말 중간 줄바꿈 없음)",
+   "_rule": "다가오는 길 영역 밖(S10), 플레이 물체 외곽선을 가로지르지 않음(N10). 가장 긴 언어로 검사."
+  },
+  "practice_on": "연습 모드 시작 2 s 동안 tut_tap 과 같은 자리(게임 시간)",
   "clear_title": "등급 칸 줄 바로 위 한 줄(clear_title_1~3, L10 clear_last), 결과 화면에서만",
-  "level_name": "레벨 선택 카드에는 글 없음(aria-label = levelN_name). 이름은 클리어 화면 맨 위 작은 줄",
-  "card_text": "그림 카드 대화 상자 위쪽 한 줄 보조 글(card_*), 카드 그림 배율 계산에서 text_line_px 만큼 비워 둠(cards.mjs). 그림만으로도 이해되게 그림",
-  "practice_on": "HUD 진행도 막대 오른쪽 끝 아래 작은 깃발 + 글(연습 모드일 때만)",
-  "look_ball": "레벨 선택 오른쪽 위 밀림 표지(눈 + 공), 화면 글 없음(aria-label = look_ball), 밀림 조건일 때만(balance drift_check.signal text_on_child_screen false)",
-  "sound_late": "보호자 화면 소리 맞추기 줄 옆 같은 표지 + sound_late 글(어른용)",
+  "level_name": "레벨 선택 카드에는 글 없음(aria-label). 이름은 클리어 화면 맨 위 작은 줄",
+  "card_text": "그림 카드 대화 상자 위쪽 한 줄(card_*), 카드 그림 배율 계산에서 text_line_px 만큼 비워 둠",
+  "look_ball": "레벨 선택 오른쪽 위 밀림 표지(눈 + 공), 화면 글 없음",
+  "sound_late": "보호자 화면 소리 맞추기 줄 옆 같은 표지 + sound_late 글",
   "text_line_px": 28
  },
  "grade_fx": {

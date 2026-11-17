@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 64">
-<!-- 북: 가로로 넓은 둥근 사각형(너비 3.2d, 높이 0.95d) + 윗면 가죽 띠(0.28d). 원형 북 아님. tools/art/cards.mjs 생성 -->
-<rect x="4" y="2" width="192" height="57" rx="9" fill="#234C88" stroke="#23273A" stroke-width="2.4"/><rect x="4" y="2" width="192" height="16.8" rx="8.4" fill="#FFF3D6" stroke="#23273A" stroke-width="2.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+<!-- 북: 가로로 넓은 둥근 사각형(3.2d × 0.95d) + 가죽 띠(0.28d) + 가운데 다리(0.22d, 북 몸통 색, 길까지). 박 표시가 다리 밑에 오는 순간 = 공이 가죽에 닿는 순간. tools/art/cards.mjs 생성 -->
+<rect x="93.4" y="57" width="13.2" height="39" fill="#234C88" stroke="#23273A" stroke-width="3.8"/><rect x="4" y="2" width="192" height="57" rx="18" fill="#234C88" stroke="#23273A" stroke-width="4.8"/><rect x="4" y="2" width="192" height="16.8" rx="8.4" fill="#FFF3D6" stroke="#23273A" stroke-width="4.8"/>
 </svg>

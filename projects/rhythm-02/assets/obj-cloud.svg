@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 120">
-<!-- 구름: 평평한 아랫변 + 원 3개. 공이 이 뒤로 숨음. tools/art/cards.mjs 생성 -->
-<g fill="#FFFFFF" stroke="#23273A" stroke-width="2.4"><rect x="5" y="61" width="250" height="55" rx="27.5"/><circle cx="65" cy="61" r="39.6"/><circle cx="135" cy="61" r="50"/><circle cx="200" cy="61" r="35.2"/></g><g fill="#FFFFFF"><rect x="5" y="61" width="250" height="55" rx="27.5"/><circle cx="65" cy="61" r="39.6"/><circle cx="135" cy="61" r="50"/><circle cx="200" cy="61" r="35.2"/></g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 90">
+<!-- 긴 구름(W2·끝 구름): 아래 띠 0.55h + 촘촘한 혹(반지름 0.45h, 간격 = 반지름). 너비 = 길 위 구름 구간(박) + 여유. 공이 이 뒤로 숨음(그림자만 보임). tools/art/cards.mjs 생성 -->
+<g fill="#FFFFFF" stroke="#23273A" stroke-width="4.8"><rect x="6" y="45.5" width="288" height="38.5" rx="19.3"/><circle cx="39.8" cy="45.5" r="31.5"/><circle cx="71.3" cy="45.5" r="31.5"/><circle cx="102.8" cy="45.5" r="31.5"/><circle cx="134.3" cy="45.5" r="31.5"/><circle cx="165.8" cy="45.5" r="31.5"/><circle cx="197.3" cy="45.5" r="31.5"/><circle cx="228.8" cy="45.5" r="31.5"/><circle cx="260.3" cy="45.5" r="31.5"/></g><g fill="#FFFFFF"><rect x="6" y="45.5" width="288" height="38.5" rx="19.3"/><circle cx="39.8" cy="45.5" r="31.5"/><circle cx="71.3" cy="45.5" r="31.5"/><circle cx="102.8" cy="45.5" r="31.5"/><circle cx="134.3" cy="45.5" r="31.5"/><circle cx="165.8" cy="45.5" r="31.5"/><circle cx="197.3" cy="45.5" r="31.5"/><circle cx="228.8" cy="45.5" r="31.5"/><circle cx="260.3" cy="45.5" r="31.5"/></g>
 </svg>

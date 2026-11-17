@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { ballSvg, drumSvg, fingerSvg, miniCloud, levelCard } from './cards.mjs';
+import { ballSvg, drumSvg, fingerSvg, miniCloud, levelCard, cloudSvg } from './cards.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = resolve(HERE, '../..');
@@ -41,6 +41,8 @@ const GLYPH = {
   reset: `<rect x="12" y="14" width="24" height="4" rx="1.5" fill="${C.ink}"/><rect x="20" y="10" width="8" height="5" rx="1.5" fill="${C.ink}"/><rect x="15" y="19" width="18" height="19" rx="3" fill="none" ${ST} stroke-width="3"/><line x1="21" y1="23" x2="21" y2="34" ${ST} stroke-width="2.5"/><line x1="27" y1="23" x2="27" y2="34" ${ST} stroke-width="2.5"/>`,
   lock: `<path d="M17 22 v-6 a7 7 0 0 1 14 0 v6" fill="none" stroke="#6B6F80" stroke-width="4"/><rect x="12" y="21" width="24" height="18" rx="4" fill="#6B6F80"/>`,
   tap: fingerSvg(22, 40, 32, true),
+  // 소리 잠금 풀기(N20·lore A5): 스피커 + 누르는 손가락(글자 없음)
+  unlock_sound: `<rect x="6" y="15" width="6" height="9" rx="1.5" fill="${C.ink}"/><polygon points="11,15 19,9 19,30 11,24" fill="${C.ink}" ${ST} stroke-width="2"/><path d="M23 14 Q27 19.5 23 25" fill="none" ${ST} stroke-width="2.6"/>` + fingerSvg(34, 44, 24, true),
 };
 
 // 아이콘 표(1-2 D11): 이름 → 문구 키(aria / 보조 글, lore strings.json) · 쓰는 화면 · 모양 · 크기(터치 px) · 피한 것
@@ -64,7 +66,8 @@ export const ICONS = [
   { name: 'language', key: 'settings_language', where: '보호자 화면 줄(옆에 lang_ko / lang_en 글 버튼)', shape: '말풍선 2개(글자 없음)', size: 48 },
   { name: 'reset', key: 'settings_reset', where: '보호자 화면 맨 아래 줄(확인 confirm_reset)', shape: '휴지통', size: 48 },
   { name: 'lock', key: 'levelcard_locked', where: '잠긴 레벨 카드', shape: '자물쇠(회색)', size: 48, sign: true },
-  { name: 'tap', key: 'tap_to_start', where: '타이틀 · audio_unlock(손가락 톡)', shape: '튜토리얼 손가락과 같은 손(누름)', size: 64, sign: true },
+  { name: 'tap', key: 'tap_to_start', where: '타이틀', shape: '튜토리얼 손가락과 같은 손(누름)', size: 64, sign: true },
+  { name: 'unlock_sound', key: 'audio_unlock', where: '소리 잠금 풀기 화면(첫 탭) 글 옆 그림(N20)', shape: '스피커 + 누르는 손가락(글자 없음)', size: 64, sign: true },
 ];
 
 // 버튼 하나: 흰 둥근 사각 + ink 2 px 외곽선 + 그림. opts.plain = 바탕 없음(표지), opts.hold = 길게 누르기 채움 비율(0~1, 아래 가로 막대)
@@ -86,13 +89,13 @@ const wrap = (W, H, body, note) => `<svg xmlns="http://www.w3.org/2000/svg" view
 // 레벨 선택 목업(640x360 가로, 카드 5×2). 위 줄: 뒤로 · (가운데 빈 자리) · 밀림 표지 예시 · 어른 설정(길게 누르기 막대). 아이콘 그림은 icons.mjs 와 같은 함수.
 function levelSelect() {
   const W = 640, H = 360, cw = 108, ch = 112, gx = 12, gy = 30, x0 = (W - (5 * cw + 4 * gx)) / 2, y0 = 78;
-  const states = [{ best: 1, grade: 3 }, { best: 1, grade: 2 }, { best: 1, grade: 1 }, { best: 1, grade: 2 }, { best: 0.64 }, { best: 0.22 }, { best: 0 }, { locked: true }, { locked: true }, { locked: true }];
+  const states = [{ best: 1, grade: 3, bestCombo: 18 }, { best: 1, grade: 2, bestCombo: 21 }, { best: 1, grade: 1, bestCombo: 12 }, { best: 1, grade: 2, bestCombo: 9 }, { best: 0.64, bestCombo: 13 }, { best: 0.22, bestCombo: 6 }, { best: 1, grade: 1, bestCombo: 24 }, { best: 1, grade: 1, bestCombo: 25 }, { best: 0.4 }, { locked: true }];
   let s = `<rect width="${W}" height="${H}" fill="#F4F1EA"/>`;
   s += iconSvg('back', 12, 8, 48);
   s += iconSvg('look_ball', W - 12 - 48 - 12 - 64, 8, 48, { plain: true });
   s += iconSvg('settings', W - 12 - 48, 8, 48, { hold: 0.4 });
   states.forEach((st, i) => { const r = Math.floor(i / 5), c = i % 5; s += levelCard(x0 + c * (cw + gx), y0 + r * (ch + gy), cw, ch, String(i + 1).padStart(2, '0'), st); });
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">\n<!-- 레벨 선택 목업 640x360 (tools/art/icons.mjs 생성, 레벨 카드 그림은 cards.mjs levelCard). 글·숫자 없이 구분: 바탕색·테두리색·대표 실루엣(L3 = 큰 구름 1 + 반쯤 숨은 공)·잠김 자물쇠. 막대 = 일반 모드 최고 진행도(공 색 점), 카드 아래 등급 3칸(받은 칸 채움, 빈 칸 점선, 늘 3칸). 연습 기록 표시 없음(1-2 D14). 위 오른쪽: 밀림 표지(눈 + 공, 밀림 조건일 때만) · 어른 설정(길게 누르기 1.5 s 막대, 예시 40 % 참). 30-art 11절 -->\n${s}\n</svg>\n`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">\n<!-- 레벨 선택 목업 640x360 (tools/art/icons.mjs 생성, 레벨 카드 그림은 cards.mjs levelCard). 글·숫자 없이 구분(round-2): 바탕색·테두리색 + 길·박 표시·북(다리)·공 + 그 레벨 대표 물체 1개(L1 표시만·풀, L2 모래 더미 + 넓은 표시 간격 + 높은 공, L3 구름 + 숨은 공, L4 그네 틀 + 1.5박 표시 간격, L5 지붕 + 앉은 공, L6 가지, L7 큰 언덕 + 높은 공, L8 긴 가지, L9 연 + 지붕, L10 해 + 가지)·잠김 자물쇠. 막대 = 일반 모드 최고 진행도(공 색 점), 카드 아래 등급 3칸(받은 칸 채움, 빈 칸 점선, 늘 3칸), 카드 안 오른쪽 위 작은 금빛 네모 = 최고 콤보 10마다 1개(0~2, aria_best_combo, 숫자 없음). 연습 기록 표시 없음(1-2 D14). 위 오른쪽: 밀림 표지(눈 + 공, 밀림 조건일 때만) · 어른 설정(길게 누르기 1.5 s 막대, 예시 40 % 참). 30-art 11절 -->\n${s}\n</svg>\n`;
 }
 
 
@@ -120,11 +123,11 @@ function mockups() {
   // 3) 클리어 결과(640x360): 제목 한 줄 → 등급 3칸 → 버튼 3개(L10 은 2개)
   {
     const W = 640, H = 360;
-    let s = `<rect width="${W}" height="${H}" fill="${T.bg1}"/><rect x="0" y="320" width="${W}" height="40" fill="${T.floor}"/>`;
+    let s = `<rect width="${W}" height="${H}" fill="${T.bg1}"/><rect x="0" y="320" width="${W}" height="40" fill="${T.floor}"/>` + cloudSvg(60, 250, 106, 58, T.clearCloud);
     s += slot(200, 20, 240, 20, 'level1_name(작은 줄)') + slot(170, 50, 300, 34, 'clear_title_1~3 / clear_last');
     for (let i = 0; i < 3; i++) s += i < 2 ? miniCloud(260 + i * 60, 128, 48, T.accent) : miniCloud(260 + i * 60, 128, 48, 'none', true);
     s += iconSvg('next', 400, 210, 64) + iconSvg('retry', 288, 210, 64) + iconSvg('levels', 176, 210, 64);
-    writeFileSync(join(PROJ, 'assets/mockup-result.svg'), wrap(W, H, s, '클리어 결과 640x360: 레벨 이름(작은 줄) → 클리어 제목 한 줄 → 등급 3칸(예: 구름 둘, 빈 칸 점선, 늘 3칸, 1-2 D12) → 레벨 고르기 · 다시 · 다음(64×64, 간격 48). L10 은 다음 없음. 연습 클리어는 등급 3칸 대신 깃발 1개. 일반 실패에는 이 화면 없음.'));
+    writeFileSync(join(PROJ, 'assets/mockup-result.svg'), wrap(W, H, s, '클리어 결과 640x360: 왼쪽 위 = 끝 구름(공이 그 속에 있음, 섞기 끝색 clearCloud = cloud·accent 35 % — 등급 칸 진한 accent 와 다른 연한 색, N11). 레벨 이름(작은 줄) → 클리어 제목 한 줄 → 등급 3칸(예: 구름 둘, 빈 칸 점선, 늘 3칸, 1-2 D12) → 레벨 고르기 · 다시 · 다음(64×64, 간격 48). L10 은 다음 없음. 연습 클리어는 등급 3칸 대신 깃발 1개. 일반 실패에는 이 화면 없음.'));
   }
   // 4) 보호자 화면(640x360, 설정 길게 누르기 1.5 s 뒤)
   {
