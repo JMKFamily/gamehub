@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | benchmark-analyst | round-2 | [공통 인사이트 정리와 레벨 4~10 기믹 벤치마크 (연습 모드·진행도 실측)](benchmark-analyst/2026-11-17-r2-insights-and-gimmick-benchmark.md) |
 | 2026-11-17 | qa-engineer | round-2 | [round-2 QA 도구 준비 (10레벨 대응, 밸런스 자동 측정, 영어 화면)](qa-engineer/2026-11-17-r2-qa-tools.md) |
 | 2026-11-17 | game-developer | round-2 | [round-2 빌드 (레벨 10개, round-1 개발 이슈 처리, 레벨 4~10 임시 아트)](game-developer/2026-11-17-r2-build.md) |
 | 2026-11-17 | lore-writer | round-2 | [레벨 10개 확장 텍스트 (레벨 4~10 이름, 튜토리얼 키 5개)](lore-writer/2026-11-17-r2-levels-10-text.md) |
