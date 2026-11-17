@@ -111,5 +111,25 @@
     {"type":"spike","x":589.58,"y":0},
     {"type":"spike","x":640.92,"y":0},
     {"type":"spike","x":641.92,"y":0}
+  ],
+  "judge_taps": [
+    {"i":0,"kind":"ground","beat":8,"t_s":3.1579,"early_ms":82.9,"late_ms":87.9,"safe_early_ms":82.9,"safe_late_ms":87.9},
+    {"i":1,"kind":"ground","beat":12,"t_s":4.7368,"early_ms":224.3,"late_ms":238.2,"safe_early_ms":224.3,"safe_late_ms":238.2},
+    {"i":2,"kind":"ground","beat":26,"t_s":10.2632,"early_ms":129.9,"late_ms":132.6,"safe_early_ms":129.9,"safe_late_ms":132.6},
+    {"i":3,"kind":"ground","beat":32,"t_s":12.6316,"early_ms":164.9,"late_ms":126.8,"safe_early_ms":164.9,"safe_late_ms":126.8},
+    {"i":4,"kind":"orb","beat":32.5,"t_s":12.8289,"early_ms":104,"late_ms":104.4,"safe_early_ms":104,"safe_late_ms":104.4},
+    {"i":5,"kind":"ground","beat":37,"t_s":14.6053,"early_ms":84.4,"late_ms":86.4,"safe_early_ms":84.4,"safe_late_ms":86.4},
+    {"i":6,"kind":"ground","beat":53,"t_s":20.9211,"early_ms":196,"late_ms":187.3,"safe_early_ms":196,"safe_late_ms":187.3},
+    {"i":7,"kind":"ground","beat":55,"t_s":21.7105,"early_ms":81.3,"late_ms":85.3,"safe_early_ms":81.3,"safe_late_ms":85.3},
+    {"i":8,"kind":"ground","beat":72,"t_s":28.4211,"early_ms":166.9,"late_ms":124.8,"safe_early_ms":166.9,"safe_late_ms":124.8},
+    {"i":9,"kind":"orb","beat":72.5,"t_s":28.6184,"early_ms":106,"late_ms":102.4,"safe_early_ms":106,"safe_late_ms":102.4},
+    {"i":10,"kind":"ground","beat":77,"t_s":30.3947,"early_ms":228.1,"late_ms":238.6,"safe_early_ms":228.1,"safe_late_ms":238.6},
+    {"i":11,"kind":"ground","beat":107,"t_s":42.2368,"early_ms":166,"late_ms":125.7,"safe_early_ms":166,"safe_late_ms":125.7},
+    {"i":12,"kind":"orb","beat":107.5,"t_s":42.4342,"early_ms":84.2,"late_ms":82.4,"safe_early_ms":84.2,"safe_late_ms":82.4},
+    {"i":13,"kind":"ground","beat":120,"t_s":47.3684,"early_ms":197.6,"late_ms":185.7,"safe_early_ms":197.6,"safe_late_ms":185.7},
+    {"i":14,"kind":"ground","beat":122,"t_s":48.1579,"early_ms":199.6,"late_ms":183.7,"safe_early_ms":199.6,"safe_late_ms":183.7},
+    {"i":15,"kind":"ground","beat":129,"t_s":50.9211,"early_ms":166.9,"late_ms":124.8,"safe_early_ms":166.9,"safe_late_ms":124.8},
+    {"i":16,"kind":"orb","beat":129.5,"t_s":51.1184,"early_ms":106,"late_ms":102.4,"safe_early_ms":106,"safe_late_ms":102.4},
+    {"i":17,"kind":"ground","beat":151,"t_s":59.6053,"early_ms":84.4,"late_ms":86.4,"safe_early_ms":84.4,"safe_late_ms":86.4}
   ]
 }

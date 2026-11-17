@@ -7,6 +7,7 @@
 //   탭 타이밍 창의 가운데가 그 박에 오도록 x를 정한다.
 // - 이미 있는 JSON의 name / name_en / name_key / theme_id / audio_first_beat_s 는 덮어쓰지 않는다 (교차 리뷰에서 채운 값 보존).
 // - cue(key, beat): 튜토리얼 문구(10-lore.md 5-6절 키)를 띄울 박. 플레이어 x가 cue.x 이상이 되면 표시.
+// - 콤보 판정 탭(judge_taps)은 이 스크립트가 만들지 않는다. 레벨을 다시 만들면 이어서 node tools/build-judge-taps.mjs 를 돌린다.
 // - 생성 후에는 JSON이 빌드의 원본이다. JSON을 직접 고쳤다면 이 스크립트를 다시 돌리기 전에 여기에도 반영한다.
 
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
@@ -145,8 +146,11 @@ class LevelBuilder {
   // marginS: 앞 탭이 늦거나 다음 탭이 이를 때 남겨 둘 여유(초). 이 여유가 이웃 탭 창의 한쪽 상한이 된다.
   // prevOrbs: 앞 탭이 고리 점프였으면 그 고리 박. y0Prev: 앞 탭 이륙 높이(기본 y0).
   tunnel(bPrev, bNext, { y0 = 0, row = y0 + 2, marginS = 0.14, y0Next = y0, y0Prev = y0, prevOrbs = [] } = {}) {
-    const lim = row + 0.55 - BAL.player_size_t; // 발이 이보다 높으면 머리가 천장 판정에 닿음
-    const hw = 0.5 + BAL.spike_ceiling_hitbox_w_t / 2; // 칸 x에서 판정 끝까지 + 몸체 보정
+    // 배치 계산은 레벨 7~10을 만들 때의 천장 판정 0.25 × 0.45(칸 [x+0.375, x+0.625] × [row+0.55, row+1])로 고정한다.
+    // round-2 콤보 차수에 실제 판정을 바닥 가시와 같은 0.49 × 0.24(위아래 반전)로 바꿨지만 배치는 그대로 둔다(20-balance 15-7).
+    // 새 판정은 옛 판정보다 세로로 0.21 t 짧고 가로로 0.12 t 넓다. 이 값으로 놓은 줄이 새 판정에서 이웃 탭 창을 좁히지 않는 것은 verify-levels로 확인했다.
+    const lim = row + 0.55 - BAL.player_size_t; // 발이 이보다 높으면 머리가 (옛) 천장 판정에 닿음
+    const hw = 0.5 + 0.25 / 2; // 칸 x에서 (옛) 판정 끝까지 + 몸체 보정
     let a = -Infinity;
     if (bPrev != null) {
       let last = null;

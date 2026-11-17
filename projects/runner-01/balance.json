@@ -32,8 +32,8 @@
   "spike_low_visual_h_t": 0.48,
   "spike_low_hitbox_w_t": 0.3,
   "spike_low_hitbox_h_t": 0.12,
-  "spike_ceiling_hitbox_w_t": 0.25,
-  "spike_ceiling_hitbox_h_t": 0.45,
+  "spike_ceiling_hitbox_w_t": 0.49,
+  "spike_ceiling_hitbox_h_t": 0.24,
 
   "platform_thickness_t": 0.2,
   "pad_trigger_inset_x_t": 0.1,
@@ -82,6 +82,38 @@
     "levels/09-level9.json",
     "levels/10-level10.json"
   ],
+
+  "practice": {
+    "_note": "연습 모드 자동 체크포인트 (round-2 콤보 차수에 balance 확정, 20-balance.md 15-6). 개발 임시 파일 games/reverbound/data/practice.json을 대신한다. 안전 지점 = 클리어 입력열 궤적 위 착지·정박 틱 중 다음 필수 탭까지 checkpoint_min_lead_s 이상 남은 곳",
+    "checkpoint_min_lead_s": 0.8,
+    "checkpoint_every_beats": 1,
+    "traces": ["taps", "on_beat_taps"]
+  },
+
+  "combo": {
+    "_note": "콤보 판정 (2026-11-17 요청자 지시, harness/benchmarks/djmax-judgement.md 4·5-1절, 20-balance.md 15장). 보상 층일 뿐 생사·클리어·난이도를 바꾸지 않는다. 판정 탭 목록은 levels/*.json judge_taps (tools/build-judge-taps.mjs 생성), 기준 구현은 tools/sim/combo-ref.mjs",
+    "enabled": true,
+    "grade_ms": [50, 100],
+    "judge_pad_ms": 0,
+    "judge_max_ms": 250,
+    "judged_events": ["ground_jump", "orb_jump"],
+    "one_judgement_per_press": true,
+    "break_on": "death",
+    "practice_respawn_resets": true,
+    "best_record_modes": ["normal"],
+    "show_from": 2,
+    "dots_per_mark": 10,
+    "small_pop_every": 5,
+    "mark_at": [10, 20],
+    "hud": {
+      "_note": "연출 길이는 벤치마크 권장값. 모양·소리·위치는 30-art(art-director) 확정 대상이고, 아래 길이를 바꾸면 balance가 다음 판정과의 겹침만 다시 본다",
+      "pop_scale": 1.15,
+      "pop_ms": 120,
+      "mark_fx_s": { "10": 0.4, "20": 0.6 },
+      "mark_sound_delay_beats": 0.5,
+      "break_fade_s": 0.3
+    }
+  },
 
   "verify_min_window_ms": {
     "01": 250,

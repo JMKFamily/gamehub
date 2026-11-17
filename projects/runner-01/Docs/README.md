@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | balance-designer | round-2 | [콤보 판정 확정 (판정 탭 목록, 등급·콤보 규칙, 연습 안전 지점·천장 판정)](balance-designer/2026-11-17-r2-combo.md) |
 | 2026-11-17 | benchmark-analyst | 공통 | [DJMAX 판정·콤보 벤치마크 (전 프로젝트 콤보 시스템, 5~6세 변환안)](benchmark-analyst/2026-11-17-djmax-combo-benchmark.md) |
 | 2026-11-17 | benchmark-analyst | round-2 | [공통 인사이트 정리와 레벨 4~10 기믹 벤치마크 (연습 모드·진행도 실측)](benchmark-analyst/2026-11-17-r2-insights-and-gimmick-benchmark.md) |
 | 2026-11-17 | qa-engineer | round-2 | [round-2 QA 도구 준비 (10레벨 대응, 밸런스 자동 측정, 영어 화면)](qa-engineer/2026-11-17-r2-qa-tools.md) |
