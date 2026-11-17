@@ -1,0 +1,1882 @@
+{
+ "schema_version": 1,
+ "_source": "30-art.md 16절 (round-3 \"북길\"). 생성 assets/road-layout.mjs. 이 파일과 30-art 표가 다르면 이 파일이 기준(art 소유). 시간·판정 값(bpm·통과 창·미리 보기 박)은 balance 소유이고 여기 per_level 은 검사 결과 복사본.",
+ "lead_beats_source": "가정(00-benchmark 8-4·R19, 세로 = min(가로, 3.5))",
+ "lead_beats": {
+  "landscape": [
+   4,
+   4,
+   4,
+   3.5,
+   3.5,
+   3.5,
+   3,
+   3,
+   3,
+   3
+  ],
+  "portrait": [
+   4,
+   3.5,
+   3.5,
+   3.5,
+   3.5,
+   3.5,
+   3,
+   3,
+   3,
+   3
+  ]
+ },
+ "rule": {
+  "judge_x_frac": {
+   "landscape": 0.3,
+   "portrait": 0.2
+  },
+  "road_y_frac": {
+   "landscape": 0.48,
+   "portrait": 0.4
+  },
+  "star_d_frac_of_short_side": 0.1,
+  "half_gap_px": 8,
+  "road_h_mul": 1.6,
+  "ball_d_mul": 0.8,
+  "ball_d_min": 24,
+  "ball_gap_px": 2,
+  "ball_bounce_mul": 0.5,
+  "drum_r_mul": 0.7,
+  "drum_gap_px": 6,
+  "line_w": "(d) => Math.max(6, Math.round(d / 8))",
+  "fx_grow": {
+   "perfect": 1.2,
+   "good": 1.1
+  },
+  "finger_cell": "(d) => Math.max(64, Math.round(1.6 * d))",
+  "finger_gap_px": 8,
+  "text_slot": {
+   "w_max": 220,
+   "h": 40,
+   "gap": 8
+  },
+  "hud": {
+   "bar_y": {
+    "portrait": 24,
+    "landscape": 20
+   },
+   "bar_h": 10,
+   "attempt_dy": 14,
+   "attempt_r": 4.5,
+   "pause": 48,
+   "pause_margin": 12
+  },
+  "combo": {
+   "dy_from_attempt": 16,
+   "dot_r": 4,
+   "dot_pitch": 12,
+   "cells": 10,
+   "mark_r": 6,
+   "mark_pitch": 16,
+   "marks_max": 3,
+   "x0": 16
+  },
+  "hud_band_pad": 6,
+  "thumb": {
+   "top_frac": 0.7,
+   "gap": 12,
+   "bottom_margin": 16
+  },
+  "margin": 16
+ },
+ "formulas": {
+  "judge_x": "safeL + judge_x_frac[o] × (W − safeL − safeR)",
+  "preview_px": "W − safeR − judge_x (별 중심이 오른쪽 끝에 올 때부터 판정 선까지). 별은 중심 x = W + r 에서 생겨 화면 밖에서 미끄러져 들어옴(갑자기 나타나지 않음)",
+  "speed": "preview_px ÷ (lead_beats × 60/BPM) px/s, 레벨 안 고정. 별 x(t) = judge_x + speed × (별 시각 − 지금), 지금 = 판정과 같은 보정 시계",
+  "star_d": "floor(min(0.10 × 짧은 변, preview_px ÷ (2 × 반박 레벨 중 가장 긴 lead_beats) − 8))",
+  "overlap_ms": "(star_d + line_w) ÷ speed"
+ },
+ "text_slots": {
+  "tut_tap": "layouts[].text_slot (가로 = 손가락 칸 오른쪽, 세로 = 손가락 칸 아래). 가장 긴 언어로 2줄 안에 들어가야 하고 넘치면 글자 14 → 12 px, 그래도 넘치면 lore 문구 요청"
+ },
+ "layouts": [
+  {
+   "W": 360,
+   "H": 640,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "portrait",
+   "short_side": 360,
+   "judge_x": 72,
+   "preview_px": 288,
+   "star_d": 33,
+   "star_r": 16.5,
+   "half_spacing_worst_px": 41.1,
+   "lead_half_max": 3.5,
+   "road": {
+    "x0": 0,
+    "x1": 360,
+    "y0": 229.5,
+    "y1": 282.5,
+    "yc": 256
+   },
+   "road_h": 53,
+   "ball": {
+    "d": 26,
+    "x": 72,
+    "yRest": 214.5,
+    "bounce": 13,
+    "top": 188.5
+   },
+   "drum": {
+    "r": 23.1,
+    "x": 72,
+    "y": 311.6
+   },
+   "line": {
+    "x": 72,
+    "w": 6,
+    "y0": 229.5,
+    "y1": 288.5
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 24,
+     "h": 10,
+     "x1": 288
+    },
+    "pause": {
+     "x0": 300,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 48,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 64,
+     "y0": 57,
+     "y1": 71
+    },
+    "band_bottom": 77
+   },
+   "finger": {
+    "s": 64,
+    "x0": 40,
+    "x1": 104,
+    "y0": 342.7,
+    "y1": 406.7
+   },
+   "text_slot": {
+    "x0": 16,
+    "x1": 236,
+    "y0": 414.7,
+    "y1": 454.7,
+    "side": "below_finger"
+   },
+   "thumb": {
+    "x0": 16,
+    "x1": 344,
+    "y0": 466.7,
+    "y1": 624
+   },
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 85,
+    "x1": 360,
+    "y1": 458.7
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 132,
+     "min_interval_beats": 1,
+     "min_spacing_px": 72,
+     "overlap_ms": 295,
+     "pass_window_ms": 320,
+     "fx_gap_px": 35.7,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 3.5,
+     "speed_px_s": 159.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 245,
+     "pass_window_ms": 300,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.81,
+     "judge_s": 1.67
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 3.5,
+     "speed_px_s": 164.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 237,
+     "pass_window_ms": 290,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.75,
+     "judge_s": 1.61
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 170.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 229,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 172.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 226,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 175.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 222,
+     "pass_window_ms": 270,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 208,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 188,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 211.2,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 185,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 217.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 179,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 224,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 174,
+     "pass_window_ms": 250,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 412,
+   "H": 915,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "portrait",
+   "short_side": 412,
+   "judge_x": 82.4,
+   "preview_px": 329.6,
+   "star_d": 39,
+   "star_r": 19.5,
+   "half_spacing_worst_px": 47.1,
+   "lead_half_max": 3.5,
+   "road": {
+    "x0": 0,
+    "x1": 412,
+    "y0": 335,
+    "y1": 397,
+    "yc": 366
+   },
+   "road_h": 62,
+   "ball": {
+    "d": 31,
+    "x": 82.4,
+    "yRest": 317.5,
+    "bounce": 15.5,
+    "top": 286.5
+   },
+   "drum": {
+    "r": 27.3,
+    "x": 82.4,
+    "y": 430.3
+   },
+   "line": {
+    "x": 82.4,
+    "w": 6,
+    "y0": 335,
+    "y1": 403
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 24,
+     "h": 10,
+     "x1": 340
+    },
+    "pause": {
+     "x0": 352,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 48,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 64,
+     "y0": 57,
+     "y1": 71
+    },
+    "band_bottom": 77
+   },
+   "finger": {
+    "s": 64,
+    "x0": 50.4,
+    "x1": 114.4,
+    "y0": 465.6,
+    "y1": 529.6
+   },
+   "text_slot": {
+    "x0": 16,
+    "x1": 236,
+    "y0": 537.6,
+    "y1": 577.6,
+    "side": "below_finger"
+   },
+   "thumb": {
+    "x0": 16,
+    "x1": 396,
+    "y0": 640.5,
+    "y1": 899
+   },
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 85,
+    "x1": 412,
+    "y1": 632.5
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 151.1,
+     "min_interval_beats": 1,
+     "min_spacing_px": 82.4,
+     "overlap_ms": 298,
+     "pass_window_ms": 320,
+     "fx_gap_px": 39.5,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 3.5,
+     "speed_px_s": 182.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 247,
+     "pass_window_ms": 300,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.81,
+     "judge_s": 1.67
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 3.5,
+     "speed_px_s": 188.3,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 239,
+     "pass_window_ms": 290,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.75,
+     "judge_s": 1.61
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 194.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 231,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 197.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 228,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 200.9,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 224,
+     "pass_window_ms": 270,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 238,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 189,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 241.7,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 186,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 249,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 181,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 256.4,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 176,
+     "pass_window_ms": 250,
+     "fx_gap_px": 12,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 640,
+   "H": 360,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "landscape",
+   "short_side": 360,
+   "judge_x": 192,
+   "preview_px": 448,
+   "star_d": 36,
+   "star_r": 18,
+   "half_spacing_worst_px": 56,
+   "lead_half_max": 4,
+   "road": {
+    "x0": 0,
+    "x1": 640,
+    "y0": 143.8,
+    "y1": 201.8,
+    "yc": 172.8
+   },
+   "road_h": 58,
+   "ball": {
+    "d": 29,
+    "x": 192,
+    "yRest": 127.3,
+    "bounce": 14.5,
+    "top": 98.3
+   },
+   "drum": {
+    "r": 25.2,
+    "x": 192,
+    "y": 233
+   },
+   "line": {
+    "x": 192,
+    "w": 6,
+    "y0": 143.8,
+    "y1": 207.8
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 20,
+     "h": 10,
+     "x1": 568
+    },
+    "pause": {
+     "x0": 580,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 44,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 60,
+     "y0": 53,
+     "y1": 67
+    },
+    "band_bottom": 73
+   },
+   "finger": {
+    "s": 64,
+    "x0": 160,
+    "x1": 224,
+    "y0": 266.2,
+    "y1": 330.2
+   },
+   "text_slot": {
+    "x0": 232,
+    "x1": 452,
+    "y0": 278.2,
+    "y1": 318.2,
+    "side": "right_of_finger"
+   },
+   "thumb": null,
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 81,
+    "x1": 640,
+    "y1": 360
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 205.3,
+     "min_interval_beats": 1,
+     "min_spacing_px": 112,
+     "overlap_ms": 205,
+     "pass_window_ms": 320,
+     "fx_gap_px": 72.4,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 4,
+     "speed_px_s": 216.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 56,
+     "overlap_ms": 194,
+     "pass_window_ms": 300,
+     "fx_gap_px": 16.4,
+     "preview_s": 2.07,
+     "judge_s": 1.93
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 4,
+     "speed_px_s": 224,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 56,
+     "overlap_ms": 188,
+     "pass_window_ms": 290,
+     "fx_gap_px": 16.4,
+     "preview_s": 2,
+     "judge_s": 1.86
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 264.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64,
+     "overlap_ms": 159,
+     "pass_window_ms": 280,
+     "fx_gap_px": 24.4,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 268.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64,
+     "overlap_ms": 156,
+     "pass_window_ms": 280,
+     "fx_gap_px": 24.4,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 273.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64,
+     "overlap_ms": 154,
+     "pass_window_ms": 270,
+     "fx_gap_px": 24.4,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 323.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 74.7,
+     "overlap_ms": 130,
+     "pass_window_ms": 260,
+     "fx_gap_px": 35.1,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 328.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 74.7,
+     "overlap_ms": 128,
+     "pass_window_ms": 260,
+     "fx_gap_px": 35.1,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 338.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 74.7,
+     "overlap_ms": 124,
+     "pass_window_ms": 260,
+     "fx_gap_px": 35.1,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 348.4,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 74.7,
+     "overlap_ms": 121,
+     "pass_window_ms": 250,
+     "fx_gap_px": 35.1,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 1280,
+   "H": 720,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "landscape",
+   "short_side": 720,
+   "judge_x": 384,
+   "preview_px": 896,
+   "star_d": 72,
+   "star_r": 36,
+   "half_spacing_worst_px": 112,
+   "lead_half_max": 4,
+   "road": {
+    "x0": 0,
+    "x1": 1280,
+    "y0": 288.1,
+    "y1": 403.1,
+    "yc": 345.6
+   },
+   "road_h": 115,
+   "ball": {
+    "d": 58,
+    "x": 384,
+    "yRest": 257.1,
+    "bounce": 29,
+    "top": 199.1
+   },
+   "drum": {
+    "r": 50.4,
+    "x": 384,
+    "y": 459.5
+   },
+   "line": {
+    "x": 384,
+    "w": 9,
+    "y0": 288.1,
+    "y1": 409.1
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 20,
+     "h": 10,
+     "x1": 1208
+    },
+    "pause": {
+     "x0": 1220,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 44,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 60,
+     "y0": 53,
+     "y1": 67
+    },
+    "band_bottom": 73
+   },
+   "finger": {
+    "s": 115,
+    "x0": 326.5,
+    "x1": 441.5,
+    "y0": 517.9,
+    "y1": 632.9
+   },
+   "text_slot": {
+    "x0": 449.5,
+    "x1": 669.5,
+    "y0": 555.4,
+    "y1": 595.4,
+    "side": "right_of_finger"
+   },
+   "thumb": null,
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 81,
+    "x1": 1280,
+    "y1": 720
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 410.7,
+     "min_interval_beats": 1,
+     "min_spacing_px": 224,
+     "overlap_ms": 197,
+     "pass_window_ms": 320,
+     "fx_gap_px": 144.8,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 4,
+     "speed_px_s": 433.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 112,
+     "overlap_ms": 187,
+     "pass_window_ms": 300,
+     "fx_gap_px": 32.8,
+     "preview_s": 2.07,
+     "judge_s": 1.93
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 4,
+     "speed_px_s": 448,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 112,
+     "overlap_ms": 181,
+     "pass_window_ms": 290,
+     "fx_gap_px": 32.8,
+     "preview_s": 2,
+     "judge_s": 1.86
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 529.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 128,
+     "overlap_ms": 153,
+     "pass_window_ms": 280,
+     "fx_gap_px": 48.8,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 537.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 128,
+     "overlap_ms": 151,
+     "pass_window_ms": 280,
+     "fx_gap_px": 48.8,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 546.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 128,
+     "overlap_ms": 148,
+     "pass_window_ms": 270,
+     "fx_gap_px": 48.8,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 647.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 149.3,
+     "overlap_ms": 125,
+     "pass_window_ms": 260,
+     "fx_gap_px": 70.1,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 657.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 149.3,
+     "overlap_ms": 123,
+     "pass_window_ms": 260,
+     "fx_gap_px": 70.1,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 677,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 149.3,
+     "overlap_ms": 120,
+     "pass_window_ms": 260,
+     "fx_gap_px": 70.1,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 696.9,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 149.3,
+     "overlap_ms": 116,
+     "pass_window_ms": 250,
+     "fx_gap_px": 70.1,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 360,
+   "H": 640,
+   "safe": {
+    "t": 24,
+    "b": 24,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "portrait",
+   "short_side": 360,
+   "judge_x": 72,
+   "preview_px": 288,
+   "star_d": 33,
+   "star_r": 16.5,
+   "half_spacing_worst_px": 41.1,
+   "lead_half_max": 3.5,
+   "road": {
+    "x0": 0,
+    "x1": 360,
+    "y0": 234.3,
+    "y1": 287.3,
+    "yc": 260.8
+   },
+   "road_h": 53,
+   "ball": {
+    "d": 26,
+    "x": 72,
+    "yRest": 219.3,
+    "bounce": 13,
+    "top": 193.3
+   },
+   "drum": {
+    "r": 23.1,
+    "x": 72,
+    "y": 316.4
+   },
+   "line": {
+    "x": 72,
+    "w": 6,
+    "y0": 234.3,
+    "y1": 293.3
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 48,
+     "h": 10,
+     "x1": 288
+    },
+    "pause": {
+     "x0": 300,
+     "y0": 36,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 72,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 88,
+     "y0": 81,
+     "y1": 95
+    },
+    "band_bottom": 101
+   },
+   "finger": {
+    "s": 64,
+    "x0": 40,
+    "x1": 104,
+    "y0": 347.5,
+    "y1": 411.5
+   },
+   "text_slot": {
+    "x0": 16,
+    "x1": 236,
+    "y0": 419.5,
+    "y1": 459.5,
+    "side": "below_finger"
+   },
+   "thumb": {
+    "x0": 16,
+    "x1": 344,
+    "y0": 471.5,
+    "y1": 600
+   },
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 109,
+    "x1": 360,
+    "y1": 463.5
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 132,
+     "min_interval_beats": 1,
+     "min_spacing_px": 72,
+     "overlap_ms": 295,
+     "pass_window_ms": 320,
+     "fx_gap_px": 35.7,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 3.5,
+     "speed_px_s": 159.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 245,
+     "pass_window_ms": 300,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.81,
+     "judge_s": 1.67
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 3.5,
+     "speed_px_s": 164.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 237,
+     "pass_window_ms": 290,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.75,
+     "judge_s": 1.61
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 170.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 229,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 172.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 226,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 175.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 41.1,
+     "overlap_ms": 222,
+     "pass_window_ms": 270,
+     "fx_gap_px": 4.8,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 208,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 188,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 211.2,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 185,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 217.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 179,
+     "pass_window_ms": 260,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 224,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48,
+     "overlap_ms": 174,
+     "pass_window_ms": 250,
+     "fx_gap_px": 11.7,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 412,
+   "H": 915,
+   "safe": {
+    "t": 24,
+    "b": 34,
+    "l": 0,
+    "r": 0
+   },
+   "orientation": "portrait",
+   "short_side": 412,
+   "judge_x": 82.4,
+   "preview_px": 329.6,
+   "star_d": 39,
+   "star_r": 19.5,
+   "half_spacing_worst_px": 47.1,
+   "lead_half_max": 3.5,
+   "road": {
+    "x0": 0,
+    "x1": 412,
+    "y0": 335.8,
+    "y1": 397.8,
+    "yc": 366.8
+   },
+   "road_h": 62,
+   "ball": {
+    "d": 31,
+    "x": 82.4,
+    "yRest": 318.3,
+    "bounce": 15.5,
+    "top": 287.3
+   },
+   "drum": {
+    "r": 27.3,
+    "x": 82.4,
+    "y": 431.1
+   },
+   "line": {
+    "x": 82.4,
+    "w": 6,
+    "y0": 335.8,
+    "y1": 403.8
+   },
+   "hud": {
+    "bar": {
+     "x0": 16,
+     "y0": 48,
+     "h": 10,
+     "x1": 340
+    },
+    "pause": {
+     "x0": 352,
+     "y0": 36,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 72,
+    "combo": {
+     "x0": 16,
+     "x1": 184,
+     "y": 88,
+     "y0": 81,
+     "y1": 95
+    },
+    "band_bottom": 101
+   },
+   "finger": {
+    "s": 64,
+    "x0": 50.4,
+    "x1": 114.4,
+    "y0": 466.4,
+    "y1": 530.4
+   },
+   "text_slot": {
+    "x0": 16,
+    "x1": 236,
+    "y0": 538.4,
+    "y1": 578.4,
+    "side": "below_finger"
+   },
+   "thumb": {
+    "x0": 16,
+    "x1": 396,
+    "y0": 640.5,
+    "y1": 865
+   },
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 109,
+    "x1": 412,
+    "y1": 632.5
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 151.1,
+     "min_interval_beats": 1,
+     "min_spacing_px": 82.4,
+     "overlap_ms": 298,
+     "pass_window_ms": 320,
+     "fx_gap_px": 39.5,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 3.5,
+     "speed_px_s": 182.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 247,
+     "pass_window_ms": 300,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.81,
+     "judge_s": 1.67
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 3.5,
+     "speed_px_s": 188.3,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 239,
+     "pass_window_ms": 290,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.75,
+     "judge_s": 1.61
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 194.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 231,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 197.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 228,
+     "pass_window_ms": 280,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 200.9,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 47.1,
+     "overlap_ms": 224,
+     "pass_window_ms": 270,
+     "fx_gap_px": 4.2,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 238,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 189,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 241.7,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 186,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 249,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 181,
+     "pass_window_ms": 260,
+     "fx_gap_px": 12,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 256.4,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 54.9,
+     "overlap_ms": 176,
+     "pass_window_ms": 250,
+     "fx_gap_px": 12,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 640,
+   "H": 360,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 44,
+    "r": 44
+   },
+   "orientation": "landscape",
+   "short_side": 360,
+   "judge_x": 209.6,
+   "preview_px": 386.4,
+   "star_d": 36,
+   "star_r": 18,
+   "half_spacing_worst_px": 48.3,
+   "lead_half_max": 4,
+   "road": {
+    "x0": 0,
+    "x1": 640,
+    "y0": 143.8,
+    "y1": 201.8,
+    "yc": 172.8
+   },
+   "road_h": 58,
+   "ball": {
+    "d": 29,
+    "x": 209.6,
+    "yRest": 127.3,
+    "bounce": 14.5,
+    "top": 98.3
+   },
+   "drum": {
+    "r": 25.2,
+    "x": 209.6,
+    "y": 233
+   },
+   "line": {
+    "x": 209.6,
+    "w": 6,
+    "y0": 143.8,
+    "y1": 207.8
+   },
+   "hud": {
+    "bar": {
+     "x0": 60,
+     "y0": 20,
+     "h": 10,
+     "x1": 524
+    },
+    "pause": {
+     "x0": 536,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 44,
+    "combo": {
+     "x0": 60,
+     "x1": 228,
+     "y": 60,
+     "y0": 53,
+     "y1": 67
+    },
+    "band_bottom": 73
+   },
+   "finger": {
+    "s": 64,
+    "x0": 177.6,
+    "x1": 241.6,
+    "y0": 266.2,
+    "y1": 330.2
+   },
+   "text_slot": {
+    "x0": 249.6,
+    "x1": 469.6,
+    "y0": 278.2,
+    "y1": 318.2,
+    "side": "right_of_finger"
+   },
+   "thumb": null,
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 81,
+    "x1": 640,
+    "y1": 360
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 177.1,
+     "min_interval_beats": 1,
+     "min_spacing_px": 96.6,
+     "overlap_ms": 237,
+     "pass_window_ms": 320,
+     "fx_gap_px": 57,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 4,
+     "speed_px_s": 186.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48.3,
+     "overlap_ms": 225,
+     "pass_window_ms": 300,
+     "fx_gap_px": 8.7,
+     "preview_s": 2.07,
+     "judge_s": 1.93
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 4,
+     "speed_px_s": 193.2,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 48.3,
+     "overlap_ms": 217,
+     "pass_window_ms": 290,
+     "fx_gap_px": 8.7,
+     "preview_s": 2,
+     "judge_s": 1.86
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 228.2,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 55.2,
+     "overlap_ms": 184,
+     "pass_window_ms": 280,
+     "fx_gap_px": 15.6,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 231.8,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 55.2,
+     "overlap_ms": 181,
+     "pass_window_ms": 280,
+     "fx_gap_px": 15.6,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 235.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 55.2,
+     "overlap_ms": 178,
+     "pass_window_ms": 270,
+     "fx_gap_px": 15.6,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 279.1,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64.4,
+     "overlap_ms": 151,
+     "pass_window_ms": 260,
+     "fx_gap_px": 24.8,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 283.4,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64.4,
+     "overlap_ms": 148,
+     "pass_window_ms": 260,
+     "fx_gap_px": 24.8,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 291.9,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64.4,
+     "overlap_ms": 144,
+     "pass_window_ms": 260,
+     "fx_gap_px": 24.8,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 300.5,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 64.4,
+     "overlap_ms": 140,
+     "pass_window_ms": 250,
+     "fx_gap_px": 24.8,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  },
+  {
+   "W": 1280,
+   "H": 720,
+   "safe": {
+    "t": 0,
+    "b": 0,
+    "l": 44,
+    "r": 44
+   },
+   "orientation": "landscape",
+   "short_side": 720,
+   "judge_x": 401.6,
+   "preview_px": 834.4,
+   "star_d": 72,
+   "star_r": 36,
+   "half_spacing_worst_px": 104.3,
+   "lead_half_max": 4,
+   "road": {
+    "x0": 0,
+    "x1": 1280,
+    "y0": 288.1,
+    "y1": 403.1,
+    "yc": 345.6
+   },
+   "road_h": 115,
+   "ball": {
+    "d": 58,
+    "x": 401.6,
+    "yRest": 257.1,
+    "bounce": 29,
+    "top": 199.1
+   },
+   "drum": {
+    "r": 50.4,
+    "x": 401.6,
+    "y": 459.5
+   },
+   "line": {
+    "x": 401.6,
+    "w": 9,
+    "y0": 288.1,
+    "y1": 409.1
+   },
+   "hud": {
+    "bar": {
+     "x0": 60,
+     "y0": 20,
+     "h": 10,
+     "x1": 1164
+    },
+    "pause": {
+     "x0": 1176,
+     "y0": 12,
+     "w": 48,
+     "h": 48
+    },
+    "attempt_y": 44,
+    "combo": {
+     "x0": 60,
+     "x1": 228,
+     "y": 60,
+     "y0": 53,
+     "y1": 67
+    },
+    "band_bottom": 73
+   },
+   "finger": {
+    "s": 115,
+    "x0": 344.1,
+    "x1": 459.1,
+    "y0": 517.9,
+    "y1": 632.9
+   },
+   "text_slot": {
+    "x0": 467.1,
+    "x1": 687.1,
+    "y0": 555.4,
+    "y1": 595.4,
+    "side": "right_of_finger"
+   },
+   "thumb": null,
+   "silhouette_frame": {
+    "x0": 0,
+    "y0": 81,
+    "x1": 1280,
+    "y1": 720
+   },
+   "per_level": [
+    {
+     "id": "01",
+     "bpm": 110,
+     "lead_beats": 4,
+     "speed_px_s": 382.4,
+     "min_interval_beats": 1,
+     "min_spacing_px": 208.6,
+     "overlap_ms": 212,
+     "pass_window_ms": 320,
+     "fx_gap_px": 129.4,
+     "preview_s": 2.18,
+     "judge_s": 2.03
+    },
+    {
+     "id": "02",
+     "bpm": 116,
+     "lead_beats": 4,
+     "speed_px_s": 403.3,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 104.3,
+     "overlap_ms": 201,
+     "pass_window_ms": 300,
+     "fx_gap_px": 25.1,
+     "preview_s": 2.07,
+     "judge_s": 1.93
+    },
+    {
+     "id": "03",
+     "bpm": 120,
+     "lead_beats": 4,
+     "speed_px_s": 417.2,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 104.3,
+     "overlap_ms": 194,
+     "pass_window_ms": 290,
+     "fx_gap_px": 25.1,
+     "preview_s": 2,
+     "judge_s": 1.86
+    },
+    {
+     "id": "04",
+     "bpm": 124,
+     "lead_beats": 3.5,
+     "speed_px_s": 492.7,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 119.2,
+     "overlap_ms": 164,
+     "pass_window_ms": 280,
+     "fx_gap_px": 40,
+     "preview_s": 1.69,
+     "judge_s": 1.56
+    },
+    {
+     "id": "05",
+     "bpm": 126,
+     "lead_beats": 3.5,
+     "speed_px_s": 500.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 119.2,
+     "overlap_ms": 162,
+     "pass_window_ms": 280,
+     "fx_gap_px": 40,
+     "preview_s": 1.67,
+     "judge_s": 1.54
+    },
+    {
+     "id": "06",
+     "bpm": 128,
+     "lead_beats": 3.5,
+     "speed_px_s": 508.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 119.2,
+     "overlap_ms": 159,
+     "pass_window_ms": 270,
+     "fx_gap_px": 40,
+     "preview_s": 1.64,
+     "judge_s": 1.52
+    },
+    {
+     "id": "07",
+     "bpm": 130,
+     "lead_beats": 3,
+     "speed_px_s": 602.6,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 139.1,
+     "overlap_ms": 134,
+     "pass_window_ms": 260,
+     "fx_gap_px": 59.9,
+     "preview_s": 1.38,
+     "judge_s": 1.26
+    },
+    {
+     "id": "08",
+     "bpm": 132,
+     "lead_beats": 3,
+     "speed_px_s": 611.9,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 139.1,
+     "overlap_ms": 132,
+     "pass_window_ms": 260,
+     "fx_gap_px": 59.9,
+     "preview_s": 1.36,
+     "judge_s": 1.24
+    },
+    {
+     "id": "09",
+     "bpm": 136,
+     "lead_beats": 3,
+     "speed_px_s": 630.4,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 139.1,
+     "overlap_ms": 128,
+     "pass_window_ms": 260,
+     "fx_gap_px": 59.9,
+     "preview_s": 1.32,
+     "judge_s": 1.2
+    },
+    {
+     "id": "10",
+     "bpm": 140,
+     "lead_beats": 3,
+     "speed_px_s": 649,
+     "min_interval_beats": 0.5,
+     "min_spacing_px": 139.1,
+     "overlap_ms": 125,
+     "pass_window_ms": 250,
+     "fx_gap_px": 59.9,
+     "preview_s": 1.29,
+     "judge_s": 1.17
+    }
+   ]
+  }
+ ]
+}

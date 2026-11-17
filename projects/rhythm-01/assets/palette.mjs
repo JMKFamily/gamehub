@@ -114,6 +114,23 @@ function build() {
       shape_types: { circle: '중심 (x,y), 반지름 r', rect: '왼쪽 위 (x,y), w×h, rx 모서리(선택)', tri: '밑변 가운데 (x,y), 밑변 w, 높이 h, 꼭짓점 위' },
       draw_order: 'bg → 실루엣(clip = 판) → 엄지 받침 → 궤도 → 눈금 → 북 → 별 → 공 → 이펙트 → HUD',
     },
+    silhouette_frame_r3: {
+      _note: 'round-3 북길(30-art 16-6)에서 silhouette_frame 대체. 판 위끝을 HUD 띠 아래로 내려 실루엣이 HUD 띠(진행도·시도 점·콤보 줄·일시정지)와 겹치지 않게 함. px 값은 assets/layout.json layouts[].silhouette_frame',
+      portrait: { x0: 0, y0: 'hudBandBottom + 8', w: 'W', h: 'thumbRestTop - 8 - y0' },
+      landscape: { x0: 0, y0: 'hudBandBottom + 8', w: 'W', h: 'H - y0' },
+      draw_order: 'bg → 실루엣(clip = 판) → 엄지 받침(세로) → 길 띠 → 박 눈금·마디 표 → 판정 북 → 판정 선 → 별 → 판정 이펙트 → 공 → 손가락 → HUD(진행도·시도 점·콤보 줄·일시정지)',
+    },
+    road_r3: {
+      _note: '30-art 16절 북길 색 쓰임. 크기·자리 = assets/layout.json',
+      road_band: 'track1~3 (진행 단계, blend 규칙 그대로), 위·아래 가장자리 trackEdge 1.5 px',
+      judge_line: 'hud, 가는 선(layout line.w), 양옆 outline 1 px',
+      judge_drum: 'drum 면 + trackEdge 2 px 테두리 + 안쪽 hud 35 % 가는 원(alpha.drum_inner_ring_hud)',
+      beat_tick: 'trackEdge, alpha.tick_halfbeat_dot(0.8), 길 아랫변 안쪽 작은 네모(정박만, 반박 표시 없음)',
+      bar_mark: 'trackEdge, 길 아랫변에서 띠 높이 30 % 짧은 세로 막대(띠를 가로지르는 세로선 금지)',
+      fx_perfect_rays: 'star', fx_good_rays: 'hud', fx_pass_ring: 'trackEdge',
+      combo_dot_on: 'hud 면 + outline 1 px', combo_dot_off: 'trackEdge 50 % 1.2 px 고리', combo_mark: 'cardTint 면 + outline 1.2 px', combo_confetti: 'cardTint·hud 작은 네모(HUD 띠 안)',
+      forbidden: 'star(노랑)를 콤보·판정 선·북·눈금에 쓰지 않음. ball(하늘색)은 공·최고 기록 점만',
+    },
     themes,
   };
 }
@@ -138,6 +155,11 @@ function check(pal) {
     ['broken', 'bg', 3, null, 'D 놓친 별 조각'], ['broken', 'bgFar', 3, null, 'D 놓친 별 조각'], ['broken', 'track3', 3, null, 'D 놓친 별 조각'],
     ['cardTint', 'bg', 3, null, 'E 카드'], ['cardTint', 'bgFar', 3, null, 'E 카드'],
     ['bgFar', 'bg', 1.05, 1.5, 'F 실루엣은 장식(상한)'],
+    // round-3 "북길" (30-art 16절): 판정 선·좋아 빛살(hud), 박 눈금·통과 고리(trackEdge), 콤보 점(hud)·큰 표지(cardTint)
+    ...['track1', 'track2', 'track3', 'track12', 'track23'].map(b => ['hud', b, 4.5, null, 'G 길(판정 선·좋아 빛살)']),
+    ...['track1', 'track2', 'track3', 'track12', 'track23'].map(b => ['trackEdge', b, 3, null, 'G 길(눈금·통과 고리)']),
+    ['trackEdge', 'drum', 3, null, 'G 길(판정 북 테두리)'],
+    ['hud', 'bg', 4.5, null, 'H 콤보(점)'], ['cardTint', 'bg', 3, null, 'H 콤보(큰 표지)'], ['outline', 'hud', 3, null, 'H 콤보(점 외곽선)'],
   ];
   const rows = {}; let n = 0, fail = 0; const mins = {};
   for (const [k, t] of Object.entries(pal.themes)) {

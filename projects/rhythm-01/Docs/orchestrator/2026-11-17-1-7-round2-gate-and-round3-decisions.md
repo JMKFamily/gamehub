@@ -71,3 +71,8 @@
 ## lore 새 코어 기획 감시 — 통과
 - diff: `10-lore.md` +232/−13(−13은 "round-3에서 대체" 표시를 단 줄), 보고서, README 한 줄. 키 64 → 69(사용 66 + 폐기 3: tut_tap·card_star_tap·card_two_bar), 기존 키 삭제·문구 변경 0. 북시계 → 북길/Drum Road, 레벨 이름 10개 유지, 콤보 키는 `streak`(DJMAX 용어 금지). 빌드·다른 역할 파일·git·서버 미사용.
 - 남은 판단: 콤보 정의(R22 ↔ 공통 문서) — balance 확정 대기, 교차 리뷰 가정 A1~A8.
+
+## art 새 코어 기획 감시 — 통과(규칙 위반 1건 경미)
+- diff: `30-art.md` +252/−18(−18은 "round-3에서 대체" 표시 줄), `assets/` 새 파일(layout.json·road-layout.mjs·cards-r3/ 10장·cards-r3.mjs·mockup-r3), 수정(palette.json +32/−0, palette.mjs, sound.json +111/−11 — 지운 줄은 `--render --write`가 다시 쓴 측정 기록값, sound-check.mjs, cards-portrait.mjs `--dir`), 보고서, README 한 줄. 빌드·balance·levels·lore·harness 미수정, 서버 미사용. 직접: palette --check 0, sound-check 0, 새 SVG 외부 href 0.
+- **규칙 위반(경미)**: `git --version` 1회 실행(레포 조회·변경 없음), 본인 자진 보고. 결과물 영향 없음. 다음 지시에도 "git은 --version 포함 실행 자체 금지" 명시.
+- 콤보 연출은 공통 DJMAX 문서 기준(점 10칸·표지·무음 끊김, 노랑 미사용). 세로 겹침 해결안(세로 미리 보기 = min(가로, 3.5)) → balance에 전달.

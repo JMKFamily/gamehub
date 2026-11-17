@@ -13,7 +13,9 @@ import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const DIR = join(dirname(fileURLToPath(import.meta.url)), 'cards');
+// --dir <폴더> (assets 아래, 기본 cards). round-3 북길 카드는 --dir cards-r3 (30-art 16-5)
+const DI = process.argv.indexOf('--dir');
+const DIR = join(dirname(fileURLToPath(import.meta.url)), DI > 0 ? process.argv[DI + 1] : 'cards');
 export const CARD = {
   panelW: 210, panelH: 276, panelX: [20, 255, 490], panelY: 30, // 가로판 칸
   pad: 8, gap: 18, arrow: { w: 24, h: 14 }, border: 4, rx: 22, // 세로판 여백·칸 사이(아래 삼각형) (round 3: 12·22 → 8·18)

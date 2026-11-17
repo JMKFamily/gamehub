@@ -73,14 +73,85 @@ export function placeMelody(level, lm, rule) {
   });
   return { notes: out, dropped, shifted };
 }
+// round-3 (30-art 16-7): 레벨 v3 의 판정 별을 "카운트인 뒤 8분 격자 절대 자리" 목록으로 읽는 어댑터.
+//   balance 가 v3 형식을 확정하기 전이라 아래 형식을 차례로 시도하고, 못 읽으면 FAIL(어댑터를 교차 리뷰에서 맞춤).
+//   ① level.stars: [n] 또는 [{slot}] / [{bar, slot}] / [{beat}](beat = 카운트인 뒤 박, 0.5 단위)
+//   ② level.bars: [{pattern | slots, offset_slots?}] (mode 없음 = 모두 판정)
+export function starSlotsV3(level) {
+  const out = [];
+  if (Array.isArray(level.stars)) {
+    for (const s of level.stars) {
+      if (typeof s === 'number') out.push(s);
+      else if (Number.isFinite(s.slot) && Number.isFinite(s.bar)) out.push(s.bar * 8 + s.slot);
+      else if (Number.isFinite(s.slot)) out.push(s.slot);
+      else if (Number.isFinite(s.beat)) out.push(Math.round(s.beat * 2));
+      else return null;
+    }
+  } else if (Array.isArray(level.bars)) {
+    level.bars.forEach((bar, b) => {
+      const slots = bar.slots || (bar.pattern != null ? level.patterns?.[bar.pattern]?.slots : []) || [];
+      for (const s of slots) out.push(b * 8 + s + (bar.offset_slots || 0));
+    });
+  } else return null;
+  return out.every(Number.isInteger) ? out.sort((a, b) => a - b) : null;
+}
+export function placeMelodyV3(level, lm, rule, rule3) {
+  const abs = starSlotsV3(level);
+  if (!abs) return null;
+  const nBars = level.length_bars ?? Math.ceil((abs.at(-1) + 1) / 8);
+  const stageOf = (b) => { let s = 1; for (const x of level.sections || []) if ((x.start_bar ?? 0) <= b && x.stage) s = x.stage; return s; };
+  const out = []; let dropped = 0, shifted = 0;
+  const starSet = new Set(abs);
+  for (let b = 0; b < nBars; b++) {
+    if (stageOf(b) < rule3.from_stage) continue;
+    const half = b % rule.frame_bars, used = new Set();
+    lm.motif.forEach((n, idx) => {
+      if (Math.floor(n.s / 8) !== half) return;
+      const want = n.s % 8;
+      const slot = rule3.avoid_star.try.map((o) => want + o).find((s) => s >= 0 && s < 8 && !starSet.has(b * 8 + s) && !used.has(s));
+      if (slot == null) { dropped++; return; }
+      if (slot !== want) shifted++;
+      used.add(slot);
+      out.push({ bar: b, slot, abs: b * 8 + slot, d: n.d, len: n.len, inst: lm.melody[idx % lm.melody.length] });
+    });
+  }
+  return { notes: out, dropped, shifted, abs };
+}
+// 콤보 단계 화음 자리 (music.combo_r3): 끝까지 이어 친 경우(모든 별 콤보) 10·20·30번째 별 뒤 첫 빈 정박
+export function comboChordSlots(abs, C) {
+  const set = new Set(abs), res = [];
+  for (const [step, name] of Object.entries(C.steps)) {
+    const k = +step;
+    if (abs.length < k) continue;
+    const t = abs[k - 1];
+    let at = null;
+    const lo = t + Math.ceil(C.min_after_beats * 2), hi = t + C.max_wait_beats * 2;
+    for (let s = lo; s <= hi; s++) if (s % 2 === 0 && !set.has(s)) { at = s; break; }
+    if (at == null && C.fallback_any_eighth) for (let s = lo; s <= hi; s++) if (!set.has(s)) { at = s; break; }
+    res.push({ step: k, name, star_slot: t, at });
+  }
+  return res;
+}
+const absOfV2 = (level) => { const a = []; level.bars.forEach((bar, b) => { if (bar.mode === 'play') for (const s of level.patterns[bar.pattern].slots) a.push(b * 8 + s); }); return a; };
 {
   const dir = join(PROJ, 'levels');
-  let total = 0, clash = 0;
+  let total = 0, clash = 0, comboClash = 0, comboRows = [];
   const rows = [];
   for (const f of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
     const level = JSON.parse(readFileSync(join(dir, f), 'utf8'));
     const lm = M.levels[level.id];
     if (!lm) { bad(`레벨 ${level.id} 소리 정보 없음`); continue; }
+    if ((level.schema_version || 2) >= 3) {
+      const r3 = placeMelodyV3(level, lm, R, M.melody_r3);
+      if (!r3) { bad(`레벨 ${level.id} v3 별 목록을 읽지 못함 — sound-check 어댑터(starSlotsV3)를 balance 형식에 맞춰야 함`); continue; }
+      const starSet = new Set(r3.abs);
+      const c = r3.notes.filter((n) => starSet.has(n.abs)).length;
+      clash += c; total += r3.notes.length;
+      rows.push(`${level.id}(v3): 음 ${r3.notes.length} 옮김 ${r3.shifted} 뺌 ${r3.dropped}`);
+      for (const q of comboChordSlots(r3.abs, M.combo_r3)) { if (q.at != null && starSet.has(q.at)) comboClash++; comboRows.push(`${level.id}:${q.step}→${q.at ?? '넘김'}`); }
+      continue;
+    }
+    { const abs = absOfV2(level), set = new Set(abs); for (const q of comboChordSlots(abs, M.combo_r3)) { if (q.at != null && set.has(q.at)) comboClash++; comboRows.push(`${level.id}:${q.step}→${q.at ?? '넘김'}`); } }
     const { notes, dropped, shifted } = placeMelody(level, lm, R);
     const main = notes.filter((n) => !n.harmony);
     for (const n of main) {
@@ -93,6 +164,17 @@ export function placeMelody(level, lm, rule) {
   console.log('멜로디', rows.join(' / '));
   console.log(`멜로디 음 ${total}개, 별 시각에 시작 ${clash}개`);
   if (clash) bad('별 시각에 시작하는 멜로디 음');
+  console.log(`콤보 단계 화음 자리(모두 이어 친 경우, 레벨:단계→8분 자리) ${comboRows.join(' ')} / 별 자리와 겹침 ${comboClash}개`);
+  if (comboClash) bad('콤보 화음이 판정 별 자리에 놓임');
+}
+// 콤보 소리 형식 (music.combo_r3)
+{
+  const C = M.combo_r3;
+  if (!C) bad('music.combo_r3 없음');
+  else {
+    for (const n of Object.values(C.steps)) if (!S.sounds[n] || S.sounds[n].bus !== 'sfx') bad(`콤보 소리 ${n} 없음 또는 sfx 버스 아님(크기 순서 검사 대상이어야 함)`);
+    if (C.break_sound != null) bad('콤보 끊김은 소리 없음(djmax-judgement 4-5)');
+  }
 }
 
 // 3) 크기 (오프라인 렌더)
