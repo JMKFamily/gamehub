@@ -73,12 +73,26 @@
   "levels": [
     "levels/01-level1.json",
     "levels/02-level2.json",
-    "levels/03-level3.json"
+    "levels/03-level3.json",
+    "levels/04-level4.json",
+    "levels/05-level5.json",
+    "levels/06-level6.json",
+    "levels/07-level7.json",
+    "levels/08-level8.json",
+    "levels/09-level9.json",
+    "levels/10-level10.json"
   ],
 
   "verify_min_window_ms": {
     "01": 250,
-    "02": 160,
-    "03": 160
+    "02": 190,
+    "03": 160,
+    "04": 160,
+    "05": 160,
+    "06": 160,
+    "07": 160,
+    "08": 160,
+    "09": 160,
+    "10": 160
   }
 }

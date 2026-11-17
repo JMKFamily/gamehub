@@ -13,7 +13,12 @@ const gauss = () => { let u = 0, v = 0; while (!u) u = rnd(); while (!v) v = rnd
 const profiles = { skilled_sd25: { sd: 25, miss: 0, extra: 0 }, novice_sd50: { sd: 50, miss: 0.01, extra: 0.01 }, child_sd70: { sd: 70, miss: 0.03, extra: 0.02 }, child_sd90: { sd: 90, miss: 0.05, extra: 0.03 } };
 const ncdf = (z) => { const t = 1 / (1 + 0.2316419 * Math.abs(z)); const d = 0.3989423 * Math.exp(-z * z / 2); const p = d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))); return z > 0 ? 1 - p : p; };
 const out = {};
-for (const f of bal.levels) {
+// 사용: node tools/sim/bots.mjs [N] [프로필|all] [레벨 id 목록, 쉼표]  예) node tools/sim/bots.mjs 20000 skilled_sd25 04,05
+if (process.argv[3] === 'all') process.argv[3] = '';
+const onlyIds = process.argv[4] && process.argv[4] !== 'all' ? process.argv[4].split(',') : null;
+// 5번째 인자: 세션 수 (0이면 생략). 예) node tools/sim/bots.mjs 2000 child_sd70 all 1000
+const SESS = +(process.argv[5] || 0), CAP = 300;
+for (const f of bal.levels.filter((f) => !onlyIds || onlyIds.some((id) => f.includes('/' + id + '-')))) {
   const lvl = JSON.parse(readFileSync(P + f, 'utf8'));
   const L = compileLevel(lvl, bal);
   const v = verifyLevel(P + f, bal);
@@ -52,7 +57,15 @@ for (const f of bal.levels) {
     // 해석값: 탭별 창(중심 대칭 가정) 안에 들 확률 × (1-놓침)
     const ana = v.inputs.reduce((a, r) => a * (1 - p.miss) * (ncdf((r.late_ms) / p.sd) - ncdf(-(r.early_ms) / p.sd)), 1);
     const pc = clears / N;
-    res[pn] = { clear_rate: +pc.toFixed(3), expected_attempts: pc ? +(1 / pc).toFixed(1) : null, median_first_clear: pc ? Math.max(1, Math.ceil(Math.log(0.5) / Math.log(1 - pc))) : null, mean_progress: +(prog / N).toFixed(1), top_death_cluster_share: deaths.length ? +(best / deaths.length).toFixed(3) : 0, top_death_x: bx == null ? null : +bx.toFixed(1), deaths: deaths.length, analytic_clear: +ana.toFixed(3) };
+    // 세션 시뮬레이션: 클리어할 때까지 시도를 반복해 "첫 클리어까지 시도 횟수"를 직접 센다 (상한 CAP, 넘으면 CAP+1로 기록)
+    let session = null;
+    if (SESS > 0) {
+      const a = [];
+      for (let s = 0; s < SESS; s++) { let n = 1; while (n <= CAP && !attempt(p).clear) n++; a.push(n); }
+      a.sort((x, y) => x - y);
+      session = { sessions: SESS, cap: CAP, median: a[Math.floor(SESS / 2)], p25: a[Math.floor(SESS / 4)], p75: a[Math.floor(SESS * 3 / 4)], over_cap: a.filter((n) => n > CAP).length };
+    }
+    res[pn] = { session_first_clear: session, clear_rate: +pc.toFixed(3), expected_attempts: pc ? +(1 / pc).toFixed(1) : null, median_first_clear: pc ? Math.max(1, Math.ceil(Math.log(0.5) / Math.log(1 - pc))) : null, mean_progress: +(prog / N).toFixed(1), top_death_cluster_share: deaths.length ? +(best / deaths.length).toFixed(3) : 0, top_death_x: bx == null ? null : +bx.toFixed(1), deaths: deaths.length, analytic_clear: +ana.toFixed(3) };
   }
   out[lvl.id] = res;
 }
