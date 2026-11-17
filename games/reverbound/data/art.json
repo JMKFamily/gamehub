@@ -1,5 +1,5 @@
 {
- "_source": "projects/runner-01/30-art.md 2절·6절 (sync-data.mjs 생성, 직접 고치지 말 것)",
+ "_source": "projects/runner-01/30-art.md 2절·2-2-1·6절 + data/provisional-art.json 임시값 (sync-data.mjs 생성, 직접 고치지 말 것)",
  "palette": {
   "level1": {
    "bg": "#222B37",
@@ -21,6 +21,55 @@
    "bgPulse": "#2B3644",
    "bgAccent": "#302F25",
    "ground": "#6F8597"
+  },
+  "level4": {
+   "bg": "#15282B",
+   "bgFar": "#1C3438",
+   "bgPulse": "#243B3E",
+   "bgAccent": "#1F3344",
+   "ground": "#658A85"
+  },
+  "level5": {
+   "bg": "#161E33",
+   "bgFar": "#1F2A44",
+   "bgPulse": "#26304A",
+   "bgAccent": "#33304A",
+   "ground": "#73819F"
+  },
+  "level6": {
+   "bg": "#241A33",
+   "bgFar": "#30244A",
+   "bgPulse": "#382B50",
+   "bgAccent": "#3A2A4E",
+   "ground": "#8A78A8"
+  },
+  "level7": {
+   "bg": "#10161C",
+   "bgFar": "#1A222B",
+   "bgPulse": "#232D38",
+   "bgAccent": "#1D2A33",
+   "ground": "#6C8094"
+  },
+  "level8": {
+   "bg": "#142218",
+   "bgFar": "#1C2E21",
+   "bgPulse": "#243826",
+   "bgAccent": "#2E3320",
+   "ground": "#6A8865"
+  },
+  "level9": {
+   "bg": "#1C1A38",
+   "bgFar": "#272550",
+   "bgPulse": "#2E2C55",
+   "bgAccent": "#33304E",
+   "ground": "#7E7AB0"
+  },
+  "level10": {
+   "bg": "#2A1628",
+   "bgFar": "#3A1F36",
+   "bgPulse": "#42253C",
+   "bgAccent": "#45282E",
+   "ground": "#987289"
   }
  },
  "common": {
@@ -36,6 +85,18 @@
   "gateFast": "#F28AD0",
   "hud": "#F4F0E8"
  },
+ "cardTint": {
+  "level1": "#F2C38B",
+  "level2": "#F28AD0",
+  "level3": "#8FB8FF",
+  "level4": "#6FDCD2",
+  "level5": "#CFE06A",
+  "level6": "#C59CF5",
+  "level7": "#E2ECF2",
+  "level8": "#8EE08A",
+  "level9": "#A8A8FF",
+  "level10": "#FF9F7A"
+ },
  "clear": {
   "level1": [
    "#F2C38B"
@@ -47,6 +108,197 @@
   "level3": [
    "#FFD66B",
    "#8FB8FF"
+  ],
+  "level4": [
+   "#6FDCD2",
+   "#8FB8FF"
+  ],
+  "level5": [
+   "#CFE06A",
+   "#F28AD0"
+  ],
+  "level6": [
+   "#C59CF5",
+   "#5FE0C0"
+  ],
+  "level7": [
+   "#E2ECF2",
+   "#8FB8FF"
+  ],
+  "level8": [
+   "#8EE08A",
+   "#F28AD0"
+  ],
+  "level9": [
+   "#A8A8FF",
+   "#F2C38B"
+  ],
+  "level10": [
+   "#FF9F7A",
+   "#FFD66B",
+   "#F28AD0"
   ]
+ },
+ "card_object": {
+  "level1": "spike",
+  "level2": "stairs",
+  "level3": "pad",
+  "level4": "platform",
+  "level5": "gate_fast",
+  "level6": "orb",
+  "level7": "spike_ceiling",
+  "level8": "gate_slow",
+  "level9": "platform_stairs",
+  "level10": "sun"
+ },
+ "motifs": {
+  "level4": [
+   "drop",
+   "drops",
+   "cloud"
+  ],
+  "level5": [
+   "wheels",
+   "rail",
+   "hill"
+  ],
+  "level6": [
+   "bubble",
+   "bubbles",
+   "hill"
+  ],
+  "level7": [
+   "arch",
+   "stalactite",
+   "arch"
+  ],
+  "level8": [
+   "flower",
+   "shell",
+   "hill"
+  ],
+  "level9": [
+   "cloud",
+   "cloud",
+   "bubbles"
+  ],
+  "level10": [
+   "sun",
+   "stage",
+   "cloud"
+  ]
+ },
+ "gimmicks": {
+  "gate_height_t": 3,
+  "gate_rest_on_support": true,
+  "platform_visual_t": 0.22,
+  "ceiling_hanger": "rod"
+ },
+ "provisional": {
+  "level4": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level5": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level6": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level7": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level8": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level9": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ],
+  "level10": [
+   "palette",
+   "cardTint",
+   "clear",
+   "motifs",
+   "card_object",
+   "gimmick_shapes",
+   "music"
+  ]
+ },
+ "contrast": {
+  "level1": {
+   "pairs": 27,
+   "hazard_min": 5.45
+  },
+  "level2": {
+   "pairs": 27,
+   "hazard_min": 5.63
+  },
+  "level3": {
+   "pairs": 27,
+   "hazard_min": 5.38
+  },
+  "level4": {
+   "pairs": 27,
+   "hazard_min": 5.21
+  },
+  "level5": {
+   "pairs": 27,
+   "hazard_min": 5.55
+  },
+  "level6": {
+   "pairs": 27,
+   "hazard_min": 5.66
+  },
+  "level7": {
+   "pairs": 27,
+   "hazard_min": 6.14
+  },
+  "level8": {
+   "pairs": 27,
+   "hazard_min": 5.53
+  },
+  "level9": {
+   "pairs": 27,
+   "hazard_min": 5.51
+  },
+  "level10": {
+   "pairs": 27,
+   "hazard_min": 5.78
+  }
  }
 }

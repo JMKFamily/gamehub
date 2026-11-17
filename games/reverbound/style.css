@@ -8,7 +8,8 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--hud);
   font-family: system-ui, -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
-  touch-action: none; user-select: none; -webkit-user-select: none; overscroll-behavior: none; }
+  touch-action: none; user-select: none; -webkit-user-select: none; overscroll-behavior: none;
+  word-break: keep-all; overflow-wrap: break-word; } /* 한국어 낱말 중간 줄바꿈 금지 (round-1 S26) */
 canvas { position: fixed; inset: 0; display: block; touch-action: none; }
 .hidden { display: none !important; }
 button { font: inherit; color: inherit; touch-action: manipulation; cursor: pointer; }
@@ -36,11 +37,15 @@ button { font: inherit; color: inherit; touch-action: manipulation; cursor: poin
 .cue { position: fixed; left: 50%; top: calc(var(--sat) + 64px); transform: translateX(-50%); z-index: 4; pointer-events: none;
   display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-radius: 16px; background: rgba(13,15,20,.6); border: 2px solid var(--hud);
   font-weight: 800; font-size: 16px; max-width: calc(100vw - 32px); }
-.cue svg { width: 48px; height: 48px; flex: none; }
+.cue svg { width: 72px; height: 72px; flex: none; } /* 30-art 5-3: 그림 72 px (세로 64 px) */
 .clearIco { width: 72px; height: 72px; color: var(--player); filter: drop-shadow(0 3px 0 var(--outline)); }
 .toast { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 6; pointer-events: none; font-weight: 900; font-size: 22px;
   text-align: center; text-shadow: 0 2px 0 var(--outline); max-width: calc(100vw - 32px); }
 .toast small { display: block; font-size: 15px; font-weight: 700; margin-top: 4px; }
+.toastIco { display: block; margin: 0 auto 4px; width: 72px; height: 72px; }
+.toastIco svg, .toast .ico.lg { width: 72px; height: 72px; }
+/* 30-art 5-7: 클리어 순간 HUD 페이드아웃(main.js updateHud, 게임 시간 0.2 s), 입력 받지 않음 */
+#hud.fade, #hud.fade * { pointer-events: none !important; }
 
 /* 손가락 시연 (월드 좌표에 붙음, main.js가 위치 갱신) */
 #demo { position: fixed; z-index: 3; pointer-events: none; width: 72px; height: 72px; margin: -8px 0 0 -36px; }
@@ -73,17 +78,56 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .seg { display: inline-flex; border: 3px solid var(--outline); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 0 var(--outline); }
 .seg button { min-height: 48px; padding: 6px 16px; border: 0; background: var(--bgFar); color: var(--hud); font-weight: 800; font-size: 15px; display: inline-flex; align-items: center; gap: 8px; }
 .seg button.on { background: var(--hud); color: var(--outline); }
-.cards { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; overflow-y: auto; max-height: calc(100% - 80px); padding: 4px 4px 12px; touch-action: pan-y; }
-.card { width: 200px; min-height: 150px; border-radius: 18px; border: 3px solid var(--outline); padding: 12px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; text-align: left;
-  box-shadow: 0 5px 0 var(--outline); position: relative; color: var(--hud); }
-.card .num { font-size: 34px; font-weight: 900; line-height: 1; }
-.card .nm { font-size: 17px; font-weight: 900; }
-.card .tag { font-size: 14px; font-weight: 600; opacity: .9; }
-.card .best { font-size: 14px; font-weight: 800; }
-.card .badge { position: absolute; right: 10px; top: 10px; background: var(--trigger); color: var(--outline); border-radius: 99px; padding: 2px 10px; font-size: 14px; font-weight: 900; display: inline-flex; align-items: center; gap: 4px; }
-.card.locked { opacity: .6; }
-.card .lockIco { position: absolute; right: 12px; top: 12px; }
-.card .starRow { display: flex; gap: 3px; }
+/* 레벨 선택: 카드 10장 격자 (main.js layoutCards 가 --cols --cw --ch 를 정함) */
+#levels { justify-content: flex-start; }
+.cards { display: grid; grid-template-columns: repeat(var(--cols, 5), var(--cw, 200px)); grid-auto-rows: var(--ch, 150px); gap: var(--gap, 14px);
+  justify-content: center; align-content: start; overflow-y: auto; overflow-x: hidden; max-width: 100%; flex: 1 1 auto; min-height: 0; padding: 4px; touch-action: pan-y; }
+.cards.scroll { padding-bottom: 28px; }
+.card { width: var(--cw, 200px); height: var(--ch, 150px); border-radius: 14px; border: 3px solid var(--outline); padding: 0; display: flex; flex-direction: column; gap: 1px; align-items: stretch; text-align: left;
+  box-shadow: 0 4px 0 var(--outline); position: relative; color: var(--hud); overflow: hidden; }
+.card > .top, .card > .nm, .card > .tag { padding: 0 8px; }
+.card .top { display: flex; align-items: center; gap: 5px; padding-top: 4px; padding-right: 30px; }
+.card .num { font-size: clamp(18px, calc(var(--ch) * 0.17), 34px); font-weight: 900; line-height: 1.05; }
+.card .nm { font-size: clamp(12.5px, calc(var(--ch) * 0.115), 18px); font-weight: 900; line-height: 1.12; }
+.card .tag { display: none; font-size: 14px; font-weight: 600; opacity: .9; line-height: 1.2; }
+.cards.roomy .card .tag { display: block; }
+.card .starRow { display: flex; gap: 1px; flex-wrap: nowrap; }
+.card .starRow .ico { width: clamp(11px, calc(var(--ch) * 0.1), 20px); height: clamp(11px, calc(var(--ch) * 0.1), 20px); }
+/* 지면 띠 (카드 아래 28 %): ground + groundEdge 3 px + outline 2 px. 최고 % 는 띠 안에 outline 색 글자 */
+.card .band { position: absolute; left: 0; right: 0; bottom: 0; height: 28%; background: var(--ground); border-top: 3px solid var(--groundEdge); box-shadow: 0 -2px 0 var(--outline);
+  display: flex; align-items: center; padding: 0 8px; }
+.card .best { font-size: clamp(11px, calc(var(--ch) * 0.1), 15px); font-weight: 900; color: var(--outline); white-space: nowrap; position: relative; z-index: 1; }
+.card .obj { position: absolute; left: 50%; bottom: calc(100% + 3px); transform: translateX(-50%); height: max(24px, min(calc(var(--ch) * 0.25), calc(var(--ch) * 0.2 + 6px))); display: flex; }
+.card .obj svg { height: 100%; width: auto; overflow: visible; }
+.card .obj.objIn { bottom: 3px; left: auto; right: 6px; transform: none; height: calc(100% - 6px); }
+.card .badge { position: absolute; right: 5px; top: 5px; background: var(--trigger); color: var(--outline); border-radius: 99px; padding: 1px; min-width: 22px; height: 22px; font-size: 13px; font-weight: 900;
+  display: inline-flex; align-items: center; justify-content: center; gap: 3px; border: 2px solid var(--outline); }
+.card .badge .ico { width: 16px; height: 16px; }
+.card .badge .bt { display: none; }
+.cards.roomy .card .badge { padding: 1px 8px 1px 4px; }
+.cards.roomy .card .badge .bt { display: inline; }
+.card.locked > *:not(.lockWrap) { opacity: .45; }
+.card .lockWrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.card .lockWrap .lockIco { position: static; width: 34px; height: 34px; color: var(--hud); filter: drop-shadow(0 2px 0 var(--outline)); }
+.moreHint { position: absolute; left: 50%; bottom: calc(var(--sab) + 6px); transform: translateX(-50%); width: 48px; height: 28px; border-radius: 14px; background: var(--hud); color: var(--outline);
+  font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 2px 0 var(--outline); }
+/* 레벨 선택 위 줄: 뒤로 버튼과 모드 토글이 겹치지 않게 같은 흐름에 둠 (round-1 S13) */
+#levels .topRow { justify-content: flex-start; gap: 10px; flex: none; }
+#levels .topRow .btn.back { position: static; flex: none; }
+#levels .seg { flex: 0 1 auto; margin: 0 auto; min-width: 0; }
+#levels .seg button { flex: 1 1 0; min-width: 0; padding: 6px 12px; white-space: nowrap; }
+/* 일시정지 연습 모드 토글 모양 (켜짐/꺼짐) */
+.pill { display: inline-flex; align-items: center; gap: 6px; margin-left: 4px; padding: 2px 10px 2px 4px; border-radius: 99px; background: var(--bgFar); color: var(--hud); border: 2px solid var(--outline); font-size: 14px; }
+.pill i { width: 18px; height: 18px; border-radius: 50%; background: var(--hud); border: 2px solid var(--outline); }
+.pill.on { background: var(--trigger); color: var(--outline); flex-direction: row-reverse; padding: 2px 4px 2px 10px; }
+/* 타이틀 "눌러서 시작" 손가락 (30-art 5-4): 40 px 이상, hud 불투명, 1 s 주기 누름 + 손끝 링 */
+.tapFinger { width: 48px; height: 58px; flex: none; color: var(--hud); overflow: visible; }
+.tapFinger .f { animation: tapPress 1s ease-in-out infinite; }
+.tapFinger .rg { transform-box: fill-box; transform-origin: center; animation: tapRing 1s ease-out infinite; }
+@keyframes tapPress { 0%, 100% { transform: translateY(0); } 40%, 55% { transform: translateY(4px); } }
+@keyframes tapRing { 0%, 35% { opacity: 0; transform: scale(.5); } 45% { opacity: 1; transform: scale(.5); } 100% { opacity: 0; transform: scale(1); } }
+#tapStartText.pulse { animation: none; flex-direction: column; gap: 6px; }
+@media (prefers-reduced-motion: reduce) { .tapFinger .f { animation: none; } .pulse { animation: none; } }
 .panel { display: flex; flex-direction: column; gap: 10px; width: min(560px, 100%); background: rgba(13,15,20,.55); border: 2px solid var(--hud); border-radius: 18px; padding: 14px;
   overflow-y: auto; max-height: calc(100% - 70px); touch-action: pan-y; text-align: left; }
 .row { display: flex; align-items: center; gap: 12px; min-height: 48px; font-weight: 800; font-size: 15px; }
@@ -107,12 +151,14 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
   .att { font-size: 14px; } .att.big { font-size: 20px; }
   .cue { top: calc(var(--sat) + 86px); font-size: 14px; width: calc(100vw - 32px); }
 }
+@media (max-width: 560px) { .cue svg { width: 64px; height: 64px; } }
+.panel.more { box-shadow: inset 0 -18px 12px -10px rgba(13,15,20,.85); }
 @media (orientation: landscape) and (max-height: 480px) {
-  .cards { flex-wrap: nowrap; }
-  .card { width: min(200px, calc((100vw - 72px) / 3)); min-height: 0; padding: 10px; }
-  .card .num { font-size: 26px; }
-  .card .nm { font-size: 15px; }
   .screen { gap: 8px; }
   .btn.primary { min-height: 56px; }
+  /* 640x360 설정: 2열로 스크롤 없이 (round-1 S14) */
+  .panel { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 6px; width: min(760px, 100%); padding: 10px 12px; }
+  .panel #offsetHelp { grid-column: 1 / -1; }
+  .panel .row input[type=range] { min-width: 70px; }
 }
 

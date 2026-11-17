@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | game-developer | round-2 | [round-2 빌드 (레벨 10개, round-1 개발 이슈 처리, 레벨 4~10 임시 아트)](game-developer/2026-11-17-r2-build.md) |
 | 2026-11-17 | lore-writer | round-2 | [레벨 10개 확장 텍스트 (레벨 4~10 이름, 튜토리얼 키 5개)](lore-writer/2026-11-17-r2-levels-10-text.md) |
 | 2026-11-17 | balance-designer | round-2 | [레벨 10개 확장 (레벨 4~10 추가, 반려 후 레벨 2~10 수정)](balance-designer/2026-11-17-r2-levels-10.md) |
 | 2026-11-17 | balance-designer | round-2 | [round-2 밸런스 재설계 (실측 물리, 기믹 축소, 레벨 1 아동 기준)](balance-designer/2026-11-17-r2-balance-redesign.md) |

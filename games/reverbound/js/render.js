@@ -17,6 +17,7 @@ const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   const ctx = canvas.getContext('2d', { alpha: false });
   const C = art.common;
+  const GIM = art.gimmicks ?? {};
   const R = { W: 0, H: 0, dpr: 1, T: 36, gameTop: 0, gameH: 0, groundPx: 0, playerRatio: bal.player_screen_x_ratio, portrait: false, shakeOn: true, rand };
   // 연출 상태
   const parts = Array.from({ length: MAX_PARTICLES }, () => ({ on: false }));
@@ -56,13 +57,36 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       if (g && g.y === o.y && Math.abs(o.x - g.x1) < 0.02) { g.x1 = o.x + 1; g.n++; }
       else groups.push({ x0: o.x, x1: o.x + 1, y: o.y, n: 1 });
     }
+    // 맞닿은 블록 묶음 (30-art 3절 규칙 6): 레벨 로드 때 한 번. 모든 블록이 y 0 기둥이라 스카이라인 다각형
+    const blocks = objs.filter((o) => o.type === "block").sort((a, b) => a.x - b.x);
+    const bgroups = [];
+    for (const o of blocks) {
+      const g = bgroups[bgroups.length - 1], x1 = o.x + (o.w ?? 1);
+      if (g && o.x <= g.x1 + 0.01) { g.items.push(o); g.x1 = Math.max(g.x1, x1); } else bgroups.push({ x0: o.x, x1, items: [o] });
+    }
+    for (const g of bgroups) {
+      const xs = [...new Set(g.items.flatMap((o) => [o.x, o.x + (o.w ?? 1)]))].sort((a, b) => a - b);
+      const runs = [];
+      for (let i = 0; i + 1 < xs.length; i++) {
+        const a = xs[i], b = xs[i + 1], m = (a + b) / 2;
+        let h = 0; for (const o of g.items) if (o.x <= m && m <= o.x + (o.w ?? 1)) h = Math.max(h, o.h ?? 1);
+        const last = runs[runs.length - 1];
+        if (last && Math.abs(last.h - h) < 1e-6) last.b = b; else runs.push({ a, b, h });
+      }
+      g.runs = runs;
+      g.inner = xs.slice(1, -1).map((x) => ({ x, h: Math.min(...runs.filter((r) => r.a <= x + 1e-6 && r.b >= x - 1e-6).map((r) => r.h)) }));
+      g.hmax = Math.max(...runs.map((r) => r.h));
+      g.wide = runs.reduce((p, r) => (r.b - r.a > p.b - p.a ? r : p), runs[0]);
+    }
+    // 템포 문 받침 높이: 문 x를 덮는 블록 윗면 (문은 언제나 땅·상자 위, 20-balance 14-3)
+    const gateBase = (L.portals || []).map((p) => { let y = 0; for (const o of blocks) if (o.x <= p.x && p.x <= o.x + (o.w ?? 1)) y = Math.max(y, o.h ?? 1); return y; });
     // 배경 도형 (결정적 배치)
     let s = 99 + L.level.id.charCodeAt(1);
     const r = () => ((s = (s * 16807) % 2147483647) / 2147483647);
     const far = [], mid = [];
     for (let i = 0; i < 60; i++) far.push({ x: i * 9 + r() * 4, h: 3 + r() * 3, w: 2 + r() * 3, k: Math.floor(r() * 3) });
     for (let i = 0; i < 80; i++) mid.push({ x: i * 7 + r() * 3, h: 1.5 + r() * 2.5, w: 1.2 + r() * 2, k: Math.floor(r() * 3), a: r() < 0.35 });
-    prep = { L, groups, far, mid, theme: L.level.theme_id, env: art.palette[L.level.theme_id] ?? art.palette.level1 };
+    prep = { L, groups, bgroups, gateBase, far, mid, theme: L.level.theme_id, env: art.palette[L.level.theme_id] ?? art.palette.level1 };
     fx.padHit.clear(); fx.orbHit.clear();
   };
 
@@ -93,12 +117,13 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   R.onPad = (o) => fx.padHit.set(o, 0);
   R.onOrb = (o, px, py) => { fx.orbHit.set(o, 0); fx.orbTrail.push({ x: px, y: py, t: 0 }); };
   R.onGate = (i) => { fx.gateT = 0; fx.gateIdx = i; };
-  R.onDeath = (x, y, deathFx) => {
-    fx.deathT = 0; fx.deathX = x; fx.deathY = y; fx.deathFx = deathFx;
+  R.onDeath = (x, y, deathFx, restartS = deathFx) => {
+    fx.deathT = 0; fx.deathX = x; fx.deathY = y; fx.deathFx = deathFx; fx.restartS = restartS;
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * Math.PI * 2 + R.rand() * 0.4;
       const sp = 4 + R.rand() * 5;
-      spawn({ x: x + 0.5, y: y + 0.5, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp + 3, life: deathFx * 0.7, max: deathFx * 0.7, size: 0.26, color: i < 6 ? C.player : C.hazard, shape: 'oct', vr: (R.rand() - 0.5) * 12, g: 18 });
+      // 조각은 날아가 바닥에 떨어져 멈추고, 재시작 페이드까지 남음 (30-art 6절)
+      spawn({ x: x + 0.5, y: y + 0.5, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp + 3, life: restartS, max: restartS, size: 0.26, color: i < 6 ? C.player : C.hazard, shape: 'oct', vr: (R.rand() - 0.5) * 12, g: 18, floor: true });
     }
     ring({ kind: 'burst', x: x + 0.5, y: y + 0.5, t: 0, dur: deathFx * 0.7, delay: 0 });
     ring({ kind: 'burst', x: x + 0.5, y: y + 0.5, t: 0, dur: deathFx * 0.7, delay: 0.06 });
@@ -107,7 +132,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   R.onClear = (camX) => {
     fx.clearT = 0; fx.clearCam = camX;
     const cols = [C.player, C.trigger, C.gateSlow, C.gateFast, C.groundEdge, ...(art.clear[prep?.theme] ?? [])];
-    for (let i = 0; i < 24; i++) spawn({ x: camX + R.rand() * (R.W / R.T), y: (R.groundPx - R.gameTop) / R.T + 1 + R.rand() * 3, vx: (R.rand() - 0.5) * 2, vy: -R.rand() * 2, life: 1.6, max: 1.6, size: 0.14 + R.rand() * 0.08, color: cols[i % cols.length], vr: (R.rand() - 0.5) * 8, g: 4, shape: i % 2 ? 'sq' : 'circ', world: true });
+    const topY = (R.groundPx - (R.portrait ? 0 : R.gameTop)) / R.T;
+    for (let i = 0; i < 24; i++) spawn({ x: camX + R.rand() * (R.W / R.T), y: topY - 1 + R.rand() * 3, vx: (R.rand() - 0.5) * 2, vy: -R.rand() * 2, life: 1.6, max: 1.6, size: 0.14 + R.rand() * 0.08, color: cols[i % cols.length], vr: (R.rand() - 0.5) * 8, g: 4, shape: i % 2 ? 'sq' : 'circ', world: true });
     R.shake(0.05, 0.2);
   };
   R.shake = (amp, dur) => { if (!R.shakeOn) return; fx.shakeA = amp; fx.shakeT = 0; fx.shakeDur = dur; };
@@ -125,6 +151,7 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       p.life -= dt;
       if (p.life <= 0) { p.on = false; continue; }
       p.vy -= p.g * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
+      if (p.floor && p.y < 0.13) { p.y = 0.13; p.vy = 0; p.vx *= 0.8; p.vr *= 0.8; }
     }
     for (const q of rings) {
       if (!q.on) continue;
@@ -171,6 +198,59 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     ctx.arc(Math.floor(w / 2) + 0.62, Math.floor(h / 2) + 0.48, 0.09, 0, Math.PI * 2); ctx.fill();
     ctx.globalAlpha = 1;
     ctx.fillStyle = C.groundEdge; ctx.fillRect(0.06, 0.06, w - 0.12, 0.08);
+    ctx.restore();
+  }
+  // 블록 묶음: 바깥 둘레 경로 하나 (볼록 모서리만 r 0.04), 안쪽 경계 옅은 선, 윗면 띠는 높이 구간마다 한 줄, 장식 1세트
+  function drawBlockGroup(g, env) {
+    const I = 0.03, rad = 0.04;
+    const pts = [[g.x0 + I, I]];
+    g.runs.forEach((r, i) => {
+      const prevH = i ? g.runs[i - 1].h : 0;
+      const xl = i === 0 ? g.x0 + I : r.h > prevH ? r.a + I : r.a - I;
+      if (i) pts.push([xl, prevH - I]);
+      pts.push([xl, r.h - I]);
+      if (i === g.runs.length - 1) pts.push([g.x1 - I, r.h - I], [g.x1 - I, I]);
+    });
+    // 월드(y 위) → 화면 좌표
+    const P = pts.map(([x, y]) => [sx(x), sy(y)]);
+    const n = P.length;
+    ctx.beginPath();
+    const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+    const m0 = mid(P[n - 1], P[0]);
+    ctx.moveTo(m0[0], m0[1]);
+    for (let i = 0; i < n; i++) {
+      const a = P[(i + n - 1) % n], b = P[i], c = P[(i + 1) % n];
+      const cross = (b[0] - a[0]) * (c[1] - b[1]) - (b[1] - a[1]) * (c[0] - b[0]);
+      const m = mid(b, c);
+      // 화면 좌표(y 아래)에서 시계 방향 경로: cross > 0 = 볼록
+      ctx.arcTo(b[0], b[1], m[0], m[1], cross > 0 ? rad * T : 0);
+    }
+    ctx.closePath();
+    ctx.fillStyle = env.ground; ctx.fill();
+    ctx.lineWidth = lw * T; ctx.lineJoin = 'miter'; ctx.strokeStyle = C.outline; ctx.stroke();
+    // 안쪽 칸 경계 (0.03, 25 %)
+    ctx.save(); ctx.translate(sx(0), sy(0)); ctx.scale(T, -T);
+    ctx.globalAlpha = 0.25; ctx.lineWidth = 0.03; ctx.beginPath();
+    for (const r of g.runs) {
+      for (let x = Math.ceil(r.a + 1e-6); x < r.b - 1e-6; x++) { ctx.moveTo(x, 0.06); ctx.lineTo(x, r.h - 0.06); }
+      for (let y = 1; y < r.h - 1e-6; y++) { ctx.moveTo(r.a + (r === g.runs[0] ? 0.06 : 0), y); ctx.lineTo(r.b - (r === g.runs[g.runs.length - 1] ? 0.06 : 0), y); }
+    }
+    for (const e of g.inner) { ctx.moveTo(e.x, 0.06); ctx.lineTo(e.x, e.h - 0.06); }
+    ctx.stroke();
+    // 장식 1세트: 가장 넓은 면의 가운데 칸
+    const w = g.wide, cx = Math.floor((w.a + w.b) / 2 - 0.5 + 1e-6), cy = Math.max(0, Math.floor(w.h / 2 - 0.5 + 1e-6));
+    const top = cy + 1; // 칸 윗변 (y 위)
+    ctx.lineCap = 'round'; ctx.beginPath();
+    ctx.moveTo(cx + 0.14, top - 0.4); ctx.lineTo(cx + 0.4, top - 0.4); ctx.moveTo(cx + 0.56, top - 0.76); ctx.lineTo(cx + 0.86, top - 0.76); ctx.stroke();
+    ctx.fillStyle = C.outline; ctx.beginPath(); ctx.arc(cx + 0.62, top - 0.48, 0.09, 0, Math.PI * 2); ctx.fill();
+    ctx.globalAlpha = 1;
+    // 윗면 띠: 높이 구간마다 끊김 없는 한 줄, 계단 턱에서만 끊김
+    ctx.fillStyle = C.groundEdge;
+    g.runs.forEach((r, i) => {
+      const lh = i ? g.runs[i - 1].h : 0, rh = i < g.runs.length - 1 ? g.runs[i + 1].h : 0;
+      const a = i === 0 || lh < r.h ? r.a + 0.06 : r.a, b = i === g.runs.length - 1 || rh < r.h ? r.b - 0.06 : r.b - 0.03;
+      ctx.fillRect(a, r.h - 0.14, b - a, 0.08);
+    });
     ctx.restore();
   }
   function drawPlatform(o, env) {
@@ -250,7 +330,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   }
   function drawGate(p, i) {
     const col = C[GATE_KEY[p.speed]], n = GATE_N[p.speed] ?? 2;
-    cell(p.x - 0.5, 3);
+    const base = GIM.gate_rest_on_support === false ? 0 : prep.gateBase[i] ?? 0;
+    cell(p.x - 0.5, base + 3);
     const flash = fx.gateIdx === i && fx.gateT < 0.1;
     rrect(0.18, 0.06, 0.64, 2.88, 0.32);
     ctx.globalAlpha = flash ? 1 : 0.12; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1;
@@ -284,8 +365,37 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   }
 
   // 배경 모티프 (30-art 1절): 둥근 도형만, 외곽선 없음
+  // 레벨 4~10 임시 모티프 (data/provisional-art.json motifs → art.json). 둥근 도형만
+  function shape(kind, x, base, w, h, color, accent) {
+    const circ = (cx, cy, r) => { ctx.beginPath(); ctx.arc(cx, cy, Math.max(0.5, r), 0, Math.PI * 2); ctx.fill(); };
+    ctx.fillStyle = color; ctx.strokeStyle = color;
+    switch (kind) {
+      case 'drop': { // 물방울: 원 + 둥근 꼭지 (뾰족한 꼭짓점 없음)
+        const r = w * 0.4, cy = base - h * 0.5;
+        circ(x + w / 2, cy, r);
+        ctx.beginPath(); ctx.moveTo(x + w / 2 - r * 0.7, cy - r * 0.6); ctx.quadraticCurveTo(x + w / 2, cy - r * 2.2, x + w / 2 + r * 0.7, cy - r * 0.6); ctx.fill();
+        break;
+      }
+      case 'drops': for (let i = 0; i < 3; i++) circ(x + w * (0.2 + i * 0.3), base - h * (0.4 + (i % 2) * 0.3), w * 0.12); break;
+      case 'cloud': circ(x + w * 0.3, base - h * 0.5, w * 0.25); circ(x + w * 0.55, base - h * 0.62, w * 0.3); circ(x + w * 0.8, base - h * 0.5, w * 0.22); rrect(x + w * 0.1, base - h * 0.5, w * 0.85, w * 0.22, w * 0.11); ctx.fill(); break;
+      case 'wheels': circ(x + w * 0.25, base - w * 0.25, w * 0.22); circ(x + w * 0.75, base - w * 0.25, w * 0.22); rrect(x, base - h * 0.75, w, h * 0.35, w * 0.08); ctx.fill(); break;
+      case 'rail': ctx.lineWidth = Math.max(2, h * 0.1); ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(x - w, base - h * 0.5); ctx.lineTo(x + w * 2, base - h * 0.5); ctx.stroke(); for (let i = 0; i < 4; i++) { rrect(x - w + i * w * 0.8, base - h * 0.5, w * 0.12, h * 0.5, w * 0.05); ctx.fill(); } break;
+      case 'hill': ctx.beginPath(); ctx.ellipse(x + w / 2, base, w * 0.9, h * 0.55, 0, Math.PI, 0); ctx.fill(); break;
+      case 'bubble': circ(x + w / 2, base - h * 0.6, w * 0.45); break;
+      case 'bubbles': circ(x + w * 0.3, base - h * 0.7, w * 0.18); circ(x + w * 0.7, base - h * 0.45, w * 0.26); break;
+      case 'arch': ctx.lineWidth = w * 0.2; ctx.beginPath(); ctx.moveTo(x, base); ctx.lineTo(x, base - h + w / 2); ctx.arc(x + w / 2, base - h + w / 2, w / 2, Math.PI, 0); ctx.lineTo(x + w, base); ctx.stroke(); break;
+      case 'stalactite': for (let i = 0; i < 3; i++) { rrect(x + i * w * 0.35, R.gameTop, w * 0.2, h * (0.5 + 0.25 * (i % 2)), w * 0.1); ctx.fill(); } break;
+      case 'flower': { const cx = x + w / 2, cy = base - h * 0.7; ctx.lineWidth = Math.max(2, w * 0.08); ctx.beginPath(); ctx.moveTo(cx, base); ctx.lineTo(cx, cy); ctx.stroke(); for (let i = 0; i < 5; i++) { const a = (i / 5) * Math.PI * 2; circ(cx + Math.cos(a) * w * 0.2, cy + Math.sin(a) * w * 0.2, w * 0.14); } if (accent) { ctx.fillStyle = accent; circ(cx, cy, w * 0.1); } break; }
+      case 'shell': circ(x + w * 0.45, base - w * 0.35, w * 0.35); if (accent) { ctx.fillStyle = accent; circ(x + w * 0.45, base - w * 0.35, w * 0.16); ctx.fillStyle = color; } rrect(x, base - w * 0.12, w, w * 0.12, w * 0.06); ctx.fill(); break;
+      case 'sun': ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.6, Math.PI, 0); ctx.fill(); if (accent) { ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.35, Math.PI, 0); ctx.fill(); } break;
+      case 'stage': ctx.lineWidth = Math.max(2, w * 0.1); ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.8, Math.PI, 0); ctx.stroke(); break;
+      default: circ(x + w / 2, base - h / 2, w * 0.4);
+    }
+  }
   function motif(theme, k, x, base, w, h, color, accent, lit) {
     ctx.fillStyle = color;
+    const gen = art.motifs?.[theme];
+    if (gen && !['level1', 'level2', 'level3'].includes(theme)) { shape(gen[k % gen.length], x, base, w, h, color, accent); return; }
     if (theme === 'level1') {
       if (k === 0) { // 소리굽쇠 U 기둥
         const bw = w * 0.22;
@@ -425,6 +535,7 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       const L = prep.L, objs = L.level.objects;
       const xl = camX - 1, xr = camX + R.W / T + 1;
       drawHangers(env);
+      for (const g of prep.bgroups) if (g.x1 >= xl && g.x0 <= xr) drawBlockGroup(g, env);
       let lo = 0, hi = objs.length;
       while (lo < hi) { const m = (lo + hi) >> 1; if (objs[m].x < xl - 25) lo = m + 1; else hi = m; }
       for (let i = lo; i < objs.length; i++) {
@@ -432,7 +543,7 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
         if (o.x > xr) break;
         if (o.x + (o.w ?? 1) < xl) continue;
         switch (o.type) {
-          case 'block': drawBlock(o, env); break;
+          case 'block': break; // 묶음으로 그림 (drawBlockGroup)
           case 'platform': drawPlatform(o, env); break;
           case 'pad': drawPad(o); break;
           case 'orb': drawOrb(o, pulse); break;
@@ -450,9 +561,11 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       const k = clamp01(fx.clearT / 1.2);
       const fxp = Math.min(R.W, sx(prep.L.level.length_tiles));
       const left = fxp - k * (fxp + 40);
-      const bandH = (base - R.gameTop) / cols.length;
+      // 세로 모드는 화면 전체 높이 (30-art 5-7), 가로는 바닥 위
+      const y0 = R.portrait ? -20 : R.gameTop, y1 = R.portrait ? R.H + 20 : base;
+      const bandH = (y1 - y0) / cols.length;
       ctx.globalAlpha = 0.9;
-      cols.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(left, R.gameTop + i * bandH, R.W - left + 20, bandH + 1); });
+      cols.forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(left, y0 + i * bandH, R.W - left + 20, bandH + 1); });
       ctx.globalAlpha = 1;
       if (theme === 'level3') { // 큰 종 실루엣이 한 번 흔들림
         const sw = Math.sin(fx.clearT * 8) * Math.exp(-fx.clearT * 2) * 0.3;
@@ -477,7 +590,7 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     // 사망 조각, 종이 조각
     for (const p of parts) {
       if (!p.on || !(p.shape === 'oct' || p.world)) continue;
-      ctx.save(); ctx.globalAlpha = clamp01(p.life / p.max * 2);
+      ctx.save(); ctx.globalAlpha = p.floor ? 1 : clamp01(p.life / p.max * 2);
       ctx.translate(sx(p.x), sy(p.y)); ctx.rotate(p.rot); ctx.scale(p.size * T, p.size * T);
       ctx.fillStyle = p.color;
       if (p.shape === 'oct') { ctx.translate(-0.5, -0.5); poly(OCT); ctx.fill(); }
@@ -489,8 +602,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     ctx.restore();
     // 사망 후 페이드 (bg 0→100%)
     if (fx.deathT >= 0) {
-      const d = fx.deathFx, fs = d * 0.7;
-      const a = clamp01((fx.deathT - fs) / (d - fs));
+      const end = fx.restartS ?? fx.deathFx, fs = end - 0.15;
+      const a = clamp01((fx.deathT - fs) / 0.15);
       if (a > 0) { ctx.globalAlpha = a; ctx.fillStyle = env.bg; ctx.fillRect(0, 0, R.W, R.H); ctx.globalAlpha = 1; }
     }
   };

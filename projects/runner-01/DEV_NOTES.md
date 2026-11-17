@@ -1,6 +1,6 @@
 # DEV_NOTES: runner-01 (Reverbound) 웹 빌드
 
-작성: game-developer, 2026-11-17 (1-3 웹 빌드)
+작성: game-developer, 2026-11-17 (1-3 웹 빌드) · 갱신: 2026-11-17 round-2 빌드 (레벨 10개, round-1 이슈 처리, 9~10절)
 
 ## 1. 구조
 
@@ -13,12 +13,13 @@ games/reverbound/
   js/audio.js     Web Audio 합성 음악·효과음 (30-art 7절)
   js/ads.js       광고 어댑터 (웹 더미)
   js/main.js      데이터 로드, UI, 입력, 저장, 오디오 시계 동기화, window.__game
-  data/           sync-data.mjs가 만든 파일 + music.json(손 작성)
+  data/           sync-data.mjs가 만든 파일 + music.json(손 작성) + provisional-art.json(개발 임시값 표, 9절)
 projects/runner-01/tools/
   sync-data.mjs          기획 데이터 → games/reverbound/data 복사·변환
   verify-levels.mjs      (수정) 물리를 games/reverbound/js/physics.js 에서 import
   selfcheck-sim.mjs      게임 코어에 검증기 입력열 재생 (node, 프레임 5종 × 홀드 2종)
-  selfcheck-browser.mjs  Playwright 자체 확인 (콘솔·외부 요청·HUD·스크린샷·세 레벨 클리어)
+  selfcheck-browser.mjs  (round-2부터 QA 담당 소관, 개발은 고치지 않음)
+  dev-selfcheck.mjs      (round-2 새로) 개발 브라우저 자체 확인: 10레벨 재생, 레벨 선택·설정 레이아웃, 기믹 스크린샷, 6배 스로틀 성능
   serve.mjs              레포 루트 정적 서버 (http://localhost:8123/games/reverbound/)
 ```
 
@@ -31,9 +32,9 @@ projects/runner-01/tools/
 |---|---|---|---|
 | 수치 | `balance.json` | `data/balance.json` | 그대로 복사 |
 | 레벨 | `levels/*.json` | `data/levels/*.json` | `balance.json levels` 순서 |
-| 문자열 | `10-lore.md` 5절 표 | `data/strings.json` | 키 70개 + 사망 문구 8 + 클리어 부제 4. 기본 한국어, `?lang=en`이면 영어 |
-| 색 | `30-art.md` 2절 표, 6절 클리어 행 | `data/art.json` | 팔레트 표를 파싱. 표 형식이 바뀌면 sync-data가 오류로 멈춤 |
-| 음악·효과음 | `30-art.md` 7절 | `data/music.json` | **손으로 옮겨 적은 파일**. 7절이 바뀌면 같이 고쳐야 함 |
+| 문자열 | `10-lore.md` 5절 표 | `data/strings.json` | round-2: 키 90개 + 사망 문구 4(표시 안 함) + 클리어 부제 4. 언어는 `?lang=` → 없으면 `navigator.language`(ko로 시작하면 한국어, 아니면 영어) |
+| 색 | `30-art.md` 2-1 표(머리줄의 levelN 열 전부), 2-2 공통, 2-2-1 `cardTint`, 6절 클리어 행 + **`data/provisional-art.json`(레벨 4~10 임시값)** | `data/art.json` | 30-art에 없는 레벨만 임시값으로 채움. 대비 27쌍(부록 A + 카드 테두리 3:1)을 sync-data가 검사, 실패하면 멈춤. `art.json provisional`에 레벨별 임시 항목 목록 |
+| 음악·효과음 | `30-art.md` 7절 | `data/music.json` | **손으로 옮겨 적은 파일**. round-2: 7-4 반영 목록 적용. 레벨 4~10 곡은 `provisional-art.json music`에서 게임이 로드 때 파생(`audio.js deriveTheme`) |
 | 완벽 입력열 | `verify-levels.mjs` 결과 | `data/test-inputs.json` | `taps`(검증기 입력열), `on_beat_taps`(박자대로 친 입력열). QA 재생, 레벨 1 손가락 시연에 사용 |
 
 ## 3. 물리·입력·시계
@@ -70,24 +71,32 @@ projects/runner-01/tools/
 |---|---|---|---|
 | D1 | `music.json`의 리드 선율(level1·level2)과 패드 화음(level1·level3), level2 리드는 7-2에 음이 없어 개발이 정함. level3 `bass_drop`의 "2마디마다 C2→D2"는 E1·E1·C2·D2 4마디 순환으로 해석 | 7-2 미정 | art-director |
 | D2 | intensity 1 파트 = 킥·햇·베이스, 2 = + 스네어/클랩·패드, 3 = + 리드, 4 = + 햇 16분. 7-2 표의 "레벨 본편 패턴 전체(리드 제외)"를 2로 읽음 | 표 해석 | art-director |
-| D3 | 느림 템포 문 하프타임을 느림 구간 전체(40~55박)에 적용 | 20-balance 12-3 미결 사항 | art-director |
+| D3 | 느림 템포 문 하프타임을 느림 속도 구간 전체에 적용. round-2: 레벨 1~3에는 속도 문이 없어 `level3.slow` 삭제(7-4), 레벨 8~10 임시 곡에 부록 B-6 하프타임(`slow_default`) 적용. 빠른 문의 "햇 16분 + 리드"(B-6)는 아직 안 함(intensity 규칙만) | 부록 B-6 | art-director |
 | D4 | 레벨 선택 카드·버튼·HUD 모양, 아이콘(재생·격자·톱니·깃발 등)은 30-art에 없어 단순 도형으로 새로 그림 | UI 그림 미정 | art-director |
 | D5 | `tut_low`, `tut_hold`는 레벨 `cues`에 없어 표시하지 않음 | 밸런스 12-4 | lore-writer, balance-designer |
-| D6 | 언어: 기본 한국어, `?lang=en`으로 영어. 언어 설정 UI는 문자열 키가 없어 넣지 않음 | 키 없음 | lore-writer |
+| D6 | (round-2 해소) 언어: `?lang=` → `navigator.language` 자동 선택. 언어 설정 UI는 만들지 않음 | 10-lore 확정값 | lore-writer |
 | D7 | 결승선 위치에 얇은 반투명 세로 띠(판정 없음) | 클리어 지점 가독성 | art-director |
 | D8 | 세로 모드: 1타일 = 너비 ÷ 14, 게임 영역(10타일)을 가운데 두고 위아래 bg. 진행도 바는 폭 560 px 이하에서 둘째 줄로 | 360 px 폭에 HUD가 한 줄에 안 들어감 | art-director |
 | D9 | 손가락 시연은 검증기의 박자대로 친 입력열(`on_beat_taps`)에서 레벨 1 첫 24박 탭만 사용 | 5~6세 원칙(시연 튜토리얼) | balance-designer |
 | D10 | 시도 횟수는 레벨별 누적(일반 모드, 저장됨), 연습 모드는 그 판 안에서만 셈. `clear_attempts`는 클리어한 판의 누적 시도 | 문서에 정의 없음 | balance-designer |
 | D11 | 일시정지 메뉴의 연습 모드 토글은 그 레벨을 처음부터 다른 모드로 다시 시작 | 단순화 | benchmark-analyst |
+| D12 | (round-2) 레벨 선택 카드 10장: 가로 5×2 / 세로 2×5 격자로 스크롤 없이 배치(카드 높이 96 px 미만이 되는 화면에서만 세로 스크롤 + ▼ 표시). 좁은 카드에서는 태그(`levelN_tag`)를 숨기고(카드 높이 170 px 이상에서 표시), 최고 %는 지금 고른 모드 것 하나만 지면 띠 안에 `outline` 색 글자로, 잠긴 레벨의 `level_locked` 문구는 누를 때 토스트(자물쇠 그림 + 글)로 보여 줌. 클리어 배지는 좁은 카드에서 ✓만 | 360x640에서 10장이 잘리지 않게 | art-director, lore-writer |
+| D13 | (round-2) 대표 오브젝트 높이 = max(24 px, 카드 높이 × 0.2~0.25). 30-art 5-5 "지면 띠 × 0.9"를 그대로 쓰면 좁은 카드에서 이름 글자와 겹침 | 겹침 방지 | art-director |
+| D14 | (round-2) 레벨 이름이 비면 `levelN_name` 문자열 → 레벨 JSON `name` → 레벨 번호 순으로 대체 (지금은 10레벨 모두 이름 있음) | 20-balance 14-6 dev 3 | lore-writer |
+| D15 | (round-2) 울림 고리는 효과음 없음(`sfx.trigger`는 30-art 7-3대로 발판 전용). 설정 문구 `settings_trigger_sfx`도 "발판 소리" 그대로 | 30-art 7-3·10-lore 5-3 | art-director |
+| D16 | (round-2) 템포 문 받침: 문 x를 덮는 상자가 있으면 그 윗면부터 3칸 높이로 그림(부록 B-4 "높은 곳이면 늘림"의 단순화). 지금 레벨들은 모든 문이 바닥 위 | 부록 B-4 | art-director |
+| D17 | (round-2) 타이틀 손가락: 그림 48×58 px, 1 s 주기 4 px 누름 + 손끝 링. `prefers-reduced-motion`이면 누름만 끄고 링은 유지 | 30-art 5-4 | art-director |
 
 ## 6. 테스트 훅 (`window.__game`)
 
 - `?test=1`: 오디오 끔, 랜덤 연출 끔(입자는 고정 시드, 사망 문구 순서대로), 흔들림 끔, 게임은 `step()`으로만 진행(렌더는 계속), 레벨 잠금 무시.
 - 필수: `state`(`title|levels|settings|playing|dead|clear|paused|loading`), `levelIndex`, `progress`(**0~100 %**), `attempts`, `loadLevel(i, {practice})`, `step(dt)`(dt를 1/240 s 틱으로 반올림해 진행), `press()`, `release()`(다음 틱에 반영).
 - 추가: `tick`, `player`({x, y, vy, grounded}), `practice`, `ready`, `audio`(AudioContext 상태), `placeCheckpoint()`, `removeCheckpoint()`, `pause()`, `resume()`, `show(screen)`, `replay(i, taps?, {holdTicks, frameDt})`(입력열을 틱 지정으로 넣고 frameDt 프레임으로 끝까지 진행), `testInputs`, `save`.
-- 클리어 화면은 `step()`으로 클리어 후 1.2 s를 진행하면 뜹니다.
+- round-2 추가: `levelCount`(10), `levelData(i)`(레벨 JSON), `lang`, `seek(i, x)`(검증기 입력열로 x 지점까지 `step()` 진행, 스크린샷용), `play(i, {taps, holdTicks})`(`?test=1`에서도 rAF 실시간으로 진행, 성능 측정용).
+- 클리어 화면은 `step()`으로 클리어 후 1.2 s를 진행하면 뜹니다(일반 모드도 같은 게임 시간 조건, `setTimeout` 없음).
+- round-2: 튜토리얼 카드·토스트·시도 수 크게 표시·클리어 HUD 페이드는 화면 문구 시계 `uiT`(게임이 진행될 때만 흐름)를 써서 `step()` 화면과 일반 모드 화면이 같습니다. `step()`이 HUD·카드를 바로 갱신합니다.
 
-## 7. 자체 확인 결과 (2026-11-17)
+## 7. 자체 확인 결과 (2026-11-17, 1-3 빌드. round-2 결과는 10절)
 
 | 검사 | 결과 |
 |---|---|
@@ -103,8 +112,86 @@ projects/runner-01/tools/
 
 ## 8. 알려진 문제·남은 일
 
-- 레벨 1이 5~6세 기준으로 몇 번 만에 깨지는지는 밸런스 판단이 필요(레벨 데이터는 개발이 바꾸지 않음). 최소 창 146 ms, 탭 35회.
-- 블록이 붙어 있는 계단(레벨 1 252~281 t 등)은 블록마다 외곽선을 그려 이음매 선이 보임(30-art 3절 규칙 6 "바깥 둘레만" 미적용).
+- (round-2 해소) 레벨 1 아동 난이도: balance-designer 재설계로 탭 15회, 최소 창 266.7 ms.
+- (round-2 해소) 계단 블록 이음매: 묶음 바깥 둘레 하나로 그림(30-art 3절 규칙 6).
 - 배경 모티프는 단순 도형으로 근사(소리굽쇠·천막·톱니·종). art-director 리뷰 필요.
 - 사망 시 음악은 즉시 끊고 재시작마다 처음(또는 체크포인트)부터 다시 예약. 매우 느린 기기에서는 프레임당 24틱 상한 때문에 잠깐 화면이 오디오보다 늦을 수 있음(다음 프레임에서 따라잡음).
 - 화면 흔들림 끄기가 번개 연출도 끔(30-art 6절대로).
+
+## 9. 레벨 4~10 임시값 (art-director 확정 전, round-2)
+
+**모든 임시값은 `games/reverbound/data/provisional-art.json` 한 파일에 있습니다.** 30-art.md 기존 규칙에서 파생했습니다.
+- 2-1: 어두운 `bg` 계열 5색
+- 2-2: 공통 전경색은 그대로
+- 2-3: 대비 기준
+- 5-5: 카드 테두리 = 클리어 색
+- 7-1·7-2: 악기·패턴
+- 부록 B: 새 기믹 도형
+
+| 항목 | 임시값 위치 (`provisional-art.json`) | art 확정값이 생기면 |
+|---|---|---|
+| 팔레트 `bg/bgFar/bgPulse/bgAccent/ground` (level4~10) | `palette` | 30-art 2-1 표 머리줄에 `level4`… 열이 생기면 `sync-data.mjs`가 자동으로 그 값을 씀(임시값 무시) |
+| 카드 테두리 `cardTint` | `cardTint` | 30-art 2-2-1 표에 levelN 열이 생기면 자동 |
+| 클리어 색 판 | `clear` | 30-art 6절 "클리어" 행에 `levelN` 색이 적히면 자동 |
+| 배경 모티프 3종 | `motifs` (`drop`, `cloud`, `wheels`, `rail`, `hill`, `bubble`, `arch`, `stalactite`, `flower`, `shell`, `sun`, `stage`) | 이름만 바꾸면 됨. 새 모양이 필요하면 `render.js shape()`에 추가 |
+| 레벨 카드 대표 오브젝트 | `card_object` (4 얇은 판 + 아래 가시, 5 분홍 문, 6 고리, 7 위 가시, 8 하늘색 문, 9 얇은 판 계단, 10 반원 해) | 값만 바꿈. 그림은 `main.js cardObject()` |
+| 새 기믹 모양 파라미터 | `gimmicks` (문 높이 3칸·받침 위에 세움, 얇은 판 두께, 천장 매달기) | 값만 바꿈. 도형 자체는 부록 B-1~B-4 좌표 그대로(`render.js`) |
+| 곡 (level4~10) | `music` (base 곡 + 반음 이동: 4 = level1 +2, 5 = level2 +2, 6 = level1 +5, 7 = level3 −2, 8 = level2 −2, 9 = level3 +1, 10 = level1 +7 + 종), `slow_default` (하늘색 문 하프타임, 부록 B-6) | `music.json levels.levelN`에 확정 패턴을 적으면 그쪽이 우선(게임이 `music.json`에 없는 테마만 파생) |
+| 튜토리얼 카드 그림 5장 (`tut_string`·`tut_tempo`·`tut_ring`·`tut_hanging`·`tut_tempo_slow`) | `main.js cueIcon()` (10-lore 5-6 그림 힌트 + 부록 B 도형, 72 단위 = 5-3 규칙) | 30-art 5-3 표에 좌표가 생기면 그 좌표로 교체 |
+
+대비: `sync-data.mjs`가 매번 30-art 부록 A의 26쌍과 카드 테두리 3:1을 계산합니다. 기준 미달이면 오류로 멈춥니다. 위험 vs 배경 4개 층 최소값은 아래와 같습니다. 모두 4.5:1 이상입니다.
+
+| level4 | level5 | level6 | level7 | level8 | level9 | level10 |
+|---|---|---|---|---|---|---|
+| 5.21:1 | 5.55:1 | 5.66:1 | 6.14:1 | 5.53:1 | 5.51:1 | 5.78:1 |
+
+결과는 `data/art.json contrast`에 남습니다.
+
+## 10. round-2 빌드 (2026-11-17)
+
+보고서 `Docs/game-developer/2026-11-17-r2-build.md`. 개발 이슈별 처리는 `reviews/round-1/dev-response.md`에 있습니다.
+
+### 바뀐 점
+- 데이터: `sync-data.mjs`로 10레벨, 문자열 90키를 반영했습니다. 30-art 팔레트는 표 머리줄에서 levelN 열을 찾아 읽고, 30-art에 없는 레벨은 9절 임시값으로 채운 뒤 대비를 검사합니다.
+- 새 기믹 4종(얇은 판·템포 문 빠름/느림·울림 고리·위 가시): 물리는 `physics.js` 그대로입니다. 검증기와 같은 모듈이고 수정한 것이 없습니다. 렌더는 바꿨습니다.
+  - 템포 문: 받침 높이부터 3칸 높이로 그립니다.
+  - 블록 묶음: 바깥 둘레 하나로 그립니다.
+  - 울림 고리: 효과음을 없앴습니다.
+- 음악
+  - 30-art 7-4를 반영했습니다. 사망음은 삼각파 −10 dB이고, 구간 규칙은 이름 대신 위치로 판단합니다.
+  - 레벨 4~10 곡은 임시로 파생합니다.
+- 화면: round-1 개발 이슈(S11~S32)를 모두 처리했습니다. 레벨 선택 카드 10장이 4해상도 × 한/영에서 스크롤·잘림·겹침 없이 들어갑니다.
+- 성능: 로드 화면 뒤에서 기믹이 많은 레벨을 미리 한 번 그립니다(첫 컴파일 스파이크 제거). HUD DOM 쓰기는 값이 바뀔 때만 합니다.
+
+### 자체 확인
+
+| 검사 | 결과 |
+|---|---|
+| `node projects/runner-01/tools/verify-levels.mjs` | ALL PASS (10/10) |
+| `node projects/runner-01/tools/selfcheck-sim.mjs` | ALL OK 211/211 (10레벨 × 입력열 2 × 홀드 2 × 프레임 5, 무입력 재시작 1.08 s, 체크포인트) |
+| `node scripts/validate.mjs` | OK: 2 game(s) |
+| `tools/dev-selfcheck.mjs` (playwright-core 1.62 + Edge) | 아래 표 |
+
+`dev-selfcheck.mjs` 결과:
+- 콘솔 에러·경고 0, 외부 요청 0.
+- `?test=1` 재생 30/30 클리어: 10레벨 × (검증기 60 Hz 1틱, 박자 144 Hz 80 ms, 검증기 30 Hz 100 ms).
+- 레벨 선택·설정·일시정지·타이틀 화면 (4해상도 × 한/영)
+  - 48 px 미만 버튼 0, 화면 밖 0, 겹침 0.
+  - 카드 잘림·넘침·낱말 중간 줄바꿈·그림 겹침 0.
+  - 640x360 설정 패널 262/262로 넘침 없음.
+- 6배 CPU 스로틀링, rAF 실시간 재생
+
+| 해상도 | 레벨 7 (오브젝트 235개) | 레벨 4 (가시 142) | 레벨 1 재시작 반복 20 s |
+|---|---|---|---|
+| 640x360 DPR 3 | 평균 59.9 / 1% low 51.4 fps, 최대 50 ms | 60.0 / 58.1 | 59.9 / 55.0 |
+| 1280x720 DPR 1 | 60.0 / 57.0 fps, 최대 33 ms | 60.0 / 58.1 | 59.9 / 51.0 |
+
+- 언어 자동 선택: en-US 브라우저는 en, ko-KR 브라우저는 ko입니다.
+- 일반 모드: 첫 탭 뒤 오디오 running, 레벨 1 진행을 확인했습니다.
+
+스크린샷은 `reviews/dev-selfcheck/r2-*.png` 140장이고, 결과 데이터는 `round2.json`입니다.
+
+### 남은 일
+- art-director 확정이 필요합니다. 9절 임시값 전부와 D12~D17이 대상입니다. 확정되면 30-art 표에 levelN 열을 추가하면 sync-data가 자동으로 반영합니다. 곡은 `music.json`에 적습니다.
+- 부록 B-6의 빠른 문 음악 변화(햇 16분 + 리드)는 아직 넣지 않았습니다.
+- 귀로 듣는 음악 확인과 실기기 fps는 측정하지 못했습니다(헤드리스 환경).

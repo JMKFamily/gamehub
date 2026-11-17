@@ -8,6 +8,29 @@ export function noteHz(n) {
   const midi = (+m[2] + 1) * 12 + NOTE[m[1]];
   return 440 * Math.pow(2, (midi - 69) / 12);
 }
+const NAMES = Object.keys(NOTE);
+// "A1", "A1:6" 같은 음 표기를 반음 n만큼 옮김 (임시 곡 파생용)
+const NOTE_RE = /^([A-G]#?)(-?\d)(:[\d.]+)?$/;
+export function transposeNotes(v, n) {
+  if (typeof v === "string") {
+    const m = NOTE_RE.exec(v);
+    if (!m) return v;
+    const midi = (+m[2] + 1) * 12 + NOTE[m[1]] + n;
+    return NAMES[((midi % 12) + 12) % 12] + (Math.floor(midi / 12) - 1) + (m[3] ?? "");
+  }
+  if (Array.isArray(v)) return v.map((x) => transposeNotes(x, n));
+  if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, transposeNotes(x, n)]));
+  return v;
+}
+// 임시 곡: base 곡 + 덮어쓰기 → 전체를 transpose (provisional-art.json music)
+export function deriveTheme(music, spec, slowDefault) {
+  const base = music.levels[spec.base] ?? music.levels.level1;
+  const { base: _b, transpose = 0, ...over } = spec;
+  const m = transposeNotes(JSON.parse(JSON.stringify({ ...base, ...over })), transpose);
+  if (!m.slow && slowDefault) m.slow = slowDefault;
+  m._provisional = true;
+  return m;
+}
 const parseNote = (s) => { const [n, st] = s.split(':'); return { hz: noteHz(n), step: +st }; };
 const db = (d) => Math.pow(10, d / 20);
 
@@ -189,10 +212,23 @@ export function createAudio(music) {
     for (const x of level.sections) if (x.start_beat <= beat + 1e-6) s = x;
     return s;
   }
-  function partsFor(sec) {
+  // intensity 0은 위치로 intro/breath/outro (30-art 7-2). 구간 이름에 의존하지 않음
+  function partsFor(level, sec) {
     const P = music.parts_by_section;
-    if (sec.intensity === 0) return P[sec.name] ?? P.breath;
+    if (sec.intensity === 0) {
+      const i = level.sections.indexOf(sec);
+      return i === 0 ? P.intro : i === level.sections.length - 1 ? P.outro : P.breath;
+    }
     return P[String(sec.intensity)] ?? P['2'];
+  }
+  // 레벨 데이터에서 규칙 위치 계산: intensity 4 구간마다 마지막 마디, 마지막 intensity 3 구간
+  function rulesFor(level) {
+    const secs = level.sections, endOf = (i) => (i + 1 < secs.length ? secs[i + 1].start_beat : level.length_beats);
+    const fills = [];
+    secs.forEach((x, i) => { if (x.intensity >= 4) { const e = endOf(i); fills.push([Math.max(x.start_beat, e - level.beats_per_bar), e]); } });
+    let last3 = null;
+    secs.forEach((x) => { if (x.intensity === 3) last3 = x; });
+    return { fills, last3 };
   }
 
   function scheduleStep(n, t) {
@@ -201,7 +237,7 @@ export function createAudio(music) {
     const bar = Math.floor(n / 16);
     const beat = n / 4;
     const sec = sectionAt(level, beat);
-    const parts = partsFor(sec);
+    const parts = partsFor(level, sec);
     const has = (p) => parts.includes(p);
     // 템포 문 속도 (연출: 늘임 = 하프타임)
     const tick = Math.max(0, Math.min(r.L.V.length - 1, Math.round((beat * r.beatS) * r.L.bal.physics_hz)));
@@ -213,7 +249,7 @@ export function createAudio(music) {
     // 킥
     let kp = has('kick_intro') ? m.kick_intro : has('kick') ? m.kick : null;
     if (kp && slow) kp = m.slow.kick;
-    if (kp && m.kick_fill && beat >= m.kick_fill.beats[0] && beat < m.kick_fill.beats[1] && sec.intensity >= 4) kp = m.kick_fill.pattern;
+    if (kp && m.kick_fill && sec.intensity >= 4 && r.rules.fills.some(([a, b]) => beat >= a - 1e-6 && beat < b - 1e-6)) kp = m.kick_fill.pattern;
     if (hit(kp)) inst.kick(t, out);
     // 스네어/클랩
     if (has('snare')) {
@@ -267,7 +303,7 @@ export function createAudio(music) {
       }
     }
     // 종 (마디 첫 박)
-    if (m.bell_bar && s16 === 0 && m.bell_bar.sections.includes(sec.name)) inst.bell(t, out, noteHz(m.bell_bar.note));
+    if (m.bell_bar && s16 === 0 && sec === r.rules.last3) inst.bell(t, out, noteHz(m.bell_bar.note));
     // 마무리 음: outro 구간 첫 스텝
     if (has('outro_note') && m.outro_note && Math.abs(beat - sec.start_beat) < 1e-6) {
       const on = m.outro_note, hz = noteHz(on.note);
@@ -301,7 +337,7 @@ export function createAudio(music) {
     const beatS = 60 / level.bpm, stepS = beatS / 4;
     // 게임 시간 fromS 가 ctx 시각 now + leadS 에 화면에 나오도록
     const ctxStart = ctx.currentTime + leadS - fromS;
-    run = { level, L, theme, m: music.levels[theme], ctxStart, comp, beatS, stepS,
+    run = { level, L, theme, m: music.levels[theme] ?? music.levels.level1, rules: rulesFor(level), ctxStart, comp, beatS, stepS,
       nextStep: Math.ceil(fromS / stepS - 1e-6), endS: level.duration_s + 4 };
     pump();
     timer = setInterval(pump, music.scheduler_interval_ms);
@@ -342,11 +378,11 @@ export function createAudio(music) {
       const lp = A.ctx.createBiquadFilter(); lp.type = 'lowpass';
       lp.frequency.setValueAtTime(p.lp0, t); lp.frequency.exponentialRampToValueAtTime(p.lp1, t + p.noise_s);
       const g = A.ctx.createGain(); lp.connect(g); g.connect(out);
-      env(g, t, 0.002, 0.9, p.noise_s);
+      env(g, t, p.attack_s ?? 0.005, 0.9, p.noise_s);
       noiseSrc(t, p.noise_s, lp);
-      const g2 = A.ctx.createGain(); g2.connect(out); env(g2, t, 0.002, 0.5, p.sq_s);
-      const o = osc('square', p.sq0, t, p.sq_s, g2);
-      o.frequency.exponentialRampToValueAtTime(p.sq1, t + p.sq_s);
+      const g2 = A.ctx.createGain(); g2.connect(out); env(g2, t, p.attack_s ?? 0.005, 0.5, p.tone_s);
+      const o = osc(p.tone_type ?? 'triangle', p.tone0, t, p.tone_s, g2);
+      o.frequency.exponentialRampToValueAtTime(p.tone1, t + p.tone_s);
     } else if (name === 'clear') {
       const p = S.clear, m = music.levels[opt.theme] ?? music.levels.level1;
       const root = noteHz(m.root);

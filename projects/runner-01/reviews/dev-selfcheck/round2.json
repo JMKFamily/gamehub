@@ -1,0 +1,748 @@
+{
+ "base": "http://localhost:8123/games/reverbound/",
+ "console": [],
+ "external": [],
+ "replay": [
+  {
+   "level": 1,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 1,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 1,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 2,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 2,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 2,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 3,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 3,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 3,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 4,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 4,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 4,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 5,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 5,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 5,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 6,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 6,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 6,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 7,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 7,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 7,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 8,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 8,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 8,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 9,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 9,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 9,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  },
+  {
+   "level": 10,
+   "set": "taps",
+   "holdTicks": 1,
+   "hz": 60,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 1
+  },
+  {
+   "level": 10,
+   "set": "on_beat_taps",
+   "holdTicks": 19,
+   "hz": 144,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 2
+  },
+  {
+   "level": 10,
+   "set": "taps",
+   "holdTicks": 24,
+   "hz": 30,
+   "state": "clear",
+   "progress": 100,
+   "attempts": 3
+  }
+ ],
+ "layout": {
+  "ko 360x640": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "156x101",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "ko 640x360": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "113x128",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "262/262",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "ko 1280x720": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "236x271",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "ko 412x915": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "182x156",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "en 360x640": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "156x101",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "en 640x360": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "113x128",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "262/262",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "en 1280x720": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "236x271",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  },
+  "en 412x915": {
+   "title": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   },
+   "levels": {
+    "buttons": 13,
+    "small": [],
+    "out": [],
+    "over": [],
+    "cards": 10,
+    "scroll": false,
+    "cardSize": "182x156",
+    "cardIssues": []
+   },
+   "settings": {
+    "buttons": 9,
+    "small": [],
+    "out": [],
+    "over": [],
+    "panel": "465/465",
+    "panelOverflow": false,
+    "moreHint": false
+   },
+   "pause": {
+    "buttons": 4,
+    "small": [],
+    "out": [],
+    "over": []
+   }
+  }
+ },
+ "shots": [
+  "r2-ko-360x640-title.png",
+  "r2-ko-360x640-levels.png",
+  "r2-ko-360x640-settings.png",
+  "r2-ko-360x640-pause.png",
+  "r2-ko-640x360-title.png",
+  "r2-ko-640x360-levels.png",
+  "r2-ko-640x360-settings.png",
+  "r2-ko-640x360-pause.png",
+  "r2-ko-1280x720-title.png",
+  "r2-ko-1280x720-levels.png",
+  "r2-ko-1280x720-settings.png",
+  "r2-ko-1280x720-pause.png",
+  "r2-ko-412x915-title.png",
+  "r2-ko-412x915-levels.png",
+  "r2-ko-412x915-settings.png",
+  "r2-ko-412x915-pause.png",
+  "r2-en-360x640-title.png",
+  "r2-en-360x640-levels.png",
+  "r2-en-360x640-settings.png",
+  "r2-en-360x640-pause.png",
+  "r2-en-640x360-title.png",
+  "r2-en-640x360-levels.png",
+  "r2-en-640x360-settings.png",
+  "r2-en-640x360-pause.png",
+  "r2-en-1280x720-title.png",
+  "r2-en-1280x720-levels.png",
+  "r2-en-1280x720-settings.png",
+  "r2-en-1280x720-pause.png",
+  "r2-en-412x915-title.png",
+  "r2-en-412x915-levels.png",
+  "r2-en-412x915-settings.png",
+  "r2-en-412x915-pause.png",
+  "r2-360x640-L1-cue.png",
+  "r2-360x640-L2-cue.png",
+  "r2-360x640-L2-stairs.png",
+  "r2-360x640-L3-cue.png",
+  "r2-360x640-L4-cue.png",
+  "r2-360x640-L4-gimmick.png",
+  "r2-360x640-L5-cue.png",
+  "r2-360x640-L5-gate.png",
+  "r2-360x640-L6-cue.png",
+  "r2-360x640-L6-gimmick.png",
+  "r2-360x640-L6-gate.png",
+  "r2-360x640-L7-cue.png",
+  "r2-360x640-L7-gimmick.png",
+  "r2-360x640-L7-gate.png",
+  "r2-360x640-L8-cue.png",
+  "r2-360x640-L8-gate.png",
+  "r2-360x640-L9-gate.png",
+  "r2-360x640-L9-mid.png",
+  "r2-360x640-L10-gate.png",
+  "r2-360x640-L10-mid.png",
+  "r2-360x640-L1-demo-0.25s.png",
+  "r2-360x640-L1-demo-2.5s.png",
+  "r2-360x640-L1-demo-3.6s.png",
+  "r2-360x640-L1-demo-4s.png",
+  "r2-360x640-death-first.png",
+  "r2-360x640-L7-clear-fx.png",
+  "r2-360x640-L10-clear-screen.png",
+  "r2-640x360-L1-cue.png",
+  "r2-640x360-L2-cue.png",
+  "r2-640x360-L2-stairs.png",
+  "r2-640x360-L3-cue.png",
+  "r2-640x360-L4-cue.png",
+  "r2-640x360-L4-gimmick.png",
+  "r2-640x360-L5-cue.png",
+  "r2-640x360-L5-gate.png",
+  "r2-640x360-L6-cue.png",
+  "r2-640x360-L6-gimmick.png",
+  "r2-640x360-L6-gate.png",
+  "r2-640x360-L7-cue.png",
+  "r2-640x360-L7-gimmick.png",
+  "r2-640x360-L7-gate.png",
+  "r2-640x360-L8-cue.png",
+  "r2-640x360-L8-gate.png",
+  "r2-640x360-L9-gate.png",
+  "r2-640x360-L9-mid.png",
+  "r2-640x360-L10-gate.png",
+  "r2-640x360-L10-mid.png",
+  "r2-640x360-L1-demo-0.25s.png",
+  "r2-640x360-L1-demo-2.5s.png",
+  "r2-640x360-L1-demo-3.6s.png",
+  "r2-640x360-L1-demo-4s.png",
+  "r2-640x360-death-first.png",
+  "r2-640x360-L7-clear-fx.png",
+  "r2-640x360-L10-clear-screen.png",
+  "r2-1280x720-L1-cue.png",
+  "r2-1280x720-L2-cue.png",
+  "r2-1280x720-L2-stairs.png",
+  "r2-1280x720-L3-cue.png",
+  "r2-1280x720-L4-cue.png",
+  "r2-1280x720-L4-gimmick.png",
+  "r2-1280x720-L5-cue.png",
+  "r2-1280x720-L5-gate.png",
+  "r2-1280x720-L6-cue.png",
+  "r2-1280x720-L6-gimmick.png",
+  "r2-1280x720-L6-gate.png",
+  "r2-1280x720-L7-cue.png",
+  "r2-1280x720-L7-gimmick.png",
+  "r2-1280x720-L7-gate.png",
+  "r2-1280x720-L8-cue.png",
+  "r2-1280x720-L8-gate.png",
+  "r2-1280x720-L9-gate.png",
+  "r2-1280x720-L9-mid.png",
+  "r2-1280x720-L10-gate.png",
+  "r2-1280x720-L10-mid.png",
+  "r2-1280x720-L1-demo-0.25s.png",
+  "r2-1280x720-L1-demo-2.5s.png",
+  "r2-1280x720-L1-demo-3.6s.png",
+  "r2-1280x720-L1-demo-4s.png",
+  "r2-1280x720-death-first.png",
+  "r2-1280x720-L7-clear-fx.png",
+  "r2-1280x720-L10-clear-screen.png",
+  "r2-412x915-L1-cue.png",
+  "r2-412x915-L2-cue.png",
+  "r2-412x915-L2-stairs.png",
+  "r2-412x915-L3-cue.png",
+  "r2-412x915-L4-cue.png",
+  "r2-412x915-L4-gimmick.png",
+  "r2-412x915-L5-cue.png",
+  "r2-412x915-L5-gate.png",
+  "r2-412x915-L6-cue.png",
+  "r2-412x915-L6-gimmick.png",
+  "r2-412x915-L6-gate.png",
+  "r2-412x915-L7-cue.png",
+  "r2-412x915-L7-gimmick.png",
+  "r2-412x915-L7-gate.png",
+  "r2-412x915-L8-cue.png",
+  "r2-412x915-L8-gate.png",
+  "r2-412x915-L9-gate.png",
+  "r2-412x915-L9-mid.png",
+  "r2-412x915-L10-gate.png",
+  "r2-412x915-L10-mid.png",
+  "r2-412x915-L1-demo-0.25s.png",
+  "r2-412x915-L1-demo-2.5s.png",
+  "r2-412x915-L1-demo-3.6s.png",
+  "r2-412x915-L1-demo-4s.png",
+  "r2-412x915-death-first.png",
+  "r2-412x915-L7-clear-fx.png",
+  "r2-412x915-L10-clear-screen.png"
+ ],
+ "perf": {
+  "640x360@3 L7 full": {
+   "state": "clear",
+   "progress": 100,
+   "frames": 4423,
+   "avg_fps": 59.9,
+   "low1_fps": 51.4,
+   "max_ms": 50.1,
+   "over33": 2,
+   "first2s_max_ms": 50.1
+  },
+  "640x360@3 L4 full": {
+   "state": "clear",
+   "progress": 100,
+   "frames": 4198,
+   "avg_fps": 60,
+   "low1_fps": 58.1,
+   "max_ms": 33.2,
+   "over33": 0,
+   "first2s_max_ms": 33.2
+  },
+  "640x360@3 L1 restarts": {
+   "attempts": 4,
+   "frames": 1201,
+   "avg_fps": 59.9,
+   "low1_fps": 55,
+   "max_ms": 33.3
+  },
+  "1280x720@1 L7 full": {
+   "state": "clear",
+   "progress": 100,
+   "frames": 4428,
+   "avg_fps": 60,
+   "low1_fps": 57,
+   "max_ms": 33.4,
+   "over33": 1,
+   "first2s_max_ms": 33.4
+  },
+  "1280x720@1 L4 full": {
+   "state": "clear",
+   "progress": 100,
+   "frames": 4199,
+   "avg_fps": 60,
+   "low1_fps": 58.1,
+   "max_ms": 33.4,
+   "over33": 1,
+   "first2s_max_ms": 33.4
+  },
+  "1280x720@1 L1 restarts": {
+   "attempts": 4,
+   "frames": 1201,
+   "avg_fps": 59.9,
+   "low1_fps": 51,
+   "max_ms": 50.1
+  }
+ },
+ "normal": {
+  "lang_en_US": "en",
+  "state": "playing",
+  "audio": "running",
+  "lang_ko_KR": "ko"
+ },
+ "perf_console": []
+}

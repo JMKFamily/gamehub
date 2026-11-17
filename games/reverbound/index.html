@@ -46,11 +46,12 @@
   <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button>
     <div id="modeSeg" class="seg"><button id="modeNormal" type="button"></button><button id="modePractice" type="button"></button></div></div>
   <div id="cards" class="cards"></div>
+  <div id="cardsMore" class="moreHint hidden" aria-hidden="true">▼</div>
 </div>
 
 <div id="settings" class="screen">
   <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button><h2 id="setTitle"></h2></div>
-  <div class="panel">
+  <div id="setPanel" class="panel">
     <label class="row"><span id="lMusic"></span><input id="sMusic" type="range" min="0" max="100" step="1"><button id="bMute" class="tog" type="button"></button></label>
     <label class="row"><span id="lSfx"></span><input id="sSfx" type="range" min="0" max="100" step="1"></label>
     <label class="row"><span id="lOffset"></span><input id="sOffset" type="range" min="-200" max="200" step="5"><span id="vOffset" class="val"></span></label>
@@ -60,6 +61,7 @@
     <div class="row"><span id="lTrig"></span><button id="bTrig" class="tog" type="button"></button></div>
     <div class="row"><button id="bReset" class="btn danger small" type="button"></button></div>
   </div>
+  <div id="setMore" class="moreHint hidden" aria-hidden="true">▼</div>
 </div>
 
 <div id="pause" class="screen dim">

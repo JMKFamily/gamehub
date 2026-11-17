@@ -1,5 +1,5 @@
 {
- "_source": "projects/runner-01/30-art.md 7절을 옮겨 적은 손 작성 파일. 패턴: 16스텝, x 타격, o 열린 햇, . 쉼. 음 표기 '음:스텝'. 7절이 바뀌면 이 파일을 같이 고친다. 리드 선율·패드 화음 일부는 7절에 음이 정해지지 않아 개발이 채움(DEV_NOTES.md 참고).",
+ "_source": "projects/runner-01/30-art.md 7절을 옮겨 적은 손 작성 파일. 패턴: 16스텝, x 타격, o 열린 햇, . 쉼. 음 표기 '음:스텝'. 7절이 바뀌면 이 파일을 같이 고친다. round-2: 7-4 반영 목록 적용. 레벨 4~10 곡은 provisional-art.json music (임시값). 리드 선율·패드 화음 일부는 7절에 음이 정해지지 않아 개발이 채움(DEV_NOTES.md 참고).",
  "lookahead_s": 0.1,
  "scheduler_interval_ms": 25,
  "master": { "threshold_db": -14, "ratio": 4, "gain": 0.8 },
@@ -16,7 +16,7 @@
   "bell": { "partials": [[1, 1, 1.6], [2.76, 0.5, 0.6], [5.4, 0.25, 0.6]], "a": 0.002, "gain": 0.35 }
  },
  "parts_by_section": {
-  "_note": "30-art 7-2 구간 구조. intensity 0은 구간 이름으로 intro/breath/outro 구분",
+  "_note": "30-art 7-2 구간 구조. intensity 0은 위치로 구분: 레벨 첫 구간 = intro, 마지막 구간 = outro, 그 밖 = breath (이름 아님)",
   "intro": ["kick_intro", "pad"],
   "breath": ["kick", "bass"],
   "outro": ["pad", "outro_note"],
@@ -52,7 +52,7 @@
    "root": "E4", "third": 3,
    "kick": "x...x...x...x...",
    "kick_intro": "x.......x.......",
-   "kick_fill": { "pattern": "x...x...x.x.x.xx", "beats": [104, 108] },
+   "kick_fill": { "pattern": "x...x...x.x.x.xx", "at": "last_bar_of_intensity_4" },
    "snare": "....x.......x..x",
    "hat": "x.x.x.x.x.x.x.x.",
    "hat16": { "pattern": "xxxxxxxxxxxxxxxx", "even_gain": 0.5 },
@@ -60,18 +60,17 @@
    "bass_drop": { "len_steps": 1.5, "eighths": true, "bar_roots": ["E1", "E1", "C2", "D2"] },
    "pad": { "bars": [["E3", "G3", "B3"], ["C3", "E3", "G3"]] },
    "lead": { "instrument": "lead", "arp16": ["E4", "G4", "A4", "B4", "D5"] },
-   "bell_bar": { "note": "E3", "sections": ["finale"] },
+   "bell_bar": { "note": "E3", "at": "last_intensity_3" },
    "outro_note": { "instrument": "bell", "note": "E3" },
-   "clear_bell": "E2",
-   "slow": { "kick": "x.......x.......", "snare": "............x...", "hat": false, "pad_lp_hz": 800 }
+   "clear_bell": "E2"
   }
  },
  "sfx": {
-  "death": { "lp0": 3000, "lp1": 200, "noise_s": 0.25, "sq0": 220, "sq1": 55, "sq_s": 0.2, "db": -6 },
+  "death": { "lp0": 1800, "lp1": 200, "noise_s": 0.25, "tone_type": "triangle", "tone0": 220, "tone1": 55, "tone_s": 0.2, "attack_s": 0.005, "db": -10 },
   "clear": { "note_s": 0.08, "release_s": 0.6, "db": -8 },
   "checkpoint": { "f1": 880, "s1": 0.04, "f2": 1320, "s2": 0.06, "db": -14 },
   "menu": { "f": 660, "s": 0.03, "db": -16 },
-  "trigger": { "f": 1046, "s": 0.03, "db": -18 },
+  "trigger": { "_note": "점프 발판 전용 (30-art 7-3). 울림 고리는 소리 없음", "f": 1046, "s": 0.03, "db": -18 },
   "new_best": { "delay_s": 0.1, "f": 1320, "s": 0.15, "db": -14 }
  }
 }
