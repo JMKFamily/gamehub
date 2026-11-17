@@ -1,6 +1,6 @@
 # 10. 세계관: Tossaloft (높이통통) — 가안
 
-- 작성: 2026-11-17, lore-writer, 단계 1-1 / 1-2 2차 수정(D1~D16) / **round-2 수정: 2026-11-17** (요청자 피드백 "몰입감" 재설계 R2-A "흘러오는 길" + 전 프로젝트 콤보 지시 + round-1 lore 이슈. 처리표는 `Docs/lore-writer/2026-11-17-r2-lore-redesign.md`) / **round-2 1-2 교차 리뷰 + 1회 수정: 2026-11-17** (오케스트레이터 R2-D1·D6·D7·D8 + 교차 리뷰 `reviews/cross-r2/lore-writer.md`. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-cross-review.md`)
+- 작성: 2026-11-17, lore-writer, 단계 1-1 / 1-2 2차 수정(D1~D16) / **round-2 수정: 2026-11-17** (요청자 피드백 "몰입감" 재설계 R2-A "흘러오는 길" + 전 프로젝트 콤보 지시 + round-1 lore 이슈. 처리표는 `Docs/lore-writer/2026-11-17-r2-lore-redesign.md`) / **round-2 1-2 교차 리뷰 + 1회 수정: 2026-11-17** (오케스트레이터 R2-D1·D6·D7·D8 + 교차 리뷰 `reviews/cross-r2/lore-writer.md`. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-cross-review.md`) / **1-2 후속: 2026-11-17** (balance 교차 리뷰 X1·X2·X6 + 오케스트레이터 "rhythm-01 새 코어와의 수렴": 8-1을 rhythm-01 북길 기준 사실로 갱신, `card_three` 문구 변경(X2), 3절 W5 0.34. 요청자 결정 "게임 간 겹침 다 허용, 동사도 같아도 됨"에 따라 겹침 때문에 바꾼 문구는 없음. 보고서 `Docs/lore-writer/2026-11-17-r2-1-2-followup.md`)
 - 입력: `00-benchmark.md` 14절(R2-A, 기믹 어휘 W0~W7, 14-5 S6~S10, 14-8 콤보, 14-9 lore 몫), `Docs/orchestrator/2026-11-17-r2-immersion-kickoff.md`(D-R2-1~6), `reviews/round-1/score.md`(N15~N21)·`reviews/round-1/lore-writer.md`(이슈 1~8), `harness/benchmarks/djmax-judgement.md`(4절·5-3절), `harness/criteria.md`(세계관·텍스트·대상 연령·원본 보호), `harness/insights.md`
 - 참고(읽기만): `games/rhythm-01/data/strings.json`·`games/reverbound/data/strings.json`(문구·용어 겹침 검사), `30-art.md`·`20-balance.md`·`DEV_NOTES.md`(1-2 맞출 것 확인용)
 - 원본 보호: 상용 게임(레퍼런스 러너 게임, DJMAX 계열)의 이름·캐릭터·설정·판정 문구를 쓰지 않았습니다. runner-01(Reverbound)·rhythm-01(Tickadrum) 이름·레벨 이름·게임 정체성 문구도 가져오지 않았습니다(8절). 아래 이름·문구는 모두 새로 만든 것이고, 시스템 UI 문구 일부만 허브 공통 UX로 일부러 같게 둡니다(8-3).
@@ -67,8 +67,8 @@
 | W0 박 표시 | **표시 / mark** | **파란 낮은 반원 돔**(북 몸통 색 + 잉크 외곽선, 크기·색 하나), 길 줄 위에 hit 접촉마다 하나, 친 순간 다리 밑에서 작아져 사라짐. 지붕 밑 착지에는 없음. 음표·노트 막대·공 같은 원 아님(art 3-2) | 표시가 북(다리 밑)에 오면 톡. 멀면 오래, 촘촘하면 빨리. **표시가 없으면 안 침**(받침 쉼·지붕 밑) | **대조 끝 — "표시" 유지(R2-D6)**. 돔은 아이가 부를 구체 이름(꽃·조약돌 등)이 없는 모양이고, "조약돌"은 art가 길 장식에 이미 써서 바꾸면 헷갈림. 쓰는 곳 4곳(`tut_tap`·`card_big`·`store_short`·`guardian_intro`) 그대로 |
 | W2 | **구름 / cloud** (길 구름) | 흘러와 공을 잠깐 가리는 **긴 구름**(아래 띠 + 촘촘한 혹, 흰색) | 공이 숨었다 내려옴, 다음 표시는 멀리 | 대조 끝. 등급 구름과 크기·자리 다름. 끝 구름도 같은 모양(2절) |
 | W4 | **지붕 / roof** | **줄무늬 차양**(가게 앞 차양 모양): 윗변이 둥글게 솟은 보라·흰 세로 줄무늬 몸통 + 아래 물결 가장자리. 가시·뾰족·빨강·경고 표지 없음 | 지붕 밑에선 공이 앉아 쉼 = 치지 않음 | **대조 끝 — "지붕" 유지**. 5~6세는 "차양"을 모르고, 둥글게 솟은 윗변 + 물결 처마는 "지붕"으로 부를 수 있음(카드 `card_roof` 그림 확인). "천막·우산"으로 부르는 아이가 있어도 카드 그림이 같아 규칙 이해에는 지장 없음 |
-| W5 | **가지 / branch** | 가로 갈색 줄기 + 위로 초록 렌즈 잎(원 아님), 지붕보다 낮게(아랫면 0.30 Hp) | 가지 밑에선 톡톡(빠르게 두 번) | 대조 끝. 긴 가지와 길이·잎 수로 구분. **가지 밑 표시 수 = 문구 횟수**가 되게 그릴 것(교차 리뷰 이슈 1, art·balance) |
-| W6 | **큰 언덕 / big hill** | 바닥에서 솟은 반타원(테마 언덕 색), 북·공 뒤 층 | 아주 높이 떠서 셋 세고 톡 | 대조 끝. L7 배경은 언덕 대신 낮은 들 띠라 헷갈림 없음 |
+| W5 | **가지 / branch** | 가로 갈색 줄기 + 위로 초록 렌즈 잎(원 아님), 지붕보다 낮게(아랫면 0.34 Hp — 값은 `balance.json objects.branch.under_of_Hp`, 1-2 R2-D9에서 0.30 → 0.34) | 가지 밑에선 톡톡(빠르게 두 번) | 대조 끝. 긴 가지와 길이·잎 수로 구분. **가지 밑 표시 수 = 문구 횟수**가 되게 그릴 것(교차 리뷰 이슈 1, art·balance) |
+| W6 | **큰 언덕 / big hill** | 바닥에서 솟은 반타원(테마 언덕 색), 북·공 뒤 층 | 아주 높이 떠서 셋에 톡 | 대조 끝. L7 배경은 언덕 대신 낮은 들 띠라 헷갈림 없음 |
 | W7 | **긴 가지 / long branch** | 가지와 같은 모양, 더 길고 잎이 많음 | 긴 가지 밑에선 톡톡톡톡 | 대조 끝. 가지와 결과가 같은 종류(빨리 치기)라 길이로만 구분. 표시 수 규칙은 W5와 같음 |
 | 진행도 막대 | (글 없음, `aria_progress`) | 화면 위 HUD 띠 | 찰수록 끝에 가까움 | 그대로 |
 | 최고 기록 점 | (글 없음, `aria_best`) | 막대 위 공 색 점 | 지난번 여기까지 | 그대로 |
@@ -90,7 +90,7 @@
 | W3 | 엇간격(점 통 1.5·1.5·1) | 길게 길게 짧게 | `card_dot` | L4 | G3 |
 | W4 | **지붕(쉬는 곳, nogo)** | 지붕 밑에선 쉬어요 | **`card_roof`** (새) | L5 | 새 기믹 |
 | W5 | 가지(통통 0.5 짝) | 가지 밑에선 톡톡 | `card_double` | L6 | G4 |
-| W6 | 큰 언덕(세 박 통 3박) | 큰 언덕은 셋 세고 톡 | `card_three` | L7 | R1 |
+| W6 | 큰 언덕(세 박 통 3박) | 큰 언덕은 셋에 톡 | `card_three` | L7 | R1 |
 | W7 | 긴 가지(드르륵 0.5 × 4) | 긴 가지 밑엔 톡톡톡톡 | `card_roll` | L8 | G7 |
 | G5 | 두 공 | (예비 문구 후보) 공 두 개가 번갈아 / Two balls take turns | (예비) `card_twoballs` — **`strings.json` 키 없음**(R2-D1 삭제) | 없음 | D-R2-1 내림. balance가 되살리면 그때 키를 다시 만들고 7-3·`strings.json`에 넣음(문구는 이 칸 후보, 12자·6단어 안) |
 | G6 | 빠른 곡 구간 | — | 미사용(D2), 키 없음 | — | |
@@ -207,7 +207,7 @@
 - 카드 문구는 대체 글 겸 **카드 대화 상자 위쪽 한 줄 보조 글**(30-art 8절, 배율 계산에서 28 px 비움. round-1 이슈 8 정정: "아래" → "위쪽"). 그림만으로 이해되게 그립니다.
 - 카드 그림 언어(art): ^ 올라감, v 내려옴, **길 위 표시 간격**(멀면 높이), 앉은 공 = 쉼, 손 위 막대 n개 = n번 톡. round-2에서는 카드 칸 안에도 **길과 표시**가 보이고, 표시가 북에 오는 칸에 손가락이 있어야 "표시 = 칠 때"가 연결됩니다.
 - **손가락(`tut_tap`)은 L1 첫 접촉 1회**(D4). 지붕이 있는 레벨에는 손가락 없음(S8).
-- 문구와 그림의 횟수가 맞아야 함: "톡톡" = 누름 표시 2, "톡톡톡톡" = 4, "셋" = 길이 3박, "쉬어요" = **손이 북에서 떨어져 있고 공이 앉은 그림**(S8).
+- 문구와 그림의 횟수가 맞아야 함: "톡톡" = 누름 표시 2, "톡톡톡톡" = 4, "셋에" = 표시 간격 3박 위 박 점 3개(공이 떠난 **다음 박부터** 하나·둘·셋, 셋째 점에 손가락), "쉬어요" = **손이 북에서 떨어져 있고 공이 앉은 그림**(S8).
 - **"가지 밑" 횟수 = 가지 밑에 들어간 표시 수**(balance `objects.branch.contacts` = L6 2개·L8 4개). 가지로 들어가는 표시(앞 비행의 착지, 가지 왼쪽 끝 박)는 보통 표시 하나로 치고 "톡톡"에 세지 않습니다. 지금 그림은 그 표시가 가지 왼쪽 끝에 반쯤 걸려 촘촘한 표시가 3개·5개로 보일 수 있어 art·balance에 넘김(교차 리뷰 이슈 1). 문구는 그대로 둡니다.
 - 예비 카드(두 공 G5)는 키를 두지 않습니다(R2-D1). 문구 후보는 3절 표에만.
 
@@ -220,7 +220,7 @@
 | `card_dot` | ★ | 길게 길게 짧게 | Long, long, short | 4 | 표시 간격 1.5·1.5·1(큰 간격·같음·짧음) |
 | `card_roof` | ★ | 지붕 밑에선 쉬어요 | Under the roof, rest | 5 | **새 카드(W4)**. 지붕이 다가옴 → 지붕 밑에서 공이 북 위에 앉음, **손은 북에서 떨어져 위로**(누름 표시 없음) → 지붕이 지나가고 공이 다시 뜸(^). 겁주는 말("조심·안 돼·치지 마") 대신 받침 쉼과 같은 "쉬어요"(2절). runner-01 L7 문구 틀("위 ○○는 기다려요")을 쓰지 않음 |
 | `card_double` | ★ | 가지 밑에선 톡톡 | Under the branch: tap tap | 6 | **round-2 변경**. 넓은 간격 → 가지 밑 촘촘한 표시 2개 → 손가락 + 누름 표시 2 |
-| `card_three` | ★ | 큰 언덕은 셋 세고 톡 | Big hill: count three, tap | 7 | **round-2 변경**. 큰 언덕이 오고 표시 간격 3박 → 공이 언덕 위로 아주 높이 → 언덕이 지나가고 표시가 북에 올 때 손가락(art 8절 그림과 대조 끝, round-2 1-2). L7 첫 언덕은 받침 쉼 끝 자동 토스로 넘어가므로 아이는 "셋 세고" 착지 때 한 번 톡 = 문구와 맞음 |
+| `card_three` | ★ | 큰 언덕은 셋에 톡 | Big hill: tap on three | 7 | **1-2 후속 변경(X2)**(이전 "큰 언덕은 셋 세고 톡 / Big hill: count three, tap"): "셋 세고 톡"은 두 가지로 틀릴 수 있음 — ① 공이 떠나는 순간(탭)을 "하나"로 세고 셋에 치면 **1박 일찍 = 무시 탭**(실패 아님, 표시가 북에 올 때 다시 치면 됨) ② 떠난 다음 박부터 세고 "셋 **다음**"에 치면 **1박 늦음 = 놓침(실패)**. "셋에 톡"은 셋과 탭을 한순간으로 묶어 ②를 없애고, 남는 착각은 ①(이른 무시 탭)뿐이라 안전한 쪽. 그림 힌트(art 8절에 넘김): 표시 간격 3박 위에 박 점 3개를 **떠난 다음 박부터** 찍고 셋째 점 = 표시가 북에 오는 칸 = 손가락. 실제 신호는 여전히 표시(셈은 보조). round-2 그림: 큰 언덕이 오고 표시 간격 3박 → 공이 언덕 위로 아주 높이 → 언덕이 지나가고 표시가 북에 올 때 손가락(art 8절 그림과 대조 끝, round-2 1-2). L7 첫 언덕은 받침 쉼 끝 자동 토스로 넘어가므로 아이는 토스 다음 박부터 세어 셋째 박 착지 때 한 번 톡 = 문구와 맞음. L7 둘째 언덕·L9·L10은 앞 hit(공이 떠나는 탭) 다음 박부터 같은 셈 |
 | `card_roll` | ★ | 긴 가지 밑엔 톡톡톡톡 | Long branch: four quick taps | 8 | **round-2 변경**. 넓은 간격 → 긴 가지 밑 촘촘한 표시 4개 → 손가락 + 누름 표시 4 |
 
 ### 7-4. 플레이 화면·토스트 (11개)
@@ -332,39 +332,48 @@
 node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.parse(fs.readFileSync("strings.json","utf8"));delete js._meta;const bal=JSON.parse(fs.readFileSync("balance.json","utf8"));const flat=(o,a=[])=>{for(const v of Object.values(o)){if(typeof v==="string")a.push(v);else if(v&&typeof v==="object")flat(v,a)}return a};const r1=JSON.parse(fs.readFileSync("../../games/rhythm-01/data/strings.json","utf8")),rn=JSON.parse(fs.readFileSync("../../games/reverbound/data/strings.json","utf8"));const r1v=new Set([...Object.values(r1.ko),...Object.values(r1.en)]),rnv=new Set(flat(rn.strings||rn));const sec=md.slice(md.indexOf("## 7."),md.indexOf("## 8.")),rows={},err=[],wait=[];for(const l of sec.split(/\r?\n/)){const c=l.split("|").map(s=>s.trim()),m=/^`([a-z0-9_]+)`$/.exec(c[1]||"");if(!m)continue;if(rows[m[1]])err.push("dup "+m[1]);rows[m[1]]={kind:c[2],ko:c[3],en:c[4]}}const ban=/별|궤도|북채|둥둥이|똑딱|박자|Tickadrum|\bstar\b|orbit|drumstick|\btick|가시|점프|뛰어|달려|블록|상자|발판|고리|포털|Reverbound|spike|jump|\brun|block|\bpad\b|\brings?\b|portal|콤보|combo|streak/i;const common=new Set("tap_to_start btn_next btn_retry btn_levels btn_pause btn_practice btn_close btn_back btn_sound_on btn_sound_off btn_skip levelcard_new levelcard_locked btn_card_replay practice_on pause_screen paused_background aria_progress aria_attempts aria_checkpoint new_best settings_reset confirm_reset confirm_yes confirm_no guardian_hold sync_with_grownup sync_progress sync_kept sync_redo sound_late loading load_error".split(" "));for(const k of Object.keys(js))if(!rows[k])err.push("doc missing "+k);let same1=0,sameN=0;for(const [k,r] of Object.entries(rows)){const j=js[k];if(!j){err.push("json missing "+k);continue}if(r.kind==="예비")err.push("reserve key "+k);if(r.ko!==j.ko)err.push("ko diff "+k);if(r.en!==j.en)err.push("en diff "+k);const free=["어른","스토어"].includes(r.kind);if(!free&&([...j.ko].length>12||j.en.split(/\s+/).length>6))err.push("len "+k);if(r.kind==="스토어"&&([...j.ko].length>80||j.en.length>80))err.push("store>80 "+k);if(ban.test(j.ko+" "+j.en))err.push("banned "+k);const s1=r1v.has(j.ko)||r1v.has(j.en),sN=rnv.has(j.ko)||rnv.has(j.en);if(s1)same1++;if(sN)sameN++;if(!common.has(k)&&(s1||sN))err.push((s1?"r01":"run01")+" same "+k)}const want="card_bounce card_big card_cloud card_dot card_roof card_double card_three card_roll".split(" ").sort().join();const jc=Object.keys(js).filter(k=>k.startsWith("card_")).sort();const g=Object.entries(bal.gimmicks).filter(([id])=>!id.startsWith("_"));if(!g.every(([id])=>/^W\d$/.test(id)))err.push("balance gimmicks not W ids");const bc=g.map(([,v])=>v.card).sort().join();const lc=[...new Set(fs.readdirSync("levels").filter(f=>f.endsWith(".json")).map(f=>JSON.parse(fs.readFileSync("levels/"+f,"utf8")).card).filter(c=>c&&c.id).map(c=>c.id))].sort().join();if(jc.join()!==want)err.push("strings cards "+jc.join());if(bc!==want)err.push("balance cards "+bc);if(lc!==want)err.push("level card.id "+lc);let f=0;for(const c of jc)for(const s of ["","_portrait"])if(fs.existsSync("assets/cards/"+c+s+".svg"))f++;else err.push("no file "+c+s);const extra=fs.readdirSync("assets/cards").filter(x=>/\.svg$/.test(x)&&!jc.includes(x.replace(/(_portrait)?\.svg$/,"")));if(extra.length)wait.push("art 대기: 키 없는 카드 그림 "+extra.join("+"));console.log("doc",Object.keys(rows).length,"json",Object.keys(js).length,"| cards strings=balance=levels",jc.length,jc.join()===want&&bc===want&&lc===want?"OK":"NG","| same-as r01",same1,"runner",sameN,"(common만 허용) | card files",f+"/"+jc.length*2,"|",wait.length?"WAIT "+wait.join("; ")+" |":"",err.length?"FAIL "+err.join(", "):"PASS")'
 ```
 
-**검사 결과 (2026-11-17, round-2 1-2):**
+**검사 결과 (2026-11-17, round-2 1-2 후속 다시 실행 — `card_three` 문구 변경 뒤):**
 
 ```
 doc 83 json 83 | cards strings=balance=levels 8 OK | same-as r01 32 runner 12 (common만 허용) | card files 16/16 |  PASS
 ```
 
+- 1-2 후속: 출력은 1-2와 같음(①~⑧ PASS, 대기 0). 덧붙여 rhythm-01 round-3 새 문구(rhythm-01 `10-lore.md` R3-7 표 KR·EN 22개)와 글자까지 같은 문구 0(node로 표를 읽어 대조, 검사 명령 밖).
 - ①~⑧ 모두 PASS, 대기 없음. ⑥ `strings.json` 카드 8개 = `balance.json gimmicks` W0~W7 카드 8개 = 레벨 JSON `card.id` 8개(L1~L8). ⑧ 카드 그림 16/16, `card_twoballs` 그림은 art가 이미 지움(키 없는 그림 0).
 - 이전 결과(round-2 1-1): `doc 84 json 84 | cards 8 balance 대기(round-1 id) reserve card_twoballs | … | card files 14/16 (참고) | PASS`.
-- 한도 적용 키 중 가장 긴 문구: `tut_tap`·`card_bounce`·`card_big`·`card_three`·`card_roll` 한국어 12자(한도 딱 맞음) + `aria_best_combo` 12자, 영어 최대 6단어(`card_bounce`·`card_cloud`·`aria_best_combo`). 새 콤보 문구 `aria_combo`(KR 8자 / EN 5단어)·`aria_best_combo`는 두 게임 문구와 글자 겹침 0(⑦), rhythm-01 프로젝트 문서의 `aria_streak` "이어서 친 별 / Stars in a row"·`aria_streak_best` "가장 길게 이어 침 / Best streak"·runner-01 `combo_aria` "이어서 잘 뛴 수 / Good jumps in a row"와도 다름(손으로 대조). `store_short` KR 51자 / EN 72자.
+- 한도 적용 키 중 가장 긴 문구(1-2 후속): `tut_tap`·`card_bounce`·`card_big`·`card_roll` 한국어 12자(한도 딱 맞음) + `aria_best_combo` 12자, `card_three`는 12 → 10자(X2). 영어 최대 6단어(`card_bounce`·`card_cloud`·`aria_best_combo`), `card_three` EN 5단어. 새 콤보 문구 `aria_combo`(KR 8자 / EN 5단어)·`aria_best_combo`는 두 게임 문구와 글자 겹침 0(⑦), rhythm-01 프로젝트 문서의 `aria_streak` "이어서 친 별 / Stars in a row"·`aria_streak_best` "가장 길게 이어 침 / Best streak"·runner-01 `combo_aria` "이어서 잘 뛴 수 / Good jumps in a row"와도 다름(손으로 대조). `store_short` KR 51자 / EN 72자.
 - ⑦ 글자 같은 문구: rhythm-01 32개 키, runner-01 12개 키 — **모두 8-3 공통 UI 목록 안**(게임 정체성 문구 겹침 0). runner-01과 같은 것은 `tap_to_start`(눌러서 시작/Tap to start)·`btn_levels`(레벨 고르기/Levels)·`pause_screen` EN·`new_best` EN·`btn_next`·`btn_retry`·`btn_practice` EN·`loading`·기록 지우기 흐름 4개.
 - ⑤ 이 문서 8절에는 비교용으로 두 게임 용어를 적지만, 검사는 `strings.json`만 봅니다.
 
 ## 8. 다른 게임과의 구분
 
-### 8-1. rhythm-01과의 구분 (round-2 갱신, 1-2에서 20-balance 2절·30-art 10-1과 대조 — R2-D8)
+### 8-1. rhythm-01과의 비교 (1-2 후속: rhythm-01 round-3 "북길" 기준으로 다시 씀 — 20-balance 2절·30-art 10-1b와 같은 축, R2-D8·교차 리뷰 X1)
 
-두 게임은 "공이 어떤 자리에 닿을 때 톡"이 닮아 보일 수 있습니다. round-2에서 우리 쪽은 **끝없이 흘러오는 길**이 생겨 rhythm-01(한 자리에서 도는 궤도, 보여 주기 마디)과 화면 구조가 더 멀어졌습니다.
+rhythm-01은 round-3에서 새 코어 **"북길"**(오른쪽에서 흘러오는 별이 왼쪽 0.30 W 판정 선에 닿을 때 톡, 공은 탭과 무관하게 박마다 착지, 보여 주기 마디·북채·원 궤도 폐기 — rhythm-01 `10-lore.md` round-3 절·`20-balance.md` 17장·`30-art.md` 16절)로 바뀌었습니다. 1-2 표(궤도·보여 주기 마디 기준)는 사실과 달라져 아래로 바꿉니다.
 
-| 축 | rhythm-01(Tickadrum) | 이 게임 (round-2) | 이유 |
-|---|---|---|---|
-| **탭의 결과** | 탭은 별을 침, 공 경로 영향 없음 | **탭이 공을 쳐 올림**, 안 치면 떨어짐(D3) | 규칙 핵심 차이. `card_bounce`·`aria_play_area`·`store_short`가 이 인과를 말함 |
-| 앞을 보는 단서 | 궤도 위 별, 보여 주기 마디(시범 → 따라 하기) | **길 위 표시가 오른쪽에서 다가옴**, 시범·차례 없음 | 콜앤리스폰스 없음. 표시 = 지금 칠 때 하나 |
-| 칠지·말지 | 없음(모든 별을 침) | **지붕 밑에선 쉼**(반대 행동 1) | round-2 새 규칙 |
-| 판정 표식 | 별 (star, 노랑) | **쓰지 않음.** "표시" = **파란 낮은 반원 돔**(음표·별·노랑 없음, art 10-1) | |
-| 움직임·화면 구도 | 가운데 큰 원 궤도, 빙글 (orbit), 북채 | **쓰지 않음.** 왼쪽 1/3에 다리 달린 납작한 북 + 공(세로로만 튐), 길이 오른쪽에서 흘러옴. 궤도·별·북채·보여 주기 마디 없음 | balance 2절 "화면 요소"·art 10-1 "화면 구도"와 같음 |
-| 시작 전 소리 | 카운트인 "똑딱" | 받침 쉼 "콩"(D7) | |
-| 보정 | 박자 맞추기 | **소리 맞추기** | |
-| 등급 | 작은 북 1~3개 | 등급 구름 늘 3칸 | |
-| 실패 모습 | 별이 두 조각 | 늦음 = 공이 북 옆으로 굴러 떨어짐 / 일찍 = 헛스윙 뒤 떨어짐 / 지붕 = 공이 지붕 아랫면에 살짝 "퐁" 닿고 떨어짐. 글 없음 | balance 2절·art 10-1 "실패"와 같음 |
-| 콤보 | 별 판정마다 +1(공통 문서), 노랑 금지, 대체 글 "이어서 친 별" | 판정 성공마다 +1 **+ 지붕 밑 쉼(참기) +1**. HUD 띠 안 네모 칸 10개 + 금빛 둥근 네모 큰 표지, 글·숫자 없음, 대체 글 **"이어서 잘한 수"** | balance 2절·art 10-1과 같음. 대체 글 글자 겹침 0(7-9) |
-| 레벨 이름 | 아침 마당·꽃밭·비 오는 창가·바닷가·숲속 길·노을 언덕·등불 골목·지붕 위·구름 위·달 | 잔디밭 ~ 하늘 꼭대기(4절), **새 L5 "작은 마을"**도 마당·골목·지붕 위 낱말 안 씀 | "하루 흐름" 대신 "길 여행". 물체 이름 "지붕"은 rhythm-01 레벨 이름 "지붕 위"와 낱말 하나 같음(문구 겹침 아님, 참고) |
-| 판정 순간 문구 | "별에 닿으면 톡!" | "표시가 북에 오면 톡!" | 7-9 ⑦ 글자 겹침 0 |
-| 클리어 첫 문구 | 잘했어요! | 높이 올랐어요! / 멀리 왔어요! | |
+**요청자 결정(2026-11-17, 오케스트레이터 전달): 게임 간 겹침은 다 허용, 동사도 같아도 됩니다.** 그래서 이 표는 두 게임의 지금 사실을 적는 비교표이고, 차이를 만들려고 낱말·문구를 바꾸지 않습니다(1-2 후속에서 겹침 때문에 바꾼 문구 0).
+
+| 축 | rhythm-01 round-3 북길 | 이 게임 (round-2) |
+|---|---|---|
+| 탭의 결과 | 별을 침. 공은 탭과 무관하게 박마다 착지 | 탭이 공을 쳐 올림, 안 치면 떨어짐(D3). 공 높이 = 다음 표시까지 시간 |
+| 판정 자리 | 가로 길 띠 위 세로 판정 선 + 띠 아래 원형 판정 북 | 바닥 길 위, 북 가운데 다리 밑(세로 선 없음) |
+| 판정 표식 | 노랑 별(반박 별 같은 크기) | 파란 반원 돔 "표시" 하나, 지붕 밑 착지에는 없음 |
+| 박 눈금 | 정박 눈금 + 마디 첫 박 막대가 길과 함께 흐름 | 없음(조약돌은 엇간격 장식) |
+| 화면 구도·높이 | 길 띠가 화면 가운데 가로, 공 뜀 작음 | 길은 바닥, 공이 놀이 높이 Hp 전체를 위아래로 씀 |
+| 물체 | 없음(별 묶음 모양·간격만 다름) | 지붕·가지·긴 가지·구름·큰 언덕 |
+| 칠지·말지 | 별 없는 곳은 안 침(`card_rest_beat`) | 지붕 밑에선 공이 앉아 쉼, 지나가면 자동 토스, 참기도 콤보 +1 |
+| 시작·쉼 | 카운트인 "똑딱" + 공 통통 | 받침 쉼 공 까딱 "콩", 카운트인 없음 |
+| 실패 | 놓친 별이 두 조각 | 늦음 = 공이 북 옆으로 굴러 떨어짐 / 일찍 = 헛스윙 / 지붕 = 공이 지붕 아랫면에 "퐁" 닿고 떨어짐. 글 없음 |
+| 판정 반응·콤보 | 별 커짐 + 빛살, 원 점 줄, 대체 글 "이어서 친 별" | 세로 튐 선 + 공 납작 + 표시 흡수, 둥근 네모 칸 줄 + 큰 표지, 대체 글 "이어서 잘한 수" |
+| 재시작 | 1.08 s + 카운트인 | 1.1 s, 받침 쉼 "콩" |
+| 화면 이름 | 공·북·별·길(road) | 공·북·그림자·길(path)·표시·구름·지붕·가지·긴 가지·큰 언덕 |
+| 판정 순간 문구 | `tut_drum_tap` "별이 북에 오면 톡!" | `tut_tap` "표시가 북에 오면 톡!" |
+| 레벨 이름 | 아침 마당 ~ 달(하루 흐름) | 잔디밭 ~ 하늘 꼭대기(길 여행). 글자 겹침 0 |
+| 클리어·등급 | 잘했어요! · 작은 북 1~3개 | 높이 올랐어요! / 멀리 왔어요! · 등급 구름 늘 3칸 |
+
+- 같은 것(요청자 허용): 흐름 방향(오른쪽 → 왼쪽)·왼쪽 고정 판정 자리·가로 0.30 W, 화면 이름 공·북·길, 판정 순간 문구 틀("○이 북에 오면 톡!"), 의성어 톡. 바꾸지 않습니다.
+- 7-9 ⑦은 글자까지 같은 문구만 실패로 봅니다(1-2 후속 결과: 게임 정체성 문구 겹침 0). rhythm-01 round-3 새 키(`tut_drum_tap`·`card_drum_tap`·`card_run3`·`aria_streak` 등, rhythm-01 10-lore R3-7)와도 글자까지 같은 문구 0(손으로 대조, 보고서).
+- "별" 등 rhythm-01 용어 금지어(7-9 ⑤)는 지난 결정대로 검사에 남겨 둡니다(지금 문구 위반 0). 요청자 결정으로 의무는 아니므로 풀지는 오케스트레이터 판단.
 
 ### 8-2. runner-01과의 관계 (요청자 허용 겹침, 용어는 다르게 — 1-2에서 20-balance 2-1·30-art 10-2와 대조, R2-D8)
 
@@ -396,6 +405,7 @@ doc 83 json 83 | cards strings=balance=levels 8 OK | same-as r01 32 runner 12 (c
 | R2-D6 | round-2 1-2 | W0 이름 "표시" 유지 + 그림 대조 | **처리**: 3절 표 "art와 맞출 것" 칸을 art 실제 모양(반원 돔·줄무늬 차양·잎 가지·반타원 언덕·긴 구름·북 다리)으로 고치고 이름 모두 유지. 카드 8장 문구 ↔ art 8절 칸 그림 ↔ balance 레벨 첫 등장 대조(교차 리뷰 표). `card_three` 그림 힌트를 art 칸으로 맞춤 |
 | R2-D7 | round-2 1-2 | 콤보 대체 글(insights) | **처리**: "콤보" 대신 "이어서 잘한 수", 개수 meter는 `aria-valuetext` = 숫자만(6절 4), 판정마다·단계·끊김 때 읽지 않음(6절 5), 최고 콤보 meter·최고 기록 progressbar는 카드 버튼 밖(6절 11). `aria_combo`·`aria_best_combo` 문구 변경, 금지어에 콤보·combo·streak |
 | R2-D8 | round-2 1-2 | 세 문서 rhythm-01 구분·runner-01 관계 대조 | **처리**: 8-1에 판정 표식(파란 돔)·화면 구도·실패 모습·콤보 셈(지붕 +1) 행, 8-2에 허용 겹침 4개(흐름·앞쪽 박·지붕·1.1 s 재시작)와 모양·판정·끝 차이. 세 문서 사이 어긋남은 교차 리뷰 이슈 4 |
+| X1·X2·X6 | balance 교차 리뷰(1-2 후속) | 8-1 옛 코어 기준 · "셋 세고" 셈 시작점 · 가지 아랫면 숫자 | **처리**: 8-1을 rhythm-01 북길 기준 사실로 다시 씀(balance 2절·art 10-1b 축). 요청자 결정(겹침 다 허용, 동사도 같아도 됨)으로 겹침 때문에 바꾼 낱말·문구 없음, `card_three` → "셋에 톡"(이른 무시 탭 쪽만 남김), 3절 W5 0.34. |
 | X-L1·X-L2 | art 17절 | `tut_tap` 자리, `unlock_sound`, 표시·지붕 이름 | **확인**: `tut_tap` EN 5단어·KR 12자는 세로 1줄·가로 2줄(art 4-5 검사), 7-1에 `icon-unlock_sound` 기록, 이름 유지 |
 
 ## 10. 스토어 문구 초안

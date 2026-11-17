@@ -1,5 +1,5 @@
 {
-  "_meta": { "ko": "rhythm-02 텍스트 원본(round-2 1-2 2026-11-17). 키 표는 10-lore.md 7절과 같음. 빌드는 이 파일만 읽음. 카드 키 8개는 balance.json gimmicks.<id>.card와 같아야 함(예비 카드 키는 두지 않음).", "en": "rhythm-02 string source (round-2 1-2, 2026-11-17). Same keys as 10-lore.md section 7. The build reads only this file. The 8 card keys must match balance.json gimmicks.<id>.card (no reserve card keys)." },
+  "_meta": { "ko": "rhythm-02 텍스트 원본(round-2 1-2 후속 2026-11-17). 키 표는 10-lore.md 7절과 같음. 빌드는 이 파일만 읽음. 카드 키 8개는 balance.json gimmicks.<id>.card와 같아야 함(예비 카드 키는 두지 않음).", "en": "rhythm-02 string source (round-2 1-2, 2026-11-17). Same keys as 10-lore.md section 7. The build reads only this file. The 8 card keys must match balance.json gimmicks.<id>.card (no reserve card keys)." },
   "title": { "ko": "높이통통", "en": "Tossaloft" },
   "tap_to_start": { "ko": "눌러서 시작", "en": "Tap to start" },
   "audio_unlock": { "ko": "톡 하면 소리가 나요", "en": "Tap to hear sound" },
@@ -30,7 +30,7 @@
   "card_dot": { "ko": "길게 길게 짧게", "en": "Long, long, short" },
   "card_roof": { "ko": "지붕 밑에선 쉬어요", "en": "Under the roof, rest" },
   "card_double": { "ko": "가지 밑에선 톡톡", "en": "Under the branch: tap tap" },
-  "card_three": { "ko": "큰 언덕은 셋 세고 톡", "en": "Big hill: count three, tap" },
+  "card_three": { "ko": "큰 언덕은 셋에 톡", "en": "Big hill: tap on three" },
   "card_roll": { "ko": "긴 가지 밑엔 톡톡톡톡", "en": "Long branch: four quick taps" },
   "aria_play_area": { "ko": "공을 톡 쳐 올려요", "en": "Tap to send the ball up" },
   "practice_on": { "ko": "연습 중", "en": "Practice mode" },

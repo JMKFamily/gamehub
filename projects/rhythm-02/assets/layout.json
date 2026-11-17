@@ -212,7 +212,7 @@
    "_rule": "지붕(W4 치지 마): 차양. 윗변은 둥글게 솟음(평평한 발판 아님), 넓은 세로 줄무늬 roof/roofStripe, 아래 가장자리 반원 물결 끝 = 아랫면(h = under_of_Hp·Hp). 그 밑에 공이 앉아 까딱 + 콩. 가시·뾰족·빨강·경고 표지 없음."
   },
   "branch": {
-   "under_ref": "balance.json objects.branch.under_of_Hp (0.30)",
+   "under_ref": "balance.json objects.branch.under_of_Hp (0.34)",
    "twig_h_of_d": 0.24,
    "leaf_len_of_d": 0.55,
    "leaf_w_of_d": 0.26,

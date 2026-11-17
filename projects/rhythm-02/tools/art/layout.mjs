@@ -13,13 +13,16 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = resolve(HERE, '../..');
 const OUT = join(PROJ, 'assets/layout.json');
 const PAL = JSON.parse(readFileSync(join(PROJ, 'assets/palette.json'), 'utf8'));
+// _ref 문구의 숫자는 balance.json 에서 읽음(문구만, 계산은 loadLevels 가 따로 읽음). 못 읽으면 '?'.
+let BAL0 = {}; try { BAL0 = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8')); } catch {}
+const bref = (path) => { const v = path.split('.').reduce((o, k) => (o == null ? o : o[k]), BAL0); return `balance.json ${path} (${v == null ? '?' : Number(v).toFixed(2)})`; };
 
 export const LAYOUT = {
   schema_version: 3,
   _source: 'tools/art/layout.mjs 가 생성(art-director 원본). 30-art 4~7절 표는 이 식으로 계산한 요약. 단위 px(CSS px), W·H = 화면, S = min(W,H), d = 공 지름. 박·시각·세상 위치 원본은 balance(levels/*.json, balance.json scroll·objects, tools/sim/judge.mjs worldX·pxPerBeat·objectsAt·comboEvents)이고 여기에는 그림 비율·연출 배분만 둠. round-2: 북·공 0.30 W, 오른쪽에서 흘러오는 바닥 길·박 표시·물체, HUD 띠(모든 세계 물체 윗선 ≥ HUD 띠 아래, M2 일반화), 콤보 자리.',
   ball: { d_of_S: 0.078, d_of_S_landscape: 0.066, d_min: 24, d_max: 44, outline_of_d: 0.08, shine: { r_of_radius: 0.62, from_deg: 200, to_deg: 255, w_of_d: 0.12 },
     _d: 'd = round(clamp(k·S, d_min, d_max)), k = 세로 d_of_S, 가로 d_of_S_landscape. 공 x = 북 가운데(drum_x).' },
-  drum: { x_ratio_ref: 'balance.json scroll.drum_x_ratio (0.30)', w_of_d: 3.2, h_of_d: 0.95, skin_h_of_d: 0.28, rx_of_d: 0.3, outline_of_d: 0.08, tap_lift_of_d: 0.22, tap_ms: [50, 70],
+  drum: { x_ratio_ref: bref('scroll.drum_x_ratio'), w_of_d: 3.2, h_of_d: 0.95, skin_h_of_d: 0.28, rx_of_d: 0.3, outline_of_d: 0.08, tap_lift_of_d: 0.22, tap_ms: [50, 70],
     leg_w_of_d: SHAPE.leg.w_of_d, twoball_x_of_d: 0.78,
     _tap: '탭마다 북 전체가 tap_lift 만큼 올라갔다(50 ms, ease-out) 내려옴(70 ms, ease-in) = 120 ms(balance drum_pop_ms). 이른 통과 탭(접촉 전)은 올라간 자세를 접촉 시각까지 유지했다가 공이 떠날 때 함께 내려옴(N4: 공이 멈춘 북에서 혼자 튀지 않게, tap_motion.early_hold).',
     _leg: '북 가운데 아래 다리(북 몸통 색, 너비 0.22d)가 북 아랫변에서 길(lane_y)까지. 박 표시가 이 다리 밑에 오는 순간 = 공이 가죽에 닿는 순간 = 탭.' },
@@ -64,11 +67,11 @@ export const LAYOUT = {
     lane: { dy_of_d: 0.6, _rule: '길(lane) = 바닥 띠 위쪽 줄 y = floorTop + 0.6d. 박 표시가 이 줄 위를 흐름. 북 다리가 이 줄까지 내려옴.' },
     mark: { w_of_d: SHAPE.mark.w_of_d, h_of_d: SHAPE.mark.h_of_d, outline_px: SHAPE.mark.outline_px, per: 'hit 접촉마다 하나(balance objects.mark), nogo 없음', absorb_ms: 120,
       _rule: '낮은 반원 돔, 북 몸통 색 + ink. 크기·색 하나(높이 정보 없음 — 간격이 시간). 친 순간 북 다리 밑에서 120 ms 동안 1 → 0 으로 작아짐(흡수). 실패하면 그 자리에 멈춤. 북을 지난 표시는 없음.' },
-    roof: { under_ref: 'balance.json objects.roof.under_of_Hp (0.45)', body_h_of_d: SHAPE.roof.body_h_of_d, dome_of_d: SHAPE.roof.dome_of_d, scallop_d_of_d: SHAPE.roof.scallop_d_of_d, outline_px: SHAPE.roof.outline_px, x: '[beat_in, beat_out] 그대로(여유를 더하지 않음 — 앞 hit 접촉 때 북 위에 오지 않게)',
+    roof: { under_ref: bref('objects.roof.under_of_Hp'), body_h_of_d: SHAPE.roof.body_h_of_d, dome_of_d: SHAPE.roof.dome_of_d, scallop_d_of_d: SHAPE.roof.scallop_d_of_d, outline_px: SHAPE.roof.outline_px, x: '[beat_in, beat_out] 그대로(여유를 더하지 않음 — 앞 hit 접촉 때 북 위에 오지 않게)',
       _rule: '지붕(W4 치지 마): 차양. 윗변은 둥글게 솟음(평평한 발판 아님), 넓은 세로 줄무늬 roof/roofStripe, 아래 가장자리 반원 물결 끝 = 아랫면(h = under_of_Hp·Hp). 그 밑에 공이 앉아 까딱 + 콩. 가시·뾰족·빨강·경고 표지 없음.' },
-    branch: { under_ref: 'balance.json objects.branch.under_of_Hp (0.30)', twig_h_of_d: SHAPE.branch.twig_h_of_d, leaf_len_of_d: SHAPE.branch.leaf_len_of_d, leaf_w_of_d: SHAPE.branch.leaf_w_of_d, leaf_gap_of_d: SHAPE.branch.leaf_gap_of_d, long_if_beats_ge: 1.5, side_margin_of_d: SHAPE.branch.side_margin_of_d, x: 'R2-D9: 그린 가로 = balance objects [beat_in, beat_out] 그대로(balance 가 [첫 반박 접촉 − 0.25박, 마지막 반박 접촉 + 0.2박]로 줌), 좌우 여유 0. 그 구간에 완전히 든 표시 = 2(가지)·4(긴 가지), 반쯤 걸친 표시 0 → 들어가는 표시(앞 비행 착지)·나가는 표시는 가지 밖에 완전히 — layout.mjs 4해상도 검사',
+    branch: { under_ref: bref('objects.branch.under_of_Hp'), twig_h_of_d: SHAPE.branch.twig_h_of_d, leaf_len_of_d: SHAPE.branch.leaf_len_of_d, leaf_w_of_d: SHAPE.branch.leaf_w_of_d, leaf_gap_of_d: SHAPE.branch.leaf_gap_of_d, long_if_beats_ge: 1.5, side_margin_of_d: SHAPE.branch.side_margin_of_d, x: `R2-D9: 그린 가로 = balance objects [beat_in, beat_out] 그대로(balance 가 [첫 반박 접촉 − ${BAL0.objects?.branch?.cover_pre_beats ?? '?'}박, 마지막 반박 접촉 + ${BAL0.objects?.branch?.cover_post_beats ?? '?'}박]로 줌), 좌우 여유 0. 그 구간에 완전히 든 표시 = 2(가지)·4(긴 가지), 반쯤 걸친 표시 0 → 들어가는 표시(앞 비행 착지)·나가는 표시는 가지 밖에 완전히 — layout.mjs 4해상도 검사`,
       _rule: '가지(W5 낮은 가지 [beat_in, beat_out] < 1.5박, W7 긴 가지 ≥ 1.5박): 가로 줄기 + 렌즈 잎(원 아님), 그린 가로 = x 규칙(R2-D9, 들어가는 표시는 가지 밖에 완전히, 가지 밑 표시 수 = 톡 횟수). 긴 가지 = 레벨 objects long:true(없으면 1.5박 이상). 같은 모양 = 같은 행동(빠르게 톡톡), 길이·잎 수만 다름.' },
-    hill: { top_ref: 'balance.json objects.hill.top_of_Hp (0.30)', layer: 'back', outline_px: SHAPE.hill.outline_px, _rule: '큰 언덕(W6): 바닥 윗선에서 솟은 반타원, 꼭대기 h = top_of_Hp·Hp(공 높이 기준), 북·공 뒤에 그림. 공이 언덕 위로 넘어가는 것처럼 보임.' },
+    hill: { top_ref: bref('objects.hill.top_of_Hp'), layer: 'back', outline_px: SHAPE.hill.outline_px, _rule: '큰 언덕(W6): 바닥 윗선에서 솟은 반타원, 꼭대기 h = top_of_Hp·Hp(공 높이 기준), 북·공 뒤에 그림. 공이 언덕 위로 넘어가는 것처럼 보임.' },
     cloud_ref: 'cloud 절',
     deco: { parallax_default: 0.5, tile: 'palette.json themes.<키>.silhouette(v2, 너비 = W 띠가 끝없이 이어짐)', pebbles: { color: 'floorEdge', w_of_d: 0.32, h_px: 3, dy_of_d: 0.45, gaps_of_W: [0.23, 0.17, 0.31, 0.29], parallax: 1.0, _rule: '바닥 띠 길 아래 짧은 조약돌 — 흐름 속도감(박 격자가 아닌 엇간격, 표시보다 약한 대비)' } },
     scroll_stop: { ref: 'clear_sequence.scroll_stop_beat', ease_beats: 1, draw_only: true, curve: 'drawn = stop − 1 + u − u²/4, u = scrollBeatAt − (stop − 1) 을 감속 없이 이어 센 박(0 ~ 2), u ≥ 2 면 stop', _rule: 'R2-D5: 클리어 뒤 길 멈춤 감속은 빌드 그리기만(judge.mjs scrollBeatAt·worldX 판정 쪽은 바꾸지 않음, 판정이 끝난 뒤). 마지막 1박 거리를 2박 시간에 걸쳐 속도 1 → 0 으로(속도 튐 없음). 끝 구름·공 숨김 검사는 이 그린 박으로 함' },
