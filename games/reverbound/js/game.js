@@ -25,6 +25,8 @@ export function createGame(bal, hooks = {}) {
     lastPerf: 0,
     safe: null,             // 연습 모드 안전 지점 표 (practice.js safePoints). 없으면 자동 체크포인트 없음
     ev: 0,                  // 마지막 틱 이벤트 비트 (physics.step ev)
+    pressId: null,          // 지금 눌려 있는 누름의 번호 (콤보 판정 '누름 1번 = 판정 1번', 20-balance 15-3). 생사에는 쓰지 않음
+    pressSeq: 0,
     maxX: 0,
   };
 
@@ -38,6 +40,7 @@ export function createGame(bal, hooks = {}) {
     G.time = G.k / hz - G.preroll;
     G.queue.length = 0;
     G.held = false;
+    G.pressId = null;
     G.deadT = 0; G.clearT = 0; G.death = null;
     G.state = 'playing';
     G.attempts++;
@@ -74,6 +77,8 @@ export function createGame(bal, hooks = {}) {
       else G.held = false;
     }
     const down = G.held || latch;
+    // 누름 번호: 새로 누른 틱마다 +1, 손을 떼면 없음 (tools/combo-check.mjs 실행기와 같은 규칙)
+    if (edge) G.pressId = G.pressSeq++; else if (!down) G.pressId = null;
     const L = G.L;
     G.prev.x = L.X[G.k]; G.prev.y = G.s.y; G.prevRot = G.rot;
     const r = step(L, G.s, G.k, down, edge);
@@ -88,6 +93,8 @@ export function createGame(bal, hooks = {}) {
     }
     G.s = r.s;
     G.ev = r.ev;
+    // 콤보 판정 (보기만 함): 사망 틱이 아닐 때, 클리어 판정 전에 (combo-check와 같은 순서)
+    emit('onTick', k, r.ev, down ? G.pressId : null);
     // 회전 연출: 공중에서 회전, 착지하면 90° 스냅
     if (!r.s.g) G.rot += rotRate / hz;
     else G.rot = Math.round(G.rot / 90) * 90;

@@ -1,0 +1,418 @@
+{
+ "n_per": 40,
+ "s1": true,
+ "b1": {
+  "01/child_sd70": {
+   "n": 40,
+   "clear": 13,
+   "judged": 365,
+   "mismatch": 0
+  },
+  "01/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 600,
+   "mismatch": 0
+  },
+  "01/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 15,
+   "mismatch": 0
+  },
+  "02/child_sd70": {
+   "n": 40,
+   "clear": 7,
+   "judged": 556,
+   "mismatch": 0
+  },
+  "02/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 960,
+   "mismatch": 0
+  },
+  "02/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 24,
+   "mismatch": 0
+  },
+  "03/child_sd70": {
+   "n": 40,
+   "clear": 3,
+   "judged": 247,
+   "mismatch": 0
+  },
+  "03/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 640,
+   "mismatch": 0
+  },
+  "03/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 16,
+   "mismatch": 0
+  },
+  "04/child_sd70": {
+   "n": 40,
+   "clear": 6,
+   "judged": 332,
+   "mismatch": 0
+  },
+  "04/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 1000,
+   "mismatch": 0
+  },
+  "04/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 25,
+   "mismatch": 0
+  },
+  "05/child_sd70": {
+   "n": 40,
+   "clear": 1,
+   "judged": 191,
+   "mismatch": 0
+  },
+  "05/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 800,
+   "mismatch": 0
+  },
+  "05/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 20,
+   "mismatch": 0
+  },
+  "06/child_sd70": {
+   "n": 40,
+   "clear": 1,
+   "judged": 201,
+   "mismatch": 0
+  },
+  "06/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 720,
+   "mismatch": 0
+  },
+  "06/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 18,
+   "mismatch": 0
+  },
+  "07/child_sd70": {
+   "n": 40,
+   "clear": 1,
+   "judged": 184,
+   "mismatch": 0
+  },
+  "07/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 880,
+   "mismatch": 0
+  },
+  "07/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 22,
+   "mismatch": 0
+  },
+  "08/child_sd70": {
+   "n": 40,
+   "clear": 3,
+   "judged": 262,
+   "mismatch": 0
+  },
+  "08/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 1000,
+   "mismatch": 0
+  },
+  "08/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 25,
+   "mismatch": 0
+  },
+  "09/child_sd70": {
+   "n": 40,
+   "clear": 3,
+   "judged": 240,
+   "mismatch": 0
+  },
+  "09/skilled_sd25": {
+   "n": 40,
+   "clear": 40,
+   "judged": 1080,
+   "mismatch": 0
+  },
+  "09/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 27,
+   "mismatch": 0
+  },
+  "10/child_sd70": {
+   "n": 40,
+   "clear": 3,
+   "judged": 251,
+   "mismatch": 0
+  },
+  "10/skilled_sd25": {
+   "n": 40,
+   "clear": 38,
+   "judged": 1043,
+   "mismatch": 0
+  },
+  "10/perfect": {
+   "n": 1,
+   "clear": 1,
+   "judged": 27,
+   "mismatch": 0
+  }
+ },
+ "b2": [
+  {
+   "id": "01",
+   "clear": true,
+   "grades": 15,
+   "taps": 15,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "02",
+   "clear": true,
+   "grades": 24,
+   "taps": 24,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "03",
+   "clear": true,
+   "grades": 16,
+   "taps": 16,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "04",
+   "clear": true,
+   "grades": 25,
+   "taps": 25,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "05",
+   "clear": true,
+   "grades": 20,
+   "taps": 20,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "06",
+   "clear": true,
+   "grades": 18,
+   "taps": 18,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "07",
+   "clear": true,
+   "grades": 22,
+   "taps": 22,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "08",
+   "clear": true,
+   "grades": 25,
+   "taps": 25,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "09",
+   "clear": true,
+   "grades": 27,
+   "taps": 27,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "10",
+   "clear": true,
+   "grades": 27,
+   "taps": 27,
+   "accuracy": 100,
+   "ok": true
+  }
+ ],
+ "ui": {
+  "1280x720": {
+   "play": {
+    "combo": 5,
+    "aria": 5,
+    "visible": true,
+    "judge": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false
+    },
+    "lastPct": 100,
+    "comboRect": [
+     493,
+     42,
+     247,
+     21
+    ],
+    "overlapPause": false,
+    "overlapAtt": false,
+    "cueTop": 71,
+    "comboBottom": 63
+   },
+   "clear": {
+    "state": "clear",
+    "accuracy": 100,
+    "shown": true,
+    "accText": "100%",
+    "accAria": "100",
+    "overflow": false,
+    "bottom": 589,
+    "vh": 720
+   },
+   "bcMarkInsideButton": 0,
+   "aria": [
+    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
+    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+   ]
+  },
+  "640x360": {
+   "play": {
+    "combo": 5,
+    "aria": 5,
+    "visible": true,
+    "judge": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false
+    },
+    "lastPct": 100,
+    "comboRect": [
+     221,
+     40,
+     150,
+     13
+    ],
+    "overlapPause": false,
+    "overlapAtt": false,
+    "cueTop": 64,
+    "comboBottom": 52
+   },
+   "clear": {
+    "state": "clear",
+    "accuracy": 100,
+    "shown": true,
+    "accText": "100%",
+    "accAria": "100",
+    "overflow": false,
+    "bottom": 299,
+    "vh": 360
+   },
+   "bcMarkInsideButton": 0,
+   "aria": [
+    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
+    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+   ]
+  },
+  "360x640": {
+   "play": {
+    "combo": 5,
+    "aria": 5,
+    "visible": true,
+    "judge": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false
+    },
+    "lastPct": 100,
+    "comboRect": [
+     81,
+     81,
+     150,
+     13
+    ],
+    "overlapPause": false,
+    "overlapAtt": false,
+    "cueTop": 101,
+    "comboBottom": 93
+   },
+   "clear": {
+    "state": "clear",
+    "accuracy": 100,
+    "shown": true,
+    "accText": "100%",
+    "accAria": "100",
+    "overflow": false,
+    "bottom": 541,
+    "vh": 640
+   },
+   "bcMarkInsideButton": 0,
+   "aria": [
+    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
+    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+   ]
+  }
+ },
+ "console": [],
+ "external": [],
+ "b1_total": {
+  "cases": 810,
+  "mismatch": 0,
+  "judged": 11771
+ },
+ "u2": {
+  "combo_off": {
+   "n": 40,
+   "mismatch": 0,
+   "comboShown": false,
+   "judgeDrawn": false,
+   "stats": false,
+   "accShown": true,
+   "uiOk": true
+  },
+  "pct_off": {
+   "n": 40,
+   "mismatch": 0,
+   "comboShown": true,
+   "judgeDrawn": false,
+   "stats": true,
+   "accShown": false,
+   "uiOk": true
+  }
+ },
+ "problems": []
+}

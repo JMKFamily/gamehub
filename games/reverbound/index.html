@@ -15,12 +15,15 @@
 <div id="hud" class="hidden">
   <div id="att" class="att"></div>
   <div id="barWrap"><div id="bar"><div id="barFill"></div><div id="barBest"></div></div><span id="pct">0%</span></div>
+  <!-- 콤보 줄 (30-art 5-8-1): 점 10칸 + 왼쪽 도넛 표지. 글·숫자 없음. 값은 aria-valuenow (10-lore 5-8) -->
+  <div id="combo" class="combo hidden" role="meter" aria-valuemin="0"><span class="cmMarks"></span><span class="cmDots"></span><span class="cmBits"></span></div>
   <div class="hudRight">
     <button id="pauseBtn" class="iconBtn" type="button" aria-label="pause"><span></span><span></span></button>
   </div>
 </div>
 <div id="cue" class="cue hidden"></div>
 <div id="toast" class="toast hidden"></div>
+<div id="comboLive" class="sr" aria-live="polite"></div>
 
 <!-- 화면들 -->
 <div id="loading" class="screen show"><p id="loadingText">…</p><button id="retryLoad" class="btn hidden" type="button">↻</button></div>
@@ -81,6 +84,11 @@
   <p id="clearSub" class="sub"></p>
   <p id="clearAtt" class="small"></p>
   <p id="clearAll" class="small hidden"></p>
+  <!-- 결과 한 줄 (30-art 5-8-4): 왼쪽 정확도, 오른쪽 최고 콤보. 일반 모드 클리어만 -->
+  <div id="clearStats" class="stats hidden">
+    <div id="stAcc" class="stat" role="meter" aria-valuemin="0" aria-valuemax="100"><svg class="accIco" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="10" r="2.2"/><circle cx="8" cy="6" r="2.2"/><circle cx="13" cy="10" r="2.2"/></svg><span class="v" aria-hidden="true"></span><span class="sr nbt"></span></div>
+    <div id="stCombo" class="stat" role="meter" aria-valuemin="0"><span class="cm" aria-hidden="true"></span><span class="n" aria-hidden="true"></span><span class="sr nbt"></span></div>
+  </div>
   <div class="menu">
     <button id="cNext" class="btn primary" type="button"></button>
     <button id="cRetry" class="btn" type="button"></button>

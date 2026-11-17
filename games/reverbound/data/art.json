@@ -1,5 +1,5 @@
 {
- "_source": "projects/runner-01/30-art.md 2절·2-2-1·6절 + data/provisional-art.json 임시값 (sync-data.mjs 생성, 직접 고치지 말 것)",
+ "_source": "projects/runner-01/30-art.md 2-1·2-2·2-2-1·5-5·6절 + data/art-gimmicks.json(부록 B) (sync-data.mjs 생성, 직접 고치지 말 것)",
  "palette": {
   "level1": {
    "bg": "#222B37",
@@ -58,11 +58,11 @@
    "ground": "#6A8865"
   },
   "level9": {
-   "bg": "#1C1A38",
-   "bgFar": "#272550",
-   "bgPulse": "#2E2C55",
-   "bgAccent": "#33304E",
-   "ground": "#7E7AB0"
+   "bg": "#1B2436",
+   "bgFar": "#24304A",
+   "bgPulse": "#2C3852",
+   "bgAccent": "#3A3550",
+   "ground": "#7489A6"
   },
   "level10": {
    "bg": "#2A1628",
@@ -95,7 +95,7 @@
   "level7": "#E2ECF2",
   "level8": "#8EE08A",
   "level9": "#A8A8FF",
-  "level10": "#FF9F7A"
+  "level10": "#E59CF0"
  },
  "clear": {
   "level1": [
@@ -134,9 +134,9 @@
    "#F2C38B"
   ],
   "level10": [
-   "#FF9F7A",
+   "#E59CF0",
    "#FFD66B",
-   "#F28AD0"
+   "#F2C38B"
   ]
  },
  "card_object": {
@@ -169,7 +169,7 @@
   ],
   "level7": [
    "arch",
-   "stalactite",
+   "drops",
    "arch"
   ],
   "level8": [
@@ -191,74 +191,11 @@
  "gimmicks": {
   "gate_height_t": 3,
   "gate_rest_on_support": true,
-  "platform_visual_t": 0.22,
-  "ceiling_hanger": "rod"
+  "platform_visual_t": 0.2,
+  "ceiling_hanger": "rod",
+  "ceiling_string_every": 4
  },
- "provisional": {
-  "level4": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level5": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level6": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level7": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level8": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level9": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ],
-  "level10": [
-   "palette",
-   "cardTint",
-   "clear",
-   "motifs",
-   "card_object",
-   "gimmick_shapes",
-   "music"
-  ]
- },
+ "provisional": {},
  "contrast": {
   "level1": {
    "pairs": 27,
@@ -294,7 +231,7 @@
   },
   "level9": {
    "pairs": 27,
-   "hazard_min": 5.51
+   "hazard_min": 5.11
   },
   "level10": {
    "pairs": 27,

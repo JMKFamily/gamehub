@@ -84,5 +84,23 @@
     {"type":"spike","x":592.75,"y":0},
     {"type":"spike","x":608.51,"y":0},
     {"type":"spike","x":609.51,"y":0}
+  ],
+  "judge_taps": [
+    {"i":0,"kind":"ground","beat":8,"t_s":3.4286,"early_ms":128.6,"late_ms":133.9,"safe_early_ms":128.6,"safe_late_ms":133.9},
+    {"i":1,"kind":"ground","beat":12,"t_s":5.1429,"early_ms":197,"late_ms":186.3,"safe_early_ms":197,"safe_late_ms":186.3},
+    {"i":2,"kind":"ground","beat":14,"t_s":6,"early_ms":129.2,"late_ms":133.3,"safe_early_ms":129.2,"safe_late_ms":133.3},
+    {"i":3,"kind":"ground","beat":18,"t_s":7.7143,"early_ms":147.6,"late_ms":148.2,"safe_early_ms":147.6,"safe_late_ms":148.2},
+    {"i":4,"kind":"ground","beat":38,"t_s":16.2857,"early_ms":81.5,"late_ms":85.1,"safe_early_ms":81.5,"safe_late_ms":85.1},
+    {"i":5,"kind":"ground","beat":52,"t_s":22.2857,"early_ms":148.2,"late_ms":147.6,"safe_early_ms":148.2,"safe_late_ms":147.6},
+    {"i":6,"kind":"ground","beat":60,"t_s":25.7143,"early_ms":81,"late_ms":85.7,"safe_early_ms":81,"safe_late_ms":85.7},
+    {"i":7,"kind":"ground","beat":66,"t_s":28.2857,"early_ms":131.5,"late_ms":135.1,"safe_early_ms":131.5,"safe_late_ms":135.1},
+    {"i":8,"kind":"ground","beat":68,"t_s":29.1429,"early_ms":197,"late_ms":186.3,"safe_early_ms":197,"safe_late_ms":186.3},
+    {"i":9,"kind":"ground","beat":70,"t_s":30,"early_ms":129.2,"late_ms":133.3,"safe_early_ms":129.2,"safe_late_ms":133.3},
+    {"i":10,"kind":"ground","beat":78,"t_s":33.4286,"early_ms":195.2,"late_ms":188.1,"safe_early_ms":195.2,"safe_late_ms":188.1},
+    {"i":11,"kind":"ground","beat":80,"t_s":34.2857,"early_ms":198.2,"late_ms":185.1,"safe_early_ms":198.2,"safe_late_ms":185.1},
+    {"i":12,"kind":"ground","beat":86,"t_s":36.8571,"early_ms":98.8,"late_ms":101.2,"safe_early_ms":98.8,"safe_late_ms":101.2},
+    {"i":13,"kind":"ground","beat":104,"t_s":44.5714,"early_ms":83.9,"late_ms":86.9,"safe_early_ms":83.9,"safe_late_ms":86.9},
+    {"i":14,"kind":"ground","beat":128,"t_s":54.8571,"early_ms":82.1,"late_ms":88.7,"safe_early_ms":82.1,"safe_late_ms":88.7},
+    {"i":15,"kind":"ground","beat":136,"t_s":58.2857,"early_ms":81.5,"late_ms":85.1,"safe_early_ms":81.5,"safe_late_ms":85.1}
   ]
 }

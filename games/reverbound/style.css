@@ -93,13 +93,20 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .cards.roomy .card .tag { display: block; }
 .card .starRow { display: flex; gap: 1px; flex-wrap: nowrap; }
 .card .starRow .ico { width: clamp(11px, calc(var(--ch) * 0.1), 20px); height: clamp(11px, calc(var(--ch) * 0.1), 20px); }
-/* 지면 띠 (카드 아래 28 %): ground + groundEdge 3 px + outline 2 px. 최고 % 는 띠 안에 outline 색 글자 */
-.card .band { position: absolute; left: 0; right: 0; bottom: 0; height: 28%; background: var(--ground); border-top: 3px solid var(--groundEdge); box-shadow: 0 -2px 0 var(--outline);
-  display: flex; align-items: center; padding: 0 8px; }
-.card .best { font-size: clamp(11px, calc(var(--ch) * 0.1), 15px); font-weight: 900; color: var(--outline); white-space: nowrap; position: relative; z-index: 1; }
-.card .obj { position: absolute; left: 50%; bottom: calc(100% + 3px); transform: translateX(-50%); height: max(24px, min(calc(var(--ch) * 0.25), calc(var(--ch) * 0.2 + 6px))); display: flex; }
+/* 30-art 5-5 장면 칸 = 카드 아래 1/3: 위 60 % 하늘(카드 바탕), 아래 40 % 지면 띠(ground + groundEdge 3 px + outline 2 px). 최고 % 는 띠 안 오른쪽에 outline 색 글자 */
+.card .band { position: absolute; left: 0; right: 0; bottom: 0; height: calc(100% / 3 * 0.4); background: var(--ground); border-top: 3px solid var(--groundEdge); box-shadow: 0 -2px 0 var(--outline);
+  display: flex; align-items: center; justify-content: flex-end; padding: 0 8px; }
+.card .best { font-size: clamp(10px, calc(var(--ch) * 0.1), 15px); line-height: 1; font-weight: 900; color: var(--outline); white-space: nowrap; position: relative; z-index: 1; }
+/* 대표 오브젝트: 지면 띠 위에 섬, 높이 clamp(카드 높이 × 0.2, 18, 48) px. 카드 높이 170 px 이상이면 가운데, 그보다 좁으면 왼쪽(폭 10 % 안쪽) */
+.card .obj { position: absolute; left: 10%; bottom: calc(100% + 3px); height: clamp(18px, calc(var(--ch) * 0.2), 48px); display: flex; }
+.cards.roomy .card .obj { left: 50%; transform: translateX(-50%); }
 .card .obj svg { height: 100%; width: auto; overflow: visible; }
-.card .obj.objIn { bottom: 3px; left: auto; right: 6px; transform: none; height: calc(100% - 6px); }
+.card .obj.objIn { bottom: 3px; left: 6px; right: auto; transform: none; height: calc(100% - 6px); }
+/* 카드 칸: 버튼 + 최고 콤보 표지(버튼 밖 형제 요소, 10-lore 5-8) */
+.cell { position: relative; width: var(--cw, 200px); height: var(--ch, 150px); }
+.bcMark { position: absolute; right: 7px; bottom: calc(var(--ch, 150px) / 3 * 0.4 + 6px); display: inline-flex; align-items: center; gap: 3px; pointer-events: none; z-index: 2; }
+.bcMark .d { width: 12px; height: 12px; border-radius: 50%; border: 3.5px solid var(--hud); background: transparent; box-sizing: border-box; filter: drop-shadow(0 1px 0 var(--outline)); }
+.bcMark b { font-size: 12px; font-weight: 900; color: var(--hud); text-shadow: 0 1px 0 var(--outline), 1px 0 0 var(--outline), -1px 0 0 var(--outline); }
 .card .badge { position: absolute; right: 5px; top: 5px; background: var(--trigger); color: var(--outline); border-radius: 99px; padding: 1px; min-width: 22px; height: 22px; font-size: 13px; font-weight: 900;
   display: inline-flex; align-items: center; justify-content: center; gap: 3px; border: 2px solid var(--outline); }
 .card .badge .ico { width: 16px; height: 16px; }
@@ -162,3 +169,33 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
   .panel .row input[type=range] { min-width: 70px; }
 }
 
+
+/* 콤보 줄 (30-art 5-8-1): main.js layoutCombo 가 자리·크기(--d)를 정함. 글·숫자 없음 */
+.combo { position: fixed; pointer-events: none; transform-origin: 50% 50%; }
+.combo i, .combo b { position: absolute; top: 50%; display: block; box-sizing: border-box; }
+.cmDots i { width: var(--d); height: var(--d); margin-top: calc(var(--d) / -2); border-radius: 50%; border: 1.5px solid rgba(244, 240, 232, .4); }
+.cmDots i.on { background: var(--hud); border: 1px solid var(--outline); }
+.cmMarks i { width: calc(var(--d) * 1.8); height: calc(var(--d) * 1.8); margin-top: calc(var(--d) * -0.9); border-radius: 50%; border: calc(var(--d) * 0.5) solid var(--hud); background: var(--bg); box-shadow: 0 0 0 1px var(--outline); }
+.cmBits b { margin: 0; }
+/* 결과 한 줄 (30-art 5-8-4): 높이 48 px 이하. 왼쪽 정확도, 오른쪽 최고 콤보 */
+.stats { display: flex; align-items: center; justify-content: center; gap: 28px; min-height: 40px; max-height: 48px; }
+.stat { position: relative; display: inline-flex; align-items: center; gap: 8px; }
+.stat .v { font-size: 28px; font-weight: 900; line-height: 1; text-shadow: 0 2px 0 var(--outline); }
+.accIco { width: 16px; height: 16px; fill: var(--player); }
+.stat .cm { display: inline-flex; align-items: center; gap: 6px; }
+.stat .cm i { display: block; box-sizing: border-box; border-radius: 50%; }
+.stat .cm i.d { width: 18px; height: 18px; border: 5px solid var(--hud); box-shadow: 0 0 0 1px var(--outline); }
+.stat .cm i.o { width: 10px; height: 10px; background: var(--hud); border: 1px solid var(--outline); }
+.stat .n { font-size: 16px; font-weight: 800; opacity: .8; }
+.stat.nb::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 4px; border-radius: 2px; background: var(--tint, var(--hud)); }
+.stat.nb { animation: nbPop .3s ease-out 1; }
+@keyframes nbPop { 50% { transform: scale(1.1); } }
+@media (prefers-reduced-motion: reduce) { .stat.nb { animation: none; } }
+.sr { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* 640x360: 결과 줄이 들어가도록 클리어 화면 버튼을 한 줄로 */
+@media (orientation: landscape) and (max-height: 480px) {
+  #clearS { gap: 6px; }
+  #clearS .clearIco { width: 44px; height: 44px; }
+  #clearS .menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+  #clearS .btn.primary { min-height: 52px; font-size: 18px; }
+}

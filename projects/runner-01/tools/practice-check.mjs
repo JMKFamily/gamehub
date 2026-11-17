@@ -14,7 +14,7 @@ import { safePoints } from '../../../games/reverbound/js/practice.js';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../../..');
 const DATA = join(ROOT, 'games/reverbound/data');
 const read = (p) => JSON.parse(readFileSync(join(DATA, p), 'utf8'));
-const bal = read('balance.json'), inputs = read('test-inputs.json'), cfg = read('practice.json');
+const bal = read('balance.json'), inputs = read('test-inputs.json'), cfg = bal.practice; // balance.json practice (20-balance 15-6, 옛 data/practice.json 대신)
 const SESS = +(process.argv[2] || 40), CAP = 5000;
 const hz = bal.physics_hz, lead = Math.round(cfg.checkpoint_min_lead_s * hz);
 let seed = 4242;

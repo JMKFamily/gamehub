@@ -116,7 +116,7 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   };
   R.onPad = (o) => fx.padHit.set(o, 0);
   R.onOrb = (o, px, py) => { fx.orbHit.set(o, 0); fx.orbTrail.push({ x: px, y: py, t: 0 }); };
-  R.onGate = (i) => { fx.gateT = 0; fx.gateIdx = i; };
+  R.onGate = (i) => { fx.gateT = 0; fx.gateIdx = i; const sp = prep?.L.portals[i]?.speed; fx.gateFast = sp === 'fast' || sp === 'very_fast'; };
   R.onDeath = (x, y, deathFx, restartS = deathFx) => {
     fx.deathT = 0; fx.deathX = x; fx.deathY = y; fx.deathFx = deathFx; fx.restartS = restartS;
     for (let i = 0; i < 8; i++) {
@@ -253,15 +253,14 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     });
     ctx.restore();
   }
+  // 얇은 판 (30-art 부록 B-3): 두께 = platform_visual_t(판정 platform_thickness_t와 같음, 외곽선 포함), 받침 없음, 윗면 띠 0.04
+  const PLAT_T = GIM.platform_visual_t ?? bal.platform_thickness_t;
   function drawPlatform(o, env) {
     const w = o.w ?? 1;
     cell(o.x, o.y + 1);
-    ctx.globalAlpha = 0.55; ctx.fillStyle = env.ground;
-    for (let i = 0; i + 1 <= w + 0.01; i++) { rrect(i + 0.22, 0.25, 0.08, 0.1, 0.03); ctx.fill(); rrect(i + 0.7, 0.25, 0.08, 0.1, 0.03); ctx.fill(); }
-    ctx.globalAlpha = 1;
-    rrect(0.03, 0.03, w - 0.06, 0.19, 0.04);
+    rrect(0.03, 0.03, w - 0.06, PLAT_T - 0.06, 0.04);
     ctx.fillStyle = env.ground; ctx.fill(); ctx.lineWidth = lw; ctx.strokeStyle = C.outline; ctx.stroke();
-    ctx.fillStyle = C.groundEdge; ctx.fillRect(0.06, 0.06, w - 0.12, 0.05);
+    ctx.fillStyle = C.groundEdge; ctx.fillRect(0.06, 0.06, w - 0.12, 0.04);
     ctx.restore();
   }
   function drawSpike(o, kind) {
@@ -270,24 +269,33 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     if (kind === 'spike') { poly([0.1, 1, 0.5, 0.08, 0.9, 1]); ctx.fill(); ctx.stroke(); poly([0.5, 0.44, 0.38, 0.97, 0.62, 0.97]); }
     else if (kind === 'spike_low') {
       const top = 1 - bal.spike_low_visual_h_t;
-      poly([0.26, 1, 0.5, top, 0.74, 1]); ctx.fill(); ctx.stroke(); poly([0.5, top + 0.22, 0.43, 0.97, 0.57, 0.97]);
+      poly([0.26, 1, 0.5, top, 0.74, 1]); ctx.fill(); ctx.stroke(); poly([0.5, top + 0.21, 0.43, 0.97, 0.57, 0.97]);
     } else { poly([0.1, 0, 0.5, 0.92, 0.9, 0]); ctx.fill(); ctx.stroke(); poly([0.5, 0.56, 0.38, 0.03, 0.62, 0.03]); }
     ctx.globalAlpha = 0.35; ctx.fillStyle = C.outline; ctx.fill(); ctx.globalAlpha = 1;
     ctx.restore();
   }
+  const STRING_EVERY = GIM.ceiling_string_every ?? 4;
+  R.hangerStrings = (g) => {
+    if (g.n === 1) return [g.x0 + 0.5];
+    const xs = [g.x0 + 0.15];
+    for (let c = STRING_EVERY; c < g.n; c += STRING_EVERY) xs.push(g.x0 + c);
+    xs.push(g.x1 - 0.15);
+    return xs;
+  };
   function drawHangers(env) {
-    // 천장 장애물 매다는 줄·막대 (판정 없음, 30-art 4-5)
     const top = R.gameTop;
-    ctx.strokeStyle = env.ground; ctx.fillStyle = env.ground;
     for (const g of prep.groups) {
       if (g.x1 < camX - 1 || g.x0 > camX + R.W / T + 1) continue;
-      const yTop = sy(g.y + 1);
-      ctx.lineWidth = Math.max(0.05 * T, 1);
+      const yTop = sy(g.y + 1); // 칸 윗변 (가시 밑변)
+      const barH = g.n === 1 ? 0 : 0.08 * T;
+      ctx.strokeStyle = env.ground; ctx.lineWidth = Math.max(0.05 * T, 1); ctx.lineCap = 'butt';
       ctx.beginPath();
-      if (g.n === 1) { ctx.moveTo(sx(g.x0 + 0.5), top); ctx.lineTo(sx(g.x0 + 0.5), yTop); ctx.stroke(); continue; }
-      ctx.moveTo(sx(g.x0 + 0.3), top); ctx.lineTo(sx(g.x0 + 0.3), yTop); ctx.moveTo(sx(g.x1 - 0.3), top); ctx.lineTo(sx(g.x1 - 0.3), yTop); ctx.stroke();
-      ctx.beginPath(); ctx.rect(sx(g.x0 + 0.05), yTop - 0.04 * T, (g.x1 - g.x0 - 0.1) * T, 0.08 * T);
-      ctx.fill(); ctx.lineWidth = lw * T; ctx.strokeStyle = C.outline; ctx.stroke(); ctx.strokeStyle = env.ground;
+      for (const x of R.hangerStrings(g)) { ctx.moveTo(sx(x), top); ctx.lineTo(sx(x), yTop - barH); }
+      ctx.stroke();
+      if (g.n > 1) {
+        ctx.beginPath(); ctx.rect(sx(g.x0), yTop - barH, (g.x1 - g.x0) * T, barH);
+        ctx.fillStyle = env.ground; ctx.fill(); ctx.lineWidth = lw * T; ctx.strokeStyle = C.outline; ctx.stroke();
+      }
     }
   }
   function drawPad(o) {
@@ -365,15 +373,15 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   }
 
   // 배경 모티프 (30-art 1절): 둥근 도형만, 외곽선 없음
-  // 레벨 4~10 임시 모티프 (data/provisional-art.json motifs → art.json). 둥근 도형만
+  // 레벨 4~10 모티프 (30-art 2-1 "배경 모양 키" → art.json motifs). 둥근 도형만, 고드름(stalactite)은 30-art에서 거부되어 없음
   function shape(kind, x, base, w, h, color, accent) {
     const circ = (cx, cy, r) => { ctx.beginPath(); ctx.arc(cx, cy, Math.max(0.5, r), 0, Math.PI * 2); ctx.fill(); };
     ctx.fillStyle = color; ctx.strokeStyle = color;
     switch (kind) {
-      case 'drop': { // 물방울: 원 + 둥근 꼭지 (뾰족한 꼭짓점 없음)
-        const r = w * 0.4, cy = base - h * 0.5;
-        circ(x + w / 2, cy, r);
-        ctx.beginPath(); ctx.moveTo(x + w / 2 - r * 0.7, cy - r * 0.6); ctx.quadraticCurveTo(x + w / 2, cy - r * 2.2, x + w / 2 + r * 0.7, cy - r * 0.6); ctx.fill();
+      case 'drop': { // 물방울: 원 + 둥근 꼭지 원(반경 0.34r ≈ 도형 폭의 17 %) + 사이 면. 뾰족한 꼭짓점 없음 (30-art 2-1)
+        const r = w * 0.4, cx = x + w / 2, cy = base - h * 0.5, tr = r * 0.34, ty = cy - r * 1.3;
+        circ(cx, cy, r); circ(cx, ty, tr);
+        ctx.beginPath(); ctx.moveTo(cx - r * 0.82, cy - r * 0.58); ctx.lineTo(cx - tr, ty); ctx.lineTo(cx + tr, ty); ctx.lineTo(cx + r * 0.82, cy - r * 0.58); ctx.closePath(); ctx.fill();
         break;
       }
       case 'drops': for (let i = 0; i < 3; i++) circ(x + w * (0.2 + i * 0.3), base - h * (0.4 + (i % 2) * 0.3), w * 0.12); break;
@@ -384,10 +392,9 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       case 'bubble': circ(x + w / 2, base - h * 0.6, w * 0.45); break;
       case 'bubbles': circ(x + w * 0.3, base - h * 0.7, w * 0.18); circ(x + w * 0.7, base - h * 0.45, w * 0.26); break;
       case 'arch': ctx.lineWidth = w * 0.2; ctx.beginPath(); ctx.moveTo(x, base); ctx.lineTo(x, base - h + w / 2); ctx.arc(x + w / 2, base - h + w / 2, w / 2, Math.PI, 0); ctx.lineTo(x + w, base); ctx.stroke(); break;
-      case 'stalactite': for (let i = 0; i < 3; i++) { rrect(x + i * w * 0.35, R.gameTop, w * 0.2, h * (0.5 + 0.25 * (i % 2)), w * 0.1); ctx.fill(); } break;
       case 'flower': { const cx = x + w / 2, cy = base - h * 0.7; ctx.lineWidth = Math.max(2, w * 0.08); ctx.beginPath(); ctx.moveTo(cx, base); ctx.lineTo(cx, cy); ctx.stroke(); for (let i = 0; i < 5; i++) { const a = (i / 5) * Math.PI * 2; circ(cx + Math.cos(a) * w * 0.2, cy + Math.sin(a) * w * 0.2, w * 0.14); } if (accent) { ctx.fillStyle = accent; circ(cx, cy, w * 0.1); } break; }
       case 'shell': circ(x + w * 0.45, base - w * 0.35, w * 0.35); if (accent) { ctx.fillStyle = accent; circ(x + w * 0.45, base - w * 0.35, w * 0.16); ctx.fillStyle = color; } rrect(x, base - w * 0.12, w, w * 0.12, w * 0.06); ctx.fill(); break;
-      case 'sun': ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.6, Math.PI, 0); ctx.fill(); if (accent) { ctx.fillStyle = accent; ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.35, Math.PI, 0); ctx.fill(); } break;
+      case 'sun': ctx.fillStyle = prep?.env.bgAccent ?? color; ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.6, Math.PI, 0); ctx.fill(); break; // 30-art 2-1: 해는 bgAccent 면만
       case 'stage': ctx.lineWidth = Math.max(2, w * 0.1); ctx.beginPath(); ctx.arc(x + w / 2, base, w * 0.8, Math.PI, 0); ctx.stroke(); break;
       default: circ(x + w / 2, base - h / 2, w * 0.4);
     }
@@ -492,16 +499,6 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
         }
       }
     }
-    // 속도선 (게이트 통과 0.3 s)
-    if (fx.gateT < 0.3) {
-      ctx.fillStyle = env.bgFar;
-      const k = fx.gateT / 0.3;
-      for (let i = 0; i < 6; i++) {
-        const yy = i < 3 ? R.gameTop + T * (1.4 + i * 0.5) : R.groundPx - T * (5.5 + (i - 3) * 0.5);
-        const len = R.W * (0.3 + 0.1 * i % 3);
-        ctx.fillRect(R.W - (k * 1.6 * R.W) - len * 0.2 + i * 37 % 120, yy, len, Math.max(2, 0.06 * T));
-      }
-    }
     // 바닥
     // 세로 모드는 게임 영역 아래를 bg로 남김 (30-art 5절)
     const gBottom = R.portrait ? R.gameTop + R.gameH : R.H + 20;
@@ -511,6 +508,13 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     ctx.moveTo(0, base + T); ctx.lineTo(R.W, base + T); ctx.stroke(); ctx.globalAlpha = 1;
     ctx.fillStyle = C.groundEdge; ctx.fillRect(-20, base + 0.03 * T, R.W + 40, 0.08 * T);
     ctx.fillStyle = C.outline; ctx.fillRect(-20, base - lw * T / 2, R.W + 40, lw * T);
+    // 분홍 문 속도선 (부록 B-5): 화면 위아래 가장자리 가로선 4줄, bgPulse 색, 왼쪽으로 흐름, 0.3 s. 위 2줄 = HUD 띠 바로 아래, 아래 2줄 = 바닥 띠 안
+    if (fx.gateFast && fx.gateT < 0.3) {
+      const k = fx.gateT / 0.3;
+      ctx.fillStyle = env.bgPulse;
+      const ys = [R.gameTop + 1.35 * T, R.gameTop + 1.65 * T, base + 0.75 * T, base + 1.25 * T];
+      ys.forEach((yy, i) => { const len = R.W * (0.35 + 0.1 * (i % 2)); ctx.fillRect(R.W * (1 - 1.6 * k) + (i * 53) % 140, yy, len, Math.max(2, 0.06 * T)); });
+    }
 
     // 입자 (오브젝트 아래)
     for (const p of parts) {
@@ -615,5 +619,6 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     }
   };
   R.ctx = ctx;
+  R.prepData = () => prep;
   return R;
 }

@@ -1,0 +1,8 @@
+{
+ "_source": "projects/runner-01/30-art.md 부록 B 본문(표가 아니라 sync-data가 읽지 못함)을 옮겨 적은 확정값 (round-2 art 확정). B-1 위 가시 매달기, B-3 얇은 판 두께 = balance.json platform_thickness_t, B-4 문 받침 위 3칸",
+ "gate_height_t": 3,
+ "gate_rest_on_support": true,
+ "platform_visual_t": 0.2,
+ "ceiling_hanger": "rod",
+ "ceiling_string_every": 4
+}

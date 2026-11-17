@@ -27,7 +27,7 @@
   },
   "level_locked": {
    "ko": "앞 레벨을 깨면 열려요",
-   "en": "Beat the last level first"
+   "en": "Finish the level before it"
   },
   "mode_normal": {
    "ko": "일반 모드",
@@ -140,22 +140,6 @@
   "new_best": {
    "ko": "최고 기록!",
    "en": "New best!"
-  },
-  "practice_checkpoint_placed": {
-   "ko": "깃발을 꽂았어요",
-   "en": "Flag placed"
-  },
-  "practice_checkpoint_removed": {
-   "ko": "깃발을 뺐어요",
-   "en": "Flag removed"
-  },
-  "practice_place_btn": {
-   "ko": "깃발 꽂기",
-   "en": "Place flag"
-  },
-  "practice_remove_btn": {
-   "ko": "깃발 빼기",
-   "en": "Remove flag"
   },
   "pause_title": {
    "ko": "잠깐 멈춤",
@@ -360,6 +344,70 @@
   "load_error": {
    "ko": "못 불러왔어요. 다시 해 주세요",
    "en": "Couldn't load. Try again"
+  },
+  "combo_aria": {
+   "ko": "이어서 잘 뛴 수",
+   "en": "Good jumps in a row"
+  },
+  "combo_best_aria": {
+   "ko": "이어서 잘 뛴 최고 기록",
+   "en": "Most jumps in a row"
+  },
+  "combo_mark_aria": {
+   "ko": "이어서 잘 뛰어요!",
+   "en": "Great jumps, keep going!"
+  },
+  "judge_name_1": {
+   "ko": "딱이야",
+   "en": "Wow!"
+  },
+  "judge_name_2": {
+   "ko": "좋아",
+   "en": "Nice!"
+  },
+  "judge_name_3": {
+   "ko": "됐다",
+   "en": "OK!"
+  },
+  "judge_pct": {
+   "ko": "{pct}%",
+   "en": "{pct}%"
+  },
+  "result_accuracy": {
+   "ko": "박자 맞히기",
+   "en": "Timing"
+  },
+  "result_accuracy_value": {
+   "ko": "{pct}%",
+   "en": "{pct}%"
+  },
+  "result_best_combo": {
+   "ko": "이어서 잘 뛴 수",
+   "en": "Jumps in a row"
+  },
+  "result_best_combo_value": {
+   "ko": "{n}",
+   "en": "{n}"
+  },
+  "result_new_best": {
+   "ko": "신기록!",
+   "en": "New record!"
+  },
+  "result_accuracy_aria": {
+   "ko": "박자를 맞힌 정도",
+   "en": "How well you hit the beat"
+  },
+  "result_best_combo_aria": {
+   "ko": "가장 많이 이어서 잘 뛴 수",
+   "en": "Most good jumps in a row"
+  },
+  "result_new_best_aria": {
+   "ko": "새 최고 기록이에요",
+   "en": "A new best"
+  },
+  "best_accuracy_aria": {
+   "ko": "박자 최고 기록",
+   "en": "Best timing"
   }
  },
  "death_messages": [

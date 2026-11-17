@@ -1,5 +1,5 @@
 // Web Audio 합성 음악·효과음 (30-art.md 7절, 패턴은 data/music.json). 외부 음원 없음.
-// 게임 시간 t의 음은 오디오 시각 ctxStart + t - comp 에 예약한다 (comp = 출력 지연 + 사용자 박자 보정).
+// 게임 시간 t의 음은 오디오 시각 ctxStart + t - comp 에 예약한다 (comp = 출력 지연 + 사용자 박자 보정, 시도 시작마다 다시 읽음).
 
 const NOTE = { C: 0, 'C#': 1, D: 2, 'D#': 3, E: 4, F: 5, 'F#': 6, G: 7, 'G#': 8, A: 9, 'A#': 10, B: 11 };
 export function noteHz(n) {
@@ -22,14 +22,22 @@ export function transposeNotes(v, n) {
   if (v && typeof v === "object") return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, transposeNotes(x, n)]));
   return v;
 }
-// 임시 곡: base 곡 + 덮어쓰기 → 전체를 transpose (provisional-art.json music)
-export function deriveTheme(music, spec, slowDefault) {
+// 레벨 4~10 곡 (30-art 7-2 표): base 곡 + 덮어쓰기 → 전체를 transpose 반음 이동. bass_octave = 베이스만 옥타브 이동 (level7)
+export function deriveTheme(music, spec) {
   const base = music.levels[spec.base] ?? music.levels.level1;
-  const { base: _b, transpose = 0, ...over } = spec;
+  const { base: _b, transpose = 0, bass_octave: bo = 0, _note, ...over } = spec;
   const m = transposeNotes(JSON.parse(JSON.stringify({ ...base, ...over })), transpose);
-  if (!m.slow && slowDefault) m.slow = slowDefault;
-  m._provisional = true;
+  if (bo) {
+    if (m.bass) m.bass = { ...m.bass, bars: transposeNotes(m.bass.bars, 12 * bo) };
+    if (m.bass_drop) m.bass_drop = { ...m.bass_drop, bar_roots: transposeNotes(m.bass_drop.bar_roots, 12 * bo) };
+  }
+  m._from = spec.base;
   return m;
+}
+// music.json levels 중 {base, transpose} 항목을 펼침 (로드 때 한 번)
+export function expandThemes(music) {
+  for (const [th, v] of Object.entries(music.levels)) if (v && v.base && !v.kick) music.levels[th] = deriveTheme(music, v);
+  return music;
 }
 const parseNote = (s) => { const [n, st] = s.split(':'); return { hz: noteHz(n), step: +st }; };
 const db = (d) => Math.pow(10, d / 20);
@@ -71,12 +79,26 @@ export function createAudio(music) {
     A.musicVol = m; A.sfxVol = s;
     if (musicGain) { musicGain.gain.value = m; sfxGain.gain.value = s; }
   };
-  // 출력 지연 + 사용자 보정 (양수 = 소리를 더 일찍 냄)
-  A.comp = () => {
-    const c = A.ctx;
-    const lat = c ? (c.outputLatency || 0) + (c.baseLatency || 0) : 0;
-    return lat + A.offsetMs / 1000;
+  // 출력 지연 + 사용자 보정 (양수 = 소리를 더 일찍 냄). 부를 때마다 그 순간의 outputLatency를 다시 읽음 (시도 시작마다 호출됨)
+  A.autoLatency = () => { const c = A.ctx; return c ? (c.outputLatency || 0) + (c.baseLatency || 0) : 0; };
+  A.comp = () => A.autoLatency() + A.offsetMs / 1000;
+  // 자동 지연 안정 대기 (insights rhythm-01: 잠금 해제 직후 outputLatency가 약 0.2 s 뒤 실제 값으로 바뀜).
+  // running이 된 뒤 STABLE_S 이상 지났고 값이 STABLE_S 동안 그대로면 안정. MAX_WAIT_S가 지나면 바뀌는 중이어도 진행
+  const STABLE_S = 0.25, MAX_WAIT_S = 1.0;
+  let lat = { since: null, runAt: null, v: null };
+  A.pollLatency = (nowS) => {
+    if (!A.running()) { lat = { since: null, runAt: null, v: null }; return; }
+    if (lat.runAt == null) lat.runAt = nowS;
+    const v = A.autoLatency();
+    if (lat.v == null || Math.abs(v - lat.v) > 0.0005) { lat.v = v; lat.since = nowS; }
   };
+  A.latencyStable = (nowS) => {
+    if (!A.running()) return true;
+    if (lat.runAt == null) return false;
+    if (nowS - lat.runAt >= MAX_WAIT_S) return true;
+    return nowS - lat.runAt >= STABLE_S && nowS - lat.since >= STABLE_S;
+  };
+  A.latencyState = () => ({ ...lat });
 
   // ---------------------------------------------------------------- 악기
   function env(g, t, a, peak, dec, end = 0.0001) {
@@ -239,28 +261,32 @@ export function createAudio(music) {
     const sec = sectionAt(level, beat);
     const parts = partsFor(level, sec);
     const has = (p) => parts.includes(p);
-    // 템포 문 속도 (연출: 늘임 = 하프타임)
+    // 템포 문 편곡 (30-art 부록 B-6): BPM 그대로. 느림 = 킥 4분·햇 끔·패드 800 Hz, 빠름 = 햇 16분 추가
     const tick = Math.max(0, Math.min(r.L.V.length - 1, Math.round((beat * r.beatS) * r.L.bal.physics_hz)));
     const v = r.L.V[tick];
-    const slow = m.slow && v === r.L.bal.speeds_t_s.slow;
+    const GT = music.gates ?? {};
+    const slowSpec = m.slow ?? GT.slow;
+    const slow = !!slowSpec && v === r.L.bal.speeds_t_s.slow;
+    const fast = !!GT.fast?.hat16 && v > r.L.bal.speeds_t_s.normal + 1e-9;
     const out = runGain, soft = duck;
     const hit = (pat) => pat && pat[s16] === 'x';
 
     // 킥
     let kp = has('kick_intro') ? m.kick_intro : has('kick') ? m.kick : null;
-    if (kp && slow) kp = m.slow.kick;
+    if (kp && slow && slowSpec.kick) kp = slowSpec.kick;
     if (kp && m.kick_fill && sec.intensity >= 4 && r.rules.fills.some(([a, b]) => beat >= a - 1e-6 && beat < b - 1e-6)) kp = m.kick_fill.pattern;
     if (hit(kp)) inst.kick(t, out);
     // 스네어/클랩
     if (has('snare')) {
-      const sp = slow ? m.slow.snare : m.snare;
+      const sp = slow && slowSpec.snare ? slowSpec.snare : m.snare;
       if (sp && hit(sp)) inst.snare(t, out);
       if (m.clap && hit(m.clap)) inst.clap(t, out);
     }
     // 햇
-    if (has('hat') && !(slow && m.slow.hat === false)) {
-      if (has('hat16') && m.hat16) {
-        if (m.hat16.pattern[s16] === 'x') inst.hat(t, out, false, s16 % 2 === 0 ? m.hat16.even_gain : 1);
+    if (has('hat') && !(slow && slowSpec.hat === false)) {
+      const h16 = m.hat16 ?? GT.hat16_default;
+      if ((has('hat16') || fast) && h16) {
+        if (h16.pattern[s16] === 'x') inst.hat(t, out, false, s16 % 2 === 0 ? h16.even_gain : 1);
       } else if (m.hat) {
         const c = m.hat[s16];
         if (c === 'x' || c === 'o') inst.hat(t, out, c === 'o');
@@ -284,7 +310,7 @@ export function createAudio(music) {
     if (has('pad') && s16 === 0 && m.pad) {
       const bars = m.pad.bars;
       const chord = bars[((bar % bars.length) + bars.length) % bars.length];
-      let lp = slow ? m.slow.pad_lp_hz : (sec.intensity >= 3 && m.pad.drop_lp_hz) ? m.pad.drop_lp_hz : undefined;
+      let lp = slow ? slowSpec.pad_lp_hz : (sec.intensity >= 3 && m.pad.drop_lp_hz) ? m.pad.drop_lp_hz : undefined;
       inst.pad(t, soft, chord, 16 * r.stepS * 0.9, lp);
     }
     // 리드
@@ -411,6 +437,20 @@ export function createAudio(music) {
       beep(S.trigger.f, S.trigger.s, S.trigger.db, tq, 'triangle');
     } else if (name === 'new_best') {
       beep(S.new_best.f, S.new_best.s, S.new_best.db, t + S.new_best.delay_s);
+    } else if (name === 'combo_mark') {
+      // 콤보 10·20 단계 화음 (30-art 5-8-3): 판정 박 + delay_beats 시각에 예약. 레벨 근음(옥타브 root_octave)·3음·5음(20은 + 위 근음)
+      const p = S.combo_mark; if (!p || !run) return;
+      const m = run.m, rootName = /^([A-G]#?)/.exec(m.root ?? 'A3')[1];
+      const rootHz = noteHz(rootName + (p.root_octave ?? 4));
+      const tones = p.tones[String(opt.mark)] ?? p.tones['10'];
+      const tGame = opt.beatTimeS + p.delay_beats * run.beatS;
+      const tc = Math.max(t, run.ctxStart + tGame - run.comp);
+      for (const st of tones) {
+        const semi = st === 'third' ? (m.third ?? 4) : st;
+        const g = sfxOut(p.db), e = A.ctx.createGain(); e.connect(g);
+        env(e, tc, p.a, 1 / tones.length, p.decay_s);
+        osc(p.wave, rootHz * Math.pow(2, semi / 12), tc, p.decay_s, e);
+      }
     } else if (name === 'tick') {
       // 박자 보정 테스트용 메트로놈
       inst.fork(opt.at ?? t, sfxOut(-10), opt.hz ?? 880);

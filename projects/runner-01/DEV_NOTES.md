@@ -1,6 +1,6 @@
 # DEV_NOTES: runner-01 (Reverbound) 웹 빌드
 
-작성: game-developer, 2026-11-17 (1-3 웹 빌드) · 갱신: 2026-11-17 round-2 빌드 (레벨 10개, round-1 이슈 처리, 9~10절)
+작성: game-developer, 2026-11-17 (1-3 웹 빌드) · 갱신: 2026-11-17 round-2 빌드 (레벨 10개, round-1 이슈 처리, 9~10절) · round-2 콤보 빌드 (콤보·판정 %, art 확정 반영, 12절)
 
 ## 1. 구조
 
@@ -13,7 +13,8 @@ games/reverbound/
   js/audio.js     Web Audio 합성 음악·효과음 (30-art 7절)
   js/ads.js       광고 어댑터 (웹 더미)
   js/main.js      데이터 로드, UI, 입력, 저장, 오디오 시계 동기화, window.__game
-  data/           sync-data.mjs가 만든 파일 + music.json(손 작성) + provisional-art.json(개발 임시값 표, 9절)
+  js/combo.js     콤보·판정 % (tools/sim/combo-ref.mjs 본문 그대로, 12절)
+  data/           sync-data.mjs가 만든 파일 + music.json(손 작성, 30-art 7절) + art-gimmicks.json(손 작성, 30-art 부록 B). 임시값 파일 없음(12절)
 projects/runner-01/tools/
   sync-data.mjs          기획 데이터 → games/reverbound/data 복사·변환
   verify-levels.mjs      (수정) 물리를 games/reverbound/js/physics.js 에서 import
@@ -30,11 +31,11 @@ projects/runner-01/tools/
 
 | 데이터 | 원본 | 빌드 파일 | 비고 |
 |---|---|---|---|
-| 수치 | `balance.json` | `data/balance.json` | 그대로 복사 |
-| 레벨 | `levels/*.json` | `data/levels/*.json` | `balance.json levels` 순서 |
+| 수치 | `balance.json` | `data/balance.json` | 값은 그대로, `_`로 시작하는 설명 키만 뺀 사본(12절). `practice`·`combo`·`combo.judge_pct` 포함 |
+| 레벨 | `levels/*.json` | `data/levels/*.json` | `balance.json levels` 순서, `judge_taps` 포함(없으면 sync-data가 멈춤) |
 | 문자열 | `10-lore.md` 5절 표 | `data/strings.json` | round-2: 키 90개 + 사망 문구 4(표시 안 함) + 클리어 부제 4. 언어는 `?lang=` → 없으면 `navigator.language`(ko로 시작하면 한국어, 아니면 영어) |
-| 색 | `30-art.md` 2-1 표(머리줄의 levelN 열 전부), 2-2 공통, 2-2-1 `cardTint`, 6절 클리어 행 + **`data/provisional-art.json`(레벨 4~10 임시값)** | `data/art.json` | 30-art에 없는 레벨만 임시값으로 채움. 대비 27쌍(부록 A + 카드 테두리 3:1)을 sync-data가 검사, 실패하면 멈춤. `art.json provisional`에 레벨별 임시 항목 목록 |
-| 음악·효과음 | `30-art.md` 7절 | `data/music.json` | **손으로 옮겨 적은 파일**. round-2: 7-4 반영 목록 적용. 레벨 4~10 곡은 `provisional-art.json music`에서 게임이 로드 때 파생(`audio.js deriveTheme`) |
+| 색·카드·배경 모양 | `30-art.md` 2-1 표(levelN 열 + "배경 모양 키" 행), 2-2 공통, 2-2-1 `cardTint`, 5-5 대표 오브젝트 표, 6절 클리어 행 + `data/art-gimmicks.json`(부록 B 본문 옮김) | `data/art.json` | (round-2 콤보 빌드) 임시값 없음: 10레벨 값이 30-art에 하나라도 없으면 sync-data가 멈춤. 대비 27쌍 검사. `art.json provisional`은 빈 객체 |
+| 음악·효과음 | `30-art.md` 7절·5-8-3·부록 B-6 | `data/music.json` | **손으로 옮겨 적은 파일**. 7-4 반영 목록 전부. 레벨 4~10은 `levels.levelN = {base, transpose}`(level7 `bass_octave: 1`)를 `audio.js expandThemes`가 로드 때 펼침. 문 편곡은 `gates`(fast·slow), 콤보 화음 `sfx.combo_mark` |
 | 완벽 입력열 | `verify-levels.mjs` 결과 | `data/test-inputs.json` | `taps`(검증기 입력열), `on_beat_taps`(박자대로 친 입력열). QA 재생, 레벨 1 손가락 시연에 사용 |
 
 ## 3. 물리·입력·시계
@@ -71,7 +72,7 @@ projects/runner-01/tools/
 |---|---|---|---|
 | D1 | `music.json`의 리드 선율(level1·level2)과 패드 화음(level1·level3), level2 리드는 7-2에 음이 없어 개발이 정함. level3 `bass_drop`의 "2마디마다 C2→D2"는 E1·E1·C2·D2 4마디 순환으로 해석 | 7-2 미정 | art-director |
 | D2 | intensity 1 파트 = 킥·햇·베이스, 2 = + 스네어/클랩·패드, 3 = + 리드, 4 = + 햇 16분. 7-2 표의 "레벨 본편 패턴 전체(리드 제외)"를 2로 읽음 | 표 해석 | art-director |
-| D3 | 느림 템포 문 하프타임을 느림 속도 구간 전체에 적용. round-2: 레벨 1~3에는 속도 문이 없어 `level3.slow` 삭제(7-4), 레벨 8~10 임시 곡에 부록 B-6 하프타임(`slow_default`) 적용. 빠른 문의 "햇 16분 + 리드"(B-6)는 아직 안 함(intensity 규칙만) | 부록 B-6 | art-director |
+| D3 | 느림 템포 문 하프타임을 느림 속도 구간 전체에 적용. round-2: 레벨 1~3에는 속도 문이 없어 `level3.slow` 삭제(7-4), 레벨 8~10 임시 곡에 부록 B-6 하프타임(`slow_default`) 적용. 빠른 문의 "햇 16분 + 리드"(B-6)는 아직 안 함(intensity 규칙만). **(콤보 빌드) 하프타임 폐기, B-6 확정대로 `music.json gates`: 느림 = 킥 4분·햇 끔·패드 800 Hz, 빠름 = 햇 16분** | 부록 B-6 | art-director |
 | D4 | 레벨 선택 카드·버튼·HUD 모양, 아이콘(재생·격자·톱니·깃발 등)은 30-art에 없어 단순 도형으로 새로 그림 | UI 그림 미정 | art-director |
 | D5 | `tut_low`, `tut_hold`는 레벨 `cues`에 없어 표시하지 않음 | 밸런스 12-4 | lore-writer, balance-designer |
 | D6 | (round-2 해소) 언어: `?lang=` → `navigator.language` 자동 선택. 언어 설정 UI는 만들지 않음 | 10-lore 확정값 | lore-writer |
@@ -118,7 +119,7 @@ projects/runner-01/tools/
 - 사망 시 음악은 즉시 끊고 재시작마다 처음(또는 체크포인트)부터 다시 예약. 매우 느린 기기에서는 프레임당 24틱 상한 때문에 잠깐 화면이 오디오보다 늦을 수 있음(다음 프레임에서 따라잡음).
 - 화면 흔들림 끄기가 번개 연출도 끔(30-art 6절대로).
 
-## 9. 레벨 4~10 임시값 (art-director 확정 전, round-2)
+## 9. 레벨 4~10 임시값 (art-director 확정 전, round-2) — (round-2 콤보 빌드) 모두 30-art 확정값으로 대체, 파일 삭제. 아래는 기록
 
 **모든 임시값은 `games/reverbound/data/provisional-art.json` 한 파일에 있습니다.** 30-art.md 기존 규칙에서 파생했습니다.
 - 2-1: 어두운 `bg` 계열 5색
@@ -241,3 +242,48 @@ projects/runner-01/tools/
 - 대상: 10레벨 × 레벨 30·60·85 % 지점에서 입력을 끊어 죽게 함.
 - 확인한 것: 마지막 자동 체크포인트 x에서 부활하고, 부활 뒤 0.8 s 동안 무입력으로 살아 있음.
 - 스크린샷: `r2-practice-L5-respawn.png`, `r2-practice-L7-respawn.png`.
+
+## 12. round-2 콤보 빌드 (2026-11-17, 콤보·판정 이름·%, art 확정 반영)
+
+보고서 `Docs/game-developer/2026-11-17-r2-combo-build.md`.
+
+### 데이터
+- `provisional-art.json` 삭제: 팔레트·카드색·클리어색은 30-art 2-1·2-2-1·6절, 카드 대표 오브젝트는 5-5 표, 배경 모양은 2-1 "배경 모양 키" 행을 sync-data가 읽음(level7 = arch, drops, arch). 부록 B 본문 값(문 높이 3·받침 위, 얇은 판 0.20, 막대·4칸마다 줄)은 `data/art-gimmicks.json`에 옮겨 적고, 얇은 판 두께가 `balance.json platform_thickness_t`와 다르면 sync-data가 멈춤. 곡 4~10과 `slow`(킥 4분·햇 끔·패드 800 Hz)·`fast`(햇 16분)는 `music.json`으로.
+- `data/practice.json` 삭제 → `balance.json practice`(값 같음). `practice-check.mjs`도 `bal.practice`를 읽음.
+- `data/balance.json`은 `_` 설명 키를 뺀 사본: 설명에 레퍼런스 벤치마크 문서 경로가 있어 게임 파일에 레퍼런스 이름이 남았기 때문(원본 보호). 값은 같음.
+- 문자열 102키(10-lore 5-8·5-9 추가, `practice_*` 4개 삭제, `level_locked` 영어 변경).
+
+### 콤보·판정 (20-balance 15장)
+- `js/combo.js` = `tools/sim/combo-ref.mjs` 본문 그대로(머리 주석만 다름, `combo-build-check.mjs` S1이 바이트 비교). 짝짓기·등급·%·Δ 0.001 ms 반올림·`edge_tol_ms` 0.15·정확도 모두 기준과 같음.
+- `game.js`: 누름 번호(새로 누른 틱마다 +1, 떼면 없음)와 `onTick(k, ev, pressId)` 훅만 추가. 생사 흐름은 그대로(콤보는 아무것도 넘기지 않음). 사망 틱에는 호출하지 않고, 클리어 판정 전에 부름(combo-check 실행기와 같은 순서).
+- `main.js`: 시도 시작 `J.reset(G.k, practice)`(연습 부활 = 체크포인트 틱), 사망 `onDeath`, 클리어 `onClear`. 기록 `bestCombo`(일반 모드 시도 중 최대)·`bestAccuracy`(일반 모드 클리어 중 최대, `updateBest`).
+
+### 표시 (30-art 5-8)
+| 항목 | 구현 |
+|---|---|
+| 콤보 줄 | `#combo`(DOM, HUD 안): 진행도 바 아래 6 px 가운데, 점 d = clamp(0.16타일, 7, 12), 간격 0.6d, 도넛 1.8d(구멍 0.8d)는 왼쪽에 1.2d 간격. 2부터 보임. 튐 120 ms(5·15·25는 1.35배), 10 = 0.4 s 모임 + 표지, 20 = + 종이 조각 6개(0.4~0.6 s). 시계는 `uiT`(게임 시간)라 테스트 훅 화면과 같음 |
+| 튜토리얼 카드 | 위 끝 = max(CSS 기본값, 콤보 줄 아래 끝 + 8 px) (`layoutCombo`, 화면 크기 바뀔 때·레벨 시작 때) |
+| 판정 이름 + % | 캔버스. 판정 순간 플레이어 뒤쪽 위 화면 좌표에 고정. 이름 clamp(0.5타일, 16, 36) px(2등급 0.9·3등급 0.8배), % clamp(0.32타일, 12, 22) px. 색 금/민트/흰, 이름 위 점 3/1/0개, `outline` 3 px 테. 0.7 → 1.0배 60 ms → 0.30 s → 0.15 s 뜨며 사라짐(전체 0.45 s). 새 판정이 오면 바로 교체. 겹침: 위험 판정 상자·고리·매다는 막대/줄·HUD 띠(+4 px)와 0.45 s 동안 글 밑을 지나갈 범위까지 검사 → % 숨김 → 왼쪽 0.5·1타일 → 생략 |
+| 사망 | 콤보 줄·표지·판정 글이 0.3 s 동안 작아지며 사라짐, 소리 없음 |
+| 소리 | 등급별 없음. 10·20 화음만 `sfx.combo_mark`(판정 박 t_s + 0.5박, −20 dB, triangle, 근음 옥타브 4·3음·5음(+옥타브)) |
+| 결과 화면 | 일반 모드 클리어만 한 줄(정확도 `result_accuracy_value` 28 px + 점 아이콘, 최고 콤보 도넛·점 + 숫자 16 px). 새 기록이면 `cardTint` 4 px 밑줄 + 0.3 s 튐 + 기존 `new_best` 소리. 640×360은 클리어 버튼을 한 줄로 |
+| 끄기 | `combo.enabled` false: 콤보 줄·판정 글·화음·결과 줄·카드 표지 없음(판정은 그대로 계산). `judge_pct.enabled` false: 이름·%·정확도만 없음 |
+| 움직임 줄이기 | `prefers-reduced-motion`: 튐·모임·커짐·뜨기 없음, 표지 0.2 s 페이드인, 판정 글은 나타났다 0.15 s 페이드아웃 |
+| 접근성 | 콤보 줄 `role=meter`·`combo_aria`·`aria-valuenow`·`aria-valuetext`(숫자만), 0~1이면 숨김. 10·20에서 `combo_mark_aria`를 `aria-live=polite`에 한 번. 레벨 카드 최고 콤보 표지는 **버튼 밖 형제 요소**(`.cell > .bcMark`, `role=meter`, `combo_best_aria`) |
+
+### 소리 지연 (insights rhythm-01)
+- `A.comp()`는 부를 때마다 `outputLatency + baseLatency`를 다시 읽음. 시도 시작마다 `prerollS()`·`startRun()`에서 부름(시도마다 새 값).
+- 첫 시도 대기: `audio.pollLatency`가 매 프레임 자동 지연을 기록하고, `startLevel`은 오디오가 running이 된 뒤 0.25 s 이상 지났고 값이 0.25 s 동안 그대로일 때만 시작(최대 1 s 기다리면 그대로 시작). Edge headless 실측: 잠금 해제 직후 10 ms → 74 ms로 바뀌었고, 대기 뒤 첫 시도 `runComp` = 74 ms.
+
+### 기획과 다르게(또는 기획에 없어서 정해서) 구현한 점
+| # | 내용 | 이유 | 확인 역할 |
+|---|---|---|---|
+| D19 | 판정 글 표시 시간은 30-art 5-8-2 값(0.45 s: 60 ms 커짐, 0.30 s까지 유지, 0.15 s 사라짐). `balance.json combo.judge_pct.hud`(80 + 400 + 150 = 0.63 s)와 다름 | 요청자 지시대로 30-art 5-8 표시를 따름. balance hud 값은 쓰지 않음 | balance-designer·art-director (한 값으로 맞춰 주세요) |
+| D20 | 연습 모드 클리어 화면에는 정확도·최고 콤보 줄을 띄우지 않음 | 30-art 5-8-4 "연습: 이번 시도 값만 보임"과 20-balance `accuracy.practice_mode` null·10-lore 5-9 "연습 모드 클리어 화면은 지금처럼"이 다름 → 데이터·문구 쪽을 따름 | art-director |
+| D21 | 화면에 쓰지 않는 키: `result_accuracy`·`result_best_combo`(30-art가 그림표만 둠), `result_new_best`(밑줄 표시, 낭독은 `result_new_best_aria`), `best_accuracy_aria`(레벨 카드에 정확도 표지를 두지 않음) | 10-lore 5-9 "art가 그림표만 두기로 하면 대체 글 키만" | lore-writer |
+| D22 | 레벨 카드 최고 콤보 표지 = 도넛(10마다 1개) + 작은 숫자, 장면 칸 하늘 오른쪽 | 30-art에 카드 표지 모양이 없음 | art-director |
+| D23 | 640×360에서 콤보 줄 아래 끝(52 px)이 HUD 띠 1.2타일(43 px)보다 약 9 px 아래 | 진행도 바 아래 6 px + 도넛 1.8d(12.6 px) 규칙을 지키면 넘침. 튜토리얼 카드·버튼과는 겹치지 않음 | art-director |
+| D24 | 판정 글 겹침 검사 범위: 글 상자 화면 x를 판정 순간 카메라로 월드에 옮기고 오른쪽을 0.45 s × 속도만큼 넓힘(그동안 글 밑을 지나갈 물체) | 30-art 5-8-2는 "겹치면"만 정함 | art-director |
+
+### 자체 확인 도구
+- `tools/combo-build-check.mjs`(새): S1 본문 같음, B1 봇 입력열(σ70·σ25, 시드 고정)을 node 기준(combo-ref)과 빌드 훅에 같이 넣어 시도마다 클리어·grades(i, k, e_ms, grade, pct)·combo·accuracy 비교, B2 완벽 입력, U1 화면(콤보 줄 aria, 판정 글, 결과 줄, 카드 표지 접근성 트리), U2 `combo.enabled`·`judge_pct.enabled` false(요청 가로채기). 서버를 8137에 스스로 띄우고 자기 PID만 종료.
