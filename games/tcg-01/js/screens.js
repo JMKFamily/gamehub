@@ -273,7 +273,7 @@ export function builderScreen({ deck }) {
     for (const k of ['minion', 'spell', 'weapon']) { const kl = t({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k]); fl.appendChild(btn(h('img', { src: assetURL(`kind-${k}.svg`), alt: kl, style: 'width:28px;height:32px' }), () => { kindSel.has(k) ? kindSel.delete(k) : kindSel.add(k); draw(); }, 'fbtn' + (kindSel.has(k) ? ' on' : ''), { 'aria-label': kl, 'aria-pressed': kindSel.has(k) ? 'true' : 'false', 'data-kind': k })); }
     for (let c = -1; c <= 7; c++) fl.appendChild(btn(c < 0 ? t('filter_all') : c === 7 ? '7+' : String(c), () => { cost = c; draw(); }, cost === c ? 'sel' : ''));
     const ids = D.list.filter((c) => (c.owner === 'neutral' || c.owner === deck.hero) && owned(c.id) && (cost < 0 || (cost === 7 ? c.cost >= 7 : c.cost === cost)) && (!famSel.size || famSel.has(c.family)) && (!kindSel.size || kindSel.has(c.kind))).map((c) => c.id);
-    fillGrid(grid, ids, (cid) => { if (Date.now() - (grid._lp || 0) < 600) return; add(cid); }, (el, cid) => { el.addEventListener('pointerdown', () => { clearTimeout(el._lpt); el._lpt = setTimeout(() => { grid._lp = Date.now(); cardDetail(cid); }, 450); }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) el.addEventListener(ev, () => clearTimeout(el._lpt)); const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
+    fillGrid(grid, ids, (cid) => add(cid), (el, cid) => { const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
     strip.innerHTML = '';
     const uniq = [...new Set(deck.cards)].sort((a, b) => cardById(a).cost - cardById(b).cost);
     for (const cid of uniq) {

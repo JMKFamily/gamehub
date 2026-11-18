@@ -15,7 +15,7 @@ export function h(tag, attrs, kids) {
 const L_fam = (F) => (document.documentElement.lang === 'en' ? F.en : F.ko);
 const img = (src, cls, alt = '') => h('img', { src, class: cls, alt, draggable: 'false' });
 export const kwIcon = (k) => assetURL(`kw-${k}.svg`);
-const KW_NAMES = () => D.art.palette.keywords.map((k) => (document.documentElement.lang === 'en' ? k.en : k.ko)).sort((a, b) => b.length - a.length);
+const KW_NAMES = () => D.art.palette.keywords.map((k) => t('kwname_' + k.id)).sort((a, b) => b.length - a.length); // 표시 이름은 10-lore 6절(sync)
 
 function boldText(el, text) {
   // 키워드 낱말을 굵게(10-lore 8-8 "굵은 말을 길게 누르면 뜻")

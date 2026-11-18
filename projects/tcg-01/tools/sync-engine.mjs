@@ -103,6 +103,13 @@ for (const ln of sec('### 5-3.', '### 5-4.').split('\n')) {
   if (lid) { strings.ko[`lineage_${lid}`] = m[1]; strings.en[`lineage_${lid}`] = m[2]; }
 }
 for (const k of art.palette.keywords) { strings.ko[`kwname_${k.id}`] = k.ko; strings.en[`kwname_${k.id}`] = k.en; }
+// 키워드 표시 이름의 원본은 10-lore 6절 표(번호 순서 = art palette.keywords 순서). art 값과 다르면 lore가 이김(예: 그을음 복귀)
+for (const ln of sec('## 6. 키워드', '### 6-1').split('\n')) {
+  const m = ln.match(/^\|\s*(\d+)\s*\|[^|]*\|\s*\*\*(.+?)\s*\/\s*(.+?)\*\*/);
+  const k = m && art.palette.keywords[+m[1] - 1];
+  const nn = (x) => x.trim().replace(/\s*\+?N$/, ''); // "그을음 N" → "그을음"
+  if (k) { strings.ko[`kwname_${k.id}`] = nn(m[2]); strings.en[`kwname_${k.id}`] = nn(m[3]); }
+}
 // round-2: 개발 임시 키(strings-extra.json)는 10-lore 8-11로 확정되어 없앰. 남아 있으면 지움.
 if (existsSync(join(DATA_OUT, 'strings-extra.json'))) rmSync(join(DATA_OUT, 'strings-extra.json'));
 writeFileSync(join(DATA_OUT, 'strings.json'), JSON.stringify(strings));

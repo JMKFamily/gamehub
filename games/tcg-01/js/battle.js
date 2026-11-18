@@ -133,11 +133,15 @@ export class Battle {
     stage.appendChild(this.endBtn);
     this.tokLayer = h('div', { class: 'abs' }); wrap.appendChild(this.tokLayer);
     const hr = R.hand;
-    stage.appendChild(h('div', { class: 'abs handZone', 'data-k': 'handzone', 'aria-label': t('hud_hand'), style: `left:${hr.x}px;top:${hr.y}px;width:${hr.w}px;height:${hr.h}px` }));
-    this.spreadBg = h('div', { class: 'abs spreadBg hidden', 'data-k': 'spreadbg', style: `width:${W}px;height:${H}px` }); stage.appendChild(this.spreadBg);
     this.handLayer = h('div', { class: 'abs' }); stage.appendChild(this.handLayer);
-    this.sortMode = this.sortMode || 'cost';
-    this.sortBtn = h('button', { class: 'btn sortBtn hidden', type: 'button', 'data-k': 'sort', style: `right:8px;top:8px` }); stage.appendChild(this.sortBtn);
+    this.sortMode = this.sortMode || 'hand';
+    { // 정렬 버튼(비용순 ↔ 유형순, 48 px): 세로 = 가운데 띠 내 덱 왼쪽, 가로 = 오른쪽 기둥 내 덱 위
+      const md = R.my_deck, por = this.S.orientation === 'portrait';
+      const sr = por ? { x: md.x - 52, y: md.y, w: 48, h: 48 } : { x: md.x, y: md.y - 56, w: md.w, h: 48 };
+      this.sortBtn = h('button', { class: 'btn sortBtn', type: 'button', 'data-k': 'sort', style: `left:${sr.x}px;top:${sr.y}px;width:${sr.w}px;height:${sr.h}px` }); stage.appendChild(this.sortBtn);
+      this.sortBtn.textContent = (this.sortMode === 'family' ? t('deck_filter_type') : this.sortMode === 'cost' ? t('deck_filter_cost') : t('hud_hand'));
+      if (por) { const tr = R.turn_timer; this.timerEl.style.width = Math.max(40, sr.x - 4 - tr.x) + 'px'; }
+    }
     this.vig = h('div', { id: 'vignette', style: `background:radial-gradient(ellipse at center, transparent 55%, ${D.art.palette.state.damage} 140%)` }); stage.appendChild(this.vig);
     const cv = h('canvas', { id: 'fx' }); stage.appendChild(cv);
     fxInit(cv, W, H, this.k * (window.devicePixelRatio || 1));
@@ -170,37 +174,19 @@ export class Battle {
   }
   handPos(i, n) {
     const r = this.R.hand, cw = r.card_w, ch = r.card_h;
-    if (this.spread) return this.spreadPos(i, n);
-    // 부채꼴 간격(30-art 11-7b, art.json badge.fan_rule): min(카드 폭 × 0.62, (손패 폭 − 카드 폭 × 1.35)/(n − 1)) → 겹친 카드의 왼쪽 띠(기둥·표지) ≥ 29 % 보임
-    const step = n > 1 ? Math.min(cw * 0.62, (r.w - cw * 1.35) / (n - 1)) : 0;
+    // 조작 원복(요청자 검수 2026-11-18): 게이트 빌드 간격 식. 10장에서도 왼쪽 띠(유형 기둥·표지) ≥ 29 % 보임
+    const step = n > 1 ? Math.min(cw * 0.92, (r.w - cw * 1.35) / (n - 1)) : 0;
     const total = step * (n - 1) + cw, x0 = r.x + Math.max(4, (r.w - total) / 2);
     const c = (n - 1) / 2, off = n > 1 ? (i - c) / c : 0;
     const rot = off * (r.fan_max_rot_deg || 10) * Math.min(1, n / 6) * (n > 7 ? 0.5 : 1);
     const y = this.S.orientation === 'portrait' ? r.y + 10 + Math.abs(off) * Math.abs(off) * 12 : r.y + Math.abs(off) * 6;
     return { x: x0 + i * step, y, w: cw, h: ch, r: rot };
   }
-  // 손패 펼침(30-art 11-3): 세로 2줄 × 5, 가로 1줄 × 10, 이름 다시 보임, 비용순/유형순
-  spreadPos(i, n) {
-    const portrait = this.S.orientation === 'portrait', g = 6, cols = portrait ? 5 : 10;
-    const w = Math.floor((this.W - 16 - (cols - 1) * g) / cols), hh = Math.round(w * 1.4), lab = 16;
-    const rows = portrait ? 2 : 1, y0 = this.H - 8 - rows * (hh + lab) - (rows - 1) * g;
-    const row = Math.floor(i / cols), col = i % cols, inRow = Math.min(cols, n - row * cols);
-    const x0 = (this.W - (inRow * w + (inRow - 1) * g)) / 2;
-    return { x: x0 + col * (w + g), y: y0 + row * (hh + lab + g), w, h: hh, r: 0, s: w / this.R.hand.card_w };
-  }
   handOrder(hand) {
-    if (!this.spread) return hand.map((hc, i) => i);
+    if (this.sortMode === 'hand') return hand.map((hc, i) => i);
     const fam = ['draw', 'buff', 'debuff', 'strike', 'atkdraw'];
     const fo = (hc) => fam.indexOf(cardById(hc.cid).family || 'draw');
     return hand.map((hc, i) => i).sort((a, b) => (this.sortMode === 'family' ? fo(hand[a]) - fo(hand[b]) || hand[a].cost - hand[b].cost : hand[a].cost - hand[b].cost || fo(hand[a]) - fo(hand[b])) || a - b);
-  }
-  setSpread(on) {
-    this.spread = !!on;
-    this.handLayer.classList.toggle('spread', this.spread);
-    this.spreadBg.classList.toggle('hidden', !this.spread); this.sortBtn.classList.toggle('hidden', !this.spread);
-    this.sortBtn.textContent = this.sortMode === 'family' ? t('deck_filter_type') : t('deck_filter_cost');
-    { const p0 = this.spreadPos(0, 1); this.sortBtn.style.right = ''; this.sortBtn.style.left = '8px'; this.sortBtn.style.top = Math.max(4, p0.y - 56) + 'px'; } // 펼친 카드 줄 바로 위 왼쪽
-    this.render();
   }
   render(instant) {
     const vm = this.vm, st = this.state;
@@ -382,8 +368,8 @@ export class Battle {
     } else if (tgt.k === 'power' || tgt.k === 'end' || tgt.k === 'log' || tgt.k === 'epower') {
       setTf(tgt.el, { s: 0.94 }); sfx('ui_tap');
       this.press = { k: tgt.k, el: tgt.el, x0: p.x, y0: p.y };
-    } else if (tgt.k === 'handzone' || tgt.k === 'spreadbg' || tgt.k === 'sort') {
-      this.press = { k: tgt.k, x0: p.x, y0: p.y };
+    } else if (tgt.k === 'sort') {
+      setTf(tgt.el, { s: 0.94 }); this.press = { k: tgt.k, el: tgt.el, x0: p.x, y0: p.y };
     } else if (tgt.k === 'zoom') {
       this.press = { k: 'zoom' };
     } else if (tgt.k === 'board') {
@@ -425,8 +411,6 @@ export class Battle {
       }
       // 탭: 선택(확대 보기) → 다시 탭/칸 탭/대상 탭으로 내기
       if (this.sel && this.sel.k === 'hand' && this.sel.id === pr.id && !(this.targetsFor(this.sel) || []).length) { this.commitSel(null); return; }
-      if (!this.spread && this.vm.players[this.bottom].hand.length >= 6 && !(this.sel && this.sel.id === pr.id)) { this.dropHand(el); this.setSpread(true); return; } // 6장 이상이면 탭 한 번으로 펼침(30-art 4-1)
-      if (this.spread) { this.spread = false; this.handLayer.classList.remove('spread'); this.spreadBg.classList.add('hidden'); this.sortBtn.classList.add('hidden'); this.render(); }
       this.select({ k: 'hand', id: pr.id, inst: hc.inst, el });
       return;
     }
@@ -445,9 +429,7 @@ export class Battle {
     if (pr.k === 'epower') { this.openPowerInfo(1 - this.bottom); return; }
     if (pr.k === 'end') { this.clearSel(); this.input({ k: 'end' }); return; }
     if (pr.k === 'log') { this.openLog(); return; }
-    if (pr.k === 'handzone') { this.clearSel(); this.setSpread(!this.spread); return; }
-    if (pr.k === 'spreadbg') { this.setSpread(false); return; }
-    if (pr.k === 'sort') { this.sortMode = this.sortMode === 'cost' ? 'family' : 'cost'; sfx('ui_tap'); this.setSpread(true); return; }
+    if (pr.k === 'sort') { setTf(pr.el || this.sortBtn, { s: 1 }); this.sortMode = { hand: 'cost', cost: 'family', family: 'hand' }[this.sortMode]; sfx('ui_tap'); this.sortBtn.textContent = (this.sortMode === 'family' ? t('deck_filter_type') : this.sortMode === 'cost' ? t('deck_filter_cost') : t('hud_hand')); this.render(); return; }
     if (pr.k === 'zoom') { if (this.sel && this.sel.k === 'hand' && !(this.targetsFor(this.sel) || []).length) this.commitSel(null); else this.closeZoom(); return; }
     if (pr.k === 'board') { if (this.sel && this.sel.k === 'hand' && !(this.targetsFor(this.sel) || []).length) this.commitSel(null, this.dropPos(p.x)); else this.clearSel(); }
   }
@@ -1066,7 +1048,6 @@ export class Battle {
   tutStep() {
     const T0 = this.tut;
     if (!this.started || this.over || this.mullBox || this.discBox) return;
-    if (this.spread) { if (T0.cur) this.tutClose(); return; } // 손패 펼침 동안은 안내를 쉼(다음 기회에 다시)
     if (T0.cur) { this.tutPlace(); return; }
     for (const sp of this.tutSteps()) {
       if (T0.seen.has(sp.k)) continue;
