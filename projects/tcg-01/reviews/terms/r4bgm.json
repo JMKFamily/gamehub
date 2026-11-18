@@ -1,0 +1,86 @@
+{
+ "steps": [
+  {
+   "label": "menu(부두)",
+   "screen": "dock",
+   "song": "menu",
+   "songHero": null,
+   "ctx": "running",
+   "musGain": 1,
+   "music": true,
+   "rms_db": -56.2
+  },
+  {
+   "label": "음악 끔",
+   "screen": "settings",
+   "song": "menu",
+   "songHero": null,
+   "ctx": "running",
+   "musGain": 0,
+   "music": false,
+   "rms_db": -180
+  },
+  {
+   "label": "음악 켬",
+   "screen": "settings",
+   "song": "menu",
+   "songHero": null,
+   "ctx": "running",
+   "musGain": 1,
+   "music": true,
+   "rms_db": -49.2
+  },
+  {
+   "label": "팩 개봉",
+   "screen": "open",
+   "song": "crate",
+   "songHero": null,
+   "ctx": "running",
+   "musGain": 1,
+   "music": true,
+   "rms_db": -60.4
+  },
+  {
+   "label": "대전",
+   "screen": "battle",
+   "song": "battle",
+   "songHero": "h_nameless",
+   "ctx": "running",
+   "musGain": 1,
+   "music": true,
+   "chosen": "h_nameless",
+   "rms_db": -35.3
+  },
+  {
+   "label": "긴장(tension 1)",
+   "screen": "battle",
+   "song": "battle_tension",
+   "songHero": "h_nameless",
+   "ctx": "running",
+   "musGain": 1,
+   "music": true
+  },
+  {
+   "label": "맺음(판 끝)",
+   "screen": "battle",
+   "song": null,
+   "songHero": "h_nameless",
+   "ctx": "running",
+   "musGain": 1,
+   "music": true,
+   "stingUntil_set": true,
+   "winner": 0
+  }
+ ],
+ "hero_sync": {
+  "chosen": "h_nameless",
+  "songHero": "h_nameless",
+  "ok": true,
+  "my_hero_in_engine": "h_nameless"
+ },
+ "background": {
+  "hidden": "suspended",
+  "after_resume": "running"
+ },
+ "errors": []
+}

@@ -23,6 +23,8 @@ try {
   await page.waitForSelector('.tut', { timeout: 90000 }); await sleep(600);
   const r = await page.evaluate(() => { const d = (sel) => { const e = document.querySelector(sel); if (!e) return null; const r = e.getBoundingClientRect(); const pts = [[0.5, 0.5], [0.2, 0.5], [0.8, 0.5]].map(([fx, fy]) => { const t = document.elementFromPoint(r.left + r.width * fx, r.top + r.height * fy); return t ? `${t.tagName.toLowerCase()}.${(t.className && t.className.baseVal !== undefined ? t.className.baseVal : t.className) || ''}${t === e || e.contains(t) ? '(self)' : ''}` : null; }); return { rect: [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)], z: getComputedStyle(e).zIndex, top: pts }; }; return { step: document.querySelector('.tut').dataset.tut, next: d('[data-tut-next]'), skip: d('[data-tut-skip]') }; });
   console.log(JSON.stringify(r));
+  const lc = await page.evaluate(() => { try { return __game.tutLayoutCheck ? __game.tutLayoutCheck() : 'no hook'; } catch (e) { return 'error ' + e.message; } });
+  console.log('layoutCheck ' + JSON.stringify(lc).slice(0, 600));
   await page.screenshot({ path: join(HERE, '..', '..', 'reviews', 'terms', 'r3', `tut-top-${w}x${h}.png`) });
   // 실제로 눌러 보기: 다음 가운데 탭 → 단계가 바뀌는지
   if (process.argv[5] === 'skip') { const sb = r.skip && r.skip.rect; await page.mouse.click(sb[0] + sb[2] / 2, sb[1] + sb[3] / 2); await sleep(500); console.log(JSON.stringify({ after_tap_skip: await page.evaluate(() => ({ tut: document.querySelector('.tut')?.dataset.tut || null, skipped: __game.state.tut.skipped })) })); }

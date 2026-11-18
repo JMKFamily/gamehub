@@ -3,7 +3,7 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { join, extname, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const ROOT = join(fileURLToPath(new URL('.', import.meta.url)), '..', '..', '..', '..');
+const ROOT = process.argv[3] || join(fileURLToPath(new URL('.', import.meta.url)), '..', '..', '..', '..'); // 두 번째 인자: 다른 루트(A/B 비교용 기준 빌드 폴더)
 const T = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.txt': 'text/plain' };
 const port = +(process.argv[2] || 8820);
 createServer(async (req, res) => {

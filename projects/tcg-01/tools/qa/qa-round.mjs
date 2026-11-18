@@ -38,7 +38,7 @@ let pw = null;
 for (const n of ['playwright', 'playwright-core']) { try { pw = req(n); break; } catch {} }
 if (!pw && process.env.PLAYWRIGHT_CORE) pw = req(process.env.PLAYWRIGHT_CORE);
 if (!pw) { console.error('playwright를 찾지 못함: PLAYWRIGHT_CORE=<playwright-core 폴더>'); process.exit(2); }
-const srv = spawn(process.execPath, [join(HERE, 'serve.mjs'), String(PORT)], { stdio: 'ignore' });
+const srv = spawn(process.execPath, [join(HERE, 'serve.mjs'), String(PORT), ...(opt('--root', '') ? [opt('--root', '')] : [])], { stdio: 'ignore' }); // --root: 기준 빌드 폴더(git archive)
 appendFileSync(join(QOUT, 'pids.log'), `${new Date().toISOString()} part=${PART} server pid ${srv.pid} port ${PORT}\n`);
 for (let i = 0; i < 50; i++) { try { if ((await fetch(BASE)).ok) break; } catch {} await sleep(100); }
 const stopAll = () => { try { srv.kill(); } catch {} };
@@ -404,6 +404,7 @@ async function perfRun(i) {
   await tr('→decks', () => page.evaluate(() => __game.go('decks')));
   await tr('dock→heroes→battle(첫 물때)', async () => { await page.evaluate(() => __game.go('heroes')); await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); });
   // 대전 중(AI 대 AI 실시간, 사람 자리 autoplay): 처음 150 s
+  if (opt('--perf-music', '') === '0') await page.evaluate(async () => { (await import(new URL('js/audio.js', location.href).href)).setMusic(false); });
   // 메뉴 경로 판은 사람이 후공일 수 있음 — AI 차례에 훅 runAI를 부르면 aiStep 예약 수와 겹쳐 낡은 행동이 실행돼 예외가 남(terms QA 하네스 오류). 사람 자리 차례에만.
   // 사람 자리는 runAI(입력 경로)로 두고 튜토리얼 패널·스포트라이트는 켠 채로(안내 단계는 6 s마다 '다음')
   if (opt('--perf-auto', '') === '1') await page.evaluate(() => { __game.mulligan([]); __game.autoplay(true); }); // round-2와 같은 운전(사람 자리 autoplay) — 원인 가르기
@@ -424,7 +425,8 @@ async function perfRun(i) {
 }
 async function partPerf() {
   const runs = [];
-  for (let i = 1; i <= 3; i++) { runs.push(await perfRun(i)); console.log(JSON.stringify(runs[runs.length - 1])); }
+  const NR = +opt('--perf-runs', '3');
+  for (let i = 1; i <= NR; i++) { runs.push(await perfRun(i)); console.log(JSON.stringify(runs[runs.length - 1])); }
   save(opt('--perf-tag', 'perf'), { log: LOG, rate: 6, q: opt('--perf-q', ''), runs });
 }
 
