@@ -47,3 +47,7 @@
 ## 요청자 지시 (2026-11-18, 마스터 전달) — UX 검수자
 - "UX 검수자를 두세요." 새 역할 `.claude/agents/ux-reviewer.md`(1c6d516), criteria "UX·한눈 구분" 절, 게이트에 "UX 점수 6.0 이상, UX blocker 포함 blocker 0" 추가(UX는 가중 총점 제외).
 - flow-01: 1-5 리뷰에 ux-reviewer를 4역할과 함께 병렬. 1-2·1-3에서 미리 챙김: 6색 짝마다 모양 표지로 한눈 구분, 막힌 상태·"왜 안 되는지" 피드백, 5~6세 첫 사용 학습 → 1-3 game-developer 지시에 넣음.
+
+## 한도 중단 (2026-11-18)
+- 멈춘 지점: round-1 게이트(7.765 미통과)·결정 H1~H4 커밋(aabefaa) 뒤, round-2 기획 수정 에이전트(balance·art·lore·benchmark)를 띄우기 직전. 돌던 에이전트 없음.
+- 재개 시: 결정 문서 `Docs/orchestrator/2026-11-18-1-7-round1-gate.md` "round-2 순서" 1번부터(4역할 병렬, 처리표 `reviews/round-1/<역할>-r2-plan.md`) → dev → QA → 리뷰 5역할 → 집계·게이트.
