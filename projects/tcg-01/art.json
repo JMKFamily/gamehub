@@ -90,7 +90,8 @@
   },
   "rarity": {
    "sand": {
-    "name_ko": "모래",
+    "name_ko": "일반",
+    "world_ko": "모래",
     "fill": "#D9C79F",
     "facet": "#9A8152",
     "edge": "#9C8A62",
@@ -99,7 +100,8 @@
     "glyph": "grains"
    },
    "pearl": {
-    "name_ko": "진주",
+    "name_ko": "고급",
+    "world_ko": "진주",
     "fill": "#F3F0F8",
     "facet": "#C9DAF0",
     "edge": "#7F93B2",
@@ -113,7 +115,8 @@
     ]
    },
    "coral": {
-    "name_ko": "산호",
+    "name_ko": "희귀",
+    "world_ko": "산호",
     "fill": "#FF7A52",
     "facet": "#E8603A",
     "edge": "#B8432A",
@@ -122,7 +125,8 @@
     "glyph": "branch"
    },
    "abyss": {
-    "name_ko": "심해",
+    "name_ko": "전설",
+    "world_ko": "심해",
     "fill": "#163562",
     "facet": "#163562",
     "edge": "#4DE0FF",
@@ -143,144 +147,144 @@
   "keywords": [
    {
     "id": "first_breath",
-    "ko": "첫 숨",
-    "en": "First Breath",
+    "ko": "등장",
+    "en": "On Play",
     "color": "#BFE9FF",
     "board_mark": "none_after_play",
     "icon": "breath"
    },
    {
     "id": "ebb",
-    "ko": "썰물",
-    "en": "Ebb",
+    "ko": "사망 시",
+    "en": "On Death",
     "color": "#8FB7D6",
     "board_mark": "corner_icon",
     "icon": "ebb"
    },
    {
     "id": "breakwater",
-    "ko": "방파제",
-    "en": "Breakwater",
+    "ko": "방벽",
+    "en": "Wall",
     "color": "#D8D0BC",
     "board_mark": "wall_frame",
     "icon": "breakwater"
    },
    {
     "id": "saltskin",
-    "ko": "소금막",
-    "en": "Saltskin",
+    "ko": "튕겨내기",
+    "en": "Deflect",
     "color": "#FFFFFF",
     "board_mark": "crystal_outline",
     "icon": "saltskin"
    },
    {
     "id": "seamist",
-    "ko": "물안개",
-    "en": "Seamist",
+    "ko": "위장",
+    "en": "Camouflage",
     "color": "#A9BCC6",
     "board_mark": "fog_overlay",
     "icon": "seamist"
    },
    {
     "id": "spur",
-    "ko": "박차",
-    "en": "Spur",
+    "ko": "기습",
+    "en": "Skirmish",
     "color": "#FFB547",
     "board_mark": "ready_answerers",
     "icon": "spur"
    },
    {
     "id": "rapids",
-    "ko": "급류",
-    "en": "Rapids",
+    "ko": "즉시 공격",
+    "en": "Instant Attack",
     "color": "#5FD0FF",
     "board_mark": "ready_all",
     "icon": "rapids"
    },
    {
     "id": "drown",
-    "ko": "익사",
-    "en": "Drown",
+    "ko": "즉사",
+    "en": "Deadly",
     "color": "#6E8BFF",
     "board_mark": "corner_icon",
     "icon": "drown"
    },
    {
     "id": "draught",
-    "ko": "들이켬",
-    "en": "Draught",
+    "ko": "흡혈",
+    "en": "Drain",
     "color": "#7EE8B5",
     "board_mark": "corner_icon",
     "icon": "draught"
    },
    {
     "id": "unname",
-    "ko": "이름 지우기",
-    "en": "Unname",
+    "ko": "효과 지우기",
+    "en": "Erase",
     "color": "#C4C9CC",
     "board_mark": "scratched_text",
     "icon": "unname"
    },
    {
     "id": "anchor",
-    "ko": "닻",
-    "en": "Anchor",
+    "ko": "속박",
+    "en": "Bind",
     "color": "#9DB2BF",
     "board_mark": "chain_overlay",
     "icon": "anchor"
    },
    {
     "id": "kindle",
-    "ko": "잉걸",
-    "en": "Kindle",
+    "ko": "주문 위력",
+    "en": "Empower",
     "color": "#FF9A4D",
     "board_mark": "corner_value",
     "icon": "kindle"
    },
    {
     "id": "sealwrit",
-    "ko": "봉인문",
-    "en": "Sealwrit",
+    "ko": "덫",
+    "en": "Snare",
     "color": "#D9875A",
     "board_mark": "hero_seal_slot",
     "icon": "sealwrit"
    },
    {
     "id": "soot",
-    "ko": "그을음",
-    "en": "Soot",
+    "ko": "마나 빚",
+    "en": "Mana Debt",
     "color": "#B9A99A",
     "board_mark": "wick_bar_soot",
     "icon": "soot"
    },
    {
     "id": "wake",
-    "ko": "뒷물결",
-    "en": "Wake",
+    "ko": "후속",
+    "en": "Follow-up",
     "color": "#9EE6E0",
     "board_mark": "glow_when_active",
     "icon": "wake"
    },
    {
     "id": "salvage",
-    "ko": "인양",
-    "en": "Salvage",
+    "ko": "골라잡기",
+    "en": "Pick",
     "color": "#E0B866",
     "board_mark": "none_after_play",
     "icon": "salvage"
    },
    {
     "id": "swell",
-    "ko": "차오름",
-    "en": "Swell",
+    "ko": "성장",
+    "en": "Grow",
     "color": "#4FC9EC",
     "board_mark": "corner_icon",
     "icon": "swell"
    },
    {
     "id": "brine",
-    "ko": "소금독",
-    "en": "Brine",
+    "ko": "중독",
+    "en": "Toxin",
     "color": "#E8F7F2",
     "board_mark": "counter_pips",
     "icon": "brine"
@@ -343,7 +347,7 @@
   {
    "level": 0,
    "id": "fresh_cut",
-   "ko": "갓 새김",
+   "ko": "기본",
    "frame_groove_lines": 1,
    "salt_flecks": 0,
    "shimmer": false,
@@ -353,7 +357,7 @@
   {
    "level": 1,
    "id": "deep_cut",
-   "ko": "깊은 새김",
+   "ko": "돌파 1",
    "frame_groove_lines": 2,
    "salt_flecks": 0,
    "shimmer": false,
@@ -363,7 +367,7 @@
   {
    "level": 2,
    "id": "salt_set",
-   "ko": "소금 새김",
+   "ko": "돌파 2",
    "frame_groove_lines": 2,
    "salt_flecks": 6,
    "shimmer": false,
@@ -373,7 +377,7 @@
   {
    "level": 3,
    "id": "abyss_set",
-   "ko": "심해 새김",
+   "ko": "돌파 3",
    "frame_groove_lines": 2,
    "salt_flecks": 6,
    "shimmer": true,
@@ -2234,6 +2238,593 @@
   "timer_low": "turn_timer_low",
   "crate_tap": "crate_tap_salt"
  },
+ "ux": {
+  "families": {
+   "draw": {
+    "ko": "뽑기·운영",
+    "en": "Draw",
+    "color": "#3B82F6",
+    "ink": "#08142A",
+    "badge": "circle",
+    "pattern": "lines_h",
+    "types": "type=drawbuff"
+   },
+   "buff": {
+    "ko": "강화",
+    "en": "Buff",
+    "color": "#F2C744",
+    "ink": "#2A1E02",
+    "badge": "triangle_up",
+    "pattern": "chevron_up",
+    "types": "type=buff, 아래 debuff 갈래 제외"
+   },
+   "debuff": {
+    "ko": "약화·방해",
+    "en": "Debuff",
+    "color": "#4A2A7A",
+    "ink": "#F4EEFF",
+    "badge": "triangle_down",
+    "pattern": "chevron_down",
+    "types": "type=buff 중 b_weaken·b_unname·b_anchor·b_brine·b_sealwrit"
+   },
+   "strike": {
+    "ko": "즉시 타격",
+    "en": "Strike",
+    "color": "#B8261A",
+    "ink": "#FFF2EE",
+    "badge": "diamond",
+    "pattern": "slash",
+    "types": "type=attack, attack_sub=instant"
+   },
+   "atkdraw": {
+    "ko": "공격하며 뽑기",
+    "en": "Attack+Draw",
+    "color": "#E06AA0",
+    "ink": "#2A0716",
+    "badge": "square",
+    "pattern": "cross",
+    "types": "type=attack, attack_sub=draw"
+   }
+  },
+  "debuff_branches": [
+   "b_weaken",
+   "b_unname",
+   "b_anchor",
+   "b_brine",
+   "b_sealwrit"
+  ],
+  "branch_glyph": {
+   "d_draw": [
+    "plates"
+   ],
+   "d_seek": [
+    "scope"
+   ],
+   "d_discount": [
+    "candle"
+   ],
+   "d_etch": [
+    "quill"
+   ],
+   "d_salvage": [
+    "hook"
+   ],
+   "b_single": [
+    "arrow",
+    180
+   ],
+   "b_aura": [
+    "ring"
+   ],
+   "b_swell": [
+    "wave"
+   ],
+   "b_guard": [
+    "shield"
+   ],
+   "b_mend": [
+    "drop"
+   ],
+   "b_fit": [
+    "gear"
+   ],
+   "b_ebb": [
+    "spiral"
+   ],
+   "b_offering": [
+    "altar"
+   ],
+   "b_weaken": [
+    "arrow"
+   ],
+   "b_unname": [
+    "xmark"
+   ],
+   "b_anchor": [
+    "anchor"
+   ],
+   "b_brine": [
+    "grains"
+   ],
+   "b_sealwrit": [
+    "seal"
+   ],
+   "ai_bolt": [
+    "bolt_zig"
+   ],
+   "ai_rapids": [
+    "spear"
+   ],
+   "ai_sweep": [
+    "sawblade"
+   ],
+   "ad_onkill": [
+    "target"
+   ],
+   "ad_onhit": [
+    "blade"
+   ],
+   "ad_wake": [
+    "wing"
+   ],
+   "ad_brand": [
+    "sword"
+   ],
+   "ad_ebb": [
+    "coffin"
+   ],
+   "ad_raid": [
+    "hand"
+   ]
+  },
+  "kinds": {
+   "minion": {
+    "ko": "소환수",
+    "top": "오른쪽 위 한 모서리만 깨짐",
+    "bottom": "아래 가운데 매달린 스탯 판(공격 | 체력)",
+    "edge": "아래 가장자리 곧음"
+   },
+   "spell": {
+    "ko": "주문",
+    "top": "위 두 모서리 깨짐",
+    "bottom": "스탯 판 없음",
+    "edge": "아래 가장자리 물결"
+   },
+   "weapon": {
+    "ko": "무기",
+    "top": "오른쪽 위 한 모서리 깨짐",
+    "bottom": "칼자루 판(가로 날밑 + 공격 | 내구도)",
+    "edge": "아래 가장자리 곧음"
+   }
+  },
+  "badge": {
+   "full_size_px": 34,
+   "hand_scale_ratio": 1.6,
+   "token_size_px": 24,
+   "name_band_pattern_opacity_ratio": 0.28
+  },
+  "hierarchy": [
+   {
+    "rank": 1,
+    "what": "비용",
+    "where": "왼쪽 위 세로 마나 판",
+    "size_px": 34,
+    "note": "손패에서 1.6배"
+   },
+   {
+    "rank": 2,
+    "what": "공격 | 체력",
+    "where": "아래 가운데 스탯 판",
+    "size_px": 30,
+    "note": "손패 1.45배, 필드 칸 폭 × 0.26"
+   },
+   {
+    "rank": 3,
+    "what": "유형(색·모양·무늬)",
+    "where": "오른쪽 위 유형 표지 34 px + 이름 띠 색·무늬",
+    "size_px": 34,
+    "note": "손패 1.6배"
+   },
+   {
+    "rank": 4,
+    "what": "카드 종류",
+    "where": "판 실루엣(모서리·아래 판·아래 가장자리)",
+    "size_px": null,
+    "note": ""
+   },
+   {
+    "rank": 5,
+    "what": "이름",
+    "where": "이름 띠",
+    "size_px": 17,
+    "note": "손패에서는 숨김(확대·펼침에서)"
+   },
+   {
+    "rank": 6,
+    "what": "키워드 아이콘",
+    "where": "그림 창 아래 왼쪽",
+    "size_px": 22,
+    "note": ""
+   },
+   {
+    "rank": 7,
+    "what": "카드 글·소속",
+    "where": "글 상자·종류 줄",
+    "size_px": 13,
+    "note": "확대 보기에서만"
+   }
+  ],
+  "deny_feedback": {
+   "common": {
+    "shake_ms": 120,
+    "shake_px": 5,
+    "chip_ms": 1200,
+    "chip_bg": "#2A1712",
+    "chip_border": "#FF6F5E",
+    "chip_ink": "#F2EEE4",
+    "chip_font_px": 13,
+    "sfx": "ui_deny",
+    "return_card_ms": 180
+   },
+   "reasons": [
+    {
+     "id": "no_mana",
+     "key": "toast_no_wicks",
+     "flash": "my_wicks: 모자란 칸 수만큼 빈 막대에 붉은 테두리",
+     "pre": "손패에서 미리: 마나 판 어둡게 + 아래 붉은 밑줄"
+    },
+    {
+     "id": "board_full",
+     "key": "toast_circle_full",
+     "flash": "my_slots 5칸 테두리 동시 깜빡 1회",
+     "pre": "필드가 가득하면 손패 소환수 카드의 스탯 판 테두리 점선"
+    },
+    {
+     "id": "no_target",
+     "key": "toast_no_target",
+     "flash": "카드 위 ⊘ 표시 + 가능한 대상 없음 칩",
+     "pre": "대상 없는 주문은 손패에서 어둡게"
+    },
+    {
+     "id": "summon_sick",
+     "key": "toast_cant_attack_yet",
+     "flash": "그 소환수의 꺼진 마나 심지가 2회 깜빡",
+     "pre": "꺼진 심지 아이콘 상시"
+    },
+    {
+     "id": "anchored",
+     "key": "toast_anchored",
+     "flash": "사슬 표시 흔들림",
+     "pre": "사슬 상시"
+    },
+    {
+     "id": "must_hit_guard",
+     "key": "toast_must_hit_breakwater",
+     "flash": "막아야 할 상대 소환수(벽 표시) 테두리 2회 깜빡",
+     "pre": "공격 화살표가 그 소환수 쪽으로만 붙음"
+    },
+    {
+     "id": "hidden",
+     "key": "toast_seamist_untargetable",
+     "flash": "안개 표시가 일렁임",
+     "pre": "대상 고를 때 안개 소환수는 흐리게"
+    },
+    {
+     "id": "ability_used",
+     "key": "hud_calling_used",
+     "flash": "고유 능력 버튼 위 ✓ 표시",
+     "pre": "사용 뒤 버튼 회색 + ✓"
+    },
+    {
+     "id": "not_your_turn",
+     "key": "turn_enemy",
+     "flash": "가운데 띠에 상대 턴 표시 깜빡",
+     "pre": "상대 턴에는 손패 전체 명도 70 %"
+    },
+    {
+     "id": "hand_full",
+     "key": "toast_hand_full",
+     "flash": "버려진 카드가 양쪽에 보이고 부서짐",
+     "pre": "손패 9장부터 손패 수 숫자 주황"
+    }
+   ],
+   "playable": {
+    "lift_px": 4,
+    "outline": "#F4B740",
+    "outline_px": 2,
+    "note": "낼 수 있는 카드만 테두리 켜짐. 낼 수 없는 카드는 명도 60 % + 위 pre 표시"
+   }
+  },
+  "hand_compare": {
+   "spread_on": "tap_hand",
+   "sort_modes": [
+    "cost",
+    "family"
+   ],
+   "sort_button_px": 48,
+   "show_name_in_spread": true,
+   "dim_unplayable_ratio": 0.6
+  },
+  "tutorial_ui": {
+   "panel": {
+    "bg": "#14232B",
+    "border": "#7FE3FF",
+    "border_px": 2,
+    "ink": "#F2EEE4",
+    "font_px": 13,
+    "line_h_px": 17,
+    "max_lines": 2,
+    "pad_px": 8,
+    "shape": "오른쪽 위 모서리 깨진 띠"
+   },
+   "advance": "패널 밖 아무 곳이나 탭(행동이 필요한 단계는 그 행동으로 넘어감)",
+   "skip_button_px": 48,
+   "spotlight": {
+    "dim_ratio": 0.5,
+    "cutout_pad_px": 8,
+    "ring_color": "#7FE3FF",
+    "ring_px": 3,
+    "ring_pulse_ms": 1200
+   },
+   "pointer": {
+    "arrow": "패널 가장자리 → 대상 가장자리 점선 화살표(2 px)",
+    "drag_demo": "손가락 원(지름 28 px) + 고리가 출발 → 도착을 1.2 s 반복"
+   },
+   "rule": "패널은 대상 사각형·필드 칸·스탯 판과 겹치지 않음. 기본 자리 = 가운데 띠(두 필드 사이). 대상이 가운데 띠면 보조 자리(세로: 상대 줄 위 / 가로: 손패 띠 위)"
+  },
+  "tutorial_layout": {
+   "360x640": {
+    "main_lines": 2,
+    "plan": {
+     "tut_mana": "main",
+     "tut_no_play": "main",
+     "tut_play_creature": "main",
+     "tut_play_spell": "main",
+     "tut_play_weapon": "main",
+     "tut_board": "main",
+     "tut_attack": "main",
+     "tut_ability": "main",
+     "tut_defense": "main",
+     "tut_end": "main",
+     "tut_wall": "main",
+     "tut_keyword": "main",
+     "tut_health": "main",
+     "tut_deckout": "alt"
+    },
+    "slots_px": {
+     "main": {
+      "x": 8,
+      "y": 219,
+      "w": 288,
+      "h": 52,
+      "kind": "panel"
+     },
+     "next": {
+      "x": 300,
+      "y": 221,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
+     },
+     "alt": {
+      "x": 8,
+      "y": 31,
+      "w": 288,
+      "h": 72,
+      "kind": "panel"
+     },
+     "alt_next": {
+      "x": 300,
+      "y": 43,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
+     },
+     "skip": {
+      "x": 304,
+      "y": 31,
+      "w": 48,
+      "h": 48,
+      "kind": "button",
+      "note": "alt 쓸 때는 mid_band 오른쪽 끝으로"
+     }
+    },
+    "errs": []
+   },
+   "412x915": {
+    "main_lines": 2,
+    "plan": {
+     "tut_mana": "main",
+     "tut_no_play": "main",
+     "tut_play_creature": "main",
+     "tut_play_spell": "main",
+     "tut_play_weapon": "main",
+     "tut_board": "main",
+     "tut_attack": "main",
+     "tut_ability": "main",
+     "tut_defense": "main",
+     "tut_end": "main",
+     "tut_wall": "main",
+     "tut_keyword": "main",
+     "tut_health": "main",
+     "tut_deckout": "alt"
+    },
+    "slots_px": {
+     "main": {
+      "x": 8,
+      "y": 327,
+      "w": 340,
+      "h": 60,
+      "kind": "panel"
+     },
+     "next": {
+      "x": 352,
+      "y": 333,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
+     },
+     "alt": {
+      "x": 8,
+      "y": 64,
+      "w": 340,
+      "h": 82,
+      "kind": "panel"
+     },
+     "alt_next": {
+      "x": 352,
+      "y": 81,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
+     },
+     "skip": {
+      "x": 356,
+      "y": 64,
+      "w": 48,
+      "h": 48,
+      "kind": "button",
+      "note": "alt 쓸 때는 mid_band 오른쪽 끝으로"
+     }
+    },
+    "errs": []
+   },
+   "640x360": {
+    "main_lines": 2,
+    "plan": {
+     "tut_mana": "main",
+     "tut_no_play": "main",
+     "tut_play_creature": "main",
+     "tut_play_spell": "main",
+     "tut_play_weapon": "main",
+     "tut_board": "main",
+     "tut_attack": "main",
+     "tut_ability": "main",
+     "tut_defense": "main",
+     "tut_end": "main",
+     "tut_wall": "main",
+     "tut_keyword": "main",
+     "tut_health": "main",
+     "tut_deckout": "main"
+    },
+    "slots_px": {
+     "main": {
+      "x": 152,
+      "y": 100,
+      "w": 360,
+      "h": 38,
+      "kind": "panel"
+     },
+     "next": {
+      "x": 520,
+      "y": 86,
+      "w": 112,
+      "h": 48,
+      "kind": "button"
+     },
+     "alt": {
+      "x": 152,
+      "y": 303,
+      "w": 360,
+      "h": 57,
+      "kind": "panel"
+     },
+     "alt_next": {
+      "x": 520,
+      "y": 86,
+      "w": 112,
+      "h": 48,
+      "kind": "button"
+     },
+     "skip": {
+      "x": 520,
+      "y": 138,
+      "w": 112,
+      "h": 48,
+      "kind": "button"
+     }
+    },
+    "errs": []
+   },
+   "1280x720": {
+    "main_lines": 3,
+    "plan": {
+     "tut_mana": "main",
+     "tut_no_play": "main",
+     "tut_play_creature": "main",
+     "tut_play_spell": "main",
+     "tut_play_weapon": "main",
+     "tut_board": "main",
+     "tut_attack": "main",
+     "tut_ability": "main",
+     "tut_defense": "main",
+     "tut_end": "main",
+     "tut_wall": "main",
+     "tut_keyword": "main",
+     "tut_health": "main",
+     "tut_deckout": "main"
+    },
+    "slots_px": {
+     "main": {
+      "x": 288,
+      "y": 206,
+      "w": 752,
+      "h": 78,
+      "kind": "panel"
+     },
+     "next": {
+      "x": 1048,
+      "y": 160,
+      "w": 224,
+      "h": 48,
+      "kind": "button"
+     },
+     "alt": {
+      "x": 288,
+      "y": 614,
+      "w": 752,
+      "h": 106,
+      "kind": "panel"
+     },
+     "alt_next": {
+      "x": 1048,
+      "y": 160,
+      "w": 224,
+      "h": 48,
+      "kind": "button"
+     },
+     "skip": {
+      "x": 1048,
+      "y": 212,
+      "w": 224,
+      "h": 48,
+      "kind": "button"
+     }
+    },
+    "errs": []
+   }
+  },
+  "cvd_min_dE": {
+   "normal": {
+    "min_dE": 41.7,
+    "pair": "draw~debuff"
+   },
+   "protan": {
+    "min_dE": 38.6,
+    "pair": "draw~debuff"
+   },
+   "deutan": {
+    "min_dE": 40.1,
+    "pair": "draw~debuff"
+   },
+   "tritan": {
+    "min_dE": 35.5,
+    "pair": "strike~atkdraw"
+   }
+  },
+  "cvd_threshold_dE": 20,
+  "family_rule": "familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff"
+ },
  "assets": [
   "app-icon.svg",
   "card-back.svg",
@@ -2256,11 +2847,16 @@
   "hero-rider.svg",
   "hero-warden.svg",
   "hero-wreck.svg",
+  "icon-ability.svg",
   "icon-asleep.svg",
   "icon-attack.svg",
+  "icon-board.svg",
+  "icon-breakthrough.svg",
   "icon-deck.svg",
+  "icon-kin.svg",
   "icon-lifeline.svg",
   "icon-log.svg",
+  "icon-rank.svg",
   "icon-ready.svg",
   "icon-shell.svg",
   "icon-spare-wick.svg",
@@ -2268,6 +2864,9 @@
   "icon-wick-soot.svg",
   "icon-wick-spent.svg",
   "icon-wick.svg",
+  "kind-minion.svg",
+  "kind-spell.svg",
+  "kind-weapon.svg",
   "kw-anchor.svg",
   "kw-breakwater.svg",
   "kw-brine.svg",
@@ -2298,7 +2897,12 @@
   "salt-chunk-abyss.svg",
   "salt-chunk-coral.svg",
   "salt-chunk-pearl.svg",
-  "salt-chunk-sand.svg"
+  "salt-chunk-sand.svg",
+  "type-atkdraw.svg",
+  "type-buff.svg",
+  "type-debuff.svg",
+  "type-draw.svg",
+  "type-strike.svg"
  ],
  "portrait_generator": {
   "module": "tools/art/portrait-gen.mjs",
@@ -2307,7 +2911,7 @@
   "cache": "카드마다 한 번 만들어 blob URL로 캐시"
  },
  "contrast": {
-  "checked": 66,
+  "checked": 81,
   "failed": 0,
   "min_ratio": 4.79
  }

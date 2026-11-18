@@ -1,6 +1,6 @@
 // SVG 에셋·카드 조립기·목업 (art-director 1-1). 외부 이미지·폰트·CDN 없음(글꼴은 기기 기본 sans-serif).
 // build.mjs가 호출합니다. 카드 조립 함수 cardSVG / tokenSVG 는 빌드(game-developer)가 그대로 가져다 써도 됩니다.
-import { ui, factions, rarity as RAR, state as ST, keywords as KW, card as C, recut as RECUT } from './spec.mjs';
+import { ui, factions, rarity as RAR, state as ST, keywords as KW, card as C, recut as RECUT, cardFamilies as FAM, familyOf, branchGlyph, badge as BADGE } from './spec.mjs';
 import { portraitSVG, glyph, guessKind, hash } from './portrait-gen.mjs';
 
 export const FONT = `font-family="'Noto Sans KR','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif"`;
@@ -46,25 +46,30 @@ export function rarityIcon(r, size = 48) { return svg(size, size, `<g transform=
 
 // ───────── 기본 수치 아이콘 ─────────
 export const statIcons = {
-  'icon-wick': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 16V11" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q31 9 28 13A4 4 0 0 1 20 13Q18 8 24 2Z" fill="${ui.wick_flame}"/>`, '심지'),
-  'icon-wick-spent': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_spent}"/><path d="M24 16V11" stroke="${ui.wick_spent}" stroke-width="2"/><path d="M22 8Q26 5 24 2" fill="none" stroke="${ui.salt_dim}" stroke-width="1.5" opacity=".6"/>`, '쓴 심지'),
-  'icon-wick-soot': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_soot}"/><path d="M14 18L34 42M34 18L14 42" stroke="#1A0F0A" stroke-width="3"/>`, '그을린 심지'),
-  'icon-lifeline': () => svg(48, 48, `<rect x="14" y="4" width="20" height="6" rx="2" fill="${ui.salt_white}"/><rect x="14" y="38" width="20" height="6" rx="2" fill="${ui.salt_white}"/><path d="M20 10V38M24 10V38M28 10V38" stroke="${ST.damage}" stroke-width="2.6"/>`, '명줄(체력)'),
-  'icon-attack': () => svg(48, 48, `<path d="M24 3L33 20L27 20L27 42H21L21 20L15 20Z" fill="${ui.salt_white}" stroke="${ui.stat_tab}" stroke-width="2" stroke-linejoin="round"/><path d="M16 34H32" stroke="${ui.salt_white}" stroke-width="3"/>`, '공격(작살 끝)'),
-  'icon-shell': () => svg(48, 48, `<path d="M10 30L16 12L30 8L40 20L36 38L18 40Z" fill="${ST.shell}" stroke="#7C8E96" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 12L22 24L30 8M22 24L40 20M22 24L18 40" stroke="#7C8E96" stroke-width="1.6"/>`, '껍질'),
-  'icon-spare-wick': () => svg(48, 48, `<rect x="16" y="26" width="16" height="16" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M16 30Q24 26 32 30" fill="none" stroke="${ui.wick_ink}" stroke-width="1.6"/><path d="M24 26V21" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 10Q30 16 28 20A4 4 0 0 1 20 20Q19 15 24 10Z" fill="${ui.wick_flame}"/>`, '여분 심지(초 토막)'),
-  'icon-deck': () => svg(48, 48, `<rect x="12" y="12" width="24" height="32" rx="2" fill="${ui.bg_panel}" stroke="${ui.salt_dim}" stroke-width="2"/><rect x="9" y="8" width="24" height="32" rx="2" fill="${ui.board_slot}" stroke="${ui.salt_white}" stroke-width="2"/><circle cx="21" cy="24" r="6" fill="none" stroke="${ui.salt_white}" stroke-width="2"/>`, '영장첩'),
-  'icon-sunk': () => svg(48, 48, `<path d="M6 22Q15 16 24 22T42 22V44H6Z" fill="${ui.tide_black}" stroke="${ui.board_ring}" stroke-width="2"/><rect x="17" y="26" width="14" height="12" fill="none" stroke="${ui.salt_dim}" stroke-width="2" transform="rotate(-12 24 32)"/>`, '가라앉은 자리'),
+  'icon-wick': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 16V11" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q31 9 28 13A4 4 0 0 1 20 13Q18 8 24 2Z" fill="${ui.wick_flame}"/>`, '마나'),
+  'icon-wick-spent': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_spent}"/><path d="M24 16V11" stroke="${ui.wick_spent}" stroke-width="2"/><path d="M22 8Q26 5 24 2" fill="none" stroke="${ui.salt_dim}" stroke-width="1.5" opacity=".6"/>`, '쓴 마나'),
+  'icon-wick-soot': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_soot}"/><path d="M14 18L34 42M34 18L14 42" stroke="#1A0F0A" stroke-width="3"/>`, '마나 빚으로 잠긴 마나'),
+  'icon-lifeline': () => svg(48, 48, `<rect x="14" y="4" width="20" height="6" rx="2" fill="${ui.salt_white}"/><rect x="14" y="38" width="20" height="6" rx="2" fill="${ui.salt_white}"/><path d="M20 10V38M24 10V38M28 10V38" stroke="${ST.damage}" stroke-width="2.6"/>`, '체력'),
+  'icon-attack': () => svg(48, 48, `<path d="M24 3L33 20L27 20L27 42H21L21 20L15 20Z" fill="${ui.salt_white}" stroke="${ui.stat_tab}" stroke-width="2" stroke-linejoin="round"/><path d="M16 34H32" stroke="${ui.salt_white}" stroke-width="3"/>`, '공격력'),
+  'icon-shell': () => svg(48, 48, `<path d="M10 30L16 12L30 8L40 20L36 38L18 40Z" fill="${ST.shell}" stroke="#7C8E96" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 12L22 24L30 8M22 24L40 20M22 24L18 40" stroke="#7C8E96" stroke-width="1.6"/>`, '방어'),
+  'icon-spare-wick': () => svg(48, 48, `<rect x="16" y="26" width="16" height="16" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M16 30Q24 26 32 30" fill="none" stroke="${ui.wick_ink}" stroke-width="1.6"/><path d="M24 26V21" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 10Q30 16 28 20A4 4 0 0 1 20 20Q19 15 24 10Z" fill="${ui.wick_flame}"/>`, '보너스 마나(초 토막)'),
+  'icon-deck': () => svg(48, 48, `<rect x="12" y="12" width="24" height="32" rx="2" fill="${ui.bg_panel}" stroke="${ui.salt_dim}" stroke-width="2"/><rect x="9" y="8" width="24" height="32" rx="2" fill="${ui.board_slot}" stroke="${ui.salt_white}" stroke-width="2"/><circle cx="21" cy="24" r="6" fill="none" stroke="${ui.salt_white}" stroke-width="2"/>`, '덱'),
+  'icon-sunk': () => svg(48, 48, `<path d="M6 22Q15 16 24 22T42 22V44H6Z" fill="${ui.tide_black}" stroke="${ui.board_ring}" stroke-width="2"/><rect x="17" y="26" width="14" height="12" fill="none" stroke="${ui.salt_dim}" stroke-width="2" transform="rotate(-12 24 32)"/>`, '무덤'),
   'icon-log': () => svg(48, 48, `<rect x="8" y="8" width="32" height="32" rx="4" fill="${ui.button_idle}"/><path d="M15 17H33M15 24H33M15 31H26" stroke="${ui.salt_white}" stroke-width="3" stroke-linecap="round"/>`, '기록'),
-  'icon-asleep': () => svg(48, 48, `<rect x="18" y="20" width="12" height="22" rx="2" fill="${ui.wick_spent}"/><path d="M24 20V14" stroke="${ui.wick_spent}" stroke-width="2"/><path d="M20 10Q24 6 22 2M27 10Q31 6 29 2" fill="none" stroke="${ui.salt_dim}" stroke-width="1.6" stroke-linecap="round"/>`, '아직 공격 못 함(꺼진 심지)'),
-  'icon-ready': () => svg(48, 48, `<rect x="18" y="20" width="12" height="22" rx="2" fill="${ui.wick_lit_bar}"/><path d="M24 20V14" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q32 9 29 14A5 5 0 0 1 19 14Q17 8 24 2Z" fill="${ui.wick_flame}"/>`, '공격 가능(켜진 심지)'),
+  'icon-asleep': () => svg(48, 48, `<rect x="18" y="20" width="12" height="22" rx="2" fill="${ui.wick_spent}"/><path d="M24 20V14" stroke="${ui.wick_spent}" stroke-width="2"/><path d="M20 10Q24 6 22 2M27 10Q31 6 29 2" fill="none" stroke="${ui.salt_dim}" stroke-width="1.6" stroke-linecap="round"/>`, '아직 공격 못 함(꺼진 마나 심지)'),
+  'icon-ability': () => svg(48, 48, `<path d="M24 3L29.5 17.5L45 18.5L33 28.5L37 44L24 35.5L11 44L15 28.5L3 18.5L18.5 17.5Z" fill="${ui.wick_flame}" stroke="${ui.wick_ink}" stroke-width="2.4" stroke-linejoin="round"/>`, '고유 능력'),
+  'icon-board': () => svg(48, 48, `<rect x="2" y="12" width="44" height="24" rx="5" fill="${ui.board_wet_salt}" stroke="${ui.board_ring}" stroke-width="2"/>${[0, 1, 2, 3, 4].map((i) => `<rect x="${5 + i * 8}" y="16" width="6" height="16" rx="1.5" fill="${ui.salt_dim}"/>`).join('')}`, '필드(한쪽 5칸)'),
+  'icon-kin': () => svg(48, 48, `<circle cx="15" cy="20" r="7" fill="${ui.salt_white}"/><circle cx="33" cy="20" r="7" fill="${ui.salt_white}"/><path d="M4 42Q4 30 15 30Q24 30 24 38Q24 30 33 30Q44 30 44 42Z" fill="${ui.salt_dim}"/><path d="M19 8L24 4L29 8" fill="none" stroke="${ui.wick_flame}" stroke-width="3" stroke-linecap="round"/>`, '부류'),
+  'icon-breakthrough': () => svg(48, 48, `<path d="M24 4L40 22H31V44H17V22H8Z" fill="${RAR.abyss.glow}" stroke="${ui.stat_tab}" stroke-width="2.4" stroke-linejoin="round"/><path d="M17 32H31M17 38H31" stroke="${ui.stat_tab}" stroke-width="2"/>`, '돌파'),
+  'icon-rank': () => svg(48, 48, `<path d="M8 6H40V30L24 42L8 30Z" fill="${ui.bg_panel}" stroke="${ui.salt_dim}" stroke-width="2.4" stroke-linejoin="round"/>${['#D9C79F', '#F3F0F8', '#FF7A52', '#4DE0FF'].map((c, i) => `<rect x="12" y="${10 + i * 5}" width="24" height="3.4" fill="${c}"/>`).join('')}`, '랭크 등급 띠'),
+  'icon-ready': () => svg(48, 48, `<rect x="18" y="20" width="12" height="22" rx="2" fill="${ui.wick_lit_bar}"/><path d="M24 20V14" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q32 9 29 14A5 5 0 0 1 19 14Q17 8 24 2Z" fill="${ui.wick_flame}"/>`, '공격 가능(켜진 마나 심지)'),
 };
 
 // ───────── 재화 ─────────
 export const currencyIcons = {
-  'currency-salt': () => svg(48, 48, `<rect x="7" y="11" width="34" height="26" rx="3" fill="#EDE6D3" stroke="#8C7F62" stroke-width="2.4"/><rect x="12" y="16" width="24" height="16" rx="2" fill="none" stroke="#8C7F62" stroke-width="1.8"/><path d="M17 26Q21 21 24 26T31 26" fill="none" stroke="#8C7F62" stroke-width="2.2" stroke-linecap="round"/>`, '소금화'),
-  'currency-ink': () => svg(48, 48, `<path d="M16 16H32V22L37 28V43H11V28L16 22Z" fill="#1E2124" stroke="#9AA6AD" stroke-width="2.2" stroke-linejoin="round"/><rect x="18" y="9" width="12" height="7" fill="#6C4B2E"/><path d="M33 4L41 12L28 25" stroke="#C9CED1" stroke-width="3" stroke-linecap="round"/><path d="M11 34H37" stroke="#4DE0FF" stroke-width="2"/>`, '각인 먹'),
-  'currency-pearl': () => svg(48, 48, `<circle cx="24" cy="25" r="15" fill="#0E1E33" stroke="${RAR.abyss.glow}" stroke-width="2.6"/><ellipse cx="19" cy="19" rx="5" ry="3.4" fill="#BFF4FF" opacity=".85"/><circle cx="24" cy="25" r="19" fill="none" stroke="${RAR.abyss.glow}" stroke-opacity=".35" stroke-width="2"/>`, '심해 진주'),
+  'currency-salt': () => svg(48, 48, `<rect x="7" y="11" width="34" height="26" rx="3" fill="#EDE6D3" stroke="#8C7F62" stroke-width="2.4"/><rect x="12" y="16" width="24" height="16" rx="2" fill="none" stroke="#8C7F62" stroke-width="1.8"/><path d="M17 26Q21 21 24 26T31 26" fill="none" stroke="#8C7F62" stroke-width="2.2" stroke-linecap="round"/>`, '골드'),
+  'currency-ink': () => svg(48, 48, `<path d="M16 16H32V22L37 28V43H11V28L16 22Z" fill="#1E2124" stroke="#9AA6AD" stroke-width="2.2" stroke-linejoin="round"/><rect x="18" y="9" width="12" height="7" fill="#6C4B2E"/><path d="M33 4L41 12L28 25" stroke="#C9CED1" stroke-width="3" stroke-linecap="round"/><path d="M11 34H37" stroke="#4DE0FF" stroke-width="2"/>`, '제작 조각'),
+  'currency-pearl': () => svg(48, 48, `<circle cx="24" cy="25" r="15" fill="#0E1E33" stroke="${RAR.abyss.glow}" stroke-width="2.6"/><ellipse cx="19" cy="19" rx="5" ry="3.4" fill="#BFF4FF" opacity=".85"/><circle cx="24" cy="25" r="19" fill="none" stroke="${RAR.abyss.glow}" stroke-opacity=".35" stroke-width="2"/>`, '진주'),
 };
 
 // ───────── 인양 상자(팩) ─────────
@@ -82,10 +87,11 @@ export function crateSVG(variant = 'bare_sea') {
 <path d="M64 110L100 122L136 110" fill="none" stroke="${band}" stroke-width="10"/>
 <path d="M118 132Q126 124 134 132T150 132" fill="none" stroke="#EDE6D3" stroke-width="4" stroke-linecap="round"/>
 <path d="M44 116Q40 140 48 160M156 116Q160 140 152 160" fill="none" stroke="#C9A24A" stroke-width="3" stroke-dasharray="6 5"/>
-${fac ? `<g opacity=".95">${glyph(fac.shape, 100, 70, 11, fac.primary, '#EDE6D3', '#2A1D12')}</g>` : `<circle cx="100" cy="72" r="9" fill="none" stroke="#EDE6D3" stroke-width="3"/>`}`, variant === 'bare_sea' ? '노해 인양 상자' : `세력 상자 ${variant}`);
+${fac ? `<g opacity=".95">${glyph(fac.shape, 100, 70, 11, fac.primary, '#EDE6D3', '#2A1D12')}</g>` : `<circle cx="100" cy="72" r="9" fill="none" stroke="#EDE6D3" stroke-width="3"/>`}`, variant === 'bare_sea' ? '기본 카드 팩' : `세력 카드 팩 ${variant}`);
 }
 // 소금 덩이(팩 개봉 단계에서 희귀도 예고)
-export function saltChunkSVG(r) {
+export function saltChunkSVG(r) { return saltCardSVG(r); }
+export function saltChunkSVG_v1(r) {
   const R = RAR[r];
   const glow = R.glow ? `<ellipse cx="50" cy="56" rx="46" ry="38" fill="${R.glow}" opacity="${r === 'abyss' ? .55 : r === 'coral' ? .45 : .3}"/>` : '';
   const fill = r === 'pearl' ? 'url(#cg)' : R.fill;
@@ -93,6 +99,18 @@ export function saltChunkSVG(r) {
 <path d="M18 62L26 30L48 18L74 24L86 50L78 78L50 88L24 80Z" fill="${fill}" stroke="${R.edge}" stroke-width="3" stroke-linejoin="round"/>
 <path d="M26 30L44 44L48 18M44 44L74 24M44 44L50 88M44 44L18 62" fill="none" stroke="${R.edge}" stroke-width="1.6" opacity=".7"/>
 <path d="M30 70L38 72M60 76L66 70M70 40L76 44" stroke="#FFFFFF" stroke-width="2" opacity=".6" stroke-linecap="round"/>`, `소금 덩이(${R.name_ko})`);
+}
+
+// round-3(용어 쉽게): 팩 개봉 글이 "카드를 눌러 뒤집으세요"라 덩이 대신 소금 껍질에 덮인 카드 뒷면. 껍질 색·빛 = 희귀도 예고
+export function saltCardSVG(r) {
+  const R = RAR[r];
+  const glow = R.glow ? `<rect x="4" y="4" width="92" height="132" rx="14" fill="${R.glow}" opacity="${r === 'abyss' ? .55 : r === 'coral' ? .45 : .3}"/>` : '';
+  const crust = r === 'pearl' ? 'url(#cg2)' : R.fill;
+  return svg(100, 140, `<defs><linearGradient id="cg2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${RAR.pearl.sheen[0]}"/><stop offset=".5" stop-color="${RAR.pearl.sheen[1]}"/><stop offset="1" stop-color="${RAR.pearl.sheen[2]}"/></linearGradient></defs>${glow}
+<path d="M12 12H76L88 24V128H12Z" fill="#1A2A33" stroke="${ui.stat_tab}" stroke-width="3"/><circle cx="50" cy="70" r="22" fill="none" stroke="${ui.card_plate_shade}" stroke-width="3"/>
+<path d="M12 40L22 30L34 36L46 26L60 34L72 24L88 32V60L76 66L64 58L50 68L36 60L24 70L12 62Z" fill="${crust}" stroke="${R.edge}" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M12 98L26 92L40 100L56 90L70 98L88 92V128H12Z" fill="${crust}" stroke="${R.edge}" stroke-width="2.4" stroke-linejoin="round"/>
+<path d="M30 46L36 50M58 44L64 40M44 104L50 100M70 108L76 104" stroke="#FFFFFF" stroke-width="2" opacity=".7" stroke-linecap="round"/>`, `소금 덮인 카드(${R.name_ko})`);
 }
 
 // ───────── 영웅 초상 6명 (도형 실루엣, 10-lore 4절 시각 힌트) ─────────
@@ -123,7 +141,7 @@ function boldKeywords(line) {
 }
 // cards.json(엔진) 키워드 id → 우리 키워드 id
 export const ENGINE_KW = { guard: 'breakwater', lifesteal: 'draught', rush: 'spur', stealth: 'seamist', shield: 'saltskin', charge: 'rapids', deadly: 'drown' };
-export const LINEAGE_KO = { warden: '파수병', drowned: '익사자', contraption: '태엽물', rider: '기수', scribe: '필경사', nameless: '무명', shoreling: '갯것' }; // 10-lore 5-3
+export const LINEAGE_KO = { warden: '파수병', drowned: '즉사자', contraption: '태엽물', rider: '기수', scribe: '필경사', nameless: '무명', shoreling: '갯것' }; // 10-lore 5-3
 export const ENGINE_KIND = { minion: 'answerer', spell: 'rite', weapon: 'brand' };
 export function cardKeywords(cardData) {
   const fromEngine = (cardData.keywords || []).map((k) => ENGINE_KW[k]).filter(Boolean);
@@ -181,16 +199,19 @@ export function cardSVG(c, mode = 'full', opts = {}) {
   p.push(`<svg x="${art.x}" y="${art.y}" width="${art.w}" height="${art.h}" viewBox="0 0 120 90" preserveAspectRatio="xMidYMid slice" overflow="hidden">${inner(portraitSVG(c, { title: false }))}</svg>`);
   // 이름 띠
   const nb = hand ? { y: 222, h: 36, font: 24 } : { y: C.name_band.y_px, h: C.name_band.h_px, font: C.name_band.font_px };
-  p.push(`<rect x="${C.spine_w_px + 2}" y="${nb.y}" width="${W - C.spine_w_px - 4}" height="${nb.h}" fill="${fac.primary}"/>`);
+  // UX(2026-11-18): 이름 띠 = 유형 색 + 유형 무늬(세력은 왼쪽 띠·그림 바탕이 맡음)
+  const fid = familyOf(c), fam = FAM[fid], pid = `pat-${fid}`;
+  p.push(`<defs>${familyPattern(fid, pid)}</defs><rect x="${C.spine_w_px + 2}" y="${nb.y}" width="${W - C.spine_w_px - 4}" height="${nb.h}" fill="${fam.color}"/><rect x="${C.spine_w_px + 2}" y="${nb.y}" width="${W - C.spine_w_px - 4}" height="${nb.h}" fill="url(#${pid})"/>`);
   const nm = c.name_ko || c.id;
   const nmFont = Math.min(nb.font, Math.floor((W - 70) / Math.max(4, nm.length)));
-  if (!hand) p.push(`<text x="${W / 2}" y="${nb.y + nb.h / 2 + nmFont * .36}" text-anchor="middle" font-size="${nmFont}" font-weight="700" fill="${fac.ink}" ${FONT}>${esc(nm)}</text>`);
+  if (!hand) p.push(`<text x="${W / 2}" y="${nb.y + nb.h / 2 + nmFont * .36}" text-anchor="middle" font-size="${nmFont}" font-weight="700" fill="${fam.ink}" ${FONT}>${esc(nm)}</text>`);
+  { const bs = BADGE.full_size_px * (hand ? BADGE.hand_scale_ratio : 1); p.push(`<g transform="translate(${W - 14 - bs} ${art.y + 4}) scale(${bs / 48})">${familyBadgeBody(fid, c.branch)}</g>`); }
   p.push(`<g transform="translate(${W - 34} ${nb.y + nb.h / 2 - 11}) scale(.46)">${RARI[c.rarity || c.rarity_hint || 'sand']()}</g>`);
   // 키워드 아이콘 줄(그림 창 아래 가장자리에 걸침)
   const kws = cardKeywords(c); const ks = C.keyword_icons.size_px * (hand ? 1.5 : 1);
   kws.forEach((k, i) => { const x = C.spine_w_px + 10 + i * (ks + 4); /* 1-2: 왼쪽 정렬(레퍼런스 희귀도 보석 자리 회피) */ p.push(`<g transform="translate(${x} ${art.y + art.h - ks * .6}) scale(${ks / 48})"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}" stroke="${ui.card_plate}" stroke-width="3"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`); });
   if (!hand) {
-    const typeKo = { answerer: '응답자', rite: '의식', brand: '인장' }[kind];
+    const typeKo = { answerer: '소환수', rite: '주문', brand: '무기' }[kind]; // 2026-11-18 용어 쉽게(10-lore 2-7)
     p.push(`<text x="${W / 2}" y="${C.type_line.y_px + 11}" text-anchor="middle" font-size="${C.type_line.font_px}" fill="${ui.card_ink_dim}" ${FONT}>${typeKo} · ${esc(LINEAGE_KO[c.lineage] || fac.name_ko)}</text>`);
     const ft = fitText(c.concept_ko || '', kind);
     ft.lines.forEach((ln, i) => p.push(`<text x="${W / 2}" y="${C.text_box.y_px + 15 + i * ft.lh}" text-anchor="middle" font-size="${ft.font}" fill="${ui.card_ink}" ${FONT}>${boldKeywords(ln)}</text>`));
@@ -203,6 +224,7 @@ export function cardSVG(c, mode = 'full', opts = {}) {
     const ts = hand ? 1.45 : 1, tw = C.stat_tab.w_px * ts, th = C.stat_tab.h_px * ts, tx = (W - tw) / 2, ty = H - th;
     const atkCol = st.base_atk != null && st.atk > st.base_atk ? ST.buff : st.base_atk != null && st.atk < st.base_atk ? ST.debuff : ui.salt_white;
     const hpCol = st.damaged ? ST.damage : st.base_hp != null && st.hp > st.base_hp ? ST.buff : ui.salt_white;
+    if (kind === 'brand') p.push(`<rect x="${tx - 16 * ts}" y="${ty - 7 * ts}" width="${tw + 32 * ts}" height="${8 * ts}" rx="${3 * ts}" fill="${ui.stat_tab}" stroke="${fac.primary}" stroke-width="2"/>`); // 무기: 가로 날밑
     p.push(`<g transform="translate(${tx} ${ty})"><path d="M8 0H${tw - 8}L${tw} ${th / 2}L${tw - 8} ${th}H8L0 ${th / 2}Z" fill="${ui.stat_tab}" stroke="${fac.primary}" stroke-width="2.5"/><path d="M${tw / 2 + 6} 4L${tw / 2 - 6} ${th - 4}" stroke="${fac.primary}" stroke-width="2"/>
 <path d="M${tw * .1} ${th * .28}L${tw * .16} ${th * .5}L${tw * .1} ${th * .72}" fill="none" stroke="${ui.salt_dim}" stroke-width="2"/>
 <path d="M${tw * .9} ${th * .25}V${th * .75}M${tw * .86} ${th * .25}V${th * .75}" stroke="${ST.damage}" stroke-opacity=".8" stroke-width="1.6"/>
@@ -225,6 +247,7 @@ export function tokenSVG(c, opts = {}) {
   p.push(`<path d="${plate}" fill="${fac.deep}" stroke="${s.selected ? ui.focus : ui.stat_tab}" stroke-width="${s.selected ? 4 : 2.5}"/>`);
   p.push(`<svg x="5" y="5" width="${W - 10}" height="86" viewBox="0 0 120 90" preserveAspectRatio="xMidYMid slice" overflow="hidden">${inner(portraitSVG(c, { title: false }))}</svg>`);
   p.push(`<rect x="0" y="0" width="5" height="${H - 10}" fill="${fac.primary}"/>`);
+  { const tf = familyOf(c); p.push(`<rect x="5" y="0" width="${W - 19}" height="6" fill="${FAM[tf].color}"/><g transform="translate(${W - 30} 2) scale(${BADGE.token_size_px / 48})">${familyBadgeBody(tf, c.branch)}</g>`); }
   p.push(`<path d="M${W - ch - 8} 0H${W - ch}L${W} ${ch}V${ch + 8}Z" fill="${RAR[c.rarity || c.rarity_hint || 'sand'].fill}"/>`);
   if (kws.includes('seamist')) p.push(`<rect x="3" y="3" width="${W - 6}" height="88" fill="${KW[4].color}" opacity=".45"/><path d="M8 30H50M58 30H92M14 52H70M78 52H88M8 74H40M50 74H92" stroke="#E8F0F3" stroke-width="5" stroke-linecap="round" opacity=".8"/>`);
   if (kws.includes('saltskin')) p.push(`<path d="${plate}" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="10 4"/>`);
@@ -232,7 +255,7 @@ export function tokenSVG(c, opts = {}) {
   // 공격 가능 여부: 왼쪽 위 작은 심지(켜짐/꺼짐)
   p.push(`<g transform="translate(6 6) scale(.42)">${inner(statIcons[s.ready ? 'icon-ready' : 'icon-asleep']())}</g>`);
   // 키워드 표시(오른쪽 위 세로, 최대 3)
-  kws.filter((k) => !['breakwater', 'seamist', 'saltskin', 'first_breath', 'salvage'].includes(k)).slice(0, 3).forEach((k, i) => p.push(`<g transform="translate(${W - 26} ${20 + i * 24}) scale(.46)"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`));
+  kws.filter((k) => !['breakwater', 'seamist', 'saltskin', 'first_breath', 'salvage'].includes(k)).slice(0, 3).forEach((k, i) => p.push(`<g transform="translate(${W - 26} ${30 + i * 22}) scale(.42)"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`));
   if (s.brine) for (let i = 0; i < s.brine; i++) p.push(`<rect x="${10 + i * 11}" y="80" width="7" height="7" transform="rotate(45 ${13.5 + i * 11} 83.5)" fill="${KW[17].color}" stroke="${ui.stat_tab}"/>`);
   // 스탯 줄: 한 판(왼쪽 공격·오른쪽 명줄)
   const atkCol = s.atkBuff ? ST.buff : s.atkDebuff ? ST.debuff : ui.salt_white, hpCol = s.damaged ? ST.damage : s.hpBuff ? ST.buff : ui.salt_white;
@@ -242,9 +265,36 @@ export function tokenSVG(c, opts = {}) {
   return svg(W, H, p.join(''), c.name_ko);
 }
 
+// ───────── UX: 유형 무늬·표지 ─────────
+export function familyPattern(fid, id) {
+  const f = FAM[fid], o = BADGE.name_band_pattern_opacity_ratio, k = f.ink;
+  const body = {
+    lines_h: `<path d="M0 3H12M0 9H12" stroke="${k}" stroke-width="1.6"/>`,
+    chevron_up: `<path d="M0 9L6 3L12 9" fill="none" stroke="${k}" stroke-width="1.8"/>`,
+    chevron_down: `<path d="M0 3L6 9L12 3" fill="none" stroke="${k}" stroke-width="1.8"/>`,
+    slash: `<path d="M-2 14L14 -2M-2 2L2 -2M10 14L14 10" stroke="${k}" stroke-width="2"/>`,
+    cross: `<path d="M0 0L12 12M12 0L0 12" stroke="${k}" stroke-width="1.4"/>`,
+  }[f.pattern];
+  return `<pattern id="${id}" width="12" height="12" patternUnits="userSpaceOnUse"><g opacity="${o}">${body}</g></pattern>`;
+}
+const BADGE_SHAPE = {
+  circle: 'M24 2A22 22 0 1 1 23.9 2Z',
+  triangle_up: 'M24 1L47 43H1Z',
+  triangle_down: 'M1 5H47L24 47Z',
+  diamond: 'M24 0L48 24L24 48L0 24Z',
+  square: 'M4 4H44V44H4Z',
+};
+/** 유형 표지(48 좌표): 바깥 모양 = 유형, 안 도형 = 갈래 */
+export function familyBadgeBody(fid, branch) {
+  const f = FAM[fid], [gname, rot = 0] = branchGlyph[branch] || ['circle'];
+  const cy = fid === 'buff' ? 29 : fid === 'debuff' ? 19 : 24, gs = fid === 'buff' || fid === 'debuff' ? 8.5 : 10.5;
+  return `<path d="${BADGE_SHAPE[f.badge]}" fill="none" stroke="${ui.card_plate}" stroke-width="6" stroke-linejoin="round"/><path d="${BADGE_SHAPE[f.badge]}" fill="${f.color}" stroke="${ui.stat_tab}" stroke-width="2.5" stroke-linejoin="round"/>${glyph(gname, 24, cy, gs, f.ink, f.ink, f.color, rot)}`;
+}
+export function familyBadgeSVG(fid, branch, size = 48) { return svg(size, size, `<g transform="scale(${size / 48})">${familyBadgeBody(fid, branch)}</g>`, `${FAM[fid].ko}${branch ? ' · ' + branch : ''}`); }
+
 // 카드 뒷면(상대 손패·영장첩)
 export function cardBackSVG() {
-  return svg(250, 350, `<path d="M0 0H216L250 34V350H0Z" fill="#1A2A33" stroke="${ui.stat_tab}" stroke-width="3"/><path d="M10 10H212L240 38V340H10Z" fill="none" stroke="${ui.board_ring}" stroke-width="2"/><circle cx="125" cy="175" r="70" fill="none" stroke="${ui.card_plate_shade}" stroke-width="5"/><circle cx="125" cy="175" r="52" fill="none" stroke="${ui.board_ring}" stroke-width="2"/>${Array.from({ length: 7 }, (_, i) => `<rect x="${92 + i * 10}" y="150" width="6" height="40" rx="2" fill="${ui.wick_lit_bar}" opacity="${0.4 + i * .08}"/>`).join('')}<path d="M40 290Q70 276 100 290T160 290T220 290" fill="none" stroke="#4DE0FF" stroke-opacity=".5" stroke-width="3"/>`, '영장 뒷면');
+  return svg(250, 350, `<path d="M0 0H216L250 34V350H0Z" fill="#1A2A33" stroke="${ui.stat_tab}" stroke-width="3"/><path d="M10 10H212L240 38V340H10Z" fill="none" stroke="${ui.board_ring}" stroke-width="2"/><circle cx="125" cy="175" r="70" fill="none" stroke="${ui.card_plate_shade}" stroke-width="5"/><circle cx="125" cy="175" r="52" fill="none" stroke="${ui.board_ring}" stroke-width="2"/>${Array.from({ length: 7 }, (_, i) => `<rect x="${92 + i * 10}" y="150" width="6" height="40" rx="2" fill="${ui.wick_lit_bar}" opacity="${0.4 + i * .08}"/>`).join('')}<path d="M40 290Q70 276 100 290T160 290T220 290" fill="none" stroke="#4DE0FF" stroke-opacity=".5" stroke-width="3"/>`, '카드 뒷면');
 }
 
 // 앱 아이콘 512: 흑조 위 기울어진 소금유리 영장 + 켜진 심지

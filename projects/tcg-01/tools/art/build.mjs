@@ -4,7 +4,8 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as S from './spec.mjs';
-import { RESOLUTIONS, computeLayout, checkLayout, L as LAYIN } from './layout.mjs';
+import { RESOLUTIONS, computeLayout, checkLayout, checkTutorial, L as LAYIN } from './layout.mjs';
+import { minPairDE, CVD_MATRICES, simulate } from './cvd.mjs';
 import { loadCards, SAMPLE_IDS, portraitSVG } from './portrait-gen.mjs';
 import * as A from './assets.mjs';
 
@@ -35,12 +36,16 @@ for (const [id, r] of Object.entries(S.rarity)) pairs.push({ what: `희귀도 �
 for (const [id, f] of Object.entries(S.factions)) need(`세력 띠 ${id} vs deep 바탕 (그래픽 3:1)`, f.primary, f.deep, 3);
 need('focus 테두리 on board (그래픽 3:1)', U.focus, U.board_wet_salt, 3);
 need('켜진 심지 vs 쓴 심지 (그래픽 3:1)', U.wick_lit_bar, U.wick_spent, 2.2);
+for (const [id, f] of Object.entries(S.cardFamilies)) { need(`유형 ${id} 이름 글자 ink on 유형 색`, f.ink, f.color); pairs.push({ what: `유형 표지 ${id}: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1`, fg: f.color, bg: U.stat_tab + '/' + U.card_plate, min: 3, ratio: +Math.max(contrast(f.color, U.stat_tab), contrast(f.color, U.card_plate)).toFixed(2) }); need(`유형 표지 ${id} 안 도형 (그래픽 3:1)`, f.ink, f.color, 3); }
+const cvd = minPairDE(Object.fromEntries(Object.entries(S.cardFamilies).map(([k, f]) => [k, f.color])));
+const CVD_MIN = 20; const cvdFail = Object.entries(cvd).filter(([, v]) => v.min_dE < CVD_MIN);
 const badPairs = pairs.filter((p) => p.ratio < p.min);
 
 // ── 배치 ──
 const screens = {};
 let layoutErrs = 0;
-for (const [w, h] of RESOLUTIONS) { const lay = computeLayout(w, h); const c = checkLayout(w, h, lay); layoutErrs += c.errs.length; screens[`${w}x${h}`] = { ...lay, check: c }; }
+const tutorial = {};
+for (const [w, h] of RESOLUTIONS) { const lay = computeLayout(w, h); const c = checkLayout(w, h, lay); const t = checkTutorial(w, h, lay); layoutErrs += c.errs.length + t.errs.length; screens[`${w}x${h}`] = { ...lay, check: c }; tutorial[`${w}x${h}`] = { main_lines: t.main_lines, plan: t.plan, slots_px: t.slots, errs: t.errs }; }
 
 // ── 에셋 쓰기 ──
 const written = [];
@@ -58,6 +63,11 @@ W('crate-bare-sea.svg', A.crateSVG('bare_sea'));
 for (const id of Object.keys(S.factions)) if (id !== 'neutral') W(`crate-${id.slice(2)}.svg`, A.crateSVG(id));
 for (const r of Object.keys(S.rarity)) W(`salt-chunk-${r}.svg`, A.saltChunkSVG(r));
 W('app-icon.svg', A.appIconSVG());
+const FAM_REP = { draw: 'd_draw', buff: 'b_single', debuff: 'b_weaken', strike: 'ai_bolt', atkdraw: 'ad_onkill' };
+for (const [fid, br] of Object.entries(FAM_REP)) W(`type-${fid}.svg`, A.familyBadgeSVG(fid, br));
+const kindSil = { minion: 'M0 0H26L34 8V42H22V48H12V42H0Z', spell: 'M8 0H26L34 8V40Q25 36 17 41T0 40V8Z', weapon: 'M0 0H26L34 8V40H24V44H30V48H4V44H10V40H0Z' };
+for (const [k, d] of Object.entries(kindSil)) W(`kind-${k}.svg`, `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-7 0 48 48" width="48" height="48"><title>${S.cardKinds[k].ko}</title><path d="${d}" fill="${U.card_plate}" stroke="${U.stat_tab}" stroke-width="2.5" stroke-linejoin="round"/></svg>
+`);
 
 // ── 샘플: 카드(확대·손패·보드), 돌파 단계 ──
 // 1-2: 실제 수치(cards.json, balance) + 이름·글(lore) 합치기
@@ -86,6 +96,24 @@ for (const id of sampleCards) {
 {
   const c = byId('B042'); const cell = 260;
   put(SM, 'recut-stages-B042.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cell * 4} 400" width="${cell * 4}" height="400"><rect width="100%" height="100%" fill="${U.bg_panel}"/>${S.recut.map((r, i) => `${nest(A.cardSVG(c, 'full', { recut: r.level, kind: 'answerer', stats: { cost: c.cost, atk: c.attack + (c.breakthrough?.[r.level]?.attack || 0), hp: c.health + (c.breakthrough?.[r.level]?.health || 0), base_atk: c.attack, base_hp: c.health } }), i * cell + 5, 10, 250, 350)}<text x="${i * cell + 130}" y="388" text-anchor="middle" font-size="16" fill="${U.salt_white}" ${A.FONT}>${r.level} ${r.ko}</text>`).join('')}</svg>`);
+}
+
+// ── UX 샘플: 유형 10장(손패·확대) + 색약 3종 시뮬 ──
+const uxIds = ['D001', 'B001', 'B004', 'B019', 'B021', 'A001', 'A005', 'A022', 'A020', 'A019'];
+{
+  const cw = 82, chh = 115, gap = 8, rowW = uxIds.length * (cw + gap) + gap;
+  const row = (y) => uxIds.map((id, i) => nest(A.cardSVG(byId(id), 'hand'), gap + i * (cw + gap), y, cw, chh)).join('');
+  const lab = (y, t) => `<text x="8" y="${y}" font-size="13" fill="${U.salt_white}" ${A.FONT}>${t}</text>`;
+  const filt = Object.entries(CVD_MATRICES).map(([k, m]) => `<filter id="cvd-${k}" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="${m.map((r) => r.join(' ') + ' 0 0').join(' ')} 0 0 0 1 0"/></filter>`).join('');
+  const kinds = ['normal', 'protan', 'deutan', 'tritan'], KO = { normal: '정상 시각', protan: '적색약(1형) 시뮬', deutan: '녹색약(2형) 시뮬', tritan: '청색약(3형) 시뮬' };
+  const body = kinds.map((k, i) => { const y = 24 + i * (chh + 34); return lab(y - 6, KO[k] + (k === 'normal' ? '' : ` · 유형 색 최소 ΔE ${cvd[k].min_dE}`)) + `<g ${k === 'normal' ? '' : `filter="url(#cvd-${k})"`}>${row(y)}</g>`; }).join('');
+  const legend = Object.entries(S.cardFamilies).map(([fid, f], i) => `${nest(A.familyBadgeSVG(fid, FAM_REP[fid]), gap + i * 140, 24 + 4 * (chh + 34), 28, 28)}<text x="${gap + i * 140 + 34}" y="${24 + 4 * (chh + 34) + 19}" font-size="13" fill="${U.salt_white}" ${A.FONT}>${f.ko}</text>`).join('');
+  const H = 24 + 4 * (chh + 34) + 40;
+  put(SM, 'ux-types-cvd.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${Math.max(rowW, 720)} ${H}" width="${Math.max(rowW, 720)}" height="${H}"><defs>${filt}</defs><rect width="100%" height="100%" fill="${U.bg_abyss}"/>${body}${legend}</svg>`);
+  // 확대 보기 5장(유형별) + 갈래 표지 27개
+  const full = ['D001', 'B001', 'B019', 'A001', 'A022'];
+  const brs = Object.keys(S.branchGlyph);
+  put(SM, 'ux-types-full.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1310 470" width="1310" height="470"><rect width="100%" height="100%" fill="${U.bg_panel}"/>${full.map((id, i) => nest(A.cardSVG(byId(id), 'full'), 10 + i * 260, 10, 250, 350)).join('')}${brs.map((b, i) => { const fid = b.startsWith('d_') ? 'draw' : b.startsWith('ai_') ? 'strike' : b.startsWith('ad_') ? 'atkdraw' : S.DEBUFF_BRANCHES.includes(b) ? 'debuff' : 'buff'; return nest(A.familyBadgeSVG(fid, b), 10 + i * 48, 380, 40, 40) + `<text x="${30 + i * 48}" y="${436 + (i % 2) * 14}" text-anchor="middle" font-size="9" fill="${U.salt_dim}" ${A.FONT}>${b}</text>`; }).join('')}</svg>`);
 }
 
 // ── 목업 ──
@@ -128,7 +156,7 @@ function battleMock(w, h) {
   p.push(nest(A.statIcons['icon-log'](), E.log_button.x, E.log_button.y, E.log_button.w, E.log_button.h));
   p.push(`<rect x="${E.turn_timer.x}" y="${E.turn_timer.y + 2}" width="${E.turn_timer.w}" height="3" fill="${U.wick_spent}"/><rect x="${E.turn_timer.x}" y="${E.turn_timer.y + 2}" width="${E.turn_timer.w * .62}" height="3" fill="${U.wick_flame}"/><circle cx="${E.turn_timer.x + E.turn_timer.w * .62}" cy="${E.turn_timer.y + 3}" r="4" fill="${U.wick_flame}"/>`);
   // 숨 고르기
-  { const r = E.end_breath; p.push(`<g transform="translate(${r.x} ${r.y})"><path d="M0 0H${r.w - 12}L${r.w} 12V${r.h}H0Z" fill="${U.button_primary}" stroke="${U.wick_ink}" stroke-width="2"/><text x="${r.w / 2}" y="${r.h / 2 + 6}" text-anchor="middle" font-size="${Math.min(17, r.w / 5.5)}" font-weight="800" fill="${U.button_primary_ink}" ${A.FONT}>숨 고르기</text></g>`); }
+  { const r = E.end_breath; p.push(`<g transform="translate(${r.x} ${r.y})"><path d="M0 0H${r.w - 12}L${r.w} 12V${r.h}H0Z" fill="${U.button_primary}" stroke="${U.wick_ink}" stroke-width="2"/><text x="${r.w / 2}" y="${r.h / 2 + 6}" text-anchor="middle" font-size="${Math.min(17, r.w / 5.5)}" font-weight="800" fill="${U.button_primary_ink}" ${A.FONT}>턴 종료</text></g>`); }
   // 손패
   { const r = E.hand, hand = ['B001', 'B005', 'D002', 'A019', 'B008', 'B018'], n = hand.length, cw = r.card_w, chh = r.card_h;
     const span = Math.min(r.w - cw * 1.35, (cw * 0.62) * (n - 1)), x0 = r.x + (r.w - span - cw) / 2;
@@ -144,11 +172,11 @@ function crateMock(w = 360, h = 640) {
   p.push(nest(A.crateSVG('bare_sea'), w / 2 - 70, 70, 140, 140));
   const rs = ['sand', 'sand', 'pearl', 'sand', 'abyss'];
   const pos = [[60, 300], [180, 270], [300, 300], [110, 420], [250, 420]];
-  rs.forEach((r, i) => p.push(nest(A.saltChunkSVG(r), pos[i][0] - 45, pos[i][1] - 45, 90, 90)));
+  rs.forEach((r, i) => p.push(nest(A.saltChunkSVG(r), pos[i][0] - 40, pos[i][1] - 56, 80, 112)));
   p.push(nest(A.cardSVG(byId('B036'), 'hand'), 18, 480, 80, 112));
-  p.push(`<text x="${w / 2}" y="${236}" text-anchor="middle" font-size="16" fill="${U.salt_white}" ${A.FONT}>소금을 눌러 부수세요</text>`);
-  p.push(`<g transform="translate(${w - 140} ${h - 64})"><rect width="124" height="48" rx="6" fill="${U.button_idle}"/><text x="62" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="${U.salt_white}" ${A.FONT}>모두 부수기</text></g>`);
-  p.push(`<text x="16" y="30" font-size="13" fill="${U.salt_dim}" ${A.FONT}>등대 보장까지 23상자</text>`);
+  p.push(`<text x="${w / 2}" y="${236}" text-anchor="middle" font-size="16" fill="${U.salt_white}" ${A.FONT}>카드를 눌러 뒤집으세요</text>`);
+  p.push(`<g transform="translate(${w - 140} ${h - 64})"><rect width="124" height="48" rx="6" fill="${U.button_idle}"/><text x="62" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="${U.salt_white}" ${A.FONT}>모두 뒤집기</text></g>`);
+  p.push(`<text x="16" y="30" font-size="13" fill="${U.salt_dim}" ${A.FONT}>확정 보장까지 23팩</text>`);
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><title>인양 상자 개봉 목업</title>${p.join('')}</svg>\n`;
 }
 W('mockup-crate-360x640.svg', crateMock());
@@ -162,6 +190,7 @@ const art = {
   text_fit: textStats,
   layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
+  ux: { families: S.cardFamilies, debuff_branches: S.DEBUFF_BRANCHES, branch_glyph: S.branchGlyph, kinds: S.cardKinds, badge: S.badge, hierarchy: S.hierarchy, deny_feedback: S.denyFeedback, hand_compare: S.handCompare, tutorial_ui: S.tutorialUi, tutorial_layout: tutorial, cvd_min_dE: cvd, cvd_threshold_dE: CVD_MIN, family_rule: 'familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff' },
   assets: written.sort(),
   portrait_generator: { module: 'tools/art/portrait-gen.mjs', export: 'portraitSVG(card)', viewbox: '0 0 120 90', cache: '카드마다 한 번 만들어 blob URL로 캐시' },
   contrast: { checked: pairs.length, failed: badPairs.length, min_ratio: Math.min(...pairs.filter((p) => p.min === 4.5).map((p) => p.ratio)) },
@@ -179,9 +208,10 @@ put(SM, 'mockups.html', `<!doctype html><meta charset="utf-8"><style>body{backgr
 
 // ── 결과 ──
 console.log(`글 맞춤 ${textStats.cards}장: 실패 ${textStats.fail} ${textFail.join(' ')}, 12 px로 줄인 카드 ${textStats.small_font_cards}, 이름 최소 ${textStats.min_name_font_px}px, 필드 ${LAYIN.board_slots}칸·손패 ${LAYIN.hand_limit} (${LAYIN.source})`);
+console.log(`유형 색 색약 최소 ΔE: ${Object.entries(cvd).map(([k, v]) => k + ' ' + v.min_dE).join(', ')} (기준 ${CVD_MIN}) ${cvdFail.length ? 'FAIL' : 'OK'} · 튜토리얼 자리 4해상도 ${Object.values(tutorial).every((t) => !t.errs.length) ? 'OK' : 'FAIL'}`);
 console.log(`에셋 ${written.length}개, 샘플 카드 ${sampleCards.length}장 × 3형태 + 돌파 시트`);
 console.log(`대비 ${pairs.length}쌍 검사, 실패 ${badPairs.length}, 글자·숫자 최소 ${art.contrast.min_ratio}:1`);
 for (const b of badPairs) console.log(`  FAIL ${b.what}: ${b.ratio} < ${b.min}`);
 for (const [k, v] of Object.entries(screens)) console.log(`  ${k}: slot ${v.slot_w}x${v.slot_h}, 보드 숫자 ${v.check.stat_font_px}px, ${v.check.errs.length ? 'FAIL ' + v.check.errs.join('; ') : '배치 OK'}`);
 writeFileSync(join(SM, 'contrast-report.json'), JSON.stringify(pairs, null, 1));
-process.exit(badPairs.length || layoutErrs || textFail.length ? 1 : 0);
+process.exit(badPairs.length || layoutErrs || textFail.length || cvdFail.length ? 1 : 0);

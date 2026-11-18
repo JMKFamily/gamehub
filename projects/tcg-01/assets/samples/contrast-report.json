@@ -460,5 +460,110 @@
   "bg": "#4D585D",
   "min": 2.2,
   "ratio": 3.47
+ },
+ {
+  "what": "유형 draw 이름 글자 ink on 유형 색",
+  "fg": "#08142A",
+  "bg": "#3B82F6",
+  "min": 4.5,
+  "ratio": 4.99
+ },
+ {
+  "what": "유형 표지 draw: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1",
+  "fg": "#3B82F6",
+  "bg": "#142027/#E6E0D2",
+  "min": 3,
+  "ratio": 4.51
+ },
+ {
+  "what": "유형 표지 draw 안 도형 (그래픽 3:1)",
+  "fg": "#08142A",
+  "bg": "#3B82F6",
+  "min": 3,
+  "ratio": 4.99
+ },
+ {
+  "what": "유형 buff 이름 글자 ink on 유형 색",
+  "fg": "#2A1E02",
+  "bg": "#F2C744",
+  "min": 4.5,
+  "ratio": 10.14
+ },
+ {
+  "what": "유형 표지 buff: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1",
+  "fg": "#F2C744",
+  "bg": "#142027/#E6E0D2",
+  "min": 3,
+  "ratio": 10.29
+ },
+ {
+  "what": "유형 표지 buff 안 도형 (그래픽 3:1)",
+  "fg": "#2A1E02",
+  "bg": "#F2C744",
+  "min": 3,
+  "ratio": 10.14
+ },
+ {
+  "what": "유형 debuff 이름 글자 ink on 유형 색",
+  "fg": "#F4EEFF",
+  "bg": "#4A2A7A",
+  "min": 4.5,
+  "ratio": 9.73
+ },
+ {
+  "what": "유형 표지 debuff: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1",
+  "fg": "#4A2A7A",
+  "bg": "#142027/#E6E0D2",
+  "min": 3,
+  "ratio": 8.38
+ },
+ {
+  "what": "유형 표지 debuff 안 도형 (그래픽 3:1)",
+  "fg": "#F4EEFF",
+  "bg": "#4A2A7A",
+  "min": 3,
+  "ratio": 9.73
+ },
+ {
+  "what": "유형 strike 이름 글자 ink on 유형 색",
+  "fg": "#FFF2EE",
+  "bg": "#B8261A",
+  "min": 4.5,
+  "ratio": 5.76
+ },
+ {
+  "what": "유형 표지 strike: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1",
+  "fg": "#B8261A",
+  "bg": "#142027/#E6E0D2",
+  "min": 3,
+  "ratio": 4.79
+ },
+ {
+  "what": "유형 표지 strike 안 도형 (그래픽 3:1)",
+  "fg": "#FFF2EE",
+  "bg": "#B8261A",
+  "min": 3,
+  "ratio": 5.76
+ },
+ {
+  "what": "유형 atkdraw 이름 글자 ink on 유형 색",
+  "fg": "#2A0716",
+  "bg": "#E06AA0",
+  "min": 4.5,
+  "ratio": 5.91
+ },
+ {
+  "what": "유형 표지 atkdraw: 두 겹 윤곽(stat_tab·card_plate) 중 하나와 3:1",
+  "fg": "#E06AA0",
+  "bg": "#142027/#E6E0D2",
+  "min": 3,
+  "ratio": 5.32
+ },
+ {
+  "what": "유형 표지 atkdraw 안 도형 (그래픽 3:1)",
+  "fg": "#2A0716",
+  "bg": "#E06AA0",
+  "min": 3,
+  "ratio": 5.91
  }
 ]

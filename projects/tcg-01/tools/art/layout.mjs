@@ -139,3 +139,50 @@ if (process.argv[1] && process.argv[1].endsWith('layout.mjs')) {
   }
   process.exit(bad ? 1 : 0);
 }
+
+// ── 튜토리얼 패널 자리 (UX, 2026-11-18). 단계·가리킬 요소는 10-lore 8-7 표 ──
+export const TUT_TARGETS = {
+  tut_mana: ['my_wicks'], tut_no_play: ['my_wicks', 'hand'], tut_play_creature: ['hand', 'my_slots'], tut_play_spell: ['hand', 'enemy_slots'],
+  tut_play_weapon: ['hand', 'my_hero'], tut_board: ['my_slots'], tut_attack: ['my_slots', 'enemy_slots', 'enemy_hero'], tut_ability: ['my_calling'],
+  tut_defense: ['my_hero'], tut_end: ['end_breath'], tut_wall: ['enemy_slots'], tut_keyword: ['hand'], tut_health: ['enemy_hero'], tut_deckout: ['my_deck'],
+};
+export function tutorialSlots(lay, w, h) {
+  const E = lay.E, g = L.gutter_px;
+  if (lay.orientation === 'portrait') {
+    const m = E.mid_band;
+    return {
+      main: { x: m.x, y: m.y, w: m.w - 56, h: m.h, kind: 'panel' },
+      next: { x: m.x + m.w - 52, y: m.y + (m.h - 48) / 2, w: 48, h: 48, kind: 'button' },
+      alt: { x: E.enemy_row.x, y: E.enemy_row.y, w: E.enemy_row.w - 56, h: E.enemy_row.h, kind: 'panel' },
+      alt_next: { x: E.enemy_row.x + E.enemy_row.w - 52, y: E.enemy_row.y + (E.enemy_row.h - 48) / 2, w: 48, h: 48, kind: 'button' },
+      skip: { x: w - g - 48, y: Math.max(0, E.enemy_row.y - 0), w: 48, h: 48, kind: 'button', note: 'alt 쓸 때는 mid_band 오른쪽 끝으로' },
+    };
+  }
+  const top = E.enemy_board.y + E.enemy_board.h + 1, bot = E.my_board.y - 1;
+  const rx = E.enemy_hand.x;
+  return {
+    main: { x: E.mid_band.x, y: top, w: E.mid_band.w, h: bot - top, kind: 'panel' },
+    next: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 4, w: E.enemy_hand.w, h: 48, kind: 'button' },
+    alt: { x: E.hand.x, y: E.hand.y, w: E.hand.w, h: E.hand.h, kind: 'panel' },
+    alt_next: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 4, w: E.enemy_hand.w, h: 48, kind: 'button' },
+    skip: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 56, w: E.enemy_hand.w, h: 48, kind: 'button' },
+  };
+}
+const ovr = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+export function checkTutorial(w, h, lay) {
+  const S = tutorialSlots(lay, w, h), E = lay.E, errs = [], plan = {};
+  const rectsOf = (n) => (Array.isArray(E[n]) ? E[n] : [E[n]]);
+  const panelText = (p) => (p.h < 48 ? Math.floor((p.h - 2 * 4) / 14) : Math.floor((p.h - 2 * 8) / 17)); // 들어가는 줄 수(낮은 띠는 12 px·줄 14·여백 4)
+  for (const [step, targets] of Object.entries(TUT_TARGETS)) {
+    const tr = targets.flatMap(rectsOf);
+    const useAlt = tr.some((r) => ovr(r, S.main) || ovr(r, S.next));
+    const p = useAlt ? S.alt : S.main, nx = useAlt ? S.alt_next : S.next;
+    for (const r of tr) { if (ovr(r, p)) errs.push(`${step}: 패널이 대상 가림`); if (ovr(r, nx)) errs.push(`${step}: 다음 버튼이 대상 가림`); }
+    // 판정 대상: 필드 칸·스탯 판은 언제나 가리지 않음
+    for (const r of [...E.my_slots, ...E.enemy_slots]) if (ovr(r, p)) errs.push(`${step}: 패널이 필드 칸 가림`);
+    plan[step] = useAlt ? 'alt' : 'main';
+  }
+  for (const k of ['next', 'alt_next', 'skip']) if (S[k].w < 48 || S[k].h < 48) errs.push(`${k} 48 px 미만`);
+  if (panelText(S.main) < 2) errs.push('패널 2줄 안 들어감');
+  return { errs, plan, main_lines: panelText(S.main), slots: S };
+}

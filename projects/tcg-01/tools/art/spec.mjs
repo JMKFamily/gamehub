@@ -47,10 +47,10 @@ export const factions = {
 
 // 희귀도 4단계: 소금 덩이 예고색(팩)과 카드 깨진 모서리 면 색이 같음.
 export const rarity = {
-  sand:  { name_ko: '모래', fill: '#D9C79F', facet: '#9A8152', edge: '#9C8A62', glow: null,      ink: '#1E1A10', glyph: 'grains' },
-  pearl: { name_ko: '진주', fill: '#F3F0F8', facet: '#C9DAF0', edge: '#7F93B2', glow: '#DDE9FF', ink: '#1A1D24', glyph: 'pearl', sheen: ['#F3F0F8', '#D2E6F6', '#F6DCEC'] },
-  coral: { name_ko: '산호', fill: '#FF7A52', facet: '#E8603A', edge: '#B8432A', glow: '#FFB199', ink: '#200A04', glyph: 'branch' },
-  abyss: { name_ko: '심해', fill: '#163562', facet: '#163562', edge: '#4DE0FF', glow: '#4DE0FF', ink: '#EAF9FF', glyph: 'deep_eye' },
+  sand:  { name_ko: '일반', world_ko: '모래', fill: '#D9C79F', facet: '#9A8152', edge: '#9C8A62', glow: null,      ink: '#1E1A10', glyph: 'grains' },
+  pearl: { name_ko: '고급', world_ko: '진주', fill: '#F3F0F8', facet: '#C9DAF0', edge: '#7F93B2', glow: '#DDE9FF', ink: '#1A1D24', glyph: 'pearl', sheen: ['#F3F0F8', '#D2E6F6', '#F6DCEC'] },
+  coral: { name_ko: '희귀', world_ko: '산호', fill: '#FF7A52', facet: '#E8603A', edge: '#B8432A', glow: '#FFB199', ink: '#200A04', glyph: 'branch' },
+  abyss: { name_ko: '전설', world_ko: '심해', fill: '#163562', facet: '#163562', edge: '#4DE0FF', glow: '#4DE0FF', ink: '#EAF9FF', glyph: 'deep_eye' },
 };
 
 // 상태 색: 숫자·떠오르는 글자에 쓰는 색(stat_tab·board 위 4.5:1 검사).
@@ -66,24 +66,24 @@ export const state = {
 
 // 키워드 18개 상태 표시(보드 위 아이콘·외곽 효과 색). 아이콘은 그래픽이라 3:1 이상 검사.
 export const keywords = [
-  { id: 'first_breath', ko: '첫 숨',   en: 'First Breath', color: '#BFE9FF', board_mark: 'none_after_play', icon: 'breath' },
-  { id: 'ebb',          ko: '썰물',     en: 'Ebb',          color: '#8FB7D6', board_mark: 'corner_icon', icon: 'ebb' },
-  { id: 'breakwater',   ko: '방파제',   en: 'Breakwater',   color: '#D8D0BC', board_mark: 'wall_frame', icon: 'breakwater' },
-  { id: 'saltskin',     ko: '소금막',   en: 'Saltskin',     color: '#FFFFFF', board_mark: 'crystal_outline', icon: 'saltskin' },
-  { id: 'seamist',      ko: '물안개',   en: 'Seamist',      color: '#A9BCC6', board_mark: 'fog_overlay', icon: 'seamist' },
-  { id: 'spur',         ko: '박차',     en: 'Spur',         color: '#FFB547', board_mark: 'ready_answerers', icon: 'spur' },
-  { id: 'rapids',       ko: '급류',     en: 'Rapids',       color: '#5FD0FF', board_mark: 'ready_all', icon: 'rapids' },
-  { id: 'drown',        ko: '익사',     en: 'Drown',        color: '#6E8BFF', board_mark: 'corner_icon', icon: 'drown' },
-  { id: 'draught',      ko: '들이켬',   en: 'Draught',      color: '#7EE8B5', board_mark: 'corner_icon', icon: 'draught' },
-  { id: 'unname',       ko: '이름 지우기', en: 'Unname',    color: '#C4C9CC', board_mark: 'scratched_text', icon: 'unname' },
-  { id: 'anchor',       ko: '닻',       en: 'Anchor',       color: '#9DB2BF', board_mark: 'chain_overlay', icon: 'anchor' },
-  { id: 'kindle',       ko: '잉걸',     en: 'Kindle',       color: '#FF9A4D', board_mark: 'corner_value', icon: 'kindle' },
-  { id: 'sealwrit',     ko: '봉인문',   en: 'Sealwrit',     color: '#D9875A', board_mark: 'hero_seal_slot', icon: 'sealwrit' },
-  { id: 'soot',         ko: '그을음',   en: 'Soot',         color: '#B9A99A', board_mark: 'wick_bar_soot', icon: 'soot' },
-  { id: 'wake',         ko: '뒷물결',   en: 'Wake',         color: '#9EE6E0', board_mark: 'glow_when_active', icon: 'wake' },
-  { id: 'salvage',      ko: '인양',     en: 'Salvage',      color: '#E0B866', board_mark: 'none_after_play', icon: 'salvage' },
-  { id: 'swell',        ko: '차오름',   en: 'Swell',        color: '#4FC9EC', board_mark: 'corner_icon', icon: 'swell' },
-  { id: 'brine',        ko: '소금독',   en: 'Brine',        color: '#E8F7F2', board_mark: 'counter_pips', icon: 'brine' },
+  { id: 'first_breath', ko: '등장',   en: 'On Play', color: '#BFE9FF', board_mark: 'none_after_play', icon: 'breath' },
+  { id: 'ebb',          ko: '사망 시',     en: 'On Death',          color: '#8FB7D6', board_mark: 'corner_icon', icon: 'ebb' },
+  { id: 'breakwater',   ko: '방벽',   en: 'Wall',   color: '#D8D0BC', board_mark: 'wall_frame', icon: 'breakwater' },
+  { id: 'saltskin',     ko: '튕겨내기',   en: 'Deflect',     color: '#FFFFFF', board_mark: 'crystal_outline', icon: 'saltskin' },
+  { id: 'seamist',      ko: '위장',   en: 'Camouflage',      color: '#A9BCC6', board_mark: 'fog_overlay', icon: 'seamist' },
+  { id: 'spur',         ko: '기습',     en: 'Skirmish',         color: '#FFB547', board_mark: 'ready_answerers', icon: 'spur' },
+  { id: 'rapids',       ko: '즉시 공격',     en: 'Instant Attack',       color: '#5FD0FF', board_mark: 'ready_all', icon: 'rapids' },
+  { id: 'drown',        ko: '즉사',     en: 'Deadly',        color: '#6E8BFF', board_mark: 'corner_icon', icon: 'drown' },
+  { id: 'draught',      ko: '흡혈',   en: 'Drain',      color: '#7EE8B5', board_mark: 'corner_icon', icon: 'draught' },
+  { id: 'unname',       ko: '효과 지우기', en: 'Erase',    color: '#C4C9CC', board_mark: 'scratched_text', icon: 'unname' },
+  { id: 'anchor',       ko: '속박',       en: 'Bind',       color: '#9DB2BF', board_mark: 'chain_overlay', icon: 'anchor' },
+  { id: 'kindle',       ko: '주문 위력',     en: 'Empower',       color: '#FF9A4D', board_mark: 'corner_value', icon: 'kindle' },
+  { id: 'sealwrit',     ko: '덫',   en: 'Snare',     color: '#D9875A', board_mark: 'hero_seal_slot', icon: 'sealwrit' },
+  { id: 'soot',         ko: '마나 빚',   en: 'Mana Debt',         color: '#B9A99A', board_mark: 'wick_bar_soot', icon: 'soot' },
+  { id: 'wake',         ko: '후속',   en: 'Follow-up',         color: '#9EE6E0', board_mark: 'glow_when_active', icon: 'wake' },
+  { id: 'salvage',      ko: '골라잡기',     en: 'Pick',      color: '#E0B866', board_mark: 'none_after_play', icon: 'salvage' },
+  { id: 'swell',        ko: '성장',   en: 'Grow',        color: '#4FC9EC', board_mark: 'corner_icon', icon: 'swell' },
+  { id: 'brine',        ko: '중독',   en: 'Toxin',        color: '#E8F7F2', board_mark: 'counter_pips', icon: 'brine' },
 ];
 
 // ───────────────────────── 카드 규칙 ─────────────────────────
@@ -106,10 +106,10 @@ export const card = {
 
 // 돌파(새김) 단계별 외형
 export const recut = [
-  { level: 0, id: 'fresh_cut', ko: '갓 새김', frame_groove_lines: 1, salt_flecks: 0, shimmer: false, tab_notches: 0, entry_fx: 'normal' },
-  { level: 1, id: 'deep_cut',  ko: '깊은 새김', frame_groove_lines: 2, salt_flecks: 0, shimmer: false, tab_notches: 1, entry_fx: 'normal' },
-  { level: 2, id: 'salt_set',  ko: '소금 새김', frame_groove_lines: 2, salt_flecks: 6, shimmer: false, tab_notches: 2, entry_fx: 'salt_burst' },
-  { level: 3, id: 'abyss_set', ko: '심해 새김', frame_groove_lines: 2, salt_flecks: 6, shimmer: true,  tab_notches: 3, entry_fx: 'abyss_rise', shimmer_period_ms: 4200 },
+  { level: 0, id: 'fresh_cut', ko: '기본', frame_groove_lines: 1, salt_flecks: 0, shimmer: false, tab_notches: 0, entry_fx: 'normal' },
+  { level: 1, id: 'deep_cut',  ko: '돌파 1', frame_groove_lines: 2, salt_flecks: 0, shimmer: false, tab_notches: 1, entry_fx: 'normal' },
+  { level: 2, id: 'salt_set',  ko: '돌파 2', frame_groove_lines: 2, salt_flecks: 6, shimmer: false, tab_notches: 2, entry_fx: 'salt_burst' },
+  { level: 3, id: 'abyss_set', ko: '돌파 3', frame_groove_lines: 2, salt_flecks: 6, shimmer: true,  tab_notches: 3, entry_fx: 'abyss_rise', shimmer_period_ms: 4200 },
 ];
 
 // ───────────────────────── 화면 구성 입력 ─────────────────────────
@@ -303,4 +303,78 @@ export const sound = {
 export const textKeys = {
   end_button: 'hud_end_breath', calling: 'hud_calling', deck_left: 'hud_deck_left', sealwrit_hidden: 'hud_sealwrit_hidden',
   turn_yours: 'turn_yours', turn_enemy: 'turn_enemy', timer_low: 'turn_timer_low', crate_tap: 'crate_tap_salt',
+};
+
+// ───────────────────────── UX: 카드 유형 한눈 구분 (2026-11-18 요청자 지시, criteria "UX·한눈 구분") ─────────────────────────
+// 신호 3겹: ① 색(이름 띠 + 유형 표지) ② 표지 바깥 모양 ③ 이름 띠 무늬. 여기에 카드 종류(소환수·주문·무기)는 판 실루엣으로 따로.
+// 색 5개는 색약 3종(Machado 2009) 시뮬에서 모든 쌍 ΔE76 ≥ 35 (tools/art/cvd.mjs, build.mjs가 검사)
+export const cardFamilies = {
+  draw:    { ko: '뽑기·운영',     en: 'Draw',        color: '#3B82F6', ink: '#08142A', badge: 'circle',        pattern: 'lines_h',   types: 'type=drawbuff' },
+  buff:    { ko: '강화',          en: 'Buff',        color: '#F2C744', ink: '#2A1E02', badge: 'triangle_up',   pattern: 'chevron_up', types: 'type=buff, 아래 debuff 갈래 제외' },
+  debuff:  { ko: '약화·방해',     en: 'Debuff',      color: '#4A2A7A', ink: '#F4EEFF', badge: 'triangle_down', pattern: 'chevron_down', types: 'type=buff 중 b_weaken·b_unname·b_anchor·b_brine·b_sealwrit' },
+  strike:  { ko: '즉시 타격',     en: 'Strike',      color: '#B8261A', ink: '#FFF2EE', badge: 'diamond',       pattern: 'slash',     types: 'type=attack, attack_sub=instant' },
+  atkdraw: { ko: '공격하며 뽑기', en: 'Attack+Draw', color: '#E06AA0', ink: '#2A0716', badge: 'square',        pattern: 'cross',     types: 'type=attack, attack_sub=draw' },
+};
+export const DEBUFF_BRANCHES = ['b_weaken', 'b_unname', 'b_anchor', 'b_brine', 'b_sealwrit'];
+export function familyOf(card) {
+  if (card.type === 'drawbuff') return 'draw';
+  if (card.type === 'attack') return card.attack_sub === 'instant' ? 'strike' : 'atkdraw';
+  return DEBUFF_BRANCHES.includes(card.branch) ? 'debuff' : 'buff';
+}
+// 갈래 기호(유형 표지 안에 그리는 도형, portrait-gen G 사전 이름). 회전은 deg
+export const branchGlyph = {
+  d_draw: ['plates'], d_seek: ['scope'], d_discount: ['candle'], d_etch: ['quill'], d_salvage: ['hook'],
+  b_single: ['arrow', 180], b_aura: ['ring'], b_swell: ['wave'], b_guard: ['shield'], b_mend: ['drop'], b_fit: ['gear'], b_ebb: ['spiral'], b_offering: ['altar'],
+  b_weaken: ['arrow'], b_unname: ['xmark'], b_anchor: ['anchor'], b_brine: ['grains'], b_sealwrit: ['seal'],
+  ai_bolt: ['bolt_zig'], ai_rapids: ['spear'], ai_sweep: ['sawblade'],
+  ad_onkill: ['target'], ad_onhit: ['blade'], ad_wake: ['wing'], ad_brand: ['sword'], ad_ebb: ['coffin'], ad_raid: ['hand'],
+};
+// 카드 종류(기능 이름: 필드에 남는 카드 / 한 번 쓰는 카드 / 무기). 판 실루엣 3겹 신호
+export const cardKinds = {
+  minion: { ko: '소환수', top: '오른쪽 위 한 모서리만 깨짐', bottom: '아래 가운데 매달린 스탯 판(공격 | 체력)', edge: '아래 가장자리 곧음' },
+  spell:  { ko: '주문',   top: '위 두 모서리 깨짐',          bottom: '스탯 판 없음',                         edge: '아래 가장자리 물결' },
+  weapon: { ko: '무기',   top: '오른쪽 위 한 모서리 깨짐',    bottom: '칼자루 판(가로 날밑 + 공격 | 내구도)',  edge: '아래 가장자리 곧음' },
+};
+export const badge = { full_size_px: 34, hand_scale_ratio: 1.6, token_size_px: 24, name_band_pattern_opacity_ratio: 0.28 };
+
+// 정보 위계(읽히는 순서 = 크기·대비 순서). 숫자는 확대 보기 250 px 기준 글자/도형 크기
+export const hierarchy = [
+  { rank: 1, what: '비용', where: '왼쪽 위 세로 마나 판', size_px: 34, note: '손패에서 1.6배' },
+  { rank: 2, what: '공격 | 체력', where: '아래 가운데 스탯 판', size_px: 30, note: '손패 1.45배, 필드 칸 폭 × 0.26' },
+  { rank: 3, what: '유형(색·모양·무늬)', where: '오른쪽 위 유형 표지 34 px + 이름 띠 색·무늬', size_px: 34, note: '손패 1.6배' },
+  { rank: 4, what: '카드 종류', where: '판 실루엣(모서리·아래 판·아래 가장자리)', size_px: null, note: '' },
+  { rank: 5, what: '이름', where: '이름 띠', size_px: 17, note: '손패에서는 숨김(확대·펼침에서)' },
+  { rank: 6, what: '키워드 아이콘', where: '그림 창 아래 왼쪽', size_px: 22, note: '' },
+  { rank: 7, what: '카드 글·소속', where: '글 상자·종류 줄', size_px: 13, note: '확대 보기에서만' },
+];
+
+// "왜 안 되는지" 피드백 규격: 시도 즉시(≤ 100 ms) 카드가 120 ms 흔들리고 ui_deny 소리, 원인 요소가 빛나며 이유 칩(12자 이내)이 그 요소 옆에 1.2 s
+export const denyFeedback = {
+  common: { shake_ms: 120, shake_px: 5, chip_ms: 1200, chip_bg: '#2A1712', chip_border: '#FF6F5E', chip_ink: '#F2EEE4', chip_font_px: 13, sfx: 'ui_deny', return_card_ms: 180 },
+  reasons: [
+    { id: 'no_mana',        key: 'toast_no_wicks',        flash: 'my_wicks: 모자란 칸 수만큼 빈 막대에 붉은 테두리', pre: '손패에서 미리: 마나 판 어둡게 + 아래 붉은 밑줄' },
+    { id: 'board_full',     key: 'toast_circle_full',     flash: 'my_slots 5칸 테두리 동시 깜빡 1회', pre: '필드가 가득하면 손패 소환수 카드의 스탯 판 테두리 점선' },
+    { id: 'no_target',      key: 'toast_no_target',       flash: '카드 위 ⊘ 표시 + 가능한 대상 없음 칩', pre: '대상 없는 주문은 손패에서 어둡게' },
+    { id: 'summon_sick',    key: 'toast_cant_attack_yet', flash: '그 소환수의 꺼진 마나 심지가 2회 깜빡', pre: '꺼진 심지 아이콘 상시' },
+    { id: 'anchored',       key: 'toast_anchored',        flash: '사슬 표시 흔들림', pre: '사슬 상시' },
+    { id: 'must_hit_guard', key: 'toast_must_hit_breakwater', flash: '막아야 할 상대 소환수(벽 표시) 테두리 2회 깜빡', pre: '공격 화살표가 그 소환수 쪽으로만 붙음' },
+    { id: 'hidden',         key: 'toast_seamist_untargetable', flash: '안개 표시가 일렁임', pre: '대상 고를 때 안개 소환수는 흐리게' },
+    { id: 'ability_used',   key: 'hud_calling_used',      flash: '고유 능력 버튼 위 ✓ 표시', pre: '사용 뒤 버튼 회색 + ✓' },
+    { id: 'not_your_turn',  key: 'turn_enemy',            flash: '가운데 띠에 상대 턴 표시 깜빡', pre: '상대 턴에는 손패 전체 명도 70 %' },
+    { id: 'hand_full',      key: 'toast_hand_full',       flash: '버려진 카드가 양쪽에 보이고 부서짐', pre: '손패 9장부터 손패 수 숫자 주황' },
+  ],
+  playable: { lift_px: 4, outline: '#F4B740', outline_px: 2, note: '낼 수 있는 카드만 테두리 켜짐. 낼 수 없는 카드는 명도 60 % + 위 pre 표시' },
+};
+
+// 손패 비교: 탭 = 2줄 펼침(세로) / 한 줄(가로). 펼침에서는 이름 한 줄 + 비용·스탯·유형 표지가 모두 보이고, 정렬 버튼(비용순·유형순) 48 px
+export const handCompare = { spread_on: 'tap_hand', sort_modes: ['cost', 'family'], sort_button_px: 48, show_name_in_spread: true, dim_unplayable_ratio: 0.6 };
+
+// 튜토리얼 안내 패널·가리킴 규격 (단계 표는 lore reviews/terms/lore-writer.md, 위치는 layout.mjs tutorialSlots)
+export const tutorialUi = {
+  panel: { bg: '#14232B', border: '#7FE3FF', border_px: 2, ink: '#F2EEE4', font_px: 13, line_h_px: 17, max_lines: 2, pad_px: 8, shape: '오른쪽 위 모서리 깨진 띠' },
+  advance: '패널 밖 아무 곳이나 탭(행동이 필요한 단계는 그 행동으로 넘어감)',
+  skip_button_px: 48,
+  spotlight: { dim_ratio: 0.5, cutout_pad_px: 8, ring_color: '#7FE3FF', ring_px: 3, ring_pulse_ms: 1200 },
+  pointer: { arrow: '패널 가장자리 → 대상 가장자리 점선 화살표(2 px)', drag_demo: '손가락 원(지름 28 px) + 고리가 출발 → 도착을 1.2 s 반복' },
+  rule: '패널은 대상 사각형·필드 칸·스탯 판과 겹치지 않음. 기본 자리 = 가운데 띠(두 필드 사이). 대상이 가운데 띠면 보조 자리(세로: 상대 줄 위 / 가로: 손패 띠 위)',
 };
