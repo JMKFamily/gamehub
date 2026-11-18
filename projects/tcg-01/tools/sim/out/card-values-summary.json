@@ -1,7 +1,7 @@
 {
  "n": 200,
- "mean_delta": 0.25,
- "within_pm2": 138,
+ "mean_delta": 0.23,
+ "within_pm2": 137,
  "outliers": [
   "B005:-3.04",
   "B013:-4.82",
@@ -27,7 +27,6 @@
   "A038:-10.05",
   "A039:4.6",
   "A041:4.16",
-  "A043:3.9",
   "A047:-5",
   "A053:3.16",
   "A060:5.26"
@@ -137,14 +136,14 @@
   {
    "name": "archive-kindle",
    "hero": "h_archive",
-   "avg": 2.8,
+   "avg": 2.7,
    "types": {
-    "attack_instant": 3,
-    "buff": 17,
+    "attack_instant": 2,
+    "buff": 18,
     "drawbuff": 3,
     "attack_draw": 7
    },
-   "nBranches": 14,
+   "nBranches": 13,
    "unique": 21
   },
   {

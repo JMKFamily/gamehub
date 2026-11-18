@@ -65,7 +65,7 @@
 | B039 | wreck | b_fit | spell | 2 | - | pearl | 5.4 | 5 | +0.4 | mid (벗어남) |
 | B040 | wreck | b_single | minion | 2 | 2/3 | sand | 6.8 | 5 | +1.8 | low |
 | B041 | wreck | b_swell | minion | 3 | 2/3 | sand | 11.84 | 7 | +4.84 | mid |
-| B042 | wreck | b_swell | minion | 5 | 4/6 | coral | 11.8 | 11 | +0.8 | high (벗어남) |
+| B042 | wreck | b_swell | minion | 5 | 4/5 | coral | 10.8 | 11 | -0.2 | high (벗어남) |
 | B043 | wreck | b_single | spell | 1 | - | sand | 4.73 | 3 | +1.73 | low |
 | B044 | wreck | b_aura | minion | 3 | 2/4 | pearl | 8 | 7 | +1 | mid |
 | B045 | wreck | b_ebb | spell | 2 | - | pearl | 1.62 | 5 | -3.38 | mid (벗어남) |
@@ -74,7 +74,7 @@
 | B048 | wreck | b_ebb | spell | 3 | - | sand | 5.94 | 7 | -1.06 | mid |
 | B049 | wreck | b_unname | minion | 4 | 3/3 | sand | 8.5 | 9 | -0.5 | mid |
 | B050 | wreck | b_anchor | minion | 4 | 4/3 | pearl | 8.5 | 9 | -0.5 | mid |
-| B051 | wreck | b_swell | minion | 7 | 4/6 | abyss | 14.6 | 15 | -0.4 | high |
+| B051 | wreck | b_swell | minion | 7 | 4/6 | abyss | 12.8 | 15 | -2.2 | high |
 | B052 | rider | b_single | minion | 1 | 2/1 | sand | 3.9 | 3 | +0.9 | low |
 | B053 | rider | b_aura | spell | 1 | - | sand | 1.98 | 3 | -1.02 | low |
 | B054 | rider | b_aura | minion | 3 | 2/3 | pearl | 6.2 | 7 | -0.8 | mid |
@@ -186,7 +186,7 @@
 | A040 | nameless | ad_brand | weapon | 2 | 1/3 | sand | 7.78 | 5 | +2.78 | low |
 | A041 | nameless | ad_onhit | minion | 2 | 2/2 | sand | 9.16 | 5 | +4.16 | low |
 | A042 | nameless | ad_wake | spell | 1 | - | sand | 4.8 | 3 | +1.8 | low |
-| A043 | nameless | ad_raid | minion | 4 | 4/3 | pearl | 12.9 | 9 | +3.9 | mid |
+| A043 | nameless | ad_raid | minion | 4 | 3/3 | pearl | 11.4 | 9 | +2.4 | mid |
 | A044 | nameless | ad_onkill | minion | 4 | 1/3 | sand | 9.2 | 9 | +0.2 | mid |
 | A045 | nameless | ad_onkill | spell | 4 | - | pearl | 11.8 | 9 | +2.8 | mid |
 | A046 | nameless | ad_wake | spell | 3 | - | coral | 7.8 | 7 | +0.8 | mid |

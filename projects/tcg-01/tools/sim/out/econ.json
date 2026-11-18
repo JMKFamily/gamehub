@@ -5,51 +5,51 @@
  "losses_per_day": 5,
  "salt_marks_per_day": 170,
  "tide_marks_per_day": 405,
- "target_deck_complete_day_median": 30,
- "target_deck_complete_day_p90": 45,
+ "target_deck_complete_day_median": 20,
+ "target_deck_complete_day_p90": 40,
  "by_day": {
   "7": {
    "crates_median": 37,
-   "playset_ratio_median": 0.275,
-   "target_deck_avg_stage_median": 0.03,
+   "playset_ratio_median": 0.55,
+   "target_deck_avg_stage_median": 0.17,
    "owned_stage_hist_median": [
-    118,
-    4,
+    137,
+    18,
     0,
     0
    ]
   },
   "30": {
    "crates_median": 101,
-   "playset_ratio_median": 0.74,
-   "target_deck_avg_stage_median": 0.47,
+   "playset_ratio_median": 0.845,
+   "target_deck_avg_stage_median": 0.7,
    "owned_stage_hist_median": [
-    129,
-    49,
-    5,
+    103,
+    76,
+    11,
     0
    ]
   },
   "90": {
    "crates_median": 264,
-   "playset_ratio_median": 0.985,
-   "target_deck_avg_stage_median": 1.63,
+   "playset_ratio_median": 0.99,
+   "target_deck_avg_stage_median": 1.8,
    "owned_stage_hist_median": [
-    28,
-    73,
-    83,
-    15
+    20,
+    60,
+    98,
+    21
    ]
   },
   "120": {
    "crates_median": 348,
-   "playset_ratio_median": 0.995,
-   "target_deck_avg_stage_median": 2.07,
+   "playset_ratio_median": 1,
+   "target_deck_avg_stage_median": 2.17,
    "owned_stage_hist_median": [
-    11,
-    47,
-    97,
-    45
+    9,
+    35,
+    98,
+    58
    ]
   }
  }

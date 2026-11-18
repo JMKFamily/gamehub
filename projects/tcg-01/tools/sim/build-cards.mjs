@@ -16,7 +16,9 @@ const errors = [];
 
 function breakthroughOf(c) {
   const bt = { 1: {}, 2: {}, 3: {} };
-  if (c.kind === 'minion') {
+  if (c.kind === 'minion' && c.cost <= 3 && (c.keywords || []).includes('charge')) {
+    // round-2: 저비용 급류는 +1 체력만으로도 친선 슬롯 같은 덱 대결 56 %(급류 어그로) → 외형만
+  } else if (c.kind === 'minion') {
     bt[1] = { health: 1 };
     bt[2] = c.cost >= 4 ? { health: 1, attack: 1 } : { health: 1 };
   } else if (c.kind === 'weapon') {
@@ -69,10 +71,10 @@ writeFileSync(join(root, 'cards.json'), JSON.stringify(out, null, 1));
 // ---------- 표준 덱 ----------
 const DECKS = {
   'warden-bulwark': { hero: 'h_warden', archetype: '방파제 미드레인지', list: { B001: 2, B015: 2, B007: 2, B009: 1, B004: 1, B002: 2, B006: 2, B005: 2, A001: 1, D002: 1, B012: 2, A022: 2, B017: 1, B008: 1, B018: 1, B003: 1, B092: 2, B093: 1, B096: 1, A017: 1, B095: 1 } },
-  'choir-brine': { hero: 'h_choir', archetype: '소금독 컨트롤', list: { B021: 2, B019: 2, B028: 2, A003: 2, A024: 1, D004: 1, B022: 2, B025: 1, B034: 1, B029: 1, B024: 2, B032: 2, A025: 2, A002: 1, B031: 1, B036: 1, B092: 2, A060: 1, A054: 1, B104: 1, B027: 1 } },
+  'choir-brine': { hero: 'h_choir', archetype: '소금독 컨트롤', list: { B021: 2, B019: 2, B028: 2, A003: 2, A024: 1, D004: 1, B022: 2, B025: 1, B034: 1, B029: 1, B024: 2, B032: 2, A025: 2, A002: 1, B031: 1, B036: 1, B092: 2, A060: 1, A054: 1, B099: 1, B027: 1 } },
   'wreck-fit': { hero: 'h_wreck', archetype: '부품 성장 콤보', list: { B037: 2, B038: 2, D005: 1, A004: 2, A029: 1, B043: 2, B039: 2, B040: 2, B046: 2, B044: 2, D008: 1, B041: 2, B050: 1, B049: 1, A005: 1, B042: 1, B051: 1, B092: 2, B104: 1, B096: 1 } },
   'rider-rush': { hero: 'h_rider', archetype: '급류 어그로', face: 1.5, list: { A006: 2, A030: 2, B055: 2, A008: 2, D009: 1, B053: 1, B057: 2, B063: 2, B058: 1, A011: 2, A034: 2, B060: 1, A009: 2, A007: 1, B054: 1, A031: 1, A010: 1, A016: 2, B097: 2 } },
-  'archive-kindle': { hero: 'h_archive', archetype: '잉걸 의식 컨트롤', list: { A012: 2, B068: 1, B069: 2, B077: 2, D011: 1, B065: 1, B067: 1, B071: 2, A035: 2, D010: 1, B073: 2, B072: 1, B070: 2, A036: 2, A039: 1, A037: 1, B074: 1, A038: 1, A013: 1, B092: 2, D012: 1 } },
+  'archive-kindle': { hero: 'h_archive', archetype: '잉걸 의식 컨트롤', list: { A012: 2, B068: 1, B069: 2, B077: 2, D011: 1, B065: 1, B067: 1, B071: 2, A035: 2, D010: 1, B073: 2, B072: 1, B070: 2, A036: 2, A039: 1, A037: 1, B074: 1, A038: 1, B099: 1, B092: 2, D012: 1 } },
   'nameless-wake': { hero: 'h_nameless', archetype: '물안개 뒷물결 템포', face: 1.2, list: { B079: 2, D014: 2, A042: 2, B088: 2, B083: 1, A041: 2, A040: 1, A014: 2, B082: 1, B086: 1, D015: 1, B084: 2, A015: 2, A044: 1, B085: 1, A043: 1, A045: 1, A046: 1, B097: 2, A049: 2 } },
 };
 mkdirSync(join(root, 'decks'), { recursive: true });
@@ -115,4 +117,24 @@ const stat = {
 };
 writeFileSync(join(here, 'out', 'card-values-summary.json'), JSON.stringify(stat, null, 1));
 console.log(JSON.stringify(stat, null, 1));
+if (errors.length) { console.error('오류:\n' + errors.join('\n')); process.exit(1); }
+
+// ---------- 입문 영장첩 (round-2): 표준 덱에서 진주 이상을 같은 호명자·공용 모래 카드로 바꾼 30장 ----------
+const starterSummary = [];
+for (const [name, d] of Object.entries(DECKS)) {
+  const ids = []; const cnt = {};
+  const push = (id) => { ids.push(id); cnt[id] = (cnt[id] || 0) + 1; };
+  const sandPool = cards.filter((c) => c.rarity === 'sand' && (c.owner === d.hero || c.owner === 'neutral'));
+  const wants = [];
+  for (const [id, n] of Object.entries(d.list)) for (let i = 0; i < n; i++) { if (byId[id].rarity === 'sand' && (cnt[id] || 0) < 2) push(id); else wants.push(byId[id]); }
+  for (const w of wants) {
+    // 같은 종류·가까운 비용·같은 호명자 우선
+    const cand = sandPool.filter((c) => (cnt[c.id] || 0) < 2).sort((a, b) => (Math.abs(a.cost - w.cost) + (a.kind === w.kind ? 0 : 2) + (a.owner === d.hero ? 0 : 0.5)) - (Math.abs(b.cost - w.cost) + (b.kind === w.kind ? 0 : 2) + (b.owner === d.hero ? 0 : 0.5)) || (a.id < b.id ? -1 : 1));
+    if (cand.length) push(cand[0].id); else errors.push(`starter ${name}: 대체 카드 없음`);
+  }
+  const sname = 'starter-' + d.hero.replace('h_', '');
+  writeFileSync(join(root, 'decks', `${sname}.json`), JSON.stringify({ name: sname, hero: d.hero, archetype: d.archetype + ' (입문, 모래만)', starter: true, ai_style: { face: d.face || 1 }, cards: ids, avg_cost: +(ids.reduce((s, id) => s + byId[id].cost, 0) / ids.length).toFixed(2) }, null, 1));
+  starterSummary.push({ sname, n: ids.length, replaced: wants.length });
+}
+console.log('starter', JSON.stringify(starterSummary));
 if (errors.length) { console.error('오류:\n' + errors.join('\n')); process.exit(1); }

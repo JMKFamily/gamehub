@@ -1,5 +1,5 @@
 {
-  "version": "1.3.0",
+  "version": "1.4.0",
   "project": "tcg-01",
   "note": "빌드가 그대로 읽는 규칙·경제 수치. 근거와 표는 20-balance.md. 카드 수치는 cards.json, 효과 해석은 tools/sim/engine.mjs.",
   "rules": {
@@ -58,8 +58,8 @@
     "big_card_anim_ms": 1800,
     "big_card_rule": "비용 7 이상 또는 심해 희귀도",
     "turn_transition_ms": 900,
-    "human_think_ms_per_turn": 10000,
-    "human_think_ms_per_action": 3000,
+    "human_think_ms_per_turn": 2000,
+    "human_think_ms_per_action": 1500,
     "ai_think_ms_per_turn": 1400,
     "target_game_minutes_min": 5,
     "target_game_minutes_max": 8,
@@ -78,7 +78,10 @@
       "turn_transition_ms": "…turn_transition_normal_ms",
       "ai_ms_per_action": "…ai_ms_per_action_normal(825)",
       "ai_think_ms_per_turn": "…ai_first_and_end_ms_normal"
-    }
+    },
+    "human_think_ms_per_turn_slow": 10000,
+    "human_think_ms_per_action_slow": 3000,
+    "human_calibration": "round-1 QA 사람 속도 실측(9턴·행동 60·150 s, qa-out/human.json)에 식을 맞춘 값 = 빠른 사람. _slow는 1-1 가정(생각하는 사람, 상한 추정)"
   },
   "heroes": {
     "h_warden": {
@@ -267,7 +270,8 @@
         "stage3": "cosmetic"
       },
       "max_total_stat_gain_cost_lte_3": 1,
-      "max_total_stat_gain": 2
+      "max_total_stat_gain": 2,
+      "exception_cheap_charge": "비용 3 이하 급류 응답자는 모든 단계 외형만(A006·A031 등)"
     },
     "cosmetic": {
       "stage1": "테두리 홈 1줄",
@@ -352,7 +356,25 @@
         "bare_sea_crate": 1
       },
       "sand_practice_win_salt_marks": 5,
-      "sand_practice_daily_cap": 30
+      "sand_practice_daily_cap": 30,
+      "daily_commission_goals": {
+        "win_hero": [
+          1,
+          1,
+          2
+        ],
+        "breakwater_blocks": [
+          3,
+          4,
+          5
+        ],
+        "brine_ticks": [
+          4,
+          6,
+          8
+        ],
+        "note": "슬롯 1·2·3 순서. round-1 빌드 값을 원본으로 옮김"
+      }
     },
     "tide_calendar": {
       "season_days": 42,
@@ -367,11 +389,12 @@
       "reward_step_50": "세력 상자 3 + 심해 1장 지정 새김권"
     },
     "new_player": {
-      "starter_writbooks": "호명자 6명 각 입문 영장첩 1개(그 호명자 모래 + 공용 모래 30장, decks/starter는 1-1b)",
+      "starter_writbooks": "decks/starter-<warden|choir|wreck|rider|archive|nameless>.json — 표준 덱(decks/<영웅>-*.json)에서 진주 이상을 같은 호명자·공용 모래 카드로 바꾼 30장(build-cards.mjs 생성)",
       "welcome_crates": 10,
       "welcome_carving_ink": 400,
       "tutorial_reward_salt_marks": 200,
-      "first_week_daily_bonus_crates": 1
+      "first_week_daily_bonus_crates": 1,
+      "first_collection": "입문 영장첩 6개에 든 카드만 수집에 넣음(카드별 그 덱 장수, 보유 상한 이하). 표준 덱 카드(진주 이상)는 상자·지정 새김으로 얻음"
     },
     "dock_market": {
       "bare_sea_crate_salt_marks": 100,

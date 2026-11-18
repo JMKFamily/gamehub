@@ -2748,7 +2748,7 @@
    "kind": "minion",
    "cost": 5,
    "attack": 4,
-   "health": 6,
+   "health": 5,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -2781,9 +2781,9 @@
     }
    },
    "value": {
-    "score": 11.8,
+    "score": 10.8,
     "budget": 11,
-    "delta": 0.8
+    "delta": -0.2
    }
   },
   {
@@ -3177,8 +3177,7 @@
      "on": "turn_start",
      "do": "buff",
      "target": "self",
-     "atk": 1,
-     "hp": 1
+     "atk": 1
     }
    ],
    "lineage": "contraption",
@@ -3200,9 +3199,9 @@
     }
    },
    "value": {
-    "score": 14.6,
+    "score": 12.8,
     "budget": 15,
-    "delta": -0.4
+    "delta": -2.2
    }
   },
   {
@@ -6684,15 +6683,9 @@
    "lore_ref": "lore/cards-lore.json#A006",
    "cost_band_ok": true,
    "breakthrough": {
-    "1": {
-     "health": 1
-    },
-    "2": {
-     "health": 1
-    },
-    "3": {
-     "health": 1
-    }
+    "1": {},
+    "2": {},
+    "3": {}
    },
    "value": {
     "score": 8,
@@ -7850,15 +7843,9 @@
    "lore_ref": "lore/cards-lore.json#A031",
    "cost_band_ok": true,
    "breakthrough": {
-    "1": {
-     "health": 1
-    },
-    "2": {
-     "health": 1
-    },
-    "3": {
-     "health": 1
-    }
+    "1": {},
+    "2": {},
+    "3": {}
    },
    "value": {
     "score": 11.9,
@@ -8388,7 +8375,7 @@
    "rarity": "pearl",
    "kind": "minion",
    "cost": 4,
-   "attack": 4,
+   "attack": 3,
    "health": 3,
    "keywords": [
     "rush"
@@ -8422,9 +8409,9 @@
     }
    },
    "value": {
-    "score": 12.9,
+    "score": 11.4,
     "budget": 9,
-    "delta": 3.9
+    "delta": 2.4
    }
   },
   {

@@ -10,7 +10,9 @@ const root = join(here, '..', '..');
 const cards = JSON.parse(readFileSync(join(root, 'cards.json'), 'utf8')).cards;
 const B = JSON.parse(readFileSync(join(root, 'balance.json'), 'utf8'));
 const E = B.economy, BT = B.breakthrough;
-const decks = readdirSync(join(root, 'decks')).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')));
+const allDecks = readdirSync(join(root, 'decks')).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')));
+const decks = allDecks.filter((d) => !d.starter);
+const starters = allDecks.filter((d) => d.starter);
 const args = Object.fromEntries(process.argv.slice(2).map((x, i, a) => (x.startsWith('--') ? [x.slice(2), a[i + 1]] : null)).filter(Boolean));
 const NP = Number(args.players || 300), DAYS = Number(args.days || 120);
 const RAR = ['sand', 'pearl', 'coral', 'abyss'];
@@ -25,6 +27,8 @@ function simPlayer(seed) {
   const target = decks[r.int(decks.length)]; // 이 유저가 노리는 표준 덱
   const need = {}; for (const id of target.cards) need[id] = (need[id] || 0) + 1;
   const lim = (c) => BT.copies_owned_before_resonance[c.rarity];
+  // 첫 실행 수집 = 입문 영장첩 6개의 카드(balance economy.new_player.first_collection)
+  for (const sd of starters) { const m = {}; for (const id of sd.cards) m[id] = (m[id] || 0) + 1; for (const [id, n] of Object.entries(m)) own[id] = Math.max(own[id] || 0, Math.min(n, lim(cards.find((x) => x.id === id)))); }
   const add = (c) => {
     const have = own[c.id] || 0;
     if (have < lim(c)) { own[c.id] = have + 1; return; }

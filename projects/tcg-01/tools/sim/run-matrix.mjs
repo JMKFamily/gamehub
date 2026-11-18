@@ -23,7 +23,7 @@ function readAll(sets) {
   const cardsJson = JSON.parse(readFileSync(join(root, 'cards.json'), 'utf8'));
   const balanceJson = applySets(JSON.parse(readFileSync(join(root, 'balance.json'), 'utf8')), sets);
   const decks = {};
-  for (const f of readdirSync(join(root, 'decks'))) if (f.endsWith('.json')) { const d = JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')); decks[d.name] = d; }
+  for (const f of readdirSync(join(root, 'decks'))) if (f.endsWith('.json') && !f.startsWith('starter-')) { const d = JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')); decks[d.name] = d; }
   return { data: loadData(cardsJson, balanceJson), decks, balanceJson };
 }
 
@@ -118,11 +118,12 @@ if (!isMainThread) {
   const apt = results.flatMap((r) => r.apt);
   const aptHist = {}; for (const a of apt) { const k = a >= 8 ? '8+' : String(a); aptHist[k] = (aptHist[k] || 0) + 1; }
   const minutes = results.map((r) => (r.acts * TP.action_anim_ms + r.half * TP.turn_transition_ms + (r.half / 2) * (TP.human_think_ms_per_turn + TP.ai_think_ms_per_turn) + (r.acts / 2) * (TP.human_think_ms_per_action + TP.ai_ms_per_action) + r.big.bigcard * (TP.big_card_anim_ms - TP.action_anim_ms) + TP.lethal_blow_ms + TP.result_screen_ms) / 60000);
+  const minutesSlow = results.map((r) => (r.acts * TP.action_anim_ms + r.half * TP.turn_transition_ms + (r.half / 2) * (TP.human_think_ms_per_turn_slow + TP.ai_think_ms_per_turn) + (r.acts / 2) * (TP.human_think_ms_per_action_slow + TP.ai_ms_per_action) + r.big.bigcard * (TP.big_card_anim_ms - TP.action_anim_ms) + TP.lethal_blow_ms + TP.result_screen_ms) / 60000);
   const bigAny = results.filter((r) => r.big.burst10 + r.big.wipe3 + r.big.bigcard + r.big.lethal_from_15 > 0 || r.minW <= T.comeback_deficit).length / n;
   Object.assign(metrics, {
     acts_per_turn_mean: apt.reduce((a, b) => a + b, 0) / apt.length, acts_per_turn_p90: [...apt].sort((a, b) => a - b)[Math.floor(apt.length * 0.9)],
     acts_per_turn_hist: aptHist, acts_per_turn_ge8_ratio: apt.filter((a) => a >= 8).length / apt.length,
-    est_minutes_median: median(minutes), est_minutes_p90: [...minutes].sort((a, b) => a - b)[Math.floor(n * 0.9)],
+    est_minutes_median: median(minutes), est_minutes_slow_median: median(minutesSlow), est_minutes_p90: [...minutes].sort((a, b) => a - b)[Math.floor(n * 0.9)],
     big_moment_game_ratio: bigAny,
     big_per_game: { burst10: results.reduce((s, r) => s + r.big.burst10, 0) / n, wipe3: results.reduce((s, r) => s + r.big.wipe3, 0) / n, bigcard: results.reduce((s, r) => s + r.big.bigcard, 0) / n, lethal_from_15: results.reduce((s, r) => s + r.big.lethal_from_15, 0) / n },
   });
@@ -198,7 +199,7 @@ if (!isMainThread) {
     `| 길이 중앙값 (p10–p90) | ${m.len_median} (${m.len_p10}–${m.len_p90}) |`,
     `| 무승부 / 턴 제한 도달 | ${pct(m.draw_ratio)} % / ${pct(m.turn_limit_ratio)} % |`,
     `| 한 턴 행동 수 평균 / p90 / 8개 이상 비율 | ${m.acts_per_turn_mean.toFixed(2)} / ${m.acts_per_turn_p90} / ${pct(m.acts_per_turn_ge8_ratio)} % |`,
-    `| 예상 판 시간(사람 대 AI) 중앙값 / p90 | ${m.est_minutes_median.toFixed(1)} / ${m.est_minutes_p90.toFixed(1)} 분 |`,
+    `| 예상 판 시간(사람 대 AI) 중앙값 / p90 | ${m.est_minutes_median.toFixed(1)} / ${m.est_minutes_p90.toFixed(1)} 분 (생각하는 사람 가정 ${m.est_minutes_slow_median.toFixed(1)}분) |`,
     `| 큰 순간이 1번 이상인 판 | ${pct(m.big_moment_game_ratio)} % (판당: 한 턴 10+ 피해 ${m.big_per_game.burst10.toFixed(2)}, 3+ 동시 전멸 ${m.big_per_game.wipe3.toFixed(2)}, 큰 카드 ${m.big_per_game.bigcard.toFixed(2)}, 15+에서 한 턴 마무리 ${m.big_per_game.lethal_from_15.toFixed(2)}) |`);
   if (m.arch_spread_pp != null) lines.push(`| 아키타입 승률 폭 | ${pct(m.arch_wr_min)}–${pct(m.arch_wr_max)} % (${m.arch_spread_pp.toFixed(1)} %p) |`, `| 매치업 칸 범위 | ${pct(m.cell_min)}–${pct(m.cell_max)} % |`, `| 35~65 % 밖 칸 | ${m.cells_outside_35_65.length ? m.cells_outside_35_65.join(', ') : '없음'} |`, `| 상성 고리 | ${m.cycles.length ? m.cycles.slice(0, 4).join(' / ') + (m.cycles.length > 4 ? ` 외 ${m.cycles.length - 4}` : '') : '없음'} |`);
   if (m.bt_wr_max != null) lines.push(`| 돌파3 vs 0 최대 / 평균 | ${pct(m.bt_wr_max)} % / ${pct(m.bt_wr_mean)} % |`);

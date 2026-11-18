@@ -7,7 +7,7 @@ import { Worker, isMainThread, parentPort, workerData } from 'node:worker_thread
 import { loadData, playGame } from './sim.mjs';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..', '..');
-const decks = {}; for (const f of readdirSync(join(root, 'decks'))) if (f.endsWith('.json')) { const d = JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')); decks[d.name] = d; }
+const decks = {}; for (const f of readdirSync(join(root, 'decks'))) if (f.endsWith('.json') && !f.startsWith('starter-')) { const d = JSON.parse(readFileSync(join(root, 'decks', f), 'utf8')); decks[d.name] = d; }
 const names = Object.keys(decks).sort();
 function applyKnobs(cj, knobs) {
   const c = JSON.parse(JSON.stringify(cj));

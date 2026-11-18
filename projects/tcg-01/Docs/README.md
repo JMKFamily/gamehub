@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | balance-designer | round-2 | [round-2 밸런스 수정 (펠 상성·입문 덱·판 시간 보정)](balance-designer/2026-11-18-r2-fixes.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-1 게이트 불통과(6.95)·결정 O3~O5](orchestrator/2026-11-18-1-7-round1-gate.md) |
 | 2026-11-18 | qa-engineer | 1-6 | [round-1 점수 집계: 총점 6.95, 게이트 불통과(blocker 0·하한 통과), 담당별 수정 목록·criteria 9줄](qa-engineer/2026-11-18-1-6-round1-score.md) |
 | 2026-11-18 | lore-writer | round-1 | [round-1 리뷰(세계관·텍스트 6.5)와 lore 수정: concept_en 200장·키 확정·상성 이야기](lore-writer/2026-11-18-r1-review.md) |
