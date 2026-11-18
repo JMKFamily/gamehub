@@ -4,15 +4,15 @@ export const D = { cards: {}, list: [], tokens: {}, balance: null, art: null, de
 async function j(p) { const r = await fetch(p); if (!r.ok) throw new Error(p + ' ' + r.status); return r.json(); }
 
 export async function loadData() {
-  const [cards, balance, art, decks, strings, starters, portraits] = await Promise.all([
-    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'),
+  const [cards, balance, art, decks, strings, starters, portraits, uxIcons, glossary] = await Promise.all([
+    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'), j('data/ux-icons.json'), j('data/glossary.json'),
   ]);
   for (const c of cards.cards) D.cards[c.id] = c;
   D.engineKw = cards.engine_kw;
   D.list = cards.cards;
   for (const t of cards.tokens) D.tokens[t.id] = t;
   D.balance = balance; D.art = art; D.decks = decks; D.starters = starters; D.portraits = portraits;
-  D.strings = strings;
+  D.strings = strings; D.uxIcons = uxIcons; D.glossary = glossary;
   D.heroIds = decks.map((d) => d.hero);
   applyPalette(art.palette);
 }
@@ -48,6 +48,15 @@ export function warmAllIdle() {
   setTimeout(step, 50);
 }
 
+// 유형 표지·이름 띠 무늬(art assets.mjs가 만든 SVG) → blob URL / data URL
+export function badgeURL(fid, branch) {
+  const k = fid + '|' + (branch || ''), key = 'b:' + k;
+  if (D.urls[key]) return D.urls[key];
+  const s = D.uxIcons.badge[k] || D.uxIcons.badge[fid + '|'];
+  return (D.urls[key] = URL.createObjectURL(new Blob([s], { type: 'image/svg+xml' })));
+}
+export function patternCSS(fid) { const s = D.uxIcons.pattern[fid]; return s ? `url("data:image/svg+xml;utf8,${encodeURIComponent(s)}")` : 'none'; }
+export const familyOf = (c) => c.family || (c.spare ? 'draw' : 'buff');
 export const heroShort = (h) => h.replace(/^h_/, '');
 export const fac = (owner) => D.art.palette.factions[owner] || D.art.palette.factions.neutral;
 

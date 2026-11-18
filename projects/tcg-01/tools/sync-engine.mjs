@@ -51,25 +51,44 @@ const balance = readJ(join(PROJ, 'balance.json'));
 const art = readJ(join(PROJ, 'art.json'));
 const loreMd = readFileSync(join(PROJ, '10-lore.md'), 'utf8');
 const A = await import(pathToFileURL(join(PROJ, 'tools', 'art', 'assets.mjs')).href);
+const S = await import(pathToFileURL(join(PROJ, 'tools', 'art', 'spec.mjs')).href);
 const PG = await import(pathToFileURL(join(PROJ, 'tools', 'art', 'portrait-gen.mjs')).href);
 
 // 2-1) 글: 10-lore 8절 키 표 + 4절 대사 + 5-3 혈통. 문서 표를 그대로 읽는다(빌드 글 하드코딩 금지).
 const sec = (from, to) => { const i = loreMd.indexOf(from); const j = loreMd.indexOf(to, i + 1); return loreMd.slice(i, j < 0 ? undefined : j); };
 const strings = { ko: {}, en: {} };
 let nKeys = 0;
+// 표 모양별로 칸을 고름: 키|ko|en (3칸), 키|조건|요소|ko|en (메뉴 안내 5칸), 순서|키|조건|요소|ko|en (튜토리얼 6칸),
+// 용어 사전 id|용어 ko|용어 en|설명 ko|설명 en|아이콘|흔히 부르는 말 (7칸)
+const glossary = [];
+let inGloss = false;
 for (const ln of sec('## 8. UI 텍스트', '## 9.').split('\n')) {
-  const m = ln.match(/^\|\s*`([a-z0-9_]+)`\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/);
-  if (!m) continue;
-  strings.ko[m[1]] = m[2]; strings.en[m[1]] = m[3]; nKeys++;
+  if (ln.startsWith('### ')) inGloss = ln.startsWith('### 8-13');
+  if (!ln.startsWith('|')) continue;
+  const c = ln.split('|').slice(1, -1).map((x) => x.trim());
+  const key = (s) => (s.match(/^`([a-z0-9_]+)`$/) || [])[1];
+  let k, ko, en;
+  if (inGloss && c.length === 7 && key(c[0])) {
+    const id = key(c[0]);
+    strings.ko[`gloss_${id}`] = c[1]; strings.en[`gloss_${id}`] = c[2];
+    strings.ko[`gloss_${id}_desc`] = c[3]; strings.en[`gloss_${id}_desc`] = c[4];
+    glossary.push({ id, icon: c[5], common_ko: c[6] }); nKeys += 2; continue;
+  }
+  if (c.length === 3 && key(c[0])) [k, ko, en] = [key(c[0]), c[1], c[2]];
+  else if (c.length === 5 && key(c[0])) [k, ko, en] = [key(c[0]), c[3], c[4]];
+  else if (c.length === 6 && /^\d+$/.test(c[0]) && key(c[1])) [k, ko, en] = [key(c[1]), c[4], c[5]];
+  else if (c.length === 4 && key(c[0])) [k, ko, en] = [key(c[0]), c[1], c[2]];
+  if (!k) continue;
+  strings.ko[k] = ko; strings.en[k] = en; nKeys++;
 }
-const ROLE = { 등장: 'entry', 승리: 'win', 패배: 'lose', 위협: 'threat', 감사: 'thanks', 경의: 'respect', '심지 부족': 'no_wicks', 위기: 'crisis' };
+const ROLE = { 등장: 'entry', 승리: 'win', 패배: 'lose', 위협: 'threat', 감사: 'thanks', 경의: 'respect', '심지 부족': 'no_wicks', '마나 부족': 'no_wicks', 위기: 'crisis' };
 const heroSecs = loreMd.split(/\n### 4-\d\. /).slice(1, 7);
 let nLines = 0;
 for (const s of heroSecs) {
   const id = (s.match(/`(h_[a-z]+)`/) || [])[1];
   if (!id) continue;
   for (const ln of s.split('\n')) {
-    const m = ln.match(/^\|\s*(등장|승리|패배|위협|감사|경의|심지 부족|위기)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/);
+    const m = ln.match(/^\|\s*(등장|승리|패배|위협|감사|경의|심지 부족|마나 부족|위기)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/);
     if (!m) continue;
     const k = `line_${id.slice(2)}_${ROLE[m[1]]}`;
     strings.ko[k] = m[2]; strings.en[k] = m[3]; nLines++;
@@ -86,18 +105,25 @@ for (const k of art.palette.keywords) { strings.ko[`kwname_${k.id}`] = k.ko; str
 // round-2: 개발 임시 키(strings-extra.json)는 10-lore 8-11로 확정되어 없앰. 남아 있으면 지움.
 if (existsSync(join(DATA_OUT, 'strings-extra.json'))) rmSync(join(DATA_OUT, 'strings-extra.json'));
 writeFileSync(join(DATA_OUT, 'strings.json'), JSON.stringify(strings));
+writeFileSync(join(DATA_OUT, 'glossary.json'), JSON.stringify(glossary)); // 10-lore 8-13 순서·아이콘 후보·흔히 부르는 말
 
 // 2-2) 카드: 엔진 수치(cards.json) + 이름·글(cards-lore.json) + 화면 키워드(ENGINE_KW 대응표, 엔진 id는 화면에 쓰지 않음)
 const loreById = Object.fromEntries(loreCards.map((l) => [l.id, l]));
 const cards = cardsJ.cards.map((c) => {
   const l = loreById[c.id] || {};
   const merged = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, concept_ko: l.concept_ko, visual_hint: l.visual_hint };
-  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, text_en: l.concept_en || null, kw_ui: A.cardKeywords(merged) };
+  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, text_en: l.concept_en || null, kw_ui: A.cardKeywords(merged), family: S.familyOf(c) };
   delete out.value; delete out.lore_ref; delete out.cost_band_ok;
   return out;
 });
 const tokens = cardsJ.tokens.map((t) => ({ ...t, owner: t.owner || 'neutral', rarity: 'sand', name_ko: (t.note || t.id).split(/\s+\d/)[0], kw_ui: (t.keywords || []).map((k) => A.ENGINE_KW[k]).filter(Boolean) }));
 writeFileSync(join(DATA_OUT, 'cards.json'), JSON.stringify({ version: cardsJ.version, engine_kw: A.ENGINE_KW, cards, tokens }));
+
+// 2-2b) 유형 표지(유형 모양 + 갈래 도형)·이름 띠 무늬: art assets.mjs 함수로 만든 SVG(30-art 11절)
+const ux = { badge: {}, pattern: {} };
+for (const c of cards) { const k = c.family + '|' + c.branch; if (!ux.badge[k]) ux.badge[k] = A.familyBadgeSVG(c.family, c.branch, 48); }
+for (const fid of Object.keys(art.ux.families)) { ux.badge[fid + '|'] = A.familyBadgeSVG(fid, null, 48); ux.pattern[fid] = A.familyPattern(fid, 'p').replace(/^<pattern[^>]*>/, '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12">').replace(/<\/pattern>$/, '</svg>'); }
+writeFileSync(join(DATA_OUT, 'ux-icons.json'), JSON.stringify(ux));
 
 // 2-3) 초상: portrait-gen으로 한 번 만들어 묶음(빌드에서 blob URL로 캐시)
 const portraits = {};

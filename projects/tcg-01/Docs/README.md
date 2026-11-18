@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | game-developer | 용어·UX | [용어 쉽게·튜토리얼식 안내·카드 유형 한눈 구분 구현](game-developer/2026-11-18-terms-ux.md) |
 | 2026-11-18 | art-director | UX·용어 | [카드 유형 한눈 구분(색·모양·무늬, 색약 3종)·불가 피드백·튜토리얼 자리 + 새 용어 반영](art-director/2026-11-18-ux-terms.md) |
 | 2026-11-18 | lore-writer | 검수 피드백 | [용어 쉽게 + 튜토리얼식 안내(튜토리얼 18단계·메뉴 안내·용어 사전)](lore-writer/2026-11-18-terms.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-2 게이트 통과(8.33)·O6·배포](orchestrator/2026-11-18-1-7-round2-gate.md) |

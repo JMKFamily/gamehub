@@ -37,7 +37,7 @@ export class Battle {
     this.lines = {}; this.flags = { bigSeen: [false, false], low: [false, false], minScore: [0, 0], comebacks: 0, bubbleLast: {} };
     this.shake = null; this.zoomFx = null; this.stats = { blocks: 0, brine: 0 }; this.over = false; this.started = false; this.result = null;
     this.ctxPhase = 'mulligan';
-    this.tut = o.tutorial && this.human != null ? { shown: new Set(), cur: null, el: null } : null;
+    this.tut = o.tutorial && this.human != null ? { seen: new Set(o.tutorial.seen || []), cur: null } : null;
     warmPortraits([...o.decks[0], ...o.decks[1], ...Object.keys(D.tokens)]); // 첫 그림 미리(insights 구현 절)
     this.build();
     this.vm = this.snap();
@@ -90,7 +90,7 @@ export class Battle {
     wrap.appendChild(rect(bb(R.my_board), 'circle'));
     this.wet = rect({ x: R.enemy_board.x - 4, y: R.enemy_board.y - 4, w: R.enemy_board.w + 8, h: R.my_board.y + R.my_board.h - R.enemy_board.y + 8 }, '', 'border-radius:14px');
     this.wet.id = 'wet'; wrap.appendChild(this.wet);
-    for (const s of [...R.enemy_slots, ...R.my_slots]) wrap.appendChild(rect(s, 'slotBg'));
+    this.slotBgs = { enemy: R.enemy_slots.map((s) => wrap.appendChild(rect(s, 'slotBg'))), my: R.my_slots.map((s) => wrap.appendChild(rect(s, 'slotBg'))) };
     this.sideEls = {};
     for (const side of ['enemy', 'my']) {
       const p = side === 'my' ? this.bottom : 1 - this.bottom;
@@ -131,7 +131,12 @@ export class Battle {
     this.endBtn = h('button', { class: 'endBtn', type: 'button', 'data-k': 'end', style: `left:${er.x}px;top:${er.y}px;width:${er.w}px;height:${er.h}px` }, [h('span', { class: 'glow' }), h('span', { text: t('hud_end_breath'), style: 'position:relative' })]);
     stage.appendChild(this.endBtn);
     this.tokLayer = h('div', { class: 'abs' }); wrap.appendChild(this.tokLayer);
+    const hr = R.hand;
+    stage.appendChild(h('div', { class: 'abs handZone', 'data-k': 'handzone', 'aria-label': t('hud_hand'), style: `left:${hr.x}px;top:${hr.y}px;width:${hr.w}px;height:${hr.h}px` }));
+    this.spreadBg = h('div', { class: 'abs spreadBg hidden', 'data-k': 'spreadbg', style: `width:${W}px;height:${H}px` }); stage.appendChild(this.spreadBg);
     this.handLayer = h('div', { class: 'abs' }); stage.appendChild(this.handLayer);
+    this.sortMode = this.sortMode || 'cost';
+    this.sortBtn = h('button', { class: 'btn sortBtn hidden', type: 'button', 'data-k': 'sort', style: `right:8px;top:8px` }); stage.appendChild(this.sortBtn);
     this.vig = h('div', { id: 'vignette', style: `background:radial-gradient(ellipse at center, transparent 55%, ${D.art.palette.state.damage} 140%)` }); stage.appendChild(this.vig);
     const cv = h('canvas', { id: 'fx' }); stage.appendChild(cv);
     fxInit(cv, W, H, this.k * (window.devicePixelRatio || 1));
@@ -164,12 +169,37 @@ export class Battle {
   }
   handPos(i, n) {
     const r = this.R.hand, cw = r.card_w, ch = r.card_h;
-    const step = n > 1 ? Math.min(cw * 0.92, (r.w - cw * 1.35) / (n - 1)) : 0; // 양 끝 카드가 화면 안(round-2 D19)
+    if (this.spread) return this.spreadPos(i, n);
+    // 양 끝 카드가 화면 안: 회전으로 튀어나오는 폭(ch·sin 최대 회전)까지 뺀 폭에 맞춤(round-2 G5, 4해상도)
+    const ext = ch * Math.sin(((r.fan_max_rot_deg || 10) * Math.min(1, n / 6) * (n > 7 ? 0.5 : 1)) * Math.PI / 180) * 0.5;
+    const step = n > 1 ? Math.min(cw * 0.92, (r.w - cw - 2 * ext - 8) / (n - 1)) : 0;
     const total = step * (n - 1) + cw, x0 = r.x + Math.max(4, (r.w - total) / 2);
     const c = (n - 1) / 2, off = n > 1 ? (i - c) / c : 0;
     const rot = off * (r.fan_max_rot_deg || 10) * Math.min(1, n / 6) * (n > 7 ? 0.5 : 1);
     const y = this.S.orientation === 'portrait' ? r.y + 10 + Math.abs(off) * Math.abs(off) * 12 : r.y + Math.abs(off) * 6;
     return { x: x0 + i * step, y, w: cw, h: ch, r: rot };
+  }
+  // 손패 펼침(30-art 11-3): 세로 2줄 × 5, 가로 1줄 × 10, 이름 다시 보임, 비용순/유형순
+  spreadPos(i, n) {
+    const portrait = this.S.orientation === 'portrait', g = 6, cols = portrait ? 5 : 10;
+    const w = Math.floor((this.W - 16 - (cols - 1) * g) / cols), hh = Math.round(w * 1.4), lab = 16;
+    const rows = portrait ? 2 : 1, y0 = this.H - 8 - rows * (hh + lab) - (rows - 1) * g;
+    const row = Math.floor(i / cols), col = i % cols, inRow = Math.min(cols, n - row * cols);
+    const x0 = (this.W - (inRow * w + (inRow - 1) * g)) / 2;
+    return { x: x0 + col * (w + g), y: y0 + row * (hh + lab + g), w, h: hh, r: 0, s: w / this.R.hand.card_w };
+  }
+  handOrder(hand) {
+    if (!this.spread) return hand.map((hc, i) => i);
+    const fam = ['draw', 'buff', 'debuff', 'strike', 'atkdraw'];
+    const fo = (hc) => fam.indexOf(cardById(hc.cid).family || 'draw');
+    return hand.map((hc, i) => i).sort((a, b) => (this.sortMode === 'family' ? fo(hand[a]) - fo(hand[b]) || hand[a].cost - hand[b].cost : hand[a].cost - hand[b].cost || fo(hand[a]) - fo(hand[b])) || a - b);
+  }
+  setSpread(on) {
+    this.spread = !!on;
+    this.handLayer.classList.toggle('spread', this.spread);
+    this.spreadBg.classList.toggle('hidden', !this.spread); this.sortBtn.classList.toggle('hidden', !this.spread);
+    this.sortBtn.textContent = this.sortMode === 'family' ? t('deck_filter_type') : t('deck_filter_cost');
+    this.render();
   }
   render(instant) {
     const vm = this.vm, st = this.state;
@@ -210,22 +240,26 @@ export class Battle {
     const me = vm.players[this.bottom];
     const seen = new Set();
     const showHand = !this.auto || this.o.showHand !== false;
-    if (showHand) me.hand.forEach((hc, i) => {
+    const order = this.handOrder(me.hand);
+    if (showHand) me.hand.forEach((hc, i0) => {
+      const i = order.indexOf(i0);
       seen.add(hc.id);
       let el = this.handEls.get(hc.id);
       const pos = this.handPos(i, me.hand.length);
+      const ps = pos.s || 1;
       const key = `${hc.cost}|${hc.atk}|${hc.hp}`;
       if (!el) {
-        el = h('div', { class: 'hcard', 'data-hand': hc.id, style: `width:${pos.w}px;height:${pos.h}px` });
+        el = h('div', { class: 'hcard', 'data-hand': hc.id, style: `width:${this.R.hand.card_w}px;height:${this.R.hand.card_h}px` });
         this.handLayer.appendChild(el); this.handEls.set(hc.id, el);
         const dr = this.R.my_deck;
         setTf(el, instant ? { x: pos.x, y: pos.y, r: pos.r, s: 1, o: 1 } : { x: dr.x, y: dr.y, s: 0.5, r: 0, o: 0 });
         if (!instant) tween(el, { x: pos.x, y: pos.y, r: pos.r, s: 1, o: 1 }, T('card_draw'));
-      } else if (!el._lift && !el._drag) tween(el, { x: pos.x, y: pos.y, r: pos.r, s: 1, o: 1 }, D8);
+      } else if (!el._lift && !el._drag) tween(el, { x: pos.x, y: pos.y, r: pos.r, s: ps, o: 1 }, D8);
       if (el._key !== key) {
         el._key = key; el.innerHTML = '';
         const c = cardById(hc.cid), P = st.players[this.bottom], base = (P.view[hc.cid] || c);
-        el.appendChild(cardBox(hc.cid, pos.w, { mode: 'hand', stats: { cost: hc.cost, atk: hc.atk, hp: hc.hp }, base: { cost: base.cost, atk: base.attack, hp: base.health } }));
+        el.appendChild(cardBox(hc.cid, this.R.hand.card_w, { mode: 'hand', stats: { cost: hc.cost, atk: hc.atk, hp: hc.hp }, base: { cost: base.cost, atk: base.attack, hp: base.health } }));
+        el.appendChild(h('div', { class: 'hname', text: cardName(c) }));
       }
       el._pos = pos; el._hc = hc; el.style.zIndex = el._lift ? 40 : i + 1;
     });
@@ -239,7 +273,9 @@ export class Battle {
     this.legal = acts;
     const P = this.state.players[this.bottom];
     const playable = new Set(acts.filter((a) => a.type === 'play').map((a) => P.hand[a.hand]).map((inst) => inst && this.keyOf(inst)));
-    for (const [, el] of this.handEls) el.classList.toggle('can', my && !!el._hc && playable.has(this.keyOf(el._hc.inst)));
+    for (const [, el] of this.handEls) { const ok = !!el._hc && playable.has(this.keyOf(el._hc.inst)); el.classList.toggle('can', my && ok); el.classList.toggle('dimc', my && !ok); }
+    this.handLayer.classList.toggle('eturn', this.started && !this.over && !this.myTurn() && !this.auto);
+    const P0 = this.vm.players[this.bottom]; if (this.sideEls.my.deckN) this.sideEls.my.deckN.parentNode.classList.toggle('warnN', P0.hand.length >= 9);
     const atk = new Set(acts.filter((a) => a.type === 'attack').map((a) => a.attacker));
     for (const [uid, el] of this.tokEls) el.classList.toggle('can', atk.has(uid));
     this.sideEls.my.hero.classList.toggle('can', atk.has(P.hero.uid));
@@ -285,6 +321,7 @@ export class Battle {
     ok.addEventListener('click', () => { box.remove(); this.mullBox = null; this.doMulligans([...pick]); });
     box.appendChild(ok);
     this.ovl.appendChild(box); this.mullBox = box; this.mullPick = pick;
+    if (this.tut && !this.tut.seen.has('tut_mulligan') && this.o.tutorial.coach) { this.tut.seen.add('tut_mulligan'); this.o.tutorial.onSeen('tut_mulligan'); this.o.tutorial.coach([{ key: 'tut_mulligan', el: row }], () => this.tutEnd(true)); }
     this.handLayer.style.visibility = 'hidden'; // 첫 물때 동안 손패 부채꼴 숨김(이중 표시 방지, round-2 D17)
   }
   doMulligans(humanPick) {
@@ -320,6 +357,7 @@ export class Battle {
     if (!this.myTurn() && this.started && !this.over) { A.boost = D.art.tempo.ai_turn.player_tap_speeds_up_ratio; }
     if (A.cur && A.cur.meta.skippable && A.cur.t >= A.cur.meta.skippable) A.finishAll();
     if (!tgt) { this.clearSel(); return; }
+    if (this.tut && this.tut.cur && !this.tut.cur.act) this.tutClose(); // 패널 밖 탭으로 넘김(행동 단계는 그 행동으로)
     if (tgt.k === 'tut') return;
     if (this.sel && this.isSelTarget(tgt)) { this.commitSel(tgt); return; }
     if (tgt.k === 'hand') {
@@ -342,6 +380,8 @@ export class Battle {
     } else if (tgt.k === 'power' || tgt.k === 'end' || tgt.k === 'log' || tgt.k === 'epower') {
       setTf(tgt.el, { s: 0.94 }); sfx('ui_tap');
       this.press = { k: tgt.k, el: tgt.el, x0: p.x, y0: p.y };
+    } else if (tgt.k === 'handzone' || tgt.k === 'spreadbg' || tgt.k === 'sort') {
+      this.press = { k: tgt.k, x0: p.x, y0: p.y };
     } else if (tgt.k === 'zoom') {
       this.press = { k: 'zoom' };
     } else if (tgt.k === 'board') {
@@ -383,6 +423,8 @@ export class Battle {
       }
       // 탭: 선택(확대 보기) → 다시 탭/칸 탭/대상 탭으로 내기
       if (this.sel && this.sel.k === 'hand' && this.sel.id === pr.id && !(this.targetsFor(this.sel) || []).length) { this.commitSel(null); return; }
+      if (!this.spread && this.vm.players[this.bottom].hand.length >= 6 && !(this.sel && this.sel.id === pr.id)) { this.dropHand(el); this.setSpread(true); return; } // 6장 이상이면 탭 한 번으로 펼침(30-art 4-1)
+      if (this.spread) { this.spread = false; this.handLayer.classList.remove('spread'); this.spreadBg.classList.add('hidden'); this.sortBtn.classList.add('hidden'); this.render(); }
       this.select({ k: 'hand', id: pr.id, inst: hc.inst, el });
       return;
     }
@@ -401,6 +443,9 @@ export class Battle {
     if (pr.k === 'epower') { this.openPowerInfo(1 - this.bottom); return; }
     if (pr.k === 'end') { this.clearSel(); this.input({ k: 'end' }); return; }
     if (pr.k === 'log') { this.openLog(); return; }
+    if (pr.k === 'handzone') { this.clearSel(); this.setSpread(!this.spread); return; }
+    if (pr.k === 'spreadbg') { this.setSpread(false); return; }
+    if (pr.k === 'sort') { this.sortMode = this.sortMode === 'cost' ? 'family' : 'cost'; sfx('ui_tap'); this.setSpread(true); return; }
     if (pr.k === 'zoom') { if (this.sel && this.sel.k === 'hand' && !(this.targetsFor(this.sel) || []).length) this.commitSel(null); else this.closeZoom(); return; }
     if (pr.k === 'board') { if (this.sel && this.sel.k === 'hand' && !(this.targetsFor(this.sel) || []).length) this.commitSel(null, this.dropPos(p.x)); else this.clearSel(); }
   }
@@ -467,16 +512,38 @@ export class Battle {
     const st = this.state, m = E.findChar(st, att), tt = E.findChar(st, target);
     if (!m || !tt) return;
     if (tt.owner === m.owner) return;
-    if (!tt.isHero && E.hasKw(tt, 'stealth')) return this.deny('toast_seamist_untargetable');
-    if (st.players[tt.owner].board.some((x) => E.hasKw(x, 'guard') && !E.hasKw(x, 'stealth')) && !E.hasKw(tt, 'guard')) return this.deny('toast_must_hit_breakwater');
-    if (st.half <= m.freezeUntil) return this.deny('toast_anchored');
-    if (m.sick) return this.deny('toast_cant_attack_yet');
+    const el = (u) => this.posOfUid(u)?.el;
+    if (!tt.isHero && E.hasKw(tt, 'stealth')) return this.deny('toast_seamist_untargetable', { flash: [el(tt.uid)] });
+    const guards = st.players[tt.owner].board.filter((x) => E.hasKw(x, 'guard') && !E.hasKw(x, 'stealth'));
+    if (guards.length && !E.hasKw(tt, 'guard')) return this.deny('toast_must_hit_breakwater', { flash: guards.map((g) => el(g.uid)) });
+    if (st.half <= m.freezeUntil) return this.deny('toast_anchored', { flash: [el(m.uid)], shake: el(m.uid) });
+    if (m.sick) return this.deny('toast_cant_attack_yet', { flash: [el(m.uid)], shake: el(m.uid) });
   }
-  deny(key) { toast(t(key)); sfx('ui_deny'); this.denies = (this.denies || 0) + 1; return { ok: false, reason: key }; }
+  markWicks(n) { const P = this.vm.players[this.bottom]; const bars = this.sideEls.my.bars; for (let i = P.mana; i < Math.min(10, P.mana + n); i++) { const b = bars[i]; b.classList.add('denyFlash'); after(D.art.ux.deny_feedback.common.chip_ms * G.scale || 1, () => b.classList.remove('denyFlash')); } }
+  // 안 되는 이유(30-art 11-4, art.json ux.deny_feedback): 흔들림 5 px·120 ms, ui_deny, 원인 요소 빛남 + 이유 칩 1.2 s
+  deny(key, o = {}) {
+    const F = D.art.ux.deny_feedback.common;
+    sfx(F.sfx); this.denies = (this.denies || 0) + 1;
+    const flash = (o.flash || []).filter(Boolean);
+    for (const e of flash) { e.classList.add('denyFlash'); after(F.chip_ms * G.scale || 1, () => e.classList.remove('denyFlash')); }
+    if (o.shake) { const e = o.shake, b = { ...tf(e) }; tween(e, { x: b.x + F.shake_px }, F.shake_ms / 4, { keep: true, done: () => tween(e, { x: b.x - F.shake_px }, F.shake_ms / 2, { keep: true, done: () => tween(e, { x: b.x }, F.shake_ms / 4, { keep: true }) }) }); }
+    if (o.card) { const e = o.card; after(F.return_card_ms * G.scale, () => this.dropHand(e)); }
+    const near = o.near || flash[0];
+    const chip = h('div', { class: 'denyChip', role: 'status', style: `background:${F.chip_bg};border:2px solid ${F.chip_border};color:${F.chip_ink};font-size:${F.chip_font_px}px`, text: (o.mark ? o.mark + ' ' : '') + t(key) });
+    this.stage.appendChild(chip);
+    let x = this.W / 2, y = this.R.mid_band.y + this.R.mid_band.h / 2;
+    if (near && near._pos) { x = near._pos.x + near._pos.w / 2; y = near._pos.y - 4; }
+    else if (near && near.offsetParent) { const r = near.getBoundingClientRect(), sr = this.stage.getBoundingClientRect(); x = (r.left + r.width / 2 - sr.left) / this.k; y = (r.top - sr.top) / this.k - 4; }
+    const cw = chip.offsetWidth || 120, chh = chip.offsetHeight || 24;
+    chip.style.left = Math.max(4, Math.min(this.W - cw - 4, x - cw / 2)) + 'px'; chip.style.top = Math.max(4, Math.min(this.H - chh - 4, y - chh)) + 'px';
+    after(F.chip_ms * G.scale || 1, () => chip.remove());
+    this.lastDeny = key;
+    return { ok: false, reason: key };
+  }
 
   // 사람 행동 진입점(포인터·테스트 훅 공통). 잠금 중이면 예약.
   input(it) {
-    if (!this.myTurn()) return this.deny('hud_enemy_turn');
+    if (!this.myTurn()) return this.deny('turn_enemy', { near: this.timerEl, flash: [this.timerEl], card: it.inst && this.handEls.get(iid(it.inst)) });
     if (A.locked || A.queue.length) {
       if (A.queue.length >= D.art.tempo.input.queue_max_actions) return { ok: false, reason: 'queue_full' };
       A.queue.push(it); return { ok: true, queued: true };
@@ -493,7 +560,7 @@ export class Battle {
     if (it.k === 'end') a = { type: 'end' };
     else if (it.k === 'power') {
       a = legal.find((x) => x.type === 'power' && (x.target ?? null) === (it.target ?? null));
-      if (!a) { if (P.powerUsed) return this.deny('hud_calling_used'); if (P.mana < D.balance.heroes[P.heroId].power_cost_mana) { this.say(this.human, 'no_wicks'); return this.deny('toast_no_wicks'); } return { ok: false, reason: 'illegal' }; }
+      if (!a) { const cb = this.sideEls.my.call; if (P.powerUsed) return this.deny('hud_calling_used', { flash: [cb], mark: '✓' }); if (P.mana < D.balance.heroes[P.heroId].power_cost_mana) { this.say(this.human, 'no_wicks'); return this.deny('toast_no_wicks', { flash: [this.sideEls.my.bars[0].parentNode] }); } return this.deny('toast_no_target', { flash: [cb], mark: '⊘' }); }
     } else if (it.k === 'attack') {
       a = legal.find((x) => x.type === 'attack' && x.attacker === it.attacker && x.target === it.target);
       if (!a) return this.denyAttack(it.attacker, it.target) || { ok: false, reason: 'illegal' };
@@ -504,8 +571,10 @@ export class Battle {
       const m = legal.find((x) => x.type === 'play' && P.hand[x.hand] && this.keyOf(P.hand[x.hand]) === key && (x.target ?? null) === (it.target ?? null) && (it.target2 == null || x.target2 === it.target2));
       if (!m) {
         const c = E.cardOf(st, P, it.inst);
-        if (E.costOf(st, P, it.inst) > P.mana) { this.say(this.human, 'no_wicks'); return this.deny('toast_no_wicks'); }
-        if (c.kind === 'minion' && P.board.length >= st.rules.board_limit) return this.deny('toast_circle_full');
+        const ce = this.handEls.get(iid(it.inst));
+        if (E.costOf(st, P, it.inst) > P.mana) { this.say(this.human, 'no_wicks'); this.markWicks(E.costOf(st, P, it.inst) - P.mana); return this.deny('toast_no_wicks', { flash: [this.sideEls.my.bars[0].parentNode], shake: ce, card: ce }); }
+        if (c.kind === 'minion' && P.board.length >= st.rules.board_limit) return this.deny('toast_circle_full', { flash: [...this.slotBgs.my], near: this.slotBgs.my[2], shake: ce, card: ce });
+        if (c.target && it.target == null) return this.deny('toast_no_target', { flash: [ce], shake: ce, card: ce, mark: '⊘' });
         return { ok: false, reason: 'illegal' };
       }
       a = { ...m, hand: hi };
@@ -547,7 +616,8 @@ export class Battle {
       for (const x of ev) { if (x.t === 'turn') tick = true; if (tick && x.t === 'dmg' && cursed.get(x.uid) > 0 && !seenU.has(x.uid)) { seenU.add(x.uid); this.stats.brine += x.n; } }
     }
     const tl = this.buildTL(a, p, before, after, ev, info, heroHp0);
-    if (this.tut && this.tut.cur && p === this.human && this.tut.cur.done && this.tut.cur.done(a)) this.tutClose();
+    { const ar = ev.find((x) => x.t === 'armor'); if (ar && this.flags.armorGain == null) this.flags.armorGain = ar.p; }
+    if (this.tut && this.tut.cur && p === this.human && this.tut.cur.act && this.tut.cur.act(a)) this.tutClose();
     this.vmNext = after;
     A.play(tl);
     if (a.type === 'end' || st.half !== before.half) this.onTurnStart();
@@ -666,7 +736,7 @@ export class Battle {
       else if (x.t === 'armor') { k++; tl.at(at, () => { const ps = this.posOfUid(st.players[x.p].hero.uid); if (ps) number(ps.x, ps.y - 10, '+' + x.n, D.art.palette.state.shell, x.n, nh); }); }
       else if (x.t === 'shield') { tl.at(at, () => { const ps = this.posOfUid(x.uid); if (ps) { burst(ps.x, ps.y, 12, D.art.palette.state.shell, 1.4); sfx('saltskin_break'); } }); }
       else if (x.t === 'secret_open') { const so = T('sealwrit_open'); tl.lock = Math.max(tl.lock, lockOf('sealwrit_open')); tl.at(at, () => { toast(t('toast_sealwrit_opened')); sfx('sealwrit_open'); this.flashCard(x.cid, so); }); tl.end(at + so); }
-      else if (x.t === 'burn') { tl.at(at, () => { toast(t('toast_hand_full')); const dr = this.R[this.sideOf(x.p) + '_deck']; burst(dr.x + dr.w / 2, dr.y, 14, D.art.palette.ui.salt_white); }); tl.end(at + T('hand_burn')); }
+      else if (x.t === 'burn') { tl.at(at, () => { if (x.p === this.bottom) this.deny('toast_hand_full', { flash: [this.sideEls.my.deckN.parentNode] }); else toast(t('toast_hand_full')); const dr = this.R[this.sideOf(x.p) + '_deck']; burst(dr.x + dr.w / 2, dr.y, 14, D.art.palette.ui.salt_white); }); tl.end(at + T('hand_burn')); }
       else if (x.t === 'fatigue') { tl.at(at, () => { toast(t('toast_hollow_call', { n: x.n })); sfx('hollow_call'); this.shakeNow('medium'); }); tl.end(at + T('hollow_call')); }
       else if (x.t === 'draw' && x.p === this.bottom && x.cid) tl.at(at, () => sfx('card_draw'));
     }
@@ -781,6 +851,7 @@ export class Battle {
   say(p, role, tl, at = 0, force) {
     const fn = () => {
       const H = D.art.tempo.immersion.hero_lines, hid = this.state.players[p].heroId, key = `line_${hid.slice(2)}_${role}`;
+      if (this.tut && this.tut.cur) return; // 튜토리얼 패널이 떠 있는 동안 대사는 쉼
       const last = this.flags.bubbleLast[p];
       if (!force && last != null && G.now - last < H.min_gap_s * 1000 * G.scale) return;
       this.flags.bubbleLast[p] = G.now;
@@ -791,7 +862,7 @@ export class Battle {
       const left = Math.min(this.W - bw - 6, Math.max(6, hp.x + hp.w + 4)), top = this.sideOf(p) === 'my' ? Math.max(4, hp.y - bh - 6) : Math.min(this.H - bh - 4, hp.y + hp.h + 4);
       b.style.left = left + 'px'; b.style.top = top + 'px';
       const d = (G.fast ? H.bubble_fast_ms : H.bubble_normal_ms) * G.scale;
-      setTf(b, { o: 0, y: 6 }); tween(b, { o: 1, y: 0 }, Math.min(160, d * 0.1), { keep: true });
+      setTf(b, { o: 0, y: 6 }); tween(b, { o: 1, y: 0 }, Math.min(160, d * 0.1), { keep: true, done: () => setTf(b, { o: 1, y: 0 }) }); // 등장 뒤 불투명 100 %(G10)
       clearTimeout(b._t); b._until = G.now + d;
       this.bubbles = this.bubbles || new Set(); this.bubbles.add(b);
       A.log.push({ kind: 'hero_line', p, role, start_game_ms: Math.round(G.now), planned_ms: d });
@@ -957,55 +1028,96 @@ export class Battle {
     const dmg = ev.filter((x) => x.t === 'dmg').map((x) => `${tn(x.uid)} -${x.n}`).join(', ');
     this.text.push(`[${Math.ceil(st.half / 2)}] ${nm}: ${s}${dmg ? ' (' + dmg + ')' : ''}`);
   }
-  // ---------- 튜토리얼(10-lore 8-7, 첫 모래 위 연습 1판): 조건이 맞으면 한 단계씩, 판을 막지 않는 띠 ----------
+  // ---------- 튜토리얼(10-lore 8-7, 첫 AI 연습 판): 표 순서 대기열, 조건이 맞는 첫 순간 하나만, 판을 막지 않음(잠금 0) ----------
+  // 배치·가리킴은 art.json ux.tutorial_layout / tutorial_ui(30-art 11절). 본 단계는 저장(o.tutorial.onSeen), 건너뛰기는 전부 끝.
   tutSteps() {
-    const st = this.state, me = this.human, P = st.players[me], E = st.players[1 - me], L = this.legal || [];
-    const my = this.myTurn() && !A.busy;
-    const se = this.sideEls;
+    const st = this.state, me = this.human, P = st.players[me], Q = st.players[1 - me], L = this.legal || [];
+    const my = this.myTurn() && !A.busy && !st.pending;
+    const se = this.sideEls, seen = (k) => this.tut.seen.has(k);
+    const handEl = (pred) => { for (const [, el] of this.handEls) if (el._hc && pred(cardById(el._hc.cid), el._hc)) return el; return null; };
+    const playEl = (kind) => { const a = L.find((x) => x.type === 'play' && E.cardOf(st, P, P.hand[x.hand]).kind === kind); return a ? this.handEls.get(iid(P.hand[a.hand])) : null; };
+    const myBoardC = () => ({ _pos: this.R.my_board });
+    const noPlay = () => my && P.maxMana <= 1 && !L.some((a) => a.type === 'play');
     return [
-      { k: 'tut_1_welcome', when: () => this.started },
-      { k: 'tut_2_wicks', when: () => this.started, hl: () => se.my.bars[0].parentNode },
-      { k: 'tut_3_play', when: () => my && L.some((a) => a.type === 'play'), hl: () => this.handLayer, done: (a) => a.type === 'play' },
-      { k: 'tut_4_summon_sick', when: () => P.board.some((m) => m.sick), hl: () => { const m = P.board.find((x) => x.sick); return m && this.tokEls.get(m.uid); } },
-      { k: 'tut_5_attack', when: () => my && L.some((a) => a.type === 'attack'), hl: () => { const a = L.find((x) => x.type === 'attack'); return a && this.posOfUid(a.attacker)?.el; }, done: (a) => a.type === 'attack' },
-      { k: 'tut_6_breakwater', when: () => E.board.some((m) => E_hasGuard(m)), hl: () => { const m = E.board.find((x) => E_hasGuard(x)); return m && this.tokEls.get(m.uid); } },
-      { k: 'tut_7_calling', when: () => my && L.some((a) => a.type === 'power'), hl: () => se.my.call, done: (a) => a.type === 'power' },
-      { k: 'tut_8_end', when: () => my && L.length === 1, hl: () => this.endBtn, done: (a) => a.type === 'end' },
-      { k: 'tut_9_lifeline', when: () => my && Math.ceil(st.half / 2) >= 3, hl: () => se.enemy.hero },
-      { k: 'tut_10_keyword', when: () => my && Math.ceil(st.half / 2) >= 4 },
+      { k: 'tut_mana', when: () => my, tg: () => se.my.bars[0].parentNode },
+      { k: 'tut_no_play', when: () => noPlay() && !seen('tut_play_creature') && !seen('tut_play_spell'), tg: () => se.my.bars[0].parentNode },
+      { k: 'tut_play_creature', when: () => my && !!playEl('minion'), tg: () => playEl('minion'), act: (a) => a.type === 'play', demo: () => [playEl('minion'), myBoardC()] },
+      { k: 'tut_play_spell', when: () => my && !!playEl('spell'), tg: () => playEl('spell'), act: (a) => a.type === 'play' },
+      { k: 'tut_play_weapon', when: () => !!handEl((c) => c.kind === 'weapon'), tg: () => handEl((c) => c.kind === 'weapon'), act: (a) => a.type === 'play' },
+      { k: 'tut_board', when: () => P.board.length > 0, tg: () => ({ _pos: this.R.my_board, el: null }) },
+      { k: 'tut_attack', when: () => my && L.some((a) => a.type === 'attack' && a.attacker !== P.hero.uid), tg: () => { const a = L.find((x) => x.type === 'attack' && x.attacker !== P.hero.uid); return a && this.posOfUid(a.attacker)?.el; }, act: (a) => a.type === 'attack', demo: () => { const a = L.find((x) => x.type === 'attack' && x.attacker !== P.hero.uid); return a ? [this.posOfUid(a.attacker)?.el, this.posOfUid(a.target)?.el] : null; } },
+      { k: 'tut_ability', when: () => my && L.some((a) => a.type === 'power'), tg: () => se.my.call, act: (a) => a.type === 'power' },
+      { k: 'tut_defense', when: () => this.flags.armorGain != null, tg: () => (this.flags.armorGain === this.bottom ? se.my.hero : se.enemy.hero) }, // 처음 방어를 "얻었을" 때(후공 시작 방어 제외)
+      { k: 'tut_end', when: () => my && (seen('tut_play_creature') || seen('tut_play_spell') || seen('tut_play_weapon') || seen('tut_no_play')) && L.length === 1, tg: () => this.endBtn, act: (a) => a.type === 'end' },
+      { k: 'tut_wall', when: () => Q.board.some((m) => E.hasKw(m, 'guard')), tg: () => { const m = Q.board.find((x) => E.hasKw(x, 'guard')); return m && this.tokEls.get(m.uid); } },
+      { k: 'tut_keyword', when: () => !!handEl((c) => (c.kw_ui || []).length > 0), tg: () => handEl((c) => (c.kw_ui || []).length > 0) },
+      { k: 'tut_health', when: () => Q.hero.hp <= 20, tg: () => se.enemy.hero },
+      { k: 'tut_deckout', when: () => P.deck.length <= 5, tg: () => se.my.deckN.parentNode },
     ];
   }
   tutStep() {
     const T0 = this.tut;
-    if (T0.cur || this.over || this.mullBox || this.discBox) return;
+    if (!this.started || this.over || this.mullBox || this.discBox) return;
+    if (T0.cur) { this.tutPlace(); return; }
     for (const sp of this.tutSteps()) {
-      if (T0.shown.has(sp.k)) continue;
+      if (T0.seen.has(sp.k)) continue;
+      if (sp.k !== 'tut_mana' && !T0.seen.has('tut_mana')) continue; // 첫 내 턴의 마나 안내가 먼저
       if (!sp.when()) continue;
-      T0.shown.add(sp.k); this.tutShow(sp); break;
+      const tg = sp.tg && sp.tg();
+      if (sp.tg && !tg) continue;
+      this.tutShow(sp, tg); break;
     }
   }
-  tutShow(sp) {
-    const mb = this.R.mid_band, T0 = this.tut;
-    const el = h('div', { class: 'tut', 'data-tut': sp.k, style: `left:${mb.x}px;width:${mb.w}px;top:${Math.max(4, mb.y - 40)}px` }, [h('div', { text: t(sp.k) }),
-      h('div', { class: 'row' }, [h('button', { class: 'btn', type: 'button', text: t('tut_skip'), onclick: (e) => { e.stopPropagation(); this.tutEnd(true); } }), h('button', { class: 'btn primary', type: 'button', text: '▶', 'aria-label': t('confirm_yes'), onclick: (e) => { e.stopPropagation(); this.tutClose(); } })])]);
-    this.stage.appendChild(el);
-    setTf(el, { o: 0, y: 6 }); tween(el, { o: 1, y: 0 }, 160 * G.scale);
-    const hl = sp.hl && sp.hl(); if (hl) hl.classList.add('hl');
-    T0.cur = sp; T0.el = el; T0.hl = hl;
+  rectOf(el) {
+    if (!el) return null;
+    if (el._pos) return el._pos;
+    const r = el.getBoundingClientRect(), s = this.stage.getBoundingClientRect();
+    return { x: (r.left - s.left) / this.k, y: (r.top - s.top) / this.k, w: r.width / this.k, h: r.height / this.k };
+  }
+  tutShow(sp, tg) {
+    const T0 = this.tut, LY = D.art.ux.tutorial_layout[this.scrKey], UI = D.art.ux.tutorial_ui;
+    const alt = (LY.plan[sp.k] || 'main') === 'alt', S = LY.slots_px;
+    const P = alt ? S.alt : S.main, N = alt ? S.alt_next : S.next, K = alt ? S.next : S.skip;
+    const pn = UI.panel;
+    const panel = h('div', { class: 'tut', 'data-tut': sp.k, role: 'note', style: `left:${P.x}px;top:${P.y}px;width:${P.w}px;height:${P.h}px;background:${pn.bg};border:${pn.border_px}px solid ${pn.border};color:${pn.ink};font-size:${pn.font_px}px;line-height:${pn.line_h_px}px;padding:${Math.min(pn.pad_px, Math.max(2, (P.h - pn.line_h_px * 2) / 2 - 2))}px ${pn.pad_px}px` }, t(sp.k));
+    const nx = h('button', { class: 'btn primary tutBtn', type: 'button', 'data-tut-next': '1', style: `left:${N.x}px;top:${N.y}px;width:${N.w}px;height:${N.h}px` }, t('tut_next'));
+    const sk = h('button', { class: 'btn tutBtn', type: 'button', 'data-tut-skip': '1', style: `left:${K.x}px;top:${K.y}px;width:${K.w}px;height:${K.h}px` }, t('tut_skip'));
+    nx.addEventListener('pointerdown', (e) => e.stopPropagation()); sk.addEventListener('pointerdown', (e) => e.stopPropagation());
+    nx.addEventListener('click', () => this.tutClose()); sk.addEventListener('click', () => this.tutEnd(true));
+    const spot = h('div', { class: 'spot' }), ring = h('div', { class: 'spotRing', style: `border:${UI.spotlight.ring_px}px solid ${UI.spotlight.ring_color};animation-duration:${UI.spotlight.ring_pulse_ms}ms` });
+    for (const e of [spot, ring, panel, nx, sk]) this.stage.appendChild(e);
+    for (const se of Object.values(this.sideEls)) { setTf(se.bub, { o: 0 }); se.bub._until = 0; } // 안내가 가리키는 자리를 말풍선이 덮지 않게
+    T0.cur = sp; T0.els = [spot, ring, panel, nx, sk]; T0.tg = tg; T0.spot = spot; T0.ring = ring; T0.panel = P;
+    T0.seen.add(sp.k); this.o.tutorial.onSeen && this.o.tutorial.onSeen(sp.k);
+    for (const e of [panel, nx, sk]) { setTf(e, { o: 0 }); tween(e, { o: 1 }, 120 * G.scale); }
     A.log.push({ kind: 'tutorial', step: sp.k, start_game_ms: Math.round(G.now) });
+    this.tutPlace();
+  }
+  // 스포트라이트(나머지 50 % 어둡게, 여백 8)·고리·점선 화살표·끌기 손가락(1.2 s 반복)이 대상을 따라감
+  tutPlace() {
+    const T0 = this.tut, UI = D.art.ux.tutorial_ui, sp = T0.cur;
+    let tg = T0.tg;
+    if (sp.tg) { const n = sp.tg(); if (n) tg = T0.tg = n; }
+    const r = this.rectOf(tg);
+    const pad = UI.spotlight.cutout_pad_px;
+    if (!r) { T0.spot.style.display = T0.ring.style.display = 'none'; FX.guide = null; return; }
+    for (const e of [T0.spot, T0.ring]) { e.style.display = ''; e.style.left = r.x - pad + 'px'; e.style.top = r.y - pad + 'px'; e.style.width = r.w + pad * 2 + 'px'; e.style.height = r.h + pad * 2 + 'px'; }
+    T0.spot.style.boxShadow = `0 0 0 9999px rgba(0,0,0,${UI.spotlight.dim_ratio})`;
+    const P = T0.panel, px = Math.max(P.x, Math.min(P.x + P.w, r.x + r.w / 2)), py = r.y + r.h / 2 < P.y ? P.y : P.y + P.h;
+    FX.guide = { x0: px, y0: py, x1: r.x + r.w / 2, y1: r.y + r.h / 2 < P.y ? r.y + r.h + pad : r.y - pad };
+    const dm = sp.demo && sp.demo();
+    if (dm && dm[0] && dm[1]) { const a = this.rectOf(dm[0]), b = this.rectOf(dm[1]); FX.demo = a && b ? { x0: a.x + a.w / 2, y0: a.y + a.h / 2, x1: b.x + b.w / 2, y1: b.y + b.h / 2, d: 28, ms: 1200 } : null; } else FX.demo = null;
   }
   tutClose() {
     const T0 = this.tut; if (!T0 || !T0.cur) return;
-    if (T0.hl) T0.hl.classList.remove('hl');
-    T0.el.remove(); T0.cur = null; T0.el = null; T0.hl = null;
-    if (T0.shown.size >= 10) this.tutEnd(false);
+    for (const e of T0.els) e.remove();
+    T0.cur = null; T0.els = null; T0.tg = null; FX.guide = null; FX.demo = null;
   }
   tutEnd(skipped) {
     const T0 = this.tut; if (!T0) return;
-    if (T0.cur) { if (T0.hl) T0.hl.classList.remove('hl'); T0.el.remove(); }
+    if (T0.cur) this.tutClose();
     this.tut = null;
-    if (!skipped) toast(t('tut_done'));
-    this.o.onTutorialDone && this.o.onTutorialDone(skipped);
+    if (skipped) this.o.tutorial.onSkip && this.o.tutorial.onSkip();
   }
   finish() {
     if (this.tut) this.tutEnd(false);

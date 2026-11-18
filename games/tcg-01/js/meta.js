@@ -19,7 +19,7 @@ export function freshSave() {
     coll: {}, decks: [], crates: { bare: E.welcome_crates, faction: {} },
     pity: { sinceAbyss: 0, sinceCoral: 0, opened: 0, gotAbyss: false },
     daily: null, tide: { marks: 0, claimed: 0 }, stats: { wins: 0, losses: 0, games: 0 }, lastHero: null, ai: 'eval', mode: 'mode_practice',
-    created: today(), weekly: null, slots: {}, tutorialDone: false,
+    created: today(), weekly: null, slots: {}, tutorialDone: false, tut: { seen: [], skipped: false, doneShown: false }, guides: {},
   };
   // 첫 실행: 입문 영장첩 6개에 든 카드만(카드별 그 덱 장수, 보유 상한 이하) — balance economy.new_player.first_collection
   for (const d of (D.starters && D.starters.length ? D.starters : D.decks)) for (const cid of d.cards) { const e = s.coll[cid] || (s.coll[cid] = { n: 0, res: 0, stage: 0 }); e.n = Math.min(cap(cid), e.n + 1); }
@@ -30,6 +30,7 @@ export function load() {
   try { const raw = M.noStore ? null : localStorage.getItem(KEY); if (raw) s = JSON.parse(raw); } catch { s = null; }
   M.s = s && s.v === 1 ? s : freshSave();
   M.s.slots = M.s.slots || {}; M.s.created = M.s.created || today();
+  M.s.tut = M.s.tut || { seen: [], skipped: !!M.s.tutorialDone, doneShown: !!M.s.tutorialDone }; M.s.guides = M.s.guides || {};
   rollDaily();
   return M.s;
 }

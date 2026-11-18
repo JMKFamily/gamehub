@@ -58,6 +58,8 @@ for (const id of Object.keys(S.factions)) if (id !== 'neutral') W(`hero-${id.sli
 for (const r of Object.keys(S.rarity)) W(`rarity-${r}.svg`, A.rarityIcon(r));
 for (const k of A.keywordIds) W(`kw-${k}.svg`, A.keywordIcon(k));
 for (const [n, f] of Object.entries(A.statIcons)) W(`${n}.svg`, f());
+W('icon-story.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><title>스토리</title><path d="M8 10Q8 6 12 6H38V36Q38 40 34 40H12Q8 40 8 36Z" fill="${U.card_plate}" stroke="${U.stat_tab}" stroke-width="2.4"/><path d="M14 15H32M14 21H32M14 27H26" stroke="${U.card_ink}" stroke-width="2.4" stroke-linecap="round"/><path d="M34 40Q40 40 40 34V30H34" fill="${U.card_plate_shade}" stroke="${U.stat_tab}" stroke-width="2.4"/></svg>
+`);
 for (const [n, f] of Object.entries(A.currencyIcons)) W(`${n}.svg`, f());
 W('crate-bare-sea.svg', A.crateSVG('bare_sea'));
 for (const id of Object.keys(S.factions)) if (id !== 'neutral') W(`crate-${id.slice(2)}.svg`, A.crateSVG(id));
@@ -190,6 +192,7 @@ const art = {
   text_fit: textStats,
   layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
+  story_panel: S.storyPanel,
   ux: { families: S.cardFamilies, debuff_branches: S.DEBUFF_BRANCHES, branch_glyph: S.branchGlyph, kinds: S.cardKinds, badge: S.badge, hierarchy: S.hierarchy, deny_feedback: S.denyFeedback, hand_compare: S.handCompare, tutorial_ui: S.tutorialUi, tutorial_layout: tutorial, cvd_min_dE: cvd, cvd_threshold_dE: CVD_MIN, family_rule: 'familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff' },
   assets: written.sort(),
   portrait_generator: { module: 'tools/art/portrait-gen.mjs', export: 'portraitSVG(card)', viewbox: '0 0 120 90', cache: '카드마다 한 번 만들어 blob URL로 캐시' },

@@ -1,5 +1,5 @@
 // 카드·응답자·호명자 DOM (30-art 3절 형태 언어: 한 모서리 깨진 소금유리 판, 아래 매달린 스탯 판). 색은 art.json.
-import { D, cardById, portraitURL, fac } from './data.js';
+import { D, cardById, portraitURL, fac, badgeURL, patternCSS, familyOf } from './data.js';
 import { t, cardName, cardText, kindKey } from './i18n.js';
 
 export function h(tag, attrs, kids) {
@@ -12,6 +12,7 @@ export function h(tag, attrs, kids) {
   if (kids) for (const c of [].concat(kids)) if (c != null) e.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
   return e;
 }
+const L_fam = (F) => (document.documentElement.lang === 'en' ? F.en : F.ko);
 const img = (src, cls, alt = '') => h('img', { src, class: cls, alt, draggable: 'false' });
 export const kwIcon = (k) => `assets/kw-${k}.svg`;
 const KW_NAMES = () => D.art.palette.keywords.map((k) => (document.documentElement.lang === 'en' ? k.en : k.ko)).sort((a, b) => b.length - a.length);
@@ -31,7 +32,8 @@ export function cardFace(cid, opt = {}) {
   const kind = c.kind === 'spell' ? 'rite' : c.kind === 'weapon' ? 'brand' : 'answerer';
   const mode = opt.mode || 'full';
   const st = opt.stage || 0;
-  const el = h('div', { class: `card ${kind} ${mode} st${st}` });
+  const fid = familyOf(c), FAM = D.art.ux.families[fid];
+  const el = h('div', { class: `card ${kind} ${mode} st${st} fam-${fid}`, 'data-family': fid, 'data-kind': c.kind });
   el.appendChild(h('div', { class: 'plate' }));
   const sp = h('div', { class: 'spine', style: `background:${f.primary}` }); el.appendChild(sp);
   const rc = D.art.recut[st] || D.art.recut[0];
@@ -39,8 +41,10 @@ export function cardFace(cid, opt = {}) {
   el.appendChild(h('div', { class: 'facet', style: `background:${rar.facet}` }));
   const art = h('div', { class: 'art' }, img(c.spare ? 'assets/icon-spare-wick.svg' : portraitURL(cid)));
   el.appendChild(art);
+  // 유형 표지(오른쪽 위, 유형 모양 + 갈래 도형) — 30-art 11절, 손패 1.6배
+  el.appendChild(h('img', { class: 'badge', src: badgeURL(fid, c.branch), alt: L_fam(FAM), draggable: 'false' }));
   if (mode === 'full') {
-    el.appendChild(h('div', { class: 'name', style: `background:${f.primary};color:${f.ink}`, text: cardName(c) }));
+    el.appendChild(h('div', { class: 'name', style: `background-color:${FAM.color};background-image:${patternCSS(fid)};color:${FAM.ink}`, text: cardName(c) }));
     el.appendChild(img(`assets/rarity-${c.rarity || 'sand'}.svg`, 'rar'));
     const lin = c.lineage ? t('lineage_' + c.lineage) : c.owner === 'neutral' ? t('card_owner_common') : t(`hero_${c.owner.slice(2)}_name`);
     el.appendChild(h('div', { class: 'type', text: `${t(kindKey(c.kind))} · ${lin}` }));
@@ -57,6 +61,7 @@ export function cardFace(cid, opt = {}) {
   const base = opt.base || { cost: c.cost, atk: c.attack, hp: c.health };
   const cost = h('div', { class: 'cost' + (s.cost < base.cost ? ' down' : s.cost > base.cost ? ' up' : ''), text: String(s.cost) });
   el.appendChild(cost);
+  if (kind === 'brand') el.appendChild(h('div', { class: 'guard', style: `background:${f.primary}` })); // 무기: 가로 날밑
   if (kind !== 'rite') {
     const a = h('span', { text: String(s.atk), class: s.atk > base.atk ? 'buffv' : s.atk < base.atk ? 'debuffv' : '' });
     const hp = h('span', { text: String(s.hp), class: opt.damaged ? 'dmgv' : s.hp > base.hp ? 'buffv' : '' });
@@ -90,6 +95,7 @@ export function tokenEl(m) {
   el.appendChild(h('div', { class: 'pl', style: `background:${f.deep};border:2px solid ${D.art.palette.ui.stat_tab}` }));
   el.appendChild(img(portraitURL(m.cid), 'pi'));
   el.appendChild(h('div', { style: `position:absolute;left:0;top:0;width:5px;height:120px;background:${f.primary}` }));
+  { const fid = familyOf(c), FAM = D.art.ux.families[fid]; el.appendChild(h('div', { class: 'fband', style: `background:${FAM.color}` })); el.appendChild(h('img', { class: 'tbadge', src: badgeURL(fid, c.branch), alt: '', draggable: 'false' })); el.dataset.family = fid; }
   el.appendChild(el._parts.mist = h('div', { class: 'mist hidden', style: `background:${D.art.palette.keywords.find((k) => k.id === 'seamist').color}` }));
   el.appendChild(el._parts.skin = h('div', { class: 'skin hidden' }));
   el.appendChild(el._parts.frz = img(kwIcon('anchor'), 'frz hidden'));

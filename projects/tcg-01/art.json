@@ -2238,6 +2238,45 @@
   "timer_low": "turn_timer_low",
   "crate_tap": "crate_tap_salt"
  },
+ "story_panel": {
+  "where": "크게 본 카드(수집·덱 빌더·팩 개봉 결과의 확대 보기). 대전 중에는 열지 않음(길게 누르기 = 효과·키워드 도움말 먼저)",
+  "open_by": [
+   "확대 카드의 글 상자 탭",
+   "스토리 버튼 탭"
+  ],
+  "button": {
+   "size_px": 48,
+   "min_w_px": 96,
+   "shape": "오른쪽 위 모서리 깨진 판(버튼 공통)",
+   "place": "확대 카드 바로 아래 오른쪽(카드 오른쪽 끝에 맞춤), 다른 버튼(돌파·제작·뒤로)과 같은 줄",
+   "icon": "icon-story(펼친 두루마리)",
+   "label_key": "story_button"
+  },
+  "panel": {
+   "place_portrait": "확대 카드의 글 상자 자리를 덮는 판(카드 그림·비용·이름·유형 표지는 보이게 둠): 카드와 같은 폭, 위 = 이름 띠 아래, 아래 = 카드 아래 끝 + 버튼 줄 위",
+   "place_landscape": "확대 카드 오른쪽 옆 판(카드와 같은 높이, 폭 = min(화면 폭 − 카드 오른쪽 − 16, 320))",
+   "min_w_px": 240,
+   "pad_px": 14,
+   "font_ko_px": 14,
+   "font_en_px": 13,
+   "line_h_ratio": 1.55,
+   "max_chars_ko": 160,
+   "max_lines": 7,
+   "bg": "#14232B",
+   "ink": "#F2EEE4",
+   "border": "faction.primary 3 px(왼쪽 띠 6 px)",
+   "title": "카드 이름 16 px + 세력 이름 12 px(salt_dim)",
+   "close": "패널 밖 탭 또는 같은 버튼 다시 탭(버튼 글 \"효과\"로 바뀜)",
+   "fit_rule": "ko 160자 = 한 줄 약 17자 × 7줄(240 px·14 px 기준). en은 13 px로 같은 7줄 안. 넘치면 패널 안 스크롤(▼ 표시)"
+  },
+  "tempo": {
+   "open_ms": 180,
+   "close_ms": 140,
+   "fast_open_ms": 120,
+   "lock_ms": 0,
+   "motion": "아래에서 12 px 올라오며 투명도 0→1, 글 상자 위에 덮임(카드 뒤집기 연출 없음)"
+  }
+ },
  "ux": {
   "families": {
    "draw": {
@@ -2860,6 +2899,7 @@
   "icon-ready.svg",
   "icon-shell.svg",
   "icon-spare-wick.svg",
+  "icon-story.svg",
   "icon-sunk.svg",
   "icon-wick-soot.svg",
   "icon-wick-spent.svg",

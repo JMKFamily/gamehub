@@ -5,7 +5,14 @@ import { h, cardBox } from './cards.js';
 import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btDelta, craftCost, craft, openCrate, cratesToPity, buy, rerollComm, claimComm, claimWeekly, tideReward, deckProblems, allDecks } from './meta.js';
 import { G, tween, setTf, tf, after } from './anim.js';
 import { sfx, setSound, setMusic, unlock } from './audio.js';
-import { toast, show } from './ui.js';
+import { toast, show, coach } from './ui.js';
+// 첫 진입 안내(8-12)·대전 밖 튜토리얼 단계(8-7): 한 번만. 본 것은 M.s.guides / M.s.tut.seen에 저장
+function guideOnce(steps, tut) {
+  const todo = steps.filter((x) => x.el && (tut ? !(M.s.tut.skipped || M.s.tut.seen.includes(x.key)) : !M.s.guides[x.key]));
+  if (!todo.length) return;
+  requestAnimationFrame(() => coach(todo, t, { onEach: (k) => { if (tut) { if (!M.s.tut.seen.includes(k)) M.s.tut.seen.push(k); } else M.s.guides[k] = true; save(); }, onSkip: () => { if (tut) M.s.tut.skipped = true; else for (const x of todo) M.s.guides[x.key] = true; save(); } }));
+}
+export { guideOnce };
 
 const HS = (hid) => hid.slice(2);
 let NAV = null;
@@ -24,7 +31,7 @@ function curBar() {
   return h('span', { class: 'row' }, [it('currency-salt', c.salt, 'currency_salt'), it('currency-ink', c.ink, 'currency_ink'), it('currency-pearl', c.pearl, 'currency_pearl')]);
 }
 const heroName = (hid) => t(`hero_${HS(hid)}_name`);
-export const deckLabel = (d) => (d.starter ? t('deck_name_default', { name: heroName(d.hero) }) : d.std ? `${t('deck_standard')} · ${t('deck_arch_' + String(d.arch || '').replace(/-/g, '_'))}` : d.name || t('deck_name_default', { name: heroName(d.hero) }));
+export const deckLabel = (d) => (d.starter ? t('deck_starter') : d.std ? `${t('deck_standard')} · ${t('deck_arch_' + String(d.arch || '').replace(/-/g, '_'))}` : d.name || t('deck_name_default', { name: heroName(d.hero) }));
 
 // ---------- 타이틀 ----------
 export function titleScreen() {
@@ -45,7 +52,8 @@ export function dockScreen() {
     btn(t('menu_writbook'), () => go('decks'), '', { 'data-nav': 'decks' }), btn(t('menu_collection'), () => go('collection'), '', { 'data-nav': 'collection' }),
     btn(`${t('menu_crates')} (${crates})`, () => go('crates'), '', { 'data-nav': 'crates' }), btn(t('menu_market'), () => go('market'), '', { 'data-nav': 'market' }),
     btn(t('menu_commissions'), () => go('commissions'), '', { 'data-nav': 'commissions' }), btn(t('menu_calendar'), () => go('calendar'), '', { 'data-nav': 'calendar' }),
-    btn(t('menu_chronicle'), () => toast(t('chronicle_locked')), 'off'), btn(t('menu_settings'), () => go('settings'), '', { 'data-nav': 'settings' })]));
+    btn(t('menu_chronicle'), () => toast(t('chronicle_locked')), 'off'), btn(t('menu_settings'), () => go('settings'), '', { 'data-nav': 'settings' }),
+    btn(t('menu_glossary'), () => go('glossary'), '', { 'data-nav': 'glossary' })]));
   const T = D.balance.economy.tide_calendar, m = M.s.tide.marks;
   sc.appendChild(h('div', { class: 'panel col' }, [h('div', { class: 'small', text: `${t('calendar_title')} · ${t('calendar_season', { n: 1 })} · ${Math.min(T.steps, Math.floor(m / T.tide_marks_per_step))}/${T.steps}` }), tideBar(m % T.tide_marks_per_step / T.tide_marks_per_step)]));
   s.appendChild(sc);
@@ -84,7 +92,7 @@ export function heroScreen() {
         btn(cur ? cardName(cardById(cur)) + ' · ' + t('recut_level_' + stageOf(cur)) : t('recut_slot_empty'), () => slotPicker(d0, draw), '', { 'data-act': 'slot' })]));
     }
     const mr = h('div', { class: 'col' });
-    for (const m of ['mode_practice', 'mode_sparring', 'mode_accord']) mr.appendChild(btn(h('span', {}, [h('b', { text: t(m) }), h('span', { class: 'small', text: ' · ' + t(m + '_desc') })]), () => { mode = m; draw(); }, m === mode ? 'sel' : '', { 'data-mode': m }));
+    for (const m of ['mode_practice', 'mode_sparring', 'mode_accord']) mr.appendChild(btn(h('span', {}, [h('b', { text: t(m) }), h('span', { class: 'small', text: ' · ' + t(m + '_desc') })]), () => { mode = m; draw(); if (m === 'mode_accord') { const b = s.querySelector('[data-mode=mode_accord]'); guideOnce([{ key: 'guide_ranked_1', el: b }, { key: 'guide_ranked_2', el: b && b.querySelector('.small') }]); } }, m === mode ? 'sel' : '', { 'data-mode': m }));
     det.appendChild(mr);
     det.appendChild(h('div', { class: 'row' }, [h('span', { text: t('ai_level') }), btn(t('ai_easy'), () => { ai = 'greedy'; draw(); }, ai === 'greedy' ? 'sel' : '', { 'data-ai': 'greedy' }), btn(t('ai_hard'), () => { ai = 'eval'; draw(); }, ai === 'eval' ? 'sel' : '', { 'data-ai': 'eval' })]));
     det.appendChild(btn(t('menu_play'), () => {
@@ -96,6 +104,8 @@ export function heroScreen() {
   draw();
   sc.appendChild(grid); sc.appendChild(det);
   s.appendChild(sc);
+  // 튜토리얼 1·2단계(영웅 고르기·덱) — 첫 진입 한 번
+  setTimeout(() => guideOnce([{ key: 'tut_hero', el: grid }, { key: 'tut_deck', el: det.querySelector('[data-deck]')?.parentNode }], true), 0);
   return s;
 }
 
@@ -180,7 +190,7 @@ export function cardDetail(cid, after) {
     if (e.stage >= 3) row.appendChild(h('div', { class: 'small', text: t('recut_max') }));
     else row.appendChild(btn(canRecut(cid) ? t('recut_ready') : t('recut_button'), () => {
       if (!recut(cid)) { sfx('ui_deny'); return; }
-      sfx('chunk_break_pearl'); toast(t('recut_done'));
+      sfx('chunk_break_pearl'); toast(t('recut_done'), 1300, 'top'); // 상세 안에서는 위쪽(G4)
       draw();
       const f = box.querySelector('[data-detail] .card'); if (f) { setTf(f.parentNode, { s: 1.08 }); tween(f.parentNode, { s: 1 }, 800 * G.scale); }
     }, canRecut(cid) ? 'primary' : 'off', { 'data-act': 'recut' }));
@@ -193,6 +203,8 @@ export function cardDetail(cid, after) {
   };
   draw();
   document.body.appendChild(box);
+  // 첫 진입 안내: 제작(8-12), 돌파 가능이면 돌파 버튼
+  guideOnce([{ key: 'guide_craft_1', el: box.querySelector('[data-act=craft]') }, { key: 'guide_craft_2', el: box.querySelector('[data-act=craft]') }, ...(canRecut(cid) ? [{ key: 'guide_exp_2', el: box.querySelector('[data-act=recut]') }] : [])]);
 }
 export function confirmBox(text, yes) {
   const box = h('div', { class: 'ovl', style: 'position:fixed' }, h('div', { class: 'panel', text }));
@@ -286,8 +298,9 @@ export function cratesScreen() {
     const box = h('div', { class: 'ovl', style: 'position:fixed' }, h('div', { class: 'panel col' }, [h('b', { text: t('crate_odds_title') }), h('div', { class: 'small', text: `${t('odds_slot')}: ${pct(E.rarity_slot_prob)}` }), h('div', { class: 'small', text: `${t('odds_guarantee_slot')}: ${pct(E.rarity_guarantee_slot_prob)}` }), h('div', { class: 'small', text: t('odds_pity', { a: E.pity.abyss_within_crates, c: E.pity.coral_within_crates, f: E.pity.first_abyss_within_crates }) })]));
     box.appendChild(btn(t('menu_back'), () => box.remove()));
     document.body.appendChild(box);
-  }));
+  }, '', { 'data-act': 'odds' }));
   s.appendChild(sc);
+  setTimeout(() => guideOnce([{ key: 'guide_pack_1', el: sc.querySelector('.panel') }, { key: 'guide_pack_2', el: sc.querySelector('[data-act=odds]') }]), 0);
   return s;
 }
 // 개봉 연출(30-art 5-7): 뚜껑 → 덩이 5개 → 희귀도 예고 빛 → 탭해서 부숨 → 뒤집기 → 새 이름/공명 +n
@@ -321,9 +334,9 @@ export function openScreen({ kind, hero }) {
   const chunks = [];
   const lidMs = ms(CO.lid), stg = ms({ normal_ms: CO.chunks_in.stagger_normal_ms, fast_ms: CO.chunks_in.stagger_fast_ms });
   res.forEach((r, i) => {
-    const el = h('div', { class: 'chunk', 'data-chunk': i, style: `width:${cw}px;height:${cw}px` }, [h('div', { class: 'gl', style: `background:radial-gradient(circle, ${P[r.rarity].glow || P[r.rarity].fill} 0%, transparent 70%);opacity:0` }), h('img', { src: `assets/salt-chunk-${r.rarity}.svg`, alt: t('rarity_' + r.rarity) })]);
+    const el = h('div', { class: 'chunk', 'data-chunk': i, style: `width:${cw}px;height:${cw * 1.4}px` }, [h('div', { class: 'gl', style: `background:radial-gradient(circle, ${P[r.rarity].glow || P[r.rarity].fill} 0%, transparent 70%);opacity:0` }), h('img', { src: `assets/salt-chunk-${r.rarity}.svg`, alt: t('rarity_' + r.rarity) })]);
     stage.appendChild(el);
-    const sp = slot(i), tx = sp.x + (cardW - cw) / 2, ty = sp.y + (cardH - cw) / 2;
+    const sp = slot(i), tx = sp.x + (cardW - cw) / 2, ty = sp.y + (cardH - cw * 1.4) / 2;
     setTf(el, { x: crX + boxW / 2 - cw / 2, y: crY + boxW / 2, s: 0.3, o: 0 });
     after(lidMs + i * stg, () => tween(el, { x: tx, y: ty, s: 1, o: 1 }, 200 * G.scale));
     chunks.push({ el, r, sp, tx, ty, done: false });
@@ -345,7 +358,7 @@ export function openScreen({ kind, hero }) {
       setTf(c.el, { x: c.sp.x, y: c.sp.y, s: 1, o: 1 });
       setTf(cb, { s: 0.01 }); tween(cb, { s: 1 }, ms(CO.reveal_flip), { done: ok });
       c.el.onclick = () => cardDetail(c.r.cid);
-      if (chunks.every((q) => q.done)) hint.classList.add('hidden');
+      if (chunks.every((q) => q.done)) { hint.classList.add('hidden'); const dup = chunks.find((q) => q.r.res > 0); if (dup) guideOnce([{ key: 'guide_exp_1', el: dup.el.querySelector('.revealTag') }]); }
     } });
   });
   for (const c of chunks) c.el.addEventListener('pointerdown', () => { unlock(); reveal(c); }, { once: true });
@@ -435,7 +448,8 @@ export function settingsScreen({ apply }) {
   sc.appendChild(tog('fast', t('settings_fast_view')));
   sc.appendChild(tog('reduceMotion', t('settings_reduce_motion')));
   sc.appendChild(tog('timer', t('settings_turn_timer')));
-  sc.appendChild(btn(t('settings_reset_tutorial'), () => { M.s.tutorialDone = false; save(); toast(t('settings_reset_tutorial')); }, '', { 'data-set': 'tutorial' }));
+  sc.appendChild(btn(t('settings_reset_tutorial'), () => { M.s.tutorialDone = false; M.s.tut = { seen: [], skipped: false, doneShown: false }; M.s.guides = {}; save(); toast(t('settings_reset_tutorial')); }, '', { 'data-set': 'tutorial' }));
+  sc.appendChild(btn(t('menu_glossary'), () => go('glossary'), '', { 'data-nav': 'glossary' }));
   s.appendChild(sc);
   void setSound; void setMusic;
   return s;
@@ -458,4 +472,42 @@ export function resultOverlay(root, res, rew, opts) {
   root.appendChild(box);
   void show;
   return box;
+}
+
+// ---------- 용어 사전(10-lore 8-13, 30-art 11절): 검색 48 px → 유형 범례 띠 → 묶음별 목록(줄 ≥ 56 px, 가로 2열) ----------
+const NEW_ICON = { ability: 'icon-ability.svg', board: 'icon-board.svg', kin: 'icon-kin.svg', breakthrough: 'icon-breakthrough.svg', ranked: 'icon-rank.svg', end_turn: 'icon-ready.svg', casual: 'icon-rank.svg' };
+function glossIcon(g) {
+  if (NEW_ICON[g.id]) return 'assets/' + NEW_ICON[g.id];
+  const m = (g.icon || '').match(/([a-z0-9_-]+)(\*)?\.svg/);
+  if (!m) return 'assets/card-back.svg';
+  if (m[2] || m[1].endsWith('-')) { const base = m[1].replace(/-$/, ''); return `assets/${base}-${{ hero: 'warden', crate: 'bare-sea', rarity: 'pearl' }[base] || 'warden'}.svg`; }
+  return `assets/${m[1]}.svg`;
+}
+export function glossaryScreen() {
+  const s = screen('glossary', t('menu_glossary'));
+  const sc = h('div', { class: 'scroll col' });
+  const q = h('input', { class: 'gsearch', type: 'search', 'aria-label': t('menu_glossary') });
+  sc.appendChild(q);
+  const lg = h('div', { class: 'legend', 'aria-label': t('deck_filter_type') });
+  for (const [fid, F] of Object.entries(D.art.ux.families)) lg.appendChild(h('span', {}, [h('img', { src: `assets/type-${fid}.svg`, alt: '' }), L.lang === 'en' ? F.en : F.ko]));
+  for (const k of ['minion', 'spell', 'weapon']) lg.appendChild(h('span', {}, [h('img', { src: `assets/kind-${k}.svg`, alt: '' }), t({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k])]));
+  sc.appendChild(lg);
+  const kwStart = D.glossary.findIndex((g) => g.id === 'on_play');
+  const groups = [D.glossary.slice(0, kwStart < 0 ? D.glossary.length : kwStart), kwStart < 0 ? [] : D.glossary.slice(kwStart)];
+  const lists = groups.map((items, gi) => {
+    const box = h('div', { class: 'gloss' });
+    for (const g of items) {
+      const row = h('div', { class: 'grow2', 'data-gloss': g.id }, [h('img', { src: glossIcon(g), alt: '' }),
+        h('div', { class: 'col', style: 'gap:1px;min-width:0' }, [h('span', { class: 't', text: t('gloss_' + g.id) }), h('span', { class: 'd', text: t('gloss_' + g.id + '_desc') }),
+          L.lang === 'ko' && g.common_ko && g.common_ko !== '-' ? h('span', { class: 'c', text: `${t('glossary_common_names')}: ${g.common_ko}` }) : null])]);
+      row._text = [t('gloss_' + g.id), t('gloss_' + g.id + '_desc'), g.common_ko || ''].join(' ').toLowerCase();
+      box.appendChild(row);
+    }
+    if (gi === 1) sc.appendChild(h('b', { text: t('deck_filter_keyword') }));
+    sc.appendChild(box);
+    return box;
+  });
+  q.addEventListener('input', () => { const v = q.value.trim().toLowerCase(); for (const b of lists) for (const r of b.children) r.classList.toggle('hidden', !!v && !r._text.includes(v)); });
+  s.appendChild(sc);
+  return s;
 }

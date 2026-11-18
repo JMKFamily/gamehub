@@ -11,7 +11,7 @@ export function fxInit(cv, W, H, k) {
   cv.width = Math.round(W * k); cv.height = Math.round(H * k); cv.style.width = W + 'px'; cv.style.height = H + 'px';
   FX.ctx = cv.getContext('2d');
   FX.budget = W * H > 600000 ? D.art.tempo.particle_budget.desktop_max : D.art.tempo.particle_budget.mobile_max;
-  FX.parts = []; FX.nums = []; FX.arrows = []; FX.rings = []; FX.aim = null; FX.dark = { a: 0, to: 0, t: 0, dur: 0, from: 0 }; rs = 1;
+  FX.parts = []; FX.nums = []; FX.arrows = []; FX.rings = []; FX.aim = null; FX.guide = null; FX.demo = null; FX.dark = { a: 0, to: 0, t: 0, dur: 0, from: 0 }; rs = 1;
 }
 export function burst(x, y, n, color, spd = 1) {
   const ratio = G.reduceMotion ? D.art.tempo.reduce_motion.particles_ratio : 1;
@@ -63,6 +63,9 @@ export function fxStep(dt) {
     if (a.trail) { c.strokeStyle = a.c || P.ui.salt_white; c.globalAlpha = 1 - k; c.lineWidth = 4; curve(c, a.x0, a.y0, a.x1, a.y1); c.globalAlpha = 1; }
     else { c.strokeStyle = P.ui.focus; c.lineWidth = 3; c.globalAlpha = Math.min(1, k * 4); curve(c, a.x0, a.y0, a.x1, a.y1, [8, 6]); c.beginPath(); c.arc(a.x1, a.y1, 9, 0, Math.PI * 2); c.stroke(); c.globalAlpha = 1; }
   }
+  // 튜토리얼 가리킴: 패널 → 대상 점선 화살표(2 px), 끌기 손가락 원(지름 28)이 출발 → 도착 1.2 s 반복
+  if (FX.guide) { const g = FX.guide; c.strokeStyle = P.ui.focus; c.lineWidth = 2; c.setLineDash([6, 5]); c.beginPath(); c.moveTo(g.x0, g.y0); c.lineTo(g.x1, g.y1); c.stroke(); c.setLineDash([]); const an = Math.atan2(g.y1 - g.y0, g.x1 - g.x0); c.beginPath(); c.moveTo(g.x1, g.y1); c.lineTo(g.x1 - 9 * Math.cos(an - 0.45), g.y1 - 9 * Math.sin(an - 0.45)); c.moveTo(g.x1, g.y1); c.lineTo(g.x1 - 9 * Math.cos(an + 0.45), g.y1 - 9 * Math.sin(an + 0.45)); c.stroke(); }
+  if (FX.demo) { const m = FX.demo; m.t = ((m.t || 0) + dt) % m.ms; const k = Math.min(1, m.t / (m.ms * 0.8)), e = k < 0.5 ? 2 * k * k : 1 - 2 * (1 - k) * (1 - k); const x = m.x0 + (m.x1 - m.x0) * e, y = m.y0 + (m.y1 - m.y0) * e; c.globalAlpha = 0.85; c.fillStyle = P.ui.salt_white; c.beginPath(); c.arc(x, y, m.d / 2, 0, Math.PI * 2); c.fill(); c.strokeStyle = P.ui.focus; c.lineWidth = 3; c.beginPath(); c.arc(x, y, m.d / 2 + 4, 0, Math.PI * 2); c.stroke(); c.globalAlpha = 1; }
   if (FX.aim) { const a = FX.aim; c.strokeStyle = P.ui.focus; c.lineWidth = 3; curve(c, a.x0, a.y0, a.x1, a.y1, [8, 6]); c.beginPath(); c.arc(a.x1, a.y1, 10, 0, Math.PI * 2); c.stroke(); }
   c.textAlign = 'center'; c.textBaseline = 'middle';
   for (let i = 0; i < FX.nums.length; i++) {
