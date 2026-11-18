@@ -1,0 +1,305 @@
+{
+ "res": "1280x720@1",
+ "scene": "l1",
+ "tag": "a8",
+ "requests": [
+  "/games/reverbound/icon-64.png"
+ ],
+ "totals": {
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 203,
+   "DisplayScheduler::BeginFrame": 0
+  },
+  "Renderer/CrRendererMain": {
+   "RunTask": 3610,
+   "WebFrameWidgetImpl::BeginMainFrame": 8,
+   "WebFrameWidgetImpl::UpdateLifecycle": 1,
+   "Commit": 1,
+   "LayerTreeHost::ApplyCompositorChanges": 0,
+   "CommandBufferHelper::Flush": 0,
+   "LayerTreeHost::DoUpdateLayers": 0,
+   "WidgetBase::WillBeginMainFrame": 0
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 651
+  },
+  "Renderer/Compositor": {
+   "RunTask": 241,
+   "IOHandler::OnIOCompleted": 68,
+   "auto cc::Scheduler::FinishImplFrame()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 0
+  },
+  "GPU Process/GpuVSyncThread": {
+   "RunTask": 10016,
+   "WinVSyncProvider::GetVSyncParameters": 0
+  },
+  "Renderer/ThreadPoolForegroundWorker": {
+   "ThreadPool_RunTask": 61
+  }
+ },
+ "deep": {
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 203,
+   "ThreadControllerImpl::RunTask": 197,
+   "Edge_RunTask": 190,
+   "Graphics.Pipeline": 176,
+   "DisplayScheduler::OnBeginFrameDeadline": 118,
+   "DisplayScheduler::DrawAndSwap": 117,
+   "Display::DrawAndSwap": 116,
+   "DirectRenderer::DrawFrame": 56,
+   "DirectRenderer::DrawRenderPass": 43,
+   "SimpleWatcher::OnHandleReady": 26,
+   "ExternalBeginFrameSource::OnBeginFrame": 26,
+   "Receive mojo message": 20,
+   "DisplayScheduler::BeginFrame": 7,
+   "Surface::CommitFrame": 7,
+   "SkiaRenderer::SwapBuffers": 7,
+   "SkiaOutputSurfaceImpl::FlushGpuTasks": 6,
+   "DirectRenderer::DrawFrame ProcessForOverlays": 6,
+   "auto viz::SkiaRenderer::FlushOutputSurface()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 6,
+   "Surface::ActivateFrame": 5,
+   "DisplayScheduler::ScheduleBeginFrameDeadline": 4,
+   "OverlayProcessorWin::ProcessForOverlays": 3,
+   "Scheduler::ScheduleTask": 3,
+   "SendBeginFrameDecision": 1,
+   "SkiaRenderer::FinishDrawingFrame": 1,
+   "Using new deadline": 1,
+   "SurfaceManager::GarbageCollectSurfaces": 0,
+   "SkiaRenderer::BeginDrawingFrame": 0
+  },
+  "Renderer/CrRendererMain": {
+   "RunTask": 3610,
+   "ThreadControllerImpl::RunTask": 3471,
+   "Edge_RunTask": 3424,
+   "ProxyMain::BeginMainFrame": 2975,
+   "WebFrameWidgetImpl::BeginMainFrame": 1796,
+   "AsyncTask Run": 1695,
+   "Blink.Animate.UpdateTime": 1651,
+   "PageAnimator::serviceScriptedAnimations": 1637,
+   "v8.callFunction": 1610,
+   "FrameRequestCallbackCollection::ExecuteFrameCallbacks": 1505,
+   "FireAnimationFrame": 1491,
+   "FunctionCall": 1463,
+   "WebFrameWidgetImpl::UpdateLifecycle": 695,
+   "Commit": 400,
+   "TimerBase::run": 284,
+   "TimerFire": 268,
+   "LocalFrameView::RunPaintLifecyclePhase": 260,
+   "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 224,
+   "LocalFrameView::UpdateStyleAndLayout": 203,
+   "PrePaint": 178,
+   "LocalFrameView::pushPaintArtifactToCompositor": 135,
+   "LocalFrameView::RunPrePaintLifecyclePhase": 135,
+   "Blink.CompositingCommit.UpdateTime": 131,
+   "Layerize": 128,
+   "Blink.PrePaint.UpdateTime": 128,
+   "PaintArtifactCompositor::Update": 118,
+   "LocalFrameView::ScheduleAnimation": 113,
+   "EventHandler::handleMouseMoveEvent": 111,
+   "Blink.Style.UpdateTime": 110,
+   "Blink.Paint.UpdateTime": 108
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 651,
+   "ThreadControllerImpl::RunTask": 646,
+   "Edge_RunTask": 641,
+   "Scheduler::RunTask": 627,
+   "GpuChannel::ExecuteDeferredRequest": 459,
+   "GPUTask": 455,
+   "CommandBuffer::Flush": 445,
+   "CommandBufferStub::OnAsyncFlush": 445,
+   "CommandBufferService:PutChanged": 441,
+   "RendererMainThread": 422,
+   "RasterDecoderImpl::DoRasterCHROMIUM": 206,
+   "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 204,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM": 180,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 175,
+   "SkiaOutputSurfaceImplOnGpu::SwapBuffers": 77,
+   "SkiaOutputSurfaceImplOnGpu::FinishPaintRenderPass": 74,
+   "Graphics.Pipeline": 69,
+   "SkiaOutputDevice->ScheduleOverlays()": 54,
+   "DXGISwapChainImageBacking::Present": 49,
+   "RendererRasterWorker": 24,
+   "DCompPresenter::Present": 11,
+   "DCLayerTree::CommitAndClearPendingOverlays": 6,
+   "RasterDecoderImpl::DoBeginRasterCHROMIUM": 5,
+   "SkiaOutputSurfaceImplOnGpu::BeginAccessImages": 3,
+   "DCompPresenter::CheckPendingFrames": 2,
+   "Scheduler::FinishTask": 1,
+   "SkiaOutputSurfaceImplOnGpu::EndAccessImages": 1,
+   "SharedImageStub::OnDestroySharedImage": 1,
+   "CommandBuffer::FlushComplete": 1,
+   "Receive mojo message": 0
+  },
+  "Renderer/Compositor": {
+   "RunTask": 241,
+   "ThreadControllerImpl::RunTask": 231,
+   "Edge_RunTask": 220,
+   "Graphics.Pipeline": 182,
+   "ProxyImpl::ScheduledActionDraw": 112,
+   "MainFrame.Draw": 111,
+   "IOHandler::OnIOCompleted": 68,
+   "ProxyImpl::ReadyToCommit": 67,
+   "SimpleWatcher::OnHandleReady": 55,
+   "Receive mojo message": 43,
+   "LayerTreeHostImpl::CommitComplete": 41,
+   "LayerTreeHostImpl::PrepareToDraw": 29,
+   "auto cc::LayerTreeHostImpl::PrepareTiles()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 24,
+   "auto cc::TileManager::PrepareTiles(const GlobalStateThatImpactsTilePriority &)::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 24,
+   "TileManager::PrepareTiles": 23,
+   "ExternalBeginFrameSource::OnBeginFrame": 21,
+   "TileManager::CheckForCompletedTasksAndIssueSignals": 20,
+   "LayerTreeImpl::UpdateDrawProperties": 20,
+   "ProxyImpl::Commit": 20,
+   "TileManager::CheckPendingGpuWorkAndIssueSignals": 19,
+   "Scheduler::BeginFrame": 17,
+   "TileManager::ScheduleTasks": 16,
+   "Scheduler::BeginImplFrame": 14,
+   "LayerTreeHostImpl::ActivateSyncTree": 13,
+   "GpuChannelHost::VerifyFlush": 13,
+   "ProxyImpl::DidReceiveCompositorFrameAckOnImplThread": 11,
+   "LayerTreeImpl::UpdateDrawProperties::CalculateDrawProperties": 10,
+   "LayerTreeHostImpl::FinishCommit": 10,
+   "LayerTreeHostImpl::CalculateRenderPasses": 9,
+   "LayerTreeImpl::PullProperties": 9
+  }
+ },
+ "gc": {
+  "V8.GC_HEAP_EXTERNAL_PROLOGUE": {
+   "n": 3,
+   "ms": 0.005,
+   "max": 0.002
+  },
+  "MinorGC": {
+   "n": 3,
+   "ms": 9.774000000000001,
+   "max": 4.979
+  },
+  "V8.GC_HEAP_PROLOGUE": {
+   "n": 2,
+   "ms": 0.002,
+   "max": 0.001
+  },
+  "V8.GCScavenger": {
+   "n": 3,
+   "ms": 7.996,
+   "max": 4.397
+  },
+  "V8.GC_SCAVENGER_COMPLETE_SWEEP_ARRAY_BUFFERS": {
+   "n": 2,
+   "ms": 0.011,
+   "max": 0.006
+  },
+  "V8.GC_TIME_TO_SAFEPOINT": {
+   "n": 3,
+   "ms": 0.004,
+   "max": 0.002
+  },
+  "V8.GC_SCAVENGER": {
+   "n": 3,
+   "ms": 7.417999999999999,
+   "max": 4.208
+  },
+  "V8.GC_HEAP_PROLOGUE_SAFEPOINT": {
+   "n": 3,
+   "ms": 0.17200000000000001,
+   "max": 0.17
+  },
+  "V8.GC_SCAVENGER_SCAVENGE": {
+   "n": 3,
+   "ms": 6.8389999999999995,
+   "max": 4.018
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_IDENTIFY": {
+   "n": 3,
+   "ms": 0.40700000000000003,
+   "max": 0.198
+  },
+  "V8.GC_SCAVENGER_TRACED_HANDLES_COMPUTE_WEAKNESS_PARALLEL": {
+   "n": 3,
+   "ms": 0.19599999999999998,
+   "max": 0.177
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_COLLECT_OLD_TO_NEW_PAGES": {
+   "n": 3,
+   "ms": 0.184,
+   "max": 0.173
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_PARALLEL_PHASE": {
+   "n": 3,
+   "ms": 4.225,
+   "max": 3.003
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_ROOTS": {
+   "n": 3,
+   "ms": 1.2109999999999999,
+   "max": 0.6
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_WEAK_GLOBAL_HANDLES_PROCESS": {
+   "n": 3,
+   "ms": 0.389,
+   "max": 0.192
+  },
+  "V8.GC_SCAVENGER_TRACED_HANDLES_RESET_PARALLEL": {
+   "n": 3,
+   "ms": 0.366,
+   "max": 0.183
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_FINALIZE": {
+   "n": 3,
+   "ms": 0.615,
+   "max": 0.377
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_RESTORE_AND_QUARANTINE_PINNED": {
+   "n": 3,
+   "ms": 0.008,
+   "max": 0.003
+  },
+  "V8.GC_SCAVENGER_FREE_REMEMBERED_SET": {
+   "n": 3,
+   "ms": 0.361,
+   "max": 0.178
+  },
+  "V8.GC_SCAVENGER_SWEEP_ARRAY_BUFFERS": {
+   "n": 1,
+   "ms": 0.003,
+   "max": 0.003
+  },
+  "V8.GC_SCAVENGER_RESIZE_NEW_SPACE": {
+   "n": 3,
+   "ms": 0.005,
+   "max": 0.002
+  },
+  "V8.GC_HEAP_EPILOGUE_SAFEPOINT": {
+   "n": 3,
+   "ms": 0.007,
+   "max": 0.003
+  },
+  "V8.GC_HEAP_EPILOGUE": {
+   "n": 3,
+   "ms": 0.006,
+   "max": 0.002
+  },
+  "V8.GC_HEAP_DUMP_STATISTICS": {
+   "n": 3,
+   "ms": 0.004,
+   "max": 0.002
+  },
+  "V8.GC_HEAP_EXTERNAL_EPILOGUE": {
+   "n": 3,
+   "ms": 0.016,
+   "max": 0.006
+  },
+  "V8.GCDeoptMarkedAllocationSites": {
+   "n": 2,
+   "ms": 0.022,
+   "max": 0.015
+  },
+  "V8.GC_SCAVENGER_SCAVENGE_PARALLEL": {
+   "n": 2,
+   "ms": 0.196,
+   "max": 0.193
+  }
+ },
+ "long": [],
+ "longCount": 0
+}

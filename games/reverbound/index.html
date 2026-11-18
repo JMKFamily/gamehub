@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#1D1B36">
 <title>Reverbound</title>
-<link rel="icon" href="icon.svg" type="image/svg+xml">
+<!-- (D35) 탭 아이콘은 PNG: 오디오가 처음 소리 날 때 브라우저가 아이콘을 다시 읽는데, SVG면 렌더러 메인 스레드에서 SVG 문서를 만들어 레벨 시작 프레임이 튐 (icon.svg는 허브용 그대로) -->
+<link rel="icon" href="icon-64.png" type="image/png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +15,7 @@
 <!-- HUD (화면 위쪽 1.2타일 띠, 안전 영역 안쪽) -->
 <div id="hud" class="hidden">
   <div id="att" class="att"></div>
-  <div id="barWrap"><div id="bar"><div id="barFill"></div><div id="barBest"></div></div><span id="pct">0%</span></div>
+  <div id="barWrap"><div id="bar"><div id="barClip"><div id="barFill"></div></div><div id="barBest"></div></div><span id="pct">0%</span></div>
   <!-- 콤보 (round-3, 30-art 5-8-1): 큰 숫자 블록은 게임 캔버스 뒤 레이어에 그림. 여기는 낭독용 meter 하나 (10-lore 5-8, 숨길 때 hidden만) -->
   <div id="combo" class="sr" role="meter" aria-valuemin="0" hidden></div>
   <div class="hudRight">

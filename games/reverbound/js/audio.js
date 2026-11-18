@@ -71,7 +71,7 @@ export function createAudio(music) {
     return ctx;
   };
   // 반환: resume 약속(이미 켜져 있으면 바로 끝난 약속). 컨텍스트는 로드 때 멈춘 상태로 만들어 둘 수 있음 (main setup)
-  A.unlock = () => { const c = A.init(); if (c && c.state === 'suspended') return c.resume().catch(() => {}); return Promise.resolve(); };
+  A.unlock = () => { const c = A.init(); if (c && c.state === 'suspended') return c.resume().then(warmLater, () => {}); warmLater(); return Promise.resolve(); };
   A.running = () => !!A.ctx && A.ctx.state === 'running';
   A.setVolumes = (m, s) => {
     A.musicVol = m; A.sfxVol = s;
@@ -374,11 +374,34 @@ export function createAudio(music) {
     run = { level, L, theme, m: music.levels[theme] ?? music.levels.level1, rules: rulesFor(level), ctxStart, comp, beatS, stepS,
       nextStep: Math.ceil(fromS / stepS - 1e-6), endS: level.duration_s + 4 };
     // (round-3) 첫 예약을 시도 시작 프레임 밖으로 (첫 음은 leadS ≥ 0.05 s + 지연 뒤라 다음 작업에서 예약해도 늦지 않음)
-    setTimeout(pump, 0);
+    // (D35) 시작 프레임을 그린 다음 작업으로 한 번 더 미룸: 노드 생성(6배 스로틀 약 18 ms)이 시작 프레임과 같은 vsync 칸에 겹치지 않게.
+    // 늦어도 10 ms 안이면 scheduleStep이 now로 당겨 냄(pump 규칙 그대로). 25 ms 주기 pump도 그대로라 그 전에 돌면 그것이 먼저 예약함
+    const r0 = run;
+    requestAnimationFrame(() => setTimeout(() => { if (run === r0) pump(); }, 0));
     timer = setInterval(pump, music.scheduler_interval_ms);
     A.playing = true;
     return ctxStart;
   };
+  // (D35) 로드 때 한 번: 첫 마디 예약 경로(악기 함수·노드 생성)를 미리 돌려 둠. 출력에 연결하지 않은 gain으로 보내 소리 없음.
+  // 6배 스로틀에서 시도 첫 예약이 약 16 ms(처음 도는 코드) → 레벨 시작 프레임 근처 튐을 줄임
+  // 컨텍스트가 아직 멈춤이면(첫 탭 전) start()가 자동 재생 경고를 내므로, 켜진 뒤(첫 탭 resume 끝) 다음 작업에서 돌림
+  let warmArgs = null;
+  A.warm = (level, L, theme) => {
+    if (!A.ctx) return;
+    if (A.ctx.state !== 'running') { warmArgs = [level, L, theme]; return; }
+    warmNow(level, L, theme);
+  };
+  const warmLater = () => { if (warmArgs && A.running()) { const a = warmArgs; warmArgs = null; setTimeout(() => warmNow(...a), 30); } };
+  function warmNow(level, L, theme) {
+    if (!A.ctx || run) return;
+    const sink = A.ctx.createGain(); sink.gain.value = 0;
+    const d0 = A.ctx.createGain(); d0.connect(sink);
+    const beatS = 60 / level.bpm, stepS = beatS / 4;
+    run = { level, L, theme, m: music.levels[theme] ?? music.levels.level1, rules: rulesFor(level), ctxStart: 0, comp: 0, beatS, stepS, nextStep: 0, endS: 0 };
+    runGain = sink; duck = d0;
+    try { const t0 = A.ctx.currentTime + 10; for (let n = 0; n < 32; n++) scheduleStep(n, t0 + n * stepS); } catch {}
+    run = null; runGain = null; duck = null;
+  }
   // 사망 등: 즉시 정지
   A.stopRun = (instant = false) => {
     if (timer) { clearInterval(timer); timer = null; }

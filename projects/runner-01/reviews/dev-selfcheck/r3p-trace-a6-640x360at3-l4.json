@@ -1,0 +1,269 @@
+{
+ "res": "640x360@3",
+ "scene": "l4",
+ "tag": "a6",
+ "requests": [
+  "/games/reverbound/icon-64.png"
+ ],
+ "totals": {
+  "Renderer/CrRendererMain": {
+   "RunTask": 4291,
+   "WebFrameWidgetImpl::BeginMainFrame": 5,
+   "WebFrameWidgetImpl::UpdateLifecycle": 1,
+   "RasterImplementation::RasterCHROMIUM": 0,
+   "LayerTreeHost::DoUpdateLayers": 0,
+   "CommandBufferProxyImpl::OrderingBarrier": 0,
+   "LayerTreeHost::ApplyCompositorChanges": 0,
+   "WidgetBase::WillBeginMainFrame": 0
+  },
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 264
+  },
+  "GPU Process/GpuVSyncThread": {
+   "RunTask": 14032,
+   "WinVSyncProvider::GetVSyncParameters": 0
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 715
+  },
+  "Renderer/Compositor": {
+   "RunTask": 290,
+   "IOHandler::OnIOCompleted": 89
+  },
+  "Renderer/ThreadPoolForegroundWorker": {
+   "ThreadPool_RunTask": 73
+  }
+ },
+ "deep": {
+  "Renderer/CrRendererMain": {
+   "RunTask": 4291,
+   "ThreadControllerImpl::RunTask": 4100,
+   "Edge_RunTask": 4030,
+   "ProxyMain::BeginMainFrame": 3359,
+   "AsyncTask Run": 2143,
+   "WebFrameWidgetImpl::BeginMainFrame": 1974,
+   "Blink.Animate.UpdateTime": 1926,
+   "PageAnimator::serviceScriptedAnimations": 1907,
+   "FunctionCall": 1860,
+   "FrameRequestCallbackCollection::ExecuteFrameCallbacks": 1830,
+   "FireAnimationFrame": 1810,
+   "WebFrameWidgetImpl::UpdateLifecycle": 671,
+   "Commit": 587,
+   "TimerBase::run": 440,
+   "TimerFire": 419,
+   "PrePaint": 200,
+   "LocalFrameView::RunPaintLifecyclePhase": 189,
+   "LocalFrameView::RunPrePaintLifecyclePhase": 155,
+   "Blink.PrePaint.UpdateTime": 145,
+   "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 144,
+   "LocalFrameView::ScheduleAnimation": 130,
+   "LocalFrameView::UpdateStyleAndLayout": 123,
+   "RasterImplementation::RasterCHROMIUM": 111,
+   "LocalFrameView::pushPaintArtifactToCompositor": 102,
+   "Blink.CompositingCommit.UpdateTime": 94,
+   "Layerize": 90,
+   "PaintArtifactCompositor::Update": 76,
+   "Blink.Style.UpdateTime": 75,
+   "UpdateLayoutTree": 72,
+   "Blink.Paint.UpdateTime": 70
+  },
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 264,
+   "ThreadControllerImpl::RunTask": 255,
+   "Edge_RunTask": 246,
+   "Graphics.Pipeline": 211,
+   "DisplayScheduler::OnBeginFrameDeadline": 136,
+   "DisplayScheduler::DrawAndSwap": 135,
+   "Display::DrawAndSwap": 134,
+   "DirectRenderer::DrawFrame": 64,
+   "DirectRenderer::DrawRenderPass": 49,
+   "ExternalBeginFrameSource::OnBeginFrame": 42,
+   "SimpleWatcher::OnHandleReady": 41,
+   "Receive mojo message": 31,
+   "DisplayScheduler::BeginFrame": 14,
+   "Surface::CommitFrame": 13,
+   "Surface::ActivateFrame": 10,
+   "SkiaRenderer::SwapBuffers": 8,
+   "DisplayScheduler::ScheduleBeginFrameDeadline": 8,
+   "DirectRenderer::DrawFrame ProcessForOverlays": 7,
+   "SkiaOutputSurfaceImpl::FlushGpuTasks": 7,
+   "auto viz::SkiaRenderer::FlushOutputSurface()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 6,
+   "OverlayProcessorWin::ProcessForOverlays": 5,
+   "Scheduler::ScheduleTask": 3,
+   "Using new deadline": 2,
+   "SendBeginFrameDecision": 2,
+   "SkiaRenderer::FinishDrawingFrame": 1,
+   "SkiaRenderer::BeginDrawingFrame": 0,
+   "SurfaceManager::GarbageCollectSurfaces": 0,
+   "SyncToken::Wait": 0,
+   "DisplayDamageTracker::SetRootFrameMissing": 0
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 715,
+   "ThreadControllerImpl::RunTask": 707,
+   "Edge_RunTask": 700,
+   "Scheduler::RunTask": 684,
+   "GpuChannel::ExecuteDeferredRequest": 470,
+   "GPUTask": 466,
+   "CommandBuffer::Flush": 455,
+   "CommandBufferStub::OnAsyncFlush": 455,
+   "CommandBufferService:PutChanged": 451,
+   "RendererMainThread": 449,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM": 200,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 193,
+   "RasterDecoderImpl::DoRasterCHROMIUM": 186,
+   "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 184,
+   "SkiaOutputSurfaceImplOnGpu::SwapBuffers": 103,
+   "Graphics.Pipeline": 93,
+   "SkiaOutputSurfaceImplOnGpu::FinishPaintRenderPass": 89,
+   "SkiaOutputDevice->ScheduleOverlays()": 72,
+   "DXGISwapChainImageBacking::Present": 66,
+   "DCompPresenter::Present": 15,
+   "RendererRasterWorker": 8,
+   "DCLayerTree::CommitAndClearPendingOverlays": 8,
+   "RasterDecoderImpl::DoBeginRasterCHROMIUM": 6,
+   "SkiaOutputSurfaceImplOnGpu::BeginAccessImages": 4,
+   "DCompPresenter::CheckPendingFrames": 3,
+   "Scheduler::FinishTask": 2,
+   "SkiaOutputSurfaceImplOnGpu::EndAccessImages": 1,
+   "SharedImageStub::OnDestroySharedImage": 1,
+   "CommandBuffer::FlushComplete": 1,
+   "Receive mojo message": 0
+  },
+  "Renderer/Compositor": {
+   "RunTask": 290,
+   "ThreadControllerImpl::RunTask": 277,
+   "Edge_RunTask": 263,
+   "Graphics.Pipeline": 223,
+   "ProxyImpl::ScheduledActionDraw": 122,
+   "MainFrame.Draw": 121,
+   "IOHandler::OnIOCompleted": 89,
+   "ProxyImpl::ReadyToCommit": 89,
+   "SimpleWatcher::OnHandleReady": 71,
+   "LayerTreeHostImpl::CommitComplete": 55,
+   "Receive mojo message": 55,
+   "ExternalBeginFrameSource::OnBeginFrame": 39,
+   "auto cc::LayerTreeHostImpl::PrepareTiles()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 33,
+   "Scheduler::BeginFrame": 32,
+   "auto cc::TileManager::PrepareTiles(const GlobalStateThatImpactsTilePriority &)::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 32,
+   "TileManager::PrepareTiles": 31,
+   "LayerTreeHostImpl::PrepareToDraw": 31,
+   "Scheduler::BeginImplFrame": 27,
+   "TileManager::CheckForCompletedTasksAndIssueSignals": 25,
+   "ProxyImpl::Commit": 25,
+   "TileManager::CheckPendingGpuWorkAndIssueSignals": 25,
+   "TileManager::ScheduleTasks": 22,
+   "LayerTreeImpl::UpdateDrawProperties": 22,
+   "LayerTreeHostImpl::ActivateSyncTree": 17,
+   "LayerTreeHostImpl::FinishCommit": 13,
+   "LayerTreeImpl::UpdateDrawProperties::CalculateDrawProperties": 12,
+   "LayerTreeImpl::PullProperties": 12,
+   "LayerTreeHostImpl::CalculateRenderPasses": 10,
+   "LayerTreeImpl::UpdateDrawProperties::Occlusion": 9,
+   "TileManager::PrepareToDraw": 8
+  }
+ },
+ "long": [
+  {
+   "at_ms": 0,
+   "ms": 33.3,
+   "threads": {
+    "GPU Process/GpuVSyncThread": {
+     "total": 33.3,
+     "names": {
+      "RunTask": 33.3
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 50,
+      "Edge_RunTask": 50,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "Renderer/CrRendererMain": {
+     "total": 32.3,
+     "names": {
+      "RunTask": 32.3
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 46.8,
+      "Edge_RunTask": 46.8,
+      "ProxyMain::BeginMainFrame": 43.6,
+      "AsyncTask Run": 19.6,
+      "WebFrameWidgetImpl::UpdateLifecycle": 18.8,
+      "FunctionCall": 18.3,
+      "WebFrameWidgetImpl::BeginMainFrame": 17.6,
+      "Blink.Animate.UpdateTime": 16.6,
+      "PageAnimator::serviceScriptedAnimations": 16.6,
+      "FrameRequestCallbackCollection::ExecuteFrameCallbacks": 16.4,
+      "FireAnimationFrame": 16.4,
+      "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 15.6,
+      "LocalFrameView::UpdateStyleAndLayout": 15.6,
+      "Blink.Layout.UpdateTime": 7.8,
+      "LocalFrameView::layout": 7.8,
+      "Layout": 7.8
+     }
+    },
+    "Renderer/ThreadPoolForegroundWorker": {
+     "total": 3,
+     "names": {
+      "ThreadPool_RunTask": 3
+     }
+    }
+   }
+  },
+  {
+   "at_ms": 8,
+   "ms": 33.3,
+   "threads": {
+    "GPU Process/GpuVSyncThread": {
+     "total": 33.3,
+     "names": {
+      "RunTask": 33.3
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 50,
+      "Edge_RunTask": 49.9,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "Renderer/CrRendererMain": {
+     "total": 28.4,
+     "names": {
+      "RunTask": 28.4
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 50.9,
+      "Edge_RunTask": 50.8,
+      "ProxyMain::BeginMainFrame": 47.6,
+      "AsyncTask Run": 22.2,
+      "FunctionCall": 20.3,
+      "WebFrameWidgetImpl::BeginMainFrame": 20.3,
+      "WebFrameWidgetImpl::UpdateLifecycle": 19.4,
+      "Blink.Animate.UpdateTime": 19.3,
+      "PageAnimator::serviceScriptedAnimations": 19.3,
+      "FrameRequestCallbackCollection::ExecuteFrameCallbacks": 19,
+      "FireAnimationFrame": 19,
+      "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 15.6,
+      "LocalFrameView::UpdateStyleAndLayout": 15.6,
+      "Blink.Layout.UpdateTime": 7.8,
+      "LocalFrameView::layout": 7.8,
+      "Layout": 7.8
+     }
+    },
+    "Renderer/ThreadPoolForegroundWorker": {
+     "total": 3.8,
+     "names": {
+      "ThreadPool_RunTask": 3.8
+     }
+    },
+    "GPU Process/CrGpuMain": {
+     "total": 2.1,
+     "names": {
+      "RunTask": 2.1
+     }
+    }
+   }
+  }
+ ],
+ "longCount": 2
+}

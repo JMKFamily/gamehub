@@ -195,7 +195,12 @@ let DATA_demo = null;
 $('retryLoad').addEventListener('click', () => location.reload());
 
 const colors = (theme = curTheme()) => ({ ...DATA.art.common, ...(DATA.art.palette[theme] ?? DATA.art.palette.level1) });
-function applyTheme(theme) {
+let themeApplied = '';
+function applyTheme(theme, force = false) {
+  // (D35) 같은 테마·같은 타일 크기면 CSS 변수 40여 개를 다시 쓰지 않음 (레벨 시작·재시작 프레임의 문서 전체 스타일 재계산 제거)
+  const key = theme + '|' + (R ? R.T : 36);
+  if (!force && key === themeApplied) return;
+  themeApplied = key;
   const env = DATA.art.palette[theme] ?? DATA.art.palette.level1;
   const root = document.documentElement.style;
   for (const [k, v] of Object.entries({ ...DATA.art.common, ...env })) root.setProperty('--' + k, v);
@@ -229,10 +234,17 @@ function setup() {
   }
   R.prepare(COMPILED[0]);
   applyTheme(LEVELS[0].theme_id);
+  // (D35) 음악 예약 경로를 소리 없이 한 번 돌려 둠 (시도 첫 예약 비용을 로드 때)
+  audio.warm?.(LEVELS[0], COMPILED[0], LEVELS[0].theme_id);
   // (round-3) 콤보 연출 아틀라스: 로드 화면 뒤에서 레벨 1 테마로 미리 만들고 한 번 그려 둠 (30-art 5-8-4)
   FX = createComboFx(R, art, bal, { t, reduced: REDUCED, rand });
   measureHud();
   FX.build(LEVELS[0].theme_id);
+  // (D35) 판정 글 경로(자리 계산·아틀라스 그리기)를 로드 때 한 번 돌려 둠: 첫 판정 프레임의 처음 도는 코드 비용. 바로 아래 R.draw의 bg가 덮고, 통계·상태는 되돌림 (난수 안 씀)
+  { const info = { playerL: R.W * 0.4, playerTop: R.H * 0.5, orb: null, hudBottom: 0, blocked: () => false };
+    for (const gr of [1, 2, 3]) { FX.onJudge(gr, 87, 0, info); FX.drawJudge(R.ctx, 0.1); }
+    for (const k of Object.keys(FX.stats)) Object.assign(FX.stats[k], { n: 0, skip: 0, hidePct: 0 });
+    FX.reset(); }
   R.draw({ x: 0, y: 0, rot: 0, camX: 0, beat: 0, beatS: 0.5, intensity: 1, showPlayer: false, warm: FX.warm });
   fillStaticText();
   // 레벨 선택 화면을 로드 때 한 번 만들어 둠 (메뉴 전환 ≤ 100 ms, 결정 22)
@@ -243,9 +255,31 @@ function setup() {
   document.addEventListener('visibilitychange', () => { if (document.hidden) onHidden(); });
   window.addEventListener('blur', () => { if (!TEST && screen === 'playing' && G.state === 'playing') pauseGame(true); });
   bindInput();
-  show('title');
-  checkRotate();
   requestAnimationFrame(frame);
+  // (D35) 메뉴·HUD·튜토리얼 카드를 불러오기 화면 뒤에서 몇 프레임 실제로 그려 둠 → 첫 전환의 글자 모양 잡기·셰이더 준비 비용을 로드 때 냄
+  warmScreens(() => { show('title'); checkRotate(); warmDone = true; });
+}
+let warmDone = false;
+// 불투명도 1 %로 4프레임 이상(최소 0.25 s) 그림. 불러오기 화면이 보이는 동안이고 입력은 받지 않음(screen = loading, pointer-events 없음)
+function warmScreens(done) {
+  const ids = ['title', 'levels', 'settings', 'hud', 'cue'];
+  const menu = $('menu'), menuHid = menu.classList.contains('hidden');
+  menu.classList.remove('hidden');
+  renderSettings();
+  const k0 = LEVELS[0].cues?.[0]?.key;
+  if (k0) $('cue').innerHTML = cueIcon(k0, colors(LEVELS[0].theme_id)) + `<span>${t(k0)}</span>`;
+  $('att').textContent = t('attempt', { n: 1 }); $('pct').textContent = t('progress', { pct: 0 });
+  for (const id of ids) $(id).classList.add('warmup');
+  const t0 = performance.now();
+  let n = 0;
+  const step = () => {
+    if (++n < 4 || performance.now() - t0 < 250) { requestAnimationFrame(step); return; }
+    for (const id of ids) $(id).classList.remove('warmup');
+    if (menuHid) menu.classList.add('hidden');
+    $('cue').innerHTML = '';
+    done();
+  };
+  requestAnimationFrame(step);
 }
 const curTheme = () => (G && G.L ? G.L.level.theme_id : LEVELS[selLevel]?.theme_id ?? 'level1');
 
@@ -549,7 +583,8 @@ function onAttempt(n, fromS) {
   // 누른 채 재시작하면 바로 홀드 점프. 단, 연습 체크포인트 부활은 새로 눌러야 뜀 (부활 직후 원치 않는 점프로 죽는 고리 방지)
   if (inputHeld && G.k === 0) G.press(G.k);
   updateHud(true);
-  updateCue();
+  cueHold = TEST && !hookRT ? 0 : 1;
+  if (!cueHold) updateCue();
 }
 function onDeath(d) {
   // 콤보 끊김 = 사망 (20-balance 15-3). 표시는 0.3 s 소리 없이 작아지며 사라짐 (30-art 5-8)
@@ -830,13 +865,15 @@ function updateHud(force) {
   const rec = lv(G.L.level.id);
   const c = hudCache;
   const w = pct.toFixed(1);
-  if (force || c.w !== w) { $('barFill').style.width = w + '%'; c.w = w; }
+  // (D35) 폭 대신 translateX: 레이아웃·페인트 없이 합성만
+  if (force || c.w !== w) { $('barFill').style.transform = `translateX(${(+w - 100).toFixed(1)}%)`; c.w = w; }
   const bst = (G.practice ? rec.bestPractice : rec.best).toFixed(1);
   if (force || c.b !== bst) { $('barBest').style.left = `calc(${bst}% - 1.5px)`; c.b = bst; }
-  const p = t('progress', { pct: Math.floor(pct) });
-  if (force || c.p !== p) { $('pct').textContent = p; c.p = p; }
-  const txt = t('attempt', { n: G.practice ? practiceAttempts : G.attempts });
-  if (force || c.a !== txt) { $('att').textContent = txt; c.a = txt; }
+  // (D35) 문구 만들기(t)도 숫자가 바뀔 때만
+  const pf = Math.floor(pct);
+  if (force || c.pf !== pf) { const p = t('progress', { pct: pf }); if (c.p !== p) { $('pct').textContent = p; c.p = p; } c.pf = pf; }
+  const an = G.practice ? practiceAttempts : G.attempts;
+  if (force || c.an !== an) { const txt = t('attempt', { n: an }); if (force || c.a !== txt) { $('att').textContent = txt; c.a = txt; } c.an = an; }
   const big = uiT < attBigUntil;
   if (force || c.big !== big) { $('att').classList.toggle('big', big); c.big = big; }
   // 30-art 5-7: 클리어 후 0.2 s 페이드아웃 (게임 시간 기준이라 ?test=1 화면도 같음)
@@ -844,6 +881,8 @@ function updateHud(force) {
   if (force || c.op !== op) { $('hud').style.opacity = op; c.op = op; }
 }
 let cueSuppressed = false, cueRect = null;
+// (D35) 시도 첫 프레임에는 튜토리얼 카드 DOM을 만들지 않음(다음 프레임으로): 시작 프레임의 화면 전환 스타일·레이아웃과 카드 만들기가 한 프레임에 겹치지 않게. 일반 모드 rAF 경로만(?test=1 step()은 그대로)
+let cueHold = 0;
 const cueRects = new Map();
 // 로드 화면 뒤에서 튜토리얼 카드 상자를 미리 잼 (첫 등장 프레임에 강제 레이아웃 없음)
 function prebuildCueRects() {
@@ -918,7 +957,7 @@ function drawDemo(view) {
     const player = { l: pcx - T / 2, r: pcx + T / 2, t: ptop, b: ptop + T };
     const hz2 = G.L.hazards.filter((o) => o.x1 > view.camX && o.x0 < view.camX + R.W / T).map((o) => ({ l: (o.x0 - view.camX) * T, r: (o.x1 - view.camX) * T, t: R.groundPx - o.y1 * T, b: R.groundPx - o.y0 * T }));
     for (let i = 0; i < 4 && (hit(boxAt(cx, cy), player, 0) || hz2.some((z) => hit(boxAt(cx, cy), z, 0))); i++) cy -= 0.5 * T;
-    const hb = hudBottom();
+    const hb = R.hudBottom ?? hudBottom(); // (D35) 로드·크기 바뀜 때 잰 값 (프레임 안 강제 레이아웃 없음)
     for (let i = 0; i < 6 && boxAt(cx, cy).t < hb + 8; i++) { cx += 0.5 * T; if (boxAt(cx, cy).t < hb + 8 && i >= 1) cy = Math.max(cy, hb + 8 + h / 2 + ringR); }
     demoPlace = { tap: next, cx, cy };
   }
@@ -996,7 +1035,7 @@ function draw(now, dt) {
     comboViewHooks(view);
     R.draw(view);
     drawDemo(view);
-    if (screen === 'playing') { updateHud(false); updateCue(); renderCombo(false); }
+    if (screen === 'playing') { updateHud(false); if (cueHold > 0) cueHold--; else updateCue(); renderCombo(false); }
   } else {
     // 메뉴 배경: 선택 레벨을 천천히 흘려 보여 줌
     menuCam += dt * 3;
@@ -1128,7 +1167,7 @@ const hook = {
   get tick() { return G ? G.k : 0; },
   get player() { return G && G.s ? { x: G.x(), y: G.s.y, vy: G.s.vy, grounded: G.s.g } : null; },
   get practice() { return G ? G.practice : false; },
-  get ready() { return !!G; },
+  get ready() { return !!G && warmDone; },
   get audio() { return audio?.ctx ? audio.ctx.state : 'off'; },
   loadLevel(i, opts = {}) { hookRT = false; startLevel(i, !!opts.practice); return hook.state; },
   // 입력열을 넣고 x 지점까지 step()으로 진행 (스크린샷용)

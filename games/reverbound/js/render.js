@@ -27,8 +27,10 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
   let prep = null; // 레벨별 미리 계산
 
   R.resize = () => {
-    const dpr = Math.min(2, window.devicePixelRatio || 1);
     const W = window.innerWidth, H = window.innerHeight;
+    // (round-3 성능 보완, DEV_NOTES D43) 캔버스 실제 픽셀 상한 1920×1080(약 2.07 MP): 휴대폰(CSS 약 0.36 MP × 2² = 1.44 MP)은 그대로 dpr 2,
+    // 큰 CSS 화면 + 고밀도(1280×720@3 = 2560×1440)만 dpr 1.5로 내림
+    const dpr = Math.min(2, window.devicePixelRatio || 1, Math.sqrt((1920 * 1080) / Math.max(1, W * H)));
     R.W = W; R.H = H; R.dpr = dpr;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     canvas.style.width = W + 'px'; canvas.style.height = H + 'px';

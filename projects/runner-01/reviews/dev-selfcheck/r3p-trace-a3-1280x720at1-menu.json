@@ -1,0 +1,444 @@
+{
+ "res": "1280x720@1",
+ "scene": "menu",
+ "tag": "a3",
+ "requests": [
+  "/games/reverbound/icon-64.png"
+ ],
+ "totals": {
+  "Renderer/CrRendererMain": {
+   "RunTask": 1118,
+   "WebFrameWidgetImpl::UpdateLifecycle": 2,
+   "Commit": 1,
+   "AnimationHost::TickAnimations": 0,
+   "LocalFrameView::ScheduleAnimation": 0,
+   "BlinkScheduler_PerformMicrotaskCheckpoint": 0,
+   "CanvasRenderingContext2D::FinalizeFrame": 0,
+   "AnimationHost::UpdateAnimationState": 0
+  },
+  "Renderer/Compositor": {
+   "RunTask": 82,
+   "IOHandler::OnIOCompleted": 26
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 263
+  },
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 79
+  },
+  "GPU Process/GpuVSyncThread": {
+   "RunTask": 4433,
+   "WinVSyncProvider::GetVSyncParameters": 0
+  },
+  "GPU Process/ThreadPoolForegroundWorker": {
+   "ThreadPool_RunTask": 107
+  }
+ },
+ "deep": {
+  "Renderer/CrRendererMain": {
+   "RunTask": 1118,
+   "ThreadControllerImpl::RunTask": 1069,
+   "Edge_RunTask": 1051,
+   "ProxyMain::BeginMainFrame": 766,
+   "WebFrameWidgetImpl::BeginMainFrame": 421,
+   "Blink.Animate.UpdateTime": 324,
+   "PageAnimator::serviceScriptedAnimations": 315,
+   "FrameRequestCallbackCollection::ExecuteFrameCallbacks": 294,
+   "FireAnimationFrame": 289,
+   "AsyncTask Run": 281,
+   "FunctionCall": 257,
+   "Commit": 178,
+   "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 177,
+   "LocalFrameView::UpdateStyleAndLayout": 177,
+   "WebFrameWidgetImpl::UpdateLifecycle": 145,
+   "WidgetBaseInputHandler::OnHandleInputEvent": 126,
+   "LatencyInfo.Flow": 126,
+   "Blink.Layout.UpdateTime": 118,
+   "LocalFrameView::layout": 118,
+   "Layout": 118,
+   "LocalFrameView::performLayout": 117,
+   "InlineNode::ShapeTextIncludingFirstLine": 102,
+   "EventHandler::handleMouseReleaseEvent": 95,
+   "EventHandler::handleMouseMoveEvent": 93,
+   "LayoutView::HitTest": 91,
+   "Receive mojo message": 83,
+   "PrePaint": 65,
+   "Blink.Style.UpdateTime": 56,
+   "UpdateLayoutTree": 56,
+   "Document::updateStyle": 55
+  },
+  "Renderer/Compositor": {
+   "RunTask": 82,
+   "ThreadControllerImpl::RunTask": 78,
+   "Edge_RunTask": 74,
+   "Graphics.Pipeline": 58,
+   "ProxyImpl::ScheduledActionDraw": 32,
+   "MainFrame.Draw": 32,
+   "IOHandler::OnIOCompleted": 26,
+   "ProxyImpl::ReadyToCommit": 26,
+   "SimpleWatcher::OnHandleReady": 21,
+   "Receive mojo message": 16,
+   "LayerTreeHostImpl::CommitComplete": 16,
+   "auto cc::LayerTreeHostImpl::PrepareTiles()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 10,
+   "auto cc::TileManager::PrepareTiles(const GlobalStateThatImpactsTilePriority &)::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 10,
+   "TileManager::PrepareTiles": 9,
+   "ExternalBeginFrameSource::OnBeginFrame": 9,
+   "Scheduler::BeginFrame": 8,
+   "TileManager::CheckForCompletedTasksAndIssueSignals": 8,
+   "TileManager::CheckPendingGpuWorkAndIssueSignals": 7,
+   "LayerTreeHostImpl::PrepareToDraw": 7,
+   "ProxyImpl::Commit": 7,
+   "TileManager::ScheduleTasks": 7,
+   "Scheduler::BeginImplFrame": 6,
+   "LayerTreeHostImpl::ActivateSyncTree": 5,
+   "LayerTreeImpl::UpdateDrawProperties": 5,
+   "LayerTreeHostImpl::FinishCommit": 4,
+   "LayerTreeImpl::PullProperties": 3,
+   "LayerTreeHostImpl::CalculateRenderPasses": 3,
+   "ProxyImpl::DidReceiveCompositorFrameAckOnImplThread": 2,
+   "TileManager::PrepareToDraw": 2,
+   "LayerTreeImpl::UpdateDrawProperties::CalculateDrawProperties": 2
+  },
+  "GPU Process/CrGpuMain": {
+   "RunTask": 263,
+   "ThreadControllerImpl::RunTask": 261,
+   "Edge_RunTask": 259,
+   "Scheduler::RunTask": 254,
+   "GpuChannel::ExecuteDeferredRequest": 198,
+   "GPUTask": 196,
+   "CommandBuffer::Flush": 194,
+   "CommandBufferStub::OnAsyncFlush": 193,
+   "CommandBufferService:PutChanged": 192,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM": 120,
+   "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 119,
+   "RendererMainThread": 104,
+   "RendererRasterWorker": 90,
+   "RasterDecoderImpl::DoRasterCHROMIUM": 52,
+   "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 52,
+   "SkiaOutputSurfaceImplOnGpu::SwapBuffers": 30,
+   "Graphics.Pipeline": 28,
+   "SkiaOutputDevice->ScheduleOverlays()": 22,
+   "DXGISwapChainImageBacking::Present": 20,
+   "SkiaOutputSurfaceImplOnGpu::FinishPaintRenderPass": 20,
+   "DCompPresenter::Present": 4,
+   "DCLayerTree::CommitAndClearPendingOverlays": 2,
+   "RasterDecoderImpl::DoBeginRasterCHROMIUM": 2,
+   "SkiaOutputSurfaceImplOnGpu::BeginAccessImages": 1,
+   "DCompPresenter::CheckPendingFrames": 1,
+   "Scheduler::FinishTask": 0,
+   "SkiaOutputSurfaceImplOnGpu::EndAccessImages": 0,
+   "CommandBuffer::FlushComplete": 0,
+   "SharedImageStub::OnCreateSharedImage": 0,
+   "CommandBufferStub::OnDestroyTransferBuffer": 0
+  },
+  "GPU Process/VizCompositorThread": {
+   "RunTask": 79,
+   "ThreadControllerImpl::RunTask": 77,
+   "Edge_RunTask": 74,
+   "Graphics.Pipeline": 65,
+   "DisplayScheduler::OnBeginFrameDeadline": 42,
+   "DisplayScheduler::DrawAndSwap": 41,
+   "Display::DrawAndSwap": 41,
+   "DirectRenderer::DrawFrame": 18,
+   "DirectRenderer::DrawRenderPass": 12,
+   "SimpleWatcher::OnHandleReady": 12,
+   "ExternalBeginFrameSource::OnBeginFrame": 11,
+   "Receive mojo message": 9,
+   "DisplayScheduler::BeginFrame": 4,
+   "Surface::CommitFrame": 3,
+   "DirectRenderer::DrawFrame ProcessForOverlays": 3,
+   "Surface::ActivateFrame": 3,
+   "SkiaRenderer::SwapBuffers": 2,
+   "SkiaOutputSurfaceImpl::FlushGpuTasks": 2,
+   "auto viz::SkiaRenderer::FlushOutputSurface()::(lambda)::operator()()::(lambda)::operator()(uint32_t) const": 2,
+   "OverlayProcessorWin::ProcessForOverlays": 2,
+   "DisplayScheduler::ScheduleBeginFrameDeadline": 2,
+   "DelayBasedBeginFrameSource::OnTimerTick": 1,
+   "Scheduler::ScheduleTask": 1,
+   "SendBeginFrameDecision": 1,
+   "Using new deadline": 0,
+   "SkiaRenderer::FinishDrawingFrame": 0,
+   "SoftwareRenderer::DoDrawQuad": 0,
+   "SurfaceManager::GarbageCollectSurfaces": 0,
+   "SkiaRenderer::BeginDrawingFrame": 0,
+   "SoftwareRenderer::SwapBuffers": 0
+  },
+  "Browser/CompositorTileWorker1": {
+   "SingleThreadTaskGraphRunner::RunTaskWithLockAcquired": 0,
+   "cc::SingleThreadTaskGraphRunner::RunTask": 0,
+   "RasterizerTaskImpl::RunOnWorkerThread": 0,
+   "RasterTask": 0,
+   "ZeroCopyRasterBuffer::Playback": 0,
+   "DisplayItemList::Raster": 0,
+   "TaskSetFinishedTaskImpl::RunOnWorkerThread": 0,
+   "ClientSharedImage::Map": 0,
+   "DidFinishRunningAllTilesTask::RunOnWorkerThread": 0
+  }
+ },
+ "long": [
+  {
+   "at_ms": 0,
+   "ms": 83.3,
+   "threads": {
+    "GPU Process/GpuVSyncThread": {
+     "total": 83.3,
+     "names": {
+      "RunTask": 83.3
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 99.9,
+      "Edge_RunTask": 99.9,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "Renderer/CrRendererMain": {
+     "total": 82.1,
+     "names": {
+      "RunTask": 82.1
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 83.6,
+      "Edge_RunTask": 83.6,
+      "ProxyMain::BeginMainFrame": 83.6,
+      "WebFrameWidgetImpl::BeginMainFrame": 80.4,
+      "EventHandler::handleMouseMoveEvent": 79,
+      "LayoutView::HitTest": 78.6,
+      "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 77.8,
+      "LocalFrameView::UpdateStyleAndLayout": 77.6,
+      "Blink.Layout.UpdateTime": 74,
+      "LocalFrameView::layout": 74,
+      "Layout": 74,
+      "LocalFrameView::performLayout": 73.8,
+      "InlineNode::ShapeTextIncludingFirstLine": 69.4,
+      "Blink.Style.UpdateTime": 3.6,
+      "UpdateLayoutTree": 3.6,
+      "Document::updateStyle": 3.4
+     }
+    },
+    "GPU Process/CrGpuMain": {
+     "total": 3.3,
+     "names": {
+      "RunTask": 3.3
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 6.9,
+      "Edge_RunTask": 6.9,
+      "Scheduler::RunTask": 6.9,
+      "GpuChannel::ExecuteDeferredRequest": 6.9,
+      "GPUTask": 6.9,
+      "RendererRasterWorker": 6.9,
+      "CommandBuffer::Flush": 6.9,
+      "CommandBufferStub::OnAsyncFlush": 6.9,
+      "CommandBufferService:PutChanged": 6.9,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM": 6.8,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 6.8,
+      "RasterDecoderImpl::DoRasterCHROMIUM": 0.1,
+      "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 0.1,
+      "RasterDecoderImpl::DoBeginRasterCHROMIUM": 0,
+      "GrShaderCache::store": 0,
+      "GrShaderCache::load": 0
+     }
+    },
+    "GPU Process/ThreadPoolForegroundWorker": {
+     "total": 2.3,
+     "names": {
+      "ThreadPool_RunTask": 2.3
+     },
+     "kids": {
+      "Edge_RunTask": 8.9,
+      "ANGLEPlatformImpl::RunWorkerTask": 8.9
+     }
+    }
+   }
+  },
+  {
+   "at_ms": 863,
+   "ms": 66.7,
+   "threads": {
+    "GPU Process/GpuVSyncThread": {
+     "total": 66.7,
+     "names": {
+      "RunTask": 66.7
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 83.3,
+      "Edge_RunTask": 83.3,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "Renderer/CrRendererMain": {
+     "total": 65.9,
+     "names": {
+      "RunTask": 65.9
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 82.8,
+      "Edge_RunTask": 82.8,
+      "ProxyMain::BeginMainFrame": 45.4,
+      "LocalFrameView::UpdateStyleAndLayout": 37.4,
+      "LatencyInfo.Flow": 37.2,
+      "WidgetBaseInputHandler::OnHandleInputEvent": 37,
+      "Blink.Style.UpdateTime": 35.8,
+      "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 35.6,
+      "UpdateLayoutTree": 35.6,
+      "Document::updateStyle": 34.8,
+      "Document::recalcStyle": 33.8,
+      "EventHandler::handleMouseReleaseEvent": 28.8,
+      "WebFrameWidgetImpl::UpdateLifecycle": 26.2,
+      "EventDispatch": 15.7,
+      "Commit": 15.4,
+      "LocalFrameView::RunAccessibilitySteps": 14.6
+     }
+    },
+    "GPU Process/ThreadPoolForegroundWorker": {
+     "total": 17.4,
+     "names": {
+      "ThreadPool_RunTask": 17.4
+     },
+     "kids": {
+      "Edge_RunTask": 34.6,
+      "ANGLEPlatformImpl::RunWorkerTask": 34.6
+     }
+    },
+    "GPU Process/CrGpuMain": {
+     "total": 15.5,
+     "names": {
+      "RunTask": 15.5
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 34.4,
+      "Edge_RunTask": 34.4,
+      "Scheduler::RunTask": 34.4,
+      "GpuChannel::ExecuteDeferredRequest": 34.4,
+      "GPUTask": 34.4,
+      "RendererRasterWorker": 34.4,
+      "CommandBuffer::Flush": 34.4,
+      "CommandBufferStub::OnAsyncFlush": 34.4,
+      "CommandBufferService:PutChanged": 34.4,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM": 34.1,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 34,
+      "RasterDecoderImpl::DoRasterCHROMIUM": 0.3,
+      "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 0.3,
+      "GrShaderCache::store": 0,
+      "RasterDecoderImpl::DoBeginRasterCHROMIUM": 0,
+      "GrShaderCache::load": 0
+     }
+    },
+    "Browser/ThreadPoolBackgroundWorker": {
+     "total": 9.6,
+     "names": {
+      "ThreadPool_RunTask": 9.6
+     },
+     "kids": {
+      "Edge_RunTask": 9.6
+     }
+    },
+    "Browser/CrBrowserMain": {
+     "total": 2.1,
+     "names": {
+      "RunTask": 2.1
+     }
+    }
+   }
+  },
+  {
+   "at_ms": 927,
+   "ms": 50,
+   "threads": {
+    "GPU Process/ThreadPoolForegroundWorker": {
+     "total": 56.8,
+     "names": {
+      "ThreadPool_RunTask": 56.8
+     },
+     "kids": {
+      "Edge_RunTask": 76.7,
+      "ANGLEPlatformImpl::RunWorkerTask": 76.7
+     }
+    },
+    "GPU Process/GpuVSyncThread": {
+     "total": 50,
+     "names": {
+      "RunTask": 50
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 66.6,
+      "Edge_RunTask": 66.6,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "GPU Process/CrGpuMain": {
+     "total": 49.5,
+     "names": {
+      "RunTask": 49.5
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 78.2,
+      "Edge_RunTask": 78.2,
+      "Scheduler::RunTask": 78.2,
+      "GpuChannel::ExecuteDeferredRequest": 78.2,
+      "GPUTask": 78.1,
+      "RendererRasterWorker": 78.1,
+      "CommandBuffer::Flush": 78.1,
+      "CommandBufferStub::OnAsyncFlush": 78.1,
+      "CommandBufferService:PutChanged": 78.1,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM": 77,
+      "RasterDecoderImpl::DoEndRasterCHROMIUM::Flush": 77,
+      "RasterDecoderImpl::DoRasterCHROMIUM": 1,
+      "RasterDecoderImpl::DoRasterCHROMIUM::Deserializing": 1,
+      "RasterDecoderImpl::DoBeginRasterCHROMIUM": 0.1,
+      "GrShaderCache::store": 0.1,
+      "GrShaderCache::load": 0
+     }
+    }
+   }
+  },
+  {
+   "at_ms": 2672,
+   "ms": 50,
+   "threads": {
+    "GPU Process/GpuVSyncThread": {
+     "total": 50,
+     "names": {
+      "RunTask": 50
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 66.7,
+      "Edge_RunTask": 66.6,
+      "WinVSyncProvider::GetVSyncParameters": 0
+     }
+    },
+    "Renderer/CrRendererMain": {
+     "total": 49.4,
+     "names": {
+      "RunTask": 49.4
+     },
+     "kids": {
+      "ThreadControllerImpl::RunTask": 65.8,
+      "Edge_RunTask": 65.8,
+      "WidgetBaseInputHandler::OnHandleInputEvent": 53,
+      "LatencyInfo.Flow": 52.9,
+      "EventHandler::handleMouseReleaseEvent": 47.2,
+      "LocalFrameView::UpdateStyleAndLayout": 43.4,
+      "LocalFrameView::RunStyleAndLayoutLifecyclePhases": 42.2,
+      "Blink.Layout.UpdateTime": 36.4,
+      "LocalFrameView::layout": 36.2,
+      "Layout": 36.2,
+      "LocalFrameView::performLayout": 36.2,
+      "InlineNode::ShapeTextIncludingFirstLine": 31.3,
+      "ProxyMain::BeginMainFrame": 12.6,
+      "FunctionCall": 8.1,
+      "EventDispatch": 7.2,
+      "Blink.Style.UpdateTime": 7.2
+     }
+    },
+    "GPU Process/CrGpuMain": {
+     "total": 3.2,
+     "names": {
+      "RunTask": 3.2
+     }
+    }
+   }
+  }
+ ],
+ "longCount": 4
+}

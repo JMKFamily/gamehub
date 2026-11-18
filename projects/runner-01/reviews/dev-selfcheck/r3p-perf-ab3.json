@@ -1,0 +1,4137 @@
+{
+ "meta": {
+  "runs": 1,
+  "throttle": 6,
+  "freshBrowserPerVariant": true,
+  "res": [
+   "1280x720@1",
+   "640x360@3",
+   "1280x720@3"
+  ],
+  "cpus": 12,
+  "started": "2026-11-18T10:56:57.631Z"
+ },
+ "windows": [
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@1",
+   "window": "L1 start 0-10s",
+   "frames": 601,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 46.5,
+   "max_ms": 22.8,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.5,
+    "p95": 2.2,
+    "p99": 3.2,
+    "max": 7.8
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 22.8,
+     "at": 4172.8
+    },
+    {
+     "ms": 22.6,
+     "at": 22.6
+    },
+    {
+     "ms": 21.8,
+     "at": 44.4
+    },
+    {
+     "ms": 21.6,
+     "at": 6171.7
+    },
+    {
+     "ms": 20.9,
+     "at": 138.9
+    },
+    {
+     "ms": 19.3,
+     "at": 3254.2
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 22.6
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 22.6,
+     "at": 22.6
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 22.8,
+     "at": 4172.8
+    }
+   ],
+   "events_max_ms": 22.8,
+   "cpu": {
+    "avg": 26.2,
+    "max": 35
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@1",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5.1,
+   "avg_fps": 60.2,
+   "low1_fps": 54.9,
+   "max_ms": 19,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.2,
+    "p95": 2,
+    "p99": 2.2,
+    "max": 3.4
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 19,
+     "at": 1054.6
+    },
+    {
+     "ms": 17.9,
+     "at": 3187.7
+    },
+    {
+     "ms": 17.7,
+     "at": 4086.9
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.1
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 19,
+     "at": 1054.6
+    }
+   ],
+   "events_max_ms": 19,
+   "cpu": {
+    "avg": 27.4,
+    "max": 35.2
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@1",
+   "window": "L4 start 0-20s",
+   "frames": 1200,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 39.9,
+   "max_ms": 52.3,
+   "over_33ms": 2,
+   "script_ms": {
+    "median": 1.7,
+    "p95": 2.7,
+    "p99": 3.9,
+    "max": 18.2
+   },
+   "loaf": 1,
+   "worst": [
+    {
+     "ms": 52.3,
+     "at": 8182.6
+    },
+    {
+     "ms": 35.2,
+     "at": 5818
+    },
+    {
+     "ms": 30.9,
+     "at": 6143.2
+    },
+    {
+     "ms": 22.8,
+     "at": 8253.7
+    },
+    {
+     "ms": 22,
+     "at": 5854.3
+    },
+    {
+     "ms": 20.6,
+     "at": 15134
+    },
+    {
+     "ms": 20.5,
+     "at": 5782.8
+    },
+    {
+     "ms": 20.2,
+     "at": 6898.9
+    },
+    {
+     "ms": 19.5,
+     "at": 6085.4
+    },
+    {
+     "ms": 19.4,
+     "at": 15518.9
+    },
+    {
+     "ms": 18.7,
+     "at": 7132.9
+    },
+    {
+     "ms": 18.7,
+     "at": 7514.1
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.6
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 18,
+     "at": 3463.8
+    },
+    {
+     "kind": "stage 5",
+     "ms": 20.6,
+     "at": 15134
+    }
+   ],
+   "events_max_ms": 20.6,
+   "cpu": {
+    "avg": 34,
+    "max": 61.9
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@1",
+   "window": "L10 start 0-25s",
+   "frames": 1500,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 52.8,
+   "max_ms": 22.2,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 2,
+    "p95": 2.8,
+    "p99": 3.2,
+    "max": 5.1
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 22.2,
+     "at": 3656
+    },
+    {
+     "ms": 20.6,
+     "at": 18237.7
+    },
+    {
+     "ms": 19.2,
+     "at": 14069.9
+    },
+    {
+     "ms": 19,
+     "at": 12802.3
+    },
+    {
+     "ms": 18.9,
+     "at": 23869.1
+    },
+    {
+     "ms": 18.8,
+     "at": 4602.4
+    },
+    {
+     "ms": 18.7,
+     "at": 17102.3
+    },
+    {
+     "ms": 18.5,
+     "at": 8002.2
+    },
+    {
+     "ms": 18.5,
+     "at": 17535
+    },
+    {
+     "ms": 18.4,
+     "at": 9952.2
+    },
+    {
+     "ms": 18.4,
+     "at": 19269.2
+    },
+    {
+     "ms": 18.3,
+     "at": 200.9
+    },
+    {
+     "ms": 18.3,
+     "at": 267.9
+    },
+    {
+     "ms": 18.3,
+     "at": 20584.4
+    },
+    {
+     "ms": 18.2,
+     "at": 9768.9
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17.2
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.9,
+     "at": 3001
+    },
+    {
+     "kind": "stage 5",
+     "ms": 18.5,
+     "at": 8002.2
+    },
+    {
+     "kind": "stage 10",
+     "ms": 19.2,
+     "at": 14069.9
+    }
+   ],
+   "events_max_ms": 19.2,
+   "cpu": {
+    "avg": 27.6,
+    "max": 35.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@1",
+   "window": "L1 start 0-10s",
+   "frames": 601,
+   "seconds": 10,
+   "avg_fps": 59.9,
+   "low1_fps": 37,
+   "max_ms": 45,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.6,
+    "p99": 3.1,
+    "max": 9.8
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 45,
+     "at": 45
+    },
+    {
+     "ms": 31.2,
+     "at": 98.1
+    },
+    {
+     "ms": 24.6,
+     "at": 4156.8
+    },
+    {
+     "ms": 21.5,
+     "at": 137.8
+    },
+    {
+     "ms": 20.6,
+     "at": 6153.9
+    },
+    {
+     "ms": 19.3,
+     "at": 2251.2
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 45
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 45,
+     "at": 45
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 24.6,
+     "at": 4156.8
+    }
+   ],
+   "events_max_ms": 45,
+   "cpu": {
+    "avg": 25.9,
+    "max": 33.6
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@1",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5.1,
+   "avg_fps": 60.2,
+   "low1_fps": 52.8,
+   "max_ms": 20,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.5,
+    "p95": 2.2,
+    "p99": 2.6,
+    "max": 5.3
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 20,
+     "at": 1054.6
+    },
+    {
+     "ms": 18.9,
+     "at": 1073.5
+    },
+    {
+     "ms": 17.9,
+     "at": 352.3
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.4
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 20,
+     "at": 1054.6
+    }
+   ],
+   "events_max_ms": 20,
+   "cpu": {
+    "avg": 29.1,
+    "max": 32.3
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@1",
+   "window": "L4 start 0-20s",
+   "frames": 1201,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 47.7,
+   "max_ms": 43.2,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.5,
+    "p99": 2.8,
+    "max": 8.2
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 43.2,
+     "at": 8391.2
+    },
+    {
+     "ms": 22.8,
+     "at": 15620.9
+    },
+    {
+     "ms": 22.2,
+     "at": 15153.8
+    },
+    {
+     "ms": 19.8,
+     "at": 8451.6
+    },
+    {
+     "ms": 18.2,
+     "at": 18182.4
+    },
+    {
+     "ms": 18,
+     "at": 3932.4
+    },
+    {
+     "ms": 18,
+     "at": 5131.5
+    },
+    {
+     "ms": 18,
+     "at": 18532
+    },
+    {
+     "ms": 17.9,
+     "at": 2214.6
+    },
+    {
+     "ms": 17.9,
+     "at": 4531.3
+    },
+    {
+     "ms": 17.9,
+     "at": 4664.9
+    },
+    {
+     "ms": 17.9,
+     "at": 15799
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17.8
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 15.7,
+     "at": 14.2
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.8,
+     "at": 3482
+    },
+    {
+     "kind": "stage 5",
+     "ms": 22.2,
+     "at": 15153.8
+    }
+   ],
+   "events_max_ms": 22.2,
+   "cpu": {
+    "avg": 26.3,
+    "max": 28.8
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@1",
+   "window": "L10 start 0-25s",
+   "frames": 1500,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 52.2,
+   "max_ms": 23.2,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 2.1,
+    "p95": 2.8,
+    "p99": 3.2,
+    "max": 4.7
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 23.2,
+     "at": 22123.7
+    },
+    {
+     "ms": 22.1,
+     "at": 22155.6
+    },
+    {
+     "ms": 19.2,
+     "at": 15685.7
+    },
+    {
+     "ms": 19.1,
+     "at": 12102
+    },
+    {
+     "ms": 18.8,
+     "at": 14068.5
+    },
+    {
+     "ms": 18.7,
+     "at": 4601.4
+    },
+    {
+     "ms": 18.7,
+     "at": 7985.9
+    },
+    {
+     "ms": 18.7,
+     "at": 19351
+    },
+    {
+     "ms": 18.6,
+     "at": 3301.3
+    },
+    {
+     "ms": 18.4,
+     "at": 2250.2
+    },
+    {
+     "ms": 18.4,
+     "at": 17751.5
+    },
+    {
+     "ms": 18.4,
+     "at": 24601.1
+    },
+    {
+     "ms": 18.3,
+     "at": 22767.4
+    },
+    {
+     "ms": 18.3,
+     "at": 9768.2
+    },
+    {
+     "ms": 18.2,
+     "at": 8351.3
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.9,
+     "at": 3000
+    },
+    {
+     "kind": "stage 5",
+     "ms": 18.7,
+     "at": 7985.9
+    },
+    {
+     "kind": "stage 10",
+     "ms": 18.8,
+     "at": 14068.5
+    }
+   ],
+   "events_max_ms": 18.8,
+   "cpu": {
+    "avg": 27.9,
+    "max": 36.5
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "control",
+   "res": "1280x720@1",
+   "window": "ctl 0-10s",
+   "frames": 599,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 57.7,
+   "max_ms": 17.6,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 0.4,
+    "p95": 0.7,
+    "p99": 0.8,
+    "max": 1
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 17.6,
+     "at": 3983.1
+    },
+    {
+     "ms": 17.3,
+     "at": 9166.4
+    },
+    {
+     "ms": 17.3,
+     "at": 6566.3
+    },
+    {
+     "ms": 17.2,
+     "at": 316.4
+    },
+    {
+     "ms": 17.2,
+     "at": 8699.5
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.9
+    }
+   ],
+   "events_max_ms": 16.9,
+   "cpu": {
+    "avg": 27.6,
+    "max": 43.5
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "640x360@3",
+   "window": "L1 start 0-10s",
+   "frames": 600,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 47.6,
+   "max_ms": 23.3,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.9,
+    "p95": 2.6,
+    "p99": 3.3,
+    "max": 7.7
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 23.3,
+     "at": 23.3
+    },
+    {
+     "ms": 22.7,
+     "at": 4137.1
+    },
+    {
+     "ms": 21.2,
+     "at": 6136
+    },
+    {
+     "ms": 20.8,
+     "at": 119.7
+    },
+    {
+     "ms": 19.4,
+     "at": 3217.1
+    },
+    {
+     "ms": 18.6,
+     "at": 7233.9
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 23.3
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 22.7,
+     "at": 4137.1
+    }
+   ],
+   "events_max_ms": 23.3,
+   "cpu": {
+    "avg": 27,
+    "max": 31.9
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "640x360@3",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5.1,
+   "avg_fps": 60.2,
+   "low1_fps": 55.5,
+   "max_ms": 18.4,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.5,
+    "p95": 2.1,
+    "p99": 2.3,
+    "max": 3.5
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 18.4,
+     "at": 1052
+    },
+    {
+     "ms": 18,
+     "at": 3185.7
+    },
+    {
+     "ms": 17.7,
+     "at": 4634.7
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.6
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 18.4,
+     "at": 1052
+    }
+   ],
+   "events_max_ms": 18.4,
+   "cpu": {
+    "avg": 26.3,
+    "max": 27.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "640x360@3",
+   "window": "L4 start 0-20s",
+   "frames": 1200,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 47.6,
+   "max_ms": 43.8,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.6,
+    "p95": 2.3,
+    "p99": 2.8,
+    "max": 5.6
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 43.8,
+     "at": 8075.9
+    },
+    {
+     "ms": 23.8,
+     "at": 8142.7
+    },
+    {
+     "ms": 20.8,
+     "at": 15152.8
+    },
+    {
+     "ms": 19.6,
+     "at": 8118.9
+    },
+    {
+     "ms": 18.4,
+     "at": 6332.7
+    },
+    {
+     "ms": 18.2,
+     "at": 9299.8
+    },
+    {
+     "ms": 18.1,
+     "at": 6516.7
+    },
+    {
+     "ms": 18.1,
+     "at": 16700.1
+    },
+    {
+     "ms": 18,
+     "at": 14083.5
+    },
+    {
+     "ms": 17.8,
+     "at": 14116.9
+    },
+    {
+     "ms": 17.8,
+     "at": 9049.8
+    },
+    {
+     "ms": 17.7,
+     "at": 3466.6
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.3
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.6,
+     "at": 3484.2
+    },
+    {
+     "kind": "stage 5",
+     "ms": 20.8,
+     "at": 15152.8
+    }
+   ],
+   "events_max_ms": 20.8,
+   "cpu": {
+    "avg": 31.4,
+    "max": 42.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "640x360@3",
+   "window": "L10 start 0-25s",
+   "frames": 1501,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 50.9,
+   "max_ms": 23.8,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.9,
+    "p99": 3.7,
+    "max": 6.7
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 23.8,
+     "at": 8022
+    },
+    {
+     "ms": 21.4,
+     "at": 3471.2
+    },
+    {
+     "ms": 20.2,
+     "at": 10336.3
+    },
+    {
+     "ms": 19.8,
+     "at": 4620.2
+    },
+    {
+     "ms": 19.8,
+     "at": 15686.6
+    },
+    {
+     "ms": 19.5,
+     "at": 11385.2
+    },
+    {
+     "ms": 19.4,
+     "at": 4436.7
+    },
+    {
+     "ms": 19.3,
+     "at": 9785.9
+    },
+    {
+     "ms": 19.1,
+     "at": 5185.8
+    },
+    {
+     "ms": 19,
+     "at": 14085.4
+    },
+    {
+     "ms": 19,
+     "at": 14468.9
+    },
+    {
+     "ms": 18.8,
+     "at": 11035.5
+    },
+    {
+     "ms": 18.7,
+     "at": 8886.3
+    },
+    {
+     "ms": 18.6,
+     "at": 8535.1
+    },
+    {
+     "ms": 18.5,
+     "at": 5104.1
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.8
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 18.2,
+     "at": 3017.3
+    },
+    {
+     "kind": "stage 5",
+     "ms": 23.8,
+     "at": 8022
+    },
+    {
+     "kind": "stage 10",
+     "ms": 19,
+     "at": 14085.4
+    }
+   ],
+   "events_max_ms": 23.8,
+   "cpu": {
+    "avg": 35.9,
+    "max": 57.3
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "640x360@3",
+   "window": "L1 start 0-10s",
+   "frames": 600,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 41.9,
+   "max_ms": 31.8,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.6,
+    "p95": 2.3,
+    "p99": 3.2,
+    "max": 8.9
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 31.8,
+     "at": 31.8
+    },
+    {
+     "ms": 27,
+     "at": 64.8
+    },
+    {
+     "ms": 24.2,
+     "at": 4136.1
+    },
+    {
+     "ms": 21,
+     "at": 100.4
+    },
+    {
+     "ms": 20.2,
+     "at": 6133.6
+    },
+    {
+     "ms": 19,
+     "at": 4564.3
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 31.8
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 24.2,
+     "at": 4136.1
+    }
+   ],
+   "events_max_ms": 31.8,
+   "cpu": {
+    "avg": 30.7,
+    "max": 33.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "640x360@3",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5,
+   "avg_fps": 60.2,
+   "low1_fps": 54.4,
+   "max_ms": 19.2,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.2,
+    "p95": 1.9,
+    "p99": 2.3,
+    "max": 4
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 19.2,
+     "at": 1050.7
+    },
+    {
+     "ms": 18.3,
+     "at": 3183.9
+    },
+    {
+     "ms": 17.6,
+     "at": 2033.2
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.7
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 19.2,
+     "at": 1050.7
+    }
+   ],
+   "events_max_ms": 19.2,
+   "cpu": {
+    "avg": 27.9,
+    "max": 35.2
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "640x360@3",
+   "window": "L4 start 0-20s",
+   "frames": 1201,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 46.3,
+   "max_ms": 42.3,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.7,
+    "p95": 2.6,
+    "p99": 3.3,
+    "max": 6.4
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 42.3,
+     "at": 8376.4
+    },
+    {
+     "ms": 20.9,
+     "at": 3202.2
+    },
+    {
+     "ms": 20.9,
+     "at": 15170.7
+    },
+    {
+     "ms": 20.8,
+     "at": 3538.1
+    },
+    {
+     "ms": 20.2,
+     "at": 8420.2
+    },
+    {
+     "ms": 19.7,
+     "at": 3485.9
+    },
+    {
+     "ms": 19.3,
+     "at": 3320.6
+    },
+    {
+     "ms": 19.2,
+     "at": 2918.6
+    },
+    {
+     "ms": 19.1,
+     "at": 4750.7
+    },
+    {
+     "ms": 19,
+     "at": 4050.4
+    },
+    {
+     "ms": 18.9,
+     "at": 3283.9
+    },
+    {
+     "ms": 18.9,
+     "at": 3117.6
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 17,
+     "at": 15.4
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 19.7,
+     "at": 3485.9
+    },
+    {
+     "kind": "stage 5",
+     "ms": 20.9,
+     "at": 15170.7
+    }
+   ],
+   "events_max_ms": 20.9,
+   "cpu": {
+    "avg": 31.5,
+    "max": 60.1
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "640x360@3",
+   "window": "L10 start 0-25s",
+   "frames": 1500,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 48.4,
+   "max_ms": 28.7,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 2,
+    "p95": 2.7,
+    "p99": 3.1,
+    "max": 4.8
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 28.7,
+     "at": 16812.7
+    },
+    {
+     "ms": 24.4,
+     "at": 9808.1
+    },
+    {
+     "ms": 21.9,
+     "at": 11404.4
+    },
+    {
+     "ms": 21,
+     "at": 3004.1
+    },
+    {
+     "ms": 20.4,
+     "at": 12803.1
+    },
+    {
+     "ms": 20.3,
+     "at": 14253.7
+    },
+    {
+     "ms": 19.8,
+     "at": 9953.3
+    },
+    {
+     "ms": 19.8,
+     "at": 14953.2
+    },
+    {
+     "ms": 19.7,
+     "at": 12103.5
+    },
+    {
+     "ms": 19.4,
+     "at": 18535.4
+    },
+    {
+     "ms": 19.3,
+     "at": 14603.1
+    },
+    {
+     "ms": 19.2,
+     "at": 7985.6
+    },
+    {
+     "ms": 19,
+     "at": 4601.9
+    },
+    {
+     "ms": 18.6,
+     "at": 16752.4
+    },
+    {
+     "ms": 18.5,
+     "at": 9768.5
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.9
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 21,
+     "at": 3004.1
+    },
+    {
+     "kind": "stage 5",
+     "ms": 19.2,
+     "at": 7985.6
+    },
+    {
+     "kind": "stage 10",
+     "ms": 18.2,
+     "at": 14069.2
+    }
+   ],
+   "events_max_ms": 21,
+   "cpu": {
+    "avg": 26.7,
+    "max": 39
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "control",
+   "res": "640x360@3",
+   "window": "ctl 0-10s",
+   "frames": 599,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 57.6,
+   "max_ms": 17.6,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 0.4,
+    "p95": 0.6,
+    "p99": 0.8,
+    "max": 1.3
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 17.6,
+     "at": 700.4
+    },
+    {
+     "ms": 17.4,
+     "at": 8500
+    },
+    {
+     "ms": 17.3,
+     "at": 116.9
+    },
+    {
+     "ms": 17.3,
+     "at": 33
+    },
+    {
+     "ms": 17.2,
+     "at": 4349.8
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17.3
+    }
+   ],
+   "events_max_ms": 17.3,
+   "cpu": {
+    "avg": 24.3,
+    "max": 28.1
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@3",
+   "window": "L1 start 0-10s",
+   "frames": 601,
+   "seconds": 10,
+   "avg_fps": 60.1,
+   "low1_fps": 48.8,
+   "max_ms": 23,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.6,
+    "p99": 3.6,
+    "max": 8.2
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 23,
+     "at": 4142.4
+    },
+    {
+     "ms": 21,
+     "at": 6140.2
+    },
+    {
+     "ms": 20.7,
+     "at": 107.9
+    },
+    {
+     "ms": 20.1,
+     "at": 20.1
+    },
+    {
+     "ms": 19.4,
+     "at": 3221.8
+    },
+    {
+     "ms": 18.7,
+     "at": 55
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 20.1
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 23,
+     "at": 4142.4
+    }
+   ],
+   "events_max_ms": 23,
+   "cpu": {
+    "avg": 18.6,
+    "max": 29.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@3",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5.1,
+   "avg_fps": 60.2,
+   "low1_fps": 54.7,
+   "max_ms": 18.8,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.4,
+    "p95": 2,
+    "p99": 2.2,
+    "max": 4.1
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 18.8,
+     "at": 1052.1
+    },
+    {
+     "ms": 18,
+     "at": 1701.2
+    },
+    {
+     "ms": 18,
+     "at": 3168.5
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.9
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 18.8,
+     "at": 1052.1
+    }
+   ],
+   "events_max_ms": 18.8,
+   "cpu": {
+    "avg": 16.3,
+    "max": 17.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@3",
+   "window": "L4 start 0-20s",
+   "frames": 1200,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 51.7,
+   "max_ms": 26.2,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.7,
+    "p95": 2.4,
+    "p99": 2.8,
+    "max": 5.8
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 26.2,
+     "at": 18375.9
+    },
+    {
+     "ms": 20.9,
+     "at": 6787.2
+    },
+    {
+     "ms": 20.9,
+     "at": 15136.6
+    },
+    {
+     "ms": 18.9,
+     "at": 7051.8
+    },
+    {
+     "ms": 18.8,
+     "at": 19584.8
+    },
+    {
+     "ms": 18.5,
+     "at": 8633.4
+    },
+    {
+     "ms": 18.4,
+     "at": 3467.3
+    },
+    {
+     "ms": 18.2,
+     "at": 7634.3
+    },
+    {
+     "ms": 18.1,
+     "at": 17067.8
+    },
+    {
+     "ms": 17.8,
+     "at": 5133.5
+    },
+    {
+     "ms": 17.8,
+     "at": 18883.6
+    },
+    {
+     "ms": 17.7,
+     "at": 13883.7
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.6
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 18.4,
+     "at": 3467.3
+    },
+    {
+     "kind": "stage 5",
+     "ms": 20.9,
+     "at": 15136.6
+    }
+   ],
+   "events_max_ms": 20.9,
+   "cpu": {
+    "avg": 16.3,
+    "max": 22.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@3",
+   "window": "L10 start 0-25s",
+   "frames": 1500,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 52.4,
+   "max_ms": 26.4,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.9,
+    "p95": 2.6,
+    "p99": 3.1,
+    "max": 4.7
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 26.4,
+     "at": 21776.5
+    },
+    {
+     "ms": 20.6,
+     "at": 13687.9
+    },
+    {
+     "ms": 20.4,
+     "at": 7153.9
+    },
+    {
+     "ms": 19.1,
+     "at": 14052.7
+    },
+    {
+     "ms": 18.7,
+     "at": 3302.2
+    },
+    {
+     "ms": 18.6,
+     "at": 9768.7
+    },
+    {
+     "ms": 18.4,
+     "at": 4585.6
+    },
+    {
+     "ms": 18.4,
+     "at": 7985.9
+    },
+    {
+     "ms": 18.2,
+     "at": 6201.3
+    },
+    {
+     "ms": 18.1,
+     "at": 5117.3
+    },
+    {
+     "ms": 18,
+     "at": 17635.6
+    },
+    {
+     "ms": 17.9,
+     "at": 5834.9
+    },
+    {
+     "ms": 17.8,
+     "at": 2984.1
+    },
+    {
+     "ms": 17.8,
+     "at": 11318
+    },
+    {
+     "ms": 17.8,
+     "at": 23002.1
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17.1
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.8,
+     "at": 2984.1
+    },
+    {
+     "kind": "stage 5",
+     "ms": 18.4,
+     "at": 7985.9
+    },
+    {
+     "kind": "stage 10",
+     "ms": 19.1,
+     "at": 14052.7
+    }
+   ],
+   "events_max_ms": 19.1,
+   "cpu": {
+    "avg": 17.4,
+    "max": 25.4
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@3",
+   "window": "L1 start 0-10s",
+   "frames": 600,
+   "seconds": 10,
+   "avg_fps": 59.9,
+   "low1_fps": 38.2,
+   "max_ms": 42.9,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.6,
+    "p99": 3.6,
+    "max": 9.6
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 42.9,
+     "at": 42.9
+    },
+    {
+     "ms": 29.2,
+     "at": 96.7
+    },
+    {
+     "ms": 24.4,
+     "at": 4157.2
+    },
+    {
+     "ms": 21.2,
+     "at": 138.1
+    },
+    {
+     "ms": 20.6,
+     "at": 6154.3
+    },
+    {
+     "ms": 18.6,
+     "at": 3234.8
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 42.9
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 42.9,
+     "at": 42.9
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 24.4,
+     "at": 4157.2
+    }
+   ],
+   "events_max_ms": 42.9,
+   "cpu": {
+    "avg": 16,
+    "max": 17.3
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@3",
+   "window": "L1 death → restart +4s",
+   "frames": 304,
+   "seconds": 5,
+   "avg_fps": 60.2,
+   "low1_fps": 52.6,
+   "max_ms": 19.5,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.5,
+    "p95": 2.2,
+    "p99": 2.5,
+    "max": 4.3
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 19.5,
+     "at": 1051.4
+    },
+    {
+     "ms": 18.8,
+     "at": 2118.5
+    },
+    {
+     "ms": 18.7,
+     "at": 4000.5
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.9
+    },
+    {
+     "kind": "restart (새 시도 첫 프레임)",
+     "ms": 19.5,
+     "at": 1051.4
+    }
+   ],
+   "events_max_ms": 19.5,
+   "cpu": {
+    "avg": 23,
+    "max": 33
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@3",
+   "window": "L4 start 0-20s",
+   "frames": 1200,
+   "seconds": 20,
+   "avg_fps": 60,
+   "low1_fps": 47.3,
+   "max_ms": 31,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 1.6,
+    "p95": 2.5,
+    "p99": 3.2,
+    "max": 6.5
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 31,
+     "at": 14564.6
+    },
+    {
+     "ms": 25.2,
+     "at": 17410.9
+    },
+    {
+     "ms": 24.5,
+     "at": 6408.5
+    },
+    {
+     "ms": 20.8,
+     "at": 14589.2
+    },
+    {
+     "ms": 20.6,
+     "at": 17256.3
+    },
+    {
+     "ms": 20.2,
+     "at": 15137.8
+    },
+    {
+     "ms": 19.5,
+     "at": 17102.1
+    },
+    {
+     "ms": 18.4,
+     "at": 17370.7
+    },
+    {
+     "ms": 18.4,
+     "at": 3252.1
+    },
+    {
+     "ms": 18.4,
+     "at": 16368.6
+    },
+    {
+     "ms": 18.3,
+     "at": 13618.8
+    },
+    {
+     "ms": 18.3,
+     "at": 17286.8
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 17.2
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.7,
+     "at": 3469.2
+    },
+    {
+     "kind": "stage 5",
+     "ms": 20.2,
+     "at": 15137.8
+    }
+   ],
+   "events_max_ms": 20.2,
+   "cpu": {
+    "avg": 29.4,
+    "max": 66.6
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@3",
+   "window": "L10 start 0-25s",
+   "frames": 1499,
+   "seconds": 25,
+   "avg_fps": 60,
+   "low1_fps": 45.1,
+   "max_ms": 38.3,
+   "over_33ms": 1,
+   "script_ms": {
+    "median": 1.8,
+    "p95": 2.8,
+    "p99": 4,
+    "max": 20.2
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 38.3,
+     "at": 20172.8
+    },
+    {
+     "ms": 28.7,
+     "at": 20201.5
+    },
+    {
+     "ms": 23,
+     "at": 14507.1
+    },
+    {
+     "ms": 21.6,
+     "at": 21.6
+    },
+    {
+     "ms": 20.9,
+     "at": 20369.8
+    },
+    {
+     "ms": 20.8,
+     "at": 4420.8
+    },
+    {
+     "ms": 20.5,
+     "at": 4603.6
+    },
+    {
+     "ms": 20.5,
+     "at": 20488.4
+    },
+    {
+     "ms": 19.8,
+     "at": 22369.5
+    },
+    {
+     "ms": 19.6,
+     "at": 14069.2
+    },
+    {
+     "ms": 19.4,
+     "at": 20101.4
+    },
+    {
+     "ms": 19.2,
+     "at": 12801.8
+    },
+    {
+     "ms": 19.1,
+     "at": 1533.7
+    },
+    {
+     "ms": 19.1,
+     "at": 3385.7
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 21.6
+    },
+    {
+     "kind": "first judge (첫 판정 글)",
+     "ms": 17.6,
+     "at": 3000
+    },
+    {
+     "kind": "stage 5",
+     "ms": 18.4,
+     "at": 8001.4
+    },
+    {
+     "kind": "stage 10",
+     "ms": 19.6,
+     "at": 14069.2
+    }
+   ],
+   "events_max_ms": 21.6,
+   "cpu": {
+    "avg": 35.4,
+    "max": 70.7
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "control",
+   "res": "1280x720@3",
+   "window": "ctl 0-10s",
+   "frames": 599,
+   "seconds": 10,
+   "avg_fps": 60,
+   "low1_fps": 50.6,
+   "max_ms": 22.5,
+   "over_33ms": 0,
+   "script_ms": {
+    "median": 0.4,
+    "p95": 0.6,
+    "p99": 1.1,
+    "max": 2.2
+   },
+   "loaf": 0,
+   "worst": [
+    {
+     "ms": 22.5,
+     "at": 9789.1
+    },
+    {
+     "ms": 20.7,
+     "at": 9854
+    },
+    {
+     "ms": 19.2,
+     "at": 9652.5
+    },
+    {
+     "ms": 18.7,
+     "at": 9586.1
+    },
+    {
+     "ms": 17.8,
+     "at": 9917.9
+    }
+   ],
+   "events": [
+    {
+     "kind": "window start (첫 프레임)",
+     "ms": 16.8
+    }
+   ],
+   "events_max_ms": 16.8,
+   "cpu": {
+    "avg": 25.2,
+    "max": 42.1
+   },
+   "busy": false
+  }
+ ],
+ "menu": [
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@1",
+   "first_tap_unlock": 21,
+   "title_to_levels": 41.9,
+   "levels_to_title": 21,
+   "title_to_settings": 22,
+   "settings_to_title": 17.2,
+   "play_start": 39,
+   "cpu": {
+    "avg": 28.3,
+    "max": 43.5
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@1",
+   "first_tap_unlock": 102,
+   "title_to_levels": 56.6,
+   "levels_to_title": 44.6,
+   "title_to_settings": 61.8,
+   "settings_to_title": 23.1,
+   "play_start": 42,
+   "cpu": {
+    "avg": 37.5,
+    "max": 53.5
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "640x360@3",
+   "first_tap_unlock": 21.5,
+   "title_to_levels": 41.2,
+   "levels_to_title": 20.6,
+   "title_to_settings": 21.8,
+   "settings_to_title": 17.8,
+   "play_start": 39.4,
+   "cpu": {
+    "avg": 21.2,
+    "max": 23
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "640x360@3",
+   "first_tap_unlock": 99.3,
+   "title_to_levels": 54.5,
+   "levels_to_title": 20.3,
+   "title_to_settings": 54.1,
+   "settings_to_title": 17.3,
+   "play_start": 53.8,
+   "cpu": {
+    "avg": 27.4,
+    "max": 36.2
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "build",
+   "res": "1280x720@3",
+   "first_tap_unlock": 21.3,
+   "title_to_levels": 42.3,
+   "levels_to_title": 20.7,
+   "title_to_settings": 24.2,
+   "settings_to_title": 17.1,
+   "play_start": 42.4,
+   "cpu": {
+    "avg": 25.5,
+    "max": 37
+   },
+   "busy": false
+  },
+  {
+   "run": 1,
+   "variant": "base",
+   "res": "1280x720@3",
+   "first_tap_unlock": 97,
+   "title_to_levels": 47.8,
+   "levels_to_title": 21.4,
+   "title_to_settings": 53.9,
+   "settings_to_title": 17.7,
+   "play_start": 40,
+   "cpu": {
+    "avg": 21.7,
+    "max": 22.5
+   },
+   "busy": false
+  }
+ ],
+ "verdict": {
+  "low1_min": 39.9,
+  "low1_ge45": "11/12",
+  "avg_min": 60,
+  "event_frame_max_ms": 23.8,
+  "event_le33": "12/12",
+  "script_p95_max_ms": 2.9,
+  "base_low1_min": 37,
+  "base_low1_ge45": "9/12",
+  "control_low1_min": 50.6,
+  "menu_max_ms": 42.4,
+  "base_menu_max_ms": 102,
+  "menu_le100": "3/3",
+  "busy_windows": "0/12",
+  "fails": [
+   "r1 1280x720@1 L4 start 0-20s: low1 39.9, ev 20.6 (), script p95 2.7"
+  ]
+ },
+ "log": {
+  "console": [
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[1280x720] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[640x360] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[640x360] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[1280x720] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[1280x720] error: Failed to load resource: the server responded with a status of 404 (Not Found)",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. ",
+   "[1280x720] warning: The AudioContext was not allowed to start. It must be resumed (or created) after a user gesture on the page. "
+  ],
+  "pageerrors": [],
+  "external": [],
+  "requests": 339
+ },
+ "cpu_samples": [
+  [
+   1794999418405,
+   39.9
+  ],
+  [
+   1794999419405,
+   36.8
+  ],
+  [
+   1794999420405,
+   16.6
+  ],
+  [
+   1794999421405,
+   26.9
+  ],
+  [
+   1794999422405,
+   26.9
+  ],
+  [
+   1794999423405,
+   25.9
+  ],
+  [
+   1794999424405,
+   31.8
+  ],
+  [
+   1794999425405,
+   23.7
+  ],
+  [
+   1794999426405,
+   23.7
+  ],
+  [
+   1794999427406,
+   23.6
+  ],
+  [
+   1794999428406,
+   35
+  ],
+  [
+   1794999429406,
+   23.7
+  ],
+  [
+   1794999430406,
+   21.1
+  ],
+  [
+   1794999431407,
+   21.7
+  ],
+  [
+   1794999432407,
+   26.9
+  ],
+  [
+   1794999433407,
+   25.3
+  ],
+  [
+   1794999434408,
+   23.4
+  ],
+  [
+   1794999435409,
+   21.6
+  ],
+  [
+   1794999436410,
+   31.7
+  ],
+  [
+   1794999437411,
+   23.4
+  ],
+  [
+   1794999438412,
+   19.1
+  ],
+  [
+   1794999439412,
+   33.6
+  ],
+  [
+   1794999440428,
+   35.2
+  ],
+  [
+   1794999441429,
+   28.8
+  ],
+  [
+   1794999442430,
+   22.9
+  ],
+  [
+   1794999443430,
+   28.4
+  ],
+  [
+   1794999444430,
+   23.7
+  ],
+  [
+   1794999445431,
+   28.3
+  ],
+  [
+   1794999446449,
+   52.6
+  ],
+  [
+   1794999447436,
+   61.9
+  ],
+  [
+   1794999448435,
+   47.7
+  ],
+  [
+   1794999449435,
+   44
+  ],
+  [
+   1794999450435,
+   52.1
+  ],
+  [
+   1794999451435,
+   48.6
+  ],
+  [
+   1794999452435,
+   22.1
+  ],
+  [
+   1794999453435,
+   26
+  ],
+  [
+   1794999454436,
+   24.7
+  ],
+  [
+   1794999455437,
+   27.9
+  ],
+  [
+   1794999456438,
+   37.7
+  ],
+  [
+   1794999457438,
+   26.4
+  ],
+  [
+   1794999458438,
+   24
+  ],
+  [
+   1794999459438,
+   29
+  ],
+  [
+   1794999460438,
+   23.7
+  ],
+  [
+   1794999461438,
+   35.4
+  ],
+  [
+   1794999462438,
+   26.3
+  ],
+  [
+   1794999463439,
+   33
+  ],
+  [
+   1794999464440,
+   26.3
+  ],
+  [
+   1794999465441,
+   24.3
+  ],
+  [
+   1794999466441,
+   33.4
+  ],
+  [
+   1794999467441,
+   25.9
+  ],
+  [
+   1794999468441,
+   24.1
+  ],
+  [
+   1794999469441,
+   26.2
+  ],
+  [
+   1794999470442,
+   32.1
+  ],
+  [
+   1794999471442,
+   25.1
+  ],
+  [
+   1794999472442,
+   31.7
+  ],
+  [
+   1794999473442,
+   27.7
+  ],
+  [
+   1794999474442,
+   24.5
+  ],
+  [
+   1794999475442,
+   25
+  ],
+  [
+   1794999476442,
+   26.2
+  ],
+  [
+   1794999477443,
+   25.4
+  ],
+  [
+   1794999478443,
+   30.1
+  ],
+  [
+   1794999479444,
+   22.8
+  ],
+  [
+   1794999480444,
+   31.5
+  ],
+  [
+   1794999481445,
+   31
+  ],
+  [
+   1794999482445,
+   23.9
+  ],
+  [
+   1794999483445,
+   27.1
+  ],
+  [
+   1794999484446,
+   27
+  ],
+  [
+   1794999485447,
+   24.2
+  ],
+  [
+   1794999486448,
+   34.6
+  ],
+  [
+   1794999487447,
+   57.1
+  ],
+  [
+   1794999488447,
+   17.6
+  ],
+  [
+   1794999489447,
+   25.7
+  ],
+  [
+   1794999490448,
+   26.7
+  ],
+  [
+   1794999491448,
+   33.6
+  ],
+  [
+   1794999492449,
+   25.6
+  ],
+  [
+   1794999493450,
+   22.8
+  ],
+  [
+   1794999494451,
+   25.2
+  ],
+  [
+   1794999495451,
+   24.2
+  ],
+  [
+   1794999496451,
+   25.7
+  ],
+  [
+   1794999497451,
+   23.8
+  ],
+  [
+   1794999498452,
+   26.1
+  ],
+  [
+   1794999499453,
+   24.1
+  ],
+  [
+   1794999500453,
+   29.1
+  ],
+  [
+   1794999501454,
+   32
+  ],
+  [
+   1794999502455,
+   24
+  ],
+  [
+   1794999503455,
+   32.3
+  ],
+  [
+   1794999504455,
+   31.2
+  ],
+  [
+   1794999505455,
+   25.7
+  ],
+  [
+   1794999506455,
+   30.8
+  ],
+  [
+   1794999507455,
+   25.7
+  ],
+  [
+   1794999508455,
+   28.3
+  ],
+  [
+   1794999509456,
+   28.8
+  ],
+  [
+   1794999510456,
+   25.2
+  ],
+  [
+   1794999511456,
+   26
+  ],
+  [
+   1794999512456,
+   23.7
+  ],
+  [
+   1794999513457,
+   25.2
+  ],
+  [
+   1794999514458,
+   28
+  ],
+  [
+   1794999515459,
+   26.2
+  ],
+  [
+   1794999516458,
+   23.7
+  ],
+  [
+   1794999517458,
+   25.7
+  ],
+  [
+   1794999518459,
+   25.6
+  ],
+  [
+   1794999519459,
+   24.1
+  ],
+  [
+   1794999520459,
+   26.4
+  ],
+  [
+   1794999521460,
+   27.6
+  ],
+  [
+   1794999522460,
+   26.2
+  ],
+  [
+   1794999523461,
+   23.9
+  ],
+  [
+   1794999524462,
+   27.5
+  ],
+  [
+   1794999525461,
+   28.2
+  ],
+  [
+   1794999526461,
+   27.2
+  ],
+  [
+   1794999527461,
+   28.1
+  ],
+  [
+   1794999528462,
+   26
+  ],
+  [
+   1794999529463,
+   30
+  ],
+  [
+   1794999530463,
+   36.5
+  ],
+  [
+   1794999531464,
+   26.6
+  ],
+  [
+   1794999532465,
+   29.6
+  ],
+  [
+   1794999533465,
+   29.8
+  ],
+  [
+   1794999534465,
+   24.6
+  ],
+  [
+   1794999535466,
+   26.7
+  ],
+  [
+   1794999536466,
+   26.8
+  ],
+  [
+   1794999537466,
+   28.2
+  ],
+  [
+   1794999538467,
+   26.3
+  ],
+  [
+   1794999539468,
+   28.3
+  ],
+  [
+   1794999540468,
+   27.3
+  ],
+  [
+   1794999541468,
+   32.1
+  ],
+  [
+   1794999542469,
+   25.2
+  ],
+  [
+   1794999543469,
+   29.5
+  ],
+  [
+   1794999544469,
+   25.6
+  ],
+  [
+   1794999545470,
+   26.4
+  ],
+  [
+   1794999546471,
+   28.8
+  ],
+  [
+   1794999547471,
+   29.6
+  ],
+  [
+   1794999548471,
+   27.5
+  ],
+  [
+   1794999549471,
+   26.1
+  ],
+  [
+   1794999550472,
+   24.4
+  ],
+  [
+   1794999551472,
+   29.4
+  ],
+  [
+   1794999552472,
+   26.9
+  ],
+  [
+   1794999553472,
+   25.9
+  ],
+  [
+   1794999554473,
+   40.4
+  ],
+  [
+   1794999555473,
+   43.5
+  ],
+  [
+   1794999556472,
+   23
+  ],
+  [
+   1794999557473,
+   29.4
+  ],
+  [
+   1794999558473,
+   24.8
+  ],
+  [
+   1794999559473,
+   27.4
+  ],
+  [
+   1794999560473,
+   27.8
+  ],
+  [
+   1794999561473,
+   25.6
+  ],
+  [
+   1794999562474,
+   26.1
+  ],
+  [
+   1794999563474,
+   24.5
+  ],
+  [
+   1794999564474,
+   24.2
+  ],
+  [
+   1794999565475,
+   27
+  ],
+  [
+   1794999566476,
+   64.8
+  ],
+  [
+   1794999567476,
+   44.3
+  ],
+  [
+   1794999568476,
+   48.9
+  ],
+  [
+   1794999569475,
+   27.1
+  ],
+  [
+   1794999570476,
+   22.8
+  ],
+  [
+   1794999571476,
+   23.8
+  ],
+  [
+   1794999572477,
+   30.5
+  ],
+  [
+   1794999573478,
+   31.9
+  ],
+  [
+   1794999574477,
+   27.6
+  ],
+  [
+   1794999575477,
+   29.3
+  ],
+  [
+   1794999576478,
+   25.8
+  ],
+  [
+   1794999577478,
+   27.5
+  ],
+  [
+   1794999578478,
+   24
+  ],
+  [
+   1794999579478,
+   29.2
+  ],
+  [
+   1794999580479,
+   30
+  ],
+  [
+   1794999581479,
+   27.6
+  ],
+  [
+   1794999582479,
+   29.9
+  ],
+  [
+   1794999583480,
+   27.4
+  ],
+  [
+   1794999584481,
+   24.6
+  ],
+  [
+   1794999585481,
+   27.2
+  ],
+  [
+   1794999586481,
+   25.9
+  ],
+  [
+   1794999587481,
+   26.4
+  ],
+  [
+   1794999588481,
+   26.4
+  ],
+  [
+   1794999589481,
+   27.2
+  ],
+  [
+   1794999590482,
+   23.7
+  ],
+  [
+   1794999591482,
+   24.7
+  ],
+  [
+   1794999592483,
+   42.4
+  ],
+  [
+   1794999593483,
+   29.4
+  ],
+  [
+   1794999594484,
+   31.5
+  ],
+  [
+   1794999595485,
+   39.6
+  ],
+  [
+   1794999596486,
+   32.2
+  ],
+  [
+   1794999597487,
+   33.2
+  ],
+  [
+   1794999598487,
+   31
+  ],
+  [
+   1794999599487,
+   30.6
+  ],
+  [
+   1794999600488,
+   32.6
+  ],
+  [
+   1794999601489,
+   30.2
+  ],
+  [
+   1794999602489,
+   36.1
+  ],
+  [
+   1794999603489,
+   32.5
+  ],
+  [
+   1794999604489,
+   28.4
+  ],
+  [
+   1794999605489,
+   40.8
+  ],
+  [
+   1794999606490,
+   26.8
+  ],
+  [
+   1794999607490,
+   29.3
+  ],
+  [
+   1794999608490,
+   34.1
+  ],
+  [
+   1794999609490,
+   30.4
+  ],
+  [
+   1794999610491,
+   32.8
+  ],
+  [
+   1794999611491,
+   28.5
+  ],
+  [
+   1794999612492,
+   32
+  ],
+  [
+   1794999613492,
+   53.7
+  ],
+  [
+   1794999614491,
+   54.5
+  ],
+  [
+   1794999615492,
+   53.2
+  ],
+  [
+   1794999616492,
+   48.7
+  ],
+  [
+   1794999617492,
+   57.3
+  ],
+  [
+   1794999618492,
+   43.8
+  ],
+  [
+   1794999619492,
+   28.3
+  ],
+  [
+   1794999620493,
+   26.3
+  ],
+  [
+   1794999621493,
+   30
+  ],
+  [
+   1794999622493,
+   24.3
+  ],
+  [
+   1794999623493,
+   32.4
+  ],
+  [
+   1794999624494,
+   30.8
+  ],
+  [
+   1794999625495,
+   30.8
+  ],
+  [
+   1794999626495,
+   33.1
+  ],
+  [
+   1794999627495,
+   33
+  ],
+  [
+   1794999628495,
+   33.5
+  ],
+  [
+   1794999629495,
+   33.3
+  ],
+  [
+   1794999630496,
+   37.4
+  ],
+  [
+   1794999631496,
+   29.9
+  ],
+  [
+   1794999632496,
+   29.9
+  ],
+  [
+   1794999633496,
+   31.8
+  ],
+  [
+   1794999634498,
+   56.6
+  ],
+  [
+   1794999635497,
+   38.1
+  ],
+  [
+   1794999636498,
+   22
+  ],
+  [
+   1794999637499,
+   33.4
+  ],
+  [
+   1794999638500,
+   30.9
+  ],
+  [
+   1794999639500,
+   32.7
+  ],
+  [
+   1794999640500,
+   28.4
+  ],
+  [
+   1794999641500,
+   29.7
+  ],
+  [
+   1794999642501,
+   31.4
+  ],
+  [
+   1794999643501,
+   32.9
+  ],
+  [
+   1794999644501,
+   28.7
+  ],
+  [
+   1794999645501,
+   29.3
+  ],
+  [
+   1794999646501,
+   29.8
+  ],
+  [
+   1794999647502,
+   28
+  ],
+  [
+   1794999648502,
+   31.5
+  ],
+  [
+   1794999649503,
+   24.1
+  ],
+  [
+   1794999650503,
+   19.6
+  ],
+  [
+   1794999651503,
+   35.2
+  ],
+  [
+   1794999652503,
+   30.1
+  ],
+  [
+   1794999653504,
+   23.9
+  ],
+  [
+   1794999654504,
+   28.1
+  ],
+  [
+   1794999655504,
+   22.3
+  ],
+  [
+   1794999656503,
+   22.7
+  ],
+  [
+   1794999657503,
+   21.5
+  ],
+  [
+   1794999658504,
+   34.4
+  ],
+  [
+   1794999659536,
+   60.1
+  ],
+  [
+   1794999660507,
+   56.7
+  ],
+  [
+   1794999661507,
+   45.2
+  ],
+  [
+   1794999662507,
+   39.7
+  ],
+  [
+   1794999663508,
+   49.9
+  ],
+  [
+   1794999664508,
+   25.2
+  ],
+  [
+   1794999665508,
+   23.3
+  ],
+  [
+   1794999666508,
+   26.3
+  ],
+  [
+   1794999667509,
+   24.9
+  ],
+  [
+   1794999668510,
+   24.5
+  ],
+  [
+   1794999669510,
+   23.1
+  ],
+  [
+   1794999670510,
+   24.8
+  ],
+  [
+   1794999671510,
+   26.7
+  ],
+  [
+   1794999672511,
+   24.9
+  ],
+  [
+   1794999673511,
+   30.3
+  ],
+  [
+   1794999674511,
+   24.2
+  ],
+  [
+   1794999675512,
+   21.9
+  ],
+  [
+   1794999676512,
+   27.3
+  ],
+  [
+   1794999677511,
+   23.3
+  ],
+  [
+   1794999678511,
+   28.9
+  ],
+  [
+   1794999679512,
+   26.6
+  ],
+  [
+   1794999680512,
+   24.9
+  ],
+  [
+   1794999681512,
+   23.6
+  ],
+  [
+   1794999682513,
+   26.4
+  ],
+  [
+   1794999683514,
+   32.4
+  ],
+  [
+   1794999684514,
+   24.7
+  ],
+  [
+   1794999685515,
+   26
+  ],
+  [
+   1794999686515,
+   24.3
+  ],
+  [
+   1794999687515,
+   28.6
+  ],
+  [
+   1794999688516,
+   39
+  ],
+  [
+   1794999689516,
+   22.9
+  ],
+  [
+   1794999690516,
+   23.2
+  ],
+  [
+   1794999691516,
+   26.7
+  ],
+  [
+   1794999692517,
+   25.1
+  ],
+  [
+   1794999693517,
+   29.7
+  ],
+  [
+   1794999694517,
+   29.9
+  ],
+  [
+   1794999695517,
+   21.7
+  ],
+  [
+   1794999696517,
+   23.4
+  ],
+  [
+   1794999697518,
+   25.2
+  ],
+  [
+   1794999698519,
+   28.5
+  ],
+  [
+   1794999699519,
+   28.7
+  ],
+  [
+   1794999700519,
+   27.2
+  ],
+  [
+   1794999701533,
+   24.8
+  ],
+  [
+   1794999702534,
+   57.6
+  ],
+  [
+   1794999703534,
+   28.1
+  ],
+  [
+   1794999704535,
+   22.4
+  ],
+  [
+   1794999705536,
+   22.5
+  ],
+  [
+   1794999706536,
+   27.1
+  ],
+  [
+   1794999707535,
+   26
+  ],
+  [
+   1794999708536,
+   23.8
+  ],
+  [
+   1794999709536,
+   22
+  ],
+  [
+   1794999710536,
+   22
+  ],
+  [
+   1794999711536,
+   21.6
+  ],
+  [
+   1794999712537,
+   27.6
+  ],
+  [
+   1794999713538,
+   27.4
+  ],
+  [
+   1794999714538,
+   65
+  ],
+  [
+   1794999715538,
+   23.1
+  ],
+  [
+   1794999716538,
+   10.4
+  ],
+  [
+   1794999717538,
+   16.7
+  ],
+  [
+   1794999718539,
+   19.8
+  ],
+  [
+   1794999719540,
+   19.3
+  ],
+  [
+   1794999720541,
+   17.3
+  ],
+  [
+   1794999721541,
+   29.4
+  ],
+  [
+   1794999722541,
+   19.4
+  ],
+  [
+   1794999723541,
+   18.6
+  ],
+  [
+   1794999724542,
+   19.6
+  ],
+  [
+   1794999725543,
+   15.1
+  ],
+  [
+   1794999726543,
+   14.1
+  ],
+  [
+   1794999727543,
+   16.9
+  ],
+  [
+   1794999728543,
+   17.5
+  ],
+  [
+   1794999729544,
+   24.5
+  ],
+  [
+   1794999730544,
+   14.9
+  ],
+  [
+   1794999731544,
+   14.9
+  ],
+  [
+   1794999732545,
+   17.4
+  ],
+  [
+   1794999733546,
+   17.3
+  ],
+  [
+   1794999734546,
+   17.3
+  ],
+  [
+   1794999735546,
+   14.7
+  ],
+  [
+   1794999736547,
+   15.2
+  ],
+  [
+   1794999737548,
+   13.7
+  ],
+  [
+   1794999738548,
+   14.1
+  ],
+  [
+   1794999739549,
+   16.6
+  ],
+  [
+   1794999740550,
+   22.2
+  ],
+  [
+   1794999741550,
+   13.8
+  ],
+  [
+   1794999742551,
+   16.9
+  ],
+  [
+   1794999743551,
+   15.4
+  ],
+  [
+   1794999744552,
+   22.4
+  ],
+  [
+   1794999745551,
+   15.2
+  ],
+  [
+   1794999746552,
+   16.1
+  ],
+  [
+   1794999747552,
+   18.4
+  ],
+  [
+   1794999748552,
+   13.7
+  ],
+  [
+   1794999749551,
+   20.1
+  ],
+  [
+   1794999750551,
+   15.5
+  ],
+  [
+   1794999751552,
+   12.6
+  ],
+  [
+   1794999752552,
+   16.1
+  ],
+  [
+   1794999753552,
+   16.7
+  ],
+  [
+   1794999754553,
+   16.7
+  ],
+  [
+   1794999755553,
+   14.8
+  ],
+  [
+   1794999756554,
+   15.1
+  ],
+  [
+   1794999757555,
+   13.9
+  ],
+  [
+   1794999758555,
+   15.9
+  ],
+  [
+   1794999759556,
+   17.7
+  ],
+  [
+   1794999760556,
+   14.3
+  ],
+  [
+   1794999761557,
+   25.4
+  ],
+  [
+   1794999762556,
+   23.7
+  ],
+  [
+   1794999763557,
+   14.9
+  ],
+  [
+   1794999764557,
+   19.2
+  ],
+  [
+   1794999765557,
+   14.8
+  ],
+  [
+   1794999766558,
+   15.1
+  ],
+  [
+   1794999767558,
+   18.2
+  ],
+  [
+   1794999768558,
+   14.1
+  ],
+  [
+   1794999769559,
+   17.1
+  ],
+  [
+   1794999770560,
+   17.8
+  ],
+  [
+   1794999771561,
+   13.8
+  ],
+  [
+   1794999772561,
+   19.3
+  ],
+  [
+   1794999773561,
+   18.6
+  ],
+  [
+   1794999774561,
+   22.4
+  ],
+  [
+   1794999775562,
+   15.3
+  ],
+  [
+   1794999776562,
+   14.7
+  ],
+  [
+   1794999777562,
+   15.9
+  ],
+  [
+   1794999778562,
+   16
+  ],
+  [
+   1794999779562,
+   23.5
+  ],
+  [
+   1794999780562,
+   18.4
+  ],
+  [
+   1794999781562,
+   18.5
+  ],
+  [
+   1794999782563,
+   46.5
+  ],
+  [
+   1794999783563,
+   21.3
+  ],
+  [
+   1794999784563,
+   15.6
+  ],
+  [
+   1794999785564,
+   17
+  ],
+  [
+   1794999786565,
+   14.9
+  ],
+  [
+   1794999787565,
+   16.5
+  ],
+  [
+   1794999788565,
+   14.8
+  ],
+  [
+   1794999789566,
+   16.6
+  ],
+  [
+   1794999790567,
+   17.1
+  ],
+  [
+   1794999791567,
+   15
+  ],
+  [
+   1794999792568,
+   17.3
+  ],
+  [
+   1794999793569,
+   15
+  ],
+  [
+   1794999794569,
+   16.8
+  ],
+  [
+   1794999795569,
+   15.1
+  ],
+  [
+   1794999796570,
+   15.4
+  ],
+  [
+   1794999797571,
+   28.6
+  ],
+  [
+   1794999798572,
+   23.9
+  ],
+  [
+   1794999799572,
+   24.3
+  ],
+  [
+   1794999800572,
+   22
+  ],
+  [
+   1794999801572,
+   33
+  ],
+  [
+   1794999802573,
+   15.9
+  ],
+  [
+   1794999803573,
+   19
+  ],
+  [
+   1794999804573,
+   35.8
+  ],
+  [
+   1794999805572,
+   23.2
+  ],
+  [
+   1794999806572,
+   21.8
+  ],
+  [
+   1794999807573,
+   29
+  ],
+  [
+   1794999808574,
+   24
+  ],
+  [
+   1794999809574,
+   23.9
+  ],
+  [
+   1794999810574,
+   31.1
+  ],
+  [
+   1794999811574,
+   27.3
+  ],
+  [
+   1794999812574,
+   23.2
+  ],
+  [
+   1794999813574,
+   26
+  ],
+  [
+   1794999814575,
+   21.9
+  ],
+  [
+   1794999815576,
+   24.9
+  ],
+  [
+   1794999816576,
+   20.6
+  ],
+  [
+   1794999817576,
+   27.8
+  ],
+  [
+   1794999818577,
+   18.5
+  ],
+  [
+   1794999819578,
+   28.6
+  ],
+  [
+   1794999820577,
+   48
+  ],
+  [
+   1794999821577,
+   66.6
+  ],
+  [
+   1794999822577,
+   33.3
+  ],
+  [
+   1794999823577,
+   33.4
+  ],
+  [
+   1794999824578,
+   33.6
+  ],
+  [
+   1794999825578,
+   49.5
+  ],
+  [
+   1794999826579,
+   60.3
+  ],
+  [
+   1794999827579,
+   55.1
+  ],
+  [
+   1794999828579,
+   52
+  ],
+  [
+   1794999829579,
+   54.8
+  ],
+  [
+   1794999830579,
+   42.6
+  ],
+  [
+   1794999831579,
+   31.1
+  ],
+  [
+   1794999832580,
+   23.5
+  ],
+  [
+   1794999833580,
+   31.4
+  ],
+  [
+   1794999834581,
+   32.6
+  ],
+  [
+   1794999835582,
+   27.9
+  ],
+  [
+   1794999836582,
+   20.7
+  ],
+  [
+   1794999837583,
+   22.3
+  ],
+  [
+   1794999838583,
+   27
+  ],
+  [
+   1794999839584,
+   23.2
+  ],
+  [
+   1794999840584,
+   27.4
+  ],
+  [
+   1794999841585,
+   27.1
+  ],
+  [
+   1794999842585,
+   26.2
+  ],
+  [
+   1794999843585,
+   33.7
+  ],
+  [
+   1794999844585,
+   70.7
+  ],
+  [
+   1794999845586,
+   33.9
+  ],
+  [
+   1794999846586,
+   34.6
+  ],
+  [
+   1794999847587,
+   21.4
+  ],
+  [
+   1794999848588,
+   23.6
+  ],
+  [
+   1794999849588,
+   34.4
+  ],
+  [
+   1794999850588,
+   42.1
+  ],
+  [
+   1794999851589,
+   19.6
+  ],
+  [
+   1794999852589,
+   20.4
+  ],
+  [
+   1794999853589,
+   21.1
+  ],
+  [
+   1794999854590,
+   21.8
+  ],
+  [
+   1794999855590,
+   21.9
+  ],
+  [
+   1794999856591,
+   22.2
+  ],
+  [
+   1794999857592,
+   20.5
+  ],
+  [
+   1794999858591,
+   21.4
+  ],
+  [
+   1794999859592,
+   40.9
+  ],
+  [
+   1794999860605,
+   71.8
+  ],
+  [
+   1794999861607,
+   69
+  ],
+  [
+   1794999862606,
+   43.5
+  ],
+  [
+   1794999863607,
+   30.6
+  ],
+  [
+   1794999864607,
+   24.3
+  ],
+  [
+   1794999865607,
+   22.2
+  ],
+  [
+   1794999866608,
+   20.9
+  ],
+  [
+   1794999867609,
+   27.3
+  ],
+  [
+   1794999868610,
+   31.9
+  ],
+  [
+   1794999869610,
+   53.5
+  ],
+  [
+   1794999870610,
+   43.6
+  ],
+  [
+   1794999871611,
+   37.8
+  ],
+  [
+   1794999872611,
+   20.8
+  ],
+  [
+   1794999873611,
+   25.7
+  ],
+  [
+   1794999874611,
+   23
+  ],
+  [
+   1794999875611,
+   19.6
+  ],
+  [
+   1794999876611,
+   20.2
+  ],
+  [
+   1794999877612,
+   22
+  ],
+  [
+   1794999878612,
+   21.3
+  ],
+  [
+   1794999879613,
+   30.2
+  ],
+  [
+   1794999880613,
+   21.1
+  ],
+  [
+   1794999881612,
+   23.4
+  ],
+  [
+   1794999882613,
+   26.3
+  ],
+  [
+   1794999883613,
+   36.2
+  ],
+  [
+   1794999884613,
+   40.8
+  ],
+  [
+   1794999885613,
+   21.7
+  ],
+  [
+   1794999886613,
+   22.1
+  ],
+  [
+   1794999887614,
+   20.8
+  ],
+  [
+   1794999888614,
+   26.1
+  ],
+  [
+   1794999889614,
+   37
+  ],
+  [
+   1794999890615,
+   41.9
+  ],
+  [
+   1794999891616,
+   22.1
+  ],
+  [
+   1794999892616,
+   21.2
+  ],
+  [
+   1794999893616,
+   20.9
+  ],
+  [
+   1794999894616,
+   22.5
+  ],
+  [
+   1794999895617,
+   35.1
+  ]
+ ]
+}

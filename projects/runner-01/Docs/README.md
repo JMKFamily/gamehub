@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | game-developer | round-3 | [round-3 성능 보완 (추적 원인: 처음 도는 코드·HUD 레이아웃·SVG 탭 아이콘, D35~D43, 같은 시간대 A/B ≥45 8→12/36·첫 프레임 20~25 ms·첫 탭 17~37 ms, 정식 3회는 PC 부하 40~75 %로 미통과 → 재측정 필요)](game-developer/2026-11-18-r3-perf.md) |
 | 2026-11-18 | game-developer | round-3 빌드 | [round-3 빌드 (콤보 연출 강화: 큰 숫자·단계 파티클·아틀라스 판정 글, 5-8-9 26항목, aria 키화·부트 lang, 메뉴·시작 성능)](game-developer/2026-11-18-r3-build.md) |
 | 2026-11-18 | balance-designer | round-3 기획 | [round-3 밸런스 수정 (12세 σ50 안 B: L10 6.48 / 목표 6.20, 목표 17 폐기·연속 중앙값 통일, 고리 접촉 판정 창·B1 0, mark_at 5·10·15·20, judge_pct.hud 0.45 s, σ70 L6~L10 30회 초과)](balance-designer/2026-11-18-r3-balance.md) |
 | 2026-11-18 | art-director | round-3 기획 | [round-3 아트 수정 (30-art 5-8 콤보 연출 강화 재작성: 큰 숫자 α0.30/0.04·단계 5·10·15·20 파티클 comboFx 40색·판정 글 채움+받침+아틀라스·생략률·combo_mark −23.5·L10 해·문 꺾쇠·dev 체크리스트 26)](art-director/2026-11-18-r3-art.md) |

@@ -19,12 +19,16 @@ button { font: inherit; color: inherit; touch-action: manipulation; cursor: poin
 /* HUD: 위쪽 띠 */
 #hud { position: fixed; left: 0; right: 0; top: 0; padding: calc(var(--sat) + 6px) calc(var(--sar) + 8px) 0 calc(var(--sal) + 8px);
   display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; pointer-events: none; z-index: 5; }
-.att { font-weight: 800; font-size: 14px; min-width: 64px; line-height: 48px; transition: font-size .35s, transform .35s; transform-origin: left top; white-space: nowrap; text-shadow: 0 1px 0 var(--outline); }
-.att.big { font-size: 26px; }
+/* (round-3 성능 보완, DEV_NOTES D35) 시도 수 크게 보이기: font-size 전환은 0.35 s 동안 매 프레임 레이아웃이라 transform 배율로 같은 크기(26/14, 세로 20/14).
+   기준점 = 왼쪽 가운데(48 px 줄 가운데)라 글자 가운데 높이가 font-size 방식과 같음 */
+.att { font-weight: 800; font-size: 14px; min-width: 64px; line-height: 48px; transition: transform .35s; transform-origin: left center; white-space: nowrap; text-shadow: 0 1px 0 var(--outline); }
+.att.big { font-size: 14px; text-shadow: 0 2.15px 0 var(--outline); transform: scale(1.857); } /* .big(72 px·그림자 4 px)를 덮음: 보이는 크기 26 px·그림자 4 px로 round-3와 같음 */
 #barWrap { position: absolute; left: 50%; top: calc(var(--sat) + 21px); transform: translateX(-50%); display: flex; align-items: center; gap: 8px;
   width: max(160px, 40vw); }
 #bar { position: relative; flex: 1; height: max(7px, calc(var(--tile) * 0.18)); border: 2px solid var(--hud); border-radius: 99px; overflow: visible; }
-#barFill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--hud); border-radius: 99px; }
+/* (round-3 성능 보완, D35) 채움 = 폭 100 % 막대를 translateX로 밀어 둥근 틀(#barClip)로 자름: 매 프레임 width 바꿈(레이아웃·페인트) 대신 합성만. 모양(양 끝 둥근 채움)은 같음 */
+#barClip { position: absolute; inset: 0; overflow: hidden; border-radius: 99px; }
+#barFill { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: var(--hud); border-radius: 99px; transform: translateX(-100%); will-change: transform; }
 #barBest { position: absolute; top: -5px; bottom: -5px; width: 3px; background: var(--hud); border-radius: 2px; left: 0; opacity: .75; }
 #pct { font-weight: 800; font-size: 14px; min-width: 40px; text-align: left; text-shadow: 0 1px 0 var(--outline); }
 .hudRight { display: flex; gap: 8px; pointer-events: auto; }
@@ -38,6 +42,8 @@ button { font: inherit; color: inherit; touch-action: manipulation; cursor: poin
   display: flex; align-items: center; gap: 12px; padding: 8px 16px; border-radius: 16px; background: rgba(13,15,20,.6); border: 2px solid var(--hud);
   font-weight: 800; font-size: 16px; max-width: calc(100vw - 32px); }
 .cue svg { width: 72px; height: 72px; flex: none; } /* 30-art 5-3: 그림 72 px (세로 64 px) */
+/* (D35) 카드 그림의 손끝 링(SMIL)이 도는 동안 그림만 다시 그리게 자기 층으로 (카드 받침·글은 다시 그리지 않음) */
+.cue svg { will-change: transform; }
 .clearIco { width: 72px; height: 72px; color: var(--player); filter: drop-shadow(0 3px 0 var(--outline)); }
 .toast { position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%); z-index: 6; pointer-events: none; font-weight: 900; font-size: 22px;
   text-align: center; text-shadow: 0 2px 0 var(--outline); max-width: calc(100vw - 32px); }
@@ -152,7 +158,7 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 /* 좁은 화면(세로 등): 진행도 바를 둘째 줄로 */
 @media (max-width: 560px) {
   #barWrap { top: calc(var(--sat) + 62px); width: calc(100vw - 32px - var(--sal) - var(--sar)); }
-  .att { font-size: 14px; } .att.big { font-size: 20px; }
+  .att { font-size: 14px; } .att.big { font-size: 14px; text-shadow: 0 2.8px 0 var(--outline); transform: scale(1.429); }
   .cue { top: calc(var(--sat) + 86px); font-size: 14px; width: calc(100vw - 32px); }
 }
 @media (max-width: 560px) { .cue svg { width: 64px; height: 64px; } }
@@ -214,3 +220,5 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .card { overflow: visible; box-shadow: none; }
 .card .band { border-radius: 0 0 11px 11px; box-shadow: none; }
 .card .band::before { content: ''; position: absolute; left: 0; right: 0; top: -5px; height: 2px; background: var(--outline); pointer-events: none; }
+/* (round-3 성능 보완, D35) 로드 때 한 번: 메뉴·HUD·카드를 불투명도 1 %로 몇 프레임 그려 글자 모양·셰이더를 미리 준비 (main.js warmScreens). 숨김 규칙보다 뒤에 둠 */
+#levels.warmup, #settings.warmup, #title.warmup, #hud.warmup, #cue.warmup { display: flex !important; visibility: visible !important; content-visibility: visible !important; opacity: .01 !important; pointer-events: none !important; }
