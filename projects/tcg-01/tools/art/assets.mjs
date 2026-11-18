@@ -221,7 +221,7 @@ export function cardSVG(c, mode = 'full', opts = {}) {
   }
   // 비용: 왼쪽 위 세로 심지 판(초 모양, 보석 아님)
   const cs = hand ? 1.6 : 1, cw = C.cost.w_px * cs, chh = C.cost.h_px * cs;
-  p.push(`<g transform="translate(${C.cost.x_px} ${C.cost.y_px + 6})"><path d="M${cw / 2} -8Q${cw / 2 + 7} -1 ${cw / 2} 4Q${cw / 2 - 7} -1 ${cw / 2} -8Z" fill="${ui.wick_flame}" stroke="${ui.wick_ink}" stroke-width="1.5"/><rect width="${cw}" height="${chh}" rx="7" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2.5"/><text x="${cw / 2}" y="${chh / 2 + C.cost.font_px * cs * .36}" text-anchor="middle" font-size="${C.cost.font_px * cs}" font-weight="800" fill="${ui.wick_ink}" ${FONT}>${st.cost}</text></g>`);
+  p.push(`<g transform="translate(${C.cost.x_px} ${C.cost.y_px + 6})"><path d="M${cw / 2} -8Q${cw / 2 + 7} -1 ${cw / 2} 4Q${cw / 2 - 7} -1 ${cw / 2} -8Z" fill="${ui.wick_flame}" stroke="${ui.wick_ink}" stroke-width="1.5"/><rect width="${cw}" height="${chh}" rx="7" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2.5"/><path d="M${cw * 0.18} 3q${cw * 0.06} ${chh * 0.14} 0 ${chh * 0.24}q${-cw * 0.03} ${chh * 0.06} ${cw * 0.03} ${chh * 0.1}" fill="none" stroke="#FFF3C4" stroke-opacity=".75" stroke-width="${3 * cs}" stroke-linecap="round"/><path d="M${cw * 0.78} 2v${chh * 0.12}" stroke="#FFF3C4" stroke-opacity=".6" stroke-width="${2.4 * cs}" stroke-linecap="round"/><text x="${cw / 2}" y="${chh / 2 + C.cost.font_px * cs * .36}" text-anchor="middle" font-size="${C.cost.font_px * cs}" font-weight="800" fill="${ui.wick_ink}" ${FONT}>${st.cost}</text></g>`);
   // 스탯 판(응답자·인장): 아래 가운데 하나의 판, 왼쪽 공격·오른쪽 명줄(인장은 새김 수)
   if (kind !== 'rite') {
     const ts = hand ? 1.45 : 1, tw = C.stat_tab.w_px * ts, th = C.stat_tab.h_px * ts, tx = (W - tw) / 2, ty = H - th;
@@ -311,3 +311,30 @@ export function appIconSVG() {
 }
 
 export const keywordIds = KW.map((k) => k.id);
+
+// ───────── 2026-11-19 요청자 지시 "심지 = 촛불": 심지 HUD·비용 표시를 촛불 언어로 ─────────
+// state: lit(불꽃 흔들림은 빌드에서 transform만) / spent(꺼짐 + 연기 한 줄) / spare(여분 심지: 짧고 굵은 토막 + 띠) / soot(그을음: 검게 탄 심지·그을음 자국) / empty(아직 없는 자리: 받침만)
+export function candleBody(state, w = 20, h = 48) {
+  const k = w / 20, body = { lit: '#E9D9B8', spent: '#BFB39A', spare: '#E9A62E', soot: '#5A4A3E', empty: 'none' }[state];
+  const tall = state === 'spare' ? 22 : 30, y0 = h - 6 - tall * k;
+  const p = [];
+  p.push(`<ellipse cx="${10 * k}" cy="${h - 4}" rx="${9 * k}" ry="${3 * k}" fill="#3A2F22" stroke="#1B1306" stroke-width="1"/>`); // 받침(인양 목재 접시)
+  if (state === 'empty') return p.join('') + `<rect x="${5 * k}" y="${y0}" width="${10 * k}" height="${tall * k}" rx="${2 * k}" fill="none" stroke="#4D585D" stroke-dasharray="3 3"/>`;
+  p.push(`<rect x="${(state === 'spare' ? 3.5 : 5) * k}" y="${y0}" width="${(state === 'spare' ? 13 : 10) * k}" height="${tall * k}" rx="${2 * k}" fill="${body}" stroke="#1B1306" stroke-width="1.2"/>`);
+  p.push(`<path d="M${(state === 'spare' ? 4 : 5.5) * k} ${y0 + 3 * k}q${2 * k} ${5 * k} ${1 * k} ${8 * k}" fill="none" stroke="#FFFFFF" stroke-opacity=".5" stroke-width="${1.6 * k}" stroke-linecap="round"/>`); // 흘러내린 촛농
+  if (state === 'spare') p.push(`<rect x="${3.5 * k}" y="${y0 + tall * k * 0.55}" width="${13 * k}" height="${3 * k}" fill="#7A4A12"/>`);
+  const wickTop = y0 - 5 * k;
+  p.push(`<path d="M${10 * k} ${y0}V${wickTop}" stroke="${state === 'soot' ? '#000' : '#2A1E12'}" stroke-width="${1.6 * k}"/>`);
+  if (state === 'lit' || state === 'spare') p.push(`<g class="flame"><path d="M${10 * k} ${wickTop - 13 * k}Q${15 * k} ${wickTop - 5 * k} ${10 * k} ${wickTop + 1 * k}Q${5 * k} ${wickTop - 5 * k} ${10 * k} ${wickTop - 13 * k}Z" fill="#F4B740"/><path d="M${10 * k} ${wickTop - 8 * k}Q${12.5 * k} ${wickTop - 3 * k} ${10 * k} ${wickTop}Q${7.5 * k} ${wickTop - 3 * k} ${10 * k} ${wickTop - 8 * k}Z" fill="#FFF3C4"/></g>`);
+  if (state === 'spent') p.push(`<path d="M${10 * k} ${wickTop}q${-3 * k} ${-5 * k} 0 ${-9 * k}t0 ${-9 * k}" fill="none" stroke="#AEB9BD" stroke-opacity=".7" stroke-width="${1.4 * k}" stroke-linecap="round"/>`);
+  if (state === 'soot') p.push(`<ellipse cx="${10 * k}" cy="${y0 + 2 * k}" rx="${6 * k}" ry="${2.5 * k}" fill="#000" opacity=".8"/><path d="M${4 * k} ${y0 + 9 * k}l${12 * k} ${10 * k}M${16 * k} ${y0 + 9 * k}l${-12 * k} ${10 * k}" stroke="#1A0F0A" stroke-width="${2 * k}"/>`);
+  return p.join('');
+}
+export function candleSVG(state, w = 20, h = 48) { return svg(w, h, candleBody(state, w, h), { lit: '켜진 심지', spent: '쓴 심지', spare: '여분 심지', soot: '그을음', empty: '빈 자리' }[state]); }
+/** 심지 줄: 최대 10자리. lit 개수·spent·soot·spare 반영 */
+export function candleRowSVG({ max, lit, soot = 0, spare = 0 }, cw = 20, ch = 48, gap = 3) {
+  const p = []; let x = 0;
+  for (let i = 0; i < 10; i++) { const st = i < soot ? 'soot' : i < soot + lit ? 'lit' : i < max ? 'spent' : 'empty'; p.push(`<g transform="translate(${x} 0)">${candleBody(st, cw, ch)}</g>`); x += cw + gap; }
+  for (let j = 0; j < spare; j++) { p.push(`<g transform="translate(${x + 4} 0)">${candleBody('spare', cw, ch)}</g>`); x += cw + gap + 4; }
+  return svg(x, ch, p.join(''), `심지 ${lit}/${max}`);
+}

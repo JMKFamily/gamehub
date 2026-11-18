@@ -439,3 +439,13 @@ export const storyPanel = {
   },
   tempo: { open_ms: 180, close_ms: 140, fast_open_ms: 120, lock_ms: 0, motion: '아래에서 12 px 올라오며 투명도 0→1, 글 상자 위에 덮임(카드 뒤집기 연출 없음)' },
 };
+
+// 2026-11-19 요청자 지시 "심지 = 촛불": HUD 심지 줄·비용 표시·꺼짐 연출
+export const candle = {
+  states: { lit: '불꽃(빌드: 흔들림 = flame 그룹 rotate ±4°·scaleY 0.92~1.06, 1.1~1.7 s 주기, 촛불마다 위상 무작위)', spent: '꺼진 심지 + 연기 한 줄(정적)', spare: '여분 심지: 짧고 굵은 주황 토막 + 갈색 띠', soot: '그을음: 검게 탄 머리·X 자국', empty: '최대치 밖 자리: 점선 받침' },
+  max: 10, order: '왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리. 카드를 내면 오른쪽 켜진 것부터 비용만큼 꺼짐',
+  extinguish: { per_candle_stagger_ms: 40, flame_out_ms: 140, smoke_in_ms: 160, total_max_ms: 500, lock_ms: 0, note: '정적 그림 두 장(켜짐/꺼짐)을 opacity·transform으로 바꿈. 매 프레임 그리는 입자 금지(insights 성능)' },
+  relight_turn_start: { per_candle_stagger_ms: 30, flame_in_ms: 160, note: '턴 시작 심지 켜짐(5-2 wick_light 360 ms) 안' },
+  size_px: { portrait: '칸 폭 = (심지 띠 폭 − 9×3)/10, 높이 = 폭 × 2.4', min_flame_px: 6 },
+  cost_plate: '카드 비용 = 세로 초(촛농 흐름·심지·불꽃). 마나 판 = 촛불 한 자루',
+};

@@ -65,12 +65,13 @@ function landscape(w, h, n) {
   const Lc = Math.round(136 * s), Rc = Math.round(112 * s);
   const cx = g + Lc + g, cw = w - 2 * g - Lc - Rc - 2 * g;
   const handCardW = Math.round(70 * s), handCardH = Math.round(handCardW * 1.4), peek = Math.round(handCardH * 0.5);
-  const mid = Math.round(28 * s);
+  const mid = Math.round(48 * s); // 2026-11-19: 가로 튜토리얼 패널이 화면 가운데(35~65 %)에 오도록 가운데 띠를 48로 키우고 두 필드를 세로 가운데로
   const availH = h - L.safe_top_px - L.safe_bottom_px - peek - mid - 2 * 6 * s;
   let slotH = Math.floor(availH / 2), slotW = Math.floor(slotH / L.slot_aspect_h_w_ratio);
   if (n * slotW + (n - 1) * gap > cw) { slotW = Math.floor((cw - (n - 1) * gap) / n); slotH = Math.round(slotW * L.slot_aspect_h_w_ratio); }
   const E = {};
-  let y = L.safe_top_px + 4 * s;
+  const handTop0 = h - L.safe_bottom_px - peek;
+  let y = L.safe_top_px + Math.max(4 * s, (handTop0 - L.safe_top_px - (2 * slotH + mid + 12 * s)) / 2);
   E.enemy_board = r(cx, y, cw, slotH, { kind: 'container' });
   E.enemy_slots = boardSlots(cx, y, cw, slotW, slotH, gap, n);
   y += slotH + 6 * s;
@@ -153,8 +154,9 @@ export function tutorialSlots(lay, w, h) {
     return {
       main: { x: m.x, y: m.y, w: m.w - 56, h: m.h, kind: 'panel' },
       next: { x: m.x + m.w - 52, y: m.y + (m.h - 48) / 2, w: 48, h: 48, kind: 'button' },
-      alt: { x: E.enemy_row.x, y: E.enemy_row.y, w: E.enemy_row.w - 56, h: E.enemy_row.h, kind: 'panel' },
-      alt_next: { x: E.enemy_row.x + E.enemy_row.w - 52, y: E.enemy_row.y + (E.enemy_row.h - 48) / 2, w: 48, h: 48, kind: 'button' },
+      // 2026-11-19: 보조 자리도 가운데 띠(위아래 끝 금지). 오른쪽 남은 카드 수를 비켜 폭만 줄임
+      alt: { x: m.x, y: m.y, w: m.w - 112, h: m.h, kind: 'panel' },
+      alt_next: { x: m.x + m.w - 108, y: m.y + (m.h - 48) / 2, w: 48, h: 48, kind: 'button' },
       skip: { x: w - g - 48, y: Math.max(0, E.enemy_row.y - 0), w: 48, h: 48, kind: 'button', note: 'alt 쓸 때는 mid_band 오른쪽 끝으로' },
     };
   }
@@ -163,7 +165,7 @@ export function tutorialSlots(lay, w, h) {
   return {
     main: { x: E.mid_band.x, y: top, w: E.mid_band.w, h: bot - top, kind: 'panel' },
     next: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 4, w: E.enemy_hand.w, h: 48, kind: 'button' },
-    alt: { x: E.hand.x, y: E.hand.y, w: E.hand.w, h: E.hand.h, kind: 'panel' },
+    alt: { x: E.mid_band.x, y: top, w: E.mid_band.w, h: bot - top, kind: 'panel' },
     alt_next: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 4, w: E.enemy_hand.w, h: 48, kind: 'button' },
     skip: { x: rx, y: E.enemy_deck.y + E.enemy_deck.h + 56, w: E.enemy_hand.w, h: 48, kind: 'button' },
   };
@@ -183,6 +185,7 @@ export function checkTutorial(w, h, lay) {
     plan[step] = useAlt ? 'alt' : 'main';
   }
   for (const k of ['next', 'alt_next', 'skip']) if (S[k].w < 48 || S[k].h < 48) errs.push(`${k} 48 px 미만`);
+  for (const k of ['main', 'alt']) { const c = (S[k].y + S[k].h / 2) / h; if (c < 0.35 || c > 0.65) errs.push(`${k} 패널 가운데 ${(c * 100).toFixed(0)} % — 35~65 % 띠 밖`); }
   if (panelText(S.main) < 2) errs.push('패널 2줄 안 들어감');
   return { errs, plan, main_lines: panelText(S.main), slots: S };
 }

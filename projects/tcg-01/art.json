@@ -839,7 +839,7 @@
     "rects_px": {
      "enemy_board": {
       "x": 152,
-      "y": 12,
+      "y": 39,
       "w": 360,
       "h": 87,
       "kind": "container"
@@ -847,52 +847,52 @@
      "enemy_slots": [
       {
        "x": 153,
-       "y": 12,
+       "y": 39,
        "w": 67,
        "h": 87
       },
       {
        "x": 226,
-       "y": 12,
+       "y": 39,
        "w": 67,
        "h": 87
       },
       {
        "x": 299,
-       "y": 12,
+       "y": 39,
        "w": 67,
        "h": 87
       },
       {
        "x": 372,
-       "y": 12,
+       "y": 39,
        "w": 67,
        "h": 87
       },
       {
        "x": 445,
-       "y": 12,
+       "y": 39,
        "w": 67,
        "h": 87
       }
      ],
      "mid_band": {
       "x": 152,
-      "y": 105,
+      "y": 132,
       "w": 360,
-      "h": 28,
+      "h": 48,
       "kind": "container"
      },
      "turn_timer": {
       "x": 152,
-      "y": 116,
+      "y": 153,
       "w": 360,
       "h": 6,
       "kind": "display"
      },
      "my_board": {
       "x": 152,
-      "y": 139,
+      "y": 186,
       "w": 360,
       "h": 87,
       "kind": "container"
@@ -900,31 +900,31 @@
      "my_slots": [
       {
        "x": 153,
-       "y": 139,
+       "y": 186,
        "w": 67,
        "h": 87
       },
       {
        "x": 226,
-       "y": 139,
+       "y": 186,
        "w": 67,
        "h": 87
       },
       {
        "x": 299,
-       "y": 139,
+       "y": 186,
        "w": 67,
        "h": 87
       },
       {
        "x": 372,
-       "y": 139,
+       "y": 186,
        "w": 67,
        "h": 87
       },
       {
        "x": 445,
-       "y": 139,
+       "y": 186,
        "w": 67,
        "h": 87
       }
@@ -1037,7 +1037,7 @@
     "rects_px": {
      "enemy_board": {
       "x": 288,
-      "y": 16,
+      "y": 62,
       "w": 752,
       "h": 189,
       "kind": "container"
@@ -1045,52 +1045,52 @@
      "enemy_slots": [
       {
        "x": 290,
-       "y": 16,
+       "y": 62,
        "w": 145,
        "h": 189
       },
       {
        "x": 441,
-       "y": 16,
+       "y": 62,
        "w": 145,
        "h": 189
       },
       {
        "x": 592,
-       "y": 16,
+       "y": 62,
        "w": 145,
        "h": 189
       },
       {
        "x": 743,
-       "y": 16,
+       "y": 62,
        "w": 145,
        "h": 189
       },
       {
        "x": 894,
-       "y": 16,
+       "y": 62,
        "w": 145,
        "h": 189
       }
      ],
      "mid_band": {
       "x": 288,
-      "y": 217,
+      "y": 263,
       "w": 752,
-      "h": 56,
+      "h": 96,
       "kind": "container"
      },
      "turn_timer": {
       "x": 288,
-      "y": 242,
+      "y": 308,
       "w": 752,
       "h": 6,
       "kind": "display"
      },
      "my_board": {
       "x": 288,
-      "y": 285,
+      "y": 371,
       "w": 752,
       "h": 189,
       "kind": "container"
@@ -1098,31 +1098,31 @@
      "my_slots": [
       {
        "x": 290,
-       "y": 285,
+       "y": 371,
        "w": 145,
        "h": 189
       },
       {
        "x": 441,
-       "y": 285,
+       "y": 371,
        "w": 145,
        "h": 189
       },
       {
        "x": 592,
-       "y": 285,
+       "y": 371,
        "w": 145,
        "h": 189
       },
       {
        "x": 743,
-       "y": 285,
+       "y": 371,
        "w": 145,
        "h": 189
       },
       {
        "x": 894,
-       "y": 285,
+       "y": 371,
        "w": 145,
        "h": 189
       }
@@ -2709,6 +2709,757 @@
    "motion": "아래에서 12 px 올라오며 투명도 0→1, 글 상자 위에 덮임(카드 뒤집기 연출 없음)"
   }
  },
+ "ux2": {
+  "zones": {
+   "hud_top_max_ratio": 0.14,
+   "back_corner": "왼쪽 아래(왼쪽 30 % × 아래 20 %)",
+   "core_center": "가운데 아래(가로 가운데 70 %, 아래 30 %)",
+   "meta_edges": "왼쪽·오른쪽 가장자리 22 % 안",
+   "shop_corner": "오른쪽 위(오른쪽 30 % × 위 20 %)"
+  },
+  "primary_buttons_max": 3,
+  "touch_min_px": 48,
+  "battle_button": {
+   "min_w_px": 160,
+   "h_px": 72,
+   "fill": "#F4B740",
+   "ink": "#1B1306",
+   "pulse_ms": 1800
+  },
+  "difficulty": {
+   "levels": [
+    {
+     "id": "easy",
+     "ko": "쉬움",
+     "art": "잔잔한 소금 평원 + 작은 물결 1",
+     "ring": "#6EE7A8",
+     "default": true
+    },
+    {
+     "id": "normal",
+     "ko": "보통",
+     "art": "바람 부는 사구 + 물결 2",
+     "ring": "#FFD166"
+    },
+    {
+     "id": "hard",
+     "ko": "어려움",
+     "art": "솟는 흑조 + 물결 3",
+     "ring": "#FF6F5E"
+    }
+   ],
+   "note": "단계 수·AI 강도는 balance(20-balance·balance.json). 기본 선택 = 쉬움. 그림 카드 3장, 선택 = 4 px 테두리 + 1.06배"
+  },
+  "deck_tutorial": {
+   "cards": 4,
+   "center_band": [
+    0.35,
+    0.65
+   ],
+   "pages": [
+    "덱 = 카드 30장",
+    "같은 카드는 2장(전설 1장)",
+    "유형 비율 막대",
+    "필터로 찾기"
+   ]
+  },
+  "collection": {
+   "default": "full_card_with_text",
+   "story_open": {
+    "card_shift": "left",
+    "card_w_ratio_portrait": 0.46,
+    "panel_w_ratio_portrait": 0.5,
+    "move_ms": 220
+   }
+  },
+  "packs": {
+   "modes": [
+    "open_one",
+    "open_next",
+    "open_all"
+   ],
+   "open_all": {
+    "reveal_stagger_ms": 60,
+    "sort": "rarity_desc",
+    "legend_pause_ms": 600,
+    "legend_pause_max": 3,
+    "total_cap_ms": 4000,
+    "fast_skip": "탭 = 남은 공개 즉시"
+   },
+   "open_next": {
+    "next_button": "가운데 아래 큰 버튼 \"다음 팩 (n)\"",
+    "keep_summary": true
+   }
+  },
+  "worldmap": {
+   "viewport": "세로 스크롤 지도(지도 높이 = 화면 높이 × 2.6), 현재 노드가 화면 가운데 오게 처음 스크롤",
+   "node_px": 52,
+   "current_ring_px": 64,
+   "path_px": 6,
+   "cleared": "#F2EEE4",
+   "locked": "#4D585D",
+   "current": "#7FE3FF",
+   "regions_from": "10-lore 2-3 지리(7곳). 노드 목록은 lore reviews/ux2/lore-writer.md가 정하면 worldmapSVG(nodes)에 넣어 다시 생성"
+  },
+  "tutorial_band": [
+   0.35,
+   0.65
+  ],
+  "lobby_rects_px": {
+   "360x640": {
+    "level": {
+     "x": 8,
+     "y": 8,
+     "w": 48,
+     "h": 52,
+     "kind": "button",
+     "label": "레벨"
+    },
+    "currency": {
+     "x": 62,
+     "y": 14,
+     "w": 224,
+     "h": 40,
+     "kind": "display",
+     "label": "재화"
+    },
+    "shop": {
+     "x": 296,
+     "y": 8,
+     "w": 56,
+     "h": 52,
+     "kind": "button",
+     "label": "상점"
+    },
+    "season": {
+     "x": 8,
+     "y": 66,
+     "w": 344,
+     "h": 60,
+     "kind": "widget",
+     "label": "시즌 보상 트랙"
+    },
+    "quests": {
+     "x": 8,
+     "y": 136,
+     "w": 112,
+     "h": 168,
+     "kind": "widget",
+     "label": "퀘스트"
+    },
+    "story": {
+     "x": 8,
+     "y": 312,
+     "w": 64,
+     "h": 64,
+     "kind": "button",
+     "label": "이야기 지도"
+    },
+    "packs": {
+     "x": 284,
+     "y": 136,
+     "w": 68,
+     "h": 68,
+     "kind": "button",
+     "label": "카드 팩"
+    },
+    "collection": {
+     "x": 284,
+     "y": 214,
+     "w": 68,
+     "h": 68,
+     "kind": "button",
+     "label": "수집"
+    },
+    "decks": {
+     "x": 284,
+     "y": 292,
+     "w": 68,
+     "h": 68,
+     "kind": "button",
+     "label": "덱"
+    },
+    "battle": {
+     "x": 96,
+     "y": 500,
+     "w": 168,
+     "h": 72,
+     "kind": "button",
+     "label": "전투",
+     "primary": true
+    },
+    "breakthrough": {
+     "x": 12,
+     "y": 508,
+     "w": 76,
+     "h": 64,
+     "kind": "button",
+     "label": "돌파"
+    },
+    "craft": {
+     "x": 272,
+     "y": 508,
+     "w": 76,
+     "h": 64,
+     "kind": "button",
+     "label": "제작"
+    },
+    "settings": {
+     "x": 8,
+     "y": 584,
+     "w": 48,
+     "h": 48,
+     "kind": "button",
+     "label": "설정(로비의 왼쪽 아래 = 뒤로 자리)"
+    },
+    "hero": {
+     "x": 79,
+     "y": 146,
+     "w": 202,
+     "h": 344,
+     "kind": "art",
+     "label": "내 영웅 실루엣"
+    }
+   },
+   "412x915": {
+    "level": {
+     "x": 8,
+     "y": 8,
+     "w": 55,
+     "h": 60,
+     "kind": "button",
+     "label": "레벨"
+    },
+    "currency": {
+     "x": 69,
+     "y": 14,
+     "w": 260,
+     "h": 48,
+     "kind": "display",
+     "label": "재화"
+    },
+    "shop": {
+     "x": 340,
+     "y": 8,
+     "w": 64,
+     "h": 60,
+     "kind": "button",
+     "label": "상점"
+    },
+    "season": {
+     "x": 8,
+     "y": 74,
+     "w": 396,
+     "h": 69,
+     "kind": "widget",
+     "label": "시즌 보상 트랙"
+    },
+    "quests": {
+     "x": 8,
+     "y": 153,
+     "w": 128,
+     "h": 192,
+     "kind": "widget",
+     "label": "퀘스트"
+    },
+    "story": {
+     "x": 8,
+     "y": 353,
+     "w": 73,
+     "h": 73,
+     "kind": "button",
+     "label": "이야기 지도"
+    },
+    "packs": {
+     "x": 326,
+     "y": 153,
+     "w": 78,
+     "h": 78,
+     "kind": "button",
+     "label": "카드 팩"
+    },
+    "collection": {
+     "x": 326,
+     "y": 241,
+     "w": 78,
+     "h": 78,
+     "kind": "button",
+     "label": "수집"
+    },
+    "decks": {
+     "x": 326,
+     "y": 329,
+     "w": 78,
+     "h": 78,
+     "kind": "button",
+     "label": "덱"
+    },
+    "battle": {
+     "x": 110,
+     "y": 758,
+     "w": 192,
+     "h": 82,
+     "kind": "button",
+     "label": "전투",
+     "primary": true
+    },
+    "breakthrough": {
+     "x": 15,
+     "y": 767,
+     "w": 87,
+     "h": 73,
+     "kind": "button",
+     "label": "돌파"
+    },
+    "craft": {
+     "x": 310,
+     "y": 767,
+     "w": 87,
+     "h": 73,
+     "kind": "button",
+     "label": "제작"
+    },
+    "settings": {
+     "x": 8,
+     "y": 852,
+     "w": 55,
+     "h": 55,
+     "kind": "button",
+     "label": "설정(로비의 왼쪽 아래 = 뒤로 자리)"
+    },
+    "hero": {
+     "x": 91,
+     "y": 163,
+     "w": 231,
+     "h": 585,
+     "kind": "art",
+     "label": "내 영웅 실루엣"
+    }
+   },
+   "640x360": {
+    "level": {
+     "x": 8,
+     "y": 8,
+     "w": 48,
+     "h": 48,
+     "kind": "button",
+     "label": "레벨"
+    },
+    "season": {
+     "x": 64,
+     "y": 8,
+     "w": 269,
+     "h": 48,
+     "kind": "widget",
+     "label": "시즌 보상 트랙"
+    },
+    "currency": {
+     "x": 343,
+     "y": 12,
+     "w": 229,
+     "h": 40,
+     "kind": "display",
+     "label": "재화"
+    },
+    "shop": {
+     "x": 580,
+     "y": 8,
+     "w": 52,
+     "h": 48,
+     "kind": "button",
+     "label": "상점"
+    },
+    "quests": {
+     "x": 8,
+     "y": 66,
+     "w": 150,
+     "h": 132,
+     "kind": "widget",
+     "label": "퀘스트"
+    },
+    "story": {
+     "x": 8,
+     "y": 206,
+     "w": 56,
+     "h": 56,
+     "kind": "button",
+     "label": "이야기 지도"
+    },
+    "packs": {
+     "x": 576,
+     "y": 66,
+     "w": 56,
+     "h": 56,
+     "kind": "button",
+     "label": "카드 팩"
+    },
+    "collection": {
+     "x": 576,
+     "y": 130,
+     "w": 56,
+     "h": 56,
+     "kind": "button",
+     "label": "수집"
+    },
+    "decks": {
+     "x": 576,
+     "y": 194,
+     "w": 56,
+     "h": 56,
+     "kind": "button",
+     "label": "덱"
+    },
+    "battle": {
+     "x": 232,
+     "y": 288,
+     "w": 176,
+     "h": 64,
+     "kind": "button",
+     "label": "전투",
+     "primary": true
+    },
+    "breakthrough": {
+     "x": 148,
+     "y": 294,
+     "w": 76,
+     "h": 52,
+     "kind": "button",
+     "label": "돌파"
+    },
+    "craft": {
+     "x": 416,
+     "y": 294,
+     "w": 76,
+     "h": 52,
+     "kind": "button",
+     "label": "제작"
+    },
+    "settings": {
+     "x": 8,
+     "y": 304,
+     "w": 48,
+     "h": 48,
+     "kind": "button",
+     "label": "설정"
+    },
+    "hero": {
+     "x": 192,
+     "y": 66,
+     "w": 256,
+     "h": 214,
+     "kind": "art",
+     "label": "내 영웅 실루엣"
+    }
+   },
+   "1280x720": {
+    "level": {
+     "x": 8,
+     "y": 8,
+     "w": 96,
+     "h": 88,
+     "kind": "button",
+     "label": "레벨"
+    },
+    "season": {
+     "x": 120,
+     "y": 8,
+     "w": 538,
+     "h": 88,
+     "kind": "widget",
+     "label": "시즌 보상 트랙"
+    },
+    "currency": {
+     "x": 668,
+     "y": 12,
+     "w": 484,
+     "h": 80,
+     "kind": "display",
+     "label": "재화"
+    },
+    "shop": {
+     "x": 1168,
+     "y": 8,
+     "w": 104,
+     "h": 88,
+     "kind": "button",
+     "label": "상점"
+    },
+    "quests": {
+     "x": 8,
+     "y": 106,
+     "w": 300,
+     "h": 264,
+     "kind": "widget",
+     "label": "퀘스트"
+    },
+    "story": {
+     "x": 8,
+     "y": 378,
+     "w": 112,
+     "h": 112,
+     "kind": "button",
+     "label": "이야기 지도"
+    },
+    "packs": {
+     "x": 1160,
+     "y": 106,
+     "w": 112,
+     "h": 112,
+     "kind": "button",
+     "label": "카드 팩"
+    },
+    "collection": {
+     "x": 1160,
+     "y": 226,
+     "w": 112,
+     "h": 112,
+     "kind": "button",
+     "label": "수집"
+    },
+    "decks": {
+     "x": 1160,
+     "y": 346,
+     "w": 112,
+     "h": 112,
+     "kind": "button",
+     "label": "덱"
+    },
+    "battle": {
+     "x": 464,
+     "y": 584,
+     "w": 352,
+     "h": 128,
+     "kind": "button",
+     "label": "전투",
+     "primary": true
+    },
+    "breakthrough": {
+     "x": 304,
+     "y": 596,
+     "w": 152,
+     "h": 104,
+     "kind": "button",
+     "label": "돌파"
+    },
+    "craft": {
+     "x": 824,
+     "y": 596,
+     "w": 152,
+     "h": 104,
+     "kind": "button",
+     "label": "제작"
+    },
+    "settings": {
+     "x": 8,
+     "y": 616,
+     "w": 96,
+     "h": 96,
+     "kind": "button",
+     "label": "설정"
+    },
+    "hero": {
+     "x": 384,
+     "y": 106,
+     "w": 512,
+     "h": 470,
+     "kind": "art",
+     "label": "내 영웅 실루엣"
+    }
+   }
+  },
+  "lobby_errs": [],
+  "worldmap_regions": [
+   {
+    "id": "fogbelt",
+    "ko": "안개 띠",
+    "y": 0.06,
+    "x": 0.5,
+    "kind": "fog"
+   },
+   {
+    "id": "saltcrown",
+    "ko": "염관 고원",
+    "y": 0.18,
+    "x": 0.28,
+    "kind": "cliff"
+   },
+   {
+    "id": "reddunes",
+    "ko": "붉은 사구",
+    "y": 0.32,
+    "x": 0.72,
+    "kind": "dune"
+   },
+   {
+    "id": "lamplit",
+    "ko": "등불 서고",
+    "y": 0.45,
+    "x": 0.3,
+    "kind": "towers"
+   },
+   {
+    "id": "bare",
+    "ko": "노해",
+    "y": 0.58,
+    "x": 0.62,
+    "kind": "flat"
+   },
+   {
+    "id": "rustribs",
+    "ko": "녹슨 갈비뼈",
+    "y": 0.72,
+    "x": 0.3,
+    "kind": "wrecks"
+   },
+   {
+    "id": "drownedloft",
+    "ko": "잠긴 성가대",
+    "y": 0.88,
+    "x": 0.6,
+    "kind": "trench"
+   }
+  ],
+  "worldmap_nodes_placeholder": [
+   {
+    "id": "n1",
+    "region": "fogbelt",
+    "title": "안개 띠 1장",
+    "state": "cleared"
+   },
+   {
+    "id": "n2",
+    "region": "fogbelt",
+    "title": "안개 띠 2장",
+    "state": "cleared"
+   },
+   {
+    "id": "n3",
+    "region": "saltcrown",
+    "title": "염관 고원 1장",
+    "state": "cleared"
+   },
+   {
+    "id": "n4",
+    "region": "saltcrown",
+    "title": "염관 고원 2장",
+    "state": "cleared"
+   },
+   {
+    "id": "n5",
+    "region": "saltcrown",
+    "title": "염관 고원 3장",
+    "state": "cleared"
+   },
+   {
+    "id": "n6",
+    "region": "reddunes",
+    "title": "붉은 사구 1장",
+    "state": "cleared"
+   },
+   {
+    "id": "n7",
+    "region": "reddunes",
+    "title": "붉은 사구 2장",
+    "state": "current"
+   },
+   {
+    "id": "n8",
+    "region": "lamplit",
+    "title": "등불 서고 1장",
+    "state": "locked"
+   },
+   {
+    "id": "n9",
+    "region": "lamplit",
+    "title": "등불 서고 2장",
+    "state": "locked"
+   },
+   {
+    "id": "n10",
+    "region": "lamplit",
+    "title": "등불 서고 3장",
+    "state": "locked"
+   },
+   {
+    "id": "n11",
+    "region": "bare",
+    "title": "노해 1장",
+    "state": "locked"
+   },
+   {
+    "id": "n12",
+    "region": "bare",
+    "title": "노해 2장",
+    "state": "locked"
+   },
+   {
+    "id": "n13",
+    "region": "rustribs",
+    "title": "녹슨 갈비뼈 1장",
+    "state": "locked"
+   },
+   {
+    "id": "n14",
+    "region": "rustribs",
+    "title": "녹슨 갈비뼈 2장",
+    "state": "locked"
+   },
+   {
+    "id": "n15",
+    "region": "rustribs",
+    "title": "녹슨 갈비뼈 3장",
+    "state": "locked"
+   },
+   {
+    "id": "n16",
+    "region": "drownedloft",
+    "title": "잠긴 성가대 1장",
+    "state": "locked"
+   },
+   {
+    "id": "n17",
+    "region": "drownedloft",
+    "title": "잠긴 성가대 2장",
+    "state": "locked"
+   },
+   {
+    "id": "final",
+    "region": "drownedloft",
+    "title": "흑조의 이름",
+    "state": "locked",
+    "final": true
+   }
+  ],
+  "candle": {
+   "states": {
+    "lit": "불꽃(빌드: 흔들림 = flame 그룹 rotate ±4°·scaleY 0.92~1.06, 1.1~1.7 s 주기, 촛불마다 위상 무작위)",
+    "spent": "꺼진 심지 + 연기 한 줄(정적)",
+    "spare": "여분 심지: 짧고 굵은 주황 토막 + 갈색 띠",
+    "soot": "그을음: 검게 탄 머리·X 자국",
+    "empty": "최대치 밖 자리: 점선 받침"
+   },
+   "max": 10,
+   "order": "왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리. 카드를 내면 오른쪽 켜진 것부터 비용만큼 꺼짐",
+   "extinguish": {
+    "per_candle_stagger_ms": 40,
+    "flame_out_ms": 140,
+    "smoke_in_ms": 160,
+    "total_max_ms": 500,
+    "lock_ms": 0,
+    "note": "정적 그림 두 장(켜짐/꺼짐)을 opacity·transform으로 바꿈. 매 프레임 그리는 입자 금지(insights 성능)"
+   },
+   "relight_turn_start": {
+    "per_candle_stagger_ms": 30,
+    "flame_in_ms": 160,
+    "note": "턴 시작 심지 켜짐(5-2 wick_light 360 ms) 안"
+   },
+   "size_px": {
+    "portrait": "칸 폭 = (심지 띠 폭 − 9×3)/10, 높이 = 폭 × 2.4",
+    "min_flame_px": 6
+   },
+   "cost_plate": "카드 비용 = 세로 초(촛농 흐름·심지·불꽃). 마나 판 = 촛불 한 자루"
+  }
+ },
  "ux_fan": {
   "360x640": {
    "errs": [],
@@ -3228,14 +3979,14 @@
      },
      "alt": {
       "x": 8,
-      "y": 31,
-      "w": 288,
-      "h": 72,
+      "y": 219,
+      "w": 232,
+      "h": 52,
       "kind": "panel"
      },
      "alt_next": {
-      "x": 300,
-      "y": 43,
+      "x": 244,
+      "y": 221,
       "w": 48,
       "h": 48,
       "kind": "button"
@@ -3286,14 +4037,14 @@
      },
      "alt": {
       "x": 8,
-      "y": 64,
-      "w": 340,
-      "h": 82,
+      "y": 327,
+      "w": 284,
+      "h": 60,
       "kind": "panel"
      },
      "alt_next": {
-      "x": 352,
-      "y": 81,
+      "x": 296,
+      "y": 333,
       "w": 48,
       "h": 48,
       "kind": "button"
@@ -3330,9 +4081,9 @@
     "slots_px": {
      "main": {
       "x": 152,
-      "y": 100,
+      "y": 127,
       "w": 360,
-      "h": 38,
+      "h": 58,
       "kind": "panel"
      },
      "next": {
@@ -3344,9 +4095,9 @@
      },
      "alt": {
       "x": 152,
-      "y": 303,
+      "y": 127,
       "w": 360,
-      "h": 57,
+      "h": 58,
       "kind": "panel"
      },
      "alt_next": {
@@ -3367,7 +4118,7 @@
     "errs": []
    },
    "1280x720": {
-    "main_lines": 3,
+    "main_lines": 6,
     "plan": {
      "tut_mana": "main",
      "tut_no_play": "main",
@@ -3387,9 +4138,9 @@
     "slots_px": {
      "main": {
       "x": 288,
-      "y": 206,
+      "y": 252,
       "w": 752,
-      "h": 78,
+      "h": 118,
       "kind": "panel"
      },
      "next": {
@@ -3401,9 +4152,9 @@
      },
      "alt": {
       "x": 288,
-      "y": 614,
+      "y": 252,
       "w": 752,
-      "h": 106,
+      "h": 118,
       "kind": "panel"
      },
      "alt_next": {
@@ -3447,6 +4198,11 @@
  },
  "assets": [
   "app-icon.svg",
+  "candle-empty.svg",
+  "candle-lit.svg",
+  "candle-soot.svg",
+  "candle-spare.svg",
+  "candle-spent.svg",
   "card-back.svg",
   "crate-archive.svg",
   "crate-bare-sea.svg",

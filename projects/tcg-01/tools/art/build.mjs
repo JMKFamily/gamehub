@@ -8,6 +8,7 @@ import { RESOLUTIONS, computeLayout, checkLayout, checkTutorial, checkHandFan, h
 import { minPairDE, CVD_MATRICES, simulate } from './cvd.mjs';
 import { loadCards, SAMPLE_IDS, portraitSVG } from './portrait-gen.mjs';
 import * as A from './assets.mjs';
+import * as X from './ux2.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = join(HERE, '..', '..'), AS = join(PROJ, 'assets'), SM = join(AS, 'samples');
@@ -151,6 +152,9 @@ function heroPlate(id, x, y, w, h, life, shell = 0, enemy = false, k = 1) {
 ${(() => { const tw = (shell ? 52 : 30) * k, th = 22 * k, tx = (w - tw) / 2, ty = h - th + 6 * k; return `<path d="M${tx + 5 * k} ${ty}H${tx + tw - 5 * k}L${tx + tw} ${ty + th / 2}L${tx + tw - 5 * k} ${ty + th}H${tx + 5 * k}L${tx} ${ty + th / 2}Z" fill="${U.stat_tab}" stroke="${f.primary}" stroke-width="1.5"/>${shell ? `<text x="${tx + 12 * k}" y="${ty + th * .74}" text-anchor="middle" font-size="${13 * k}" font-weight="800" fill="${S.state.shell}" ${A.FONT}>${shell}</text><path d="M${tx + 24 * k} ${ty + 3 * k}L${tx + 20 * k} ${ty + th - 3 * k}" stroke="${f.primary}"/>` : ''}<text x="${tx + tw - 15 * k}" y="${ty + th * .76}" text-anchor="middle" font-size="${16 * k}" font-weight="800" fill="${life < 30 ? S.state.damage : U.salt_white}" ${A.FONT}>${life}</text>`; })()}</g>`;
 }
 function wickBar(r, lit, max, soot = 0) {
+  // 2026-11-19: 심지 = 촛불 줄(A.candleRowSVG). 자리 높이에 맞춰 줄이고 숫자는 오른쪽
+  { const ch = Math.max(r.h * 1.9, 28), cw = ch * 20 / 48, row = A.candleRowSVG({ max, lit: lit - soot > 0 ? lit : lit, soot }, 20, 48, 3), vw = +row.match(/viewBox="0 0 ([0-9.]+)/)[1], sw0 = r.w - 30, sw = Math.min(sw0, vw * ch / 48);
+    return nest(row, r.x, r.y + r.h - ch, sw, ch) + `<text x="${r.x + sw + 3}" y="${r.y + r.h - 3}" font-size="${Math.max(12, Math.round(r.h * .75))}" font-weight="800" fill="${U.wick_flame}" ${A.FONT}>${lit}/${max}</text>`; }
   const n = 10, bw = Math.min(8, (r.w - 34) / n - 2), out = [];
   for (let i = 0; i < n; i++) { const col = i < soot ? U.wick_soot : i < lit ? U.wick_lit_bar : i < max ? U.wick_spent : 'none'; out.push(`<rect x="${r.x + i * (bw + 2)}" y="${r.y}" width="${bw}" height="${r.h}" rx="2" fill="${col}" stroke="${i < max ? 'none' : U.line_soft}" stroke-width="1"/>`); }
   out.push(`<text x="${r.x + n * (bw + 2) + 3}" y="${r.y + r.h - 3}" font-size="${Math.max(12, Math.round(r.h * .75))}" font-weight="800" fill="${U.wick_flame}" ${A.FONT}>${lit}/${max}</text>`);
@@ -208,6 +212,28 @@ function crateMock(w = 360, h = 640) {
 }
 W('mockup-crate-360x640.svg', crateMock());
 
+// ── UX2 모바일 게임형 화면(2026-11-19) ──
+const ux2 = { lobby: {}, errs: [] };
+for (const [w, h] of RESOLUTIONS) { const c = X.checkLobby(w, h); ux2.lobby[`${w}x${h}`] = c.rects; ux2.errs.push(...c.errs.map((e) => `로비 ${w}x${h}: ${e}`)); put(SM, `ux2-lobby-${w}x${h}.svg`, X.lobbySVG(w, h)); }
+put(SM, 'ux2-battle-select.svg', X.battleSelectSVG());
+put(SM, 'ux2-deck-first.svg', X.deckFirstSVG(360, 640, true));
+put(SM, 'ux2-deck-first-notut.svg', X.deckFirstSVG(360, 640, false));
+put(SM, 'ux2-deck-tutorial-4.svg', X.deckTutorialStripSVG());
+put(SM, 'ux2-collection-card.svg', X.collectionCardSVG(byId('B003'), false));
+put(SM, 'ux2-collection-story.svg', X.collectionCardSVG(byId('B003'), true));
+for (const m of ['one', 'next', 'all']) put(SM, `ux2-pack-${m}.svg`, X.packOpenSVG(m, byId));
+put(SM, 'ux2-worldmap.svg', X.worldmapSVG());
+put(SM, 'ux2-worldmap-full.svg', X.worldmapSVG(undefined, 360, 640, true));
+{ // 촛불 HUD 목업: 상태 5종 + 줄 + 비용 촛불 + 카드 낼 때 꺼지는 순서
+  const st = ['lit', 'spent', 'spare', 'soot', 'empty'], KO = ['켜짐', '씀(연기)', '여분 심지', '그을음', '빈 자리'], q = [`<rect width="360" height="400" fill="${U.bg_abyss}"/>`];
+  st.forEach((s, i) => q.push(nest(A.candleSVG(s, 40, 96), 16 + i * 68, 16, 40, 96), `<text x="${36 + i * 68}" y="${128}" text-anchor="middle" font-size="11" fill="${U.salt_white}" ${A.FONT}>${KO[i]}</text>`));
+  const rows = [[{ max: 6, lit: 6, soot: 0, spare: 1 }, '턴 시작: 6개 켜짐 + 여분 심지'], [{ max: 6, lit: 3, soot: 0 }, '비용 3 카드를 낸 뒤: 오른쪽부터 3개 꺼짐'], [{ max: 6, lit: 4, soot: 2 }, '그을음 2: 왼쪽 2개 검게 탐']];
+  rows.forEach(([o, t], i) => { const y = 150 + i * 76, row = A.candleRowSVG(o, 20, 48, 3), vw = +row.match(/viewBox="0 0 ([0-9.]+)/)[1]; q.push(nest(row, 16, y, vw, 48), `<text x="16" y="${y + 64}" font-size="12" fill="${U.salt_dim}" ${A.FONT}>${t}</text>`); });
+  q.push(nest(A.cardSVG(byId('B003'), 'hand'), 270, 160, 82, 115), `<text x="311" y="292" text-anchor="middle" font-size="11" fill="${U.salt_dim}" ${A.FONT}>비용 = 같은 촛불</text>`);
+  put(SM, 'ux2-candle-hud.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" width="360" height="400">${q.join('')}</svg>`);
+}
+W('candle-lit.svg', A.candleSVG('lit')); W('candle-spent.svg', A.candleSVG('spent')); W('candle-spare.svg', A.candleSVG('spare')); W('candle-soot.svg', A.candleSVG('soot')); W('candle-empty.svg', A.candleSVG('empty'));
+
 // ── art.json ──
 const art = {
   schema: S.SCHEMA, generated_by: 'tools/art/build.mjs', source: 'tools/art/spec.mjs',
@@ -218,6 +244,7 @@ const art = {
   layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
   story_panel: S.storyPanel,
+  ux2: { ...X.UX2, lobby_rects_px: ux2.lobby, lobby_errs: ux2.errs, worldmap_regions: X.REGIONS, worldmap_nodes_placeholder: X.defaultNodes(), candle: S.candle },
   ux_fan: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, v.fan])),
   ux: { families: S.cardFamilies, debuff_branches: S.DEBUFF_BRANCHES, branch_glyph: S.branchGlyph, kinds: S.cardKinds, badge: S.badge, hierarchy: S.hierarchy, deny_feedback: S.denyFeedback, hand_compare: S.handCompare, tutorial_ui: S.tutorialUi, tutorial_layout: tutorial, cvd_min_dE: cvd, cvd_threshold_dE: CVD_MIN, family_rule: 'familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff' },
   assets: written.sort(),
@@ -243,4 +270,6 @@ console.log(`대비 ${pairs.length}쌍 검사, 실패 ${badPairs.length}, 글자
 for (const b of badPairs) console.log(`  FAIL ${b.what}: ${b.ratio} < ${b.min}`);
 for (const [k, v] of Object.entries(screens)) console.log(`  ${k}: slot ${v.slot_w}x${v.slot_h}, 보드 숫자 ${v.check.stat_font_px}px, ${v.check.errs.length ? 'FAIL ' + v.check.errs.join('; ') : '배치 OK'}`);
 writeFileSync(join(SM, 'contrast-report.json'), JSON.stringify(pairs, null, 1));
-process.exit(badPairs.length || layoutErrs || textFail.length || cvdFail.length ? 1 : 0);
+for (const e of ux2.errs) console.log('  FAIL ' + e);
+console.log(`UX2 로비 4해상도 ${ux2.errs.length ? 'FAIL' : 'OK'} · 목업 ux2-* 생성`);
+process.exit(badPairs.length || layoutErrs || textFail.length || cvdFail.length || ux2.errs.length ? 1 : 0);
