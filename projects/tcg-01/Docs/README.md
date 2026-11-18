@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | ux-reviewer | 검수 피드백 r3 | [조작 원복·심지 복귀 뒤 UX 확인: r2 판정 유지, 정렬 버튼이 덱 수를 덮음 minor, 8.0 PASS](ux-reviewer/2026-11-18-ux-review-r3.md) |
 | 2026-11-18 | qa-engineer | terms r3 | [terms r3(c4b2451): 조작 원복·글·타이머 정상, 세로 튜토리얼 버튼 가려짐·1% low 재하락 major, 기술 6.0 REVISE](qa-engineer/2026-11-18-terms-qa-r3.md) |
 | 2026-11-18 | art-director | 검수 반영 | [BGM 재작성: 비어 있고 느리고 음산하게(합성기·렌더 도구, BGM −6 LU)](art-director/2026-11-18-bgm.md) |
 | 2026-11-18 | benchmark-analyst | terms | [게이트 뒤 지시 반영 재리뷰(용어·튜토리얼·한눈 구분·스토리)](benchmark-analyst/2026-11-18-terms-review.md) |
