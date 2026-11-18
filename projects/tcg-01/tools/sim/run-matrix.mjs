@@ -54,12 +54,14 @@ if (!isMainThread) {
   const { decks, balanceJson } = readAll(sets);
   const T = balanceJson.metrics_targets;
   const names = (args.decks ? String(args.decks).split(',') : Object.keys(decks)).sort();
-  const mode = args.bt ? 'bt' : args['bt-field'] ? 'btfield' : 'matrix';
+  const mode = args.ai2 ? 'vs' : args.bt ? 'bt' : args['bt-field'] ? 'btfield' : 'matrix';
   const tag = args.tag || `${mode}-${ai}-g${games}-s${seed}`;
   const jobs = [];
   let ji = 0;
   if (mode === 'matrix') {
     for (let i = 0; i < names.length; i++) for (let j = i + (args.mirror ? 0 : 1); j < names.length; j++) jobs.push({ key: `${names[i]}|${names[j]}`, a: names[i], b: names[j], n: games, ai, seed: seed * 100003 + (ji++) * 1000003 });
+  } else if (mode === 'vs') {
+    for (const a of names) for (const b of names) jobs.push({ key: `${a}|${b}`, a, b, n: games, ai, ai2: String(args.ai2), seed: seed * 100003 + (ji++) * 1000003 });
   } else if (mode === 'bt') {
     for (const n of names) jobs.push({ key: `${n}|bt`, a: n, b: n, n: games, ai, btA: Number(args['bt-stage'] || 3), btK: Number(args['bt-cards'] || 0), btMin: Number(args['bt-mincost'] || 0), btB: 0, seed: seed * 100003 + (ji++) * 1000003 });
   } else {
@@ -129,7 +131,11 @@ if (!isMainThread) {
   });
   // 아키타입별
   const arch = {};
-  if (mode !== 'bt') {
+  if (mode === 'vs') {
+    for (const nm of names) { const mine = decided.filter((r) => r.a === nm); const w = mine.filter((r) => r.aWin).length / Math.max(1, mine.length); arch[nm] = { proxy_wr: w, n: mine.length, ci95: ci(w, mine.length) }; }
+    const all = decided.filter((r) => r.aWin).length / Math.max(1, decided.length);
+    metrics.proxy_wr = all; metrics.proxy_ci95 = ci(all, decided.length);
+  } else if (mode !== 'bt') {
     for (const nm of names) {
       const mine = results.filter((r) => (r.a === nm || r.b === nm) && r.a !== r.b && r.aWin != null);
       const wins = mine.filter((r) => (r.a === nm ? r.aWin : !r.aWin)).length;
@@ -170,7 +176,11 @@ if (!isMainThread) {
 
   // ---------- 표 ----------
   const lines = [`# ${tag}`, '', `AI ${ai}, 쌍당 ${games}판(선후공 교대), 시드 ${seed}, 총 ${n}판, ${secs.toFixed(1)} s (${summary.ms_per_game} ms/판, 일꾼 ${W})`, ''];
-  if (mode === 'matrix' || mode === 'btfield') {
+  if (mode === 'vs') {
+    lines.push(`| 사람 대리(${ai}) 덱 | 대리 승률 % (상대 ${args.ai2}, 상대 덱 6종 고르게) |`, '|---|---|');
+    for (const [x, a] of Object.entries(arch)) lines.push(`| ${x} | ${pct(a.proxy_wr)} ±${pct(a.ci95)} |`);
+    lines.push(`| **전체** | **${pct(metrics.proxy_wr)} ±${pct(metrics.proxy_ci95)}** |`);
+  } else if (mode === 'matrix' || mode === 'btfield') {
     lines.push('| 행 승률 % (95 % CI ±) | ' + names.map((x) => x.split('-')[0]).join(' | ') + ' | 전체 |', '|---|' + names.map(() => '---').join('|') + '|---|');
     for (const x of names) {
       const row = names.map((y) => {

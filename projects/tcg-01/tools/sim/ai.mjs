@@ -3,10 +3,20 @@
 //  eval   : 교환 평가형. 가능한 행동마다 상태를 복제해 한 수 앞을 보고 형세 평가값이 가장 오르는 행동을 고른다.
 //           손패 카드에 "아껴 둔 값"을 매겨, 값어치 낮은 대상에 제거기를 쓰지 않고(아껴두기),
 //           교환(하수인끼리 싸움)과 영웅 공격을 같은 저울로 비교한다.
-import { legalActions, applyAction, cloneState, cardOf, costOf, attackOf, findChar } from './engine.mjs';
+import { legalActions, applyAction, cloneState, cardOf, costOf, attackOf, findChar, makeRng } from './engine.mjs';
 import { budget, cardValue } from './value.mjs';
 
-export const AI_LEVELS = ['greedy', 'eval'];
+export const AI_LEVELS = ['greedy', 'eval', 'easy', 'normal', 'hard', 'expert'];
+// 상대 난이도(요청자 지시 2026-11-19 "쉬움부터"): 교환 평가형에 판단 잡음·공격 건너뛰기·경주 판단을 얹은 매개변수.
+// noise: 후보 행동 평가값에 더하는 균등 잡음 폭(±noise). skip_attack: 공격이 최선일 때 그 공격을 안 하고 다른 수를 볼 확률.
+// race: "누가 때리는 쪽인가" 시계 비교. 값의 근거·측정은 20-balance 15절, balance.json ai.difficulty.
+export const AI_PRESETS = {
+  easy: { noise: 7, skip_attack: 0.2, race: false },
+  normal: { noise: 3.5, skip_attack: 0.08, race: false },
+  hard: { noise: 4.2, skip_attack: 0, race: true, race_fast: 1.5, race_slow: 0.85, lookahead_top: 6 },
+  expert: { noise: 0, skip_attack: 0, race: true, race_fast: 1.5, race_slow: 0.85, lookahead_top: 6 },
+  eval: { noise: 0, skip_attack: 0, race: false },
+};
 
 // ---------- 공용 ----------
 function harmful(e) {
@@ -195,22 +205,29 @@ export function evaluate(state, p) {
 
 let SALT = 1;
 let ROOT_FACE = null;
-function raceFace(state, p) {
+function raceFace(state, p, pr) {
   const me = state.players[p], E = state.players[1 - p];
   let face = me.aiFace || 1;
-  if (!EVAL_W.race) return face;
+  const race = pr && pr.race != null ? pr.race : EVAL_W.race;
+  const rf = (pr && pr.race_fast) || EVAL_W.race_fast, rs = (pr && pr.race_slow) || EVAL_W.race_slow;
+  if (!race) return face;
   const sumAtk = (B) => B.reduce((a, m) => a + attackOf(state, m), 0);
   const myH = me.hero.hp + me.hero.armor, eH = E.hero.hp + E.hero.armor;
   const myA = sumAtk(me.board), eA = sumAtk(E.board);
   const myClock = myA > 0 ? Math.ceil(eH / myA) : 99, eClock = eA > 0 ? Math.ceil(myH / eA) : 99;
-  if (myClock < 99 && myClock <= eClock) face *= EVAL_W.race_fast; else if (eClock < myClock) face *= EVAL_W.race_slow;
+  if (myClock < 99 && myClock <= eClock) face *= rf; else if (eClock < myClock) face *= rs;
   return face;
 }
-export function evalAction(state) {
+export function evalAction(state, pr) {
   const p = state.active;
   if (state.pending) return pickDiscover(state, p);
   const acts = legalActions(state);
-  ROOT_FACE = raceFace(state, p);
+  ROOT_FACE = raceFace(state, p, pr);
+  const noise = (pr && pr.noise) || 0, skip = (pr && pr.skip_attack) || 0;
+  // 난이도 잡음은 게임 난수와 분리된 결정론 난수(같은 상태 → 같은 선택)
+  const nr = makeRng((state.rngState ^ Math.imul(state.half + 1, 0x9e3779b1) ^ acts.length * 7919) >>> 0);
+  let skipAtk = skip > 0 && nr.next() < skip;
+  let cands = null;
   const base = evaluate(state, p);
   let best = { type: 'end' }, bv = base + 0.05;
   const P = state.players[p];
@@ -223,7 +240,28 @@ export function evalAction(state) {
     while (s2.pending && s2.pending.owner === p && guard++ < 3) applyAction(s2, pickDiscover(s2, p));
     let v = evaluate(s2, p);
     if (s2.over && s2.winner === p) v = 1e7;
+    else if (noise) v += (nr.next() * 2 - 1) * noise;
+    if (skipAtk && a.type === 'attack' && v < 1e7) continue;
+    if (pr && pr.lookahead_top) { (cands || (cands = [])).push({ a, v, s2 }); continue; }
     if (v > bv) { bv = v; best = a; }
+  }
+  if (cands) {
+    // 어려움: 상위 후보마다 "그다음 내 최선 한 수"까지 본 값으로 다시 고른다(한 턴 안 순서 계획)
+    cands.sort((x, y) => y.v - x.v);
+    for (const c of cands.slice(0, pr.lookahead_top)) {
+      let v2 = c.v;
+      if (!c.s2.over && c.s2.active === p && !c.s2.pending) {
+        for (const b of legalActions(c.s2)) {
+          if (b.type === 'end') continue;
+          const s3 = cloneState(c.s2, SALT++ & 0xffff);
+          applyAction(s3, b);
+          let g = 0; while (s3.pending && s3.pending.owner === p && g++ < 3) applyAction(s3, pickDiscover(s3, p));
+          const v3 = s3.over && s3.winner === p ? 1e7 : evaluate(s3, p);
+          if (v3 > v2) v2 = v3;
+        }
+      }
+      if (v2 > bv) { bv = v2; best = c.a; }
+    }
   }
   ROOT_FACE = null;
   return best;
@@ -235,5 +273,6 @@ function isManaCard(state, P, inst) {
 }
 
 export function chooseAction(state, level) {
-  return level === 'greedy' ? greedyAction(state) : evalAction(state);
+  if (level === 'greedy') return greedyAction(state);
+  return evalAction(state, AI_PRESETS[level] || null);
 }
