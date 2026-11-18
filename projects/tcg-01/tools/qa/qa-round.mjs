@@ -692,7 +692,7 @@ function termLists() {
   const allow = [];
   for (const L of ['ko', 'en']) for (const [k, v] of Object.entries(S[L])) if (STORY_KEY.test(k) && v) allow.push(v);
   for (const c of C) allow.push(c.name_ko, c.name_en, c.flavor_ko, c.flavor_en, c.story_ko, c.story_en);
-  allow.push('썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea');
+  allow.push('썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea', '익사자'); // 익사자: 세력·부류 이름 허용(10-lore 2-8)
   return { BANNED_KO: arr('BANNED_KO'), BANNED_EN: arr('BANNED_EN'), OLD_KO: arr('OLD_KO'), OLD_EN: arr('OLD_EN'), allow: allow.filter(Boolean).sort((a, b) => b.length - a.length) };
 }
 function scanText(txt, TL) {

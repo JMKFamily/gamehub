@@ -10,7 +10,7 @@ const src = readFileSync(join(PROJ, 'lore', 'check-cards.mjs'), 'utf8');
 const arr = (name) => JSON.parse(src.match(new RegExp(`const ${name} = (\\[[^\\]]*\\]);`))[1].replace(/'/g, '"'));
 const BANNED_KO = arr('BANNED_KO'), BANNED_EN = arr('BANNED_EN'), OLD_KO = arr('OLD_KO'), OLD_EN = arr('OLD_EN');
 const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|faction_|story_arc_|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
-const PROTECT = ['썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
+const PROTECT = ['썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea', '익사자']; // 익사자: 세력·부류 이름으로 허용(lore 10-lore 2-8)
 const strip = (t) => PROTECT.reduce((a, w) => a.split(w).join(''), String(t || ''));
 const oldIn = (ko, en) => [...OLD_KO.filter((w) => strip(ko).includes(w)), ...OLD_EN.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(strip(en)))];
 const banIn = (ko, en) => [...BANNED_KO.filter((w) => strip(ko).includes(w)), ...BANNED_EN.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(strip(en)))];
