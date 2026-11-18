@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | orchestrator | 1-7 | [round-1 게이트 미통과(7.765), 결정 H1~H4(완료 시간, 처음부터 = 새 시도, 두 % 모양 구분, 막힘 소리)](orchestrator/2026-11-18-1-7-round1-gate.md) |
+| 2026-11-18 | qa-engineer | 1-6 | [round-1 점수 집계: 가중 7.765·게이트 실패(총점 −0.235, 영역·UX·blocker 통과), 병합 이슈 33건(major 5·minor 28), criteria 13줄 추가, round-2 최우선 성능·가로 카드 가림·UX 막힘/결과 %](qa-engineer/2026-11-18-1-6-round1-score.md) |
 | 2026-11-18 | ux-reviewer | 1-5 | [round-1 UX 리뷰: 5/6·7.0·REVISE(major 2·minor 8), 쌍 점 모양 표지 흑백·색약 구분 통과, 막힘 = 시작 안내와 같은 숨 쉬기·결과 %(한 번에 이은) ≠ 플레이 %(칠한 칸)·별 없는 이유 없음](ux-reviewer/2026-11-18-1-5-round1-review.md) |
 | 2026-11-18 | art-director | 1-5 | [round-1 시각·사운드 리뷰: 9/13·7.2·REVISE(major 1·minor 6), 가로 그림 카드가 자기 글·쌍 점 줄을 덮음, 지도 별 SVG 48 px 렌더 겹침, 성능은 전체 화면 바탕 매 프레임 그리기 등 그림 단순화 제안](art-director/2026-11-18-1-5-round1-review.md) |
 | 2026-11-18 | benchmark-analyst | 1-5 | [round-1 게임 감각 리뷰: 8/8·8.5·PASS(minor 4), 원작 규칙 12개·모던 패턴·콤보/이름/% 재현, 원본 보호 grep 0, 플레이 ↻ 별 자격·연결 연타 막기 제안](benchmark-analyst/2026-11-18-1-5-round1-review.md) |
