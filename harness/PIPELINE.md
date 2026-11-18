@@ -23,7 +23,7 @@
 1-2 교차 리뷰     기획 3역할이 서로의 문서 충돌을 지적 → 각자 1회 수정
 1-3 구현          game-developer → games/<slug>/
 1-4 QA            qa-engineer → reviews/round-N/ (스크린샷, metrics.json, qa.md)
-1-5 리뷰(병렬)    benchmark·balance·art·lore 4역할이 빌드 결과를 리뷰하고 0~10점 채점
+1-5 리뷰(병렬)    benchmark·balance·art·lore 4역할이 빌드 결과를 리뷰하고 0~10점 채점 + ux-reviewer가 UX를 검수·채점(2026-11-18 추가, 가중 총점에는 넣지 않고 게이트 조건으로 봄)
 1-6 집계          qa-engineer → score.md, criteria.md에 새 체크 항목 추가
 1-7 게이트        harness/criteria.md 기준 충족? 
                     예 → 웹 배포(Pages) + 아티팩트로 검수 페이지 게시 → 요청자에게 검수 알림
