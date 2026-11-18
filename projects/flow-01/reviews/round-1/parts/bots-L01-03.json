@@ -1,0 +1,129 @@
+{
+ "child": {
+  "01": {
+   "n": 20000,
+   "drags": 105243,
+   "m": 3.674,
+   "median_int": 4,
+   "mean": 4.14,
+   "p90": 6,
+   "completed": 20000,
+   "stars": 9057,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    54713,
+    15616,
+    4857
+   ]
+  },
+  "02": {
+   "n": 20000,
+   "drags": 155715,
+   "m": 4.947,
+   "median_int": 5,
+   "mean": 5.59,
+   "p90": 9,
+   "completed": 20000,
+   "stars": 1255,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    57659,
+    36886,
+    13921
+   ]
+  },
+  "03": {
+   "n": 20000,
+   "drags": 231261,
+   "m": 7.018,
+   "median_int": 7,
+   "mean": 8.37,
+   "p90": 14,
+   "completed": 20000,
+   "stars": 3266,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    68602,
+    38344,
+    36810
+   ]
+  }
+ },
+ "skilled": {
+  "01": {
+   "n": 10000,
+   "drags": 30078,
+   "m": 3,
+   "median_int": 3,
+   "mean": 3,
+   "p90": 3,
+   "completed": 10000,
+   "stars": 9992,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    29992,
+    8,
+    0
+   ]
+  },
+  "02": {
+   "n": 10000,
+   "drags": 38584,
+   "m": 3.137,
+   "median_int": 3,
+   "mean": 3.27,
+   "p90": 4,
+   "completed": 10000,
+   "stars": 7848,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    35499,
+    2676,
+    61
+   ]
+  },
+  "03": {
+   "n": 10000,
+   "drags": 40188,
+   "m": 4.001,
+   "median_int": 4,
+   "mean": 4,
+   "p90": 4,
+   "completed": 10000,
+   "stars": 9986,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    39987,
+    14,
+    0
+   ]
+  }
+ },
+ "mismatch": [],
+ "t0": 1794981069852,
+ "seconds": 190.048,
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 94
+ }
+}

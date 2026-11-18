@@ -1,0 +1,91 @@
+{
+ "child": {
+  "10": {
+   "n": 20000,
+   "drags": 524743,
+   "m": 16.43,
+   "median_int": 16,
+   "mean": 18.87,
+   "p90": 32,
+   "completed": 20000,
+   "stars": 294,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    91576,
+    57649,
+    124391
+   ]
+  },
+  "09": {
+   "n": 20000,
+   "drags": 542193,
+   "m": 15.682,
+   "median_int": 16,
+   "mean": 18.67,
+   "p90": 33,
+   "completed": 20000,
+   "stars": 551,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    95429,
+    47882,
+    123308
+   ]
+  }
+ },
+ "skilled": {
+  "10": {
+   "n": 10000,
+   "drags": 61841,
+   "m": 6.03,
+   "median_int": 6,
+   "mean": 6.15,
+   "p90": 6,
+   "completed": 10000,
+   "stars": 9429,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    59870,
+    1054,
+    440
+   ]
+  },
+  "09": {
+   "n": 10000,
+   "drags": 60958,
+   "m": 6.011,
+   "median_int": 6,
+   "mean": 6.06,
+   "p90": 6,
+   "completed": 10000,
+   "stars": 9781,
+   "run_mismatch": 0,
+   "steps_mismatch": 0,
+   "fill_vs_indep_mismatch": 0,
+   "inv_mismatch": 0,
+   "grade_counts": [
+    59919,
+    460,
+    139
+   ]
+  }
+ },
+ "mismatch": [],
+ "t0": 1794981493715,
+ "seconds": 275.083,
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 94
+ }
+}

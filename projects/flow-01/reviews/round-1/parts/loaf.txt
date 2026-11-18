@@ -1,0 +1,5 @@
+{"tag":"title->map","dur":167,"block":105,"render":4,"style":2,"scripts":[{"inv":"DIV#title.onpointerdown","d":98,"fn":"","char":49453,"url":"main.js"}]}
+{"tag":"title->map","dur":126,"block":0,"render":4,"style":3,"scripts":[]}
+{"tag":"map->L1","dur":62,"block":1,"render":12,"style":8,"scripts":[{"inv":"OL#mNodes.onclick","d":31,"fn":"","char":49727,"url":"main.js"}]}
+{"tag":"map->L1","dur":128,"block":0,"render":3,"style":1,"scripts":[]}
+{"tag":"load L6","dur":224,"block":0,"render":2,"style":1,"scripts":[]}

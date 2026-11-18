@@ -1,0 +1,20 @@
+// flow-01 6배 스로틀 long-animation-frame 원인 보기 (qa-engineer 1-4). PLAYWRIGHT_CORE=<playwright-core> node projects/flow-01/tools/qa-loaf.mjs — 포트 8772, 자기 PID 만 종료. 50 ms 넘는 프레임의 스크립트·렌더 시간 출력
+import { createRequire } from 'node:module'; import { spawn } from 'node:child_process';
+const P='C:/gamehub-bench/gamehub/projects/flow-01/';
+const pw = createRequire(process.env.PLAYWRIGHT_CORE+'/index.js')(process.env.PLAYWRIGHT_CORE);
+const srv = spawn(process.execPath,[P+'tools/serve.mjs','8772'],{stdio:['ignore','pipe','pipe']}); await new Promise(r=>srv.stdout.once('data',r));
+const br = await pw.chromium.launch({channel:'msedge'});
+const c = await br.newContext({viewport:{width:412,height:915},deviceScaleFactor:1}); const p = await c.newPage();
+await p.goto('http://127.0.0.1:8772/games/flow-01/'); await p.waitForFunction(()=>window.__game?.ready);
+await p.evaluate(()=>{localStorage.clear();}); await p.reload(); await p.waitForFunction(()=>window.__game?.ready);
+const cdp = await c.newCDPSession(p); await cdp.send('Emulation.setCPUThrottlingRate',{rate:6});
+await p.evaluate(()=>{ window.__lo=[]; new PerformanceObserver(l=>{for(const e of l.getEntries()) window.__lo.push({tag:window.__tag, dur:Math.round(e.duration), block:Math.round(e.blockingDuration), render:Math.round(e.startTime+e.duration-e.renderStart), style:Math.round(e.startTime+e.duration-e.styleAndLayoutStart), scripts:e.scripts.map(s=>({inv:s.invoker, d:Math.round(s.duration), fn:s.sourceFunctionName, char:s.sourceCharPosition, url:(s.sourceURL||'').split('/').pop()})) });}).observe({type:'long-animation-frame',buffered:false}); });
+const tag = (t)=>p.evaluate(t=>window.__tag=t,t);
+await tag('title->map'); await p.mouse.click(206,700); await p.waitForTimeout(1500);
+const nb = await p.locator('.node').first().boundingBox();
+await tag('map->L1'); await p.mouse.click(nb.x+nb.width/2, nb.y+nb.height/2); await p.waitForTimeout(1500);
+await tag('load L6'); await p.evaluate(()=>window.__game.loadLevel(5)); await p.waitForTimeout(1500);
+await tag('load L10'); await p.evaluate(()=>window.__game.loadLevel(9)); await p.waitForTimeout(1500);
+const lo = await p.evaluate(()=>window.__lo.filter(e=>e.dur>50));
+for (const e of lo) console.log(JSON.stringify(e));
+await br.close(); srv.kill();

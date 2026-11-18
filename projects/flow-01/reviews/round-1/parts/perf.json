@@ -1,0 +1,326 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr1",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1092,
+     "s": 18.8,
+     "avg": 58.1,
+     "low1": 13,
+     "max_ms": 216.8,
+     "over33": 5
+    },
+    "level_start": {
+     "frames": 201,
+     "avg": 56.6,
+     "low1": 8.6,
+     "max_ms": 216.8
+    },
+    "dragging": {
+     "frames": 283,
+     "avg": 59.8,
+     "low1": 39.9,
+     "max_ms": 33.3
+    },
+    "complete_fx": {
+     "frames": 356,
+     "avg": 59.8,
+     "low1": 44.8,
+     "max_ms": 33.3
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 150.1,
+    "map_to_play": 116.7,
+    "result_to_map": 16.8
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 9.2,
+    "ms_p95": 11,
+    "ms_max": 11.5
+   }
+  },
+  {
+   "config": "412x915 dpr1",
+   "run": 1,
+   "windows": {
+    "all": {
+     "frames": 1089,
+     "s": 18.8,
+     "avg": 57.9,
+     "low1": 12.2,
+     "max_ms": 200,
+     "over33": 6
+    },
+    "level_start": {
+     "frames": 201,
+     "avg": 56.6,
+     "low1": 8.6,
+     "max_ms": 200
+    },
+    "dragging": {
+     "frames": 283,
+     "avg": 59.8,
+     "low1": 39.9,
+     "max_ms": 33.3
+    },
+    "complete_fx": {
+     "frames": 356,
+     "avg": 59.8,
+     "low1": 44.8,
+     "max_ms": 33.3
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 183.3,
+    "map_to_play": 100.1,
+    "result_to_map": 16.8
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 9.1,
+    "ms_p95": 10.6,
+    "ms_max": 10.9
+   }
+  },
+  {
+   "config": "412x915 dpr1",
+   "run": 2,
+   "windows": {
+    "all": {
+     "frames": 1682,
+     "s": 29.17,
+     "avg": 57.7,
+     "low1": 12,
+     "max_ms": 333.4,
+     "over33": 14
+    },
+    "level_start": {
+     "frames": 190,
+     "avg": 53.5,
+     "low1": 3,
+     "max_ms": 333.4
+    },
+    "dragging": {
+     "frames": 873,
+     "avg": 59,
+     "low1": 20.9,
+     "max_ms": 66.7
+    },
+    "complete_fx": {
+     "frames": 351,
+     "avg": 59,
+     "low1": 20,
+     "max_ms": 66.6
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 149.9,
+    "map_to_play": 100,
+    "result_to_map": 33.3
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 8,
+    "ms_p95": 15.7,
+    "ms_max": 16.2
+   }
+  },
+  {
+   "config": "412x915 dpr3",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1798,
+     "s": 32.18,
+     "avg": 55.9,
+     "low1": 8.6,
+     "max_ms": 400.1,
+     "over33": 26
+    },
+    "level_start": {
+     "frames": 183,
+     "avg": 51.6,
+     "low1": 2.9,
+     "max_ms": 350
+    },
+    "dragging": {
+     "frames": 991,
+     "avg": 57.6,
+     "low1": 17.4,
+     "max_ms": 99.9
+    },
+    "complete_fx": {
+     "frames": 349,
+     "avg": 58.7,
+     "low1": 18,
+     "max_ms": 66.7
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 400.1,
+    "map_to_play": 166.6,
+    "result_to_map": 16.8
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 7.8,
+    "ms_p95": 15.7,
+    "ms_max": 15.9
+   }
+  },
+  {
+   "config": "412x915 dpr3",
+   "run": 1,
+   "windows": {
+    "all": {
+     "frames": 1371,
+     "s": 24.75,
+     "avg": 55.4,
+     "low1": 8.7,
+     "max_ms": 366.8,
+     "over33": 23
+    },
+    "level_start": {
+     "frames": 187,
+     "avg": 52.7,
+     "low1": 2.7,
+     "max_ms": 366.8
+    },
+    "dragging": {
+     "frames": 575,
+     "avg": 56.3,
+     "low1": 17.6,
+     "max_ms": 83.3
+    },
+    "complete_fx": {
+     "frames": 348,
+     "avg": 58.5,
+     "low1": 16.3,
+     "max_ms": 83.3
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 216.8,
+    "map_to_play": 166.6,
+    "result_to_map": 50
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 4.7,
+    "ms_p95": 13.3,
+    "ms_max": 15.3
+   }
+  },
+  {
+   "config": "412x915 dpr3",
+   "run": 2,
+   "windows": {
+    "all": {
+     "frames": 1448,
+     "s": 26.23,
+     "avg": 55.2,
+     "low1": 7.6,
+     "max_ms": 416.6,
+     "over33": 23
+    },
+    "level_start": {
+     "frames": 189,
+     "avg": 53.2,
+     "low1": 2.6,
+     "max_ms": 383.2
+    },
+    "dragging": {
+     "frames": 646,
+     "avg": 56.9,
+     "low1": 18.9,
+     "max_ms": 66.6
+    },
+    "complete_fx": {
+     "frames": 347,
+     "avg": 58.3,
+     "low1": 16.4,
+     "max_ms": 66.6
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 416.6,
+    "map_to_play": 233.5,
+    "result_to_map": 50
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 5.1,
+    "ms_p95": 13.2,
+    "ms_max": 14.6
+   }
+  },
+  {
+   "config": "1280x720 dpr1",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1220,
+     "s": 22.17,
+     "avg": 55,
+     "low1": 6.1,
+     "max_ms": 533.3,
+     "over33": 10
+    },
+    "level_start": {
+     "frames": 177,
+     "avg": 49.9,
+     "low1": 1.9,
+     "max_ms": 533.3
+    },
+    "dragging": {
+     "frames": 434,
+     "avg": 59.5,
+     "low1": 29.9,
+     "max_ms": 66.6
+    },
+    "complete_fx": {
+     "frames": 351,
+     "avg": 59,
+     "low1": 20,
+     "max_ms": 66.6
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 450,
+    "map_to_play": 233.4,
+    "result_to_map": 16.8
+   },
+   "input_to_cell": {
+    "n": 66,
+    "frames_max": 1,
+    "ms_median": 4.3,
+    "ms_p95": 13,
+    "ms_max": 15.4
+   }
+  }
+ ],
+ "blank_control": {
+  "frames": 399,
+  "s": 6.65,
+  "avg": 60,
+  "low1": 59.5,
+  "max_ms": 16.8,
+  "over33": 0
+ },
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 658
+ }
+}

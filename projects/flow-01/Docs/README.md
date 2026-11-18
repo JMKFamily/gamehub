@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | qa-engineer | 1-4 | [QA round-1: 기술 품질 7.0·REVISE(major 2·minor 7), 빌드 판정 = 시뮬 300,000판 불일치 0·빌드 m̃ = 시뮬 m̃, 6배 스로틀 1% low 6~13 fps·메뉴 전환 100~450 ms 미달](qa-engineer/2026-11-18-1-4-round1-qa.md) |
 | 2026-11-18 | orchestrator | 1-3 | [구현 감시·허브 "(개발 중)" 게시](orchestrator/2026-11-18-1-3-build-supervision.md) |
 | 2026-11-18 | game-developer | 1-3 | [웹 빌드 round-1: 10레벨·지도·결과·보호자·오류, board.mjs 1.1.0 바이트 복사(sync-build), UX ①②③ 반영, selfcheck ALL PASS(10레벨 생성 답 별·100 %, 실제 마우스, 4해상도), verify --quick ALL PASS](game-developer/2026-11-18-1-3-web-build.md) |
 | 2026-11-18 | balance-designer | 1-2 | [교차 리뷰 2차: 30건 처리(수정 28·해당 없음 2), L6 재선정(카드 구멍 [1,3] 판 안쪽), 결과 % = 한 번에 이은 쌍/쌍 수, 채움 % = 연결 칸, V1 = layout.json, core 1.1.0](balance-designer/2026-11-18-1-2-revision.md) |
