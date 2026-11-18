@@ -29,7 +29,7 @@ function portrait(w, h, n) {
   // 상대 줄: [심지][호명자][호명술 표시][손패 수][남은 영장]
   const heroW = Math.round(R * 0.9), btn = Math.max(L.touch_min_px, Math.round(56 * s));
   E.enemy_row = r(g, y, W, R, { kind: 'container' });
-  E.enemy_wicks = r(g, y + R * 0.3, Math.round(W * 0.28), R * 0.4, { kind: 'display' });
+  E.enemy_wicks = r(g, y + 2, Math.round(W * 0.28), R - 4, { kind: 'display', candle_rows: 2 }); // UX2 리뷰: 촛불 2줄 × 5, 줄 높이 전체 사용
   E.enemy_hero = r(g + W * 0.3, y, heroW, R, { kind: 'target' });
   E.enemy_calling = r(g + W * 0.3 + heroW + 8, y + (R - btn) / 2, btn, btn, { kind: 'display_tap_info' });
   E.enemy_hand = r(g + W * 0.3 + heroW + 16 + btn, y + R * 0.15, W - (W * 0.3 + heroW + 16 + btn) - 60, R * 0.7, { kind: 'display' });
@@ -40,7 +40,8 @@ function portrait(w, h, n) {
   y += slotH + pad / 2;
   E.mid_band = r(g, y, W, mid, { kind: 'container' });
   E.log_button = r(g, y + (mid - 48) / 2, 48, 48, { kind: 'button' });
-  E.turn_timer = r(g + 56, y + mid / 2 - 3, W - 56 - 64, 6, { kind: 'display' });
+  E.turn_timer = r(g + 56, y + mid / 2 - 3, W - 56 - 120, 6, { kind: 'display' });
+  E.sort_button = r(g + W - 56 - 54, y + (mid - 48) / 2, 48, 48, { kind: 'button' }); // 손패 정렬: 내 덱 수 왼쪽(덮지 않게)
   E.my_deck = r(g + W - 56, y + (mid - 48) / 2, 56, 48, { kind: 'display' });
   y += mid + pad / 2;
   E.my_board = r(g, y, W, slotH, { kind: 'container' });
@@ -49,7 +50,7 @@ function portrait(w, h, n) {
   // 내 줄: [심지][호명자][호명술 버튼][숨 고르기 버튼] — 숨 고르기는 엄지가 닿는 오른쪽 아래 절반
   const endW = Math.max(96, Math.round(W * 0.28)), endH = Math.max(L.touch_min_px, Math.round(R * 0.72));
   E.my_row = r(g, y, W, R, { kind: 'container' });
-  E.my_wicks = r(g, y + R * 0.3, Math.round(W * 0.28), R * 0.4, { kind: 'display' });
+  E.my_wicks = r(g, y + 2, Math.round(W * 0.28), R - 4, { kind: 'display', candle_rows: 2 });
   E.my_hero = r(g + W * 0.3, y, heroW, R, { kind: 'target' });
   E.my_calling = r(g + W * 0.3 + heroW + 8, y + (R - btn) / 2, btn, btn, { kind: 'button' });
   E.end_breath = r(g + W - endW, y + (R - endH) / 2, endW, endH, { kind: 'button' });
@@ -86,10 +87,10 @@ function landscape(w, h, n) {
   const heroH = Math.round(Math.min(84 * s, (h - 16) * 0.3)), heroW = Math.round(heroH * 0.85), btn = Math.max(48, Math.round(52 * s));
   E.enemy_hero = r(g, L.safe_top_px, heroW, heroH, { kind: 'target' });
   E.enemy_calling = r(g + heroW + 6, L.safe_top_px + (heroH - btn) / 2, btn, btn, { kind: 'display_tap_info' });
-  E.enemy_wicks = r(g, L.safe_top_px + heroH + 4, Lc, 18 * s, { kind: 'display' });
+  E.enemy_wicks = r(g, L.safe_top_px + heroH + 4, Lc, 60 * s, { kind: 'display', candle_rows: 2 });
   E.my_hero = r(g, h - L.safe_bottom_px - heroH, heroW, heroH, { kind: 'target' });
   E.my_calling = r(g + heroW + 6, h - L.safe_bottom_px - heroH + (heroH - btn) / 2, btn, btn, { kind: 'button' });
-  E.my_wicks = r(g, h - L.safe_bottom_px - heroH - 4 - 18 * s, Lc, 18 * s, { kind: 'display' });
+  E.my_wicks = r(g, h - L.safe_bottom_px - heroH - 4 - 60 * s, Lc, 60 * s, { kind: 'display', candle_rows: 2 });
   E.log_button = r(g, h / 2 - 24, 48, 48, { kind: 'button' });
   // 오른쪽 기둥
   const rx = w - g - Rc;
@@ -99,6 +100,7 @@ function landscape(w, h, n) {
   const endH = Math.max(48, Math.round(52 * s));
   E.end_breath = r(rx, h - L.safe_bottom_px - endH, Rc, endH, { kind: 'button' });
   E.my_deck = r(rx, h - L.safe_bottom_px - endH - 8 * s - 30 * s, Rc, 30 * s, { kind: 'display' });
+  E.sort_button = r(rx, E.my_deck.y - 6 * s - 48, Math.min(Rc, 96), 48, { kind: 'button' });
   const zh = Math.min(h * 0.86, 420);
   E.zoom_card = r((w - zh / 1.4) / 2, (h - zh) / 2, zh / 1.4, zh, { kind: 'overlay' });
   return { orientation: 'landscape', scale: +s.toFixed(3), slot_w: slotW, slot_h: slotH, E };
@@ -120,6 +122,8 @@ export function checkLayout(w, h, lay) {
     if ((v.kind === 'button' || v.kind === 'display_tap_info' || v.kind === 'target') && (v.w < L.touch_min_px || v.h < L.touch_min_px)) errs.push(`${k} 터치 ${v.w}x${v.h} < 48`);
   }
   for (let i = 0; i < flat.length; i++) for (let j = i + 1; j < flat.length; j++) if (ov(flat[i][1], flat[j][1])) errs.push(`겹침 ${flat[i][0]} ∩ ${flat[j][0]}`);
+  // 심지 촛불 크기(UX2 리뷰): 촛불 한 자루 화면 높이 ≥ 28 px, 불꽃 ≥ 8 px
+  for (const k of ['my_wicks', 'enemy_wicks']) { const v = E[k], rows = v.candle_rows || 1, perRow = Math.ceil(10 / rows), cw = Math.min((v.w - (perRow - 1) * 3) / perRow, (v.h / rows) * 20 / 48), ch = cw * 48 / 20; if (ch < 28) errs.push(`${k} 촛불 높이 ${ch.toFixed(0)} < 28 px`); }
   // 보드 축소 카드 글자 크기(카드 규칙: 숫자 = slot_w × 0.26, 이름 = slot_w × 0.16)
   const statFont = Math.round(lay.slot_w * 0.26), nameFont = Math.round(lay.slot_w * 0.155);
   if (statFont < L.min_stat_font_px) errs.push(`보드 숫자 ${statFont}px < ${L.min_stat_font_px}`);

@@ -424,10 +424,11 @@
      },
      "enemy_wicks": {
       "x": 8,
-      "y": 52,
+      "y": 33,
       "w": 96,
-      "h": 29,
-      "kind": "display"
+      "h": 68,
+      "kind": "display",
+      "candle_rows": 2
      },
      "enemy_hero": {
       "x": 111,
@@ -513,9 +514,16 @@
      "turn_timer": {
       "x": 64,
       "y": 242,
-      "w": 224,
+      "w": 168,
       "h": 6,
       "kind": "display"
+     },
+     "sort_button": {
+      "x": 242,
+      "y": 221,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
      },
      "my_deck": {
       "x": 296,
@@ -572,10 +580,11 @@
      },
      "my_wicks": {
       "x": 8,
-      "y": 410,
+      "y": 390,
       "w": 96,
-      "h": 29,
-      "kind": "display"
+      "h": 68,
+      "kind": "display",
+      "candle_rows": 2
      },
      "my_hero": {
       "x": 111,
@@ -635,10 +644,11 @@
      },
      "enemy_wicks": {
       "x": 8,
-      "y": 89,
+      "y": 66,
       "w": 111,
-      "h": 33,
-      "kind": "display"
+      "h": 78,
+      "kind": "display",
+      "candle_rows": 2
      },
      "enemy_hero": {
       "x": 127,
@@ -724,9 +734,16 @@
      "turn_timer": {
       "x": 64,
       "y": 354,
-      "w": 276,
+      "w": 220,
       "h": 6,
       "kind": "display"
+     },
+     "sort_button": {
+      "x": 294,
+      "y": 333,
+      "w": 48,
+      "h": 48,
+      "kind": "button"
      },
      "my_deck": {
       "x": 348,
@@ -783,10 +800,11 @@
      },
      "my_wicks": {
       "x": 8,
-      "y": 592,
+      "y": 569,
       "w": 111,
-      "h": 33,
-      "kind": "display"
+      "h": 78,
+      "kind": "display",
+      "candle_rows": 2
      },
      "my_hero": {
       "x": 127,
@@ -959,8 +977,9 @@
       "x": 8,
       "y": 96,
       "w": 136,
-      "h": 18,
-      "kind": "display"
+      "h": 60,
+      "kind": "display",
+      "candle_rows": 2
      },
      "my_hero": {
       "x": 8,
@@ -978,10 +997,11 @@
      },
      "my_wicks": {
       "x": 8,
-      "y": 246,
+      "y": 204,
       "w": 136,
-      "h": 18,
-      "kind": "display"
+      "h": 60,
+      "kind": "display",
+      "candle_rows": 2
      },
      "log_button": {
       "x": 8,
@@ -1017,6 +1037,13 @@
       "w": 112,
       "h": 30,
       "kind": "display"
+     },
+     "sort_button": {
+      "x": 520,
+      "y": 208,
+      "w": 96,
+      "h": 48,
+      "kind": "button"
      },
      "zoom_card": {
       "x": 209,
@@ -1157,8 +1184,9 @@
       "x": 8,
       "y": 180,
       "w": 272,
-      "h": 36,
-      "kind": "display"
+      "h": 120,
+      "kind": "display",
+      "candle_rows": 2
      },
      "my_hero": {
       "x": 8,
@@ -1176,10 +1204,11 @@
      },
      "my_wicks": {
       "x": 8,
-      "y": 504,
+      "y": 420,
       "w": 272,
-      "h": 36,
-      "kind": "display"
+      "h": 120,
+      "kind": "display",
+      "candle_rows": 2
      },
      "log_button": {
       "x": 8,
@@ -1215,6 +1244,13 @@
       "w": 224,
       "h": 60,
       "kind": "display"
+     },
+     "sort_button": {
+      "x": 1048,
+      "y": 472,
+      "w": 96,
+      "h": 48,
+      "kind": "button"
      },
      "zoom_card": {
       "x": 490,
@@ -3316,8 +3352,14 @@
     "note": "턴 시작 심지 켜짐(5-2 wick_light 360 ms) 안"
    },
    "size_px": {
-    "portrait": "칸 폭 = (심지 띠 폭 − 9×3)/10, 높이 = 폭 × 2.4",
-    "min_flame_px": 6
+    "rule_r2": "UX2 리뷰: 2줄 × 5(세로·가로 모두). 한 자루 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4",
+    "min_candle_h_px": 28,
+    "min_flame_h_px": 8,
+    "portrait_360": "14×34 px",
+    "portrait_412": "16×38 px",
+    "landscape_640": "12.5×30 px",
+    "landscape_1280": "25×60 px",
+    "count_pill": "띠 오른쪽 위 바깥(띠 위 15 px) 30×16 알약, 11 px 굵게 #F4B740 — 켜진 불꽃을 덮지 않음"
    },
    "cost_plate": "카드 비용 = 세로 초(촛농 흐름·심지·불꽃). 마나 판 = 촛불 한 자루"
   }

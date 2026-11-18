@@ -152,6 +152,13 @@ function heroPlate(id, x, y, w, h, life, shell = 0, enemy = false, k = 1) {
 ${(() => { const tw = (shell ? 52 : 30) * k, th = 22 * k, tx = (w - tw) / 2, ty = h - th + 6 * k; return `<path d="M${tx + 5 * k} ${ty}H${tx + tw - 5 * k}L${tx + tw} ${ty + th / 2}L${tx + tw - 5 * k} ${ty + th}H${tx + 5 * k}L${tx} ${ty + th / 2}Z" fill="${U.stat_tab}" stroke="${f.primary}" stroke-width="1.5"/>${shell ? `<text x="${tx + 12 * k}" y="${ty + th * .74}" text-anchor="middle" font-size="${13 * k}" font-weight="800" fill="${S.state.shell}" ${A.FONT}>${shell}</text><path d="M${tx + 24 * k} ${ty + 3 * k}L${tx + 20 * k} ${ty + th - 3 * k}" stroke="${f.primary}"/>` : ''}<text x="${tx + tw - 15 * k}" y="${ty + th * .76}" text-anchor="middle" font-size="${16 * k}" font-weight="800" fill="${life < 30 ? S.state.damage : U.salt_white}" ${A.FONT}>${life}</text>`; })()}</g>`;
 }
 function wickBar(r, lit, max, soot = 0) {
+  // UX2 리뷰(2026-11-19): 촛불 2줄 × 5, 한 자루 화면 높이 ≥ 28 px. 숫자는 오른쪽 위 작은 알약
+  if (r.candle_rows === 2) {
+    const per = 5, cw = Math.min((r.w - 12) / per, (r.h / 2) * 20 / 48), ch = cw * 48 / 20, out = [];
+    for (let i = 0; i < 10; i++) { const st = i < soot ? 'soot' : i < soot + lit ? 'lit' : i < max ? 'spent' : 'empty'; const x = r.x + (i % per) * (cw + 3), y = r.y + Math.floor(i / per) * ch; out.push(nest(A.candleSVG(st, 20, 48), x, y, cw, ch)); }
+    out.push(`<rect x="${r.x + r.w - 30}" y="${r.y - 15}" width="30" height="16" rx="8" fill="${U.stat_tab}" stroke="${U.wick_flame}"/><text x="${r.x + r.w - 15}" y="${r.y - 3}" text-anchor="middle" font-size="11" font-weight="800" fill="${U.wick_flame}" ${A.FONT}>${lit}/${max}</text>`);
+    return out.join('');
+  }
   // 2026-11-19: 심지 = 촛불 줄(A.candleRowSVG). 자리 높이에 맞춰 줄이고 숫자는 오른쪽
   { const ch = Math.max(r.h * 1.9, 28), cw = ch * 20 / 48, row = A.candleRowSVG({ max, lit: lit - soot > 0 ? lit : lit, soot }, 20, 48, 3), vw = +row.match(/viewBox="0 0 ([0-9.]+)/)[1], sw0 = r.w - 30, sw = Math.min(sw0, vw * ch / 48);
     return nest(row, r.x, r.y + r.h - ch, sw, ch) + `<text x="${r.x + sw + 3}" y="${r.y + r.h - 3}" font-size="${Math.max(12, Math.round(r.h * .75))}" font-weight="800" fill="${U.wick_flame}" ${A.FONT}>${lit}/${max}</text>`; }

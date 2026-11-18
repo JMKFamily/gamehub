@@ -446,6 +446,6 @@ export const candle = {
   max: 10, order: '왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리. 카드를 내면 오른쪽 켜진 것부터 비용만큼 꺼짐',
   extinguish: { per_candle_stagger_ms: 40, flame_out_ms: 140, smoke_in_ms: 160, total_max_ms: 500, lock_ms: 0, note: '정적 그림 두 장(켜짐/꺼짐)을 opacity·transform으로 바꿈. 매 프레임 그리는 입자 금지(insights 성능)' },
   relight_turn_start: { per_candle_stagger_ms: 30, flame_in_ms: 160, note: '턴 시작 심지 켜짐(5-2 wick_light 360 ms) 안' },
-  size_px: { portrait: '칸 폭 = (심지 띠 폭 − 9×3)/10, 높이 = 폭 × 2.4', min_flame_px: 6 },
+  size_px: { rule_r2: 'UX2 리뷰: 2줄 × 5(세로·가로 모두). 한 자루 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4', min_candle_h_px: 28, min_flame_h_px: 8, portrait_360: '14×34 px', portrait_412: '16×38 px', landscape_640: '12.5×30 px', landscape_1280: '25×60 px', count_pill: '띠 오른쪽 위 바깥(띠 위 15 px) 30×16 알약, 11 px 굵게 #F4B740 — 켜진 불꽃을 덮지 않음' },
   cost_plate: '카드 비용 = 세로 초(촛농 흐름·심지·불꽃). 마나 판 = 촛불 한 자루',
 };
