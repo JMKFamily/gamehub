@@ -14,6 +14,16 @@ const hsl = (h, s, l) => { s /= 100; l /= 100; const k = n => (n + h / 30) % 12,
 const COMMON = { star: '#FFD43B', ball: '#7FE3FF', outline: '#0B0D12', trackEdge: '#E6E1D3', hud: '#F5F1E8', broken: '#B9BEC7' };
 // 판정 이름·% 글자 색 (30-art 16-13, 요청자 지시 "판정 이름과 퍼센트"). 노랑(star)·공 색(ball)·회색(broken)·빨강 금지. 색은 보조, 주 신호는 글자 크기·옆 표지 모양
 const JUDGE_LABEL = { perfect: '#FFC0E0', good: '#9EF0C4', pass: '#F5F1E8' };
+// 콤보 파격 연출 (30-art 16-14, 요청자 지시 2026-11-17 "콤보 파격 연출"). 파티클 색 = 공통 색(테마 cardTint 안 씀: level01·level10 cardTint 가 노랑 쪽)
+//   단계마다 색 하나씩 더함. 노랑(star)·공 색(ball)·회색(broken)·빨강 금지(판정 글자 색 규칙과 같은 검사)
+const COMBO_FX = {
+  particle_colors: { hud: '#F5F1E8', mint: '#9EF0C4', pink: '#FFC0E0', lilac: '#C9B8FF' },
+  tier_colors: { 1: ['hud'], 2: ['hud', 'mint'], 3: ['hud', 'mint', 'pink'], 4: ['hud', 'mint', 'pink', 'lilac'] },
+  tier_alpha_max: { 1: 0.18, 2: 0.24, 3: 0.30, 4: 0.34 },     // 바탕 파티클 불투명도 상한(단계별)
+  number: { color: 'hud', alpha: 0.22, alpha_pop: 0.30, alpha_max: 0.30, label_alpha: 0.5 }, // 위쪽 가운데 큰 콤보 수
+  spark: { perfect: ['pink', 'hud'], good: ['mint', 'hud'], pass: [], alpha_max: 0.9 },          // 타격 지점 빛 파티클
+  contrast: { number_min: 1.6, number_max: 3.0, particle_min: 1.3, particle_max: 3.2, spark_min_on_track: 3, number_vs_star_ratio_max: 0.5 },
+};
 
 // [키, 이름 키, 이름, 색상각, 채도, 명도 오프셋, cardTint(hsl) 따로 지정]
 const P = [
@@ -132,6 +142,7 @@ function build() {
       fx_perfect_rays: 'star', fx_good_rays: 'hud', fx_pass_ring: 'trackEdge',
       combo_dot_on: 'hud 면 + outline 1 px', combo_dot_off: 'trackEdge 50 % 1.2 px 고리', combo_mark: 'cardTint 면 + outline 1.2 px', combo_confetti: 'cardTint·hud 작은 네모(HUD 띠 안)',
       forbidden: 'star(노랑)를 콤보·판정 선·북·눈금에 쓰지 않음. ball(하늘색)은 공·최고 기록 점만',
+      combo_superseded_r3: 'combo_dot_on·combo_dot_off·combo_mark·combo_confetti(16-4 HUD 띠 점 줄)는 16-14 콤보 파격 연출로 대체(combo_fx_r3). 기록으로 남김',
     },
     judge_label_r3: {
       _note: '30-art 16-13 판정 이름·% (요청자 지시 2026-11-17). 자리·크기·시간 = assets/layout.json judge_label · layouts[].judge_label · layouts[].result',
@@ -141,6 +152,13 @@ function build() {
       result_accuracy: 'hud 숫자 + outline 테. 과녁 표지 = hud 고리 2겹 + cardTint 가운데 점',
       result_combo: 'hud 숫자 + outline 테. 표지 = hud 점 3개(콤보 점과 같은 모양), 신기록 = cardTint 작은 고리',
       forbidden: 'star(노랑)·ball(하늘색)·broken(회색)·빨강을 판정 글자에 쓰지 않음. 실패 칸에는 글·색 없음',
+    },
+    combo_fx_r3: {
+      _note: '30-art 16-14 콤보 파격 연출 (요청자 지시 2026-11-17). 자리·크기·개수·시간 = assets/layout.json combo_fx · layouts[].combo_fx. 16-4 점 10칸·큰 표지(road_r3 combo_*) 대체',
+      ...COMBO_FX,
+      layer: '메인 캔버스에서 clearRect 바로 뒤, 길 띠보다 먼저: [바탕 파티클 → 큰 콤보 수] → 길 띠 → … 별 → 판정 이펙트 → 타격 빛 파티클 → 공 → 손가락 → 판정 글 → HUD. 바탕 파티클·콤보 수는 금지 구역(길 띠·공 뜀 자리·판정 글 상자·손가락·tut 글·HUD 띠) 밖에만 그림(evenodd 클립 한 번)',
+      blend: '보통 합성(source-over)만. lighter·screen·그림자(shadowBlur)·그라데이션·빛남 금지',
+      forbidden: 'star(노랑)·ball(하늘색)·broken(회색)·빨강·테마 cardTint 를 파티클·콤보 수에 쓰지 않음. 별 모양·빛줄기·원형 폭발 모양 금지',
     },
     themes,
   };
@@ -191,6 +209,7 @@ function check(pal) {
     rows[k]['dimEdge/bgFar'] = cr(mix(t.bgFar, pal.common.trackEdge, 0.5), t.bgFar);
   }
   fail += checkJudgeColors(pal);
+  fail += checkComboFx(pal);
   console.log('PAIRS', n, 'FAIL', fail);
   console.log('\n쌍별 10레벨 최솟값');
   for (const [key, m] of Object.entries(mins)) console.log(`${m.g.padEnd(14)} ${key.padEnd(20)} ${m.r.toFixed(2).padStart(6)}  (${m.k}, 기준 ${m.lo}${m.hi ? '~' + m.hi : ''})`);
@@ -227,6 +246,57 @@ function checkJudgeColors(pal) {
   }
   if (new Set(Object.values(J).map(c => c.toUpperCase())).size !== 3) bad('세 등급 색이 서로 같음');
   console.log('판정 글자 색 규칙', f ? 'FAIL ' + f : 'OK', Object.entries(J).map(([k, c]) => `${k} ${c} 색상각 ${hsv(c).h.toFixed(0)}° 채도 ${hsv(c).s.toFixed(2)}`).join(', '));
+  return f;
+}
+
+// 콤보 파격 연출 색·투명도 (30-art 16-14, 묶음 J). 바탕 파티클·큰 콤보 수는 길 띠·공·판정 글 뒤가 아니라 그 바깥(금지 구역 클립)에만 그려지므로
+//   별·공·판정 글의 대비는 바뀌지 않음(그 위에 파티클이 깔리지 않음). 여기서는 "바탕 위에서 보이되 별보다 훨씬 약함"을 잼:
+//   합성색 = mix(뒤 색, 파티클 색, 불투명도 상한), 뒤 색 = bg·bgFar·물든 실루엣. 타격 빛 파티클은 길 띠 위(track1~3·섞임)에서 보여야 함
+function checkComboFx(pal) {
+  const X = pal.combo_fx_r3; let f = 0, n = 0;
+  const bad = m => { f++; console.log('FAIL 콤보 연출', m); };
+  if (!X) { bad('combo_fx_r3 없음'); return 1; }
+  const PC = X.particle_colors, K = X.contrast, C = pal.common;
+  // 색 규칙: 노랑·공 색·회색·빨강 아님, 채도 있으면 노랑·공 색과 색상각 30° 이상
+  const star = hsv(C.star), ball = hsv(C.ball), hd = (a, b) => Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+  for (const [k, c] of Object.entries(PC)) {
+    for (const r of ['star', 'ball', 'broken']) if (c.toUpperCase() === C[r].toUpperCase()) bad(`${k} = ${r}`);
+    const x = hsv(c);
+    if (x.s >= 0.2) {
+      if (hd(x.h, star.h) < 30) bad(`${k} ${c} 노랑과 색상각 ${hd(x.h, star.h).toFixed(0)}° < 30`);
+      if (hd(x.h, ball.h) < 30) bad(`${k} ${c} 공 색과 색상각 ${hd(x.h, ball.h).toFixed(0)}° < 30`);
+      if (hd(x.h, 0) < 15) bad(`${k} ${c} 빨강 쪽`);
+    } else if (x.v < 0.85) bad(`${k} ${c} 회색으로 보임`);
+  }
+  for (const [t, cs] of Object.entries(X.tier_colors)) for (const c of cs) if (!PC[c]) bad(`단계 ${t} 색 ${c} 없음`);
+  const tiers = Object.keys(X.tier_alpha_max).map(Number).sort((a, b) => a - b);
+  for (let i = 1; i < tiers.length; i++) if (!(X.tier_alpha_max[tiers[i]] >= X.tier_alpha_max[tiers[i - 1]])) bad('단계 불투명도 상한이 단계를 따라 커지지 않음');
+  if (X.number.alpha_pop > X.number.alpha_max || X.number.alpha > X.number.alpha_max) bad('콤보 수 불투명도 > 상한');
+  const lim = { num: [99, 0], par: [99, 0], spk: 99, lab: 99, ratio: 0 };
+  for (const [k, t] of Object.entries(pal.themes)) {
+    const clearSil = mix(t.bgFar, t.cardTint, pal.blend.clear_silhouette_mix);
+    const tracks = [t.track1, t.track2, t.track3, mix(t.track1, t.track2, 0.5), mix(t.track2, t.track3, 0.5)];
+    const starMin = Math.min(...tracks.map(b => cr(C.star, b)));
+    for (const B of [t.bg, t.bgFar, clearSil]) {
+      const v = cr(mix(B, PC[X.number.color], X.number.alpha_max), B); n++;
+      lim.num = [Math.min(lim.num[0], v), Math.max(lim.num[1], v)];
+      if (v < K.number_min || v > K.number_max) bad(`${k} 콤보 수 대비 ${v.toFixed(2)} (기준 ${K.number_min}~${K.number_max})`);
+      if (v / starMin > K.number_vs_star_ratio_max) bad(`${k} 콤보 수 대비 ${v.toFixed(2)} > 별 대비 ${starMin.toFixed(2)} × ${K.number_vs_star_ratio_max}`);
+      lim.ratio = Math.max(lim.ratio, v / starMin);
+      const lv = cr(mix(B, PC[X.number.color], X.number.label_alpha), B); n++; lim.lab = Math.min(lim.lab, lv);
+      if (lv < K.number_min) bad(`${k} 콤보 라벨 대비 ${lv.toFixed(2)} < ${K.number_min}`);
+      for (const tr of tiers) for (const c of X.tier_colors[tr]) {
+        const p = cr(mix(B, PC[c], X.tier_alpha_max[tr]), B); n++;
+        lim.par = [Math.min(lim.par[0], p), Math.max(lim.par[1], p)];
+        if (p < K.particle_min || p > K.particle_max) bad(`${k} 단계 ${tr} ${c} 파티클 대비 ${p.toFixed(2)} (기준 ${K.particle_min}~${K.particle_max})`);
+      }
+    }
+    for (const g of ['perfect', 'good']) for (const c of X.spark[g]) for (const b of tracks) {
+      const s = cr(mix(b, PC[c], X.spark.alpha_max), b); n++; lim.spk = Math.min(lim.spk, s);
+      if (s < K.spark_min_on_track) bad(`${k} 타격 빛 ${g} ${c} / 길 대비 ${s.toFixed(2)} < ${K.spark_min_on_track}`);
+    }
+  }
+  console.log(`콤보 연출 색(묶음 J) ${f ? 'FAIL ' + f : 'OK'} — ${n}쌍: 콤보 수 ${lim.num[0].toFixed(2)}~${lim.num[1].toFixed(2)}(별 대비의 최대 ${(lim.ratio * 100).toFixed(0)} %), 라벨 ≥ ${lim.lab.toFixed(2)}, 바탕 파티클 ${lim.par[0].toFixed(2)}~${lim.par[1].toFixed(2)}, 타격 빛/길 ≥ ${lim.spk.toFixed(2)}`);
   return f;
 }
 
