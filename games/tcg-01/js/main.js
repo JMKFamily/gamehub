@@ -160,7 +160,7 @@ window.__game = {
   runAI() { if (!battle || battle.state.over) return null; if (battle.isAI(battle.state.active) && !battle.auto) return { ok: false, reason: 'ai_turn' }; const a = battle.AI.chooseAction(battle.state, battle.ai[battle.state.active]); if (a.type === 'choose') { battle.chooseDiscover(a.index); return a; } const r = battle.isAI(battle.state.active) ? (A.busy && A.finishAll(), battle.perform(a), { ok: true }) : battle.input(toIntent(a)); return { action: a, ...r }; },
   autoplay(on = true) { if (battle) battle.auto = on; },
   step(ms = 16) { let left = ms; while (left > 0) { const d = Math.min(16, left); tick(d); left -= d; } return battle ? battle.state.half : null; },
-  finishAnim() { A.finishAll(); },
+  finishAnim() { A.finishAll(); }, tutLayoutCheck() { return battle ? battle.tutLayoutCheck() : null; },
   setAnimScale(x) { G.scale = Math.max(0, +x); }, setFast(on) { G.fast = !!on; },
   export() { if (!battle) return null; const r = battle.result || { seed: battle.o.seed, heroes: battle.o.heroes, ai: battle.ai, mulligan: battle.mull, actions: battle.actions.map((x) => x.a), winner: battle.state.winner, half: battle.state.half, final: battle.state.players.map((P) => P.hero.hp + P.hero.armor), hp: battle.state.players.map((P) => P.hero.hp), armor: battle.state.players.map((P) => P.hero.armor), over: battle.state.over }; return JSON.parse(JSON.stringify(r)); },
   save() { return save(); }, load() { load(); applySettings(); return M.s; }, reset() { resetSave(); applySettings(); },
@@ -182,7 +182,7 @@ window.__game = {
     document.title = t('game_title');
     go(Q.get('screen') || 'title');
     warmAllIdle();
-    setTimeout(bakeMenuAssets, 400);
+    addEventListener('pointerdown', () => setTimeout(bakeMenuAssets, 1500), { once: true });
     // 첫 탭 3 s 뒤부터 쉬는 시간에 입문·표준 덱 카드 그림을 한 장씩 구워 둠(대전 직전 굽기 부담을 줄임)
     addEventListener('pointerdown', () => setTimeout(() => bakeForBattle([...new Set([...D.starters, ...D.decks].flatMap((d) => d.cards))]), 3000), { once: true });
     requestAnimationFrame(frame);

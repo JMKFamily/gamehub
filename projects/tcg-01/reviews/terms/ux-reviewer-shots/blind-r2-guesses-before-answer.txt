@@ -1,0 +1,11 @@
+R2 BLIND GUESSES (written before opening ux-shots-r2-answer.json) 2026-11-18
+fan5 (01-04) L->R: draw/spell, debuff/minion, buff/spell, debuff/spell, draw/spell
+fan9 (05-08) L->R: draw/spell, debuff/minion, buff/spell, debuff/spell, draw/spell, strike/spell, debuff/spell, atkdraw/weapon ; field: buff/minion x2
+fan10 lowHP (09-12) L->R: draw/spell, debuff/minion, buff/spell, debuff/spell, draw/spell, strike/spell, debuff/spell, atkdraw/weapon, atkdraw/minion, atkdraw/minion ; field: buff/minion, buff/minion, debuff/minion, atkdraw/minion
+spread10 (13-16) row1: draw/spell, draw/spell, buff/spell, debuff/spell, debuff/spell ; row2: strike/spell, atkdraw/minion, atkdraw/minion, debuff/minion, atkdraw/weapon
+zoom (17-20): debuff/spell ; zoom (21-24): atkdraw/weapon
+end/defeat dim (25-28) fan L->R: debuff/minion, debuff/spell, strike/spell, debuff/spell, atkdraw/minion, atkdraw/minion, buff/minion, draw/spell, buff/spell ; field as 09
+collection (29-32) visible full rows: arch buff/minion, shell buff/minion, grid buff/minion, chevrons buff/spell, person buff/minion, eggs buff/minion, grid2 buff/?, star debuff/?, orb debuff/?
+deckbuilder (33-36): triangle buff/minion, glasses buff/spell, flag buff/minion, cup buff/?, dots debuff/spell?, triangle2 buff/?
+detail (37-40): strike/minion
+middle-of-fan kind guesses are low confidence (stat plate mostly hidden)

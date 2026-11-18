@@ -1088,17 +1088,18 @@ export class Battle {
     const S = LY.slots_px;
     // 자리: plan(기본/보조). 고른 자리가 대상(여백 8)이나 소환수·영웅(4 px 넘게)과 겹치면 다른 자리로(QA terms 3)
     const ov = (a, b, m) => a && b && a.x < b.x + b.w - m && b.x < a.x + a.w - m && a.y < b.y + b.h - m && b.y < a.y + a.h - m;
-    const r0 = this.rectOf(tg), rr = r0 && { x: r0.x - 8, y: r0.y - 8, w: r0.w + 16, h: r0.h + 16 };
+    const landX = this.S.orientation !== 'portrait', rp = landX ? 0 : 8;
+    const r0 = this.rectOf(tg), rr = r0 && { x: r0.x - rp, y: r0.y - rp, w: r0.w + rp * 2, h: r0.h + rp * 2 };
     const others = [...this.tokEls.values()].map((e) => e._pos).concat(Object.values(this.sideEls).map((x) => x.hero._pos)).filter(Boolean);
     const bad = (Q) => ov(Q, rr, 0) || others.some((o) => ov(Q, o, 4));
-    let alt = (LY.plan[sp.k] || 'main') === 'alt';
-    if (bad(alt ? S.alt : S.main) && !bad(alt ? S.main : S.alt)) alt = !alt;
-    const P = alt ? S.alt : S.main, N = alt ? S.alt_next : S.next, K = alt ? S.next : S.skip;
+    let alt = !landX && (LY.plan[sp.k] || 'main') === 'alt';
+    if (!landX && bad(alt ? S.alt : S.main) && !bad(alt ? S.main : S.alt)) alt = !alt;
+    const P = alt ? S.alt : S.main, N = alt ? S.alt_next : S.next, K = S.skip;
     const pn = UI.panel, portrait = this.S.orientation === 'portrait';
     // 세로: 다음·건너뛰기를 패널 안 오른쪽에 둠(덱 수·덱 아이콘을 덮지 않게, 글 한 줄 버튼), 글 12 px·3줄
     const fs = portrait ? 12 : pn.font_px, lh = portrait ? 15 : pn.line_h_px;
     const panel = h('div', { class: 'tut' + (portrait ? ' inbtn' : ''), 'data-tut': sp.k, role: 'note', style: `left:${P.x}px;top:${P.y}px;width:${P.w}px;height:${P.h}px;background:${pn.bg};border:${pn.border_px}px solid ${pn.border};color:${pn.ink};font-size:${fs}px;line-height:${lh}px;padding:${portrait ? 2 : Math.min(pn.pad_px, Math.max(2, (P.h - lh * 2) / 2 - 2))}px ${portrait ? 4 : pn.pad_px}px` }, h('span', { class: 'tt', text: t(sp.k) }));
-    const bs = portrait ? 'position:static;flex:none;width:auto;height:44px;min-height:44px' : '';
+    const bs = portrait ? 'position:static;flex:none;width:auto;height:48px;min-height:48px' : '';
     const nx = h('button', { class: 'btn primary tutBtn', type: 'button', 'data-tut-next': '1', style: portrait ? bs : `left:${N.x}px;top:${N.y}px;width:${N.w}px;height:${N.h}px` }, t('tut_next'));
     const sk = h('button', { class: 'btn tutBtn', type: 'button', 'data-tut-skip': '1', style: portrait ? bs : `left:${K.x}px;top:${K.y}px;width:${K.w}px;height:${K.h}px` }, t('tut_skip'));
     if (portrait) { panel.appendChild(sk); panel.appendChild(nx); }
@@ -1107,7 +1108,7 @@ export class Battle {
     const spot = h('div', { class: 'spot' }), ring = h('div', { class: 'spotRing', style: `border:${UI.spotlight.ring_px}px solid ${UI.spotlight.ring_color};animation-duration:${UI.spotlight.ring_pulse_ms}ms` });
     for (const e of portrait ? [spot, ring, panel] : [spot, ring, panel, nx, sk]) this.stage.appendChild(e);
     for (const se of Object.values(this.sideEls)) { setTf(se.bub, { o: 0 }); se.bub._until = 0; } // 안내가 가리키는 자리를 말풍선이 덮지 않게
-    T0.cur = sp; T0.els = portrait ? [spot, ring, panel] : [spot, ring, panel, nx, sk]; T0.tg = tg; T0.spot = spot; T0.ring = ring; T0.panel = P;
+    T0.cur = sp; T0.els = portrait ? [spot, ring, panel] : [spot, ring, panel, nx, sk]; T0.nx = nx; T0.sk = sk; T0.panelEl = panel; T0.tg = tg; T0.spot = spot; T0.ring = ring; T0.panel = P;
     T0.seen.add(sp.k); this.o.tutorial.onSeen && this.o.tutorial.onSeen(sp.k);
     for (const e of portrait ? [panel] : [panel, nx, sk]) { setTf(e, { o: 0 }); tween(e, { o: 1 }, 120 * G.scale); }
     A.log.push({ kind: 'tutorial', step: sp.k, start_game_ms: Math.round(G.now) });
@@ -1119,7 +1120,7 @@ export class Battle {
     let tg = T0.tg;
     if (sp.tg) { const n = sp.tg(); if (n) tg = T0.tg = n; }
     const r = this.rectOf(tg);
-    const pad = UI.spotlight.cutout_pad_px;
+    const pad = this.S.orientation === 'portrait' ? UI.spotlight.cutout_pad_px : 0; // 가로는 고리가 가운데 띠 패널에 닿지 않게
     if (!r) { T0.spot.style.display = T0.ring.style.display = 'none'; if (T0.dims) for (const d of T0.dims) d.style.display = 'none'; FX.guide = null; return; }
     for (const e of [T0.spot, T0.ring]) { e.style.display = ''; e.style.left = r.x - pad + 'px'; e.style.top = r.y - pad + 'px'; e.style.width = r.w + pad * 2 + 'px'; e.style.height = r.h + pad * 2 + 'px'; }
     if (!T0.dims) { T0.dims = [0, 1, 2, 3].map(() => { const d = h('div', { class: 'dim4', style: `background:rgba(0,0,0,${UI.spotlight.dim_ratio})` }); this.stage.insertBefore(d, T0.spot); T0.els.push(d); return d; }); }
@@ -1129,6 +1130,22 @@ export class Battle {
     FX.guide = { x0: px, y0: py, x1: r.x + r.w / 2, y1: r.y + r.h / 2 < P.y ? r.y + r.h + pad : r.y - pad };
     const dm = sp.demo && sp.demo();
     if (dm && dm[0] && dm[1]) { const a = this.rectOf(dm[0]), b = this.rectOf(dm[1]); FX.demo = a && b ? { x0: a.x + a.w / 2, y0: a.y + a.h / 2, x1: b.x + b.w / 2, y1: b.y + b.h / 2, d: 28, ms: 1200 } : null; } else FX.demo = null;
+  }
+  tutLayoutCheck() {
+    const save = this.tut, so = this.o.tutorial; this.tut = { seen: new Set(), cur: null }; this.o.tutorial = { onSeen: () => {} };
+    const out = [];
+    const R = (e) => { if (!e) return null; const r = e.getBoundingClientRect(), s = this.stage.getBoundingClientRect(); return { x: (r.left - s.left) / this.k, y: (r.top - s.top) / this.k, w: r.width / this.k, h: r.height / this.k }; };
+    const ov = (a, c) => a && c && a.x < c.x + c.w - 0.5 && c.x < a.x + a.w - 0.5 && a.y < c.y + c.h - 0.5 && c.y < a.y + a.h - 0.5;
+    const slotRects = [...this.R.my_slots, ...this.R.enemy_slots];
+    for (const sp of this.tutSteps()) {
+      const tg = sp.tg ? sp.tg() : null;
+      this.tutShow(sp, tg || { _pos: this.R.mid_band });
+      const T0 = this.tut, pr = R(T0.panelEl), nr = R(T0.nx), kr = R(T0.sk), rr = R(T0.ring);
+      out.push({ step: sp.k, target: !!tg, panel_next: ov(pr, nr) && this.S.orientation !== 'portrait', panel_skip: ov(pr, kr) && this.S.orientation !== 'portrait', next_skip: ov(nr, kr), panel_ring: tg ? ov(pr, rr) : false, panel_slots: slotRects.some((sl) => ov(pr, sl)), next_h: Math.round(nr.h) });
+      this.tutClose();
+    }
+    this.tut = save; this.o.tutorial = so;
+    return out;
   }
   tutClose() {
     const T0 = this.tut; if (!T0 || !T0.cur) return;
