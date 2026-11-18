@@ -3,13 +3,14 @@
 import * as E from './engine/engine.mjs';
 import { D, engineData, cardById, portraitURL, fac, warmPortraits } from './data.js';
 import { t, cardName } from './i18n.js';
-import { G, A, T, lockOf, tierOf, Timeline, tween, setTf, tf } from './anim.js';
+import { G, A, T, lockOf, tierOf, Timeline, tween, setTf, tf, phase, after } from './anim.js';
 import { FX, fxInit, fxStep, burst, number, arrow, setAim, ring, darken, trail, rnd } from './fx.js';
 import { sfx, motif, tension, thump, duck } from './audio.js';
 import { h, cardBox, cardBack, tokenEl, updateToken, kwIcon } from './cards.js';
 import { toast } from './ui.js';
 
 let instIds = new WeakMap(), instNext = 1;
+const E_hasGuard = (m) => E.hasKw(m, 'guard');
 const iid = (inst) => { let v = instIds.get(inst); if (!v) instIds.set(inst, (v = instNext++)); return v; };
 const KWMAP = () => D.engineKw;
 
@@ -36,6 +37,7 @@ export class Battle {
     this.lines = {}; this.flags = { bigSeen: [false, false], low: [false, false], minScore: [0, 0], comebacks: 0, bubbleLast: {} };
     this.shake = null; this.zoomFx = null; this.stats = { blocks: 0, brine: 0 }; this.over = false; this.started = false; this.result = null;
     this.ctxPhase = 'mulligan';
+    this.tut = o.tutorial && this.human != null ? { shown: new Set(), cur: null, el: null } : null;
     warmPortraits([...o.decks[0], ...o.decks[1], ...Object.keys(D.tokens)]); // 첫 그림 미리(insights 구현 절)
     this.build();
     this.vm = this.snap();
@@ -162,7 +164,7 @@ export class Battle {
   }
   handPos(i, n) {
     const r = this.R.hand, cw = r.card_w, ch = r.card_h;
-    const step = n > 1 ? Math.min(cw * 0.92, (r.w - cw) / (n - 1)) : 0;
+    const step = n > 1 ? Math.min(cw * 0.92, (r.w - cw * 1.35) / (n - 1)) : 0; // 양 끝 카드가 화면 안(round-2 D19)
     const total = step * (n - 1) + cw, x0 = r.x + Math.max(4, (r.w - total) / 2);
     const c = (n - 1) / 2, off = n > 1 ? (i - c) / c : 0;
     const rot = off * (r.fan_max_rot_deg || 10) * Math.min(1, n / 6) * (n > 7 ? 0.5 : 1);
@@ -283,6 +285,7 @@ export class Battle {
     ok.addEventListener('click', () => { box.remove(); this.mullBox = null; this.doMulligans([...pick]); });
     box.appendChild(ok);
     this.ovl.appendChild(box); this.mullBox = box; this.mullPick = pick;
+    this.handLayer.style.visibility = 'hidden'; // 첫 물때 동안 손패 부채꼴 숨김(이중 표시 방지, round-2 D17)
   }
   doMulligans(humanPick) {
     const st = this.state;
@@ -294,12 +297,14 @@ export class Battle {
     const li = st.log.length;
     E.startGame(st);
     this.started = true; this.ctxPhase = 'play'; this.t0 = G.now;
+    this.handLayer.style.visibility = '';
     this.vm = this.snap(); this.render(true);
     const ev = st.log.slice(li);
     const tl = new Timeline('game_start', { lock: 0, tier: 1 });
     this.turnStartFx(tl, 0, ev);
-    this.say(1 - this.bottom, 'entry', tl, 0);
-    this.say(this.bottom, 'entry', tl, D.art.tempo.immersion.hero_lines.triggers[0].gap_ms * G.scale);
+    const vs = (a, b) => (`line_${this.state.players[a].heroId.slice(2)}_vs_${this.state.players[b].heroId.slice(2)}` in D.strings.ko ? 'vs_' + this.state.players[b].heroId.slice(2) : 'entry'); // 맞대결 첫 대사(10-lore 4-8)
+    this.say(1 - this.bottom, vs(1 - this.bottom, this.bottom), tl, 0);
+    this.say(this.bottom, vs(this.bottom, 1 - this.bottom), tl, D.art.tempo.immersion.hero_lines.triggers[0].gap_ms * G.scale);
     A.play(tl);
     this.onTurnStart();
   }
@@ -315,6 +320,7 @@ export class Battle {
     if (!this.myTurn() && this.started && !this.over) { A.boost = D.art.tempo.ai_turn.player_tap_speeds_up_ratio; }
     if (A.cur && A.cur.meta.skippable && A.cur.t >= A.cur.meta.skippable) A.finishAll();
     if (!tgt) { this.clearSel(); return; }
+    if (tgt.k === 'tut') return;
     if (this.sel && this.isSelTarget(tgt)) { this.commitSel(tgt); return; }
     if (tgt.k === 'hand') {
       const el = this.handEls.get(tgt.id);
@@ -406,6 +412,7 @@ export class Battle {
     for (; el && el !== this.stage; el = el.parentElement) {
       if (el.dataset.hand) return { k: 'hand', id: +el.dataset.hand, el };
       if (el.classList.contains('zoomWrap')) return { k: 'zoom', el };
+      if (el.classList.contains('tut')) return { k: 'tut', el };
       if (el.dataset.uid) return { k: el.classList.contains('hero') ? 'hero' : 'tok', uid: +el.dataset.uid, el };
       if (el.dataset.k) return { k: el.dataset.k, el };
     }
@@ -540,6 +547,7 @@ export class Battle {
       for (const x of ev) { if (x.t === 'turn') tick = true; if (tick && x.t === 'dmg' && cursed.get(x.uid) > 0 && !seenU.has(x.uid)) { seenU.add(x.uid); this.stats.brine += x.n; } }
     }
     const tl = this.buildTL(a, p, before, after, ev, info, heroHp0);
+    if (this.tut && this.tut.cur && p === this.human && this.tut.cur.done && this.tut.cur.done(a)) this.tutClose();
     this.vmNext = after;
     A.play(tl);
     if (a.type === 'end' || st.half !== before.half) this.onTurnStart();
@@ -574,7 +582,7 @@ export class Battle {
     if (dying.size >= 3) tier = Math.max(tier, 2);
     if (crit || big || lethal) tier = 3;
     const TI = D.art.tempo.tiers[tier];
-    const tl = new Timeline(lethal ? 'lethal_blow' : kind, { lock: lethal ? lockOf('lethal_blow') : lockOf(kind), tier, meta: { action: a.type, p, cid: info.cid || null, dmg_max: dmgMax, deaths: dying.size } });
+    const tl = new Timeline(lethal ? 'lethal_sequence' : a.type === 'end' ? 'turn_change' : kind, { lock: lethal ? lockOf('lethal_blow') : lockOf(kind), tier, meta: { action: a.type, p, cid: info.cid || null, dmg_max: dmgMax, deaths: dying.size } });
     if (big) tl.meta.skippable = 400 * G.scale;
     let impact = 0;
     const merged = this.mergeDying(after, before, dying, ev);
@@ -611,13 +619,14 @@ export class Battle {
       tl.at(impact, showImpact);
     } else if (a.type === 'attack') {
       const ap = this.posOfUid(a.attacker), tp = this.posOfUid(a.target);
-      const ph = D.art.tempo.actions.attack.phases_normal_ms, d = T('attack'), r = d / 530;
+      const d = T('attack');
       const slow = lethal ? 1 / 0.35 : 1;
       const el = ap.el, o = { ...tf(el) };
       const dx = tp.x - ap.x, dy = tp.y - ap.y, L = Math.hypot(dx, dy) || 1;
       const reach = Math.max(0, L - 30) + D.art.tempo.actions.attack.overshoot_px;
       const hit = { x: o.x + dx / L * reach, y: o.y + dy / L * reach };
-      const wind = ph.windup * r, dash = ph.dash * r * slow, stop = ph.hitstop * r + (TI.hitstop_ms || 0) * G.scale, back = ph.return * r;
+      const wind = T('attack', 'windup'), dash = T('attack', 'dash') * slow, stop = Math.max(T('attack', 'hitstop'), (TI.hitstop_ms || 0) * G.scale * (G.fast ? 0.5 : 1)), back = T('attack', 'return');
+      void d;
       tl.at(0, () => { el._dash = true; el.style.zIndex = 20; tween(el, { x: o.x - dx / L * 6, y: o.y - dy / L * 6, s: o.s * 1.06 }, wind, { tag: tl }); if (this.isAI(p)) arrow(ap.x, ap.y, tp.x, tp.y, 0); });
       tl.at(wind, () => { tween(el, { x: hit.x, y: hit.y, s: o.s * 1.06 }, dash, { ease: 'inout', tag: tl }); if (lethal) { darken(0.35, dash); } });
       impact = wind + dash;
@@ -629,7 +638,7 @@ export class Battle {
       });
       tl.at(impact, showImpact);
       tl.at(impact + stop, () => tween(el, { x: o.x, y: o.y, s: o.s }, back, { tag: tl, done: () => { el._dash = false; el.style.zIndex = ''; } }));
-      tl.end(impact + stop + back);
+      phase(tl, 'attack_motion', 0, impact + stop + back); // art 표의 공격(530/300)과 같은 구간
       tl.at(impact + stop + back, () => { el._dash = false; el.style.zIndex = ''; setTf(el, { s: o.s }); });
     } else if (a.type === 'power') {
       const d = T('calling'), cb = this.sideEls[side].call;
@@ -637,7 +646,7 @@ export class Battle {
       impact = d * 0.55; tl.at(impact, showImpact); tl.end(d);
     } else if (a.type === 'end') {
       const d = this.isAI(p) ? 0 : T('end_breath_press');
-      if (!this.isAI(p)) tl.at(0, () => { setTf(this.endBtn, { s: 0.94 }); tween(this.endBtn, { s: 1 }, d, { tag: tl }); });
+      if (!this.isAI(p)) { tl.at(0, () => { setTf(this.endBtn, { s: 0.94 }); tween(this.endBtn, { s: 1 }, d, { tag: tl }); }); phase(tl, 'end_breath_press', 0, d); }
       impact = d * 0.5; tl.at(impact, showImpact); tl.end(d);
       this.turnStartFx(tl, impact, ev.slice(ev.findIndex((x) => x.t === 'turn')));
     } else {
@@ -700,8 +709,11 @@ export class Battle {
     const stop = 160 * G.scale, crack = T('hero_crack');
     const meWin = this.human == null ? after.winner === this.bottom : after.winner === this.human;
     const vd = T(meWin ? 'victory' : 'defeat');
-    const t1 = Math.max(impact + stop, tl.dur);
+    // 마지막 일격 구간 = 느린 달려들기(약 400) + 정지 + 실 끊김 = art lethal_blow(1500/800)
+    const LB = T('lethal_blow'), ls = Math.max(0, impact - LB * 400 / 1500);
+    const t1 = Math.max(impact + stop, ls + LB);
     tl.lock = Math.max(tl.lock, t1 + crack + vd);
+    phase(tl, 'lethal_blow', ls, t1 - ls); phase(tl, 'hero_crack', t1, crack); phase(tl, meWin ? 'victory' : 'defeat', t1 + crack, vd);
     tl.at(t1, () => { const p = lose.hero._pos; burst(p.x + p.w / 2, p.y + p.h / 2, 30, D.art.palette.ui.salt_white, 1.6); this.shakeNow('heavy'); sfx('hollow_call'); ring(p.x + p.w / 2, p.y + p.h / 2, 60, D.art.palette.state.damage, crack); tween(lose.hero, { o: 0.35, s: 0.96 }, crack, { tag: tl }); });
     tl.at(t1 + crack, () => { darken(0, 200); this.bannerText.textContent = t(after.winner == null ? 'result_draw' : meWin ? 'result_victory' : 'result_defeat'); setTf(this.banner, { o: 0, s: 1.2 }); tween(this.banner, { o: 1, s: 1 }, vd * 0.25, { tag: tl }); sfx(meWin ? 'victory' : 'defeat'); this.say(this.bottom, meWin ? 'win' : 'lose', null, 0, true); this.say(1 - this.bottom, meWin ? 'lose' : 'win', null, 0, true); });
     tl.at(t1 + crack + vd, () => this.finish());
@@ -723,13 +735,13 @@ export class Battle {
       void P;
     });
     tl.at(at + 700 * r, () => tween(this.banner, { o: 0, y: -10 }, 200 * r, { tag: tl }));
-    tl.end(at + d);
+    phase(tl, 'turn_start_banner', at, d);
   }
   flashCard(cid, dur) {
     const Z = this.R.zoom_card, el = h('div', { class: 'fly' }, cardBox(cid, Z.w * 0.7, { mode: 'full' }));
     this.stage.appendChild(el); setTf(el, { x: Z.x + Z.w * 0.15, y: Z.y, s: 0.9, o: 0 });
-    tween(el, { s: 1, o: 1 }, dur * 0.2, { done: () => setTimeout(() => el.remove(), 0) });
-    setTimeout(() => el.remove(), Math.max(50, dur / Math.max(0.01, G.scale)));
+    tween(el, { s: 1, o: 1 }, dur * 0.2);
+    after(Math.max(16, dur), () => el.remove());
   }
   shakeNow(level, dir) {
     if (G.reduceMotion || level === 'none') return;
@@ -749,7 +761,7 @@ export class Battle {
     tension(my); this.lowLevel = my;
     if (!after.over) {
       if (P[1 - me].hp <= 10 && !this.flags.low[1 - me]) { this.flags.low[1 - me] = true; this.say(me, 'threat'); }
-      if (P[me].hp <= 10 && !this.flags.low[me]) { this.flags.low[me] = true; this.say(1 - me, 'threat'); }
+      if (P[me].hp <= 10 && !this.flags.low[me]) { this.flags.low[me] = true; this.say(me, 'crisis'); } // 위기 대사(10-lore 4절 round-1)
     }
     // 역전: 형세 −10 이하였던 쪽이 부호를 뒤집음(한 판 최대 2회, 30-art 5-3)
     const C = D.art.tempo.comeback;
@@ -774,7 +786,9 @@ export class Battle {
       this.flags.bubbleLast[p] = G.now;
       const se = this.sideEls[this.sideOf(p)], b = se.bub, hp = se.hero._pos;
       b.textContent = t(key);
-      const left = Math.min(this.W - 230, Math.max(4, hp.x + hp.w + 4)), top = this.sideOf(p) === 'my' ? hp.y - 40 : hp.y + hp.h + 4;
+      b.style.maxWidth = Math.min(220, this.W - 16) + 'px'; b.style.left = '0px'; b.style.top = '0px';
+      const bw = b.offsetWidth || 200, bh = b.offsetHeight || 30;
+      const left = Math.min(this.W - bw - 6, Math.max(6, hp.x + hp.w + 4)), top = this.sideOf(p) === 'my' ? Math.max(4, hp.y - bh - 6) : Math.min(this.H - bh - 4, hp.y + hp.h + 4);
       b.style.left = left + 'px'; b.style.top = top + 'px';
       const d = (G.fast ? H.bubble_fast_ms : H.bubble_normal_ms) * G.scale;
       setTf(b, { o: 0, y: 6 }); tween(b, { o: 1, y: 0 }, Math.min(160, d * 0.1), { keep: true });
@@ -800,6 +814,7 @@ export class Battle {
     if (st.pending && st.pending.owner === this.human && !this.auto) { if (!this.discBox && !A.busy) this.showDiscover(); }
     else if (this.isAI(st.active) && !A.busy) this.aiStep(dt);
     this.timerStep(dt);
+    if (this.tut) this.tutStep();
     if (this.lowLevel === 2 && !G.test) { this.thumbT = (this.thumbT || 0) + dt; if (this.thumbT >= D.art.tempo.immersion.low_lifeline[1].thump_every_ms) { this.thumbT = 0; thump(); } }
     if (!A.busy && this._hintDirty !== st.half + ':' + this.actions.length) { this._hintDirty = st.half + ':' + this.actions.length; this.renderHints(); }
   }
@@ -942,9 +957,61 @@ export class Battle {
     const dmg = ev.filter((x) => x.t === 'dmg').map((x) => `${tn(x.uid)} -${x.n}`).join(', ');
     this.text.push(`[${Math.ceil(st.half / 2)}] ${nm}: ${s}${dmg ? ' (' + dmg + ')' : ''}`);
   }
+  // ---------- 튜토리얼(10-lore 8-7, 첫 모래 위 연습 1판): 조건이 맞으면 한 단계씩, 판을 막지 않는 띠 ----------
+  tutSteps() {
+    const st = this.state, me = this.human, P = st.players[me], E = st.players[1 - me], L = this.legal || [];
+    const my = this.myTurn() && !A.busy;
+    const se = this.sideEls;
+    return [
+      { k: 'tut_1_welcome', when: () => this.started },
+      { k: 'tut_2_wicks', when: () => this.started, hl: () => se.my.bars[0].parentNode },
+      { k: 'tut_3_play', when: () => my && L.some((a) => a.type === 'play'), hl: () => this.handLayer, done: (a) => a.type === 'play' },
+      { k: 'tut_4_summon_sick', when: () => P.board.some((m) => m.sick), hl: () => { const m = P.board.find((x) => x.sick); return m && this.tokEls.get(m.uid); } },
+      { k: 'tut_5_attack', when: () => my && L.some((a) => a.type === 'attack'), hl: () => { const a = L.find((x) => x.type === 'attack'); return a && this.posOfUid(a.attacker)?.el; }, done: (a) => a.type === 'attack' },
+      { k: 'tut_6_breakwater', when: () => E.board.some((m) => E_hasGuard(m)), hl: () => { const m = E.board.find((x) => E_hasGuard(x)); return m && this.tokEls.get(m.uid); } },
+      { k: 'tut_7_calling', when: () => my && L.some((a) => a.type === 'power'), hl: () => se.my.call, done: (a) => a.type === 'power' },
+      { k: 'tut_8_end', when: () => my && L.length === 1, hl: () => this.endBtn, done: (a) => a.type === 'end' },
+      { k: 'tut_9_lifeline', when: () => my && Math.ceil(st.half / 2) >= 3, hl: () => se.enemy.hero },
+      { k: 'tut_10_keyword', when: () => my && Math.ceil(st.half / 2) >= 4 },
+    ];
+  }
+  tutStep() {
+    const T0 = this.tut;
+    if (T0.cur || this.over || this.mullBox || this.discBox) return;
+    for (const sp of this.tutSteps()) {
+      if (T0.shown.has(sp.k)) continue;
+      if (!sp.when()) continue;
+      T0.shown.add(sp.k); this.tutShow(sp); break;
+    }
+  }
+  tutShow(sp) {
+    const mb = this.R.mid_band, T0 = this.tut;
+    const el = h('div', { class: 'tut', 'data-tut': sp.k, style: `left:${mb.x}px;width:${mb.w}px;top:${Math.max(4, mb.y - 40)}px` }, [h('div', { text: t(sp.k) }),
+      h('div', { class: 'row' }, [h('button', { class: 'btn', type: 'button', text: t('tut_skip'), onclick: (e) => { e.stopPropagation(); this.tutEnd(true); } }), h('button', { class: 'btn primary', type: 'button', text: '▶', 'aria-label': t('confirm_yes'), onclick: (e) => { e.stopPropagation(); this.tutClose(); } })])]);
+    this.stage.appendChild(el);
+    setTf(el, { o: 0, y: 6 }); tween(el, { o: 1, y: 0 }, 160 * G.scale);
+    const hl = sp.hl && sp.hl(); if (hl) hl.classList.add('hl');
+    T0.cur = sp; T0.el = el; T0.hl = hl;
+    A.log.push({ kind: 'tutorial', step: sp.k, start_game_ms: Math.round(G.now) });
+  }
+  tutClose() {
+    const T0 = this.tut; if (!T0 || !T0.cur) return;
+    if (T0.hl) T0.hl.classList.remove('hl');
+    T0.el.remove(); T0.cur = null; T0.el = null; T0.hl = null;
+    if (T0.shown.size >= 10) this.tutEnd(false);
+  }
+  tutEnd(skipped) {
+    const T0 = this.tut; if (!T0) return;
+    if (T0.cur) { if (T0.hl) T0.hl.classList.remove('hl'); T0.el.remove(); }
+    this.tut = null;
+    if (!skipped) toast(t('tut_done'));
+    this.o.onTutorialDone && this.o.onTutorialDone(skipped);
+  }
   finish() {
+    if (this.tut) this.tutEnd(false);
     if (this.over) return;
     this.over = true;
+    setTf(this.banner, { o: 0 }); this.handLayer.style.visibility = 'hidden'; this.closeZoom(); // 결과 화면과 겹침 방지(round-2 D14)
     const st = this.state;
     const P = st.players;
     this.result = {

@@ -19,15 +19,17 @@ export function freshSave() {
     coll: {}, decks: [], crates: { bare: E.welcome_crates, faction: {} },
     pity: { sinceAbyss: 0, sinceCoral: 0, opened: 0, gotAbyss: false },
     daily: null, tide: { marks: 0, claimed: 0 }, stats: { wins: 0, losses: 0, games: 0 }, lastHero: null, ai: 'eval', mode: 'mode_practice',
+    created: today(), weekly: null, slots: {}, tutorialDone: false,
   };
-  // 첫 실행: 표준 영장첩 6개의 카드를 가진 상태로 시작(입문 영장첩 대신, DEV_NOTES D5)
-  for (const d of D.decks) for (const cid of d.cards) { const e = s.coll[cid] || (s.coll[cid] = { n: 0, res: 0, stage: 0 }); e.n = Math.min(cap(cid), e.n + 1); }
+  // 첫 실행: 입문 영장첩 6개에 든 카드만(카드별 그 덱 장수, 보유 상한 이하) — balance economy.new_player.first_collection
+  for (const d of (D.starters && D.starters.length ? D.starters : D.decks)) for (const cid of d.cards) { const e = s.coll[cid] || (s.coll[cid] = { n: 0, res: 0, stage: 0 }); e.n = Math.min(cap(cid), e.n + 1); }
   return s;
 }
 export function load() {
   let s = null;
   try { const raw = M.noStore ? null : localStorage.getItem(KEY); if (raw) s = JSON.parse(raw); } catch { s = null; }
   M.s = s && s.v === 1 ? s : freshSave();
+  M.s.slots = M.s.slots || {}; M.s.created = M.s.created || today();
   rollDaily();
   return M.s;
 }
@@ -122,14 +124,27 @@ export function rollDaily() {
   M.s.daily = { date: d, winSalt: 0, practiceSalt: 0, firstWin: false, rerolls: inc.daily_commission_rerolls, featuredBought: false,
     featured: D.list[h0 % D.list.length].id,
     comm: [0, 1, 2].map((i) => makeComm(i, h0 + i * 7919, hs)) };
+  // 첫 주 매일 상자 1(economy.new_player.first_week_daily_bonus_crates)
+  const days = Math.floor((new Date(d) - new Date(M.s.created || d)) / 864e5);
+  if (days >= 0 && days < 7) { M.s.crates.bare += D.balance.economy.new_player.first_week_daily_bonus_crates; M.s.daily.bonusCrate = true; }
+  // 주간 맹약(economy.income.weekly_accord): 이번 주 의뢰 보상 7번 받기(목표 수는 개발 임시, balance 확인 요청)
+  const wk = weekKey();
+  if (!M.s.weekly || M.s.weekly.week !== wk) M.s.weekly = { week: wk, prog: 0, n: 7, claimed: false };
+}
+function weekKey() { const t = new Date(); const day = (t.getDay() + 6) % 7; const mon = new Date(t.getFullYear(), t.getMonth(), t.getDate() - day); return `${mon.getFullYear()}-${mon.getMonth() + 1}-${mon.getDate()}`; }
+export function claimWeekly() {
+  const w = M.s.weekly, A = D.balance.economy.income.weekly_accord;
+  if (!w || w.claimed || w.prog < w.n) return false;
+  w.claimed = true; M.s.cur.salt += A.salt_marks; M.s.crates.bare += A.bare_sea_crate; save(); return true;
 }
 function makeComm(slot, h, hs) {
   const types = ['win_hero', 'breakwater', 'brine'];
   const ty = types[(h >>> 3) % 3];
   const reward = D.balance.economy.income.daily_commission_salt_marks[slot];
-  if (ty === 'win_hero') return { type: ty, hero: hs[h % hs.length], n: 1 + (slot >= 2 ? 1 : 0), prog: 0, reward, claimed: false };
-  if (ty === 'breakwater') return { type: ty, n: 3 + slot, prog: 0, reward, claimed: false };
-  return { type: ty, n: 4 + 2 * slot, prog: 0, reward, claimed: false };
+  const G = D.balance.economy.income.daily_commission_goals || { win_hero: [1, 1, 2], breakwater_blocks: [3, 4, 5], brine_ticks: [4, 6, 8] };
+  if (ty === 'win_hero') return { type: ty, hero: hs[h % hs.length], n: G.win_hero[slot], prog: 0, reward, claimed: false };
+  if (ty === 'breakwater') return { type: ty, n: G.breakwater_blocks[slot], prog: 0, reward, claimed: false };
+  return { type: ty, n: G.brine_ticks[slot], prog: 0, reward, claimed: false };
 }
 export function rerollComm(i) {
   const d = M.s.daily; if (d.rerolls <= 0 || d.comm[i].claimed) return false;
@@ -137,7 +152,7 @@ export function rerollComm(i) {
 }
 export function claimComm(i) {
   const c = M.s.daily.comm[i]; if (c.claimed || c.prog < c.n) return false;
-  c.claimed = true; M.s.cur.salt += c.reward; addTide(D.balance.economy.tide_calendar.tide_marks_daily_commission); save(); return true;
+  c.claimed = true; M.s.cur.salt += c.reward; if (M.s.weekly) M.s.weekly.prog = Math.min(M.s.weekly.n, M.s.weekly.prog + 1); addTide(D.balance.economy.tide_calendar.tide_marks_daily_commission); save(); return true;
 }
 
 // ---------- 조수 달력 ----------
@@ -203,8 +218,9 @@ export function deckProblems(deck) {
   return [...new Set(out)];
 }
 export function allDecks() {
-  const std = D.decks.map((d) => ({ id: 'std:' + d.name, name: null, std: true, hero: d.hero, cards: d.cards.slice(), archetype: d.archetype }));
-  return [...std, ...M.s.decks];
+  const st = (D.starters || []).map((d) => ({ id: 'starter:' + d.hero, name: null, std: true, starter: true, hero: d.hero, cards: d.cards.slice(), arch: d.name }));
+  const std = D.decks.map((d) => ({ id: 'std:' + d.name, name: null, std: true, hero: d.hero, cards: d.cards.slice(), archetype: d.archetype, arch: d.file || d.name }));
+  return [...st, ...std, ...M.s.decks];
 }
 // 친선 새김 슬롯 1(20-balance D1): 덱에서 돌파 이득이 가장 큰 한 종만 적용
 export function slotPick(deck) {
@@ -219,7 +235,7 @@ export function slotPick(deck) {
 export function btFor(deck, mode) {
   const bt = {};
   if (mode === 'mode_accord') return bt; // 맹약 결투: 0단계 정규화
-  if (mode === 'mode_sparring') { const c = slotPick(deck); if (c) bt[c] = stageOf(c); return bt; }
+  if (mode === 'mode_sparring') { const c = M.s.slots[deck.id]; if (c && deck.cards.includes(c) && stageOf(c)) bt[c] = stageOf(c); return bt; } // 친선: 고른 새김 슬롯 1종(20-balance D1)
   for (const cid of new Set(deck.cards)) if (stageOf(cid)) bt[cid] = stageOf(cid); // 연습: 전부 적용
   return bt;
 }

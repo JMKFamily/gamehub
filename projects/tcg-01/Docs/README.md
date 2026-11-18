@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | game-developer | round-2 | [round-1 개발 28건 수정(성능·일시정지·가로 상자·튜토리얼·영어 글·입문 덱)](game-developer/2026-11-18-r2-fixes.md) |
 | 2026-11-18 | balance-designer | round-2 | [round-2 밸런스 수정 (펠 상성·입문 덱·판 시간 보정)](balance-designer/2026-11-18-r2-fixes.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-1 게이트 불통과(6.95)·결정 O3~O5](orchestrator/2026-11-18-1-7-round1-gate.md) |
 | 2026-11-18 | qa-engineer | 1-6 | [round-1 점수 집계: 총점 6.95, 게이트 불통과(blocker 0·하한 통과), 담당별 수정 목록·criteria 9줄](qa-engineer/2026-11-18-1-6-round1-score.md) |

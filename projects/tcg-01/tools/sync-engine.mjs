@@ -3,7 +3,7 @@
 //   node projects/tcg-01/tools/sync-engine.mjs --check   복사본 해시가 시뮬레이터 원본과 같은지만 확인(쓰지 않음, 다르면 exit 1)
 // 규칙 엔진(tools/sim/engine.mjs·ai.mjs·value.mjs·sim.mjs)은 한 글자도 고치지 않고 games/tcg-01/js/engine/에 복사한다
 // (criteria "빌드 엔진 = 시뮬레이터 엔진"). 엔진 동작을 바꿔야 하면 DEV_NOTES에 적고 balance에 요청한다.
-import { readFileSync, writeFileSync, mkdirSync, copyFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, copyFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -62,30 +62,29 @@ for (const ln of sec('## 8. UI 텍스트', '## 9.').split('\n')) {
   if (!m) continue;
   strings.ko[m[1]] = m[2]; strings.en[m[1]] = m[3]; nKeys++;
 }
-const ROLE = { 등장: 'entry', 승리: 'win', 패배: 'lose', 위협: 'threat', 감사: 'thanks', 경의: 'respect', '심지 부족': 'no_wicks' };
+const ROLE = { 등장: 'entry', 승리: 'win', 패배: 'lose', 위협: 'threat', 감사: 'thanks', 경의: 'respect', '심지 부족': 'no_wicks', 위기: 'crisis' };
 const heroSecs = loreMd.split(/\n### 4-\d\. /).slice(1, 7);
 let nLines = 0;
 for (const s of heroSecs) {
   const id = (s.match(/`(h_[a-z]+)`/) || [])[1];
   if (!id) continue;
   for (const ln of s.split('\n')) {
-    const m = ln.match(/^\|\s*(등장|승리|패배|위협|감사|경의|심지 부족)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/);
+    const m = ln.match(/^\|\s*(등장|승리|패배|위협|감사|경의|심지 부족|위기)\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/);
     if (!m) continue;
     const k = `line_${id.slice(2)}_${ROLE[m[1]]}`;
     strings.ko[k] = m[2]; strings.en[k] = m[3]; nLines++;
   }
 }
+// 4-8 맞대결 첫 대사(line_<a>_vs_<b>, 상대가 정해진 짝일 때 등장 대사 대신)
+for (const ln of loreMd.split('\n')) { const m = ln.match(/\|\s*`(line_[a-z]+_vs_[a-z]+)`\s*\|\s*(.*?)\s*\|\s*(.*?)\s*\|/); if (m) { strings.ko[m[1]] = m[2]; strings.en[m[1]] = m[3]; nLines++; } }
 const LIN_ID = Object.fromEntries(Object.entries(A.LINEAGE_KO).map(([id, ko]) => [ko, id]));
 for (const ln of sec('### 5-3.', '### 5-4.').split('\n')) {
   const m = ln.match(/^\|\s*([^|/]+?)\s*\/\s*([A-Za-z]+)\s*\|/);
   if (m && LIN_ID[m[1]]) { strings.ko[`lineage_${LIN_ID[m[1]]}`] = m[1]; strings.en[`lineage_${LIN_ID[m[1]]}`] = m[2]; }
 }
 for (const k of art.palette.keywords) { strings.ko[`kwname_${k.id}`] = k.ko; strings.en[`kwname_${k.id}`] = k.en; }
-// 빌드에 필요하지만 10-lore 키 표에 아직 없는 글: games/tcg-01/data/strings-extra.json(개발 임시, lore 확정 요청 — DEV_NOTES)
-const extraP = join(DATA_OUT, 'strings-extra.json');
-const extra = existsSync(extraP) ? readJ(extraP) : { ko: {}, en: {} };
-let dupExtra = 0;
-for (const k of Object.keys(extra.ko || {})) if (k in strings.ko) dupExtra++;
+// round-2: 개발 임시 키(strings-extra.json)는 10-lore 8-11로 확정되어 없앰. 남아 있으면 지움.
+if (existsSync(join(DATA_OUT, 'strings-extra.json'))) rmSync(join(DATA_OUT, 'strings-extra.json'));
 writeFileSync(join(DATA_OUT, 'strings.json'), JSON.stringify(strings));
 
 // 2-2) 카드: 엔진 수치(cards.json) + 이름·글(cards-lore.json) + 화면 키워드(ENGINE_KW 대응표, 엔진 id는 화면에 쓰지 않음)
@@ -93,7 +92,7 @@ const loreById = Object.fromEntries(loreCards.map((l) => [l.id, l]));
 const cards = cardsJ.cards.map((c) => {
   const l = loreById[c.id] || {};
   const merged = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, concept_ko: l.concept_ko, visual_hint: l.visual_hint };
-  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, kw_ui: A.cardKeywords(merged) };
+  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, text_en: l.concept_en || null, kw_ui: A.cardKeywords(merged) };
   delete out.value; delete out.lore_ref; delete out.cost_band_ok;
   return out;
 });
@@ -110,8 +109,11 @@ writeFileSync(join(DATA_OUT, 'portraits.json'), JSON.stringify(portraits));
 // 2-4) 규칙·연출·덱
 writeFileSync(join(DATA_OUT, 'balance.json'), JSON.stringify(balance));
 writeFileSync(join(DATA_OUT, 'art.json'), JSON.stringify(art));
-const decks = readdirSync(join(PROJ, 'decks')).filter((f) => f.endsWith('.json')).map((f) => readJ(join(PROJ, 'decks', f)));
+const deckFiles = readdirSync(join(PROJ, 'decks')).filter((f) => f.endsWith('.json'));
+const decks = deckFiles.filter((f) => !f.startsWith('starter-')).map((f) => ({ ...readJ(join(PROJ, 'decks', f)), file: f.replace(/\.json$/, '') }));
+const starters = deckFiles.filter((f) => f.startsWith('starter-')).map((f) => readJ(join(PROJ, 'decks', f)));
 writeFileSync(join(DATA_OUT, 'decks.json'), JSON.stringify(decks));
+writeFileSync(join(DATA_OUT, 'starters.json'), JSON.stringify(starters)); // 입문 영장첩(첫 수집, balance)
 
 // 2-5) 그림 파일(목업 제외)
 const AS_OUT = join(GAME, 'assets');
@@ -131,10 +133,11 @@ for (const c of cards) {
   const nums = new Set((t.match(/\d+/g) || []).map(Number));
   const eff = new Set();
   for (const e of [...(c.effects || []), ...(c.secret || [])]) for (const k of ['n', 'atk', 'hp', 'count', 'times']) if (typeof e[k] === 'number') eff.add(Math.abs(e[k]));
-  const miss = [...eff].filter((v) => v > 1 && !nums.has(v));
+  const all = /모두|전부/.test(t); // n ≥ 99 = "모두"(엔진의 큰 수 표기)
+  const miss = [...eff].filter((v) => v > 1 && !nums.has(v) && !(v >= 99 && all));
   if (miss.length) { numMismatch++; mism.push(`${c.id}(${miss.join('/')})`); }
 }
-console.log(`데이터: 글 키 ${nKeys} + 대사 ${nLines} (extra 중복 ${dupExtra}), 카드 ${cards.length}, 토큰 ${tokens.length}, 초상 ${(pBytes / 1024).toFixed(0)} KB, 그림 ${nAs}, 덱 ${decks.length}`);
+console.log(`데이터: 글 키 ${nKeys} + 대사 ${nLines} 카드 ${cards.length}, 토큰 ${tokens.length}, 초상 ${(pBytes / 1024).toFixed(0)} KB, 그림 ${nAs}, 덱 ${decks.length}, 입문 덱 ${starters.length}, 영어 글 ${cards.filter((c) => c.text_en).length}`);
 console.log(`카드 글 숫자 ≠ 엔진 수치(2 이상 값) ${numMismatch}장: ${mism.slice(0, 30).join(' ')}${mism.length > 30 ? ' …' : ''}`);
 writeFileSync(join(DATA_OUT, 'text-check.json'), JSON.stringify({ mismatch: mism }, null, 0));
 if (bad) process.exit(1);

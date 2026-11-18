@@ -8,7 +8,7 @@ export function T(id, part) {
   const a = D.art.tempo.actions[id];
   if (!a) return 0;
   let ms;
-  if (part) { const ph = a.phases_normal_ms || {}; ms = (ph[part] || 0) * (G.fast ? a.fast_ms / a.normal_ms : 1); }
+  if (part) { const ph = (G.fast && a.phases_fast_ms) || a.phases_normal_ms || {}; ms = (ph[part] || 0) * (G.fast && !a.phases_fast_ms ? a.fast_ms / a.normal_ms : 1); }
   else ms = G.fast ? a.fast_ms : a.normal_ms;
   if (id === 'big_entry' && G.reduceMotion) ms = D.art.tempo.reduce_motion.big_entry_normal_ms * (G.fast ? 0.5 : 1);
   return ms * G.scale;
@@ -101,10 +101,23 @@ export const A = {
   },
 };
 
+// 게임 시계 예약(메뉴 연출용 setTimeout 대신, round-2 D16)
+const timers = [];
+export function after(ms, fn) { const tm = { at: G.now + Math.max(0, ms), fn }; timers.push(tm); return tm; }
+export function clearAfter() { timers.length = 0; }
 export function stepAll(dt) {
+  if (G.paused) return 0;
   const d = dt * G.rate * A.boost;
   G.now += dt;
+  for (let i = 0; i < timers.length; i++) if (timers[i].at <= G.now) { const tm = timers.splice(i--, 1)[0]; tm.fn(); }
   A.update(d);
   stepTweens(d);
   return d;
+}
+// 하위 구간 기록(tempoLog, round-2 D11): 타임라인 안 at 시각에 시작, dur 뒤 끝
+export function phase(tl, name, at, dur, extra) {
+  const rec = { kind: name, phase_of: tl.name, tier: tl.tier, planned_ms: Math.round(dur), start_game_ms: null, end_game_ms: null, ...(extra || {}) };
+  tl.at(at, () => { rec.start_game_ms = Math.round(G.now); rec.start_real_ms = Math.round(performance.now()); A.log.push(rec); });
+  tl.at(at + dur, () => { rec.end_game_ms = Math.round(G.now); rec.end_real_ms = Math.round(performance.now()); rec.game_dur_ms = rec.end_game_ms - (rec.start_game_ms ?? rec.end_game_ms); });
+  tl.end(at + dur);
 }

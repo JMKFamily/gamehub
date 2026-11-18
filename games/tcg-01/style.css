@@ -147,7 +147,7 @@ button { font: inherit; color: inherit; }
 .logBtn { position: absolute; border: 0; background: var(--bg_panel); cursor: pointer; padding: 8px; }
 .logBtn img { width: 100%; height: 100%; }
 .timer { position: absolute; height: 6px; }
-.timer .dimline { position: absolute; inset: 2px 0; background: var(--line_soft); opacity: .35; }
+.timer .dimline { position: absolute; left: 0; right: 0; top: 1px; height: 3px; background: var(--salt_dim); opacity: .35; }
 .timer .burn { position: absolute; left: 0; top: 1px; width: 100%; height: 3px; background: var(--wick_flame); transform-origin: 0 50%; opacity: 0; }
 .timer .burn.crit { background: var(--damage); }
 #vignette { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
@@ -176,9 +176,9 @@ button { font: inherit; color: inherit; }
 .resbar i { display: block; height: 100%; background: var(--focus); transform-origin: 0 50%; }
 .resbar.ready i { background: var(--heal); }
 .filters { display: flex; gap: 4px; overflow-x: auto; padding: 6px 8px; background: var(--bg_panel); }
-.filters .btn { min-height: 40px; padding: 0 10px; font-size: 13px; flex: none; }
+.filters .btn { min-height: 48px; padding: 0 12px; font-size: 13px; flex: none; }
 .deckStrip { max-height: 34vh; overflow-y: auto; background: var(--bg_panel); padding: 6px; }
-.dline { display: flex; align-items: center; gap: 6px; min-height: 30px; font-size: 13px; cursor: pointer; border-left: 6px solid var(--fac); padding-left: 6px; margin-bottom: 2px; background: var(--bg_abyss); }
+.dline { display: flex; align-items: center; gap: 6px; min-height: 48px; font-size: 13px; cursor: pointer; border-left: 6px solid var(--fac); padding-left: 6px; margin-bottom: 2px; background: var(--bg_abyss); }
 .dline .c { color: var(--wick_flame); font-weight: 800; width: 18px; }
 .curve { display: flex; align-items: flex-end; gap: 3px; height: 36px; }
 .curve i { flex: 1; background: var(--wick_lit_bar); transform-origin: 50% 100%; }
@@ -193,3 +193,28 @@ button { font: inherit; color: inherit; }
 .trackBar { height: 14px; background: var(--wick_spent); position: relative; }
 .trackBar i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: var(--focus); transform-origin: 0 50%; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* round-2 */
+.cell.mini { position: relative; aspect-ratio: 5/7; background: var(--card_plate); border-left: 6px solid var(--fac); overflow: hidden; content-visibility: auto; contain-intrinsic-size: 96px 134px;
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); }
+.cell.mini .mp { position: absolute; left: 4px; right: 4px; top: 4px; width: calc(100% - 8px); height: 62%; object-fit: cover; background: var(--stat_tab); }
+.cell.mini .mc { position: absolute; left: 2px; top: 2px; min-width: 24px; height: 30px; background: var(--wick_lit_bar); color: var(--wick_ink); border: 2px solid var(--wick_ink); border-radius: 5px; font-weight: 800; font-size: 18px; display: flex; align-items: center; justify-content: center; }
+.cell.mini .mn { position: absolute; left: 2px; right: 2px; top: 66%; color: var(--card_ink); font-weight: 700; font-size: 13px; line-height: 16px; text-align: center; word-break: keep-all; max-height: 32px; overflow: hidden; }
+.cell.mini .ms { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); background: var(--stat_tab); color: var(--salt_white); font-weight: 800; font-size: 14px; padding: 0 8px; }
+.cell.mini .mt { position: absolute; right: 4px; bottom: 10px; color: var(--abyss_glow); font-size: 11px; }
+.cell.mini::after { content: ''; position: absolute; right: 0; top: 0; width: 14px; height: 14px; background: var(--rar); }
+.cell .dk { position: absolute; left: 30px; top: 4px; color: var(--wick_flame); background: var(--tide_black); padding: 0 3px; font-size: 12px; }
+#toastLayer.menu { top: auto; bottom: 12%; }
+.scroll.more::after, .deckStrip.more::after { content: '▼'; position: sticky; bottom: 0; display: block; flex: none; height: 28px; margin-top: -28px; text-align: center; line-height: 34px; font-size: 12px; color: var(--salt_dim); background: linear-gradient(transparent, var(--bg_abyss)); pointer-events: none; }
+#result { z-index: 300; }
+.crateHint { position: absolute; text-align: center; }
+.crateBtns { display: flex; gap: 8px; justify-content: center; padding: 8px; }
+#open.land .crateBtns { position: absolute; right: 8px; bottom: 8px; flex-direction: column; padding: 0; }
+.bubble { z-index: 60; box-shadow: 0 2px 0 var(--tide_black); }
+.tut { position: absolute; z-index: 85; background: var(--tide_black); border: 2px solid var(--focus); padding: 8px 10px; font-size: 14px; display: flex; flex-direction: column; gap: 6px; pointer-events: auto; }
+.tut .row { justify-content: flex-end; }
+.tut .btn { min-height: 48px; }
+.hl { outline: 3px solid var(--focus); outline-offset: 2px; }
+#pauseOvl { position: fixed; inset: 0; z-index: 400; background: rgba(0,0,0,.78); display: flex; align-items: center; justify-content: center; }
+#pauseOvl .btn { min-width: 96px; min-height: 96px; font-size: 40px; }
+.btn.down { transform: scale(.96); filter: brightness(1.15); }

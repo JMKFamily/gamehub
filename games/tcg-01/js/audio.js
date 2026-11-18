@@ -18,8 +18,10 @@ export function unlock() {
   S.musFilter = S.ctx.createBiquadFilter(); S.musFilter.type = 'lowpass'; S.musFilter.frequency.value = 20000;
   S.musBus = S.ctx.createGain(); S.musBus.gain.value = S.music ? 1 : 0;
   S.musBus.connect(S.musFilter); S.musFilter.connect(S.master);
-  startBed();
+  setTimeout(startBed, 120); // 첫 탭 프레임을 막지 않게 바탕음은 조금 뒤(round-2 D1)
 }
+export function suspendAudio() { if (S.ctx && S.ctx.state === 'running') S.ctx.suspend(); }
+export function resumeAudio() { if (S.ctx && S.ctx.state === 'suspended') S.ctx.resume(); }
 export function setSound(on) { S.enabled = on; }
 export function setMusic(on) { S.music = on; if (S.musBus) S.musBus.gain.value = on ? 1 : 0; }
 

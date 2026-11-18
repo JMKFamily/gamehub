@@ -81,3 +81,13 @@ QA 대조 방법: `newBattle({heroA, heroB, seed, ai:'eval', human:null})`를 `a
 - 친선 새김 슬롯 고르는 화면, 덱 필터(종류·키워드) 없음(비용·세력만).
 - 오프라인 렌더로 효과음 크기 순서 확인 안 함(art 1 dB 대조는 QA·art).
 - 카드 글 영어(lore), 키 29개 확정(lore).
+
+## round-2 수정 (2026-11-18)
+처리 표: `reviews/round-1/dev-response.md`(28건: 수정 27, 사양 맞춤 1). 1-3 표의 D3(임시 글 키)·D4(글 숫자)·D5(첫 수집)·D8(위기 대사)는 해결됨.
+- 데이터: sync가 `concept_en` → `text_en`, 10-lore 8-11 키·`위기` 대사(`line_<id>_crisis`)·4-8 맞대결 첫 대사(`line_<a>_vs_<b>`)를 읽고, `decks/starter-*.json`은 `data/starters.json`(첫 수집·입문 영장첩)으로 따로 묶음. `strings-extra.json`은 없앰(남아 있으면 sync가 지움).
+- 성능: 메뉴 격자 = 가벼운 칸 + 프레임 나눠 그리기, 초상 blob은 부팅 뒤 쉬는 시간에, 무거운 화면은 버튼 눌림 표시 다음 프레임에 만듦(`main.js` HEAVY).
+- 일시정지: `visibilitychange` → `G.paused`(게임 시계·턴 타이머·AI 박자 정지) + AudioContext suspend, 복귀 시 대전이면 ▶ 이어하기. 훅 `__game.paused`, `__game.resume()`.
+- 튜토리얼: `battle.js` `tutSteps()` — 첫 모래 위 연습 판(`M.s.tutorialDone` 거짓)에서만. 테스트 모드에서는 `&tut=1`일 때만 켜짐.
+- tempoLog 하위 구간: 항목에 `phase_of`가 있으면 큰 타임라인 안 구간(`lethal_blow`·`hero_crack`·`victory/defeat`·`end_breath_press`·`turn_start_banner`).
+- 게임 시계 예약 `after(ms, fn)`(anim.js): 메뉴 연출도 빠르게 보기·`step()`·일시정지를 따름.
+- 친선 새김 슬롯: `M.s.slots[덱 id] = 카드 id`, 없으면 친선 돌파 0.

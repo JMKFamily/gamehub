@@ -1,8 +1,8 @@
 // 부팅·화면 전환·게임 시계·테스트 훅(window.__game)
-import { D, loadData } from './data.js';
+import { D, loadData, warmAllIdle } from './data.js';
 import { t, setLang, L } from './i18n.js';
 import { G, A, stepAll } from './anim.js';
-import { initAudio, unlock, setSound, setMusic, sfx } from './audio.js';
+import { initAudio, unlock, setSound, setMusic, sfx, suspendAudio, resumeAudio } from './audio.js';
 import { M, load, save, resetSave, seedRng, btFor, battleRewards, allDecks } from './meta.js';
 import { Battle } from './battle.js';
 import * as S from './screens.js';
@@ -31,7 +31,10 @@ const ROUTES = {
   builder: (a) => S.builderScreen(a), crates: () => S.cratesScreen(), open: (a) => S.openScreen(a), market: () => S.marketScreen(), commissions: () => S.commissionsScreen(),
   calendar: () => S.calendarScreen(), settings: () => S.settingsScreen({ apply: applySettings }),
 };
+// 무거운 화면(수집·영장첩·대전)은 눌림 표시가 먼저 그려지도록 한 프레임 뒤에 만든다(round-2 D1, 첫 반응 ≤ 100 ms)
+const HEAVY = new Set(['collection', 'builder', 'battle']);
 function go(name, args) {
+  if (HEAVY.has(name) && !go._now) { requestAnimationFrame(() => setTimeout(() => { go._now = true; try { go(name, args); } finally { go._now = false; } }, 0)); return; }
   if (name !== 'battle' && battle) { battle = null; A.finishAll(); A.queue.length = 0; }
   if (name === 'battle') return startBattleFromMenu(args);
   const el = ROUTES[name](args || {});
@@ -52,7 +55,8 @@ async function startBattleFromMenu({ hero, deck, mode, ai }) {
   heroes[pl[0]] = hero; decks[pl[0]] = myDeck.cards; bt[pl[0]] = btFor(myDeck, mode); face[pl[0]] = 1; ais[pl[0]] = ai;
   heroes[pl[1]] = enemy; decks[pl[1]] = eDeck.cards; bt[pl[1]] = {}; face[pl[1]] = (eDeck.ai_style && eDeck.ai_style.face) || 1; ais[pl[1]] = ai;
   lastBattleArgs = { hero, deck, mode, ai };
-  await newBattle({ heroes, decks, bt, aiFace: face, ai: ais, seed, human: pl[0], mode });
+  const tutorial = mode === 'mode_practice' && !M.s.tutorialDone && Q.get('tut') !== '0' && !(TEST && Q.get('tut') !== '1');
+  await newBattle({ heroes, decks, bt, aiFace: face, ai: ais, seed, human: pl[0], mode, tutorial });
 }
 
 async function newBattle(o) {
@@ -64,6 +68,7 @@ async function newBattle(o) {
     ...o, aiMod, noTimer: o.noTimer ?? (!M.s.settings.timer),
     onEnd: (res) => onBattleEnd(res),
     onSetting: (k, v) => { M.s.settings[k] = v; save(); },
+    onTutorialDone: () => { M.s.tutorialDone = true; save(); },
   };
   battle = new Battle(sec, opts);
   logList.push({ t: 'battle_start', seed: o.seed, heroes: o.heroes, human: o.human ?? null });
@@ -89,11 +94,25 @@ function frame(now) {
   requestAnimationFrame(frame);
 }
 function tick(dt) {
+  if (G.paused) return;
   const gdt = stepAll(dt);
   if (battle) battle.update(dt, gdt);
 }
 addEventListener('resize', () => { clearTimeout(window._rz); window._rz = setTimeout(() => { if (battle && UI.screen === 'battle') battle.resize(); }, 120); });
 addEventListener('pointerdown', () => unlock(), { capture: true });
+// 백그라운드(round-2 D3): 숨으면 게임 시계·턴 타이머·소리 정지, 돌아오면 대전 중이면 "이어하기" 화면(▶ 탭)
+function pauseOn() { if (G.paused) return; G.paused = true; suspendAudio(); logList.push({ t: 'pause', at: Math.round(G.now) }); }
+function resumeOff() { G.paused = false; resumeAudio(); last = performance.now(); document.getElementById('pauseOvl')?.remove(); logList.push({ t: 'resume', at: Math.round(G.now) }); }
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return pauseOn();
+  if (!G.paused) return;
+  if (battle && UI.screen === 'battle' && !battle.over) {
+    if (document.getElementById('pauseOvl')) return;
+    const o = document.createElement('div'); o.id = 'pauseOvl';
+    const b = document.createElement('button'); b.className = 'btn primary'; b.type = 'button'; b.textContent = '▶'; b.setAttribute('aria-label', t('title_tap_to_start'));
+    b.addEventListener('click', () => resumeOff()); o.appendChild(b); document.body.appendChild(o);
+  } else resumeOff();
+});
 
 // ---------- 테스트 훅 ----------
 function engineSnap() {
@@ -112,7 +131,7 @@ function toIntent(a) {
 window.__game = {
   get state() { return M.s; }, get screen() { return UI.screen; }, get battle() { return engineSnap(); }, get log() { return { events: logList, battle: battle ? battle.text.slice() : [] }; },
   get tempoLog() { return { actions: A.log.slice(), inputs: battle ? battle.inputs.slice() : [] }; },
-  get engine() { return Engine; }, get busy() { return A.busy || A.queue.length > 0; }, get queued() { return A.queue.length; }, get missingKeys() { return [...L.missing]; },
+  get engine() { return Engine; }, get paused() { return !!G.paused; }, resume() { resumeOff(); }, get busy() { return A.busy || A.queue.length > 0; }, get queued() { return A.queue.length; }, get missingKeys() { return [...L.missing]; },
   go, async newBattle(o = {}) {
     const hs = D.heroIds;
     const heroA = o.heroA || hs[0], heroB = o.heroB || hs[1];
@@ -151,6 +170,7 @@ window.__game = {
     ads.init();
     document.title = t('game_title');
     go(Q.get('screen') || 'title');
+    warmAllIdle();
     requestAnimationFrame(frame);
     window.__game.ready = true;
   } catch (e) {

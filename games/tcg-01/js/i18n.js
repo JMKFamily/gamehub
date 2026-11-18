@@ -15,7 +15,8 @@ export const cardName = (c) => (c.spare ? t('spare_wick_name') : (L.lang === 'en
 // 카드 글: lore concept_ko(원문). 영어 글은 lore에 아직 없어 키워드 이름 + 풍미글로 대신(DEV_NOTES D3)
 export function cardText(c) {
   if (c.spare) return t('spare_wick_desc');
-  if (L.lang === 'en') return [(c.kw_ui || []).map((k) => t('kwname_' + k)).join(', '), c.flavor_en ? '“' + c.flavor_en + '”' : ''].filter(Boolean).join('\n');
-  return c.text_ko || '';
+  const nb = (s) => s.replace(/ (\d)/g, ' $1'); // 숫자 앞 줄바꿈 없는 공백(round-2 D25)
+  if (L.lang === 'en') return nb(c.text_en || [(c.kw_ui || []).map((k) => t('kwname_' + k)).join(', '), c.flavor_en ? '“' + c.flavor_en + '”' : ''].filter(Boolean).join('\n'));
+  return nb(c.text_ko || '');
 }
 export const kindKey = (k) => ({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k] || 'card_type_answerer');

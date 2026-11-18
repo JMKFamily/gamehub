@@ -1,9 +1,9 @@
 // 메뉴 화면들: 타이틀·부두·호명자 선택·수집(공명·새김)·영장첩·인양 상자·부두 시장·의뢰·조수 달력·설정·결과
-import { D, cardById, fac } from './data.js';
+import { D, cardById, fac, portraitURL } from './data.js';
 import { t, L, setLang, cardName } from './i18n.js';
 import { h, cardBox } from './cards.js';
-import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btDelta, craftCost, craft, openCrate, cratesToPity, buy, rerollComm, claimComm, tideReward, deckProblems, allDecks } from './meta.js';
-import { G, tween, setTf, tf } from './anim.js';
+import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btDelta, craftCost, craft, openCrate, cratesToPity, buy, rerollComm, claimComm, claimWeekly, tideReward, deckProblems, allDecks } from './meta.js';
+import { G, tween, setTf, tf, after } from './anim.js';
 import { sfx, setSound, setMusic, unlock } from './audio.js';
 import { toast, show } from './ui.js';
 
@@ -11,7 +11,8 @@ const HS = (hid) => hid.slice(2);
 let NAV = null;
 export function setNav(fn) { NAV = fn; }
 const go = (n, a) => NAV(n, a);
-const btn = (text, onclick, cls = '', attrs = {}) => h('button', { class: 'btn ' + cls, type: 'button', onclick: (e) => { unlock(); sfx('ui_tap'); onclick(e); }, ...attrs }, text);
+// 버튼: 누르는 순간 눌림 표시(transform)로 첫 반응, 일은 click에서
+const btn = (text, onclick, cls = '', attrs = {}) => h('button', { class: 'btn ' + cls, type: 'button', onpointerdown: (e) => e.currentTarget.classList.add('down'), onpointerleave: (e) => e.currentTarget.classList.remove('down'), onclick: (e) => { e.currentTarget.classList.remove('down'); unlock(); sfx('ui_tap'); onclick(e); }, ...attrs }, text);
 function screen(id, title, back = 'dock') {
   const s = h('section', { id, class: 'screen' });
   if (title != null) s.appendChild(h('div', { class: 'top' }, [btn(t('menu_back'), () => go(back), '', { 'data-nav': 'back' }), h('h2', { text: title }), curBar()]));
@@ -23,6 +24,7 @@ function curBar() {
   return h('span', { class: 'row' }, [it('currency-salt', c.salt, 'currency_salt'), it('currency-ink', c.ink, 'currency_ink'), it('currency-pearl', c.pearl, 'currency_pearl')]);
 }
 const heroName = (hid) => t(`hero_${HS(hid)}_name`);
+export const deckLabel = (d) => (d.starter ? t('deck_name_default', { name: heroName(d.hero) }) : d.std ? `${t('deck_standard')} · ${t('deck_arch_' + String(d.arch || '').replace(/-/g, '_'))}` : d.name || t('deck_name_default', { name: heroName(d.hero) }));
 
 // ---------- 타이틀 ----------
 export function titleScreen() {
@@ -46,7 +48,6 @@ export function dockScreen() {
     btn(t('menu_chronicle'), () => toast(t('chronicle_locked')), 'off'), btn(t('menu_settings'), () => go('settings'), '', { 'data-nav': 'settings' })]));
   const T = D.balance.economy.tide_calendar, m = M.s.tide.marks;
   sc.appendChild(h('div', { class: 'panel col' }, [h('div', { class: 'small', text: `${t('calendar_title')} · ${t('calendar_season', { n: 1 })} · ${Math.min(T.steps, Math.floor(m / T.tide_marks_per_step))}/${T.steps}` }), tideBar(m % T.tide_marks_per_step / T.tide_marks_per_step)]));
-  sc.appendChild(h('div', { class: 'dim small', text: t('market_no_real_money') }));
   s.appendChild(sc);
   return s;
 }
@@ -67,16 +68,21 @@ export function heroScreen() {
     }
     det.innerHTML = '';
     const hs = HS(hero);
-    det.appendChild(h('div', { class: 'panel col' }, [h('b', { text: `${heroName(hero)} — ${t(`hero_${hs}_title`)}` }), h('div', { class: 'small', text: `${t('hud_calling')}: ${t(`hero_${hs}_power`)} · ${t(`hero_${hs}_power_desc`)}` })]));
+    det.appendChild(h('div', { class: 'panel col' }, [h('b', { text: `${heroName(hero)} — ${t(`hero_${hs}_title`)}` }), h('div', { class: 'small dim', text: t(`hero_${hs}_bio`) }), h('div', { class: 'small', text: `${t('hud_calling')}: ${t(`hero_${hs}_power`)} · ${t(`hero_${hs}_power_desc`)}` })]));
     det.appendChild(h('b', { text: t('choose_writbook') }));
     const decks = allDecks().filter((d) => d.hero === hero);
     if (!deckId || !decks.some((d) => d.id === deckId)) deckId = decks[0].id;
     const dr = h('div', { class: 'row' });
     for (const d of decks) {
       const bad = deckProblems(d).length > 0;
-      dr.appendChild(btn(d.std ? `${t('deck_standard')} · ${d.archetype}` : d.name || t('deck_name_default', { name: heroName(hero) }), () => { if (bad) { toast(t(deckProblems(d)[0])); return; } deckId = d.id; draw(); }, (d.id === deckId ? 'sel' : '') + (bad ? ' off' : ''), { 'data-deck': d.id }));
+      dr.appendChild(btn(deckLabel(d), () => { if (bad) { toast(t(deckProblems(d)[0])); return; } deckId = d.id; draw(); }, (d.id === deckId ? 'sel' : '') + (bad ? ' off' : ''), { 'data-deck': d.id }));
     }
     det.appendChild(dr);
+    if (mode === 'mode_sparring') {
+      const d0 = allDecks().find((d) => d.id === deckId), cur = M.s.slots[deckId];
+      det.appendChild(h('div', { class: 'panel col' }, [h('b', { text: t('recut_slot_title') }), h('div', { class: 'small', text: t('recut_slot_desc') }),
+        btn(cur ? cardName(cardById(cur)) + ' · ' + t('recut_level_' + stageOf(cur)) : t('recut_slot_empty'), () => slotPicker(d0, draw), '', { 'data-act': 'slot' })]));
+    }
     const mr = h('div', { class: 'col' });
     for (const m of ['mode_practice', 'mode_sparring', 'mode_accord']) mr.appendChild(btn(h('span', {}, [h('b', { text: t(m) }), h('span', { class: 'small', text: ' · ' + t(m + '_desc') })]), () => { mode = m; draw(); }, m === mode ? 'sel' : '', { 'data-mode': m }));
     det.appendChild(mr);
@@ -93,6 +99,16 @@ export function heroScreen() {
   return s;
 }
 
+function slotPicker(deck, after) {
+  const box = h('div', { class: 'ovl', style: 'position:fixed;overflow:auto' });
+  box.appendChild(h('b', { text: t('recut_slot_title') })); box.appendChild(h('div', { class: 'small', text: t('recut_slot_desc') }));
+  const grid = h('div', { class: 'grid collGrid', style: 'width:min(94vw,520px)' });
+  for (const cid of [...new Set(deck.cards)].filter((c) => stageOf(c) > 0)) grid.appendChild(miniCell(cid, () => { M.s.slots[deck.id] = cid; save(); box.remove(); after(); }));
+  box.appendChild(grid);
+  box.appendChild(h('div', { class: 'row' }, [btn(t('recut_slot_empty'), () => { delete M.s.slots[deck.id]; save(); box.remove(); after(); }), btn(t('menu_back'), () => box.remove())]));
+  document.body.appendChild(box);
+}
+
 // ---------- 수집(공명·새김 돌파) ----------
 export function collectionScreen() {
   const s = screen('collection', t('menu_collection'));
@@ -103,29 +119,39 @@ export function collectionScreen() {
     fl.innerHTML = '';
     for (const o of owners) fl.appendChild(btn(o === 'all' ? t('filter_all') : o === 'neutral' ? t('card_owner_common') : heroName(o), () => { flt = o; draw(); }, flt === o ? 'sel' : ''));
     fl.appendChild(btn(t('collection_owned'), () => { onlyOwned = !onlyOwned; draw(); }, onlyOwned ? 'sel' : ''));
-    grid.innerHTML = '';
     const n = D.list.filter((c) => owned(c.id) > 0).length;
     s.querySelector('h2').textContent = `${t('menu_collection')} ${n}/${D.list.length}`;
-    for (const c of D.list) {
-      if (flt !== 'all' && c.owner !== flt) continue;
-      if (onlyOwned && !owned(c.id)) continue;
-      grid.appendChild(cell(c.id, () => cardDetail(c.id, draw)));
-    }
+    fillGrid(grid, D.list.filter((c) => (flt === 'all' || c.owner === flt) && (!onlyOwned || owned(c.id))).map((c) => c.id), (cid) => cardDetail(cid, draw));
   };
   draw();
   s.appendChild(fl); s.appendChild(sc);
   return s;
 }
-function cell(cid, onclick) {
-  const n = owned(cid), st = stageOf(cid), e = M.s.coll[cid];
-  const el = h('div', { class: 'cell' + (n ? '' : ' miss'), 'data-cid': cid, onclick: () => { sfx('ui_tap'); onclick(); } });
-  el.appendChild(cardBox(cid, 96, { mode: 'full', stage: st }));
+// 격자 칸(round-2 D1): 가벼운 축소 카드(초상 + 비용 + 이름 한 줄 + 스탯), 글 덩어리 없음. 초상은 지연 로드
+function miniCell(cid, onclick) {
+  const n = owned(cid), st = stageOf(cid), e = M.s.coll[cid], c = cardById(cid), f = fac(c.owner), rar = D.art.palette.rarity[c.rarity || 'sand'];
+  const el = h('div', { class: 'cell mini' + (n ? '' : ' miss'), 'data-cid': cid, style: `--fac:${f.primary};--rar:${rar.facet}`, onclick: () => { sfx('ui_tap'); onclick(); } });
+  el.appendChild(h('img', { class: 'mp', src: portraitURL(cid), alt: '', loading: 'lazy', decoding: 'async', draggable: 'false' }));
+  el.appendChild(h('span', { class: 'mc', text: String(c.cost) }));
+  el.appendChild(h('div', { class: 'mn', text: cardName(c) }));
+  if (c.kind !== 'spell') el.appendChild(h('span', { class: 'ms', text: `${c.attack}/${c.health}` }));
+  if (st) el.appendChild(h('span', { class: 'mt', text: '▮'.repeat(st) }));
   if (n) el.appendChild(h('span', { class: 'cnt', text: `${n}/${cap(cid)}` }));
   const th = thresholds(cid), next = th[Math.min(3, st + 1)];
   const k = st >= 3 ? 1 : e ? Math.min(1, (e.res - th[st]) / Math.max(1, next - th[st])) : 0;
   const bar = h('div', { class: 'resbar' + (canRecut(cid) ? ' ready' : '') }, h('i', { style: `transform:scaleX(${Math.max(0, k).toFixed(3)})` }));
   el.appendChild(bar);
   return el;
+}
+// 칸을 프레임마다 나눠 그림(첫 화면은 즉시)
+function fillGrid(grid, ids, onclick, decorate) {
+  grid.innerHTML = '';
+  const tok = (grid._tok = (grid._tok || 0) + 1);
+  let i = 0;
+  const batch = (n) => { const fr = document.createDocumentFragment(); for (let k = 0; k < n && i < ids.length; k++, i++) { const cid = ids[i]; const el = miniCell(cid, () => onclick(cid)); if (decorate) decorate(el, cid); fr.appendChild(el); } grid.appendChild(fr); };
+  batch(12);
+  const more = () => { if (grid._tok !== tok || i >= ids.length) return; batch(24); requestAnimationFrame(more); };
+  requestAnimationFrame(more);
 }
 function statDeltaText(cid, st) {
   const d = btDelta(cid, st), out = [];
@@ -180,7 +206,7 @@ export function decksScreen() {
   const sc = h('div', { class: 'scroll col' });
   for (const d of allDecks()) {
     const pr = deckProblems(d);
-    sc.appendChild(btn(h('span', {}, [h('b', { text: d.std ? `${heroName(d.hero)} · ${t('deck_standard')}` : d.name || t('deck_name_default', { name: heroName(d.hero) }) }), h('span', { class: 'small', text: ` ${t('deck_count', { n: d.cards.length })}${pr.length ? ' · ' + t(pr[0]) : ''}` })]),
+    sc.appendChild(btn(h('span', {}, [h('b', { text: d.std ? `${heroName(d.hero)} · ${deckLabel(d)}` : deckLabel(d) }), h('span', { class: 'small', text: ` ${t('deck_count', { n: d.cards.length })}${pr.length ? ' · ' + t(pr[0]) : ''}` })]),
       () => (d.std ? toast(t('deck_standard_locked')) : go('builder', { deck: d })), d.std ? '' : 'primary'));
   }
   const nr = h('div', { class: 'row' });
@@ -213,15 +239,8 @@ export function builderScreen({ deck }) {
     cnt.textContent = t('deck_count', { n: deck.cards.length });
     fl.innerHTML = '';
     for (let c = -1; c <= 7; c++) fl.appendChild(btn(c < 0 ? t('filter_all') : c === 7 ? '7+' : String(c), () => { cost = c; draw(); }, cost === c ? 'sel' : ''));
-    grid.innerHTML = '';
-    for (const c of D.list) {
-      if (c.owner !== 'neutral' && c.owner !== deck.hero) continue;
-      if (!owned(c.id)) continue;
-      if (cost >= 0 && (cost === 7 ? c.cost < 7 : c.cost !== cost)) continue;
-      const el = cell(c.id, () => add(c.id));
-      const n = count(c.id); if (n) el.appendChild(h('span', { class: 'cnt', style: 'left:2px;right:auto;top:auto;bottom:12px;color:var(--wick_flame)', text: '●'.repeat(n) }));
-      grid.appendChild(el);
-    }
+    const ids = D.list.filter((c) => (c.owner === 'neutral' || c.owner === deck.hero) && owned(c.id) && (cost < 0 || (cost === 7 ? c.cost >= 7 : c.cost === cost))).map((c) => c.id);
+    fillGrid(grid, ids, (cid) => add(cid), (el, cid) => { const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
     strip.innerHTML = '';
     const uniq = [...new Set(deck.cards)].sort((a, b) => cardById(a).cost - cardById(b).cost);
     for (const cid of uniq) {
@@ -279,51 +298,64 @@ export function openScreen({ kind, hero }) {
   const res = openCrate(kind, hero);
   const stage = h('div', { id: 'crateStage' });
   s.appendChild(stage);
-  const W = Math.min(innerWidth, 520), cx = W / 2;
-  stage.style.maxWidth = '520px'; stage.style.margin = '0 auto'; stage.style.width = '100%';
-  const crate = h('img', { src: kind === 'bare' ? 'assets/crate-bare-sea.svg' : `assets/crate-${HS(hero)}.svg`, alt: '', style: 'position:absolute;left:0;top:0;width:140px;height:140px' });
+  const btns = h('div', { class: 'crateBtns' });
+  s.appendChild(btns);
+  // 배치(30-art 4-4): 세로 = 위 상자·가운데 덩이 한 줄·아래 버튼 / 가로 = 상자 왼쪽 30 %·덩이와 카드 오른쪽 70 % 3+2 두 줄·버튼 오른쪽 아래 기둥
+  const W = Math.max(280, innerWidth), H = Math.max(240, innerHeight - 56);
+  const land = W > H;
+  s.classList.toggle('land', land);
+  const boxW = land ? Math.min(W * 0.3 - 16, H * 0.5) : Math.min(140, H * 0.22);
+  const crate = h('img', { src: kind === 'bare' ? 'assets/crate-bare-sea.svg' : `assets/crate-${HS(hero)}.svg`, alt: '', style: `position:absolute;left:0;top:0;width:${boxW}px;height:${boxW}px` });
   stage.appendChild(crate);
-  setTf(crate, { x: cx - 70, y: 40, s: 1, o: 1 });
-  const hint = h('div', { class: 'small', style: 'position:absolute;left:0;right:0;bottom:70px;text-align:center', text: t('crate_tap_salt') });
+  const crX = land ? (W * 0.3 - boxW) / 2 : (W - boxW) / 2, crY = land ? (H - boxW) / 2 - 20 : 16;
+  setTf(crate, { x: crX, y: crY, s: 1, o: 1 });
+  const hint = h('div', { class: 'small crateHint', style: land ? `left:0;width:${W * 0.3}px;top:${crY + boxW + 8}px` : `left:0;right:0;top:${crY + boxW + 8}px`, text: t('crate_tap_salt') });
   stage.appendChild(hint);
+  // 카드 자리: 가로 3+2 두 줄(카드 높이 ≤ (H − 16)/2), 세로 3+2 두 줄
+  const areaX = land ? W * 0.3 : 8, areaW = land ? W * 0.7 - 76 : W - 16, areaY = land ? 8 : crY + boxW + 34, areaH = land ? H - 16 : H - areaY - 72;
+  const cardH = Math.min((areaH - 50) / 2, (areaW / 3 - 10) * 1.4), cardW = cardH / 1.4, cw = Math.min(64, cardW * 0.8);
+  const slot = (i) => { const row = i < 3 ? 0 : 1, col = row ? i - 3 + 0.5 : i, gx = areaW / 3; return { x: areaX + gx * col + (gx - cardW) / 2, y: areaY + row * (cardH + 22) }; };
   sfx('crate_lid');
-  const shakeEl = (el, amp, dur) => { const o = { ...tf(el) }; let k = 0; const n = Math.max(2, Math.round(dur / 40)); const step = () => { if (k++ >= n) { setTf(el, { x: o.x, y: o.y }); return; } setTf(el, { x: o.x + (k % 2 ? amp : -amp), y: o.y }); setTimeout(step, 40); }; if (amp > 0 && !G.reduceMotion && dur > 0) step(); };
+  const shakeEl = (el, amp, dur) => { const o = { ...tf(el) }; let k = 0; const n = Math.max(2, Math.round(dur / 40)); const step = () => { if (k++ >= n) { setTf(el, { x: o.x, y: o.y }); return; } setTf(el, { x: o.x + (k % 2 ? amp : -amp), y: o.y }); after(40, step); }; if (amp > 0 && !G.reduceMotion && dur > 0) step(); };
   shakeEl(crate, 3, ms(CO.lid));
   const chunks = [];
-  const lidMs = ms(CO.lid);
-  const cw = Math.min(64, (W - 40) / 5.6), gap = cw * 1.12;
+  const lidMs = ms(CO.lid), stg = ms({ normal_ms: CO.chunks_in.stagger_normal_ms, fast_ms: CO.chunks_in.stagger_fast_ms });
   res.forEach((r, i) => {
     const el = h('div', { class: 'chunk', 'data-chunk': i, style: `width:${cw}px;height:${cw}px` }, [h('div', { class: 'gl', style: `background:radial-gradient(circle, ${P[r.rarity].glow || P[r.rarity].fill} 0%, transparent 70%);opacity:0` }), h('img', { src: `assets/salt-chunk-${r.rarity}.svg`, alt: t('rarity_' + r.rarity) })]);
     stage.appendChild(el);
-    const tx = cx - (gap * 5) / 2 + i * gap + (gap - cw) / 2, ty = 220 + (i % 2) * 18;
-    setTf(el, { x: cx - cw / 2, y: 90, s: 0.3, o: 0 });
-    setTimeout(() => tween(el, { x: tx, y: ty, s: 1, o: 1 }, 200 * G.scale), (lidMs + i * ms({ normal_ms: CO.chunks_in.stagger_normal_ms, fast_ms: CO.chunks_in.stagger_fast_ms })) / Math.max(G.scale, 1e-3) * G.scale);
-    chunks.push({ el, r, tx, ty, done: false });
+    const sp = slot(i), tx = sp.x + (cardW - cw) / 2, ty = sp.y + (cardH - cw) / 2;
+    setTf(el, { x: crX + boxW / 2 - cw / 2, y: crY + boxW / 2, s: 0.3, o: 0 });
+    after(lidMs + i * stg, () => tween(el, { x: tx, y: ty, s: 1, o: 1 }, 200 * G.scale));
+    chunks.push({ el, r, sp, tx, ty, done: false });
   });
-  const teaseAt = lidMs + 5 * CO.chunks_in.stagger_normal_ms * G.scale;
-  setTimeout(() => { for (const c of chunks) { const g = c.el.querySelector('.gl'); setTf(g, { o: 0 }); tween(g, { o: CO.pre_glow_ratio[c.r.rarity] }, ms(CO.tease)); if (c.r.rarity === 'coral' || c.r.rarity === 'abyss') shakeEl(c.el, c.r.rarity === 'abyss' ? 3 : 1.5, 600); } }, teaseAt);
+  after(lidMs + 5 * stg, () => { for (const c of chunks) { if (c.done) continue; const g = c.el.querySelector('.gl'); setTf(g, { o: 0 }); tween(g, { o: CO.pre_glow_ratio[c.r.rarity] }, ms(CO.tease)); if (c.r.rarity === 'coral' || c.r.rarity === 'abyss') shakeEl(c.el, c.r.rarity === 'abyss' ? 3 : 1.5, 600); } });
+  // 공개 라벨: 새 이름 / 2장째 사본 / 공명 +n / 각인 먹 +n (lore 8-11)
+  const tagText = (r) => (r.isNew ? t('crate_new') : r.res ? t('crate_resonance_gain', { n: r.res }) : r.ink ? `${t('currency_ink')} +${r.ink}` : t('crate_second_copy'));
   const reveal = (c) => new Promise((ok) => {
     if (c.done) return ok(); c.done = true;
     const r = c.r.rarity, bd = (G.fast ? CO.break_ms[r].fast : CO.break_ms[r].normal) * G.scale;
     sfx('chunk_break_' + r);
     const lv = CO.shake_level[r]; if (lv !== 'none') shakeEl(stage, lv === 'heavy' ? 7 : 4, bd);
     tween(c.el, { s: 1.25, o: 0 }, bd, { done: () => {
-      c.el.innerHTML = '';
-      const cb = cardBox(c.r.cid, gap * 0.94, { mode: 'full' });
+      c.el.innerHTML = ''; c.el.style.width = cardW + 'px'; c.el.style.height = cardH + 'px';
+      const cb = cardBox(c.r.cid, cardW, { mode: 'full' });
+      cb.style.transformOrigin = '50% 50%';
       c.el.appendChild(cb);
-      c.el.appendChild(h('div', { class: 'revealTag', style: `top:${Math.round(gap * 0.94 * 1.4) + 2}px;bottom:auto`, text: c.r.isNew ? t('crate_new') : c.r.res ? t('crate_duplicate', { n: c.r.res }) : `${t('currency_ink')} +${c.r.ink}` }));
-      setTf(c.el, { x: c.tx - (gap * 0.94 - cw) / 2, y: c.ty, s: 1, o: 1 }); setTf(cb, { s: 1 }); cb.style.transformOrigin = '50% 50%';
-      cb._tf = { x: 0, y: 0, s: 1, r: 0, o: 1 }; setTf(cb, { s: 0.01 }); tween(cb, { s: 1 }, ms(CO.reveal_flip), { done: ok });
-      c.el.onclick = () => import('./screens.js').then((m) => m.cardDetail(c.r.cid));
+      c.el.appendChild(h('div', { class: 'revealTag', style: `top:${Math.round(cardH) + 2}px;bottom:auto`, text: tagText(c.r) }));
+      setTf(c.el, { x: c.sp.x, y: c.sp.y, s: 1, o: 1 });
+      setTf(cb, { s: 0.01 }); tween(cb, { s: 1 }, ms(CO.reveal_flip), { done: ok });
+      c.el.onclick = () => cardDetail(c.r.cid);
+      if (chunks.every((q) => q.done)) hint.classList.add('hidden');
     } });
   });
   for (const c of chunks) c.el.addEventListener('pointerdown', () => { unlock(); reveal(c); }, { once: true });
+  const wait = (m) => new Promise((r) => after(m, r));
   const all = btn(t('crate_reveal_all'), async () => {
     const order = chunks.filter((c) => !c.done).sort((a, b) => ['sand', 'pearl', 'coral', 'abyss'].indexOf(a.r.rarity) - ['sand', 'pearl', 'coral', 'abyss'].indexOf(b.r.rarity));
-    const stg = ms({ normal_ms: CO.break_all_stagger.normal_ms, fast_ms: CO.break_all_stagger.fast_ms });
-    for (const c of order) { if (c.r.rarity === 'abyss') await new Promise((r) => setTimeout(r, 400 * G.scale)); reveal(c); await new Promise((r) => setTimeout(r, stg)); }
+    const st2 = ms({ normal_ms: CO.break_all_stagger.normal_ms, fast_ms: CO.break_all_stagger.fast_ms });
+    for (const c of order) { if (c.r.rarity === 'abyss') await wait(400 * G.scale); reveal(c); await wait(st2); }
   }, 'primary', { 'data-act': 'revealAll' });
-  s.appendChild(h('div', { class: 'row', style: 'justify-content:center;padding:8px' }, [all, btn(t('menu_back'), () => go('crates'))]));
+  btns.appendChild(all); btns.appendChild(btn(t('menu_back'), () => go('crates'), '', { 'data-nav': 'back2' }));
   return s;
 }
 
@@ -332,7 +364,7 @@ export function marketScreen() {
   const s = screen('market', t('menu_market'));
   const sc = h('div', { class: 'scroll col' });
   const MK = D.balance.economy.dock_market, F = D.balance.economy.crates.faction_crate;
-  const item = (img, label, price, onBuy, key) => h('div', { class: 'panel row' }, [h('img', { src: img, alt: '', style: 'width:56px;height:56px' }), h('b', { class: 'grow', text: label }), btn(`${t('market_buy')} · ${price}`, onBuy, '', { 'data-buy': key })]);
+  const item = (img, label, price, onBuy, key) => h('div', { class: 'panel row', style: 'flex-wrap:nowrap' }, [h('img', { src: img, alt: '', style: 'width:48px;height:48px;flex:none' }), h('b', { class: 'grow', style: 'min-width:0;font-size:14px;line-height:1.25', text: label }), btn(h('span', { class: 'col', style: 'gap:0;font-size:13px' }, [h('span', { text: t('market_buy') }), h('span', { text: price })]), onBuy, '', { 'data-buy': key, style: 'flex:none' })]);
   const done = (ok) => { if (!ok) { toast(t('market_not_enough')); sfx('ui_deny'); } else { toast(t('market_bought')); go('market'); } };
   sc.appendChild(item('assets/crate-bare-sea.svg', t('crate_bare_sea'), t('market_price', { n: MK.bare_sea_crate_salt_marks }), () => done(buy({ type: 'bare' })), 'bare'));
   for (const hid of D.heroIds) {
@@ -352,6 +384,9 @@ export function marketScreen() {
 export function commissionsScreen() {
   const s = screen('commissions', t('commission_daily'));
   const sc = h('div', { class: 'scroll col' });
+  const w = M.s.weekly, WA = D.balance.economy.income.weekly_accord;
+  if (w) sc.appendChild(h('div', { class: 'panel col', 'data-comm': 'weekly' }, [h('b', { text: t('commission_weekly') }), h('div', { class: 'small', text: `${t('menu_commissions')} ${w.prog}/${w.n} · ${t('currency_salt')} ${WA.salt_marks} · ${t('crate_bare_sea')} ${WA.bare_sea_crate}` }), tideBar(w.prog / w.n),
+    btn(w.claimed ? t('commission_claimed') : t('commission_claim'), () => { if (claimWeekly()) { sfx('chunk_break_coral'); go('commissions'); } else sfx('ui_deny'); }, w.prog >= w.n && !w.claimed ? 'primary' : 'off')]));
   M.s.daily.comm.forEach((c, i) => {
     const text = c.type === 'win_hero' ? t('commission_example_win', { name: heroName(c.hero), n: c.n }) : c.type === 'breakwater' ? t('commission_example_breakwater', { n: c.n }) : t('commission_example_brine', { n: c.n });
     const k = Math.min(1, c.prog / c.n);
@@ -400,6 +435,7 @@ export function settingsScreen({ apply }) {
   sc.appendChild(tog('fast', t('settings_fast_view')));
   sc.appendChild(tog('reduceMotion', t('settings_reduce_motion')));
   sc.appendChild(tog('timer', t('settings_turn_timer')));
+  sc.appendChild(btn(t('settings_reset_tutorial'), () => { M.s.tutorialDone = false; save(); toast(t('settings_reset_tutorial')); }, '', { 'data-set': 'tutorial' }));
   s.appendChild(sc);
   void setSound; void setMusic;
   return s;
