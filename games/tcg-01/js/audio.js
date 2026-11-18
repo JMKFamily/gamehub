@@ -1,5 +1,8 @@
 // Web Audio 합성 효과음·음악 (art.json sound). 테스트 모드(?test=1)에서는 아무 소리도 만들지 않는다.
 import { D } from './data.js';
+import { UI } from './ui.js';
+import { M } from './meta.js';
+import { createMusic } from './music-synth.mjs';
 
 const S = { ctx: null, master: null, sfxBus: null, musBus: null, musFilter: null, enabled: true, music: true, off: false, drone: null, motifTimer: null, tension: 0, thumbAt: 0, hero: null };
 const db = (x) => Math.pow(10, x / 20);
@@ -37,6 +40,7 @@ function env(g, t0, dur, peak) {
 
 // 효과음 하나: osc "a+b xN", f_hz, dur_ms, gain_db, filter (30-art 6절 표)
 export function sfx(id, extraDb = 0) {
+  if ((id === 'victory' || id === 'defeat') && S.onSting) S.onSting(id); // 승패 맺음 동기(음악 쪽)
   if (S.off || !S.enabled || !S.ctx) return;
   const def = D.art.sound.sfx.find((s) => s.id === id);
   if (!def) return;
@@ -79,55 +83,30 @@ export function sfx(id, extraDb = 0) {
   }
 }
 
-// ---------- 음악: 공통 바탕(마른 바다) + 호명자 모티프 ----------
+// ---------- 음악: art 합성기(music-synth.mjs, 30-art 6-2 "아주 비어 있고 느리고 음산한" BGM) ----------
+// 곡 전환은 지금 화면에서 정함(0.5 s마다 확인, 교차 3 s): 대전 = battle(내 영웅 동기), 내 명줄 ≤ 10 = battle_tension, 팩 개봉 = crate, 나머지 = menu.
+// 승패는 곡을 멈추고 맺음 동기(sting). 음악 끔 = musBus 이득 0, 백그라운드 = ctx.suspend()(스케줄러가 이어서 돎).
 function startBed() {
-  const b = D.art.sound.music.bed, c = S.ctx;
-  const o = c.createOscillator(), lp = c.createBiquadFilter(), g = c.createGain();
-  o.type = b.drone_osc; o.frequency.value = b.drone_hz; lp.type = 'lowpass'; lp.frequency.value = b.drone_lowpass_hz; g.gain.value = db(b.gain_db);
-  o.connect(lp); lp.connect(g); g.connect(S.musBus); o.start();
-  for (const hz of b.glass_partials_hz) { const q = c.createOscillator(), qg = c.createGain(); q.frequency.value = hz; qg.gain.value = db(b.gain_db - 16); q.connect(qg); qg.connect(S.musBus); q.start(); }
-  S.drone = o;
-  const drip = () => { if (!S.ctx) return; if (S.music) dripOnce(); const [a, z] = b.drip_every_s; setTimeout(drip, (a + Math.random() * (z - a)) * 1000); };
-  setTimeout(drip, 2000);
+  if (!S.ctx || S.mus) return;
+  S.mus = createMusic(S.ctx, S.musBus, D.art.sound.music, { seed: Date.now() });
+  S.musTimer = setInterval(pickSong, 500); S.onSting = stingFor;
+  pickSong();
 }
-function dripOnce() {
-  const c = S.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
-  o.type = 'sine'; o.frequency.setValueAtTime(1800, t0); o.frequency.exponentialRampToValueAtTime(700, t0 + 0.12);
-  env(g, t0, 0.18, 0.05); o.connect(g); g.connect(S.musBus); o.start(t0); o.stop(t0 + 0.2);
+function pickSong() {
+  if (!S.mus || !S.ctx) return;
+  if (S.stingUntil && performance.now() < S.stingUntil) return;
+  const scr = UI.screen;
+  const song = scr === 'battle' ? (S.tension > 0 ? 'battle_tension' : 'battle') : scr === 'open' ? 'crate' : 'menu';
+  const hero = scr === 'battle' ? (M.s && M.s.lastHero) || S.hero : null;
+  if (song === S.song && hero === S.songHero) return;
+  S.song = song; S.songHero = hero;
+  S.mus.play(song, { hero });
 }
-const NOTE = { C: 0, 'C#': 1, Db: 1, D: 2, 'D#': 3, Eb: 3, E: 4, F: 5, 'F#': 6, Gb: 6, G: 7, 'G#': 8, Ab: 8, A: 9, 'A#': 10, Bb: 10, B: 11 };
-function noteHz(name, oct) { return 440 * Math.pow(2, (NOTE[name] + (oct + 1) * 12 - 69) / 12); }
-// 판 음악: 내 차례에 내 호명자 모티프
-export function motif(heroId) {
-  if (!S.ctx || S.off) return;
-  S.hero = heroId;
-  clearInterval(S.motifTimer);
-  const m = D.art.sound.music.heroes[heroId];
-  if (!m) return;
-  const oct = +m.root.slice(-1);
-  const notes = m.motif.split('—')[0].trim().split(/\s+/).map((n) => noteHz(n.replace('♭', 'b'), oct));
-  const beat = 60 / m.bpm;
-  let i = 0;
-  S.motifTimer = setInterval(() => {
-    if (!S.music || !S.ctx) return;
-    const c = S.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();
-    o.type = m.timbre.startsWith('square') ? 'square' : m.timbre.startsWith('sawtooth') ? 'sawtooth' : m.timbre.startsWith('triangle') || m.timbre.startsWith('noise') ? 'triangle' : 'sine';
-    o.frequency.value = notes[i % notes.length] * Math.pow(2, S.tension / 12);
-    env(g, t0, beat * 0.9, 0.035); o.connect(g); g.connect(S.musBus); o.start(t0); o.stop(t0 + beat);
-    i++;
-    if (i % (notes.length + 3) === 0) i = 0;
-  }, beat * 1000 * 2);
-}
-export function stopMotif() { clearInterval(S.motifTimer); }
-// 명줄 위기(30-art 5-6): 저역 통과·지속음 올림·쿵
-export function tension(level) {
-  if (!S.ctx) return;
-  const L = D.art.tempo.immersion.low_lifeline;
-  const lv = level ? L[level - 1] : null;
-  S.tension = lv ? lv.drone_up_semitones : 0;
-  S.musFilter.frequency.setTargetAtTime(lv ? lv.music_lowpass_hz : 20000, S.ctx.currentTime, 0.2);
-  if (S.drone) S.drone.detune.setTargetAtTime(S.tension * 100, S.ctx.currentTime, 0.3);
-}
+// 대전이 부르는 자리(호환): 영웅 동기 기본값만 기억하고 곡은 pickSong이 정함
+export function motif(heroId) { S.hero = S.hero || heroId; }
+export function stopMotif() {}
+export function tension(level) { S.tension = level || 0; if (!level) S.hero = null; pickSong(); }
+function stingFor(id) { if (!S.mus) return; S.mus.stop(); S.mus.sting(id); S.song = null; S.stingUntil = performance.now() + 8000; }
 export function thump() {
   if (!S.ctx || !S.enabled) return;
   const c = S.ctx, t0 = c.currentTime, o = c.createOscillator(), g = c.createGain();

@@ -167,6 +167,8 @@ for (const f of readdirSync(join(PROJ, 'assets'))) {
   copyFileSync(join(PROJ, 'assets', f), join(AS_OUT, f)); nAs++;
 }
 copyFileSync(join(PROJ, 'assets', 'app-icon.svg'), join(GAME, 'icon.svg'));
+// BGM 합성기(art, 의존성 없는 ES 모듈)를 그대로 복사(30-art 6-2)
+if (existsSync(join(PROJ, 'tools', 'art', 'music-synth.mjs'))) copyFileSync(join(PROJ, 'tools', 'art', 'music-synth.mjs'), join(GAME, 'js', 'music-synth.mjs'));
 
 // 2-6) 카드 글(concept_ko) 숫자와 엔진 수치 대조(참고 지표: 글은 lore 원문, 수치는 balance 최종)
 let numMismatch = 0;

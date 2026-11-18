@@ -308,8 +308,9 @@ async function partHuman() {
   for (let g = g0; g < g0 + games; g++) {
     const seed = seed0 + g * 101;
     const b = await browser();
-    const { page } = await open(b, BASE, { w: 360, h: 640 });
-    await page.mouse.click(180, 320); await sleep(300); // 타이틀 → 부두(오디오 잠금 해제 = 실제 경로)
+    const HW = +opt('--hw', '360'), HH = +opt('--hh', '640');
+    const { page } = await open(b, BASE + '?tut=0', { w: HW, h: HH });
+    await page.mouse.click(HW / 2, HH / 2); await sleep(300); // 타이틀 → 부두(오디오 잠금 해제 = 실제 경로)
     const heroes = await page.evaluate(() => __qa.D.heroIds);
     const hA = heroes[g % heroes.length], hB = heroes[(g + 3) % heroes.length];
     await page.evaluate(({ seed, hA, hB }) => __game.newBattle({ seed, human: 0, noTimer: true, heroA: hA, heroB: hB }), { seed, hA, hB });

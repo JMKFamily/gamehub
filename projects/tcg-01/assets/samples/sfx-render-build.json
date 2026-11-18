@@ -14,46 +14,40 @@
    "rms_dbfs": -33.6
   },
   {
-   "id": "attack_heavy",
-   "gain_db": -10,
-   "peak_dbfs": -18.1,
-   "rms_dbfs": -32.9
-  },
-  {
    "id": "chunk_break_coral",
    "gain_db": -6,
-   "peak_dbfs": -19.3,
-   "rms_dbfs": -30.7
+   "peak_dbfs": -18.3,
+   "rms_dbfs": -30.4
   },
   {
-   "id": "victory",
-   "gain_db": -5,
-   "peak_dbfs": -20,
-   "rms_dbfs": -32
+   "id": "attack_heavy",
+   "gain_db": -10,
+   "peak_dbfs": -18.8,
+   "rms_dbfs": -33.3
   },
   {
    "id": "sealwrit_open",
    "gain_db": -14,
-   "peak_dbfs": -20.2,
-   "rms_dbfs": -34.4
+   "peak_dbfs": -18.9,
+   "rms_dbfs": -34
+  },
+  {
+   "id": "victory",
+   "gain_db": -5,
+   "peak_dbfs": -19,
+   "rms_dbfs": -31.4
   },
   {
    "id": "card_play",
    "gain_db": -12,
-   "peak_dbfs": -21.4,
-   "rms_dbfs": -34.6
+   "peak_dbfs": -21.2,
+   "rms_dbfs": -34.8
   },
   {
    "id": "hollow_call",
    "gain_db": -12,
    "peak_dbfs": -21.5,
    "rms_dbfs": -36
-  },
-  {
-   "id": "saltskin_break",
-   "gain_db": -16,
-   "peak_dbfs": -22.5,
-   "rms_dbfs": -38.9
   },
   {
    "id": "attack_light",
@@ -68,16 +62,22 @@
    "rms_dbfs": -34.8
   },
   {
+   "id": "saltskin_break",
+   "gain_db": -16,
+   "peak_dbfs": -22.9,
+   "rms_dbfs": -39.4
+  },
+  {
+   "id": "chunk_break_pearl",
+   "gain_db": -18,
+   "peak_dbfs": -23,
+   "rms_dbfs": -37.9
+  },
+  {
    "id": "turn_yours",
    "gain_db": -14,
    "peak_dbfs": -23.1,
    "rms_dbfs": -35
-  },
-  {
-   "id": "wick_light",
-   "gain_db": -18,
-   "peak_dbfs": -23.2,
-   "rms_dbfs": -36.5
   },
   {
    "id": "breakwater_block",
@@ -86,10 +86,10 @@
    "rms_dbfs": -34.3
   },
   {
-   "id": "chunk_break_pearl",
+   "id": "wick_light",
    "gain_db": -18,
-   "peak_dbfs": -23.5,
-   "rms_dbfs": -38.1
+   "peak_dbfs": -23.7,
+   "rms_dbfs": -36.9
   },
   {
    "id": "rite_cast",
@@ -100,7 +100,7 @@
   {
    "id": "crate_lid",
    "gain_db": -18,
-   "peak_dbfs": -25.9,
+   "peak_dbfs": -25.1,
    "rms_dbfs": -37.8
   },
   {
@@ -108,6 +108,12 @@
    "gain_db": -18,
    "peak_dbfs": -27.2,
    "rms_dbfs": -39.1
+  },
+  {
+   "id": "chunk_break_sand",
+   "gain_db": -16,
+   "peak_dbfs": -27.3,
+   "rms_dbfs": -44.9
   },
   {
    "id": "buff",
@@ -122,9 +128,9 @@
    "rms_dbfs": -40.3
   },
   {
-   "id": "chunk_break_sand",
-   "gain_db": -16,
-   "peak_dbfs": -28.9,
+   "id": "death_crumble",
+   "gain_db": -14,
+   "peak_dbfs": -28.2,
    "rms_dbfs": -44.5
   },
   {
@@ -134,16 +140,10 @@
    "rms_dbfs": -39.8
   },
   {
-   "id": "death_crumble",
-   "gain_db": -14,
-   "peak_dbfs": -29.5,
-   "rms_dbfs": -44.8
-  },
-  {
    "id": "brine_tick",
    "gain_db": -20,
-   "peak_dbfs": -30.5,
-   "rms_dbfs": -44.8
+   "peak_dbfs": -30.3,
+   "rms_dbfs": -45.5
   },
   {
    "id": "ui_tap",
@@ -160,20 +160,20 @@
   {
    "id": "ebb_trigger",
    "gain_db": -18,
-   "peak_dbfs": -34.7,
+   "peak_dbfs": -33.9,
    "rms_dbfs": -50.3
   },
   {
    "id": "card_draw",
    "gain_db": -22,
-   "peak_dbfs": -37,
-   "rms_dbfs": -51.5
+   "peak_dbfs": -35.7,
+   "rms_dbfs": -51.3
   },
   {
    "id": "turn_timer",
    "gain_db": -26,
-   "peak_dbfs": -42.1,
-   "rms_dbfs": -57.4
+   "peak_dbfs": -43.4,
+   "rms_dbfs": -57.7
   }
  ],
  "checks": [

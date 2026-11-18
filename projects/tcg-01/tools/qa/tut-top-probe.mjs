@@ -25,6 +25,6 @@ try {
   console.log(JSON.stringify(r));
   await page.screenshot({ path: join(HERE, '..', '..', 'reviews', 'terms', 'r3', `tut-top-${w}x${h}.png`) });
   // 실제로 눌러 보기: 다음 가운데 탭 → 단계가 바뀌는지
-  if (process.argv[5] === 'skip') { const sb = r.skip && r.skip.rect; await page.mouse.click(sb[0] + sb[2] / 2, sb[1] + sb[3] / 2); await sleep(500); console.log(JSON.stringify({ after_tap_skip: await page.evaluate(() => ({ tut: document.querySelector('.tut')?.dataset.tut || null, skipped: __game.state.tut.skipped })) })); return; }
-  const nb = r.next && r.next.rect; if (nb) { await page.mouse.click(nb[0] + nb[2] / 2, nb[1] + nb[3] / 2); await sleep(500); console.log(JSON.stringify({ after_tap_next: await page.evaluate(() => ({ tut: document.querySelector('.tut')?.dataset.tut || null, skipped: __game.state.tut.skipped })) })); }
+  if (process.argv[5] === 'skip') { const sb = r.skip && r.skip.rect; await page.mouse.click(sb[0] + sb[2] / 2, sb[1] + sb[3] / 2); await sleep(500); console.log(JSON.stringify({ after_tap_skip: await page.evaluate(() => ({ tut: document.querySelector('.tut')?.dataset.tut || null, skipped: __game.state.tut.skipped })) })); }
+  else { const nb = r.next && r.next.rect; if (nb) { await page.mouse.click(nb[0] + nb[2] / 2, nb[1] + nb[3] / 2); await sleep(500); console.log(JSON.stringify({ after_tap_next: await page.evaluate(() => ({ tut: document.querySelector('.tut')?.dataset.tut || null, skipped: __game.state.tut.skipped })) })); } }
 } finally { await b.close(); srv.kill(); }

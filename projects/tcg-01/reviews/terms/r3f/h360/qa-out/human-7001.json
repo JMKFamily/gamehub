@@ -1,0 +1,250 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 276
+ },
+ "policy": "greedy",
+ "think": [
+  300,
+  600
+ ],
+ "turnThink": null,
+ "heroes": [
+  "h_archive",
+  "h_rider"
+ ],
+ "wall_s": 41.054,
+ "minutes": 0.68,
+ "turns": 5,
+ "half": 10,
+ "actions": 30,
+ "pointerOk": 11,
+ "pointerMiss": 0,
+ "response_ms": {
+  "n": 11,
+  "min": 7,
+  "p50": 12,
+  "p90": 15,
+  "p99": 17,
+  "max": 17,
+  "mean": 11.5
+ },
+ "response_over_100": 0,
+ "tempo": [
+  {
+   "kind": "attack_motion",
+   "art_ms": 530,
+   "n": 7,
+   "real_p50": 534,
+   "real_mean": 563.4,
+   "real_max": 648,
+   "planned_p50": 530,
+   "err_pct_vs_art": 0.8,
+   "err_pct_real_vs_planned": 1.1,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "attack:tl",
+   "art_ms": 530,
+   "n": 7,
+   "real_p50": 583,
+   "real_mean": 635,
+   "real_max": 1032,
+   "planned_p50": 570,
+   "err_pct_vs_art": 10,
+   "err_pct_real_vs_planned": 1.3,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "defeat",
+   "art_ms": 1600,
+   "n": 1,
+   "real_p50": 1604,
+   "real_mean": 1604,
+   "real_max": 1604,
+   "planned_p50": 1600,
+   "err_pct_vs_art": 0.3,
+   "err_pct_real_vs_planned": 0.3,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "end_breath_press",
+   "art_ms": 250,
+   "n": 5,
+   "real_p50": 238,
+   "real_mean": 240.4,
+   "real_max": 256,
+   "planned_p50": 250,
+   "err_pct_vs_art": -4.8,
+   "err_pct_real_vs_planned": -3.8,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "game_start",
+   "art_ms": null,
+   "n": 0,
+   "real_p50": null,
+   "real_mean": null,
+   "real_max": null,
+   "planned_p50": null,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": null,
+   "skipped": 1,
+   "queued_behind": 0
+  },
+  {
+   "kind": "hero_crack",
+   "art_ms": 700,
+   "n": 1,
+   "real_p50": 699,
+   "real_mean": 699,
+   "real_max": 699,
+   "planned_p50": 700,
+   "err_pct_vs_art": -0.1,
+   "err_pct_real_vs_planned": -0.1,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "lethal_blow",
+   "art_ms": 1500,
+   "n": 1,
+   "real_p50": 1500,
+   "real_mean": 1500,
+   "real_max": 1500,
+   "planned_p50": 1500,
+   "err_pct_vs_art": 0,
+   "err_pct_real_vs_planned": 0,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "lethal_sequence",
+   "art_ms": null,
+   "n": 1,
+   "real_p50": 3855,
+   "real_mean": 3855,
+   "real_max": 3855,
+   "planned_p50": 3850,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": 0.1,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "play_answerer",
+   "art_ms": 440,
+   "n": 7,
+   "real_p50": 444,
+   "real_mean": 443.1,
+   "real_max": 453,
+   "planned_p50": 440,
+   "err_pct_vs_art": 0.9,
+   "err_pct_real_vs_planned": 0.7,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "play_rite",
+   "art_ms": 520,
+   "n": 6,
+   "real_p50": 549,
+   "real_mean": 642,
+   "real_max": 1128,
+   "planned_p50": 550,
+   "err_pct_vs_art": 5.6,
+   "err_pct_real_vs_planned": 0.8,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "turn_change",
+   "art_ms": null,
+   "n": 8,
+   "real_p50": 1022,
+   "real_mean": 975.9,
+   "real_max": 1025,
+   "planned_p50": 1025,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": -0.2,
+   "skipped": 1,
+   "queued_behind": 0
+  },
+  {
+   "kind": "turn_start_banner",
+   "art_ms": 900,
+   "n": 10,
+   "real_p50": 897,
+   "real_mean": 886.7,
+   "real_max": 901,
+   "planned_p50": 900,
+   "err_pct_vs_art": -0.3,
+   "err_pct_real_vs_planned": -1.5,
+   "skipped": 0,
+   "queued_behind": 0
+  }
+ ],
+ "turns_t": {
+  "ai_turn_ms": {
+   "n": 5,
+   "min": 3150,
+   "p50": 5084,
+   "p90": 6717,
+   "p99": 6717,
+   "max": 6717,
+   "mean": 5113.4
+  },
+  "ai_turn_over_12s": 0,
+  "human_turn_ms": {
+   "n": 5,
+   "min": 1466,
+   "p50": 1617,
+   "p90": 2867,
+   "p99": 2867,
+   "max": 2867,
+   "mean": 1833.4
+  },
+  "human_locked_ms_per_turn": {
+   "n": 5,
+   "min": 150,
+   "p50": 368,
+   "p90": 499,
+   "p99": 499,
+   "max": 499,
+   "mean": 353.4
+  },
+  "human_locked_share": 0.193
+ },
+ "human_turn_over_50s": false,
+ "winner": 1,
+ "final": [
+  -1,
+  27
+ ],
+ "replay": {
+  "winner": 1,
+  "half": 10,
+  "reason": "hero_dead",
+  "final": [
+   -1,
+   27
+  ],
+  "hp": [
+   -1,
+   27
+  ],
+  "armor": [
+   0,
+   0
+  ],
+  "error": null
+ },
+ "replay_same": true
+}
