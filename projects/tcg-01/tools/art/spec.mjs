@@ -291,7 +291,7 @@ export const sound = {
     fx: { reverb_s: 5.5, reverb_decay: 2.6, reverb_wet_db: -4, delay_s: 0.83, delay_feedback: 0.42, delay_lowpass_hz: 1800, delay_wet_db: -14 },
     tracks: {
       menu: {
-        gain_db: -24, feel: '먼 바람과 물방울, 아주 가끔 멀리서 두 음',
+        gain_db: -25, feel: '먼 바람과 물방울, 아주 가끔 멀리서 두 음',
         drone: { notes: ['A1', 'E2'], osc: 'sine', detune_cents: 5, upper_db: -12, lowpass_hz: 260, lfo_hz: 0.02, gain_db: -18 },
         wind: { gain_db: -26, q: 0.8, f_lo_hz: 220, f_hi_hz: 900 },
         drip: { every_s: [5, 13], f_lo_hz: 700, f_hi_hz: 1300, gain_db: -30 },
@@ -299,7 +299,7 @@ export const sound = {
         motif: { every_s: [26, 44], root: 'A3', cells: [[0, 1], [0, -2, -1], [7, 6]], note_s: [2.2, 3.6], osc: 'triangle', lowpass_hz: 1400, attack_s: 0.6, gain_db: -24 },
       },
       battle: {
-        gain_db: -18, feel: '낮은 드론 위 드문 단2·트라이톤 동기, 금속 울림이 가끔',
+        gain_db: -19.5, feel: '낮은 드론 위 드문 단2·트라이톤 동기, 금속 울림이 가끔',
         drone: { notes: ['D1', 'A1'], osc: 'sawtooth', detune_cents: 7, upper_db: -10, lowpass_hz: 180, lfo_hz: 0.03, gain_db: -19 },
         wind: { gain_db: -30, q: 1.1, f_lo_hz: 180, f_hi_hz: 600 },
         drip: { every_s: [7, 16], f_lo_hz: 600, f_hi_hz: 1100, gain_db: -32 },
@@ -307,7 +307,7 @@ export const sound = {
         motif: { every_s: [16, 32], root: 'D3', cells: [[0, 1, 0], [0, 6], [3, 2, -4], [0, -1, 6]], note_s: [1.6, 3], osc: 'triangle', lowpass_hz: 1200, attack_s: 0.4, gain_db: -23 },
       },
       battle_tension: {
-        gain_db: -21, feel: '체력 ≤ 10: 드론 반음 위 + 트라이톤 겹침, 느린 맥박(52 BPM), 동기가 조금 잦아짐',
+        gain_db: -22.5, feel: '체력 ≤ 10: 드론 반음 위 + 트라이톤 겹침, 느린 맥박(52 BPM), 동기가 조금 잦아짐',
         drone: { notes: ['D#1', 'A1', 'A2'], osc: 'sawtooth', detune_cents: 12, upper_db: -9, lowpass_hz: 220, lfo_hz: 0.06, gain_db: -18 },
         wind: { gain_db: -28, q: 1.6, f_lo_hz: 300, f_hi_hz: 1100 },
         drip: { every_s: [9, 20], f_lo_hz: 500, f_hi_hz: 900, gain_db: -32 },
@@ -316,7 +316,7 @@ export const sound = {
         pulse: { bpm: 52, hz: 46, gain_db: -24 },
       },
       crate: {
-        gain_db: -20, feel: '팩 개봉: 고요 + 유리 같은 금속 울림, 아주 느린 맥박(56 BPM)으로 기대감',
+        gain_db: -21.5, feel: '팩 개봉: 고요 + 유리 같은 금속 울림, 아주 느린 맥박(56 BPM)으로 기대감',
         drone: { notes: ['E1', 'B1'], osc: 'sine', detune_cents: 4, upper_db: -8, lowpass_hz: 300, lfo_hz: 0.05, gain_db: -19 },
         wind: { gain_db: -32, q: 0.9, f_lo_hz: 400, f_hi_hz: 1400 },
         drip: { every_s: [4, 9], f_lo_hz: 900, f_hi_hz: 1700, gain_db: -30 },
