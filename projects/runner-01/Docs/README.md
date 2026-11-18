@@ -4,6 +4,11 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | ux-reviewer | round-2 1-5 | [round-2 UX 리뷰 (7.5 PASS, 구분 불가 쌍 0·blocker/major 0, 고리 탭 판정 글 생략 75 %, round-3 콤보 연출 조건 R3-1~8)](ux-reviewer/2026-11-18-1-5-round2-ux-review.md) |
+| 2026-11-18 | art-director | round-2 1-5 | [round-2 시각·사운드 리뷰 (7.6 REVISE, 콤보 연출 강화 차이·30-art 설계 방향, 판정 글 테 → 단순 채움, D22·D23·고리 생략·결정 15)](art-director/2026-11-18-1-5-round2-review.md) |
+| 2026-11-18 | balance-designer | round-2 1-5 | [round-2 밸런스 리뷰 (6.5 REVISE, L10 정의 = 결정 10 연속 중앙값, σ50 12세 재보정 안 A·L10 3.18)](balance-designer/2026-11-18-1-5-round2-review.md) |
+| 2026-11-18 | benchmark-analyst | round-2 1-5 | [round-2 게임 감각 리뷰 (8.0 REVISE, 실측 수치 전부 ±3 % 재현, 12세 σ50 숙달 루프 부족·콤보 연출 강화 round-3, 결정 13 고리 탭 ②안 권고)](benchmark-analyst/2026-11-18-1-5-round2-review.md) |
+| 2026-11-18 | lore-writer | round-2 1-5 | [round-2 세계관·텍스트 리뷰 (7.5 PASS, minor 9: "1 tries" 단수 문구·하드코딩 aria 6곳·부트 lang, 콤보 라벨 "연속 / in a row" 제안)](lore-writer/2026-11-18-1-5-round2-review.md) |
 | 2026-11-17 | qa-engineer | round-2 1-4 | [round-2 QA (기술 7.0 REVISE, 성능 1% low 빌드 원인 확정·메뉴 전환, 재판정·지연 보정 0 불일치, σ50 표·L10 외삽 실패)](qa-engineer/2026-11-17-1-4-round2-qa.md) |
 | 2026-11-17 | game-developer | round-2 | [콤보 빌드 (콤보 줄·판정 이름·%·결과 화면, art 확정값 반영·임시값 0, 소리 지연 안정 대기)](game-developer/2026-11-17-r2-combo-build.md) |
 | 2026-11-17 | balance-designer | round-2 | [퍼센트 판정·판정 이름 (judge_pct 계산, 정확도 분포, 판정 이름·결과 화면 문구, combo-ref 창 버그 수정)](balance-designer/2026-11-17-r2-percent.md) |
