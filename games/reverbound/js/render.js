@@ -336,12 +336,14 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     ctx.globalAlpha = 1;
     ctx.restore();
   }
-  function drawGate(p, i) {
+  function drawGate(p, i, bgCol) {
     const col = C[GATE_KEY[p.speed]], n = GATE_N[p.speed] ?? 2;
     const base = GIM.gate_rest_on_support === false ? 0 : prep.gateBase[i] ?? 0;
     cell(p.x - 0.5, base + 3);
     const flash = fx.gateIdx === i && fx.gateT < 0.1;
     rrect(0.18, 0.06, 0.64, 2.88, 0.32);
+    // 순서 0 (round-3, 부록 B-4): 캡슐 안에 그 프레임 배경 바탕색(펄스 값)을 불투명으로 깔아 뒤 배경 도형을 가림
+    ctx.fillStyle = bgCol; ctx.fill();
     ctx.globalAlpha = flash ? 1 : 0.12; ctx.fillStyle = col; ctx.fill(); ctx.globalAlpha = 1;
     ctx.lineWidth = 0.08; ctx.strokeStyle = col; ctx.stroke();
     ctx.fillStyle = col;
@@ -473,6 +475,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       const k = 1 - fx.shakeT / fx.shakeDur;
       ox = Math.sin(fx.shakeT * 90) * fx.shakeA * T * k; oy = Math.cos(fx.shakeT * 70) * fx.shakeA * T * k;
     }
+    // (round-3) 아틀라스 첫 사용 비용을 미리 냄: 바로 아래 bg 채움이 덮음 (30-art 5-8-4)
+    if (view.warm) view.warm(ctx);
     ctx.fillStyle = env.bg; ctx.fillRect(0, 0, R.W, R.H);
     ctx.save();
     ctx.translate(ox, oy);
@@ -499,6 +503,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
         }
       }
     }
+    // (round-3, 30-art 5-8-0) 큰 콤보 숫자 블록 → 콤보 파티클: 먼 배경 뒤, 오브젝트·바닥·플레이어보다 뒤 레이어
+    if (view.back) view.back(ctx);
     // 바닥
     // 세로 모드는 게임 영역 아래를 bg로 남김 (30-art 5절)
     const gBottom = R.portrait ? R.gameTop + R.gameH : R.H + 20;
@@ -538,6 +544,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     if (prep) {
       const L = prep.L, objs = L.level.objects;
       const xl = camX - 1, xr = camX + R.W / T + 1;
+      // 문을 오브젝트 중 가장 먼저(뒤에) 그림: 캡슐 안 배경 깔기가 다른 물체를 가리지 않게 (부록 B-4 round-3)
+      L.portals.forEach((p, i) => { if (p.x > xl - 1 && p.x < xr + 1) drawGate(p, i, bgCol); });
       drawHangers(env);
       for (const g of prep.bgroups) if (g.x1 >= xl && g.x0 <= xr) drawBlockGroup(g, env);
       let lo = 0, hi = objs.length;
@@ -554,7 +562,6 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
           default: drawSpike(o, o.type);
         }
       }
-      L.portals.forEach((p, i) => { if (p.x > xl - 1 && p.x < xr + 1) drawGate(p, i); });
       // 연습 모드 자동 체크포인트 표식: 깃대 + 민트 깃발 (판정 없음)
       if (view.cp && view.cp.x > xl - 1 && view.cp.x < xr + 1) {
         const fx0 = sx(view.cp.x + 0.5), fy0 = sy(view.cp.s.y);
@@ -598,6 +605,8 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
     ctx.globalAlpha = 1;
     // 플레이어
     if (view.showPlayer) drawPlayer(view.x, view.y, view.rot, 1 + 0.12 * clamp01(1 - since / 0.12) * (view.beat >= 0 ? 1 : 0));
+    // (round-3) 판정 글: 플레이어 위 (5-8-0). 흔들림 밖 화면 좌표라 자체 변환을 씀
+    if (view.front) view.front(ctx);
     // 사망 조각, 종이 조각
     for (const p of parts) {
       if (!p.on || !(p.shape === 'oct' || p.world)) continue;
@@ -617,6 +626,33 @@ export function createRenderer(canvas, art, bal, { rand = Math.random } = {}) {
       const a = clamp01((fx.deathT - fs) / 0.15);
       if (a > 0) { ctx.globalAlpha = a; ctx.fillStyle = env.bg; ctx.fillRect(0, 0, R.W, R.H); ctx.globalAlpha = 1; }
     }
+  };
+  // (round-3, 30-art 5-8-1 "가까움") 월드 상자 [wl, wr] × [yb, yt](타일, y 위)와 겹치는 오브젝트 그림 상자가 있는지.
+  // 위험, 위 가시 + 매다는 막대·줄 전체, 블록 묶음, 얇은 판, 고리 1.2×1.2, 문 캡슐, 발판. 오브젝트는 x 정렬이라 화면 안 구간만 훑음
+  R.objectsIn = (wl, wr, yb, yt) => {
+    if (!prep) return false;
+    const ov = (a0, a1, b0, b1) => a0 < b1 && b0 < a1;
+    const L = prep.L, objs = L.level.objects;
+    const topY = (R.groundPx - R.gameTop) / R.T; // 줄은 게임 영역 위 끝(gameTop)까지만 그림
+    for (const g of prep.groups) if (ov(g.x0, g.x1, wl, wr) && ov(g.y + 1 - 0.08, topY, yb, yt)) return true; // 막대·줄은 칸 윗변부터 게임 영역 위 끝까지
+    for (const g of prep.bgroups) if (ov(g.x0, g.x1, wl, wr) && yb < g.hmax) return true;
+    for (let i = 0; i < L.portals.length; i++) { const p = L.portals[i], b = prep.gateBase[i] ?? 0; if (ov(p.x - 0.5, p.x + 0.5, wl, wr) && ov(b, b + 3, yb, yt)) return true; }
+    let lo = 0, hi = objs.length;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (objs[m].x < wl - 2) lo = m + 1; else hi = m; }
+    for (let i = lo; i < objs.length; i++) {
+      const o = objs[i];
+      if (o.x > wr) break;
+      const w = o.w ?? 1;
+      let x0 = o.x, x1 = o.x + w, y0 = o.y, y1 = o.y + 1;
+      switch (o.type) {
+        case 'block': continue;
+        case 'orb': x0 -= 0.1; x1 += 0.1; y0 -= 0.1; y1 += 0.1; break;
+        case 'platform': y0 = o.y + 1 - PLAT_T; break;
+        case 'pad': y1 = o.y + 0.6; break;
+      }
+      if (ov(x0, x1, wl, wr) && ov(y0, y1, yb, yt)) return true;
+    }
+    return false;
   };
   R.ctx = ctx;
   R.prepData = () => prep;

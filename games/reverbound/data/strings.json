@@ -141,6 +141,10 @@
    "ko": "최고 기록!",
    "en": "New best!"
   },
+  "combo_label": {
+   "ko": "연속",
+   "en": "in a row"
+  },
   "pause_title": {
    "ko": "잠깐 멈춤",
    "en": "Paused"
@@ -265,6 +269,10 @@
    "ko": "{n}번 만에 성공!",
    "en": "Done in {n} tries!"
   },
+  "clear_attempts_one": {
+   "ko": "한 번에 성공!",
+   "en": "First try!"
+  },
   "clear_next": {
    "ko": "다음 레벨",
    "en": "Next"
@@ -278,7 +286,7 @@
    "en": "Levels"
   },
   "clear_all": {
-   "ko": "다 깼어요! 최고예요!",
+   "ko": "모든 레벨을 깼어요!",
    "en": "You beat them all!"
   },
   "tut_tap": {
@@ -321,10 +329,6 @@
    "ko": "괜찮아, 다시 해 봐!",
    "en": "It's OK! Try again!"
   },
-  "tut_final": {
-   "ko": "마지막 무대예요!",
-   "en": "Last stage!"
-  },
   "loading": {
    "ko": "불러오는 중…",
    "en": "Loading…"
@@ -345,13 +349,41 @@
    "ko": "못 불러왔어요. 다시 해 주세요",
    "en": "Couldn't load. Try again"
   },
+  "aria_pause": {
+   "ko": "잠깐 멈추기",
+   "en": "Pause"
+  },
+  "aria_back": {
+   "ko": "뒤로",
+   "en": "Back"
+  },
+  "aria_hub": {
+   "ko": "게임 목록",
+   "en": "All games"
+  },
+  "aria_game": {
+   "ko": "게임 화면",
+   "en": "Game screen"
+  },
+  "aria_close": {
+   "ko": "닫기",
+   "en": "Close"
+  },
+  "aria_music": {
+   "ko": "음악 소리",
+   "en": "Music sound"
+  },
+  "aria_retry_load": {
+   "ko": "다시 불러오기",
+   "en": "Load again"
+  },
   "combo_aria": {
-   "ko": "이어서 잘 뛴 수",
-   "en": "Good jumps in a row"
+   "ko": "연속 성공",
+   "en": "Jump streak"
   },
   "combo_best_aria": {
-   "ko": "이어서 잘 뛴 최고 기록",
-   "en": "Most jumps in a row"
+   "ko": "최고 연속 성공",
+   "en": "Best jump streak"
   },
   "combo_mark_aria": {
    "ko": "이어서 잘 뛰어요!",
@@ -373,41 +405,25 @@
    "ko": "{pct}%",
    "en": "{pct}%"
   },
-  "result_accuracy": {
-   "ko": "박자 맞히기",
-   "en": "Timing"
-  },
   "result_accuracy_value": {
    "ko": "{pct}%",
    "en": "{pct}%"
   },
-  "result_best_combo": {
-   "ko": "이어서 잘 뛴 수",
-   "en": "Jumps in a row"
-  },
   "result_best_combo_value": {
    "ko": "{n}",
    "en": "{n}"
-  },
-  "result_new_best": {
-   "ko": "신기록!",
-   "en": "New record!"
   },
   "result_accuracy_aria": {
    "ko": "박자를 맞힌 정도",
    "en": "How well you hit the beat"
   },
   "result_best_combo_aria": {
-   "ko": "가장 많이 이어서 잘 뛴 수",
-   "en": "Most good jumps in a row"
+   "ko": "최고 연속 성공",
+   "en": "Best jump streak"
   },
   "result_new_best_aria": {
    "ko": "새 최고 기록이에요",
    "en": "A new best"
-  },
-  "best_accuracy_aria": {
-   "ko": "박자 최고 기록",
-   "en": "Best timing"
   }
  },
  "death_messages": [

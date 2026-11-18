@@ -13,6 +13,8 @@ const args = process.argv.slice(2);
 const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
 const channel = opt('--channel');
 const parts = new Set(opt('--part', 'replay,practice,layout,shots,perf').split(','));
+// (round-3) --tag r3 → 결과 r3-*.png, round3.json (round-2 결과를 덮지 않음)
+const TAG = opt('--tag', 'r2'), JSON_NAME = TAG === 'r2' ? 'round2.json' : `round${TAG.slice(1)}.json`;
 const BASE = process.env.BASE_URL || 'http://localhost:8123/games/reverbound/';
 let pw;
 try { pw = await import(process.env.PLAYWRIGHT_CORE ? pathToFileURL(join(process.env.PLAYWRIGHT_CORE, 'index.mjs')).href : 'playwright'); }
@@ -32,7 +34,7 @@ async function open(vw, vh, query = '?test=1', dpr = 1, extra = {}) {
   await p.waitForFunction(() => window.__game?.ready === true, null, { timeout: 20000 });
   return { ctx, p };
 }
-const shot = async (p, name) => { await p.screenshot({ path: join(OUT, `r2-${name}.png`) }); R.shots.push(`r2-${name}.png`); };
+const shot = async (p, name) => { await p.screenshot({ path: join(OUT, `${TAG}-${name}.png`) }); R.shots.push(`${TAG}-${name}.png`); };
 
 // 1) 10레벨 × 입력열 2종 클리어
 if (parts.has('replay')) {
@@ -91,8 +93,9 @@ if (parts.has('layout')) {
   for (const lang of ['ko', 'en']) for (const [w, h] of RES) {
     const { ctx, p } = await open(w, h, `?test=1&lang=${lang}`);
     const res = {};
-    for (const scr of ['title', 'levels', 'settings', 'pause']) {
+    for (const scr of ['title', 'levels', 'settings', 'pause', 'clearS']) {
       if (scr === 'pause') { await p.evaluate(() => { window.__game.loadLevel(0); window.__game.step(0.3); window.__game.pause(); }); }
+      else if (scr === 'clearS') { await p.evaluate(() => { const g = window.__game; g.replay(0); for (let j = 0; j < 90; j++) g.step(1 / 60); }); }
       else await p.evaluate((s) => window.__game.show(s), scr);
       await p.waitForTimeout(80);
       res[scr] = await p.evaluate((scr) => {
@@ -108,7 +111,9 @@ if (parts.has('layout')) {
           const ox = Math.min(a.r, b.r) - Math.max(a.l, b.l), oy = Math.min(a.b, b.b) - Math.max(a.t, b.t);
           if (ox > 1 && oy > 1 && !(a.id === 'sMusic' || b.id === 'sMusic') ) over.push(`${a.id}×${b.id} ${ox.toFixed(0)}x${oy.toFixed(0)}`);
         }
-        const r = { buttons: tgt.length, small, out, over };
+        // (round-3) 글 넘침: 화면 안 글 요소의 가로·세로 넘침, 화면 밖
+        const textOver = [...root.querySelectorAll('p, h1, h2, span, b, button')].filter(vis).filter((e) => { const r2 = e.getBoundingClientRect(); return e.scrollWidth > e.clientWidth + 1 && getComputedStyle(e).overflow !== 'visible' || r2.right > W + 0.5 || r2.left < -0.5; }).map((e) => (e.id || e.className || e.tagName) + ' ' + e.textContent.slice(0, 16));
+        const r = { buttons: tgt.length, small, out, over, textOver };
         if (scr === 'levels') {
           const wrap = document.getElementById('cards');
           const cards = [...wrap.querySelectorAll('.card')];
@@ -144,8 +149,8 @@ if (parts.has('layout')) {
     R.layout[`${lang} ${w}x${h}`] = res;
     const lv = res.levels;
     console.log(`layout ${lang} ${w}x${h}: cards ${lv.cards} ${lv.cardSize} scroll=${lv.scroll} issues=${lv.cardIssues.length} | small/out/over: ` +
-      Object.entries(res).map(([k, v]) => `${k} ${v.small.length}/${v.out.length}/${v.over.length}`).join(', ') + ` | settings ${res.settings.panel}${res.settings.moreHint ? ' (▼)' : ''}`);
-    for (const [k, v] of Object.entries(res)) for (const x of [...v.small, ...v.out, ...v.over, ...(v.cardIssues ?? [])]) console.log(`   ${k}: ${x}`);
+      Object.entries(res).map(([k, v]) => `${k} ${v.small.length}/${v.out.length}/${v.over.length}/${v.textOver.length}`).join(', ') + ` | settings ${res.settings.panel}${res.settings.moreHint ? ' (▼)' : ''}`);
+    for (const [k, v] of Object.entries(res)) for (const x of [...v.small, ...v.out, ...v.over, ...v.textOver, ...(v.cardIssues ?? [])]) console.log(`   ${k}: ${x}`);
     await ctx.close();
   }
 }
@@ -250,4 +255,4 @@ if (parts.has('perf')) {
 await browser.close();
 console.log(`console errors/warnings: ${R.console.length}, external requests: ${R.external.length}`);
 for (const c of R.console.slice(0, 20)) console.log('  ' + c);
-writeFileSync(join(OUT, 'round2.json'), JSON.stringify(R, null, 1));
+writeFileSync(join(OUT, JSON_NAME), JSON.stringify(R, null, 1));

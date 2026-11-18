@@ -75,6 +75,19 @@ const unwrap = (s) => s.replace(/^`|`$/g, '').replace(/\*\*/g, '');
   for (const k of need) if (!strings[k]) throw new Error(`strings: ${k} 없음`);
   if (!lists.death_messages.length || !lists.clear_subtitles.length) throw new Error('strings: 사망/클리어 부제 목록 비어 있음');
   writeFileSync(join(OUT, 'strings.json'), JSON.stringify({ _source: 'projects/runner-01/10-lore.md 5절 (sync-data.mjs 생성, 직접 고치지 말 것)', strings, ...lists }, null, 1) + '\n');
+  // (round-3) 부트 단계 문구: index.html 인라인 /*BOOT*/…/*/BOOT*/ 사이에 두 언어 값을 넣음 (10-lore 5-7, strings 실패 때도 기기 언어로)
+  {
+    const bootKeys = ['loading', 'load_error', 'aria_retry_load'];
+    for (const k of bootKeys) if (!strings[k]) throw new Error(`strings: 부트 키 ${k} 없음`);
+    const boot = Object.fromEntries(['ko', 'en'].map((L) => [L, Object.fromEntries(bootKeys.map((k) => [k, strings[k][L]]))]));
+    const ip = join(OUT, '../index.html');
+    const html = readFileSync(ip, 'utf8');
+    const re = /\/\*BOOT\*\/[\s\S]*?\/\*\/BOOT\*\//;
+    if (!re.test(html)) throw new Error('index.html: /*BOOT*/ 표지 없음');
+    const next = html.replace(re, `/*BOOT*/${JSON.stringify(boot)}/*/BOOT*/`);
+    if (next !== html) writeFileSync(ip, next);
+    console.log(`index.html 부트 문구 ${bootKeys.length}키 × ko·en ${next !== html ? '갱신' : '같음'}`);
+  }
   console.log(`strings.json: 키 ${Object.keys(strings).length}개, 사망 문구 ${lists.death_messages.length}, 클리어 부제 ${lists.clear_subtitles.length}`);
 }
 
@@ -112,7 +125,8 @@ const unwrap = (s) => s.replace(/^`|`$/g, '').replace(/\*\*/g, '');
     if (keys.length && keys.length === h.length) keys.forEach((k, i) => (common[k] = h[i]));
   }
   // 클리어 색: 6절 표의 "클리어" 행에서 levelN 뒤의 색들
-  const clearLine = md.split('\n').find((l) => l.startsWith('| 클리어')) ?? '';
+  // (round-3) 5-8 표에도 "| 클리어 |" 행이 생겨 6절 안에서만 찾음
+  const clearLine = sec('\n## 6.', '\n## 7.').split('\n').find((l) => l.startsWith('| 클리어')) ?? '';
   const clear = {};
   const marks = [...clearLine.matchAll(/level(\d+)/g)];
   marks.forEach((m, i) => { const h = hexes(clearLine.slice(m.index + m[0].length, marks[i + 1]?.index)); if (h.length) clear[`level${m[1]}`] ??= h; });
@@ -157,6 +171,9 @@ const unwrap = (s) => s.replace(/^`|`$/g, '').replace(/\*\*/g, '');
   for (const [lv, p] of Object.entries(palette)) for (const k of needEnv) if (!p[k]) throw new Error(`palette ${lv}: ${k} 없음`);
   for (const k of needCommon) if (!common[k]) throw new Error(`palette common: ${k} 없음`);
   for (const th of themes) if (!clear[th]?.length) throw new Error(`clear 색 없음: ${th}`);
+  // (round-3) 콤보 연출 색: 2-1 콤보 파티클 표 comboFx1~4, 2-2 comboNum·judgePlate (30-art 5-8)
+  for (const th of themes) for (const k of ['comboFx1', 'comboFx2', 'comboFx3', 'comboFx4']) if (!palette[th]?.[k]) throw new Error(`palette ${th}: ${k} 없음 (30-art 2-1 콤보 파티클 색)`);
+  for (const k of ['comboNum', 'judgePlate']) if (!common[k]) throw new Error(`palette common: ${k} 없음 (30-art 2-2)`);
 
   // 대비 검사 (30-art 부록 A와 같은 쌍 + 카드 테두리 3:1). 실패하면 멈춤
   const lum = (h) => { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4)); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
@@ -174,11 +191,47 @@ const unwrap = (s) => s.replace(/^`|`$/g, '').replace(/\*\*/g, '');
     if (fails.length) throw new Error(`대비 실패 ${th}: ${fails.join(', ')}`);
     contrast[th] = { pairs: checks.length, hazard_min: +min.toFixed(2) };
   }
+  // (round-3) 부록 A-2 콤보 층 대비·색약 검사 (30-art 부록 A-2 스크립트와 같은 식). 실패하면 멈춤
+  const a2 = comboContrast(palette, common, themes);
+  if (a2.fails.length) throw new Error(`부록 A-2 실패 ${a2.fails.length}: ${a2.fails.slice(0, 5).join('; ')}`);
+  const combo_contrast = { source: '30-art 부록 A-2', checks: a2.n, fail: 0 };
   const clean = (o) => Object.fromEntries(Object.entries(o).filter(([k]) => !k.startsWith('_')));
   writeFileSync(join(OUT, 'art.json'), JSON.stringify({ _source: 'projects/runner-01/30-art.md 2-1·2-2·2-2-1·5-5·6절 + data/art-gimmicks.json(부록 B) (sync-data.mjs 생성, 직접 고치지 말 것)',
-    palette, common, cardTint, clear, card_object, motifs, gimmicks: clean(gimmicks), provisional: {}, contrast }, null, 1) + '\n');
+    palette, common, cardTint, clear, card_object, motifs, gimmicks: clean(gimmicks), provisional: {}, contrast, combo_contrast }, null, 1) + '\n');
   console.log(`art.json: 팔레트 ${themes.length}레벨 (30-art ${fromArt.length}, 임시값 0), 카드색 ${Object.keys(cardTint).length}, 클리어색 ${Object.keys(clear).length}, 카드 오브젝트 ${Object.keys(card_object).length}, 배경 모양 ${Object.keys(motifs).length}레벨, 공통 ${Object.keys(common).length}색, 대비 ${themes.length}레벨 × ${checks.length}쌍 통과 (위험 vs 배경 최소 ${Math.min(...Object.values(contrast).map((c) => c.hazard_min))}:1)`);
   console.log(`  배경 모양 level7: ${motifs.level7?.join(', ')}`);
+  console.log(`  콤보 층 대비·색약 (부록 A-2): ${combo_contrast.checks}검사, 실패 0. comboFx1~4 ${themes.length}레벨, comboNum ${common.comboNum}, judgePlate ${common.judgePlate}`);
+}
+
+// 30-art 부록 A-2 (round-3) 그대로 옮긴 검사
+function comboContrast(P, C, themes) {
+  const BG = ['bg', 'bgFar', 'bgPulse', 'bgAccent'], AL = [0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1];
+  const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+  const hex = (c) => '#' + c.map((v) => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
+  const lin = (v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4), unl = (v) => (v <= 0.0031308 ? v * 12.92 : 1.055 * v ** (1 / 2.4) - 0.055);
+  const lum = (h) => { const l = rgb(h).map(lin); return 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2]; };
+  const cr = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+  const mix = (f, b, a) => hex(rgb(f).map((v, i) => v * a + rgb(b)[i] * (1 - a)));
+  const lab = (c) => { const l = c.map(lin), X = (0.4124 * l[0] + 0.3576 * l[1] + 0.1805 * l[2]) / 0.95047, Y = 0.2126 * l[0] + 0.7152 * l[1] + 0.0722 * l[2], Z = (0.0193 * l[0] + 0.1192 * l[1] + 0.9505 * l[2]) / 1.08883, f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116); return [116 * f(Y) - 16, 500 * (f(X) - f(Y)), 200 * (f(Y) - f(Z))]; };
+  const M = { protan: [[.152286, 1.052583, -.204868], [.114503, .786281, .099216], [-.003882, -.048116, 1.051998]], deutan: [[.367322, .860646, -.227968], [.280085, .672501, .047413], [-.01182, .04294, .968881]], tritan: [[1.255528, -.076749, -.178779], [-.078411, .930809, .147602], [.004733, .691367, .3039]] };
+  const sim = (h, m) => { const l = rgb(h).map(lin); return m ? M[m].map((r) => unl(Math.min(1, Math.max(0, r[0] * l[0] + r[1] * l[1] + r[2] * l[2])))) : rgb(h); };
+  const dE = (a, b, m) => { const [p, q] = [lab(sim(a, m)), lab(sim(b, m))]; return Math.hypot(p[0] - q[0], p[1] - q[1], p[2] - q[2]); };
+  const OBJ = ['player', 'trigger', 'gateSlow', 'gateNormal', 'gateFast'];
+  const fails = []; let n = 0; const chk = (ok, msg) => { n++; if (!ok) fails.push(msg); };
+  for (const lv of themes) {
+    const p = P[lv];
+    const fx = [1, 2, 3, 4].map((i) => p['comboFx' + i]);
+    for (const b of BG) {
+      const n04 = mix(C.comboNum, p[b], 0.04);
+      chk(cr(C.hazard, n04) >= 4.5, `${lv} ${b} 숫자 α0.04 위 위험`); for (const k of OBJ) chk(cr(C[k], n04) >= 3, `${lv} ${b} 숫자 α0.04 위 ${k}`);
+      for (const x of fx) for (const a of AL) { const m = mix(x, p[b], a); chk(cr(C.hazard, m) >= 4.5, `${lv} ${b} ${x} α${a} 위험`); for (const k of OBJ) chk(cr(C[k], m) >= 3, `${lv} ${b} ${x} α${a} ${k}`); chk(cr(p.ground, m) >= 3, `${lv} ${b} ${x} α${a} ground`); }
+      for (const t of [C.player, C.trigger, C.hud]) chk(cr(t, p[b]) >= 3, `${lv} ${b} 판정 글 ${t}`);
+    }
+    for (const x of fx) for (const k of ['hazard', 'player', 'trigger']) for (const m of [null, 'protan', 'deutan', 'tritan']) chk(dE(x, C[k], m) >= 30, `${lv} ${x} vs ${k} ${m ?? 'normal'} ΔE`);
+    if (+lv.slice(5) >= 5) for (const g of ['gateSlow', 'gateNormal', 'gateFast']) for (const b of ['bg', 'bgPulse']) chk(cr(C[g], mix(C[g], p[b], 0.12)) >= 3, `${lv} ${g} 꺾쇠 (${b} 깔기)`);
+  }
+  for (const [a, b] of [['hazard', 'player'], ['hazard', 'trigger']]) for (const m of [null, 'protan', 'deutan', 'tritan']) chk(dE(C[a], C[b], m) >= 20, `${a} vs ${b} ${m ?? 'normal'} ΔE`);
+  return { fails, n };
 }
 
 // 4) 검증기 완벽 입력열

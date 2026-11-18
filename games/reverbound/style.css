@@ -92,7 +92,7 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .card .tag { display: none; font-size: 14px; font-weight: 600; opacity: .9; line-height: 1.2; }
 .cards.roomy .card .tag { display: block; }
 .card .starRow { display: flex; gap: 1px; flex-wrap: nowrap; }
-.card .starRow .ico { width: clamp(11px, calc(var(--ch) * 0.1), 20px); height: clamp(11px, calc(var(--ch) * 0.1), 20px); }
+.card .starRow .ico { height: clamp(11px, calc(var(--ch) * 0.1), 20px); width: calc(clamp(11px, calc(var(--ch) * 0.1), 20px) * var(--n, 1) * 25 / 24); }
 /* 30-art 5-5 장면 칸 = 카드 아래 1/3: 위 60 % 하늘(카드 바탕), 아래 40 % 지면 띠(ground + groundEdge 3 px + outline 2 px). 최고 % 는 띠 안 오른쪽에 outline 색 글자 */
 .card .band { position: absolute; left: 0; right: 0; bottom: 0; height: calc(100% / 3 * 0.4); background: var(--ground); border-top: 3px solid var(--groundEdge); box-shadow: 0 -2px 0 var(--outline);
   display: flex; align-items: center; justify-content: flex-end; padding: 0 8px; }
@@ -104,9 +104,6 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .card .obj.objIn { bottom: 3px; left: 6px; right: auto; transform: none; height: calc(100% - 6px); }
 /* 카드 칸: 버튼 + 최고 콤보 표지(버튼 밖 형제 요소, 10-lore 5-8) */
 .cell { position: relative; width: var(--cw, 200px); height: var(--ch, 150px); }
-.bcMark { position: absolute; right: 7px; bottom: calc(var(--ch, 150px) / 3 * 0.4 + 6px); display: inline-flex; align-items: center; gap: 3px; pointer-events: none; z-index: 2; }
-.bcMark .d { width: 12px; height: 12px; border-radius: 50%; border: 3.5px solid var(--hud); background: transparent; box-sizing: border-box; filter: drop-shadow(0 1px 0 var(--outline)); }
-.bcMark b { font-size: 12px; font-weight: 900; color: var(--hud); text-shadow: 0 1px 0 var(--outline), 1px 0 0 var(--outline), -1px 0 0 var(--outline); }
 .card .badge { position: absolute; right: 5px; top: 5px; background: var(--trigger); color: var(--outline); border-radius: 99px; padding: 1px; min-width: 22px; height: 22px; font-size: 13px; font-weight: 900;
   display: inline-flex; align-items: center; justify-content: center; gap: 3px; border: 2px solid var(--outline); }
 .card .badge .ico { width: 16px; height: 16px; }
@@ -115,7 +112,7 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 .cards.roomy .card .badge .bt { display: inline; }
 .card.locked > *:not(.lockWrap) { opacity: .45; }
 .card .lockWrap { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
-.card .lockWrap .lockIco { position: static; width: 34px; height: 34px; color: var(--hud); filter: drop-shadow(0 2px 0 var(--outline)); }
+.card .lockWrap .lockIco { position: static; width: 34px; height: 34px; color: var(--hud); } /* round-3: drop-shadow 필터 제거 (카드 9장 × 필터 래스터가 메뉴 전환 프레임을 늘림) */
 .moreHint { position: absolute; left: 50%; bottom: calc(var(--sab) + 6px); transform: translateX(-50%); width: 48px; height: 28px; border-radius: 14px; background: var(--hud); color: var(--outline);
   font-size: 16px; font-weight: 900; display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 2px 0 var(--outline); }
 /* 레벨 선택 위 줄: 뒤로 버튼과 모드 토글이 겹치지 않게 같은 흐름에 둠 (round-1 S13) */
@@ -159,7 +156,7 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
   .cue { top: calc(var(--sat) + 86px); font-size: 14px; width: calc(100vw - 32px); }
 }
 @media (max-width: 560px) { .cue svg { width: 64px; height: 64px; } }
-.panel.more { box-shadow: inset 0 -18px 12px -10px rgba(13,15,20,.85); }
+.panel.more { background-image: linear-gradient(to top, rgba(13,15,20,.85), rgba(13,15,20,0) 18px); } /* round-3: 흐림 그림자 대신 그라데이션 (래스터 비용) */
 @media (orientation: landscape) and (max-height: 480px) {
   .screen { gap: 8px; }
   .btn.primary { min-height: 56px; }
@@ -171,22 +168,12 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
 
 
 /* 콤보 줄 (30-art 5-8-1): main.js layoutCombo 가 자리·크기(--d)를 정함. 글·숫자 없음 */
-.combo { position: fixed; pointer-events: none; transform-origin: 50% 50%; }
-.combo i, .combo b { position: absolute; top: 50%; display: block; box-sizing: border-box; }
-.cmDots i { width: var(--d); height: var(--d); margin-top: calc(var(--d) / -2); border-radius: 50%; border: 1.5px solid rgba(244, 240, 232, .4); }
-.cmDots i.on { background: var(--hud); border: 1px solid var(--outline); }
-.cmMarks i { width: calc(var(--d) * 1.8); height: calc(var(--d) * 1.8); margin-top: calc(var(--d) * -0.9); border-radius: 50%; border: calc(var(--d) * 0.5) solid var(--hud); background: var(--bg); box-shadow: 0 0 0 1px var(--outline); }
-.cmBits b { margin: 0; }
 /* 결과 한 줄 (30-art 5-8-4): 높이 48 px 이하. 왼쪽 정확도, 오른쪽 최고 콤보 */
 .stats { display: flex; align-items: center; justify-content: center; gap: 28px; min-height: 40px; max-height: 48px; }
 .stat { position: relative; display: inline-flex; align-items: center; gap: 8px; }
 .stat .v { font-size: 28px; font-weight: 900; line-height: 1; text-shadow: 0 2px 0 var(--outline); }
 .accIco { width: 16px; height: 16px; fill: var(--player); }
 .stat .cm { display: inline-flex; align-items: center; gap: 6px; }
-.stat .cm i { display: block; box-sizing: border-box; border-radius: 50%; }
-.stat .cm i.d { width: 18px; height: 18px; border: 5px solid var(--hud); box-shadow: 0 0 0 1px var(--outline); }
-.stat .cm i.o { width: 10px; height: 10px; background: var(--hud); border: 1px solid var(--outline); }
-.stat .n { font-size: 16px; font-weight: 800; opacity: .8; }
 .stat.nb::after { content: ''; position: absolute; left: 0; right: 0; bottom: -7px; height: 4px; border-radius: 2px; background: var(--tint, var(--hud)); }
 .stat.nb { animation: nbPop .3s ease-out 1; }
 @keyframes nbPop { 50% { transform: scale(1.1); } }
@@ -199,3 +186,31 @@ h2 { margin: 0; font-size: clamp(22px, 5vmin, 34px); font-weight: 900; text-shad
   #clearS .menu { flex-direction: row; flex-wrap: wrap; justify-content: center; }
   #clearS .btn.primary { min-height: 52px; font-size: 18px; }
 }
+
+/* round-3 콤보 연출 (30-art 5-8). 큰 숫자 블록·파티클·판정 글은 게임 캔버스에 그림 */
+/* 5-8-8 레벨 카드 최고 콤보 칩: 둥근 사각 18 px(원 아님), 바탕 레벨 bg α0.8, 테 hud 1.5 px, 단계 막대 10 px + 3 px + 숫자 14 px */
+.bcMark { position: absolute; right: 9px; bottom: calc(var(--ch, 150px) / 3 * 0.4 + 7px); height: 18px; box-sizing: border-box; padding: 0 5px; border-radius: 5px;
+  background: var(--chipBg, rgba(13,15,20,.8)); border: 1.5px solid var(--hud); color: var(--hud); display: inline-flex; align-items: center; gap: 3px; pointer-events: none; z-index: 2; }
+.bcMark .bars { display: block; flex: none; }
+.bcMark b { font-size: 14px; font-weight: 900; line-height: 1; color: var(--hud); }
+/* 5-8-7 결과 화면 최고 콤보: 막대 16 px + 숫자 22 px 굵게 + 라벨 14 px α0.8 */
+.stat .cm { display: inline-flex; align-items: flex-end; color: var(--hud); }
+.stat .cm .bars { display: block; }
+.stat .n { font-size: 22px; font-weight: 900; line-height: 1; text-shadow: 0 2px 0 var(--outline); }
+.stat .lb { font-size: 14px; font-weight: 600; opacity: .8; }
+/* 5-5 해 빛살: 오브젝트 높이 < 28 px이면 3개 */
+.card .obj .r3 { display: none; }
+.card .obj.sm .r3 { display: inline; }
+.card .obj.sm .r5 { display: none; }
+/* (round-3 메뉴 전환 ≤ 100 ms) 레벨 선택·설정 화면은 숨겨도 그리기 상태를 남겨 둠: 다시 보일 때 스타일·레이아웃을 처음부터 하지 않음.
+   visibility hidden이라 눌리지 않고 접근성 트리·포커스에서도 빠짐 */
+#levels:not(.show), #settings:not(.show) { display: flex; visibility: hidden; content-visibility: hidden; pointer-events: none; }
+/* (round-3, score S13) 깨지 못한 레벨의 최고 진행도를 글 없이: 지면 띠 위 끝에 막대 (outline 색, 밝은 윗면 띠 위, 폭 = 최고 %). DEV_NOTES D32 */
+.card .band .prog { position: absolute; left: 0; top: -3px; height: 3px; background: var(--outline); pointer-events: none; }
+/* (round-3, score S28) 타이틀 "누르면 소리가 나요": 밝은 바닥 띠 위에서도 읽히게 어두운 받침 */
+#audioUnlock { background: rgba(13,15,20,.6); border-radius: 8px; padding: 2px 10px; }
+/* (round-3 메뉴 전환 성능) 카드 둥근 모서리 클리핑(overflow hidden)과 카드 그림자가 레벨 선택 진입 래스터의 대부분이었음
+   (1280x720 실측 래스터 약 240~500 → 약 118 ms). 클리핑 대신 지면 띠에 아래 모서리를 직접 줌, 그림자 대신 없음, 띠 위 outline 선은 의사 요소로 */
+.card { overflow: visible; box-shadow: none; }
+.card .band { border-radius: 0 0 11px 11px; box-shadow: none; }
+.card .band::before { content: ''; position: absolute; left: 0; right: 0; top: -5px; height: 2px; background: var(--outline); pointer-events: none; }

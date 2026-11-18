@@ -8,7 +8,8 @@
 //    빌드(?test=1, window.__game.replay)에 넣어 시도마다 클리어 여부·grades(i, k, e_ms, grade, pct)·combo·accuracy가 같음
 //    (탭 사이가 누름 길이 24틱보다 짧으면 뒤 탭을 뺌: 빌드 입력은 누른 채 또 누르면 새 누름이 아니라서. 두 쪽에 같은 입력열을 넣음)
 // B2 완벽 입력열(검증기 taps)로 10레벨 클리어 → grades 길이 = judge_taps 길이, 모두 1등급, accuracy = combo-ref
-// U1 화면: 콤보 줄 aria-valuenow = combo, 판정 글이 그려짐, 결과 화면 정확도 = accuracy, 레벨 카드 최고 콤보 표지가 버튼 밖(접근성 트리)
+// U1 화면: 콤보 meter aria-valuenow = combo(숨길 때 hidden만), 큰 숫자 블록(캔버스)이 보이고 HUD 버튼과 겹치지 않음, 판정 글이 그려짐,
+//    결과 화면 정확도 = accuracy, 레벨 카드 최고 콤보 칩이 버튼 밖(접근성 트리). (round-3: 점 줄 DOM → 캔버스 큰 숫자 + 낭독용 meter)
 // U2 combo.enabled=false / judge_pct.enabled=false (balance.json 요청 가로채기): 생사·등급·콤보 같음, 끈 층 표시·%·정확도 없음
 // 결과: reviews/dev-selfcheck/combo-build.json, 스크린샷 r2c-*.png
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
@@ -153,17 +154,17 @@ try {
       G.step(1 / 60);
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       const el = document.getElementById('combo');
-      out.combo = G.combo; out.aria = +el.getAttribute('aria-valuenow'); out.visible = getComputedStyle(el).display !== 'none';
+      out.combo = G.combo; out.aria = +el.getAttribute('aria-valuenow'); out.visible = !el.hidden && G.comboFx.visible; out.ariaHiddenLabel = el.hasAttribute('aria-hidden');
       out.judge = G.judgeShown; out.lastPct = G.lastPct;
-      const r = el.getBoundingClientRect(), cue = document.getElementById('cue').getBoundingClientRect(), pb = document.getElementById('pauseBtn').getBoundingClientRect(), att = document.getElementById('att').getBoundingClientRect();
+      const fr = G.comboFx.rect, r = fr ? { left: fr.l, right: fr.r, top: fr.t, bottom: fr.b, width: fr.r - fr.l, height: fr.b - fr.t } : { left: 0, right: 0, top: 0, bottom: 0, width: 0, height: 0 }, cue = document.getElementById('cue').getBoundingClientRect(), pb = document.getElementById('pauseBtn').getBoundingClientRect(), att = document.getElementById('att').getBoundingClientRect();
       const hit = (a, b) => a.width && b.width && a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom;
       out.comboRect = [r.left, r.top, r.width, r.height].map(Math.round);
       out.overlapPause = hit(r, pb); out.overlapAtt = hit(r, att); out.cueTop = Math.round(parseFloat(document.getElementById('cue').style.top) || cue.top); out.comboBottom = Math.round(r.bottom);
       return out;
     });
     await q.screenshot({ path: join(OUT, `r2c-${tag}-play-L2.png`) });
-    if (!(u.visible && u.aria === u.combo && (u.judge?.drawn || u.judge?.skip))) problems.push(`U1 ${tag} 콤보 줄 ${JSON.stringify(u)}`);
-    if (u.overlapPause || u.overlapAtt) problems.push(`U1 ${tag} 콤보 줄이 HUD 버튼과 겹침`);
+    if (!(u.visible && u.aria === u.combo && !u.ariaHiddenLabel && (u.judge?.drawn || u.judge?.skip))) problems.push(`U1 ${tag} 콤보 표시 ${JSON.stringify(u)}`);
+    if (u.overlapPause || u.overlapAtt) problems.push(`U1 ${tag} 큰 콤보 숫자 블록이 HUD 버튼과 겹침`);
     // 결과 화면
     const cl = await q.evaluate(() => {
       const G = window.__game;
@@ -182,8 +183,10 @@ try {
     // playwright-core 1.48: ariaSnapshot 없음 → accessibility.snapshot (Chromium 접근성 트리)
     const flat = []; const walk = (n) => { if (!n) return; flat.push(`${n.role} "${n.name ?? ''}"${n.valuetext != null ? ' = ' + n.valuetext : n.value != null ? ' = ' + n.value : ''}`); (n.children || []).forEach(walk); };
     // (interestingOnly true 는 Chromium meter를 걸러 내서 false로 보고 role meter만 셈)
-    walk(await q.accessibility.snapshot({ root: await q.$('#cards'), interestingOnly: false }).catch(() => null));
-    const snap = flat.join('\n');
+    // (round-3) playwright-core 1.5x 이상은 page.accessibility가 없어 locator.ariaSnapshot (접근성 트리)
+    let snap;
+    if (q.accessibility) { walk(await q.accessibility.snapshot({ root: await q.$('#cards'), interestingOnly: false }).catch(() => null)); snap = flat.join('\n'); }
+    else snap = await q.locator('#cards').ariaSnapshot().catch(() => '');
     const inBtn = await q.evaluate(() => document.querySelectorAll('.card .bcMark').length);
     await q.screenshot({ path: join(OUT, `r2c-${tag}-levels.png`) });
     R.ui[tag] = { play: u, clear: cl, bcMarkInsideButton: inBtn, aria: String(snap).split('\n').filter((l) => /meter/.test(l)).slice(0, 4) };
@@ -211,7 +214,7 @@ try {
       for (const c of cs) { const r = G.replay(c.li, c.taps, { holdTicks: 24 }); res.push({ clear: r.state === 'clear', grades: G.grades.map((g) => [g.i, g.k, g.grade, g.pct ?? null]), combo: G.combo, accuracy: G.accuracy }); }
       G.seek(1, 120); G.step(1 / 60);
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
-      const comboShown = getComputedStyle(document.getElementById('combo')).display !== 'none';
+      const comboShown = !document.getElementById('combo').hidden || G.comboFx.visible;
       const judge = G.judgeShown;
       G.replay(0); for (let j = 0; j < 90; j++) G.step(1 / 60);
       return { res, comboShown, judgeDrawn: !!judge?.drawn, stats: !document.getElementById('clearStats').classList.contains('hidden'), accShown: !document.getElementById('stAcc').classList.contains('hidden') };
@@ -240,7 +243,7 @@ console.log(`S1 본문 같음: ${R.s1}`);
 console.log(`B1 ${R.b1_total.cases}시도 (판정 ${R.b1_total.judged}개): 빌드 ≠ 기준 ${R.b1_total.mismatch}`);
 for (const [k, v] of Object.entries(R.b1)) if (!k.endsWith('perfect')) console.log(`   ${k}: 클리어 ${v.clear}/${v.n}, 판정 ${v.judged}, 불일치 ${v.mismatch}`);
 console.log(`B2 완벽 입력: ${R.b2.map((b) => `${b.id} ${b.grades}/${b.taps} 정확도 ${b.accuracy}`).join(' | ')}`);
-for (const [k, v] of Object.entries(R.ui)) console.log(`U1 ${k}: 콤보 ${v.play.combo} (aria ${v.play.aria}), 판정 글 ${JSON.stringify(v.play.judge)}, 카드 위 ${v.play.cueTop} ≥ 줄 아래 ${v.play.comboBottom}+8, 결과 정확도 ${v.clear.accText} (훅 ${v.clear.accuracy}), meter ${v.aria.length}줄`);
+for (const [k, v] of Object.entries(R.ui)) console.log(`U1 ${k}: 콤보 ${v.play.combo} (aria ${v.play.aria}), 판정 글 ${JSON.stringify(v.play.judge)}, 블록 ${JSON.stringify(v.play.comboRect)}, 결과 정확도 ${v.clear.accText} (훅 ${v.clear.accuracy}), meter ${v.aria.length}줄`);
 for (const [k, v] of Object.entries(R.u2 ?? {})) console.log(`U2 ${k}: ${v.n}시도 생사·등급·콤보 불일치 ${v.mismatch}, 콤보 줄 ${v.comboShown}, 판정 글 ${v.judgeDrawn}, 결과 줄 ${v.stats}, 정확도 ${v.accShown}`);
 console.log(`콘솔 ${R.console.length}, 외부 요청 ${R.external.length}`);
 for (const p of problems) console.log('  문제: ' + p);

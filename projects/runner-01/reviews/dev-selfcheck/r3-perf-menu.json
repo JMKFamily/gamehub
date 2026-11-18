@@ -1,0 +1,93 @@
+{
+ "meta": {
+  "runs": 3,
+  "throttle": 6,
+  "freshBrowserPerVariant": true,
+  "res": [
+   "1280x720@1",
+   "640x360@3"
+  ],
+  "cpus": 12,
+  "started": "2026-11-18T10:14:24.271Z"
+ },
+ "windows": [],
+ "menu": [
+  {
+   "run": 1,
+   "res": "1280x720@1",
+   "first_tap_unlock": 182.3,
+   "title_to_levels": 104.1,
+   "levels_to_title": 30,
+   "title_to_settings": 107.4,
+   "settings_to_title": 30.5,
+   "play_start": 112.1
+  },
+  {
+   "run": 1,
+   "res": "640x360@3",
+   "first_tap_unlock": 36.5,
+   "title_to_levels": 26,
+   "levels_to_title": 35.1,
+   "title_to_settings": 94.9,
+   "settings_to_title": 23.5,
+   "play_start": 29.8
+  },
+  {
+   "run": 2,
+   "res": "1280x720@1",
+   "first_tap_unlock": 78.2,
+   "title_to_levels": 121.2,
+   "levels_to_title": 23.9,
+   "title_to_settings": 33.5,
+   "settings_to_title": 23.5,
+   "play_start": 30.7
+  },
+  {
+   "run": 2,
+   "res": "640x360@3",
+   "first_tap_unlock": 50.6,
+   "title_to_levels": 31.6,
+   "levels_to_title": 24.2,
+   "title_to_settings": 35.1,
+   "settings_to_title": 26.5,
+   "play_start": 30.6
+  },
+  {
+   "run": 3,
+   "res": "1280x720@1",
+   "first_tap_unlock": 56.9,
+   "title_to_levels": 133.7,
+   "levels_to_title": 23,
+   "title_to_settings": 40.5,
+   "settings_to_title": 19.6,
+   "play_start": 36
+  },
+  {
+   "run": 3,
+   "res": "640x360@3",
+   "first_tap_unlock": 58.3,
+   "title_to_levels": 28,
+   "levels_to_title": 447.6,
+   "title_to_settings": 31.7,
+   "settings_to_title": 36.7,
+   "play_start": 66.3
+  }
+ ],
+ "verdict": {
+  "low1_min": null,
+  "low1_ge45": "0/0",
+  "avg_min": null,
+  "event_frame_max_ms": null,
+  "event_le33": "0/0",
+  "script_p95_max_ms": null,
+  "control_low1_min": null,
+  "menu_max_ms": 447.6,
+  "fails": []
+ },
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "external": [],
+  "requests": 168
+ }
+}

@@ -9,16 +9,16 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="cv" aria-label="game"></canvas>
+<canvas id="cv"></canvas>
 
 <!-- HUD (화면 위쪽 1.2타일 띠, 안전 영역 안쪽) -->
 <div id="hud" class="hidden">
   <div id="att" class="att"></div>
   <div id="barWrap"><div id="bar"><div id="barFill"></div><div id="barBest"></div></div><span id="pct">0%</span></div>
-  <!-- 콤보 줄 (30-art 5-8-1): 점 10칸 + 왼쪽 도넛 표지. 글·숫자 없음. 값은 aria-valuenow (10-lore 5-8) -->
-  <div id="combo" class="combo hidden" role="meter" aria-valuemin="0"><span class="cmMarks"></span><span class="cmDots"></span><span class="cmBits"></span></div>
+  <!-- 콤보 (round-3, 30-art 5-8-1): 큰 숫자 블록은 게임 캔버스 뒤 레이어에 그림. 여기는 낭독용 meter 하나 (10-lore 5-8, 숨길 때 hidden만) -->
+  <div id="combo" class="sr" role="meter" aria-valuemin="0" hidden></div>
   <div class="hudRight">
-    <button id="pauseBtn" class="iconBtn" type="button" aria-label="pause"><span></span><span></span></button>
+    <button id="pauseBtn" class="iconBtn" type="button"><span></span><span></span></button>
   </div>
 </div>
 <div id="cue" class="cue hidden"></div>
@@ -27,9 +27,22 @@
 
 <!-- 화면들 -->
 <div id="loading" class="screen show"><p id="loadingText">…</p><button id="retryLoad" class="btn hidden" type="button">↻</button></div>
+<script>
+// 부트 단계 (10-lore 5-7·5-9): 언어를 먼저 정하고 html lang·불러오기 문구·↻ 이름을 바꿈. 값은 sync-data.mjs가 10-lore에서 넣음
+(function () {
+  var S = /*BOOT*/{"ko":{"loading":"불러오는 중…","load_error":"못 불러왔어요. 다시 해 주세요","aria_retry_load":"다시 불러오기"},"en":{"loading":"Loading…","load_error":"Couldn't load. Try again","aria_retry_load":"Load again"}}/*/BOOT*/;
+  var q = new URLSearchParams(location.search).get('lang');
+  var n = (navigator.languages && navigator.languages[0]) || navigator.language || 'ko';
+  var L = q === 'en' || q === 'ko' ? q : (/^ko/i.test(n) ? 'ko' : 'en');
+  document.documentElement.lang = L;
+  window.__boot = { lang: L, s: S[L] };
+  document.getElementById('loadingText').textContent = S[L].loading;
+  document.getElementById('retryLoad').setAttribute('aria-label', S[L].aria_retry_load);
+})();
+</script>
 
 <div id="title" class="screen">
-  <a id="hubLink" class="hubLink" href="../../" aria-label="hub">⌂</a>
+  <a id="hubLink" class="hubLink" href="../../">⌂</a>
   <div class="titleBlock">
     <p id="titleAlt" class="titleAlt"></p>
     <h1 id="titleMain"></h1>
@@ -44,14 +57,14 @@
 </div>
 
 <div id="levels" class="screen">
-  <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button>
+  <div class="topRow"><button class="btn back" data-back type="button">←</button>
     <div id="modeSeg" class="seg"><button id="modeNormal" type="button"></button><button id="modePractice" type="button"></button></div></div>
   <div id="cards" class="cards"></div>
   <div id="cardsMore" class="moreHint hidden" aria-hidden="true">▼</div>
 </div>
 
 <div id="settings" class="screen">
-  <div class="topRow"><button class="btn back" data-back type="button" aria-label="back">←</button><h2 id="setTitle"></h2></div>
+  <div class="topRow"><button class="btn back" data-back type="button">←</button><h2 id="setTitle"></h2></div>
   <div id="setPanel" class="panel">
     <label class="row"><span id="lMusic"></span><input id="sMusic" type="range" min="0" max="100" step="1"><button id="bMute" class="tog" type="button"></button></label>
     <label class="row"><span id="lSfx"></span><input id="sSfx" type="range" min="0" max="100" step="1"></label>
@@ -84,10 +97,10 @@
   <p id="clearSub" class="sub"></p>
   <p id="clearAtt" class="small"></p>
   <p id="clearAll" class="small hidden"></p>
-  <!-- 결과 한 줄 (30-art 5-8-4): 왼쪽 정확도, 오른쪽 최고 콤보. 일반 모드 클리어만 -->
+  <!-- 결과 한 줄 (30-art 5-8-7): 왼쪽 정확도, 오른쪽 최고 콤보(단계 막대 + 숫자 + 라벨). 일반 모드 클리어만 (연습 모드는 결과 줄 없음) -->
   <div id="clearStats" class="stats hidden">
     <div id="stAcc" class="stat" role="meter" aria-valuemin="0" aria-valuemax="100"><svg class="accIco" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="10" r="2.2"/><circle cx="8" cy="6" r="2.2"/><circle cx="13" cy="10" r="2.2"/></svg><span class="v" aria-hidden="true"></span><span class="sr nbt"></span></div>
-    <div id="stCombo" class="stat" role="meter" aria-valuemin="0"><span class="cm" aria-hidden="true"></span><span class="n" aria-hidden="true"></span><span class="sr nbt"></span></div>
+    <div id="stCombo" class="stat" role="meter" aria-valuemin="0"><span class="cm" aria-hidden="true"></span><span class="n" aria-hidden="true"></span><span class="lb" aria-hidden="true"></span><span class="sr nbt"></span></div>
   </div>
   <div class="menu">
     <button id="cNext" class="btn primary" type="button"></button>
@@ -101,7 +114,7 @@
   <div class="menu row2"><button id="cfNo" class="btn" type="button"></button><button id="cfYes" class="btn danger" type="button"></button></div>
 </div>
 
-<div id="rotate" class="rotate hidden"><span id="rotateText"></span><button id="rotateClose" class="x" type="button" aria-label="close">×</button></div>
+<div id="rotate" class="rotate hidden"><span id="rotateText"></span><button id="rotateClose" class="x" type="button">×</button></div>
 
 <script type="module" src="js/main.js"></script>
 </body>

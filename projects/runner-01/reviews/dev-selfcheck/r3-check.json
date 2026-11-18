@@ -1,0 +1,1762 @@
+{
+ "problems": [],
+ "console": [],
+ "external": [],
+ "grep": {
+  "words": 55,
+  "screenWords": [
+   "COMBO",
+   "콤보",
+   "PERFECT",
+   "FEVER",
+   "BREAK"
+  ],
+  "hits": []
+ },
+ "judge": {
+  "640x360": {
+   "levels": [
+    {
+     "level": 1,
+     "taps": 15,
+     "runs": 62,
+     "clears": 36,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 36,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 718,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 2,
+     "taps": 24,
+     "runs": 62,
+     "clears": 39,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 39,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 1091,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 3,
+     "taps": 16,
+     "runs": 62,
+     "clears": 24,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 24,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 599,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 4,
+     "taps": 25,
+     "runs": 62,
+     "clears": 19,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 19,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 831,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 5,
+     "taps": 20,
+     "runs": 62,
+     "clears": 15,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 15,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 672,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 6,
+     "taps": 22,
+     "runs": 62,
+     "clears": 13,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 13,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 520,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 88,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 7,
+     "taps": 25,
+     "runs": 62,
+     "clears": 12,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 12,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 630,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 57,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 8,
+     "taps": 26,
+     "runs": 62,
+     "clears": 9,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 9,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 669,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 9,
+     "taps": 27,
+     "runs": 62,
+     "clears": 8,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 8,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 495,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 94,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 10,
+     "taps": 31,
+     "runs": 62,
+     "clears": 5,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 5,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 480,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    }
+   ],
+   "total": {
+    "n": 7048,
+    "skip": 0,
+    "rate": 0
+   },
+   "byKind": {
+    "ground": {
+     "n": 6705,
+     "skip": 0,
+     "rate": 0
+    },
+    "orb": {
+     "n": 343,
+     "skip": 0,
+     "rate": 0
+    }
+   }
+  },
+  "1280x720": {
+   "levels": [
+    {
+     "level": 1,
+     "taps": 15,
+     "runs": 62,
+     "clears": 36,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 36,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 718,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 2,
+     "taps": 24,
+     "runs": 62,
+     "clears": 39,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 39,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 1091,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 3,
+     "taps": 16,
+     "runs": 62,
+     "clears": 24,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 24,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 599,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 4,
+     "taps": 25,
+     "runs": 62,
+     "clears": 19,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 19,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 831,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 5,
+     "taps": 20,
+     "runs": 62,
+     "clears": 15,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 15,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 672,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 6,
+     "taps": 22,
+     "runs": 62,
+     "clears": 13,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 13,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 520,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 88,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 7,
+     "taps": 25,
+     "runs": 62,
+     "clears": 12,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 12,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 630,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 57,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 8,
+     "taps": 26,
+     "runs": 62,
+     "clears": 9,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 9,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 669,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 9,
+     "taps": 27,
+     "runs": 62,
+     "clears": 8,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 8,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 495,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 94,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 10,
+     "taps": 31,
+     "runs": 62,
+     "clears": 5,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 5,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 480,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    }
+   ],
+   "total": {
+    "n": 7048,
+    "skip": 0,
+    "rate": 0
+   },
+   "byKind": {
+    "ground": {
+     "n": 6705,
+     "skip": 0,
+     "rate": 0
+    },
+    "orb": {
+     "n": 343,
+     "skip": 0,
+     "rate": 0
+    }
+   }
+  },
+  "360x640": {
+   "levels": [
+    {
+     "level": 1,
+     "taps": 15,
+     "runs": 62,
+     "clears": 36,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 36,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 718,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 2,
+     "taps": 24,
+     "runs": 62,
+     "clears": 39,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 39,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 1091,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 3,
+     "taps": 16,
+     "runs": 62,
+     "clears": 24,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 24,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 599,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 4,
+     "taps": 25,
+     "runs": 62,
+     "clears": 19,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 19,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 831,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 5,
+     "taps": 20,
+     "runs": 62,
+     "clears": 15,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 15,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 672,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 6,
+     "taps": 22,
+     "runs": 62,
+     "clears": 13,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 13,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 520,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 88,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 7,
+     "taps": 25,
+     "runs": 62,
+     "clears": 12,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 12,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 630,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 57,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 8,
+     "taps": 26,
+     "runs": 62,
+     "clears": 9,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 9,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 669,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 9,
+     "taps": 27,
+     "runs": 62,
+     "clears": 8,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 8,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 495,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 94,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 10,
+     "taps": 31,
+     "runs": 62,
+     "clears": 5,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 5,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 480,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    }
+   ],
+   "total": {
+    "n": 7048,
+    "skip": 0,
+    "rate": 0
+   },
+   "byKind": {
+    "ground": {
+     "n": 6705,
+     "skip": 0,
+     "rate": 0
+    },
+    "orb": {
+     "n": 343,
+     "skip": 0,
+     "rate": 0
+    }
+   }
+  },
+  "412x915": {
+   "levels": [
+    {
+     "level": 1,
+     "taps": 15,
+     "runs": 62,
+     "clears": 36,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 36,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 718,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 2,
+     "taps": 24,
+     "runs": 62,
+     "clears": 39,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 39,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 1091,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 3,
+     "taps": 16,
+     "runs": 62,
+     "clears": 24,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 24,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 599,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 4,
+     "taps": 25,
+     "runs": 62,
+     "clears": 19,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 19,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 831,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 5,
+     "taps": 20,
+     "runs": 62,
+     "clears": 15,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 15,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 672,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 0,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": null
+    },
+    {
+     "level": 6,
+     "taps": 22,
+     "runs": 62,
+     "clears": 13,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 13,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 520,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 88,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 7,
+     "taps": 25,
+     "runs": 62,
+     "clears": 12,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 12,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 630,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 57,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 8,
+     "taps": 26,
+     "runs": 62,
+     "clears": 9,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 9,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 669,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 9,
+     "taps": 27,
+     "runs": 62,
+     "clears": 8,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 8,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 495,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 94,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    },
+    {
+     "level": 10,
+     "taps": 31,
+     "runs": 62,
+     "clears": 5,
+     "clearJudgeMismatch": 0,
+     "noMissClears": 5,
+     "noMissComboMismatch": 0,
+     "stats": {
+      "ground": {
+       "n": 480,
+       "skip": 0,
+       "hidePct": 0
+      },
+      "orb": {
+       "n": 52,
+       "skip": 0,
+       "hidePct": 0
+      }
+     },
+     "skip_rate": 0,
+     "skip_ground": 0,
+     "skip_orb": 0
+    }
+   ],
+   "total": {
+    "n": 7048,
+    "skip": 0,
+    "rate": 0
+   },
+   "byKind": {
+    "ground": {
+     "n": 6705,
+     "skip": 0,
+     "rate": 0
+    },
+    "orb": {
+     "n": 343,
+     "skip": 0,
+     "rate": 0
+    }
+   }
+  }
+ },
+ "shots": {
+  "640x360": {
+   "L7-near": {
+    "x": 98.03912499999501,
+    "fx": {
+     "visible": true,
+     "value": 4,
+     "alpha": 0.008,
+     "stage": 0,
+     "rect": {
+      "l": 297,
+      "r": 391,
+      "t": 48,
+      "b": 129
+     },
+     "particles": 0,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "L7-free": {
+    "x": 49.53424999999926,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 297,
+      "r": 391,
+      "t": 48,
+      "b": 129
+     },
+     "particles": 0,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "L8-near": {
+    "x": 47.018499999999406,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.042,
+     "stage": 0,
+     "rect": {
+      "l": 296,
+      "r": 394,
+      "t": 48,
+      "b": 132
+     },
+     "particles": 0,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "L8-free": null,
+   "L10-near": {
+    "x": 567.5318750000029,
+    "fx": {
+     "visible": true,
+     "value": 26,
+     "alpha": 0.04,
+     "stage": 4,
+     "rect": {
+      "l": 274,
+      "r": 414,
+      "t": 48,
+      "b": 129
+     },
+     "particles": 32,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "L10-free": {
+    "x": 46.020874999999464,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 297,
+      "r": 391,
+      "t": 48,
+      "b": 129
+     },
+     "particles": 0,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "stage4": {
+    "combo": 21,
+    "fx": {
+     "visible": true,
+     "value": 21,
+     "alpha": 0.3,
+     "stage": 4,
+     "rect": {
+      "l": 274,
+      "r": 414,
+      "t": 48,
+      "b": 129
+     },
+     "particles": 32,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   },
+   "judge": {
+    "ground": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 128,
+      "r": 187,
+      "t": 213,
+      "b": 252
+     }
+    },
+    "orb": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "orb",
+     "box": {
+      "l": 124,
+      "r": 183,
+      "t": 185,
+      "b": 224
+     }
+    }
+   },
+   "clear": {
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 4,
+     "rect": null,
+     "particles": 32,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    },
+    "judge": null
+   },
+   "death": {
+    "state": "dead",
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 2,
+     "rect": null,
+     "particles": 0,
+     "Hn": 50.400000000000006,
+     "reduced": false
+    }
+   }
+  },
+  "1280x720": {
+   "L7-near": {
+    "x": 98.03912499999501,
+    "fx": {
+     "visible": true,
+     "value": 4,
+     "alpha": 0.008,
+     "stage": 0,
+     "rect": {
+      "l": 595,
+      "r": 781,
+      "t": 95,
+      "b": 251
+     },
+     "particles": 0,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "L7-free": {
+    "x": 49.53424999999926,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 595,
+      "r": 781,
+      "t": 95,
+      "b": 251
+     },
+     "particles": 0,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "L8-near": {
+    "x": 47.018499999999406,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.042,
+     "stage": 0,
+     "rect": {
+      "l": 593,
+      "r": 787,
+      "t": 95,
+      "b": 258
+     },
+     "particles": 0,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "L8-free": null,
+   "L10-near": {
+    "x": 567.5318750000029,
+    "fx": {
+     "visible": true,
+     "value": 26,
+     "alpha": 0.04,
+     "stage": 4,
+     "rect": {
+      "l": 550,
+      "r": 826,
+      "t": 95,
+      "b": 251
+     },
+     "particles": 32,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "L10-free": {
+    "x": 46.020874999999464,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 595,
+      "r": 781,
+      "t": 95,
+      "b": 251
+     },
+     "particles": 0,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "stage4": {
+    "combo": 21,
+    "fx": {
+     "visible": true,
+     "value": 21,
+     "alpha": 0.3,
+     "stage": 4,
+     "rect": {
+      "l": 550,
+      "r": 826,
+      "t": 95,
+      "b": 251
+     },
+     "particles": 32,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   },
+   "judge": {
+    "ground": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 256,
+      "r": 373,
+      "t": 428,
+      "b": 504
+     }
+    },
+    "orb": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "orb",
+     "box": {
+      "l": 249,
+      "r": 366,
+      "t": 371,
+      "b": 447
+     }
+    }
+   },
+   "clear": {
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 4,
+     "rect": null,
+     "particles": 32,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    },
+    "judge": null
+   },
+   "death": {
+    "state": "dead",
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 2,
+     "rect": null,
+     "particles": 0,
+     "Hn": 100.80000000000001,
+     "reduced": false
+    }
+   }
+  },
+  "360x640": {
+   "L7-near": {
+    "x": 98.03912499999501,
+    "fx": {
+     "visible": true,
+     "value": 4,
+     "alpha": 0.008,
+     "stage": 0,
+     "rect": {
+      "l": 152,
+      "r": 267,
+      "t": 87,
+      "b": 184
+     },
+     "particles": 0,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "L7-free": {
+    "x": 49.53424999999926,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 152,
+      "r": 267,
+      "t": 87,
+      "b": 184
+     },
+     "particles": 0,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "L8-near": {
+    "x": 47.018499999999406,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.042,
+     "stage": 0,
+     "rect": {
+      "l": 151,
+      "r": 270,
+      "t": 87,
+      "b": 188
+     },
+     "particles": 0,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "L8-free": null,
+   "L10-near": {
+    "x": 570.0042500000011,
+    "fx": {
+     "visible": true,
+     "value": 27,
+     "alpha": 0.04,
+     "stage": 4,
+     "rect": {
+      "l": 122,
+      "r": 299,
+      "t": 87,
+      "b": 188
+     },
+     "particles": 32,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "L10-free": {
+    "x": 46.020874999999464,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 152,
+      "r": 267,
+      "t": 87,
+      "b": 184
+     },
+     "particles": 0,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "stage4": {
+    "combo": 21,
+    "fx": {
+     "visible": true,
+     "value": 21,
+     "alpha": 0.3,
+     "stage": 4,
+     "rect": {
+      "l": 124,
+      "r": 295,
+      "t": 87,
+      "b": 184
+     },
+     "particles": 32,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   },
+   "judge": {
+    "ground": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 34,
+      "r": 86,
+      "t": 335,
+      "b": 371
+     }
+    },
+    "orb": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "orb",
+     "box": {
+      "l": 32,
+      "r": 84,
+      "t": 324,
+      "b": 360
+     }
+    }
+   },
+   "clear": {
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 4,
+     "rect": null,
+     "particles": 32,
+     "Hn": 61.8,
+     "reduced": false
+    },
+    "judge": null
+   },
+   "death": {
+    "state": "dead",
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 2,
+     "rect": null,
+     "particles": 0,
+     "Hn": 61.8,
+     "reduced": false
+    }
+   }
+  },
+  "412x915": {
+   "L7-near": {
+    "x": 98.03912499999501,
+    "fx": {
+     "visible": true,
+     "value": 4,
+     "alpha": 0.008,
+     "stage": 0,
+     "rect": {
+      "l": 158,
+      "r": 359,
+      "t": 131,
+      "b": 302
+     },
+     "particles": 0,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "L7-free": {
+    "x": 49.53424999999926,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 158,
+      "r": 359,
+      "t": 131,
+      "b": 302
+     },
+     "particles": 0,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "L8-near": {
+    "x": 47.018499999999406,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.042,
+     "stage": 0,
+     "rect": {
+      "l": 155,
+      "r": 365,
+      "t": 131,
+      "b": 309
+     },
+     "particles": 0,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "L8-free": null,
+   "L10-near": {
+    "x": 570.0042500000011,
+    "fx": {
+     "visible": true,
+     "value": 27,
+     "alpha": 0.04,
+     "stage": 4,
+     "rect": {
+      "l": 105,
+      "r": 415,
+      "t": 131,
+      "b": 308
+     },
+     "particles": 32,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "L10-free": {
+    "x": 46.020874999999464,
+    "fx": {
+     "visible": true,
+     "value": 2,
+     "alpha": 0.3,
+     "stage": 0,
+     "rect": {
+      "l": 158,
+      "r": 359,
+      "t": 131,
+      "b": 302
+     },
+     "particles": 0,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "stage4": {
+    "combo": 21,
+    "fx": {
+     "visible": true,
+     "value": 21,
+     "alpha": 0.3,
+     "stage": 4,
+     "rect": {
+      "l": 109,
+      "r": 407,
+      "t": 131,
+      "b": 302
+     },
+     "particles": 32,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   },
+   "judge": {
+    "ground": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 47,
+      "r": 99,
+      "t": 480,
+      "b": 516
+     }
+    },
+    "orb": {
+     "grade": 1,
+     "pct": 100,
+     "drawn": true,
+     "hidePct": false,
+     "skip": false,
+     "kind": "orb",
+     "box": {
+      "l": 44,
+      "r": 96,
+      "t": 462,
+      "b": 498
+     }
+    }
+   },
+   "clear": {
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 4,
+     "rect": null,
+     "particles": 32,
+     "Hn": 109.8,
+     "reduced": false
+    },
+    "judge": null
+   },
+   "death": {
+    "state": "dead",
+    "fx": {
+     "visible": false,
+     "value": 6,
+     "alpha": 0,
+     "stage": 2,
+     "rect": null,
+     "particles": 0,
+     "Hn": 109.8,
+     "reduced": false
+    }
+   }
+  },
+  "reduced 640x360": {
+   "visible": true,
+   "value": 21,
+   "alpha": 0.3,
+   "stage": 4,
+   "rect": {
+    "l": 274,
+    "r": 414,
+    "t": 48,
+    "b": 129
+   },
+   "particles": 0,
+   "Hn": 50.400000000000006,
+   "reduced": true
+  },
+  "reduced 1280x720": {
+   "visible": true,
+   "value": 21,
+   "alpha": 0.3,
+   "stage": 4,
+   "rect": {
+    "l": 550,
+    "r": 826,
+    "t": 95,
+    "b": 251
+   },
+   "particles": 0,
+   "Hn": 100.80000000000001,
+   "reduced": true
+  }
+ }
+}

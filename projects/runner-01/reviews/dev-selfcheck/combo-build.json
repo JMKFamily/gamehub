@@ -1,17 +1,17 @@
 {
- "n_per": 40,
+ "n_per": 20,
  "s1": true,
  "b1": {
   "01/child_sd70": {
-   "n": 40,
-   "clear": 13,
-   "judged": 365,
+   "n": 20,
+   "clear": 7,
+   "judged": 207,
    "mismatch": 0
   },
   "01/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 600,
+   "n": 20,
+   "clear": 20,
+   "judged": 300,
    "mismatch": 0
   },
   "01/perfect": {
@@ -21,15 +21,15 @@
    "mismatch": 0
   },
   "02/child_sd70": {
-   "n": 40,
-   "clear": 7,
-   "judged": 556,
+   "n": 20,
+   "clear": 1,
+   "judged": 191,
    "mismatch": 0
   },
   "02/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 960,
+   "n": 20,
+   "clear": 20,
+   "judged": 480,
    "mismatch": 0
   },
   "02/perfect": {
@@ -39,15 +39,15 @@
    "mismatch": 0
   },
   "03/child_sd70": {
-   "n": 40,
-   "clear": 3,
-   "judged": 247,
+   "n": 20,
+   "clear": 0,
+   "judged": 90,
    "mismatch": 0
   },
   "03/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 640,
+   "n": 20,
+   "clear": 20,
+   "judged": 320,
    "mismatch": 0
   },
   "03/perfect": {
@@ -57,15 +57,15 @@
    "mismatch": 0
   },
   "04/child_sd70": {
-   "n": 40,
-   "clear": 6,
-   "judged": 332,
+   "n": 20,
+   "clear": 3,
+   "judged": 160,
    "mismatch": 0
   },
   "04/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 1000,
+   "n": 20,
+   "clear": 19,
+   "judged": 494,
    "mismatch": 0
   },
   "04/perfect": {
@@ -75,15 +75,15 @@
    "mismatch": 0
   },
   "05/child_sd70": {
-   "n": 40,
-   "clear": 1,
-   "judged": 191,
+   "n": 20,
+   "clear": 0,
+   "judged": 87,
    "mismatch": 0
   },
   "05/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 800,
+   "n": 20,
+   "clear": 20,
+   "judged": 400,
    "mismatch": 0
   },
   "05/perfect": {
@@ -93,69 +93,69 @@
    "mismatch": 0
   },
   "06/child_sd70": {
-   "n": 40,
-   "clear": 1,
-   "judged": 201,
+   "n": 20,
+   "clear": 0,
+   "judged": 111,
    "mismatch": 0
   },
   "06/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 720,
+   "n": 20,
+   "clear": 19,
+   "judged": 427,
    "mismatch": 0
   },
   "06/perfect": {
    "n": 1,
    "clear": 1,
-   "judged": 18,
+   "judged": 22,
    "mismatch": 0
   },
   "07/child_sd70": {
-   "n": 40,
-   "clear": 1,
-   "judged": 184,
+   "n": 20,
+   "clear": 0,
+   "judged": 92,
    "mismatch": 0
   },
   "07/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 880,
+   "n": 20,
+   "clear": 19,
+   "judged": 493,
    "mismatch": 0
   },
   "07/perfect": {
    "n": 1,
    "clear": 1,
-   "judged": 22,
+   "judged": 25,
    "mismatch": 0
   },
   "08/child_sd70": {
-   "n": 40,
-   "clear": 3,
-   "judged": 262,
+   "n": 20,
+   "clear": 0,
+   "judged": 82,
    "mismatch": 0
   },
   "08/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 1000,
+   "n": 20,
+   "clear": 20,
+   "judged": 520,
    "mismatch": 0
   },
   "08/perfect": {
    "n": 1,
    "clear": 1,
-   "judged": 25,
+   "judged": 26,
    "mismatch": 0
   },
   "09/child_sd70": {
-   "n": 40,
-   "clear": 3,
-   "judged": 240,
+   "n": 20,
+   "clear": 0,
+   "judged": 120,
    "mismatch": 0
   },
   "09/skilled_sd25": {
-   "n": 40,
-   "clear": 40,
-   "judged": 1080,
+   "n": 20,
+   "clear": 20,
+   "judged": 540,
    "mismatch": 0
   },
   "09/perfect": {
@@ -165,21 +165,21 @@
    "mismatch": 0
   },
   "10/child_sd70": {
-   "n": 40,
-   "clear": 3,
-   "judged": 251,
+   "n": 20,
+   "clear": 0,
+   "judged": 69,
    "mismatch": 0
   },
   "10/skilled_sd25": {
-   "n": 40,
-   "clear": 38,
-   "judged": 1043,
+   "n": 20,
+   "clear": 18,
+   "judged": 586,
    "mismatch": 0
   },
   "10/perfect": {
    "n": 1,
    "clear": 1,
-   "judged": 27,
+   "judged": 31,
    "mismatch": 0
   }
  },
@@ -227,24 +227,24 @@
   {
    "id": "06",
    "clear": true,
-   "grades": 18,
-   "taps": 18,
-   "accuracy": 100,
-   "ok": true
-  },
-  {
-   "id": "07",
-   "clear": true,
    "grades": 22,
    "taps": 22,
    "accuracy": 100,
    "ok": true
   },
   {
-   "id": "08",
+   "id": "07",
    "clear": true,
    "grades": 25,
    "taps": 25,
+   "accuracy": 100,
+   "ok": true
+  },
+  {
+   "id": "08",
+   "clear": true,
+   "grades": 26,
+   "taps": 26,
    "accuracy": 100,
    "ok": true
   },
@@ -259,8 +259,8 @@
   {
    "id": "10",
    "clear": true,
-   "grades": 27,
-   "taps": 27,
+   "grades": 31,
+   "taps": 31,
    "accuracy": 100,
    "ok": true
   }
@@ -271,24 +271,32 @@
     "combo": 5,
     "aria": 5,
     "visible": true,
+    "ariaHiddenLabel": false,
     "judge": {
      "grade": 1,
      "pct": 100,
      "drawn": true,
      "hidePct": false,
-     "skip": false
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 256,
+      "r": 373,
+      "t": 428,
+      "b": 504
+     }
     },
     "lastPct": 100,
     "comboRect": [
-     493,
-     42,
-     247,
-     21
+     592,
+     95,
+     197,
+     165
     ],
     "overlapPause": false,
     "overlapAtt": false,
-    "cueTop": 71,
-    "comboBottom": 63
+    "cueTop": 0,
+    "comboBottom": 260
    },
    "clear": {
     "state": "clear",
@@ -302,8 +310,8 @@
    },
    "bcMarkInsideButton": 0,
    "aria": [
-    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
-    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+    "- meter \"1. 최고 연속 성공\"",
+    "- meter \"2. 최고 연속 성공\""
    ]
   },
   "640x360": {
@@ -311,24 +319,32 @@
     "combo": 5,
     "aria": 5,
     "visible": true,
+    "ariaHiddenLabel": false,
     "judge": {
      "grade": 1,
      "pct": 100,
      "drawn": true,
      "hidePct": false,
-     "skip": false
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 128,
+      "r": 187,
+      "t": 213,
+      "b": 252
+     }
     },
     "lastPct": 100,
     "comboRect": [
-     221,
-     40,
-     150,
-     13
+     296,
+     48,
+     99,
+     85
     ],
     "overlapPause": false,
     "overlapAtt": false,
-    "cueTop": 64,
-    "comboBottom": 52
+    "cueTop": 0,
+    "comboBottom": 133
    },
    "clear": {
     "state": "clear",
@@ -342,8 +358,8 @@
    },
    "bcMarkInsideButton": 0,
    "aria": [
-    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
-    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+    "- meter \"1. 최고 연속 성공\"",
+    "- meter \"2. 최고 연속 성공\""
    ]
   },
   "360x640": {
@@ -351,24 +367,32 @@
     "combo": 5,
     "aria": 5,
     "visible": true,
+    "ariaHiddenLabel": false,
     "judge": {
      "grade": 1,
      "pct": 100,
      "drawn": true,
      "hidePct": false,
-     "skip": false
+     "skip": false,
+     "kind": "ground",
+     "box": {
+      "l": 34,
+      "r": 86,
+      "t": 335,
+      "b": 371
+     }
     },
     "lastPct": 100,
     "comboRect": [
-     81,
-     81,
      150,
-     13
+     87,
+     122,
+     102
     ],
     "overlapPause": false,
     "overlapAtt": false,
-    "cueTop": 101,
-    "comboBottom": 93
+    "cueTop": 0,
+    "comboBottom": 189
    },
    "clear": {
     "state": "clear",
@@ -382,17 +406,17 @@
    },
    "bcMarkInsideButton": 0,
    "aria": [
-    "meter \"1. 이어서 잘 뛴 최고 기록\" = ",
-    "meter \"2. 이어서 잘 뛴 최고 기록\" = "
+    "- meter \"1. 최고 연속 성공\"",
+    "- meter \"2. 최고 연속 성공\""
    ]
   }
  },
  "console": [],
  "external": [],
  "b1_total": {
-  "cases": 810,
+  "cases": 410,
   "mismatch": 0,
-  "judged": 11771
+  "judged": 6000
  },
  "u2": {
   "combo_off": {

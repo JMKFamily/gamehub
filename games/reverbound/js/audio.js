@@ -66,14 +66,12 @@ export function createAudio(music) {
     musicGain = ctx.createGain(); musicGain.connect(comp);
     sfxGain = ctx.createGain(); sfxGain.connect(comp);
     A.setVolumes(A.musicVol, A.sfxVol);
-    const len = ctx.sampleRate;
-    noise = ctx.createBuffer(1, len, ctx.sampleRate);
-    const d = noise.getChannelData(0);
-    let s = 12345;
-    for (let i = 0; i < len; i++) { s = (s * 1103515245 + 12345) & 0x7fffffff; d[i] = (s / 0x3fffffff) - 1; }
+    // (round-3 메뉴 전환 ≤ 100 ms) 잡음 버퍼는 첫 탭 프레임 밖에서 만듦. 첫 소리(음악·사망음)는 자동 지연 안정 대기(≥ 0.25 s) 뒤라 그 전에 준비됨
+    setTimeout(makeNoise, 60);
     return ctx;
   };
-  A.unlock = () => { const c = A.init(); if (c && c.state === 'suspended') c.resume(); };
+  // 반환: resume 약속(이미 켜져 있으면 바로 끝난 약속). 컨텍스트는 로드 때 멈춘 상태로 만들어 둘 수 있음 (main setup)
+  A.unlock = () => { const c = A.init(); if (c && c.state === 'suspended') return c.resume().catch(() => {}); return Promise.resolve(); };
   A.running = () => !!A.ctx && A.ctx.state === 'running';
   A.setVolumes = (m, s) => {
     A.musicVol = m; A.sfxVol = s;
@@ -112,7 +110,17 @@ export function createAudio(music) {
     o.connect(dest); o.start(t); o.stop(t + dur + 0.05);
     return o;
   }
+  function makeNoise() {
+    if (noise || !A.ctx) return;
+    const ctx = A.ctx, len = ctx.sampleRate;
+    const nb = ctx.createBuffer(1, len, ctx.sampleRate);
+    const d = nb.getChannelData(0);
+    let s = 12345;
+    for (let i = 0; i < len; i++) { s = (s * 1103515245 + 12345) & 0x7fffffff; d[i] = (s / 0x3fffffff) - 1; }
+    noise = nb;
+  }
   function noiseSrc(t, dur, dest) {
+    makeNoise(); // 아직 없으면 바로 만듦 (같은 값)
     const n = A.ctx.createBufferSource();
     n.buffer = noise; n.loop = true;
     n.connect(dest); n.start(t, Math.random() * 0.5); n.stop(t + dur + 0.05);
@@ -365,7 +373,8 @@ export function createAudio(music) {
     const ctxStart = ctx.currentTime + leadS - fromS;
     run = { level, L, theme, m: music.levels[theme] ?? music.levels.level1, rules: rulesFor(level), ctxStart, comp, beatS, stepS,
       nextStep: Math.ceil(fromS / stepS - 1e-6), endS: level.duration_s + 4 };
-    pump();
+    // (round-3) 첫 예약을 시도 시작 프레임 밖으로 (첫 음은 leadS ≥ 0.05 s + 지연 뒤라 다음 작업에서 예약해도 늦지 않음)
+    setTimeout(pump, 0);
     timer = setInterval(pump, music.scheduler_interval_ms);
     A.playing = true;
     return ctxStart;
@@ -438,17 +447,20 @@ export function createAudio(music) {
     } else if (name === 'new_best') {
       beep(S.new_best.f, S.new_best.s, S.new_best.db, t + S.new_best.delay_s);
     } else if (name === 'combo_mark') {
-      // 콤보 10·20 단계 화음 (30-art 5-8-3): 판정 박 + delay_beats 시각에 예약. 레벨 근음(옥타브 root_octave)·3음·5음(20은 + 위 근음)
+      // 콤보 단계 화음 (30-art 5-8-6, round-3: 5·10·15·20, 음 2·3·4·5개): 판정 박 + delay_beats 시각에 예약.
+      // 음 하나 gain = (1/3)·√(3/음 수) (voice_norm sqrt_3_over_n: 음 수가 늘어도 크기가 같게, 3음 = round-2 렌더 기준)
       const p = S.combo_mark; if (!p || !run) return;
       const m = run.m, rootName = /^([A-G]#?)/.exec(m.root ?? 'A3')[1];
       const rootHz = noteHz(rootName + (p.root_octave ?? 4));
-      const tones = p.tones[String(opt.mark)] ?? p.tones['10'];
+      const tones = p.tones[String(opt.mark)];
+      if (!tones) return;
+      const peak = p.voice_norm === 'sqrt_3_over_n' ? Math.sqrt(3 / tones.length) / 3 : 1 / tones.length;
       const tGame = opt.beatTimeS + p.delay_beats * run.beatS;
       const tc = Math.max(t, run.ctxStart + tGame - run.comp);
       for (const st of tones) {
         const semi = st === 'third' ? (m.third ?? 4) : st;
         const g = sfxOut(p.db), e = A.ctx.createGain(); e.connect(g);
-        env(e, tc, p.a, 1 / tones.length, p.decay_s);
+        env(e, tc, p.a, peak, p.decay_s);
         osc(p.wave, rootHz * Math.pow(2, semi / 12), tc, p.decay_s, e);
       }
     } else if (name === 'tick') {

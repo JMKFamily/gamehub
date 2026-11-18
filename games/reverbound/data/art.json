@@ -6,70 +6,110 @@
    "bgFar": "#2A3341",
    "bgPulse": "#31343F",
    "bgAccent": "#3C302C",
-   "ground": "#8A7F70"
+   "ground": "#8A7F70",
+   "comboFx1": "#103173",
+   "comboFx2": "#4B1384",
+   "comboFx3": "#670F43",
+   "comboFx4": "#093F09"
   },
   "level2": {
    "bg": "#1D1B36",
    "bgFar": "#2A2650",
    "bgPulse": "#30294F",
    "bgAccent": "#45264E",
-   "ground": "#8C7FBC"
+   "ground": "#8C7FBC",
+   "comboFx1": "#711051",
+   "comboFx2": "#59148B",
+   "comboFx3": "#1925AC",
+   "comboFx4": "#0C4153"
   },
   "level3": {
    "bg": "#121820",
    "bgFar": "#1F2833",
    "bgPulse": "#2B3644",
    "bgAccent": "#302F25",
-   "ground": "#6F8597"
+   "ground": "#6F8597",
+   "comboFx1": "#103473",
+   "comboFx2": "#431593",
+   "comboFx3": "#640E5D",
+   "comboFx4": "#094109"
   },
   "level4": {
    "bg": "#15282B",
    "bgFar": "#1C3438",
    "bgPulse": "#243B3E",
    "bgAccent": "#1F3344",
-   "ground": "#658A85"
+   "ground": "#658A85",
+   "comboFx1": "#2F17A4",
+   "comboFx2": "#610F69",
+   "comboFx3": "#094109",
+   "comboFx4": "#303C09"
   },
   "level5": {
    "bg": "#161E33",
    "bgFar": "#1F2A44",
    "bgPulse": "#26304A",
    "bgAccent": "#33304A",
-   "ground": "#73819F"
+   "ground": "#73819F",
+   "comboFx1": "#2E3A08",
+   "comboFx2": "#660F49",
+   "comboFx3": "#2D179F",
+   "comboFx4": "#093F09"
   },
   "level6": {
    "bg": "#241A33",
    "bgFar": "#30244A",
    "bgPulse": "#382B50",
    "bgAccent": "#3A2A4E",
-   "ground": "#8A78A8"
+   "ground": "#8A78A8",
+   "comboFx1": "#491386",
+   "comboFx2": "#640E4F",
+   "comboFx3": "#103173",
+   "comboFx4": "#1E3C09"
   },
   "level7": {
    "bg": "#10161C",
    "bgFar": "#1A222B",
    "bgPulse": "#232D38",
    "bgAccent": "#1D2A33",
-   "ground": "#6C8094"
+   "ground": "#6C8094",
+   "comboFx1": "#0D345C",
+   "comboFx2": "#341591",
+   "comboFx3": "#5C0D5C",
+   "comboFx4": "#093C09"
   },
   "level8": {
    "bg": "#142218",
    "bgFar": "#1C2E21",
    "bgPulse": "#243826",
    "bgAccent": "#2E3320",
-   "ground": "#6A8865"
+   "ground": "#6A8865",
+   "comboFx1": "#0D3E09",
+   "comboFx2": "#650E48",
+   "comboFx3": "#14288D",
+   "comboFx4": "#50127C"
   },
   "level9": {
    "bg": "#1B2436",
    "bgFar": "#24304A",
    "bgPulse": "#2C3852",
    "bgAccent": "#3A3550",
-   "ground": "#7489A6"
+   "ground": "#7489A6",
+   "comboFx1": "#1A1AB9",
+   "comboFx2": "#62127C",
+   "comboFx3": "#731042",
+   "comboFx4": "#0A460A"
   },
   "level10": {
    "bg": "#2A1628",
    "bgFar": "#3A1F36",
    "bgPulse": "#42253C",
    "bgAccent": "#45282E",
-   "ground": "#987289"
+   "ground": "#987289",
+   "comboFx1": "#570E63",
+   "comboFx2": "#640E32",
+   "comboFx3": "#21169A",
+   "comboFx4": "#0B364C"
   }
  },
  "common": {
@@ -83,7 +123,9 @@
   "gateSlow": "#8FB8FF",
   "gateNormal": "#ECE6D8",
   "gateFast": "#F28AD0",
-  "hud": "#F4F0E8"
+  "hud": "#F4F0E8",
+  "comboNum": "#F4F0E8",
+  "judgePlate": "#0D0F14"
  },
  "cardTint": {
   "level1": "#F2C38B",
@@ -237,5 +279,10 @@
    "pairs": 27,
    "hazard_min": 5.78
   }
+ },
+ "combo_contrast": {
+  "source": "30-art 부록 A-2",
+  "checks": 13204,
+  "fail": 0
  }
 }

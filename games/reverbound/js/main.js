@@ -6,6 +6,7 @@ import { createAudio, expandThemes } from './audio.js';
 import { createComboJudge, updateBest } from './combo.js';
 import { ads } from './ads.js';
 import { safePoints } from './practice.js';
+import { createComboFx } from './combofx.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
@@ -111,7 +112,12 @@ function cardObject(kind, C, tint) {
     case 'orb': return `<svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="none" stroke="${C.trigger}" stroke-width="1.2" stroke-dasharray="2.5 2.5" opacity=".7"/><circle cx="18" cy="18" r="9" fill="none" stroke="${o}" stroke-width="5"/><circle cx="18" cy="18" r="9" fill="none" stroke="${C.trigger}" stroke-width="3"/><circle cx="18" cy="18" r="2.2" fill="${C.trigger}"/></svg>`;
     case 'spike_ceiling': return `<svg viewBox="0 0 36 36"><rect x="2" y="1" width="32" height="4" fill="${C.ground}" stroke="${o}" stroke-width="1.5"/><polygon points="6,5 30,5 18,33" fill="${C.hazard}" stroke="${o}" stroke-width="2"/></svg>`;
     case 'platform_stairs': return `<svg viewBox="0 0 54 36"><rect x="2" y="22" width="24" height="6" rx="1.5" fill="${C.ground}" stroke="${o}" stroke-width="2"/><rect x="28" y="6" width="24" height="6" rx="1.5" fill="${C.ground}" stroke="${o}" stroke-width="2"/><rect x="4" y="24" width="20" height="1.6" fill="${C.groundEdge}"/><rect x="30" y="8" width="20" height="1.6" fill="${C.groundEdge}"/></svg>`;
-    case 'sun': return `<svg viewBox="0 0 54 36"><path d="M7 35A20 20 0 0 1 47 35Z" fill="${tint}" stroke="${o}" stroke-width="2"/></svg>`; // 30-art 5-5: 면 = level10 cardTint, player 노랑 없음
+    case 'sun': { // 30-art 5-5 round-3 (assets/card-sun.svg): 떠 있는 꽉 찬 원 + 둥근 끝 빛살 5개, 면 = level10 cardTint, player 노랑 없음
+      const L5 = [[50, 12, 50, 4], [26, 22, 20, 16], [74, 22, 80, 16], [16, 46, 7, 46], [84, 46, 93, 46]];
+      const ln = (set, w, c) => `<g stroke="${c}" stroke-width="${w}">${set.map(([a, b, x, y]) => `<line x1="${a}" y1="${b}" x2="${x}" y2="${y}"/>`).join('')}</g>`;
+      const L3 = [L5[0], L5[3], L5[4]]; // 오브젝트 높이 < 28 px: 위·왼·오른 3개, 굵기 9 (layoutCards가 .sm)
+      return `<svg viewBox="0 0 100 100"><g class="r5" stroke-linecap="round">${ln(L5, 13, o)}${ln(L5, 7, tint)}</g><g class="r3" stroke-linecap="round">${ln(L3, 15, o)}${ln(L3, 9, tint)}</g><circle cx="50" cy="46" r="26" fill="${tint}" stroke="${o}" stroke-width="4"/></svg>`;
+    }
     default: return '';
   }
 }
@@ -180,7 +186,8 @@ async function boot() {
     setup();
   } catch (err) {
     console.warn('load failed', err);
-    $('loadingText').textContent = STR.strings ? t('load_error') : 'Load error';
+    // 부트 문구는 index.html 인라인(10-lore 값, sync-data가 넣음)이 언어를 정해 둠. 영어 고정 문구 없음
+    $('loadingText').textContent = STR.strings ? t('load_error') : (window.__boot?.s?.load_error ?? '…');
     $('retryLoad').classList.remove('hidden');
   }
 }
@@ -202,6 +209,9 @@ function setup() {
   R.resize();
   audio = createAudio(music);
   audio.enabled = !TEST;
+  // (round-3 첫 탭 ≤ 100 ms) AudioContext는 로드 화면 뒤에서 만들어 둠(멈춘 상태, 소리 없음). 첫 탭은 resume()만 함.
+  // 6배 스로틀 실측: 첫 탭 안에서 만들면 생성자만 약 160~200 ms, 미리 만들면 첫 탭 안 작업 약 30 ms (DEV_NOTES D27)
+  if (!TEST) audio.init();
   applySettings();
   G = createGame(bal, {
     onAttempt(n, fromS) { onAttempt(n, fromS); },
@@ -219,9 +229,17 @@ function setup() {
   }
   R.prepare(COMPILED[0]);
   applyTheme(LEVELS[0].theme_id);
+  // (round-3) 콤보 연출 아틀라스: 로드 화면 뒤에서 레벨 1 테마로 미리 만들고 한 번 그려 둠 (30-art 5-8-4)
+  FX = createComboFx(R, art, bal, { t, reduced: REDUCED, rand });
+  measureHud();
+  FX.build(LEVELS[0].theme_id);
+  R.draw({ x: 0, y: 0, rot: 0, camX: 0, beat: 0, beatS: 0.5, intensity: 1, showPlayer: false, warm: FX.warm });
   fillStaticText();
+  // 레벨 선택 화면을 로드 때 한 번 만들어 둠 (메뉴 전환 ≤ 100 ms, 결정 22)
+  prebuildCards();
+  prebuildCueRects();
   ads.init();
-  window.addEventListener('resize', () => { R.resize(); applyTheme(curTheme()); checkRotate(); if (screen === 'levels') layoutCards(); if (screen === 'settings') settingsScrollHint(); demoPlace = null; layoutCombo(); });
+  window.addEventListener('resize', () => { R.resize(); applyTheme(curTheme()); checkRotate(); cardsLayoutKey = ''; if (screen === 'levels') layoutCards(); if (screen === 'settings') settingsScrollHint(); demoPlace = null; measureHud(); if (G.L) FX.build(G.L.level.theme_id); });
   document.addEventListener('visibilitychange', () => { if (document.hidden) onHidden(); });
   window.addEventListener('blur', () => { if (!TEST && screen === 'playing' && G.state === 'playing') pauseGame(true); });
   bindInput();
@@ -235,6 +253,15 @@ function fillStaticText() {
   document.documentElement.lang = LANG;
   $('titleMain').textContent = t('title');
   $('titleAlt').textContent = LANG === 'ko' ? STR.strings.title.en : STR.strings.title.ko;
+  $('titleAlt').setAttribute('lang', LANG === 'ko' ? 'en' : 'ko'); // 10-lore 5-7: 다른 언어 이름에 lang
+  // 대체 글 (10-lore 5-7 aria_* 키, 하드코딩 0곳)
+  $('cv').setAttribute('aria-label', t('aria_game'));
+  $('pauseBtn').setAttribute('aria-label', t('aria_pause'));
+  for (const b of document.querySelectorAll('[data-back]')) b.setAttribute('aria-label', t('aria_back'));
+  $('hubLink').setAttribute('aria-label', t('aria_hub'));
+  $('rotateClose').setAttribute('aria-label', t('aria_close'));
+  $('retryLoad').setAttribute('aria-label', t('aria_retry_load'));
+  $('bMute').setAttribute('aria-label', t('aria_music'));
   $('subtitle').textContent = t('subtitle');
   // 30-art 5-4: 손가락 40 px 이상, hud 불투명, 누름 + 손끝 링
   $('tapStartText').innerHTML = `<svg class="tapFinger" viewBox="0 0 48 58" aria-hidden="true"><circle class="rg" cx="24" cy="9" r="16" fill="none" stroke="currentColor" stroke-width="3"/><g class="f" fill="currentColor" stroke="${DATA.art.common.outline}" stroke-width="2.5"><rect x="17" y="4" width="14" height="30" rx="7"/><rect x="9" y="26" width="30" height="28" rx="11"/></g></svg><span>${t('tap_to_start')}</span>`;
@@ -269,7 +296,7 @@ function fillStaticText() {
   $('stAcc').setAttribute('aria-label', t('result_accuracy_aria'));
   $('stCombo').setAttribute('aria-label', t('result_best_combo_aria'));
   for (const e of document.querySelectorAll('#clearStats .nbt')) e.textContent = t('result_new_best_aria');
-  $('combo').querySelector('.cmDots').innerHTML = '<i></i>'.repeat(DATA.bal.combo.dots_per_mark);
+  $('stCombo').querySelector('.lb').textContent = t('combo_label');
 }
 
 // ---------------------------------------------------------------- 화면 전환
@@ -288,7 +315,9 @@ function show(name) {
   if (name === 'levels') renderCards();
   if (name === 'settings') renderSettings();
   if (name === 'title') {
-    const unlocked = audio.running() || TEST;
+    // 첫 탭(사용자 몸짓)을 받은 뒤에만 메뉴를 보임. 로드 때 만든 AudioContext가 브라우저 설정으로 이미 켜져 있어도 "눌러서 시작"은 그대로 (round-2와 같은 흐름).
+    // resume이 아직 안 끝났어도 메뉴는 보임 (소리는 resume이 끝나면 남)
+    const unlocked = TEST || tappedOnce;
     $('tapStart').classList.toggle('hidden', unlocked);
     $('menu').classList.toggle('hidden', !unlocked);
     $('hubLink').classList.toggle('hidden', !unlocked);
@@ -302,8 +331,13 @@ const levelName = (l, i) => {
   return s !== key ? s : l.name ?? String(i + 1); // 이름이 비어 있으면 레벨 번호
 };
 // 레벨 선택 카드 배치: 10장이 스크롤 없이 들어가게 (가로 5×2, 세로 2×5). 너무 작아지면 세로 스크롤 + 아래 화살표
+// (round-3 성능) 같은 화면 크기·같은 카드 내용이면 다시 재지 않음. 읽기를 모은 뒤 쓰기를 모아 강제 레이아웃 1번
+let cardsLayoutKey = '';
 function layoutCards() {
   const scr = $('levels'), wrap = $('cards');
+  const key = `${innerWidth}x${innerHeight}|${cardsStateKey}`;
+  if (key === cardsLayoutKey) return;
+  cardsLayoutKey = key;
   const cs = getComputedStyle(scr);
   const gapS = parseFloat(cs.rowGap) || 14;
   const W = scr.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
@@ -323,22 +357,48 @@ function layoutCards() {
   wrap.classList.toggle('scroll', scroll);
   $('cardsMore').classList.toggle('hidden', !scroll || wrap.scrollTop + wrap.clientHeight >= wrap.scrollHeight - 4);
   // 대표 오브젝트가 이름·태그 글자와 겹치지 않게: 글자 아래 ~ 지면 띠 위 사이에 맞춤 (최소 16 px, DEV_NOTES D13)
-  for (const c of wrap.children) {
+  const cs2 = [...wrap.children];
+  for (const c of cs2) { const obj = c.querySelector('.obj'); obj.style.height = ''; obj.classList.remove('objIn', 'sm'); }
+  const plan = cs2.map((c) => {
     const obj = c.querySelector('.obj'), band = c.querySelector('.band');
-    obj.style.height = ''; obj.classList.remove('objIn');
     let textB = 0;
     for (const e of c.querySelectorAll('.top, .nm, .tag')) if (e.offsetHeight) textB = Math.max(textB, e.offsetTop + e.offsetHeight);
-    const avail = band.offsetTop - 3 - textB - 2;
+    return { obj, avail: band.offsetTop - 3 - textB - 2, h: obj.offsetHeight };
+  });
+  for (const { obj, avail, h } of plan) {
     // 이름이 길어 16 px도 안 남으면 지면 띠 안 오른쪽에 세움
-    if (avail < 16) obj.classList.add('objIn');
-    else if (avail < obj.offsetHeight) obj.style.height = Math.floor(avail) + 'px';
+    let hh = h;
+    if (avail < 16) { obj.classList.add('objIn'); hh = 0; }
+    else if (avail < h) { obj.style.height = Math.floor(avail) + 'px'; hh = avail; }
+    if (hh && hh < 28) obj.classList.add('sm'); // 30-art 5-5: 해 빛살 3개
   }
+}
+// 단계 막대 표지 SVG (30-art 5-8-1·5-8-7·5-8-8): 세로 막대 4개, 닿은 단계만 불투명. 원·고리가 아님
+const STAGES = () => DATA.bal.combo.mark_at;
+const stageOf = (n) => STAGES().filter((m) => n >= m).length;
+function barsSvg(stage, h, cls = 'bars') {
+  const Hn = h / 0.6, bw = 0.14 * Hn, bg = 0.08 * Hn, W = 4 * bw + 3 * bg;
+  let r = '';
+  for (let i = 0; i < 4; i++) { const hh = h * (i + 1) / 4; r += `<rect x="${(i * (bw + bg)).toFixed(2)}" y="${(h - hh).toFixed(2)}" width="${bw.toFixed(2)}" height="${hh.toFixed(2)}" rx="${(0.03 * Hn).toFixed(2)}"${i < stage ? '' : ' fill-opacity=".35"'}/>`; }
+  return `<svg class="${cls}" viewBox="0 0 ${W.toFixed(2)} ${h}" width="${W.toFixed(1)}" height="${h}" aria-hidden="true" fill="currentColor">${r}</svg>`;
+}
+let cardsStateKey = '', cardsBuiltKey = '';
+function prebuildCards() {
+  // 로드 화면 뒤에서 한 번: 숨긴 채로 만들고 재 두기 (첫 레벨 선택 진입 비용을 로드 때 냄)
+  const s = $('levels');
+  s.style.visibility = 'hidden'; s.classList.add('show');
+  renderCards();
+  s.classList.remove('show'); s.style.visibility = '';
 }
 function renderCards() {
   const wrap = $('cards');
-  wrap.innerHTML = '';
   $('modeNormal').classList.toggle('on', !practiceSel);
   $('modePractice').classList.toggle('on', practiceSel);
+  // 내용이 같으면 DOM을 다시 만들지 않음 (메뉴 전환 성능)
+  cardsStateKey = (practiceSel ? 'p' : 'n') + LEVELS.map((l, i) => { const r = lv(l.id); return [r.cleared ? 1 : 0, Math.floor(r.best), Math.floor(r.bestPractice), r.bestCombo ?? 0, i === 0 || lv(LEVELS[i - 1].id).cleared || TEST ? 1 : 0].join(','); }).join(';');
+  if (cardsStateKey === cardsBuiltKey && wrap.childElementCount) { layoutCards(); return; }
+  cardsBuiltKey = cardsStateKey;
+  wrap.innerHTML = '';
   const allCleared = LEVELS.every((l) => lv(l.id).cleared);
   LEVELS.forEach((l, i) => {
     const rec = lv(l.id);
@@ -356,10 +416,12 @@ function renderCards() {
     b.style.borderColor = tint;
     b.style.setProperty('--ground', env.ground);
     const name = levelName(l, i);
-    const stars = '<span class="starRow">' + Array.from({ length: l.difficulty?.stars ?? 1 }, () => `<svg class="ico" viewBox="0 0 24 24"><polygon points="12,3 15,10 22,10 16.5,14.5 18.5,21 12,17 5.5,21 7.5,14.5 2,10 9,10" fill="${C.player}" stroke="${C.outline}" stroke-width="1.5"/></svg>`).join('') + '</span>';
+    // 별: SVG 하나에 N개 (round-3 메뉴 래스터 비용, 카드당 SVG 1장)
+    const nS = l.difficulty?.stars ?? 1;
+    const stars = `<span class="starRow" style="--n:${nS}"><svg class="ico" viewBox="0 0 ${25 * nS - 1} 24" aria-hidden="true">${Array.from({ length: nS }, (_, k) => `<polygon transform="translate(${25 * k} 0)" points="12,3 15,10 22,10 16.5,14.5 18.5,21 12,17 5.5,21 7.5,14.5 2,10 9,10"/>`).join('')}</svg></span>`.replace('<svg class="ico"', `<svg class="ico" fill="${C.player}" stroke="${C.outline}" stroke-width="1.5"`);
     const best = practiceSel ? t('best_practice', { pct: Math.floor(rec.bestPractice) }) : t('best_normal', { pct: Math.floor(rec.best) });
     b.innerHTML = `<span class="top"><span class="num">${i + 1}</span>${stars}</span><span class="nm">${name}</span><span class="tag">${t(`level${i + 1}_tag`)}</span>` +
-      `<span class="band"><span class="obj">${cardObject(DATA.art.card_object?.[l.theme_id], C, tint)}</span><span class="best">${unlocked ? best : ''}</span></span>` +
+      `<span class="band">${unlocked ? `<span class="prog" style="width:${Math.floor(practiceSel ? rec.bestPractice : rec.best)}%" aria-hidden="true"></span>` : ''}<span class="obj">${cardObject(DATA.art.card_object?.[l.theme_id], C, tint)}</span><span class="best">${unlocked ? best : ''}</span></span>` +
       (unlocked ? '' : `<span class="lockWrap">${ICON.lock}</span>`) +
       (rec.cleared ? `<span class="badge">${ICON.check}<span class="bt">${t('cleared_badge')}</span></span>` : '');
     b.setAttribute('aria-label', `${i + 1}. ${name}` + (unlocked ? '' : ` (${t('level_locked')})`));
@@ -370,11 +432,13 @@ function renderCards() {
     });
     b.addEventListener('pointerenter', () => { if (selLevel === i) return; selLevel = i; R.prepare(COMPILED[i]); applyTheme(l.theme_id); });
     cell.appendChild(b);
-    // 최고 콤보 표지 (10-lore 5-8 combo_best_aria): 버튼 aria-label에 묻히지 않게 버튼 밖 형제 요소. 일반 모드 기록 2 이상일 때만
+    // 최고 콤보 칩 (30-art 5-8-8, 10-lore combo_best_aria): 둥근 사각 18 px + 단계 막대 10 px + 숫자 14 px. 원이 아님.
+    // 버튼 aria-label에 묻히지 않게 버튼 밖 형제 요소. 일반 모드 기록 2 이상일 때만
     const bc = rec.bestCombo ?? 0;
     if (DATA.bal.combo.enabled && unlocked && !practiceSel && bc >= DATA.bal.combo.show_from) {
       const m = document.createElement('span');
       m.className = 'bcMark';
+      m.style.setProperty('--chipBg', env.bg + 'CC');
       m.id = 'bc' + i;
       m.setAttribute('role', 'meter');
       m.setAttribute('aria-label', `${i + 1}. ${t('combo_best_aria')}`);
@@ -382,8 +446,7 @@ function renderCards() {
       m.setAttribute('aria-valuemax', String(l.judge_taps?.length ?? bc));
       m.setAttribute('aria-valuenow', String(bc));
       m.setAttribute('aria-valuetext', String(bc));
-      const nMarks = Math.floor(bc / DATA.bal.combo.dots_per_mark);
-      m.innerHTML = '<i class="d"></i>'.repeat(nMarks) + `<b aria-hidden="true">${bc}</b>`;
+      m.innerHTML = barsSvg(stageOf(bc), 10) + `<b aria-hidden="true">${bc}</b>`;
       cell.appendChild(m);
     }
     wrap.appendChild(cell);
@@ -400,7 +463,9 @@ function renderSettings() {
   tog($('bShake'), s.shake); tog($('bTrig'), s.triggerSfx);
   $('bMute').classList.toggle('on', !s.muted);
   $('bMute').innerHTML = s.muted ? ICON.mute : ICON.sfx;
-  $('bMute').setAttribute('aria-label', s.muted ? t('settings_off') : t('settings_on'));
+  // 10-lore 5-7: 이름 = aria_music(대상만), 상태 = aria-pressed (켜짐 = 소리 남)
+  $('bMute').setAttribute('aria-label', t('aria_music'));
+  $('bMute').setAttribute('aria-pressed', s.muted ? 'false' : 'true');
   requestAnimationFrame(settingsScrollHint);
 }
 // 설정 패널이 넘치면 아래 그림자 + 화살표 (criteria: 스크롤이 필요하면 눈에 보이는 표시)
@@ -434,6 +499,7 @@ function safeFor(i) {
   return SAFE[i];
 }
 let pendingStart = null;
+let tappedOnce = false;
 function startLevel(i, practice) {
   // 오디오 잠금 해제 직후면 자동 지연(outputLatency)이 안정될 때까지 첫 시도를 미룸 (최대 1 s, frame()에서 이어서 시작)
   if (!TEST && audio.running() && !audio.latencyStable(performance.now() / 1000)) { pendingStart = [i, practice]; return; }
@@ -451,7 +517,8 @@ function startLevel(i, practice) {
   show('playing');
   J = createComboJudge(L.level.judge_taps ?? [], DATA.bal.combo, DATA.bal.physics_hz);
   $('combo').setAttribute('aria-valuemax', String(L.level.judge_taps?.length ?? 0));
-  layoutCombo();
+  // 콤보 연출 아틀라스: 첫 프레임 전에 (같은 크기·테마면 다시 만들지 않음). 첫 프레임에서 bg 아래에 한 번 그림
+  FX.build(L.level.theme_id); // HUD 아래 끝(R.hudBottom)은 로드·화면 크기 바뀜 때만 잼 (레벨 시작 프레임에 강제 레이아웃 없음)
   G.start(L, i, { practice, attempts: practice ? 0 : lv(L.level.id).attempts, preroll: prerollS(), safe: practice ? safeFor(i) : null });
   updateHud(true);
 }
@@ -461,8 +528,8 @@ function onAttempt(n, fromS) {
   if (J) J.reset(G.k, G.practice);
   const rec0 = lv(L.level.id);
   attemptBest = { combo: rec0.bestCombo ?? 0, acc: rec0.bestAccuracy ?? null };
-  comboUI = { shown: 0, popAt: -9, popBig: false, markAt: -9, markN: 0, dieAt: -9 };
-  judgeFx = null; lastResult = null;
+  FX.reset();
+  lastResult = null;
   $('comboLive').textContent = '';
   renderCombo(true);
   if (!G.practice) { lv(L.level.id).attempts = n; persist(); } else practiceAttempts = n;
@@ -488,8 +555,7 @@ function onDeath(d) {
   // 콤보 끊김 = 사망 (20-balance 15-3). 표시는 0.3 s 소리 없이 작아지며 사라짐 (30-art 5-8)
   if (J) J.onDeath();
   persist(); // bestCombo (일반 모드)
-  comboUI.dieAt = uiT;
-  if (judgeFx) judgeFx.dieAt = uiT;
+  FX.onBreak(uiT); // 숫자·파티클·판정 글 0.3 s 안에 조용히 (소리·✕·"0" 없음)
   audio.stopRun(true);
   audio.sfx('death');
   R.onDeath(d.x, d.y, DATA.bal.death_fx_s, DATA.bal.restart_delay_s);
@@ -530,6 +596,7 @@ function onClear() {
     newAcc: !G.practice && acc != null && attemptBest.acc != null && acc > attemptBest.acc,
     newCombo: !G.practice && J && J.combo > attemptBest.combo && attemptBest.combo > 0 };
   persist();
+  FX.onClear(uiT); // 30-art 5-7: 숫자·파티클·판정 글도 0.2 s에 사라짐
   R.onClear(camFor(G.x()));
   // 30-art 5-7: 진행도 100 % 후 HUD 전체 0.2 s 페이드아웃, 일시정지 입력 받지 않음
   updateHud(true);
@@ -547,7 +614,8 @@ function showClearScreen() {
   $('clearTitle').textContent = t(`clear_title_l${i + 1}`);
   const subs = STR.clear_subtitles || [];
   $('clearSub').textContent = subs.length ? subs[TEST ? 0 : Math.floor(Math.random() * subs.length)][LANG] : '';
-  $('clearAtt').textContent = t('clear_attempts', { n: G.attempts });
+  // 10-lore 5-5: 1번이면 단수 문구 (clear_attempts에 1을 넣지 않음)
+  $('clearAtt').textContent = G.attempts === 1 ? t('clear_attempts_one') : t('clear_attempts', { n: G.attempts });
   const last = i >= LEVELS.length - 1;
   const all = LEVELS.every((l) => lv(l.id).cleared);
   $('cNext').classList.toggle('hidden', last);
@@ -601,11 +669,13 @@ function onHidden() {
 // ---------------------------------------------------------------- 입력
 function bindInput() {
   const isUI = (e) => e.target.closest && e.target.closest('button, a, input, label, .panel, .card');
+  // 첫 탭: 오디오 켜기(resume)가 끝난 뒤 다음 작업으로 메뉴를 보임 (같은 프레임에 몰지 않음)
+  const afterUnlock = (pr) => { tappedOnce = true; const go = () => { if (screen === 'title') show('title'); }; pr.then(() => setTimeout(go, 0)); setTimeout(go, 400); };
   window.addEventListener('pointerdown', (e) => {
-    audio.unlock();
+    const pr = audio.unlock();
     if (screen === 'title' && !$('tapStart').classList.contains('hidden')) {
       e.preventDefault();
-      setTimeout(() => show('title'), 30);
+      afterUnlock(pr);
       return;
     }
     if (screen !== 'playing' || isUI(e)) return;
@@ -622,8 +692,8 @@ function bindInput() {
   window.addEventListener('contextmenu', (e) => e.preventDefault());
   const JUMP = new Set(['Space', 'ArrowUp', 'KeyW', 'Enter']);
   window.addEventListener('keydown', (e) => {
-    audio.unlock();
-    if (screen === 'title' && !$('tapStart').classList.contains('hidden')) { show('title'); return; }
+    const pr = audio.unlock();
+    if (screen === 'title' && !$('tapStart').classList.contains('hidden')) { afterUnlock(pr); return; }
     if (e.code === 'Escape' || e.code === 'KeyP') {
       if (screen === 'playing') pauseGame(); else if (screen === 'pause') resumeGame();
       else if (['levels', 'settings'].includes(screen)) show('title');
@@ -682,18 +752,32 @@ function bindInput() {
 let offTest = null;
 function offsetTest() {
   if (!audio.running()) { audio.unlock(); }
-  if (!audio.ctx) return;
-  const beat = 0.5, n = 8, ctx = audio.ctx;
-  const t0 = ctx.currentTime + 0.3 - audio.comp();
-  for (let i = 0; i < n; i++) audio.sfx('tick', { at: t0 + i * beat, hz: i % 4 ? 880 : 1320 });
-  offTest = { t0: t0 + audio.comp(), beat, n, taps: [] };
+  if (!audio.ctx || offTest) return;
   const out = $('offsetTestOut');
   out.textContent = '…';
+  // (round-3, criteria runner-01 round-2 줄) 시작 전에 자동 지연(outputLatency) 안정 대기 (첫 시도 startLevel과 같은 규칙, 최대 1 s)
+  offTest = { waiting: true };
+  const wait = () => {
+    if (screen !== 'settings') { offTest = null; out.textContent = ''; return; }
+    if (!audio.running() || !audio.latencyStable(performance.now() / 1000)) { requestAnimationFrame(wait); return; }
+    runOffsetTest(out);
+  };
+  wait();
+}
+function runOffsetTest(out) {
+  const beat = 0.5, n = 8, ctx = audio.ctx;
+  const off0 = save.settings.offset / 1000;
+  // 예약 시각 sched_i (그 순간 자동 지연 + 저장 보정만큼 일찍)
+  const sched0 = ctx.currentTime + 0.3 - audio.comp();
+  for (let i = 0; i < n; i++) audio.sfx('tick', { at: sched0 + i * beat, hz: i % 4 ? 880 : 1320 });
+  offTest = { sched0, off0, beat, n, taps: [] };
   const onTap = (e) => {
-    if (!offTest) return;
+    if (!offTest || offTest.waiting) return;
     if (e.target.id === 'bOffsetTest') return;
     const now = ctx.currentTime - (performance.now() - e.timeStamp) / 1000;
-    const rel = (now - offTest.t0) / offTest.beat;
+    // 탭마다 그 순간의 자동 지연으로 비교: 들리는 박 = 예약 시각 + autoNow + 저장 보정 (테스트 도중 지연이 바뀌어도 이중 보정 없음)
+    const heard0 = offTest.sched0 + audio.autoLatency() + offTest.off0;
+    const rel = (now - heard0) / offTest.beat;
     const nearest = Math.round(rel);
     if (nearest >= 0 && nearest < offTest.n) offTest.taps.push((rel - nearest) * offTest.beat * 1000);
   };
@@ -760,6 +844,18 @@ function updateHud(force) {
   if (force || c.op !== op) { $('hud').style.opacity = op; c.op = op; }
 }
 let cueSuppressed = false, cueRect = null;
+const cueRects = new Map();
+// 로드 화면 뒤에서 튜토리얼 카드 상자를 미리 잼 (첫 등장 프레임에 강제 레이아웃 없음)
+function prebuildCueRects() {
+  const el = $('cue'), keys = new Set(LEVELS.flatMap((l) => (l.cues || []).map((c) => c.key)));
+  for (const k of keys) {
+    el.innerHTML = cueIcon(k, colors(LEVELS[0].theme_id)) + `<span>${t(k)}</span>`;
+    el.classList.remove('hidden');
+    const r = el.getBoundingClientRect();
+    cueRects.set(k + '|' + innerWidth + 'x' + innerHeight, { l: r.left, r: r.right, t: r.top, b: r.bottom });
+  }
+  el.classList.add('hidden'); el.innerHTML = '';
+}
 const hit = (a, b, m = 8) => a && b && a.l < b.r + m && b.l < a.r + m && a.t < b.b + m && b.t < a.b + m;
 function updateCue() {
   const L = G.L;
@@ -776,8 +872,10 @@ function updateCue() {
       el.innerHTML = cueIcon(c.key, colors()) + `<span>${t(c.key)}</span>`;
       el.dataset.key = c.key;
       el.classList.remove('hidden');
-      const r = el.getBoundingClientRect();
-      cueRect = { l: r.left, r: r.right, t: r.top, b: r.bottom };
+      // 카드 상자는 (문구, 화면 크기)마다 한 번만 잼 (레벨 시작 프레임 강제 레이아웃 줄임, round-3 성능)
+      const ck = c.key + '|' + innerWidth + 'x' + innerHeight;
+      if (!cueRects.has(ck)) { const r = el.getBoundingClientRect(); cueRects.set(ck, { l: r.left, r: r.right, t: r.top, b: r.bottom }); }
+      cueRect = cueRects.get(ck);
       cueUntil = uiT + 3;
     }
   }
@@ -874,6 +972,7 @@ function frame(now) {
       syncClock();
     }
     if (screen !== 'pause' && screen !== 'countdown') uiTick(dt);
+    if (screen === 'playing' && !G.paused) fxUpdate(dt);
     R.update(dt);
     maybeShowClear();
   }
@@ -894,9 +993,9 @@ function draw(now, dt) {
     const beat = G.time / beatS;
     const sec = sectionAt(L.level, Math.max(0, beat));
     view = { x, y, rot, camX, beat, beatS, intensity: sec.intensity, showPlayer: G.state !== 'dead', G, cp: G.practice ? G.checkpoints[G.checkpoints.length - 1] : null };
+    comboViewHooks(view);
     R.draw(view);
     drawDemo(view);
-    drawJudge(view);
     if (screen === 'playing') { updateHud(false); updateCue(); renderCombo(false); }
   } else {
     // 메뉴 배경: 선택 레벨을 천천히 흘려 보여 줌
@@ -910,8 +1009,7 @@ function draw(now, dt) {
 
 // ---------------------------------------------------------------- 콤보·판정 표시 (30-art 5-8, 20-balance 15장)
 let J = null;                 // combo.js createComboJudge (combo-ref와 같은 규칙)
-let comboUI = { shown: 0, popAt: -9, popBig: false, markAt: -9, markN: 0, dieAt: -9 };
-let judgeFx = null;           // 떠 있는 판정 이름 + %
+function fxUpdate(dt) { if (G.L) FX.update(dt, uiT, G.L.V[Math.min(G.k, G.L.V.length - 1)] ?? 10); }
 let attemptBest = { combo: 0, acc: null };
 let lastResult = null;
 const CB = () => DATA.bal.combo;
@@ -923,207 +1021,69 @@ function onJudgeTick(k, ev, pressId) {
   const C = CB();
   if (!G.practice) { const rec = lv(G.L.level.id); if (J.combo > (rec.bestCombo ?? 0)) rec.bestCombo = J.combo; }
   if (!C.enabled) return;
-  // 칸 갱신 (판정 프레임에 시작). 5·15·25 작은 튐, 10·20 단계 연출 + 화음 (판정 박 + 0.5박)
-  comboUI.popAt = uiT;
-  comboUI.popBig = J.combo % C.dots_per_mark === C.small_pop_every;
-  if (J.combo % C.dots_per_mark === 0) {
-    comboUI.markAt = uiT; comboUI.markN = J.combo / C.dots_per_mark;
-    if (C.mark_at.includes(J.combo)) {
-      audio.sfx('combo_mark', { mark: J.combo, beatTimeS: G.L.level.judge_taps[r.i].t_s });
-      const live = $('comboLive'); live.textContent = ''; live.textContent = t('combo_mark_aria');
+  // 큰 숫자 튐·단계(5·10·15·20) 파티클 (30-art 5-8-1·5-8-3). 단계 화음 = 판정 박 + 0.5박 (5-8-6)
+  FX.onCombo(J.combo, uiT);
+  if (C.mark_at.includes(J.combo)) {
+    audio.sfx('combo_mark', { mark: J.combo, beatTimeS: G.L.level.judge_taps[r.i].t_s });
+    const live = $('comboLive'); live.textContent = ''; live.textContent = t('combo_mark_aria');
+  }
+  if (C.judge_pct?.enabled) {
+    // 판정 글 자리 (5-8-2): 땅 탭 = 플레이어 뒤쪽 위, 고리 탭 = 고리 중심 왼쪽 아래. 판정 순간 한 번 계산
+    const T = R.T, camX = camFor(G.prev.x);
+    const playerL = R.W * R.playerRatio, playerTop = R.groundPx - (G.prev.y + 1) * T;
+    let orb = null;
+    if (ev & 2) {
+      const ids = G.s.used, o = G.L.byId.get(ids[ids.length - 1 - (ev & 8 ? 1 : 0)])?.src;
+      if (o) orb = { cx: (o.x + 0.5 - camX) * T, cy: R.groundPx - (o.y + 0.5) * T };
     }
+    const pR = G.prev.x + 1; // 플레이어 박스 오른쪽 끝 (월드)
+    // (b) 판정 순간 왼쪽 끝이 플레이어 오른쪽보다 오른쪽인 물체(앞쪽 물체)의 판정 상자만 (D24 오른쪽 확장 폐기)
+    const blocked = (l, rr, tp, b) => {
+      const wl = camX + l / T, wr = camX + rr / T, yb = (R.groundPx - b) / T, yt = (R.groundPx - tp) / T;
+      const ov = (a0, a1, b0, b1) => a0 < b1 && b0 < a1;
+      for (const z of G.L.hazards) if (z.x0 > pR && z.x0 < wr && ov(z.x0, z.x1, wl, wr) && ov(z.y0, z.y1, yb, yt)) return true;
+      const P = R.prepData();
+      if (P) for (const g of P.groups) if (g.x0 > pR && ov(g.x0, g.x1, wl, wr) && yt > g.y + 1) return true;
+      return false;
+    };
+    FX.onJudge(r.grade, r.pct ?? null, uiT, { playerL, playerTop, orb, hudBottom: R.hudBottom ?? 0, blocked });
   }
-  if (C.judge_pct?.enabled && r.pct != null) {
-    judgeFx = { grade: r.grade, pct: r.pct, t0: uiT, k, y: G.prev.y, camX: camFor(G.prev.x), box: null, dieAt: -9, drawn: false, hidePct: false, skip: false };
-  }
+}
+// HUD 띠 아래 끝 (판정 글 겹침 검사 (a)·파티클 영역). 화면 크기가 바뀔 때·레벨 시작 때만 잼 (매 판정 getBoundingClientRect 안 함)
+function measureHud() {
+  if (!R) return;
+  const hid = $('hud').classList.contains('hidden');
+  if (hid) $('hud').classList.remove('hidden');
+  R.hudBottom = hudBottom();
+  if (hid) $('hud').classList.add('hidden');
 }
 
-// 콤보 줄 자리: 진행도 바 바로 아래 6 px 가운데, 점 d = clamp(0.16타일, 7, 12), 간격 0.6d, 도넛 1.8d·간격 1.2d. 튜토리얼 카드 위 끝 = max(기본, 줄 아래 끝 + 8 px)
-let comboGeo = null;
-function layoutCombo() {
-  const el = $('combo'), bar = $('bar');
-  if (!R || !el) return;
-  const hudHidden = $('hud').classList.contains('hidden');
-  if (hudHidden) $('hud').classList.remove('hidden');
-  const br = bar.getBoundingClientRect();
-  const C = CB(), n = C.dots_per_mark;
-  const d = Math.max(7, Math.min(12, 0.16 * R.T)), gap = 0.6 * d, md = 1.8 * d, mgap = 1.2 * d;
-  const maxMarks = Math.max(1, ...C.mark_at.map((m) => m / n));
-  const dotsW = n * d + (n - 1) * gap, marksW = maxMarks * md + maxMarks * mgap;
-  const W = dotsW + marksW, H = md;
-  const left = br.left + br.width / 2 - W / 2, top = br.bottom + 6;
-  comboGeo = { d, gap, md, mgap, dotsX: marksW, W, H, left, top };
-  Object.assign(el.style, { left: left + 'px', top: top + 'px', width: W + 'px', height: H + 'px' });
-  el.style.setProperty('--d', d + 'px');
-  const cue = $('cue');
-  cue.style.top = '';
-  const baseTop = parseFloat(getComputedStyle(cue).top) || 0;
-  cue.style.top = Math.max(baseTop, top + H + 8) + 'px';
-  if (hudHidden) $('hud').classList.add('hidden');
-}
-const ease = (k) => 1 - (1 - k) * (1 - k);
-const setCss = (e, css) => { if (e._css !== css) { e.style.cssText = css; e._css = css; } };
-const setCls = (e, c) => { if (e._cls !== c) { e.className = c; e._cls = c; } };
+// 콤보 대체 글 (10-lore 5-8): 큰 숫자 블록 하나의 meter. aria-valuetext 숫자만, 0~1이면 hidden 속성만 (aria-hidden + label 금지)
 function renderCombo(force) {
   const el = $('combo');
-  if (!J || !comboGeo) return;
+  if (!J) return;
   const C = CB();
-  const dying = comboUI.dieAt >= 0 && uiT >= comboUI.dieAt;
-  const dieK = dying ? Math.min(1, (uiT - comboUI.dieAt) / (C.hud.break_fade_s ?? 0.3)) : 0;
-  const combo = dying ? comboUI.shown : J.combo;
-  if (!dying) comboUI.shown = J.combo;
-  const visible = C.enabled && combo >= C.show_from && dieK < 1;
-  const vkey = visible ? combo : -1;
-  if (el._v !== vkey) {
-    el._v = vkey;
-    el.classList.toggle('hidden', !visible);
-    if (visible) { el.setAttribute('aria-valuenow', String(combo)); el.setAttribute('aria-valuetext', String(combo)); el.removeAttribute('aria-hidden'); }
-    else el.setAttribute('aria-hidden', 'true');
-  }
-  if (!visible) return;
-  const tf = dying ? `scale(${(1 - 0.5 * dieK).toFixed(3)})` : '', op = dying ? (1 - dieK).toFixed(3) : '';
-  if (el._tf !== tf + op) { el.style.transform = tf; el.style.opacity = op; el._tf = tf + op; }
-  const g = comboGeo, n = C.dots_per_mark;
-  const since = uiT - comboUI.markAt;
-  const fxS = C.hud.mark_fx_s?.[String(comboUI.markN * n)] ?? 0.4;
-  const inMark = !dying && since >= 0 && since < fxS && combo % n === 0;
-  let marks = Math.floor(combo / n), filled = combo % n;
-  // 단계 연출: 0~0.25 s 찬 점 10개가 표지 자리로 모이며 작아짐, 0.25~0.4 s 표지가 0 → 1.25 → 1.0배로 생김
-  const gather = inMark && !REDUCED && since < 0.25;
-  if (gather) { filled = n; marks -= 1; }
-  // 도넛 표지 (오른쪽부터: 첫 표지가 점 줄 바로 왼쪽)
-  const mk = el.querySelector('.cmMarks');
-  while (mk.children.length < marks) mk.appendChild(document.createElement('i'));
-  while (mk.children.length > marks) mk.lastChild.remove();
-  [...mk.children].forEach((m, j) => {
-    const cx = g.dotsX - g.mgap - g.md / 2 - j * (g.md + g.mgap);
-    let sc = 1, op = 1;
-    if (inMark && j === marks - 1) {
-      if (REDUCED) op = Math.min(1, since / 0.2);
-      else { const k = (since - 0.25) / 0.15; sc = k < 0.5 ? 1.25 * ease(Math.max(0, k) / 0.5) : 1.25 - 0.25 * ((k - 0.5) / 0.5); sc = Math.max(0, Math.min(1.25, sc)); if (since >= 0.4) sc = 1; }
-    }
-    setCss(m, `left:${cx - g.md / 2}px;transform:scale(${sc.toFixed(3)});opacity:${op}`);
-  });
-  // 점 10칸
-  const dots = el.querySelector('.cmDots').children;
-  const markX = g.dotsX - g.mgap - g.md / 2 - (Math.floor(combo / n) - 1) * (g.md + g.mgap);
-  for (let j = 0; j < dots.length; j++) {
-    const dot = dots[j], x = g.dotsX + j * (g.d + g.gap);
-    const on = j < filled;
-    let sc = 1, tx = 0;
-    if (gather) { const k = ease(since / 0.25); tx = (markX - (x + g.d / 2)) * k; sc = 1 - 0.7 * k; }
-    else if (on && j === filled - 1 && !REDUCED) {
-      const pk = (uiT - comboUI.popAt) / (C.hud.pop_ms / 1000);
-      if (pk >= 0 && pk < 1) { const peak = comboUI.popBig ? 1.35 : C.hud.pop_scale; sc = pk < 0.5 ? 1 + (peak - 1) * (pk / 0.5) : peak - (peak - 1) * ((pk - 0.5) / 0.5); }
-    }
-    setCls(dot, on ? 'on' : '');
-    setCss(dot, `left:${x}px;transform:translateX(${tx.toFixed(1)}px) scale(${sc.toFixed(3)})`);
-  }
-  // 20 표지: 0.4~0.6 s 종이 조각 6개 (지름 0.3d, 클리어 색), 1.5d 아래로 떨어지며 사라짐, HUD 띠 안
-  const bits = el.querySelector('.cmBits');
-  const bitOn = inMark && !REDUCED && comboUI.markN * n === 20 && since >= 0.4 && since < 0.6;
-  if (!bitOn) { if (bits.childElementCount) bits.innerHTML = ''; }
-  else {
-    if (!bits.childElementCount) {
-      const cols = DATA.art.clear[G.L.level.theme_id] ?? [DATA.art.common.player];
-      bits.innerHTML = Array.from({ length: 6 }, (_, j) => `<b style="background:${cols[j % cols.length]};border-radius:${j % 2 ? '50%' : '0'}"></b>`).join('');
-    }
-    const k = (since - 0.4) / 0.2;
-    [...bits.children].forEach((b, j) => {
-      const a = (j / 6) * Math.PI * 2;
-      const cx = markX + Math.cos(a) * g.md * 0.7, cy = g.H / 2 + Math.sin(a) * g.md * 0.3 + 1.5 * g.d * k;
-      b.style.cssText += `;left:${cx}px;top:${Math.min(cy, g.H)}px;width:${0.3 * g.d}px;height:${0.3 * g.d}px;opacity:${1 - k}`;
-    });
-  }
+  const v = C.enabled && J.combo >= C.show_from && G.state !== 'dead' ? J.combo : -1;
+  if (!force && el._v === v) return;
+  el._v = v;
+  el.hidden = v < 0;
+  if (v >= 0) { el.setAttribute('aria-valuenow', String(v)); el.setAttribute('aria-valuetext', String(v)); }
 }
-
-// 판정 이름 + % (30-art 5-8-2): 플레이어 뒤쪽(왼쪽) 위, 판정 순간 화면 좌표에 고정. 0.45 s, 새 판정이 오면 바로 교체
-const JFONT = '"Segoe UI", system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif';
-function judgeBlockers(fx0, worldL, worldR, yBot, yTop) {
-  // 위험 판정 상자·고리·매다는 막대/줄이 [worldL, worldR] × [yBot, yTop](타일) 안에 있는지
-  const L = G.L, P = R.prepData();
-  const ov = (a0, a1, b0, b1) => a0 < b1 && b0 < a1;
-  for (const z of L.hazards) if (ov(z.x0, z.x1, worldL, worldR) && ov(z.y0, z.y1, yBot, yTop)) return true;
-  for (const o of L.level.objects) if (o.type === 'orb' && ov(o.x - 0.1, o.x + 1.1, worldL, worldR) && ov(o.y - 0.1, o.y + 1.1, yBot, yTop)) return true;
-  if (P) for (const g of P.groups) {
-    if (ov(g.x0, g.x1, worldL, worldR) && yTop > g.y + 1 - 1e-6) return true; // 막대·줄은 칸 윗변부터 화면 위 끝까지
-  }
-  return false;
-}
-function judgeLayout(fx, C) {
-  const T = R.T;
-  const scale = fx.grade === 1 ? 1 : fx.grade === 2 ? 0.9 : 0.8;
-  const fn = Math.max(16, Math.min(36, 0.5 * T) * scale), fp = Math.max(12, Math.min(22, 0.32 * T));
-  const ctx = R.ctx;
-  ctx.font = `900 ${fn}px ${JFONT}`;
-  const name = t('judge_name_' + fx.grade), pctTxt = t('judge_pct', { pct: fx.pct });
-  const wName = ctx.measureText(name).width;
-  ctx.font = `800 ${fp}px ${JFONT}`;
-  const wPct = ctx.measureText(pctTxt).width;
-  const dotD = fn * 0.2;
-  const playerL = R.W * R.playerRatio, playerTop = R.groundPx - (fx.y + 1) * T;
-  const hb = hudBottom() + 4;
-  const speed = G.L.V[Math.min(fx.k, G.L.V.length - 1)] ?? 10;
-  const tryBox = (withPct, shift) => {
-    const h = (withPct ? fp * 0.95 : 0) + fn * 0.95 + dotD * 1.6;
-    const w = Math.max(wName, withPct ? wPct : 0) + 6;
-    const r = playerL - 0.15 * T - shift * T, l = r - w, b = playerTop, top = b - h;
-    if (top < hb) return null;
-    const wl = fx.camX + l / T, wr = fx.camX + r / T + speed * 0.45; // 0.45 s 동안 글 밑을 지나갈 물체까지
-    const yb = (R.groundPx - b) / T, yt = (R.groundPx - top) / T;
-    if (judgeBlockers(fx, wl, wr, yb, yt)) return null;
-    return { l, r, t: top, b, w, h, withPct };
+// 프레임마다: 큰 숫자 블록 alpha(가까움·카드), 그리기 순서 훅 (30-art 5-8-0)
+let FX = null;
+function comboViewHooks(view) {
+  const T = R.T, camX = view.camX;
+  const near = (l, r, tp, b) => {
+    const wl = camX + l / T, wr = camX + r / T, yb = (R.groundPx - b) / T, yt = (R.groundPx - tp) / T;
+    // 플레이어 박스도 포함 (점프 꼭대기 머리)
+    if (view.showPlayer && view.x < wr && view.x + 1 > wl && view.y < yt && view.y + 1 > yb) return true;
+    return R.objectsIn(wl, wr, yb, yt);
   };
-  // ① % 숨김 → ② 왼쪽으로 최대 1타일 → ③ 생략 (콤보·점은 그대로)
-  let box = tryBox(true, 0);
-  if (!box) { box = tryBox(false, 0); if (box) fx.hidePct = true; }
-  for (const sh of [0.5, 1]) if (!box) { box = tryBox(false, sh); if (box) fx.hidePct = true; }
-  if (!box) { fx.skip = true; return null; }
-  return { ...box, fn, fp, dotD, name, pctTxt };
-}
-function drawJudge(view) {
-  const fx = judgeFx;
-  if (!fx || !CB().enabled || !CB().judge_pct?.enabled) return;
-  if (!G.L || !['playing', 'pause', 'countdown'].includes(screen)) return;
-  const age = uiT - fx.t0;
-  const dying = fx.dieAt >= 0;
-  const dieK = dying ? Math.min(1, (uiT - fx.dieAt) / (CB().judge_pct.hud?.hide_on_death_s ?? 0.3)) : 0;
-  if (age >= 0.45 || dieK >= 1) { judgeFx = null; return; }
-  if (!fx.box && !fx.skip) fx.box = judgeLayout(fx, CB());
-  if (!fx.box) return;
-  fx.drawn = true;
-  const B = fx.box, C = DATA.art.common, ctx = R.ctx;
-  // 시간: 0.7 → 1.0배(60 ms) → 0.30 s까지 그대로 → 0.15 s 동안 0.2타일 위로 뜨며 사라짐 (움직임 줄이기: 커짐·뜨기 없음)
-  let sc = 1, rise = 0, alpha = 1;
-  if (!REDUCED && age < 0.06) sc = 0.7 + 0.3 * (age / 0.06);
-  if (age > 0.3) { const k = (age - 0.3) / 0.15; alpha = 1 - k; if (!REDUCED) rise = 0.2 * R.T * k; }
-  if (dying) { alpha *= 1 - dieK; sc *= 1 - 0.5 * dieK; }
-  ctx.save();
-  ctx.setTransform(R.dpr, 0, 0, R.dpr, 0, 0);
-  ctx.globalAlpha = Math.max(0, alpha);
-  const cx = (B.l + B.r) / 2, cy = B.b - rise;
-  ctx.translate(cx, cy); ctx.scale(sc, sc); ctx.translate(-cx, -cy);
-  const col = fx.grade === 1 ? C.player : fx.grade === 2 ? C.trigger : C.hud;
-  ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.lineJoin = 'round';
-  ctx.strokeStyle = C.outline; ctx.lineWidth = 6; // 테 3 px (stroke를 먼저 그려 바깥 3 px만 남김)
-  let y = B.b - rise;
-  if (B.withPct) {
-    ctx.font = `800 ${B.fp}px ${JFONT}`;
-    ctx.strokeText(B.pctTxt, cx, y - B.fp * 0.12); ctx.fillStyle = C.hud; ctx.fillText(B.pctTxt, cx, y - B.fp * 0.12);
-    y -= B.fp * 0.95;
-  }
-  ctx.font = `900 ${B.fn}px ${JFONT}`;
-  ctx.strokeText(B.name, cx, y - B.fn * 0.1); ctx.fillStyle = col; ctx.fillText(B.name, cx, y - B.fn * 0.1);
-  y -= B.fn * 0.95;
-  // 등급 점: 1등급 3개(호), 2등급 1개, 3등급 없음 (색 없이도 구분)
-  const nDot = fx.grade === 1 ? 3 : fx.grade === 2 ? 1 : 0;
-  ctx.fillStyle = col; ctx.lineWidth = 2;
-  for (let j = 0; j < nDot; j++) {
-    const off = nDot === 1 ? 0 : (j - 1) * B.dotD * 1.8;
-    const dy = nDot === 1 ? 0 : (j === 1 ? -B.dotD * 0.5 : 0);
-    ctx.beginPath(); ctx.arc(cx + off, y - B.dotD * 0.6 + dy, B.dotD / 2, 0, Math.PI * 2); ctx.stroke(); ctx.fill();
-  }
-  ctx.restore();
+  const card = !$('cue').classList.contains('hidden') ? cueRect : null; // 튜토리얼 카드가 이김 (5-8-1)
+  FX.frameBlock(uiT, near, card);
+  view.back = (ctx) => { FX.drawBlock(ctx, uiT); FX.drawParticles(ctx, uiT); };
+  view.front = (ctx) => { FX.drawJudge(ctx, uiT); };
+  view.warm = FX.warm;
 }
 
 // 결과 화면 한 줄 (30-art 5-8-4): 일반 모드 클리어만. 진행도 %는 보이지 않음
@@ -1139,8 +1099,8 @@ function renderResult() {
     sa.querySelector('.v').textContent = t('result_accuracy_value', { pct: r.acc });
     sa.setAttribute('aria-valuenow', String(r.acc)); sa.setAttribute('aria-valuetext', t('result_accuracy_value', { pct: r.acc }));
   }
-  const n = C.dots_per_mark, marks = Math.floor(r.combo / n), dots = r.combo % n;
-  sc.querySelector('.cm').innerHTML = '<i class="d"></i>'.repeat(marks) + '<i class="o"></i>'.repeat(dots);
+  // 30-art 5-8-7: 단계 막대 표지(16 px, 닿은 단계만 불투명) + 숫자 22 px + 라벨(combo_label) 14 px
+  sc.querySelector('.cm').innerHTML = barsSvg(stageOf(r.combo), 16);
   sc.querySelector('.n').textContent = t('result_best_combo_value', { n: r.combo });
   sc.setAttribute('aria-valuemax', String(G.L.level.judge_taps?.length ?? r.combo));
   sc.setAttribute('aria-valuenow', String(r.combo)); sc.setAttribute('aria-valuetext', String(r.combo));
@@ -1194,7 +1154,7 @@ const hook = {
     const n = Math.max(1, Math.round(dt * DATA.bal.physics_hz));
     for (let j = 0; j < n; j++) {
       G.advance(1 / DATA.bal.physics_hz, performance.now()); R.update(1 / DATA.bal.physics_hz);
-      if (screen === 'playing') uiTick(1 / DATA.bal.physics_hz);
+      if (screen === 'playing') { uiTick(1 / DATA.bal.physics_hz); fxUpdate(1 / DATA.bal.physics_hz); }
     }
     // 일반 모드와 같은 화면: HUD·튜토리얼 카드·토스트를 같은 시계로 갱신 (round-1 S16)
     if (screen === 'playing') { updateHud(false); updateCue(); renderCombo(false); }
@@ -1228,7 +1188,12 @@ const hook = {
   get lastPct() { return J ? J.lastPct : null; },
   get accuracy() { return J ? J.accuracy : null; },
   get bestAccuracy() { return G?.L ? (lv(G.L.level.id).bestAccuracy ?? null) : null; },
-  get judgeShown() { return judgeFx && uiT - judgeFx.t0 < 0.45 ? { grade: judgeFx.grade, pct: judgeFx.pct, drawn: judgeFx.drawn, hidePct: judgeFx.hidePct, skip: judgeFx.skip } : null; },
+  get judgeShown() { const j = FX?.judge; return j && j.on ? { grade: j.grade, pct: j.pct, drawn: !!j.drawn, hidePct: !!j.hidePct, skip: !!j.dotsOnly, kind: j.kind, box: j.box && { l: Math.round(j.box.l), r: Math.round(j.box.r), t: Math.round(j.box.t), b: Math.round(j.box.b) } } : null; },
+  // (round-3) 판정 글 생략률 (5-8-2, 결정 19): 입력 종류별 판정 수·등급 점만(③)·% 숨김. resetJudgeStats()로 0
+  get judgeStats() { return FX ? JSON.parse(JSON.stringify(FX.stats)) : null; },
+  resetJudgeStats() { if (FX) for (const k of Object.keys(FX.stats)) Object.assign(FX.stats[k], { n: 0, skip: 0, hidePct: 0 }); },
+  // (round-3) 큰 콤보 숫자 블록·파티클 상태 (30-art 5-8-1·5-8-3)
+  get comboFx() { if (!FX) return null; const b = FX.block; return { visible: b.visible, value: b.v ?? b.value, alpha: +(b.alpha ?? 0).toFixed(3), stage: b.stage, rect: b.visible ? { l: Math.round(b.rect.l), r: Math.round(b.rect.r), t: Math.round(b.rect.t), b: Math.round(b.rect.b) } : null, particles: FX.particleCount(), Hn: FX.atlas()?.Hn ?? null, reduced: REDUCED }; },
   get latency() { return audio ? { auto: audio.autoLatency(), comp: audio.comp(), runComp: audio.runComp(), pending: !!pendingStart, ...audio.latencyState() } : null; },
   get save() { return JSON.parse(JSON.stringify(save)); },
 };

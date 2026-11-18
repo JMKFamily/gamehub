@@ -1,471 +1,483 @@
 {
- "_source": "projects/runner-01/30-art.md 7절(7-2 레벨 패턴·7-3 효과음·7-4 반영 목록·5-8-3 콤보 화음·부록 B-6 문 편곡)을 옮겨 적은 손 작성 파일. 패턴: 16스텝, x 타격, o 열린 햇, . 쉼. 음 표기 '음:스텝'. 7절이 바뀌면 이 파일을 같이 고친다. round-2 art 확정본: 레벨 4~10 곡은 base 곡 반음 이동(7-2 표, audio.js deriveTheme가 로드 때 펼침). 리드 선율·패드 화음 일부는 7절에 음이 정해지지 않아 개발이 채움(DEV_NOTES.md D1, art 승인).",
- "lookahead_s": 0.1,
- "scheduler_interval_ms": 25,
- "master": {
-  "threshold_db": -14,
-  "ratio": 4,
-  "gain": 0.8
- },
- "sidechain": {
-  "depth": 0.6,
-  "release_s": 0.15
- },
- "instruments": {
-  "kick": {
-   "f0": 150,
-   "f1": 45,
-   "pitch_s": 0.12,
-   "gain": 1,
-   "decay_s": 0.3
+  "_source": "projects/runner-01/30-art.md 7절(7-2 레벨 패턴·7-3 효과음·7-4 반영 목록·5-8-3 콤보 화음·부록 B-6 문 편곡)을 옮겨 적은 손 작성 파일. 패턴: 16스텝, x 타격, o 열린 햇, . 쉼. 음 표기 '음:스텝'. 7절이 바뀌면 이 파일을 같이 고친다. round-2 art 확정본: 레벨 4~10 곡은 base 곡 반음 이동(7-2 표, audio.js deriveTheme가 로드 때 펼침). 리드 선율·패드 화음 일부는 7절에 음이 정해지지 않아 개발이 채움(DEV_NOTES.md D1, art 승인).",
+  "lookahead_s": 0.1,
+  "scheduler_interval_ms": 25,
+  "master": {
+    "threshold_db": -14,
+    "ratio": 4,
+    "gain": 0.8
   },
-  "snare": {
-   "bp_hz": 1800,
-   "q": 0.9,
-   "noise_gain": 0.6,
-   "noise_s": 0.18,
-   "tone_hz": 190,
-   "tone_gain": 0.4,
-   "tone_s": 0.08
+  "sidechain": {
+    "depth": 0.6,
+    "release_s": 0.15
   },
-  "clap": {
-   "bp_hz": 1200,
-   "gain": 0.5,
-   "retrig_s": 0.01,
-   "count": 3,
-   "tail_s": 0.15
+  "instruments": {
+    "kick": {
+      "f0": 150,
+      "f1": 45,
+      "pitch_s": 0.12,
+      "gain": 1,
+      "decay_s": 0.3
+    },
+    "snare": {
+      "bp_hz": 1800,
+      "q": 0.9,
+      "noise_gain": 0.6,
+      "noise_s": 0.18,
+      "tone_hz": 190,
+      "tone_gain": 0.4,
+      "tone_s": 0.08
+    },
+    "clap": {
+      "bp_hz": 1200,
+      "gain": 0.5,
+      "retrig_s": 0.01,
+      "count": 3,
+      "tail_s": 0.15
+    },
+    "hat": {
+      "hp_hz": 7000,
+      "closed_s": 0.03,
+      "open_s": 0.18,
+      "gain": 0.35
+    },
+    "bass": {
+      "lp_hz": 600,
+      "q": 4,
+      "env_hi": 1600,
+      "env_lo": 400,
+      "env_s": 0.15,
+      "sub_mix": 0.3,
+      "a": 0.005,
+      "d": 0.12,
+      "s": 0.6,
+      "r": 0.05,
+      "gain": 0.32
+    },
+    "lead": {
+      "fifth_mix": 0.2,
+      "vib_hz": 5,
+      "vib_cents": 6,
+      "a": 0.01,
+      "d": 0.2,
+      "s": 0.4,
+      "r": 0.15,
+      "gain": 0.22
+    },
+    "pad": {
+      "detune_cents": 8,
+      "lp_hz": 1200,
+      "a": 0.4,
+      "r": 0.8,
+      "gain": 0.07
+    },
+    "fork": {
+      "partial": 6,
+      "partial_mix": 0.08,
+      "a": 0.002,
+      "decay_s": 0.9,
+      "gain": 0.3
+    },
+    "bell": {
+      "partials": [
+        [
+          1,
+          1,
+          1.6
+        ],
+        [
+          2.76,
+          0.5,
+          0.6
+        ],
+        [
+          5.4,
+          0.25,
+          0.6
+        ]
+      ],
+      "a": 0.002,
+      "gain": 0.35
+    }
   },
-  "hat": {
-   "hp_hz": 7000,
-   "closed_s": 0.03,
-   "open_s": 0.18,
-   "gain": 0.35
-  },
-  "bass": {
-   "lp_hz": 600,
-   "q": 4,
-   "env_hi": 1600,
-   "env_lo": 400,
-   "env_s": 0.15,
-   "sub_mix": 0.3,
-   "a": 0.005,
-   "d": 0.12,
-   "s": 0.6,
-   "r": 0.05,
-   "gain": 0.32
-  },
-  "lead": {
-   "fifth_mix": 0.2,
-   "vib_hz": 5,
-   "vib_cents": 6,
-   "a": 0.01,
-   "d": 0.2,
-   "s": 0.4,
-   "r": 0.15,
-   "gain": 0.22
-  },
-  "pad": {
-   "detune_cents": 8,
-   "lp_hz": 1200,
-   "a": 0.4,
-   "r": 0.8,
-   "gain": 0.07
-  },
-  "fork": {
-   "partial": 6,
-   "partial_mix": 0.08,
-   "a": 0.002,
-   "decay_s": 0.9,
-   "gain": 0.3
-  },
-  "bell": {
-   "partials": [
-    [
-     1,
-     1,
-     1.6
+  "parts_by_section": {
+    "1": [
+      "kick",
+      "hat",
+      "bass"
     ],
-    [
-     2.76,
-     0.5,
-     0.6
+    "2": [
+      "kick",
+      "snare",
+      "hat",
+      "bass",
+      "pad"
     ],
-    [
-     5.4,
-     0.25,
-     0.6
-    ]
-   ],
-   "a": 0.002,
-   "gain": 0.35
-  }
- },
- "parts_by_section": {
-  "1": [
-   "kick",
-   "hat",
-   "bass"
-  ],
-  "2": [
-   "kick",
-   "snare",
-   "hat",
-   "bass",
-   "pad"
-  ],
-  "3": [
-   "kick",
-   "snare",
-   "hat",
-   "bass",
-   "pad",
-   "lead"
-  ],
-  "4": [
-   "kick",
-   "snare",
-   "hat",
-   "hat16",
-   "bass",
-   "pad",
-   "lead"
-  ],
-  "_note": "30-art 7-2 구간 구조. intensity 0은 위치로 구분: 레벨 첫 구간 = intro, 마지막 구간 = outro, 그 밖 = breath (이름 아님)",
-  "intro": [
-   "kick_intro",
-   "pad"
-  ],
-  "breath": [
-   "kick",
-   "bass"
-  ],
-  "outro": [
-   "pad",
-   "outro_note"
-  ]
- },
- "levels": {
-  "level1": {
-   "root": "A3",
-   "third": 3,
-   "kick": "x...x...x...x...",
-   "kick_intro": "x.......x.......",
-   "snare": "....x.......x...",
-   "hat": "..x...x...x...x.",
-   "bass": {
-    "len_steps": 2,
-    "bars": [
-     [
-      "A1:0",
-      "A1:6",
-      "C2:8",
-      "E2:12"
-     ],
-     [
-      "G1:0",
-      "G1:6",
-      "D2:8",
-      "E2:12"
-     ]
-    ]
-   },
-   "pad": {
-    "bars": [
-     [
-      "A3",
-      "C4",
-      "E4"
-     ],
-     [
-      "G3",
-      "B3",
-      "D4"
-     ]
-    ]
-   },
-   "lead": {
-    "instrument": "fork",
-    "bars": [
-     [
-      "E5:0",
-      "D5:4",
-      "C5:8"
-     ],
-     [
-      "A4:0",
-      "C5:4",
-      "D5:12"
-     ],
-     [
-      "G5:0",
-      "E5:4",
-      "D5:8"
-     ],
-     [
-      "C5:0",
-      "A4:8"
-     ]
-    ]
-   },
-   "outro_note": {
-    "instrument": "fork",
-    "note": "A4"
-   }
-  },
-  "level2": {
-   "root": "D4",
-   "third": 3,
-   "kick": "x...x...x...x...",
-   "kick_intro": "x.......x.......",
-   "clap": "....x.......x...",
-   "hat": "xxoxxxoxxxoxxxox",
-   "bass": {
-    "len_steps": 1.5,
-    "bars": [
-     [
-      "D2:0",
-      "D2:3",
-      "D2:6",
-      "F2:8",
-      "A2:10",
-      "C3:14"
-     ],
-     [
-      "G1:0",
-      "G1:3",
-      "B1:6",
-      "D2:8",
-      "E2:12"
-     ]
-    ]
-   },
-   "pad": {
-    "bars": [
-     [
-      "D3",
-      "F3",
-      "A3",
-      "C4"
-     ],
-     [
-      "G3",
-      "B3",
-      "D4"
-     ]
+    "3": [
+      "kick",
+      "snare",
+      "hat",
+      "bass",
+      "pad",
+      "lead"
     ],
-    "drop_lp_hz": 2400
-   },
-   "lead": {
-    "instrument": "lead",
-    "bars": [
-     [
-      "A4:0",
-      "C5:6",
-      "D5:8"
-     ],
-     [
-      "B4:2",
-      "A4:8"
-     ]
-    ]
-   },
-   "outro_note": {
-    "instrument": "lead",
-    "note": "D5"
-   }
-  },
-  "level3": {
-   "root": "E4",
-   "third": 3,
-   "kick": "x...x...x...x...",
-   "kick_intro": "x.......x.......",
-   "kick_fill": {
-    "pattern": "x...x...x.x.x.xx",
-    "at": "last_bar_of_intensity_4"
-   },
-   "snare": "....x.......x..x",
-   "hat": "x.x.x.x.x.x.x.x.",
-   "hat16": {
-    "pattern": "xxxxxxxxxxxxxxxx",
-    "even_gain": 0.5
-   },
-   "bass": {
-    "len_steps": 2,
-    "bars": [
-     [
-      "E1:0",
-      "E2:2",
-      "E1:4",
-      "G1:6",
-      "E1:8",
-      "B1:10",
-      "D2:12",
-      "E2:14"
-     ]
-    ]
-   },
-   "bass_drop": {
-    "len_steps": 1.5,
-    "eighths": true,
-    "bar_roots": [
-     "E1",
-     "E1",
-     "C2",
-     "D2"
-    ]
-   },
-   "pad": {
-    "bars": [
-     [
-      "E3",
-      "G3",
-      "B3"
-     ],
-     [
-      "C3",
-      "E3",
-      "G3"
-     ]
-    ]
-   },
-   "lead": {
-    "instrument": "lead",
-    "arp16": [
-     "E4",
-     "G4",
-     "A4",
-     "B4",
-     "D5"
-    ]
-   },
-   "bell_bar": {
-    "note": "E3",
-    "at": "last_intensity_3"
-   },
-   "outro_note": {
-    "instrument": "bell",
-    "note": "E3"
-   },
-   "clear_bell": "E2"
-  },
-  "level4": {
-   "base": "level1",
-   "transpose": 2
-  },
-  "level5": {
-   "base": "level2",
-   "transpose": 2
-  },
-  "level6": {
-   "base": "level1",
-   "transpose": 5
-  },
-  "level7": {
-   "base": "level3",
-   "transpose": -2,
-   "bass_octave": 1,
-   "_note": "베이스만 한 옥타브 위 (30-art 7-2: D1 37 Hz는 휴대폰 스피커에서 안 들림)"
-  },
-  "level8": {
-   "base": "level2",
-   "transpose": -2
-  },
-  "level9": {
-   "base": "level3",
-   "transpose": 1
-  },
-  "level10": {
-   "base": "level1",
-   "transpose": 7,
-   "_note": "음은 base(level1) 조 기준으로 적고 전체를 +7 이동 (종 A3 → E4, 클리어 큰 종 A2 → E3)",
-   "bell_bar": {
-    "note": "A3",
-    "at": "last_intensity_3"
-   },
-   "outro_note": {
-    "instrument": "bell",
-    "note": "A3"
-   },
-   "clear_bell": "A2"
-  }
- },
- "sfx": {
-  "death": {
-   "lp0": 1800,
-   "lp1": 200,
-   "noise_s": 0.25,
-   "tone_type": "triangle",
-   "tone0": 220,
-   "tone1": 55,
-   "tone_s": 0.2,
-   "attack_s": 0.005,
-   "db": -10
-  },
-  "clear": {
-   "note_s": 0.08,
-   "release_s": 0.6,
-   "db": -8
-  },
-  "checkpoint": {
-   "f1": 880,
-   "s1": 0.04,
-   "f2": 1320,
-   "s2": 0.06,
-   "db": -14
-  },
-  "menu": {
-   "f": 660,
-   "s": 0.03,
-   "db": -16
-  },
-  "trigger": {
-   "_note": "점프 발판 전용 (30-art 7-3). 울림 고리는 소리 없음",
-   "f": 1046,
-   "s": 0.03,
-   "db": -18
-  },
-  "new_best": {
-   "delay_s": 0.1,
-   "f": 1320,
-   "s": 0.15,
-   "db": -14
-  },
-  "combo_mark": {
-   "_note": "30-art 5-8-3·7-3. 10·20 단계 화음만, 판정 박 + 0.5박(다음 8분 격자). 등급별·끊김 소리 없음. 근음 = 레벨 root의 옥타브 4, third = 레벨 third",
-   "wave": "triangle",
-   "a": 0.01,
-   "decay_s": 0.6,
-   "db": -20,
-   "delay_beats": 0.5,
-   "root_octave": 4,
-   "tones": {
-    "10": [
-     0,
-     "third",
-     7
+    "4": [
+      "kick",
+      "snare",
+      "hat",
+      "hat16",
+      "bass",
+      "pad",
+      "lead"
     ],
-    "20": [
-     0,
-     "third",
-     7,
-     12
+    "_note": "30-art 7-2 구간 구조. intensity 0은 위치로 구분: 레벨 첫 구간 = intro, 마지막 구간 = outro, 그 밖 = breath (이름 아님)",
+    "intro": [
+      "kick_intro",
+      "pad"
+    ],
+    "breath": [
+      "kick",
+      "bass"
+    ],
+    "outro": [
+      "pad",
+      "outro_note"
     ]
-   }
-  }
- },
- "gates": {
-  "_note": "30-art 부록 B-6 (레벨 공통). BPM은 바꾸지 않음. 하프타임 폐기",
-  "fast": {
-   "hat16": true
   },
-  "slow": {
-   "kick": "x...x...x...x...",
-   "hat": false,
-   "pad_lp_hz": 800
+  "levels": {
+    "level1": {
+      "root": "A3",
+      "third": 3,
+      "kick": "x...x...x...x...",
+      "kick_intro": "x.......x.......",
+      "snare": "....x.......x...",
+      "hat": "..x...x...x...x.",
+      "bass": {
+        "len_steps": 2,
+        "bars": [
+          [
+            "A1:0",
+            "A1:6",
+            "C2:8",
+            "E2:12"
+          ],
+          [
+            "G1:0",
+            "G1:6",
+            "D2:8",
+            "E2:12"
+          ]
+        ]
+      },
+      "pad": {
+        "bars": [
+          [
+            "A3",
+            "C4",
+            "E4"
+          ],
+          [
+            "G3",
+            "B3",
+            "D4"
+          ]
+        ]
+      },
+      "lead": {
+        "instrument": "fork",
+        "bars": [
+          [
+            "E5:0",
+            "D5:4",
+            "C5:8"
+          ],
+          [
+            "A4:0",
+            "C5:4",
+            "D5:12"
+          ],
+          [
+            "G5:0",
+            "E5:4",
+            "D5:8"
+          ],
+          [
+            "C5:0",
+            "A4:8"
+          ]
+        ]
+      },
+      "outro_note": {
+        "instrument": "fork",
+        "note": "A4"
+      }
+    },
+    "level2": {
+      "root": "D4",
+      "third": 3,
+      "kick": "x...x...x...x...",
+      "kick_intro": "x.......x.......",
+      "clap": "....x.......x...",
+      "hat": "xxoxxxoxxxoxxxox",
+      "bass": {
+        "len_steps": 1.5,
+        "bars": [
+          [
+            "D2:0",
+            "D2:3",
+            "D2:6",
+            "F2:8",
+            "A2:10",
+            "C3:14"
+          ],
+          [
+            "G1:0",
+            "G1:3",
+            "B1:6",
+            "D2:8",
+            "E2:12"
+          ]
+        ]
+      },
+      "pad": {
+        "bars": [
+          [
+            "D3",
+            "F3",
+            "A3",
+            "C4"
+          ],
+          [
+            "G3",
+            "B3",
+            "D4"
+          ]
+        ],
+        "drop_lp_hz": 2400
+      },
+      "lead": {
+        "instrument": "lead",
+        "bars": [
+          [
+            "A4:0",
+            "C5:6",
+            "D5:8"
+          ],
+          [
+            "B4:2",
+            "A4:8"
+          ]
+        ]
+      },
+      "outro_note": {
+        "instrument": "lead",
+        "note": "D5"
+      }
+    },
+    "level3": {
+      "root": "E4",
+      "third": 3,
+      "kick": "x...x...x...x...",
+      "kick_intro": "x.......x.......",
+      "kick_fill": {
+        "pattern": "x...x...x.x.x.xx",
+        "at": "last_bar_of_intensity_4"
+      },
+      "snare": "....x.......x..x",
+      "hat": "x.x.x.x.x.x.x.x.",
+      "hat16": {
+        "pattern": "xxxxxxxxxxxxxxxx",
+        "even_gain": 0.5
+      },
+      "bass": {
+        "len_steps": 2,
+        "bars": [
+          [
+            "E1:0",
+            "E2:2",
+            "E1:4",
+            "G1:6",
+            "E1:8",
+            "B1:10",
+            "D2:12",
+            "E2:14"
+          ]
+        ]
+      },
+      "bass_drop": {
+        "len_steps": 1.5,
+        "eighths": true,
+        "bar_roots": [
+          "E1",
+          "E1",
+          "C2",
+          "D2"
+        ]
+      },
+      "pad": {
+        "bars": [
+          [
+            "E3",
+            "G3",
+            "B3"
+          ],
+          [
+            "C3",
+            "E3",
+            "G3"
+          ]
+        ]
+      },
+      "lead": {
+        "instrument": "lead",
+        "arp16": [
+          "E4",
+          "G4",
+          "A4",
+          "B4",
+          "D5"
+        ]
+      },
+      "bell_bar": {
+        "note": "E3",
+        "at": "last_intensity_3"
+      },
+      "outro_note": {
+        "instrument": "bell",
+        "note": "E3"
+      },
+      "clear_bell": "E2"
+    },
+    "level4": {
+      "base": "level1",
+      "transpose": 2
+    },
+    "level5": {
+      "base": "level2",
+      "transpose": 2
+    },
+    "level6": {
+      "base": "level1",
+      "transpose": 5
+    },
+    "level7": {
+      "base": "level3",
+      "transpose": -2,
+      "bass_octave": 1,
+      "_note": "베이스만 한 옥타브 위 (30-art 7-2: D1 37 Hz는 휴대폰 스피커에서 안 들림)"
+    },
+    "level8": {
+      "base": "level2",
+      "transpose": -2
+    },
+    "level9": {
+      "base": "level3",
+      "transpose": 1
+    },
+    "level10": {
+      "base": "level1",
+      "transpose": 7,
+      "_note": "음은 base(level1) 조 기준으로 적고 전체를 +7 이동 (종 A3 → E4, 클리어 큰 종 A2 → E3)",
+      "bell_bar": {
+        "note": "A3",
+        "at": "last_intensity_3"
+      },
+      "outro_note": {
+        "instrument": "bell",
+        "note": "A3"
+      },
+      "clear_bell": "A2"
+    }
   },
-  "hat16_default": {
-   "pattern": "xxxxxxxxxxxxxxxx",
-   "even_gain": 0.5
+  "sfx": {
+    "death": {
+      "lp0": 1800,
+      "lp1": 200,
+      "noise_s": 0.25,
+      "tone_type": "triangle",
+      "tone0": 220,
+      "tone1": 55,
+      "tone_s": 0.2,
+      "attack_s": 0.005,
+      "db": -10
+    },
+    "clear": {
+      "note_s": 0.08,
+      "release_s": 0.6,
+      "db": -8
+    },
+    "checkpoint": {
+      "f1": 880,
+      "s1": 0.04,
+      "f2": 1320,
+      "s2": 0.06,
+      "db": -14
+    },
+    "menu": {
+      "f": 660,
+      "s": 0.03,
+      "db": -16
+    },
+    "trigger": {
+      "_note": "점프 발판 전용 (30-art 7-3). 울림 고리는 소리 없음",
+      "f": 1046,
+      "s": 0.03,
+      "db": -18
+    },
+    "new_best": {
+      "delay_s": 0.1,
+      "f": 1320,
+      "s": 0.15,
+      "db": -14
+    },
+    "combo_mark": {
+      "_note": "30-art 5-8-6·7-3·7-4 (round-3). 단계 5·10·15·20마다 화음, 단계마다 음 하나씩 쌓음(2·3·4·5음). 음 하나 gain = 10^(db/20) × (1/3)·√(3/음 수) (3음 = round-2와 같은 크기, DEV_NOTES D25). 판정 박 + 0.5박. 렌더 목표 −20 dB ±1(음악 최고 대비)",
+      "wave": "triangle",
+      "a": 0.01,
+      "decay_s": 0.6,
+      "db": -23.5,
+      "delay_beats": 0.5,
+      "root_octave": 4,
+      "voice_norm": "sqrt_3_over_n",
+      "tones": {
+        "5": [
+          0,
+          7
+        ],
+        "10": [
+          0,
+          "third",
+          7
+        ],
+        "15": [
+          0,
+          "third",
+          7,
+          12
+        ],
+        "20": [
+          0,
+          "third",
+          7,
+          12,
+          14
+        ]
+      }
+    }
+  },
+  "gates": {
+    "_note": "30-art 부록 B-6 (레벨 공통). BPM은 바꾸지 않음. 하프타임 폐기",
+    "fast": {
+      "hat16": true
+    },
+    "slow": {
+      "kick": "x...x...x...x...",
+      "hat": false,
+      "pad_lp_hz": 800
+    },
+    "hat16_default": {
+      "pattern": "xxxxxxxxxxxxxxxx",
+      "even_gain": 0.5
+    }
   }
- }
 }
