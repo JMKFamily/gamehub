@@ -1,0 +1,289 @@
+#!/usr/bin/env node
+// flow-01 웹 빌드 자체 확인 (game-developer, 1-3). Playwright 는 설치하지 않고 있는 것을 씀:
+//   require('playwright') → require('playwright-core') → 환경 변수 PLAYWRIGHT_CORE=<playwright-core 폴더>
+//   node projects/flow-01/tools/selfcheck.mjs [--channel msedge] [--out projects/flow-01/reviews/round-1/dev-shots] [--no-shots]
+//
+// 1) sync-build --check: 빌드 복사본(js/board.js·rng.js, data/*) = 기획 원본 바이트
+// 2) 빌드 배치 식 = layout.json (4해상도 × 판 5종 + 지도·결과·타이틀·보호자·오류)
+// 3) ?test=1: 10레벨 모두 생성 답(solution) 드래그 열로 완료 → 별·결과 100 %·모두 1단, 결과 화면, 드래그 기록을 board.mjs playDrag 로 다시 넣어 같은 결과
+//    + 규칙 확인(L2 빈칸 숨 쉬기 3회·3번째에 gap_left 글, 막힘, 자르기·되살림, 되돌리기 이동 수 유지, 완료 1.0 s 잠금·결과 버튼 1280 ms)
+// 4) 일반 모드(오디오 켬, rAF): 실제 마우스 포인터로 10레벨 생성 답 드래그 → 완료·별, 백그라운드 → 오디오 suspended, 새로고침 뒤 진행 유지
+// 5) 4해상도 버튼 48 px 이상·겹침 0, ko/en 글 넘침 0, 스크린샷
+// 콘솔 에러·경고 0, 외부 요청 0. 정적 서버는 tools/serve.mjs 를 8740~8749 중 빈 포트에 하나 띄우고 그 PID 만 끝에 종료.
+import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { dirname, resolve, join } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { spawn, spawnSync } from 'node:child_process';
+import { createRequire } from 'node:module';
+
+const PROJ = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = resolve(PROJ, '../..');
+const args = process.argv.slice(2);
+const opt = (k, d) => (args.includes(k) ? args[args.indexOf(k) + 1] : d);
+const channel = opt('--channel', 'msedge');
+const OUT = resolve(opt('--out', join(PROJ, 'reviews/round-1/dev-shots')));
+const SHOTS = !args.includes('--no-shots');
+mkdirSync(OUT, { recursive: true });
+
+let pw = null;
+const req = createRequire(import.meta.url);
+for (const name of ['playwright', 'playwright-core']) { try { pw = req(name); break; } catch {} }
+if (!pw && process.env.PLAYWRIGHT_CORE) { try { pw = createRequire(join(process.env.PLAYWRIGHT_CORE, 'index.js'))(process.env.PLAYWRIGHT_CORE); } catch {} }
+if (!pw) { console.error('playwright 를 찾지 못함: PLAYWRIGHT_CORE=<playwright-core 폴더> 로 지정(설치하지 않음)'); process.exit(2); }
+
+const Bm = await import(pathToFileURL(join(PROJ, 'tools/core/board.mjs')).href);
+const LAYOUT = JSON.parse(readFileSync(join(PROJ, 'assets/layout.json'), 'utf8'));
+const BAL = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
+const LEVELS = readdirSync(join(PROJ, 'levels')).filter((f) => f.endsWith('.json')).sort().map((f) => JSON.parse(readFileSync(join(PROJ, 'levels', f), 'utf8')));
+const solOf = (lv) => lv.pairs.map((p) => lv.solution.find((s) => s.id === p.id).path);
+
+let bad = 0;
+const fail = (m) => { bad++; console.log('FAIL', m); };
+const ok = (m) => console.log('  ok', m);
+const rep = { console: [], external: [], failed: [], shots: [] };
+
+// 1) 복사본 확인
+{
+  const r = spawnSync(process.execPath, [join(PROJ, 'tools/sync-build.mjs'), '--check'], { encoding: 'utf8' });
+  if (r.status !== 0) fail('sync-build --check: ' + r.stdout.trim()); else ok('sync-build --check ' + r.stdout.trim());
+}
+
+// ---- 서버(자기 것만)
+let server = null, PORT = 0;
+for (let p = 8740; p <= 8749 && !server; p++) {
+  try { await fetch(`http://127.0.0.1:${p}/`); continue; } catch {}
+  const ch = spawn(process.execPath, [join(PROJ, 'tools/serve.mjs'), String(p)], { stdio: ['ignore', 'pipe', 'pipe'] });
+  const up = await new Promise((res) => { ch.stdout.once('data', () => res(true)); ch.once('exit', () => res(false)); setTimeout(() => res(false), 4000); });
+  if (up) { server = ch; PORT = p; }
+}
+if (!server) { console.error('8740~8749 에서 서버를 못 띄움'); process.exit(3); }
+console.log(`서버 pid ${server.pid} 포트 ${PORT}`);
+const cleanup = () => { try { server.kill(); } catch {} };
+process.on('exit', cleanup);
+const BASE = `http://127.0.0.1:${PORT}/games/flow-01/`;
+
+const browser = await pw.chromium.launch({ channel, headless: true, args: ['--autoplay-policy=no-user-gesture-required'] });
+async function open(w, h, q = '?test=1', { fresh = true, store = null, locale = 'ko-KR' } = {}) {
+  const c = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, locale });
+  const p = await c.newPage();
+  const tag = `${w}x${h}${q}`;
+  p.on('console', (m) => { if (['error', 'warning'].includes(m.type())) rep.console.push(`[${tag}] ${m.type()}: ${m.text()}`); });
+  p.on('pageerror', (e) => rep.console.push(`[${tag}] pageerror: ${e.message}`));
+  p.on('request', (r) => { const u = new URL(r.url()); if (/^(https?|wss?):$/.test(u.protocol) && !['localhost', '127.0.0.1'].includes(u.hostname)) rep.external.push(r.url()); });
+  p.on('response', (r) => { if (r.status() >= 400) rep.failed.push(`[${tag}] ${r.url()} ${r.status()}`); });
+  await p.goto(BASE + q);
+  await p.waitForFunction(() => window.__game?.ready === true, null, { timeout: 30000 });
+  if (fresh || store) {
+    await p.evaluate((s) => { localStorage.clear(); if (s) localStorage.setItem('flow01.v1', JSON.stringify(s)); }, store);
+    await p.reload(); await p.waitForFunction(() => window.__game?.ready === true, null, { timeout: 30000 });
+  }
+  return { c, p };
+}
+const shot = async (p, name) => { if (!SHOTS) return; await p.screenshot({ path: join(OUT, name) }); rep.shots.push(name); };
+const G = (p, f, a) => p.evaluate(f, a);
+
+// 2) 배치 식 = layout.json
+{
+  const { c, p } = await open(412, 915);
+  let n = 0, diff = 0;
+  const cmp = (a, b, path) => { if (a && typeof a === 'object') { for (const k of Object.keys(a)) if (!k.startsWith('_') && b && k in b) cmp(a[k], b[k], path + '.' + k); return; } if (typeof a === 'number' || typeof a === 'boolean') { n++; if (a !== b) { diff++; if (diff < 10) console.log('   diff', path, a, b); } } };
+  for (const rk of Object.keys(LAYOUT.play)) {
+    const [W, H] = rk.split('x').map(Number);
+    for (const bk of Object.keys(LAYOUT.play[rk])) { const [cc, rr] = bk.split('x').map(Number); const got = await G(p, ([W, H, cc, rr]) => window.__game.calcLayout(W, H, cc, rr), [W, H, cc, rr]); cmp(LAYOUT.play[rk][bk], got.play, `play.${rk}.${bk}`);
+      if (bk === '4x4') for (const s of ['map', 'result', 'title', 'guardian', 'error']) cmp(LAYOUT[s][rk], got[s], `${s}.${rk}`); }
+  }
+  if (diff) fail(`배치 식 ≠ layout.json ${diff}/${n}`); else ok(`배치 식 = layout.json (${n}개 값)`);
+  await c.close();
+}
+
+// 3) 테스트 훅 경로
+{
+  const { c, p } = await open(412, 915);
+  // 결과 % = 한 번에 이은 쌍 / 쌍 수, 신기록 표지
+  const l1 = LEVELS[0], s1 = solOf(l1);
+  const nb = await G(p, (s1) => {
+    const g = window.__game;
+    g.loadLevel(0); g.step(300);
+    g.drag(s1[0]); g.drag(s1[1]); g.undo(); g.drag(s1[1]); g.drag(s1[2]);
+    const r1 = g.result; g.step(2400); const vis1 = !document.getElementById('rBest').hidden;
+    g.loadLevel(0); g.step(300); for (const c of s1) g.drag(c);
+    const r2 = g.result; g.step(2400); const vis2 = !document.getElementById('rBest').hidden;
+    return { r1, r2, vis1, vis2 };
+  }, s1);
+  const exp1 = Math.floor((100 * (l1.pairs.length - 1)) / l1.pairs.length);
+  if (nb.r1.accuracyPct !== exp1 || nb.r1.star || nb.vis1 || nb.r2.accuracyPct !== 100 || !nb.r2.newBest || !nb.vis2) fail('결과 %·신기록 ' + JSON.stringify(nb)); else ok(`결과 %: 한 쌍을 되돌려 다시 이음 → ${exp1} %·별 없음, 다음 판 100 % → 신기록 표지`);
+  const replay = [];
+  for (let i = 0; i < LEVELS.length; i++) {
+    const lv = LEVELS[i];
+    await G(p, (i) => { window.__game.loadLevel(i); window.__game.closeCard(); window.__game.step(300); }, i);
+    const sol = solOf(lv);
+    for (let k = 0; k < sol.length; k++) {
+      const r = await G(p, (cells) => window.__game.drag(cells), sol[k]);
+      if (!r.pressed || !r.changed) fail(`L${lv.order} 쌍 ${k} 드래그가 판을 바꾸지 않음`);
+      const j = await G(p, () => window.__game.judge);
+      if (!j || j.grade !== 1) fail(`L${lv.order} 쌍 ${k} 판정 ${j && j.grade} (1단 기대)`);
+    }
+    const s = await G(p, () => ({ b: window.__game.board, r: window.__game.result, moves: window.__game.moves, log: window.__game.dragLog, st: window.__game.state }));
+    if (!s.b.completed || !s.r || s.r.accuracyPct !== 100 || !s.r.star || s.moves !== lv.pairs.length) fail(`L${lv.order} 완료 ${s.b.completed} % ${s.r && s.r.accuracyPct} 별 ${s.r && s.r.star} 이동 ${s.moves}`);
+    // 완료 1.0 s 잠금 → 결과
+    const lockOk = await G(p, () => { const g = window.__game; const a = g.drag([[0, 0], [0, 1]]).pressed === false; g.step(990); const b = g.state === 'play'; g.step(30); return a && b && g.state === 'result'; });
+    if (!lockOk) fail(`L${lv.order} 완료 잠금 1.0 s → 결과 화면 전환 아님`);
+    const early = await G(p, () => window.__game.resultNext());
+    if (early) fail(`L${lv.order} 결과 버튼이 1280 ms 전에 눌림`);
+    const pctTxt = await G(p, () => { window.__game.step(1000); return document.querySelector('#rPct b').textContent; });
+    if (pctTxt !== '100%') fail(`L${lv.order} 결과 % 글 ${pctTxt}`);
+    // 빌드 드래그 기록 → board.mjs 재판정
+    const pz = Bm.makePuzzle(lv), g = Bm.newGame(pz, { cut: BAL.input.cut_enabled });
+    for (const d of s.log) Bm.playDrag(g, d.map(([x, y]) => y * lv.width + x));
+    replay.push(g.completed && g.moves === s.moves && Bm.isStar(g));
+    if (!replay[i]) fail(`L${lv.order} 드래그 기록 재판정 불일치`);
+  }
+  ok(`10레벨 생성 답 드래그 → 완료·별·결과 100 %·1단, 재판정 일치 ${replay.filter(Boolean).length}/10`);
+
+  // 규칙 확인
+  const l2 = LEVELS[1];
+  const straight = l2.pairs.map((pr, k) => (k === 2 ? [pr.a, pr.b] : solOf(l2)[k]));
+  const gap = await G(p, (paths) => {
+    const g = window.__game; g.loadLevel(1); g.closeCard(); g.step(300); for (const c of paths) g.drag(c);
+    const r = { all: g.board.pairDots.every(Boolean), done: g.board.completed, n: [], text: [] };
+    for (let t = 0; t < 8000; t += 100) { g.step(100); r.n.push(g.board.gap); r.text.push(g.board.text); }
+    r.gapSounds = g.sfxLog.filter((x) => x === 'gap_hint').length;
+    return r;
+  }, straight);
+  const STR = JSON.parse(readFileSync(join(PROJ, 'strings.json'), 'utf8'));
+  const firstText = gap.text.findIndex((x) => x === STR.gap_left.ko);
+  if (!gap.all || gap.done || Math.max(...gap.n) !== BAL.fx_ms.empty_breath_max_times || gap.gapSounds !== 3 || firstText < 0 || gap.n[firstText] !== 3) fail(`L2 빈칸 신호: 모두 이음 ${gap.all} 완료 ${gap.done} 숨 ${Math.max(...gap.n)} 소리 ${gap.gapSounds} 글 첫 등장 숨 ${gap.n[firstText]}`);
+  else ok('L2 곧게 이으면 빈칸 숨 쉬기 3회·gap_hint 3회, gap_left 글은 3번째 숨 쉬기부터');
+  // 자르기·되살림·막힘·되돌리기: board.mjs 로 레벨마다 "다른 쌍 점 → 이웃한 답 선 칸 → 되돌아옴" 드래그를 찾음
+  let cutCase = null, blockCase = null;
+  for (let li = 0; li < LEVELS.length && (!cutCase || !blockCase); li++) {
+    const lv = LEVELS[li], sol = solOf(lv), W = lv.width;
+    const pz = Bm.makePuzzle(lv);
+    for (let k = 1; k < lv.pairs.length && !cutCase; k++) for (const ep of [lv.pairs[k].a, lv.pairs[k].b]) {
+      const body = sol[0].slice(1, -1);
+      const n = body.find(([x, y]) => Math.abs(x - ep[0]) + Math.abs(y - ep[1]) === 1);
+      if (n && !cutCase) cutCase = { li, first: sol[0], drag: [ep, n, ep] };
+    }
+    for (let k = 0; k < lv.pairs.length && !blockCase; k++) for (let m = 0; m < lv.pairs.length && !blockCase; m++) if (m !== k) for (const ep of [lv.pairs[m].a, lv.pairs[m].b]) {
+      const a = lv.pairs[k].a; if (Math.abs(a[0] - ep[0]) + Math.abs(a[1] - ep[1]) === 1) blockCase = { li, drag: [a, ep] };
+    }
+  }
+  const r3 = await G(p, ({ cutCase, blockCase }) => {
+    const g = window.__game, o = {};
+    g.loadLevel(cutCase.li); g.closeCard(); g.step(300);
+    g.drag(cutCase.first); const m1 = g.moves, before = JSON.stringify(g.board.paths);
+    const n0 = g.sfxLog.filter((x) => x === 'cut').length;
+    const r = g.drag(cutCase.drag);
+    o.cut = g.sfxLog.filter((x) => x === 'cut').length > n0;
+    o.restore = JSON.stringify(g.board.paths) === before && g.moves === m1 && !r.changed;
+    g.drag([cutCase.drag[0], cutCase.drag[1]]); o.cutKept = !g.board.pairDots[0] && g.moves === m1 + 1;
+    const m2 = g.moves; g.undo(); o.undoKeeps = g.moves === m2 && g.board.pairDots[0];
+    g.loadLevel(blockCase.li); g.closeCard(); g.step(300);
+    const rb = g.drag(blockCase.drag); o.blocked = !rb.changed && g.moves === 0;
+    return o;
+  }, { cutCase, blockCase });
+  if (!cutCase || !r3.cut || !r3.restore || !r3.cutKept) fail(`자르기 L${cutCase && cutCase.li + 1}: 소리 ${r3.cut} 되살림 ${r3.restore} 손 떼면 확정 ${r3.cutKept}`); else ok(`L${cutCase.li + 1} 자르기 → 같은 드래그에서 되돌아오면 되살아남(이동 0), 손 떼면 잘림 확정`);
+  if (!r3.undoKeeps) fail('되돌리기가 이동 수를 바꾸거나 되살리지 못함'); else ok('되돌리기: 이동 수 그대로, 잘린 선 되살아남');
+  if (!blockCase || !r3.blocked) fail('다른 색 점 막힘 확인 실패'); else ok(`L${blockCase.li + 1} 다른 색 점으로는 못 들어감(판 변화 0)`);
+  await c.close();
+}
+
+// 4) 일반 모드: 실제 마우스 포인터, 오디오 켬
+{
+  const { c, p } = await open(412, 915, '');
+  await p.mouse.click(206, 500); // 타이틀 아무 곳
+  await p.waitForFunction(() => window.__game.state === 'map');
+  await p.waitForTimeout(400);
+  const nb = await p.locator('.node').first().boundingBox();
+  await p.mouse.click(nb.x + nb.width / 2, nb.y + nb.height / 2);
+  await p.waitForFunction(() => window.__game.state === 'play');
+  let stars = 0;
+  for (let i = 0; i < LEVELS.length; i++) {
+    const lv = LEVELS[i];
+    if (i > 0) { await G(p, (i) => window.__game.loadLevel(i), i); }
+    await p.waitForTimeout(250);
+    if (await G(p, () => window.__game.board.card)) { await p.mouse.click(5, 5 + 300); await p.waitForTimeout(300); }
+    const gr = await G(p, () => window.__game.layout.grid);
+    const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
+    for (const path of solOf(lv)) {
+      const [x0, y0] = at(path[0]); await p.mouse.move(x0, y0); await p.mouse.down();
+      for (const cell of path.slice(1)) { const [x, y] = at(cell); await p.mouse.move(x, y, { steps: 3 }); }
+      await p.mouse.up();
+    }
+    const r = await G(p, () => window.__game.result);
+    if (r && r.star && r.accuracyPct === 100) stars++; else fail(`일반 모드 L${lv.order} 마우스 완료 실패 ${JSON.stringify(r)}`);
+    await p.waitForFunction(() => window.__game.state === 'result', null, { timeout: 5000 });
+  }
+  if (stars === 10) ok('일반 모드(rAF·실제 마우스·오디오) 10레벨 생성 답 → 완료·별 10/10');
+  const au = await G(p, () => window.__game.audioState);
+  const hid = await G(p, async () => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); const s = window.__game.audioState; Object.defineProperty(document, 'hidden', { value: false, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); return [s, window.__game.audioState]; });
+  if (au !== 'running' || hid[0] !== 'suspended' || hid[1] !== 'running') fail(`오디오 ${au}, 백그라운드 ${hid}`); else ok('오디오 running → 백그라운드 suspended → 복귀 running');
+  await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
+  const st = await G(p, () => window.__game.store);
+  const done = Object.values(st.levels).filter((r) => r.done && r.star && r.bestPct === 100).length;
+  if (done !== 10) fail(`새로고침 뒤 진행 ${done}/10`); else ok('새로고침 뒤 진행·별·최고 % 유지 10/10');
+  await c.close();
+}
+
+// 불러오기 오류 화면: 데이터 하나가 실패해도 글·↻ 그림(인라인)이 보이고 html lang·제목이 그 언어
+{
+  const c = await browser.newContext({ viewport: { width: 360, height: 640 }, locale: 'en-US' });
+  const p = await c.newPage();
+  await p.route('**/data/balance.json', (r) => r.fulfill({ status: 503, body: 'x' }));
+  await p.goto(BASE);
+  await p.waitForFunction(() => !document.getElementById('bootRetry').hidden, null, { timeout: 10000 });
+  const e = await p.evaluate(() => ({ lang: document.documentElement.lang, title: document.title, msg: document.getElementById('bootMsg').textContent, svg: !!document.querySelector('#bootRetry svg'), label: document.getElementById('bootRetry').getAttribute('aria-label') }));
+  const STRS = JSON.parse(readFileSync(join(PROJ, 'strings.json'), 'utf8'));
+  if (e.lang !== 'en' || e.title !== STRS.title.en || e.msg !== STRS.load_error.en || !e.svg || e.label !== STRS.btn_reload.en) fail('오류 화면 ' + JSON.stringify(e)); else ok('불러오기 실패 → load_error 글·↻ 인라인 그림·lang en·제목');
+  if (SHOTS) { await p.screenshot({ path: join(OUT, '360x640-en-error.png') }); rep.shots.push('360x640-en-error.png'); }
+  await c.close();
+}
+
+// 5) 4해상도: 버튼 크기·겹침, 글 넘침, 스크린샷
+const RES = [[360, 640], [412, 915], [640, 360], [1280, 720]];
+const partial = { v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: { '01': { done: true, star: true, bestPct: 100, bestFill: 100 }, '02': { done: true, star: false, bestPct: 66, bestFill: 100 }, '03': { done: true, star: true, bestPct: 100, bestFill: 100 }, '04': { done: false, star: false, bestPct: null, bestFill: 40 } } };
+async function checkUi(p, tag) {
+  const r = await p.evaluate(() => {
+    const vis = (el) => { const cs = getComputedStyle(el); if (el.hidden || cs.display === 'none' || cs.visibility === 'hidden') return false; let e = el.parentElement; while (e) { const s = getComputedStyle(e); if (e.hidden || s.display === 'none') return false; e = e.parentElement; } return true; };
+    const els = [...document.querySelectorAll('.screen.show button')].filter(vis).filter((b) => !b.closest('.modal[hidden]'));
+    const rs = els.map((b) => ({ id: b.id || b.className + (b.dataset.i ?? ''), r: b.getBoundingClientRect() }));
+    const small = rs.filter((x) => x.r.width < 47.5 || x.r.height < 47.5).map((x) => x.id);
+    const over = [];
+    for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) { const a = rs[i].r, b = rs[j].r; const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left), oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top); if (ox > 1 && oy > 1) over.push(rs[i].id + '×' + rs[j].id); }
+    const outside = document.querySelector('#guardian.show') ? [] : rs.filter((x) => x.r.left < -0.5 || x.r.top < -0.5 || x.r.right > innerWidth + 0.5 || x.r.bottom > innerHeight + 0.5).map((x) => x.id);
+    const overflow = [...document.querySelectorAll('.screen.show .slot, .screen.show .band b')].filter(vis).filter((e) => e.textContent && (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 2)).map((e) => e.id + ':' + e.textContent.slice(0, 12));
+    return { small, over, outside, overflow };
+  });
+  if (r.small.length || r.over.length || r.outside.length) fail(`${tag} 버튼 작음 ${r.small} 겹침 ${r.over} 화면 밖 ${r.outside}`);
+  if (r.overflow.length) fail(`${tag} 글 넘침 ${r.overflow}`);
+}
+for (const [W, H] of RES) {
+  for (const lang of ['ko', 'en']) {
+    const tag = `${W}x${H}-${lang}`;
+    const { c, p } = await open(W, H, `?test=1&lang=${lang}`, { store: partial });
+    const shots = lang === 'ko' || W === 360;
+    await G(p, () => window.__game.step(400)); await checkUi(p, tag + ' title'); if (shots) await shot(p, `${tag}-title.png`);
+    await G(p, () => { window.__game.toMap(); window.__game.step(400); }); await checkUi(p, tag + ' map'); if (shots) await shot(p, `${tag}-map.png`);
+    await G(p, () => { const g = window.__game; g.loadLevel(0); g.step(500 + 250 + 150 + 260 + 100); }); await checkUi(p, tag + ' play-L1'); if (shots) await shot(p, `${tag}-play-L1-tutorial.png`);
+    const l6 = LEVELS[5], s6 = solOf(l6);
+    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.step(200); }, s6); if (shots && W === 360 && lang === 'ko') await shot(p, `${tag}-play-L6-card.png`);
+    await G(p, (s6) => { const g = window.__game; g.closeCard(); g.step(300); g.drag(s6[0]); g.drag(s6[2]); g.drag(s6[4]); g.step(60); }, s6); await checkUi(p, tag + ' play-L6'); if (shots) await shot(p, `${tag}-play-L6-judge.png`);
+    if (W === 360 && lang === 'ko') {
+      const l2 = LEVELS[1], s2 = solOf(l2), straight = l2.pairs.map((pr, k) => (k === 2 ? [pr.a, pr.b] : s2[k]));
+      await G(p, (paths) => { const g = window.__game; g.loadLevel(1); g.closeCard(); g.step(300); for (const c of paths) g.drag(c); g.step(630 + 2 * 2600 + 250); }, straight); await shot(p, `${tag}-play-L2-gap.png`);
+    }
+    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 1300); }, s6); await checkUi(p, tag + ' result'); if (shots) await shot(p, `${tag}-result.png`);
+    await G(p, () => { window.__game.toGuardian(); window.__game.step(400); }); await checkUi(p, tag + ' guardian'); if (shots && (W === 360 || W === 640)) await shot(p, `${tag}-guardian.png`);
+    await c.close();
+  }
+}
+ok('4해상도 × ko·en 화면 검사(버튼 ≥ 48·겹침·화면 밖·글 넘침) 끝');
+
+await browser.close();
+if (rep.console.length) fail('콘솔 에러·경고 ' + rep.console.length + ': ' + rep.console.slice(0, 5).join(' | ')); else ok('콘솔 에러·경고 0');
+if (rep.external.length) fail('외부 요청 ' + rep.external.length + ': ' + rep.external.slice(0, 3).join(' ')); else ok('외부 요청 0');
+if (rep.failed.length) fail('실패 응답 ' + rep.failed.slice(0, 5).join(' | ')); else ok('실패 응답(4xx·5xx) 0');
+console.log(`스크린샷 ${rep.shots.length}장 → ${OUT}`);
+console.log(bad ? `FAIL ${bad}` : 'ALL PASS');
+cleanup();
+process.exit(bad ? 1 : 0);

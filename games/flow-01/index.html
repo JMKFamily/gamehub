@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Pairpaint</title>
+<link rel="icon" href="data:,">
+<!--boot:start (projects/flow-01/tools/sync-build.mjs 생성)-->
+<style id="bootStyle">:root{--bgTop:#F3EEFB;--bgBot:#E4EEFA;--ink:#262B40;--inkSoft:#5B6178;--btn:#FFFFFF;--btnEdge:#D3D9E8}</style>
+<script id="bootText" type="application/json">{"ko":{"title":"짝꿍색칠","loading":"불러오는 중…","load_error":"다시 해 주세요","load_error_detail":"게임을 불러오지 못했어요. 잠시 뒤 다시 눌러 주세요.","btn_reload":"다시 불러오기"},"en":{"title":"Pairpaint","loading":"Loading…","load_error":"Please try again","load_error_detail":"The game couldn't load. Please tap to try again in a moment.","btn_reload":"Reload"}}</script>
+<template id="bootRetryIcon"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"><path d="M35.5 27 A12 12 0 1 1 32 15.5" fill="none" stroke="#262B40" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M33.5 7.5 L32.5 16 L24 15" fill="none" stroke="#262B40" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></template>
+<script>(function(){var T=JSON.parse(document.getElementById("bootText").textContent),q=null,s=null;try{q=new URLSearchParams(location.search).get("lang")}catch(e){}try{s=(JSON.parse(localStorage.getItem("flow01.v1")||"null")||{}).lang}catch(e){}var l=q||s||((navigator.language||"en").toLowerCase().indexOf("ko")===0?"ko":"en");if(!T[l])l="en";var t=T[l];document.documentElement.lang=l;document.title=t.title;window.__bootLang=l;window.__bootFail=function(){var m=document.getElementById("bootMsg"),d=document.getElementById("bootErrDetail"),b=document.getElementById("bootRetry"),bt=document.getElementById("boot");if(bt)bt.classList.add("show");if(m)m.textContent=t.load_error;if(d){d.textContent=t.load_error_detail;d.hidden=false}if(b)b.hidden=false};document.addEventListener("DOMContentLoaded",function(){var m=document.getElementById("bootMsg"),b=document.getElementById("bootRetry");if(m)m.textContent=t.loading;if(b){b.innerHTML=document.getElementById("bootRetryIcon").innerHTML;b.setAttribute("aria-label",t.btn_reload);b.onclick=function(){location.reload()}}window.__bootTimer=setTimeout(function(){if(!window.__gameBooted)window.__bootFail()},15000)});})();</script>
+<!--boot:end-->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="cv" role="img"></canvas>
+
+<!-- 불러오기·오류 (부트 블록 글·↻ 그림은 sync-build 가 인라인으로 넣음) -->
+<div id="boot" class="screen show" role="status">
+  <p id="bootMsg" class="slot head"></p>
+  <p id="bootErrDetail" class="slot detail" hidden></p>
+  <button id="bootRetry" class="ib" type="button" hidden></button>
+</div>
+
+<div id="title" class="screen">
+  <button id="tSound" class="ib" type="button" aria-pressed="true"></button>
+  <span id="tLogo" class="art" aria-hidden="true"></span>
+  <h1 id="tName" class="slot"></h1>
+  <p id="tTag" class="slot soft"></p>
+  <p id="tTap" class="slot"></p>
+</div>
+
+<div id="map" class="screen">
+  <svg id="mPath" aria-hidden="true"></svg>
+  <button id="mSound" class="ib" type="button" aria-pressed="true"></button>
+  <h2 id="mTitle" class="slot"></h2>
+  <div id="mStars" role="meter" aria-valuemin="0"></div>
+  <ol id="mNodes"></ol>
+  <p id="mHold" class="slot soft small" aria-hidden="true"></p>
+  <button id="mGear" class="ib" type="button" aria-describedby="mHoldSr"><span class="hold" aria-hidden="true"></span></button>
+  <span id="mHoldSr" class="sr"></span>
+</div>
+
+<div id="play" class="screen">
+  <button id="pMap" class="ib" type="button"></button>
+  <div id="pPairs" role="meter" aria-valuemin="0"></div>
+  <button id="pUndo" class="ib" type="button"></button>
+  <button id="pHelp" class="ib" type="button"></button>
+  <button id="pRestart" class="ib" type="button"></button>
+  <p id="pText" class="slot"></p>
+  <div id="pLive" class="sr" aria-live="polite"></div>
+  <div id="pCard" class="card" hidden><span id="pCardArt" class="art" aria-hidden="true"></span></div>
+</div>
+
+<div id="result" class="screen">
+  <p id="rName" class="band"></p>
+  <h2 id="rTitle" class="slot" aria-live="polite"></h2>
+  <div id="rBoard"></div>
+  <span id="rStar" class="art" role="img"></span>
+  <div id="rPct" role="meter" aria-valuemin="0" aria-valuemax="100"><span class="art" aria-hidden="true"></span><b aria-hidden="true"></b></div>
+  <span id="rBest" class="art" role="img" hidden></span>
+  <button id="rMap" class="ib" type="button"></button>
+  <button id="rNext" class="ib big" type="button"></button>
+  <button id="rAgain" class="ib" type="button"></button>
+</div>
+
+<div id="guardian" class="screen">
+  <div id="gScroll">
+    <div id="gCol"></div>
+  </div>
+  <button id="gClose" class="ib" type="button"></button>
+  <div id="gConfirm" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="gConfirmText">
+    <div class="mcard"><p id="gConfirmText" class="slot"></p><button id="gNo" class="tb" type="button"></button><button id="gYes" class="tb" type="button"></button></div>
+  </div>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

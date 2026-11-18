@@ -1,0 +1,560 @@
+{
+ "schema_version": 1,
+ "_source": "assets/sound.json (art-director 원본, 손으로 씀). 30-art 7절 표는 요약이고 다르면 이 파일이 기준. 빌드는 이 파일만 읽음. 외부 음원 파일 없음, 모두 Web Audio 합성. measured 는 assets/check/sound-check.mjs --write 가 채움(node 합성식 렌더). 빌드가 생기면 빌드 OfflineAudioContext 렌더값을 원본으로 바꾸고 도구값과 소리별 차 ≤ 1 dB 를 대조(criteria 시각·사운드 rhythm-02 줄).",
+ "_synth": "소리 하나 = layers 의 합. 층마다 OscillatorNode(wave sine|triangle 만, square·sawtooth·잡음 없음) → (filter 있으면 BiquadFilterNode lowpass) → GainNode(엔벨로프) → bus GainNode → master GainNode → destination. 엔벨로프: t0 + delayMs 에서 0 → linearRamp 로 a ms 에 peak, 이어서 exponentialRamp 로 decay ms 에 peak×0.001, 그 뒤 정지. peak = 10^(db/20) × mul(기본 1). 주파수: note 층은 '연주 음 높이 × fMul', 아니면 f. fTo(또는 fToMul) 가 있으면 glideMs 동안 exponentialRamp. 마스터 컴프레서 없음.",
+ "_pitch": "연결음 사다리 ladder_hz = C 장조 5음계(C5 D5 E5 G5 A5 C6). 연결음 음 높이 = ladder_hz[연결된 쌍 수 − 1] (이 연결 직후 이어져 있는 쌍 수; 풀리면 줄어들어 다음 연결이 같은 음을 다시 냄 = 판이 찰수록 음이 오름). 칸 틱 = tick_hz[min(이 드래그로 늘린 칸 수, 5) − 1]. 완료 화음 = ladder_hz[0..k−1] 를 70 ms 간격 아르페지오(k = 쌍 수). 배경음도 같은 C 장조라 어느 순간 겹쳐도 어울림. 원작 효과음·음형을 쓰지 않음(패턴만: '잇는 동작이 음을 쌓는다').",
+ "_db_rule": "크기 규칙은 db 값이 아니라 렌더 측정값으로 판단(insights 시각·사운드). peak_db = master 뒤 표본 최고값(dBFS), rms_db = 첫 층 시작부터 100 ms RMS. 규칙: S1 모든 연결음(3등급 × 6음) 최고값 ≥ 다른 모든 효과음·배경음 최고값 + 1 dB(아이 입력의 결과음이 가장 큼) / S2 칸 틱 ≤ 가장 작은 연결음 − 12 dB / S3 연결음 1단 ≥ 2단 ≥ 3단(최고값·RMS, 같은 음끼리) / S4 최악 겹침(1단 C6 + 150 ms 뒤 완료 화음 k=6 + 배경음 최고) 합 최고값 ≤ −1 dBFS / S5 배경음 ≤ 가장 작은 연결음 − 12 dB / S6 sine·triangle 만 / S7 등급 = 음 개수(1단 3음: 사다리 음 → 45 ms 뒤 +5도 → 90 ms 뒤 +옥타브, 2단 2음: 사다리 음 → 45 ms 뒤 +옥타브, 3단 1음) + 같은 음끼리 등급 사이 RMS 계단 ≥ 1.5 dB(G4, 2026-11-18). 우선순위: 연결음(3단 포함) > 모든 다른 소리(S1) 유지.",
+ "sample_rate": 48000,
+ "ladder_hz": [
+  523.25,
+  587.33,
+  659.26,
+  783.99,
+  880,
+  1046.5
+ ],
+ "tick_hz": [
+  1318.5,
+  1480,
+  1568,
+  1760,
+  1975.5
+ ],
+ "master": {
+  "db": 0
+ },
+ "buses": {
+  "sfx": {
+   "db": 0
+  },
+  "music": {
+   "db": -6
+  }
+ },
+ "sounds": {
+  "connect_g1": {
+   "bus": "sfx",
+   "db": -7.5,
+   "pitch": "ladder",
+   "when": "연결 프레임, 판정 1단(그 색을 1번에 이음). 칸 진행과 같은 pointermove 처리 안에서 바로(지연 0)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 4,
+      "decay": 420
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 1.5,
+     "mul": 0.5,
+     "delayMs": 45,
+     "env": {
+      "a": 4,
+      "decay": 320
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 2,
+     "mul": 0.4,
+     "delayMs": 90,
+     "env": {
+      "a": 4,
+      "decay": 300
+     }
+    }
+   ],
+   "notes": 3,
+   "_grade": "등급 = 음 개수(1단 3음) + 크기 계단(S7). G4"
+  },
+  "connect_g2": {
+   "bus": "sfx",
+   "db": -9,
+   "pitch": "ladder",
+   "when": "연결 프레임, 판정 2단(2번에 이음)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 4,
+      "decay": 420
+     }
+    },
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 2,
+     "mul": 0.4,
+     "delayMs": 45,
+     "env": {
+      "a": 4,
+      "decay": 300
+     }
+    }
+   ],
+   "notes": 2,
+   "_grade": "등급 = 음 개수(2단 2음) + 크기 계단(S7). G4"
+  },
+  "connect_g3": {
+   "bus": "sfx",
+   "db": -10.5,
+   "pitch": "ladder",
+   "when": "연결 프레임, 판정 3단(3번 이상)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 4,
+      "decay": 420
+     }
+    }
+   ],
+   "notes": 1,
+   "_grade": "등급 = 음 개수(3단 1음) + 크기 계단(S7). G4"
+  },
+  "complete": {
+   "bus": "sfx",
+   "db": -19,
+   "pitch": "chord",
+   "when": "마지막 연결 + 150 ms. ladder_hz[0..k−1] 를 70 ms 간격으로(각 음 = 아래 층들)",
+   "arp_ms": 70,
+   "layers": [
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 12,
+      "decay": 900
+     }
+    },
+    {
+     "wave": "triangle",
+     "note": true,
+     "fMul": 0.5,
+     "mul": 0.35,
+     "env": {
+      "a": 20,
+      "decay": 700
+     }
+    }
+   ]
+  },
+  "tick": {
+   "bus": "sfx",
+   "db": -30,
+   "pitch": "tick",
+   "when": "선이 새 칸에 들어간 프레임(되돌아가 짧아질 때는 없음). 60 ms 안에 또 오면 건너뜀",
+   "layers": [
+    {
+     "wave": "sine",
+     "note": true,
+     "fMul": 1,
+     "env": {
+      "a": 2,
+      "decay": 45
+     }
+    }
+   ]
+  },
+  "grab": {
+   "bus": "sfx",
+   "db": -26,
+   "when": "점·선 끝·선 중간을 잡은 프레임",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1046.5,
+     "fTo": 1318.5,
+     "glideMs": 40,
+     "env": {
+      "a": 2,
+      "decay": 70
+     }
+    }
+   ]
+  },
+  "cut": {
+   "bus": "sfx",
+   "db": -24,
+   "when": "다른 색 선을 잘라 낸 프레임(같은 드래그에서 되살리면 소리 없음)",
+   "layers": [
+    {
+     "wave": "triangle",
+     "f": 330,
+     "fTo": 220,
+     "glideMs": 90,
+     "filter": {
+      "type": "lowpass",
+      "f": 1200,
+      "Q": 0.7
+     },
+     "env": {
+      "a": 4,
+      "decay": 170
+     }
+    }
+   ]
+  },
+  "gap_hint": {
+   "bus": "sfx",
+   "db": -18,
+   "when": "빈칸 신호가 숨 쉴 때마다(최대 3회). 부드러운 한 음, 경고음 아님",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 659.26,
+     "env": {
+      "a": 40,
+      "decay": 520
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 987.77,
+     "mul": 0.25,
+     "delayMs": 90,
+     "env": {
+      "a": 30,
+      "decay": 420
+     }
+    }
+   ]
+  },
+  "undo": {
+   "bus": "sfx",
+   "db": -24,
+   "when": "되돌리기 버튼",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 784,
+     "fTo": 523.25,
+     "glideMs": 90,
+     "env": {
+      "a": 3,
+      "decay": 130
+     }
+    }
+   ]
+  },
+  "restart": {
+   "bus": "sfx",
+   "db": -22,
+   "when": "처음부터 버튼(판 비우기 250 ms 와 함께)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 659.26,
+     "fTo": 261.63,
+     "glideMs": 230,
+     "env": {
+      "a": 6,
+      "decay": 300
+     }
+    }
+   ]
+  },
+  "ui_tap": {
+   "bus": "sfx",
+   "db": -22,
+   "when": "버튼·지도 노드 누름(빈 바탕은 무음)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1174.66,
+     "env": {
+      "a": 2,
+      "decay": 60
+     }
+    }
+   ]
+  },
+  "node_open": {
+   "bus": "sfx",
+   "db": -17,
+   "when": "지도에서 다음 노드가 열리는 순간(길 채움 끝)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 659.26,
+     "env": {
+      "a": 6,
+      "decay": 300
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 987.77,
+     "delayMs": 110,
+     "env": {
+      "a": 6,
+      "decay": 380
+     }
+    }
+   ]
+  },
+  "star": {
+   "bus": "sfx",
+   "db": -14,
+   "when": "결과 화면 별이 튈 때(100 %)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 1046.5,
+     "env": {
+      "a": 4,
+      "decay": 420
+     }
+    },
+    {
+     "wave": "sine",
+     "f": 1318.5,
+     "delayMs": 110,
+     "env": {
+      "a": 4,
+      "decay": 520
+     }
+    },
+    {
+     "wave": "triangle",
+     "f": 523.25,
+     "mul": 0.3,
+     "env": {
+      "a": 10,
+      "decay": 500
+     }
+    }
+   ]
+  }
+ },
+ "ambient": {
+  "bus": "music",
+  "db": -31,
+  "default_on": true,
+  "when": "지도·플레이 화면 내내. 결과 화면에서도 이어짐. 소리 끔(보호자·소리 버튼)이면 효과음과 함께 꺼짐",
+  "chord_s": 4,
+  "chords_hz": [
+   [
+    261.63,
+    329.63,
+    392
+   ],
+   [
+    220,
+    261.63,
+    329.63
+   ],
+   [
+    174.61,
+    220,
+    261.63
+   ],
+   [
+    196,
+    246.94,
+    293.66
+   ]
+  ],
+  "layer": {
+   "wave": "sine",
+   "env": {
+    "a": 1200,
+    "decay": 3600
+   }
+  },
+  "_rule": "4 s 마다 다음 화음(C → Am → F → G 반복), 화음의 세 음을 같은 시각에 시작. 박·리듬 없음(퍼즐은 생각하는 놀이). 엔벨로프는 위 _synth 와 같음."
+ },
+ "haptics": {
+  "_rule": "웹 navigator.vibrate(ms) — 안드로이드 크롬 계열만 실제로 울림. 포인터 이벤트 처리 안에서만 부름(사용자 동작). 80 ms 안에 또 오면 건너뜀. 'vibrate' in navigator 와 반환값을 믿지 말고 실패해도 다른 피드백은 그대로. 보호자 설정 settings_vibrate 로 끔(기본 켬). 게임 정보는 소리·그림만으로 다 전달되고 진동은 손맛 보조일 뿐.",
+  "connect": {
+   "web_ms": 12,
+   "capacitor": "Haptics.impact({ style: 'LIGHT' })"
+  },
+  "complete": {
+   "web_ms": 30,
+   "capacitor": "Haptics.notification({ type: 'SUCCESS' })",
+   "_rule": "마지막 연결이면 connect 대신 이것 하나만(마지막 연결 + 150 ms, 완료 화음과 함께)"
+  },
+  "none": [
+   "grab",
+   "tick",
+   "cut",
+   "blocked",
+   "gap_hint",
+   "undo",
+   "restart",
+   "ui_tap"
+  ],
+  "ios_web": "진동 없음(사파리 미지원). 숨은 체크박스 스위치 토글 꼼수는 쓰지 않음(00-benchmark 10-5). 대신 연결 튐·고리·연결음이 그대로 같은 정보를 줌 — 추가 대체 연출 없음(같은 화면이 모든 기기에서 같아야 qa 비교가 쉬움)."
+ },
+ "measured": {
+  "_by": "assets/check/sound-check.mjs (node 합성식, 2026-11-18 G4 반영). 빌드 렌더값 대조는 1-3 뒤 qa.",
+  "margins": {
+   "s7_grade_rms_step_db": 2.04,
+   "s1_db": 1.63,
+   "s2_db": 19.22,
+   "s5_db": 16.9
+  },
+  "values": {
+   "connect_g1@1": {
+    "peak_db": -7.73,
+    "rms_db": -16.22
+   },
+   "connect_g1@2": {
+    "peak_db": -7.66,
+    "rms_db": -16.21
+   },
+   "connect_g1@3": {
+    "peak_db": -7.76,
+    "rms_db": -16.22
+   },
+   "connect_g1@4": {
+    "peak_db": -7.73,
+    "rms_db": -16.22
+   },
+   "connect_g1@5": {
+    "peak_db": -7.68,
+    "rms_db": -16.22
+   },
+   "connect_g1@6": {
+    "peak_db": -7.82,
+    "rms_db": -16.23
+   },
+   "connect_g2@1": {
+    "peak_db": -9.23,
+    "rms_db": -18.27
+   },
+   "connect_g2@2": {
+    "peak_db": -9.16,
+    "rms_db": -18.27
+   },
+   "connect_g2@3": {
+    "peak_db": -9.26,
+    "rms_db": -18.27
+   },
+   "connect_g2@4": {
+    "peak_db": -9.23,
+    "rms_db": -18.27
+   },
+   "connect_g2@5": {
+    "peak_db": -9.18,
+    "rms_db": -18.27
+   },
+   "connect_g2@6": {
+    "peak_db": -9.32,
+    "rms_db": -18.27
+   },
+   "connect_g3@1": {
+    "peak_db": -10.73,
+    "rms_db": -20.44
+   },
+   "connect_g3@2": {
+    "peak_db": -10.66,
+    "rms_db": -20.44
+   },
+   "connect_g3@3": {
+    "peak_db": -10.76,
+    "rms_db": -20.44
+   },
+   "connect_g3@4": {
+    "peak_db": -10.73,
+    "rms_db": -20.44
+   },
+   "connect_g3@5": {
+    "peak_db": -10.68,
+    "rms_db": -20.44
+   },
+   "connect_g3@6": {
+    "peak_db": -10.82,
+    "rms_db": -20.44
+   },
+   "complete@k3": {
+    "peak_db": -12.7,
+    "rms_db": -22.99
+   },
+   "complete@k4": {
+    "peak_db": -12.7,
+    "rms_db": -22.99
+   },
+   "complete@k5": {
+    "peak_db": -12.7,
+    "rms_db": -22.99
+   },
+   "complete@k6": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "tick@1": {
+    "peak_db": -30.37,
+    "rms_db": -47.07
+   },
+   "tick@2": {
+    "peak_db": -30.04,
+    "rms_db": -47.07
+   },
+   "tick@3": {
+    "peak_db": -30.31,
+    "rms_db": -47.07
+   },
+   "tick@4": {
+    "peak_db": -30.07,
+    "rms_db": -47.07
+   },
+   "tick@5": {
+    "peak_db": -30.04,
+    "rms_db": -47.07
+   },
+   "grab": {
+    "peak_db": -26.32,
+    "rms_db": -41.42
+   },
+   "cut": {
+    "peak_db": -24.47,
+    "rms_db": -37.1
+   },
+   "gap_hint": {
+    "peak_db": -18.03,
+    "rms_db": -24.64
+   },
+   "undo": {
+    "peak_db": -24.1,
+    "rms_db": -36.84
+   },
+   "restart": {
+    "peak_db": -22.03,
+    "rms_db": -31.31
+   },
+   "ui_tap": {
+    "peak_db": -22.13,
+    "rms_db": -38.01
+   },
+   "node_open": {
+    "peak_db": -16.61,
+    "rms_db": -26.31
+   },
+   "star": {
+    "peak_db": -12.45,
+    "rms_db": -21.87
+   },
+   "ambient": {
+    "peak_db": -27.72,
+    "rms_db": -61.48
+   },
+   "worst_mix": {
+    "peak_db": -6.98
+   },
+   "grade_rms_step_min_db": 2.04
+  }
+ }
+}

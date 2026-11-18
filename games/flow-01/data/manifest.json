@@ -1,0 +1,193 @@
+{
+ "_source": "projects/flow-01/tools/sync-build.mjs 생성. 손으로 고치지 않음",
+ "levels": [
+  "01-level1.json",
+  "02-level2.json",
+  "03-level3.json",
+  "04-level4.json",
+  "05-level5.json",
+  "06-level6.json",
+  "07-level7.json",
+  "08-level8.json",
+  "09-level9.json",
+  "10-level10.json"
+ ],
+ "icons": [
+  "icon-close",
+  "icon-filled",
+  "icon-help",
+  "icon-map",
+  "icon-new_best",
+  "icon-next",
+  "icon-one_go",
+  "icon-restart",
+  "icon-settings",
+  "icon-sound_off",
+  "icon-sound_on",
+  "icon-star",
+  "icon-star_empty",
+  "icon-undo",
+  "node-done-example",
+  "node-locked",
+  "node-open",
+  "node-partial"
+ ],
+ "files": {
+  "js/board.js": {
+   "from": "projects/flow-01/tools/core/board.mjs",
+   "sha256": "1eed24450637707ec8518e6b12fcd33a6e402acc4236938d98136daf19fd9146"
+  },
+  "js/rng.js": {
+   "from": "projects/flow-01/tools/core/rng.mjs",
+   "sha256": "6450a5fb03e6cd30ea5e30047571fb479695ff770a112d5b5ca9008ff87e8f78"
+  },
+  "data/balance.json": {
+   "from": "projects/flow-01/balance.json",
+   "sha256": "bfda52c5ad00e228efe79e0e523b8f88332294b198b6e39ee77643ca1cad1984"
+  },
+  "data/strings.json": {
+   "from": "projects/flow-01/strings.json",
+   "sha256": "182f7c7be36cfe09929bb256fbcea1367b6d97c619050cd485fc38eb46495900"
+  },
+  "data/levels/01-level1.json": {
+   "from": "projects/flow-01/levels/01-level1.json",
+   "sha256": "d0fbde5b869f03e465e3171a47091bd57287eb7e93809d82034ded78fb818e4d"
+  },
+  "data/levels/02-level2.json": {
+   "from": "projects/flow-01/levels/02-level2.json",
+   "sha256": "16d9bbc3f47b31bafcfc2884c07c13523c07539dccf426a75ddbe22f225b2927"
+  },
+  "data/levels/03-level3.json": {
+   "from": "projects/flow-01/levels/03-level3.json",
+   "sha256": "9b73bf99c4870477fd23d34187c8a503b7f1858d0700e013a866a15b927160b2"
+  },
+  "data/levels/04-level4.json": {
+   "from": "projects/flow-01/levels/04-level4.json",
+   "sha256": "fcd2c8f42cdaf7b84bb208ceed34975a86e09ea892eeb85aeaec3b36928f9571"
+  },
+  "data/levels/05-level5.json": {
+   "from": "projects/flow-01/levels/05-level5.json",
+   "sha256": "7fa4835bd440f266ca738065aa32b9f499a634721538cdf9f4604e4dfc80d529"
+  },
+  "data/levels/06-level6.json": {
+   "from": "projects/flow-01/levels/06-level6.json",
+   "sha256": "fd40abad452d1af19ad0937db1f77d26f50d679fa69acea2a7d1560bb7b74dca"
+  },
+  "data/levels/07-level7.json": {
+   "from": "projects/flow-01/levels/07-level7.json",
+   "sha256": "2776baa8ee072c4cad9a127a6428047cacc55812b31c957486fa8e4f0c85ccf1"
+  },
+  "data/levels/08-level8.json": {
+   "from": "projects/flow-01/levels/08-level8.json",
+   "sha256": "fe0286983c0d8ae4c69b68c0b473684ceafe81c68a2ae886d292a54c43869e83"
+  },
+  "data/levels/09-level9.json": {
+   "from": "projects/flow-01/levels/09-level9.json",
+   "sha256": "0711c5f991a4df21b0e4a5e3b8d3be8406b07c5de949a51dcc5316388a04e898"
+  },
+  "data/levels/10-level10.json": {
+   "from": "projects/flow-01/levels/10-level10.json",
+   "sha256": "7cd15e656861e4af80b6156db7462901412d9a32285a8aa0e2ac5edf688c9894"
+  },
+  "data/palette.json": {
+   "from": "projects/flow-01/assets/palette.json",
+   "sha256": "6ffc1f739a702d5794379d5936507daaf56e314f0f754df0b4f2e4c0e98adc79"
+  },
+  "data/layout.json": {
+   "from": "projects/flow-01/assets/layout.json",
+   "sha256": "fb6a04f8fbc4827d475da5734830f3e5f8b16926940b47305d8a3217cce53e80"
+  },
+  "data/sound.json": {
+   "from": "projects/flow-01/assets/sound.json",
+   "sha256": "6b4a40fbb1cf6f35d365e712557cb4ace264a9fbb7c696096d357e3f678f71f5"
+  },
+  "data/finger.svg": {
+   "from": "projects/flow-01/assets/finger.svg",
+   "sha256": "def827727894280bd89efdd257b2053243f0777ad83ef5feff1d707e57af8562"
+  },
+  "data/logo-mark.svg": {
+   "from": "projects/flow-01/assets/logo-mark.svg",
+   "sha256": "7607c82a9609b73816884abe9acb5de49d3f03ff43126a5db12474840b72d195"
+  },
+  "data/icons/icon-close.svg": {
+   "from": "projects/flow-01/assets/icons/icon-close.svg",
+   "sha256": "f7d3c6c0d2ec40fa7855fc312e1b61c19bd8645debdf75cf597bd05e3d8571f3"
+  },
+  "data/icons/icon-filled.svg": {
+   "from": "projects/flow-01/assets/icons/icon-filled.svg",
+   "sha256": "86f81235bf1e923c2381e52b5bfa6854f454d2b86e34503ebcaf2dcfc8f691ff"
+  },
+  "data/icons/icon-help.svg": {
+   "from": "projects/flow-01/assets/icons/icon-help.svg",
+   "sha256": "6100f330ad7264a452238497d6675bd5eeb82ce0cc3dd689d193734fdec486c6"
+  },
+  "data/icons/icon-map.svg": {
+   "from": "projects/flow-01/assets/icons/icon-map.svg",
+   "sha256": "034ab0e9f99e6de69700fed7ca374217ab900d2107c9e7ba8269575a6de7670c"
+  },
+  "data/icons/icon-new_best.svg": {
+   "from": "projects/flow-01/assets/icons/icon-new_best.svg",
+   "sha256": "44ab29fac37a610146801b6dd0cfa4688aa981de2cef5e446fe2557dc8a0d4cf"
+  },
+  "data/icons/icon-next.svg": {
+   "from": "projects/flow-01/assets/icons/icon-next.svg",
+   "sha256": "f7ae78eaf04d1e27cdd53c9befd84e6ec2c9f54c73d7eb975118554d5aa434ff"
+  },
+  "data/icons/icon-one_go.svg": {
+   "from": "projects/flow-01/assets/icons/icon-one_go.svg",
+   "sha256": "ed73685bc9ab2b707a06e26f926a27f62bceeda02da227ed6daff484d9233e4c"
+  },
+  "data/icons/icon-restart.svg": {
+   "from": "projects/flow-01/assets/icons/icon-restart.svg",
+   "sha256": "aa943c06cb6d3accdf5ff36ff2ef333ccbaa5e649ea539606fc96a979c61dc5c"
+  },
+  "data/icons/icon-settings.svg": {
+   "from": "projects/flow-01/assets/icons/icon-settings.svg",
+   "sha256": "9393daf68d09112ba3f27c6f244a4dc3caa62562bcd021312d9706eddb1d2c34"
+  },
+  "data/icons/icon-sound_off.svg": {
+   "from": "projects/flow-01/assets/icons/icon-sound_off.svg",
+   "sha256": "e4df88d69c0cce470c06a67db70691f232e64e20c1d9d066f20973d1a2dd1371"
+  },
+  "data/icons/icon-sound_on.svg": {
+   "from": "projects/flow-01/assets/icons/icon-sound_on.svg",
+   "sha256": "402033592de26ccac5c43d052c763226f96c4e9451d1ca45231520b131fc1b95"
+  },
+  "data/icons/icon-star.svg": {
+   "from": "projects/flow-01/assets/icons/icon-star.svg",
+   "sha256": "c5fc6648cec48c1c52d98a408d84a45d416adc14ca9086b89b1bc398300a20db"
+  },
+  "data/icons/icon-star_empty.svg": {
+   "from": "projects/flow-01/assets/icons/icon-star_empty.svg",
+   "sha256": "a28b527f51389ec2a13665132e628eccb5571860867af8f0a25649e7e2d966f1"
+  },
+  "data/icons/icon-undo.svg": {
+   "from": "projects/flow-01/assets/icons/icon-undo.svg",
+   "sha256": "152cd1d9631bec2974ce9e02d17d178880ee7506f7879bc98aa63c45e115f2d5"
+  },
+  "data/icons/node-done-example.svg": {
+   "from": "projects/flow-01/assets/icons/node-done-example.svg",
+   "sha256": "411b34b8e0cb5ca465c4b97c4777d1ff0566e5c4515cdc3ff3433512a3bd0968"
+  },
+  "data/icons/node-locked.svg": {
+   "from": "projects/flow-01/assets/icons/node-locked.svg",
+   "sha256": "d473819d3d608e4fd53744ab7b77bf4c3394130e406b28b003c4c0c7b1f39532"
+  },
+  "data/icons/node-open.svg": {
+   "from": "projects/flow-01/assets/icons/node-open.svg",
+   "sha256": "9865094b5ad83ff5c7589259f4404fcdb968214348b88dea687fd8aacfbdb53f"
+  },
+  "data/icons/node-partial.svg": {
+   "from": "projects/flow-01/assets/icons/node-partial.svg",
+   "sha256": "b6c7079ddaf3de23aeb612b10952c91b15f0df07c5cd7a136a9f6c2f56edc13c"
+  },
+  "data/tutorial/card-fill.svg": {
+   "from": "projects/flow-01/assets/tutorial/card-fill.svg",
+   "sha256": "581f56d4d6fcc9dccea9a42e153c6a42cfef1444b6cd2832044cad1e8db9c0c2"
+  },
+  "data/tutorial/card-hole.svg": {
+   "from": "projects/flow-01/assets/tutorial/card-hole.svg",
+   "sha256": "98dfcc1e82677ef86f03a2ad91144bab9f983554b144e07c3335817b892b629e"
+  }
+ }
+}

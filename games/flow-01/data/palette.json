@@ -1,0 +1,193 @@
+{
+ "schema_version": 1,
+ "_source": "assets/check/palette.mjs --write 가 생성(art-director 원본). 30-art 2절 표는 요약이고 다르면 이 파일이 기준. 빌드는 이 파일만 읽음.",
+ "_rules": [
+  "쌍 색은 레벨 JSON pairs[].color_slot 을 읽음: color_slot n → pairs[n](키 p{n+1}, 0부터 셈). 빌드는 쌍 순서가 아니라 color_slot 을 읽음. 쌍 k개 레벨은 color_slot 0..k−1 = p1..pk. 같은 쌍 = 같은 색 + 같은 모양 표지(mark)가 10레벨 내내 같음.",
+  "점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.60칸 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).",
+  "판정 이름 글자 = 그 쌍의 shade + 흰 테두리 3 px(paint-order stroke). 판정 % = inkSoft.",
+  "빈칸 = tile + tileDot(가운데 점). 구멍 칸 = 판 카드에서 그 칸(둥근 모서리 tile_r)을 even-odd 로 도려내 바탕 그라디언트가 보이게 하고, 도려낸 둘레에 boardEdge 1.5 px 선. 타일·가운데 점 없음(lore: 칸이 없는 자리, 바탕이 보임).",
+  "바탕 = themes.<레벨>.top → bottom 세로 선형 그라디언트 한 장, 움직이지 않음. 판 그림자는 투명도 0.10 이하 흐림 1개만 허용(번쩍임과 무관), 그 밖의 투명도는 연출 중 흐려짐에만.",
+  "decor: 판 뒤 바탕 층에만, 색 = mix(theme.top, ink, 0.06), 크기 0.5~0.9칸, 판 카드 모서리 뒤에서 최대 0.4칸 보임. HUD 띠·판정 자리·글 자리·버튼 위에는 없음. level10 별 3개는 판 완료 때만 0.4 s 에 나타남(번쩍임 없음).",
+  "빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(따뜻한 노랑)."
+ ],
+ "pairs": [
+  {
+   "key": "p1",
+   "name_ko": "빨강",
+   "name_en": "red",
+   "hex": "#E04D61",
+   "mark": "heart",
+   "tint": "#F8D8DC",
+   "shade": "#A44256"
+  },
+  {
+   "key": "p2",
+   "name_ko": "파랑",
+   "name_en": "blue",
+   "hex": "#2142BA",
+   "mark": "circle",
+   "tint": "#CED5F0",
+   "shade": "#233B93"
+  },
+  {
+   "key": "p3",
+   "name_ko": "노랑",
+   "name_en": "yellow",
+   "hex": "#A87B00",
+   "mark": "star",
+   "tint": "#ECE2C7",
+   "shade": "#7E6114"
+  },
+  {
+   "key": "p4",
+   "name_ko": "초록",
+   "name_en": "green",
+   "hex": "#1E7640",
+   "mark": "triangle",
+   "tint": "#CEE1D5",
+   "shade": "#215E40"
+  },
+  {
+   "key": "p5",
+   "name_ko": "보라",
+   "name_en": "purple",
+   "hex": "#B64DE0",
+   "mark": "moon",
+   "tint": "#EFD8F8",
+   "shade": "#8842AD"
+  },
+  {
+   "key": "p6",
+   "name_ko": "하늘",
+   "name_en": "teal",
+   "hex": "#00899E",
+   "mark": "square",
+   "tint": "#C7E5EA",
+   "shade": "#0C6B80"
+  }
+ ],
+ "common": {
+  "ink": "#262B40",
+  "inkSoft": "#5B6178",
+  "board": "#FFFFFF",
+  "boardEdge": "#DCE1EE",
+  "tile": "#EDF0F7",
+  "tileDot": "#8B93AA",
+  "gapGlow": "#FFD36B",
+  "white": "#FFFFFF",
+  "star": "#FFC233",
+  "starEdge": "#8A5A00",
+  "button": "#FFFFFF",
+  "buttonEdge": "#D3D9E8",
+  "pathTodo": "#C9CFDF",
+  "pathDone": "#6474CF",
+  "nodeLocked": "#DDE1EC",
+  "nodeLockedMark": "#737B93",
+  "nodeOpen": "#FFFFFF",
+  "nodeOpenEdge": "#5B6CD6",
+  "finger": "#FFFFFF",
+  "fingerEdge": "#262B40"
+ },
+ "themes": {
+  "level01": {
+   "lore": "햇살 마당",
+   "top": "#FFF3D2",
+   "bottom": "#FFF8EA",
+   "decor": {
+    "shape": "arc",
+    "count": 1
+   }
+  },
+  "level02": {
+   "lore": "튤립 화분",
+   "top": "#FDE6EE",
+   "bottom": "#FFF7EC",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   }
+  },
+  "level03": {
+   "lore": "물놀이 해변",
+   "top": "#DDF1FA",
+   "bottom": "#FBF3E2",
+   "decor": {
+    "shape": "wave",
+    "count": 1
+   }
+  },
+  "level04": {
+   "lore": "구불구불 숲",
+   "top": "#EAF6DD",
+   "bottom": "#DDF1E2",
+   "decor": {
+    "shape": "triangle",
+    "count": 2
+   }
+  },
+  "level05": {
+   "lore": "과일 가게",
+   "top": "#FFE8D6",
+   "bottom": "#FFF6D8",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   }
+  },
+  "level06": {
+   "lore": "징검다리 연못",
+   "top": "#D6F0EC",
+   "bottom": "#E3F1FB",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   }
+  },
+  "level07": {
+   "lore": "큰 꽃정원",
+   "top": "#EFE4FA",
+   "bottom": "#FCE6F0",
+   "decor": {
+    "shape": "square",
+    "count": 2
+   }
+  },
+  "level08": {
+   "lore": "돌담 길",
+   "top": "#EFE8DF",
+   "bottom": "#FBF5EA",
+   "decor": {
+    "shape": "square",
+    "count": 3
+   }
+  },
+  "level09": {
+   "lore": "무지개 들판",
+   "top": "#E0F0FB",
+   "bottom": "#FDF6D9",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level10": {
+   "lore": "노을 하늘",
+   "top": "#FFE1CC",
+   "bottom": "#ECE3F8",
+   "decor": {
+    "shape": "star",
+    "count": 3,
+    "only_on_complete": true
+   }
+  },
+  "menu": {
+   "lore": "지도·결과",
+   "top": "#F3EEFB",
+   "bottom": "#E4EEFA"
+  }
+ },
+ "derive": {
+  "tint_t": 0.78,
+  "shade_t": 0.32
+ }
+}

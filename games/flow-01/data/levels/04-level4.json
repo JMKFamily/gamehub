@@ -1,0 +1,217 @@
+{
+ "schema_version": 1,
+ "id": "04",
+ "order": 4,
+ "name_key": "level4_name",
+ "width": 5,
+ "height": 5,
+ "holes": [],
+ "pairs": [
+  {
+   "id": "c1",
+   "color_slot": 0,
+   "a": [
+    1,
+    1
+   ],
+   "b": [
+    3,
+    0
+   ]
+  },
+  {
+   "id": "c2",
+   "color_slot": 1,
+   "a": [
+    0,
+    4
+   ],
+   "b": [
+    3,
+    4
+   ]
+  },
+  {
+   "id": "c3",
+   "color_slot": 2,
+   "a": [
+    2,
+    0
+   ],
+   "b": [
+    3,
+    1
+   ]
+  },
+  {
+   "id": "c4",
+   "color_slot": 3,
+   "a": [
+    4,
+    4
+   ],
+   "b": [
+    1,
+    0
+   ]
+  }
+ ],
+ "solution": [
+  {
+   "id": "c1",
+   "path": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     0
+    ],
+    [
+     3,
+     0
+    ]
+   ]
+  },
+  {
+   "id": "c2",
+   "path": [
+    [
+     0,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ]
+   ]
+  },
+  {
+   "id": "c3",
+   "path": [
+    [
+     2,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ]
+   ]
+  },
+  {
+   "id": "c4",
+   "path": [
+    [
+     4,
+     4
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ]
+   ]
+  }
+ ],
+ "new_element": "long_winding_line",
+ "new_element_ko": "꺾임 많은 긴 선",
+ "tutorial": null,
+ "fill_card": null,
+ "hole_card": null,
+ "structure": {
+  "size": "5x5",
+  "cells": 25,
+  "pairs": 4,
+  "holes": 0,
+  "min_len": 3,
+  "max_len": 10,
+  "mean_len": 6.25,
+  "bends": 7,
+  "illusion": 0,
+  "detour_cells": 0,
+  "edge_cells": 16,
+  "shortest_trap_combos": 0,
+  "solver_nodes": 26
+ },
+ "generator": {
+  "version": "gen-1.0.0",
+  "core_version": "1.1.0",
+  "seed": 4000552,
+  "candidate_index": 552,
+  "attempts": 34,
+  "params": {
+   "width": 5,
+   "height": 5,
+   "pairs": 4,
+   "holes": 0,
+   "minLen": 3,
+   "allowSelfAdjacent": false
+  },
+  "independent_note": "원작 판을 보지 않고 시드 생성. 같은 시드·생성기 버전이면 같은 판"
+ }
+}
