@@ -1,0 +1,96 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr2",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1559,
+     "avg": 58,
+     "low1": 15.3,
+     "max_ms": 133.4,
+     "over33": 16
+    },
+    "level_start_transition": {
+     "frames": 256,
+     "avg": 54.1,
+     "low1": 12,
+     "max_ms": 99.9,
+     "over33": 9
+    },
+    "dragging_juice": {
+     "frames": 432,
+     "avg": 59.6,
+     "low1": 34.2,
+     "max_ms": 33.4,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 405,
+     "avg": 59.1,
+     "low1": 24,
+     "max_ms": 66.7,
+     "over33": 2
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 33.3,
+    "map_to_play_L6": 99.9,
+    "result_to_map_1": 50,
+    "map_to_play_L7": 33.3,
+    "result_to_map_2": 50,
+    "map_to_play_L8": 16.8,
+    "result_next_L9": 33.3,
+    "play_to_map": 33.4,
+    "map_page_turn": 33.3
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 5.3,
+    "ms_p95": 8.3,
+    "ms_max": 14.4
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   },
+   "blank_pre": {
+    "frames": 399,
+    "avg": 59.8,
+    "low1": 44.3,
+    "max_ms": 34.1,
+    "over33": 1,
+    "audio_ctx_ms": 90.8
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.3,
+    "max_ms": 16.9,
+    "over33": 0,
+    "audio_ctx_ms": 100
+   },
+   "valid": false
+  }
+ ],
+ "flow": "title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)",
+ "blank_control": [
+  {
+   "config": "412x915 dpr2",
+   "frames": 399,
+   "avg": 60,
+   "low1": 59.4,
+   "max_ms": 16.9,
+   "over33": 0
+  }
+ ],
+ "log": {
+  "console": [
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 203
+ }
+}

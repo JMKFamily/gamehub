@@ -79,7 +79,7 @@ let trans = null;
 let lastScreenAt = 0;
 function show(name) {
   state = name; lastScreenAt = performance.now();
-  for (const s of SCREENS) $(s).classList.toggle('show', s === name);
+  for (const s of SCREENS) { const el = $(s), on = s === name; el.classList.toggle('show', on); if (s === 'map' || s === 'result') { el.classList.toggle('pre', !on); el.inert = !on; if (!on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden'); } }
   $('boot').classList.remove('show');
   cv.style.visibility = name === 'play' || name === 'result' ? 'visible' : 'hidden';
   trans = name === 'result' ? null : { el: $(name), t0: clock, ms: D.lay.motion.screen.ms };
@@ -1235,6 +1235,7 @@ window.__game = api;
   // 플레이 중에는 3 s 동안 누름이 없을 때만(드래그 사이에 긴 프레임을 만들지 않음)
   setIdleGate(() => !!trans || !!pageTurn || performance.now() - lastScreenAt < 400 || !!(PS && (PS.drag || PS.trans || (PS.doneAt != null && clock - PS.doneAt < 1600))) || (state === 'play' && PS && clock - Math.max(PS.lastPress, PS.t0) < 3000));
   idle(() => prewarmPage(mapPage)); idle(() => prewarmPage(mapPage + 1));
+  idle(() => { if (state !== 'map') { VW = window.innerWidth; VH = window.innerHeight; buildMap(); } }); // 지도 DOM 을 타이틀 유휴 시간에 미리 만들고 그려 둠(opacity 0 레이어)
   for (const n of ['star', 'star_empty', 'new_best', 'filled']) idle(() => svgImg(icon(n)));
   // 캔버스 글꼴(판정 이름) 첫 사용 비용을 부팅 때 미리 치름
   for (const k of D.bal.judge.name_keys) textSprite(T(k), 38, FONT, '#000000', '#FFFFFF', 1, null);
