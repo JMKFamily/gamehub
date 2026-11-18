@@ -1,5 +1,5 @@
 # SHA-256 (tools/sim 원본 = 이 폴더 복사본). 생성: projects/tcg-01/tools/sync-engine.mjs, ENGINE_VERSION 2.0.0
 c62ee711268f73c12e00a35f851ee76fad093f805720e0a53717971de0310c6a  engine.mjs
-7b24d911f6553a6630123d6e76bfc3051feb2aa171693b8a68406d3dbfafc162  ai.mjs
+6f773ee4864068b901c76193fe31a012fb5ebb75110f154a1cb13cba64fb0fde  ai.mjs
 ea170a9b464791ee9b76e153c423098c995166460d83588dabca290425bfabed  value.mjs
 d1e734dad3021699190a59fda702c0423eeb425d00711dec99f0c704ef99c772  sim.mjs

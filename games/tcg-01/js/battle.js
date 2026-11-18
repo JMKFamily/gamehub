@@ -109,7 +109,10 @@ export class Battle {
       const wr = R[side + '_wicks'];
       const wicks = h('div', { class: 'wicks', role: 'meter', 'aria-label': t('hud_aria_wicks'), 'aria-valuemin': 0, 'aria-valuemax': 10, style: `left:${wr.x}px;top:${wr.y}px;width:${wr.w}px;height:${wr.h}px` });
       const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand' }, [h('img', { class: 'cb', src: assetURL('candle-empty.svg'), alt: '', draggable: 'false' }), h('img', { class: 'cl', src: assetURL('candle-lit.svg'), alt: '', draggable: 'false', style: `animation-delay:-${(i * 0.37) % 1.4}s;animation-duration:${1.1 + ((i * 0.23) % 0.6)}s` })]); b._st = 'empty'; setTf(b.children[1], { o: 0 }); bars.push(b); wicks.appendChild(b); }
-      const wn = h('b'); wicks.appendChild(wn);
+      const wn = h('b', { class: 'wpill' }); wicks.appendChild(wn);
+      { // 촛불 2줄 × 5(art ux2.candle.size_px.rule_r2): 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4
+        const rows = wr.candle_rows || 2, cw = Math.min((wr.w - 12) / 5, (wr.h / rows) * 20 / 48), ch = Math.min(cw * 2.4, wr.h / rows);
+        Object.assign(wicks.style, { display: 'grid', gridTemplateColumns: `repeat(5, ${cw}px)`, gridAutoRows: `${ch}px`, columnGap: '3px', rowGap: '0px', alignContent: 'center' }); }
       wrap.appendChild(wicks);
       const cr = R[side + '_calling'];
       const call = h('button', { class: 'callBtn', type: 'button', 'data-k': side === 'my' ? 'power' : 'epower', 'aria-label': t(`hero_${hs}_power`), style: `--fac:${f.primary};left:${cr.x}px;top:${cr.y}px;width:${cr.w}px;height:${cr.h}px` },
@@ -138,7 +141,7 @@ export class Battle {
     this.sortMode = this.sortMode || 'hand';
     { // 정렬 버튼(비용순 ↔ 유형순, 48 px): 세로 = 가운데 띠 내 덱 왼쪽, 가로 = 오른쪽 기둥 내 덱 위
       const md = R.my_deck, por = this.S.orientation === 'portrait';
-      const sr = por ? { x: md.x - 52, y: md.y, w: 48, h: 48 } : { x: md.x, y: md.y - 56, w: md.w, h: 48 };
+      const sr = R.sort_button || (por ? { x: md.x - 52, y: md.y, w: 48, h: 48 } : { x: md.x, y: md.y - 56, w: md.w, h: 48 }); // art sort_button 사각형 우선
       this.sortBtn = h('button', { class: 'btn sortBtn', type: 'button', 'data-k': 'sort', style: `left:${sr.x}px;top:${sr.y}px;width:${sr.w}px;height:${sr.h}px` }); stage.appendChild(this.sortBtn);
       this.sortBtn.textContent = (this.sortMode === 'family' ? t('deck_filter_type') : this.sortMode === 'cost' ? t('deck_filter_cost') : t('hud_hand'));
       if (por) { const tr = R.turn_timer; this.timerEl.style.width = Math.max(40, sr.x - 4 - tr.x) + 'px'; }

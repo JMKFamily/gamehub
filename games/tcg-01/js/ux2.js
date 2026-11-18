@@ -23,6 +23,8 @@ function stageFor(sec) {
   sec.appendChild(st);
   return { st, key, W, H, R: D.art.ux2.lobby_rects_px[key] };
 }
+// 넘치는 글(가로 영어 등)은 잘리지 않게 글자 크기를 10 px까지 줄임
+function fitText(root) { for (const el of root.querySelectorAll('.tile')) { const tx = [el, ...el.querySelectorAll('span')]; let fs = parseFloat(getComputedStyle(el.querySelector('.small') || el).fontSize), g = 0; while (el.scrollWidth > el.clientWidth + 1 && fs > 10 && g++ < 8) { fs -= 1; for (const x of tx) x.style.fontSize = fs + 'px'; } } }
 const place = (r, extra = '') => `left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;${extra}`;
 
 // ---------- 진행 값 ----------
@@ -54,17 +56,23 @@ export function lobbyScreen() {
   st.appendChild(h('div', { class: 'hudCur', style: place(R.currency) }, [cur('currency-salt', c.salt, 'currency_salt'), cur('currency-ink', c.ink, 'currency_ink'), cur('currency-pearl', c.pearl, 'currency_pearl')]));
   st.appendChild(btn(t('menu_market'), () => go('market'), 'tile', { style: place(R.shop), 'data-nav': 'market' }));
   // 시즌 보상 트랙 위젯
-  const nextStep = si.step + 1, nextCrate = nextStep % 5 === 0;
-  const ticks = h('div', { class: 'stTicks' }); for (let i = 0; i < 10; i++) ticks.appendChild(h('i', { class: i < si.step % 10 ? 'on' : i === si.step % 10 ? 'cur' : '' }));
+    const ticks = h('div', { class: 'stTicks' }), b10 = Math.floor(si.step / 10) * 10;
+  for (let i = 0; i < 10; i++) {
+    const n = b10 + i + 1, done = n <= si.step, here = n === si.step + 1, big = n % 5 === 0;
+    ticks.appendChild(h('i', { class: (done ? 'on' : '') + (here ? ' cur' : '') + (big ? ' big' : '') }, big ? h('img', { src: assetURL(n % 10 === 0 ? 'crate-bare-sea.svg' : 'salt-chunk-pearl.svg'), alt: '' }) : here ? h('img', { src: assetURL('candle-lit.svg'), alt: '' }) : null));
+  }
   st.appendChild(h('button', { class: 'seasonW', type: 'button', 'data-nav': 'calendar', style: place(R.season), onclick: () => go('calendar') }, [
-    h('div', { class: 'row', style: 'gap:6px;flex-wrap:nowrap;justify-content:space-between' }, [h('b', { class: 'small', text: `${t('season_name_1')} · ${t('season_widget_level', { n: si.step })}` }), h('span', { class: 'small dim', text: t('season_widget_next', { n: si.next }) })]),
-    h('div', { class: 'row', style: 'flex-wrap:nowrap;gap:6px' }, [ticks, h('img', { src: assetURL(nextCrate ? 'crate-bare-sea.svg' : 'currency-salt.svg'), alt: '', style: 'width:26px;height:26px;flex:none' })])]));
+    h('div', { class: 'stHead' }, [h('b', { text: `${t('season_name_1')} · ${t('season_widget_level', { n: si.step })}` }), h('span', { class: 'dim', text: t('season_widget_next', { n: si.next }) })]),
+    ticks]));
   // 퀘스트 위젯(늘 보임): 의뢰 3 + 주간 맹약
-  const qw = h('button', { class: 'questW', type: 'button', 'data-nav': 'commissions', style: place(R.quests), onclick: () => go('commissions') }, h('b', { class: 'small', text: t('quest_widget_title') }));
-  const rows = [...M.s.daily.comm.map((q) => ({ cur: q.prog, max: q.n, done: q.prog >= q.n, claimed: q.claimed })), M.s.weekly ? { cur: M.s.weekly.prog, max: M.s.weekly.n, done: M.s.weekly.prog >= M.s.weekly.n, claimed: M.s.weekly.claimed, weekly: true } : null].filter(Boolean);
-  for (const q of rows) {
+  const qw = h('button', { class: 'questW', type: 'button', 'data-nav': 'commissions', style: place(R.quests), 'aria-label': t('quest_widget_title'), onclick: () => go('commissions') });
+  const qName = (q) => (q.type === 'win_hero' ? t('quest_name_win_hero', { hero: heroName(q.hero) }) : t(`quest_name_${q.type}`));
+  const rows = [...M.s.daily.comm.map((q) => ({ name: qName(q), cur: q.prog, max: q.n, done: q.prog >= q.n, claimed: q.claimed, icon: 'currency-salt.svg' })), M.s.weekly ? { name: t('quest_name_weekly'), cur: M.s.weekly.prog, max: M.s.weekly.n, done: M.s.weekly.prog >= M.s.weekly.n, claimed: M.s.weekly.claimed, icon: 'crate-bare-sea.svg' } : null].filter(Boolean);
+  for (const q of rows.slice(0, Math.max(1, Math.floor((R.quests.h - 8) / 40)))) {
     const k = Math.min(1, q.cur / q.max);
-    qw.appendChild(h('div', { class: 'qrow' + (q.done && !q.claimed ? ' done' : '') + (q.claimed ? ' claimed' : '') }, [h('div', { class: 'qbar' }, h('i', { style: `transform:scaleX(${k.toFixed(3)})` })), h('span', { class: 'small', text: t('quest_widget_progress', { cur: q.cur, max: q.max }) })]));
+    qw.appendChild(h('div', { class: 'qrow' + (q.done && !q.claimed ? ' done' : '') + (q.claimed ? ' claimed' : '') }, [
+      h('div', { class: 'qtop' }, [h('span', { class: 'qname', text: q.name }), h('img', { src: assetURL(q.icon), alt: '' })]),
+      h('div', { class: 'qbot' }, [h('div', { class: 'qbar' }, h('i', { style: `transform:scaleX(${k.toFixed(3)})` })), h('span', { class: 'qn', text: t('quest_widget_progress', { cur: q.cur, max: q.max }) })])]));
   }
   st.appendChild(qw);
   // 이야기 지도(왼쪽 가장자리) · 카드 팩·수집·덱(오른쪽 가장자리)
@@ -76,12 +84,25 @@ export function lobbyScreen() {
   st.appendChild(tile(R.decks, 'card-back.svg', t('menu_writbook'), 'decks'));
   // 가운데 아래: 결투(큰 주황, 숨쉬기) + 돌파·제작
   st.appendChild(btn(h('span', { text: t('menu_play') }), () => go('difficulty'), 'primary battleBtn', { style: place(R.battle), 'data-nav': 'play' }));
-  st.appendChild(btn(t('recut_button'), () => go('collection'), 'tile', { style: place(R.breakthrough), 'data-nav': 'breakthrough' }));
-  st.appendChild(btn(t('inscribe_button'), () => go('collection'), 'tile', { style: place(R.craft), 'data-nav': 'craft' }));
+  st.appendChild(btn(t('recut_button'), () => go('collection', { mode: 'recut' }), 'tile fit', { style: place(R.breakthrough), 'data-nav': 'breakthrough' }));
+  st.appendChild(btn(t('inscribe_button'), () => go('collection', { mode: 'craft' }), 'tile fit', { style: place(R.craft), 'data-nav': 'craft' }));
   st.appendChild(btn(h('img', { src: assetURL('icon-log.svg'), alt: t('menu_settings'), style: 'width:26px;height:26px' }), () => go('settings'), 'tile', { style: place(R.settings), 'data-nav': 'settings', 'aria-label': t('menu_settings') }));
+  requestAnimationFrame(() => fitText(st));
   return sec;
 }
 
+// 단계 그림(art ux2.mjs battleSelectSVG와 같은 구성): 물결 수 = 단계, 2단계 시장 천막, 3단계 사구, 4단계 솟는 흑조(청록). 잠김 안내는 그림 안 가운데
+function tierArt(i, lockText) {
+  const W = 160, H = 64, wv = [];
+  for (let k = 0; k <= i; k++) { const y = H * (0.86 - k * 0.15); wv.push(`<path d="M8 ${y}Q${W * 0.3} ${y - 6 - i * 4} ${W * 0.55} ${y}T${W - 8} ${y}" fill="none" stroke="${i === 3 ? '#4DE0FF' : '#F2EEE4'}" stroke-width="${2 + i * 0.8}" stroke-linecap="round" opacity="${0.6 + k * 0.1}"/>`); }
+  const extra = i === 1 ? `<path d="M${W * 0.3} ${H * 0.5}L${W * 0.4} ${H * 0.22}L${W * 0.5} ${H * 0.5}ZM${W * 0.5} ${H * 0.5}L${W * 0.6} ${H * 0.26}L${W * 0.7} ${H * 0.5}Z" fill="#8A5A2E" stroke="#2A1D12"/>`
+    : i === 2 ? `<path d="M0 ${H * 0.5}Q${W * 0.25} ${H * 0.18} ${W * 0.5} ${H * 0.45}T${W} ${H * 0.3}V${H * 0.55}H0Z" fill="#6B5A3A" opacity=".8"/>`
+    : i === 3 ? `<path d="M${W * 0.6} ${H}Q${W * 0.7} ${H * 0.1} ${W * 0.82} ${H * 0.08}Q${W * 0.78} ${H * 0.4} ${W * 0.95} ${H}Z" fill="#0B2A30" stroke="#4DE0FF" stroke-opacity=".6"/>` : '';
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><rect width="${W}" height="${H}" fill="${i === 3 ? '#070D12' : '#1B2A31'}"/><path d="M0 ${H * 0.55}H${W}" stroke="#AEB9BD" stroke-opacity=".4"/>${extra}${wv.join('')}</svg>`;
+  const box = h('div', { class: 'tierArt' }, h('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg), alt: '' }));
+  if (lockText) box.appendChild(h('div', { class: 'tierLock' }, [h('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2" fill="#AEB9BD"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#AEB9BD" stroke-width="2.5"/></svg>'), alt: '' }), h('span', { text: lockText })]));
+  return box;
+}
 // ---------- 상대 실력 고르기(쉬움부터) ----------
 export function difficultyScreen() {
   const s = frame('difficulty', t('ai_level'));
@@ -94,8 +115,9 @@ export function difficultyScreen() {
     tiers.forEach((T, i) => {
       const u = tierUnlocked(T.tier);
       const card = h('button', { class: 'tierCard' + (T.tier === sel ? ' sel' : '') + (u.ok ? '' : ' locked'), type: 'button', 'data-tier': T.tier, style: `--ring:${rings[i]}`, onclick: () => { if (!u.ok) { toast(t('ai_tier_locked')); sfx('ui_deny'); return; } sfx('ui_tap'); sel = T.tier; draw(); } }, [
-        h('div', { class: 'tierArt' }, [0, 1, 2, 3].slice(0, i + 1).map(() => h('i'))),
-        h('div', { class: 'col', style: 'gap:2px;min-width:0' }, [h('b', { text: t(`ai_tier_${T.tier}_name`) }), h('span', { class: 'small dim', text: u.ok ? t(`ai_tier_${T.tier}_sub`) : t('ai_tier_locked_n', { tier: t(`ai_tier_${u.tier}_name`), n: u.need }) })])]);
+        tierArt(i, u.ok ? null : t('ai_tier_locked_n', { tier: t(`ai_tier_${u.tier}_name`), n: u.need })),
+        h('div', { class: 'col', style: 'gap:2px;min-width:0' }, [h('b', { text: t(`ai_tier_${T.tier}_name`) }), h('span', { class: 'small dim', text: t(`ai_tier_${T.tier}_sub`) })]),
+        h('div', { class: 'tierDots' }, [0, 1, 2, 3].map((k) => h('i', { class: k <= i ? 'on' : '' })))]);
       list.appendChild(card);
     });
   };
@@ -138,7 +160,9 @@ export function decksFirstScreen() {
   body.appendChild(more);
   const core = s.querySelector('.core');
   core.appendChild(btn(`+ ${t('deck_new')}`, () => newDeck(decks.find((d) => d.id === selId).hero), '', { 'data-act': 'newDeck' }));
-  core.appendChild(btn(t('deck_rename'), () => { const d = decks.find((x) => x.id === selId); if (d.std) { toast(t('deck_standard_locked')); return; } go('builder', { deck: d }); }, 'primary', { 'data-act': 'editDeck' }));
+  // 1차 행동(노란색) = 고른 덱으로 결투, 이름 바꾸기·고치기는 ⋯ 안(UX2 리뷰 4)
+  more.insertBefore(btn(t('deck_rename'), () => { const d = decks.find((x) => x.id === selId); if (d.std) { toast(t('deck_standard_locked')); return; } go('builder', { deck: d }); }, '', { 'data-act': 'editDeck' }), more.firstChild);
+  core.appendChild(btn(t('menu_play'), () => { const d = decks.find((x) => x.id === selId); M.s.lastHero = d.hero; M.s.deckSel = d.id; save(); go('difficulty'); }, 'primary', { 'data-act': 'playDeck' }));
   core.appendChild(btn('⋯', () => more.classList.toggle('hidden'), '', { 'data-act': 'more', 'aria-label': t('deck_new') }));
   // 그림 튜토리얼(첫 진입 한 번, guide_deck_1~5)
   setTimeout(() => {
@@ -170,10 +194,12 @@ export function openAllScreen({ list }) {
   res.sort((a, b) => RANK[a.rarity] - RANK[b.rarity]);
   const nNew = res.filter((r) => r.isNew).length, nDup = res.length - nNew;
   body.appendChild(h('div', { class: 'small', text: `${t('crate_summary_new', { n: nNew })} · ${t('crate_summary_dup', { n: nDup })}` }));
+  // 희귀도별 장 수 줄(높은 순, 30-art 12-6): 소금 덩이 그림 + 이름 + n장
+  body.appendChild(h('div', { class: 'raritySum' }, ['abyss', 'coral', 'pearl', 'sand'].map((rk) => { const n = res.filter((r) => r.rarity === rk).length; return h('span', { class: 'rchip' + (n ? '' : ' zero'), style: `--re:${D.art.palette.rarity[rk].edge}` }, [h('img', { src: assetURL(`salt-chunk-${rk}.svg`), alt: '' }), `${t(`rarity_${rk}`)} ${n}`]); })));
   const grid = h('div', { class: 'grid collGrid' });
   body.appendChild(grid);
   const P = D.art.ux2.packs.open_all;
-  const cells = res.map((r) => { const el = h('div', { class: 'cell openCell', 'data-cid': r.cid, style: 'opacity:0' }, [cardBox(r.cid, 96, { mode: 'hand' }), h('div', { class: 'mn', text: r.isNew ? t('crate_new') : r.res ? t('crate_resonance_gain', { n: r.res }) : t('crate_second_copy') })]); el.onclick = () => import('./screens.js').then((m) => m.cardDetail(r.cid)); grid.appendChild(el); return el; });
+  const cells = res.map((r) => { const el = h('div', { class: `cell openCell r-${r.rarity}`, 'data-cid': r.cid, style: `opacity:0;--re:${D.art.palette.rarity[r.rarity].edge}` }, [cardBox(r.cid, 96, { mode: 'hand' }), h('div', { class: 'mn', text: r.isNew ? t('crate_new') : r.res ? t('crate_resonance_gain', { n: r.res }) : t('crate_second_copy') })]); el.onclick = () => import('./screens.js').then((m) => m.cardDetail(r.cid)); grid.appendChild(el); return el; });
   // 공개: 60 ms 간격, 전설은 600 ms 멈춤(최대 3번), 전체 4 s 상한, 탭하면 남은 공개 즉시
   let at = 0, pauses = 0, skip = false;
   const plan = res.map((r) => { const a = at; at += P.reveal_stagger_ms; if (r.rarity === 'abyss' && pauses < P.legend_pause_max) { at += P.legend_pause_ms; pauses++; } return a; });
@@ -244,7 +270,18 @@ export function worldmapScreen() {
     if (st === 'open' && !cur) cur = n;
     map.appendChild(h('button', { class: `wnode ${st}`, type: 'button', 'data-node': n.id, style: `left:${X(n.x) - 24}px;top:${Y(n.y) - 24}px`, 'aria-label': nodeTitle(n), onclick: () => nodePanel(n, st) }, h('span', { text: st === 'read' ? '✓' : st === 'open' ? String(n.order) : '·' })));
   }
-  if (cur) map.querySelector(`[data-node="${cur.id}"]`).classList.add('cur');
+  if (cur) {
+    map.querySelector(`[data-node="${cur.id}"]`).classList.add('cur');
+    // 다음 목적지: 숨쉬는 고리 + 아래로 가리키는 화살표(transform/opacity만)
+    map.appendChild(h('div', { class: 'wpulse', style: `left:${X(cur.x) - 34}px;top:${Y(cur.y) - 34}px` }));
+    map.appendChild(h('div', { class: 'warrow', style: `left:${X(cur.x) - 12}px;top:${Y(cur.y) - 64}px` }));
+    // 지역을 처음 열 때 지역 이름 배너(한 번)
+    M.s.story.seenRegions = M.s.story.seenRegions || [];
+    if (!M.s.story.seenRegions.includes(cur.region)) {
+      const rg = D.worldmap.regions.find((r) => r.id === cur.region);
+      if (rg) { M.s.story.seenRegions.push(cur.region); save(); const bn = h('div', { class: 'wbanner', text: L.lang === 'en' ? rg.name_en : rg.name_ko }); s.appendChild(bn); setTf(bn, { o: 0, y: -8 }); tween(bn, { o: 1, y: 0 }, 240 * G.scale); after(1800 * G.scale, () => tween(bn, { o: 0 }, 300 * G.scale, { done: () => bn.remove() })); }
+    }
+  }
   body.appendChild(h('div', { class: 'small wprog', text: t('worldmap_progress', { n: read.size, total }) + (riftShown && !read.has(rift[0].id) ? ' · ' + t('worldmap_rift_reveal') : '') }));
   const scroller = h('div', { class: 'wscroll' }, map);
   body.appendChild(scroller);

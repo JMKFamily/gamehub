@@ -378,3 +378,58 @@ button { font: inherit; color: inherit; }
 .card.hand .cost::before { top: -20px; width: 16px; height: 20px; margin-left: -8px; }
 /* 재질: 인양 목재 결 + 젖은 소금 껍질 윗선(art ux2 plate) */
 .btn, .panel, .tierCard, .deckPic, .seasonW, .questW { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='48' preserveAspectRatio='none'><path d='M4 34Q48 30 116 36M4 41Q72 37 116 42' fill='none' stroke='%23000' stroke-opacity='.12' stroke-width='1.5'/><path d='M2 3q10 -3 20 0t20 0t20 0t20 0t20 0t20 0' fill='none' stroke='%23F2EEE4' stroke-opacity='.3' stroke-width='2'/></svg>"); background-size: 100% 100%; }
+/* UX2 r2: 촛불 2줄 × 5, 개수 알약은 띠 위 바깥(불꽃을 덮지 않음) */
+.wicks i.cand { flex: none; width: 100%; height: 100%; }
+.wicks b.wpill { position: absolute; right: 0; top: -17px; min-width: 30px; height: 16px; line-height: 16px; padding: 0 4px; border-radius: 8px; background: var(--stat_tab, #142027); font-size: 11px; font-weight: 800; color: #F4B740; text-align: center; }
+
+/* UX2 r2 로비: 시즌 트랙 그림 길 · 퀘스트 줄(이름 + 보상 그림 / 막대 + n/m) · 레벨 고리 바탕 · 좁은 글 맞춤 */
+.seasonW { padding: 4px 8px; gap: 2px; }
+.stHead { display: flex; justify-content: space-between; gap: 6px; font-size: 11px; line-height: 13px; white-space: nowrap; overflow: hidden; }
+.stHead .dim { overflow: hidden; text-overflow: ellipsis; }
+.stTicks { flex: 1; min-height: 20px; gap: 2px; align-items: center; background: linear-gradient(transparent 46%, #3A4B52 46%, #3A4B52 58%, transparent 58%); }
+.stTicks i { position: relative; height: 10px; display: flex; align-items: center; justify-content: center; }
+.stTicks i.big, .stTicks i.cur { height: 100%; max-height: 34px; background: transparent; }
+.stTicks i.big { background: radial-gradient(circle, #2E4650 55%, transparent 58%); }
+.stTicks i.big.on { background: radial-gradient(circle, #F4B74055 55%, transparent 58%); }
+.stTicks i img { height: 100%; max-height: 30px; width: auto; max-width: 100%; }
+.stTicks i.cur:not(.big) { background: transparent; }
+.questW { padding: 4px 6px; gap: 0; justify-content: flex-start; }
+.qrow { display: flex; flex-direction: column; justify-content: center; align-items: stretch; gap: 3px; min-height: 40px; }
+.qtop { display: flex; align-items: center; gap: 4px; }
+.qname { flex: 1; min-width: 0; font-size: 11px; line-height: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qtop img { width: 24px; height: 24px; flex: none; }
+.qbot { display: flex; align-items: center; gap: 4px; }
+.qbot .qbar { height: 7px; }
+.qn { font-size: 11px; flex: none; }
+.qrow.done .qtop img { filter: drop-shadow(0 0 4px #6EE7A8); }
+.qrow.done::after { right: 26px; top: 4px; }
+.lvl { background: conic-gradient(var(--focus) calc(var(--k) * 360deg), #3A5560 0); box-shadow: inset 0 0 0 1px #5E7480; }
+.lvl b { box-shadow: 0 0 0 1px #5E7480; }
+.tile.fit, .tile .small { white-space: nowrap; overflow: hidden; } .tile.fit { padding: 0 4px; }
+/* UX2 r2 상대 실력 카드: 단계 그림 + 잠김 안내는 그림 안 가운데 */
+.tierArt { position: relative; height: 64px; padding: 0; display: block; overflow: hidden; background: none; }
+.tierArt > img { width: 100%; height: 100%; display: block; }
+.tierLock { position: absolute; inset: 0; background: rgba(0,0,0,.55); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 4px; text-align: center; font-size: 11px; line-height: 13px; color: #F2EEE4; }
+.tierLock img { width: 18px; height: 18px; }
+.tierCard.locked { opacity: 1; }
+.tierCard.locked > .col { opacity: .6; }
+.tierDots { display: flex; gap: 6px; justify-content: center; }
+.tierDots i { width: 8px; height: 8px; border-radius: 50%; background: var(--wick_spent); }
+.tierDots i.on { background: var(--ring); }
+/* UX2 r2 모두 열기: 희귀도 요약 줄 · 희귀도 테두리(전설 = 청록 빛) */
+.raritySum { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 0 6px; }
+.rchip { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px 2px 4px; border: 2px solid var(--re); border-radius: 12px; font-size: 13px; font-weight: 700; }
+.rchip img { width: 20px; height: 20px; }
+.rchip.zero { opacity: .4; }
+.openCell { outline: 2px solid var(--re); outline-offset: -2px; }
+.openCell.r-abyss { outline: 3px solid #4DE0FF; box-shadow: 0 0 12px #4DE0FF; }
+.openCell.r-coral { outline-width: 3px; }
+.ovl.storyDim { background: rgba(0,0,0,.7) !important; }
+/* UX2 r2 월드맵 탐험감: 지나온 길 밝게, 다음 노드 숨쉬는 고리·화살표, 지역 배너 */
+.wpaths path.on { stroke: #F4D9A0; stroke-width: 8; opacity: .95; }
+.wpulse { position: absolute; width: 68px; height: 68px; border-radius: 50%; border: 3px solid var(--focus); pointer-events: none; animation: wpulse 1.6s ease-out infinite; will-change: transform, opacity; }
+@keyframes wpulse { 0% { transform: scale(.8); opacity: .9; } 100% { transform: scale(1.35); opacity: 0; } }
+.warrow { position: absolute; width: 24px; height: 20px; background: var(--button_primary); clip-path: polygon(0 0, 100% 0, 50% 100%); pointer-events: none; animation: warrow 1s ease-in-out infinite alternate; }
+@keyframes warrow { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+.wbanner { position: absolute; left: 50%; top: 96px; margin-left: -130px; width: 260px; padding: 10px 12px; text-align: center; font-size: 18px; font-weight: 800; color: var(--salt_white); background: rgba(11,21,27,.88); border-top: 2px solid var(--wick_flame); border-bottom: 2px solid var(--wick_flame); pointer-events: none; z-index: 5; }
+.sortBtn { min-width: 0 !important; padding: 0 2px !important; font-size: 12px; }

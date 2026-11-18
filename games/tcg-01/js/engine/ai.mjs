@@ -152,6 +152,15 @@ function hpVal(x) {
   return v;
 }
 
+// 오라 가치: 다른 아군 수만큼 효과가 커지므로 (공+체) × 1.0 × 대상 수(최소 1) + 키워드 부여 2. 수치 없는 키는 0으로(NaN 금지).
+function auraVal(state, m, e) {
+  if (e.do === 'aura') {
+    const others = state.players[m.owner].board.filter((o) => o !== m).length;
+    const tgt = e.scope === 'adjacent' ? Math.min(2, others) : others;
+    return ((e.atk || 0) + (e.hp || 0)) * Math.max(1, tgt) + (e.kw && e.kw.length ? 2 : 0) + 0.5;
+  }
+  return (e.n || 0) * 1.5;
+}
 function minionVal(state, m, forEnemyFrozen) {
   const a = attackOf(state, m);
   let v = a * EVAL_W.atk + Math.max(0, m.hp) * EVAL_W.hp;
@@ -163,7 +172,7 @@ function minionVal(state, m, forEnemyFrozen) {
   if (k.twice) v += 0.7 * a;
   if (k.stealth) v += 0.8;
   if (m.fx) for (const e of m.fx) {
-    if (e.on === 'aura') v += e.do === 'aura_attack' ? e.n * 1.5 + 0.5 : e.n * 1.5;
+    if (e.on === 'aura') v += auraVal(state, m, e);
     else if (e.on === 'turn_end' || e.on === 'turn_start') v += 2.5;
     else if (e.on === 'death') v += 1.5;
     else if (e.on === 'kill' || e.on === 'hit_hero' || e.on === 'attack' || e.on === 'friendly_spell') v += 1.5;

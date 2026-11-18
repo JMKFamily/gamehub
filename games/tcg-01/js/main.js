@@ -28,7 +28,7 @@ function applySettings() {
 }
 
 const ROUTES = {
-  title: () => S.titleScreen(), dock: () => U2.lobbyScreen(), heroes: (a) => S.heroScreen(a), difficulty: () => U2.difficultyScreen(), worldmap: () => U2.worldmapScreen(), openAll: (a) => U2.openAllScreen(a), collection: () => S.collectionScreen(), decks: () => U2.decksFirstScreen(),
+  title: () => S.titleScreen(), dock: () => U2.lobbyScreen(), heroes: (a) => S.heroScreen(a), difficulty: () => U2.difficultyScreen(), worldmap: () => U2.worldmapScreen(), openAll: (a) => U2.openAllScreen(a), collection: (a) => S.collectionScreen(a), decks: () => U2.decksFirstScreen(),
   builder: (a) => S.builderScreen(a), crates: () => S.cratesScreen(), open: (a) => S.openScreen(a), market: () => S.marketScreen(), commissions: () => S.commissionsScreen(),
   calendar: () => S.calendarScreen(), glossary: () => S.glossaryScreen(), settings: () => S.settingsScreen({ apply: applySettings }),
 };

@@ -67,7 +67,7 @@ function tideBar(k) { const i = h('i'); i.style.transform = `scaleX(${Math.max(0
 export function heroScreen(args = {}) {
   const s = screen('heroes', t('choose_caller'));
   const sc = h('div', { class: 'scroll col' });
-  let hero = M.s.lastHero || D.heroIds[0], deckId = null, mode = M.s.mode || 'mode_practice'; const tier = args.tier || M.s.aiTier || 1, ai = args.ai || (D.balance.ai.difficulty.tiers.find((x) => x.tier === tier) || {}).preset || 'easy';
+  let hero = M.s.lastHero || D.heroIds[0], deckId = M.s.deckSel || null, mode = M.s.mode || 'mode_practice'; const tier = args.tier || M.s.aiTier || 1, ai = args.ai || (D.balance.ai.difficulty.tiers.find((x) => x.tier === tier) || {}).preset || 'easy';
   const grid = h('div', { class: 'grid heroGrid' }), det = h('div', { class: 'col' });
   const draw = () => {
     grid.innerHTML = '';
@@ -122,7 +122,10 @@ function slotPicker(deck, after) {
 }
 
 // ---------- 수집(공명·새김 돌파) ----------
-export function collectionScreen() {
+export function collectionScreen(args = {}) {
+  // 로비 「돌파」 = 돌파 가능한 카드만, 「제작」 = 지금 잉크로 만들 수 있는 카드만(UX2 리뷰 6)
+  const mode = args.mode === 'recut' || args.mode === 'craft' ? args.mode : null;
+  const okMode = (c) => !mode || (mode === 'recut' ? canRecut(c.id) : craftCost(c.id) <= M.s.cur.ink && !(owned(c.id) >= cap(c.id) && stageOf(c.id) >= D.balance.breakthrough.stages));
   const s = screen('collection', t('menu_collection'));
   let flt = 'all', onlyOwned = false, storyOrd = false;
   const fl = h('div', { class: 'filters' }), grid = h('div', { class: 'grid collGrid' }), sc = h('div', { class: 'scroll' }, grid);
@@ -133,9 +136,9 @@ export function collectionScreen() {
     fl.appendChild(btn(t('collection_owned'), () => { onlyOwned = !onlyOwned; draw(); }, onlyOwned ? 'sel' : ''));
     fl.appendChild(btn(t('collection_story_order'), () => { storyOrd = !storyOrd; draw(); }, storyOrd ? 'sel' : '', { 'data-act': 'storyOrder' }));
     const n = D.list.filter((c) => owned(c.id) > 0).length;
-    s.querySelector('h2').textContent = `${t('menu_collection')} ${n}/${D.list.length}`;
+    s.querySelector('h2').textContent = mode ? `${t(mode === 'recut' ? 'recut_button' : 'inscribe_button')} · ${D.list.filter(okMode).length}` : `${t('menu_collection')} ${n}/${D.list.length}`;
     const base = storyOrd ? Object.values(D.story.order).flat().map((id) => cardById(id)).filter(Boolean) : D.list;
-    fillGrid(grid, base.filter((c) => (flt === 'all' || c.owner === flt) && (!onlyOwned || owned(c.id))).map((c) => c.id), (cid) => cardDetail(cid, draw));
+    fillGrid(grid, base.filter((c) => okMode(c) && (flt === 'all' || c.owner === flt) && (!onlyOwned || owned(c.id))).map((c) => c.id), (cid) => cardDetail(cid, draw));
   };
   draw();
   s.appendChild(fl); s.appendChild(sc);
@@ -579,7 +582,10 @@ export function storyToggle(ctx) {
     ctx.wrap.style.transformOrigin = '0 0'; ctx.wrap._tf = null; setTf(ctx.wrap, { x: 0, y: 0, s: 1 }); tween(ctx.wrap, { x: dx, s: kk }, CO.move_ms * G.scale);
     // 패널은 줄어드는 카드 밖(오버레이)에 고정 배치: 카드 배율이 글자에 옮지 않게
     Object.assign(panel.style, { position: 'fixed', zIndex: 5, left: (8 + w * kk + 6) + 'px', top: Math.max(8, wr.top) + 'px', width: (vw * CO.panel_w_ratio_portrait - 8) + 'px', height: Math.min(innerHeight - Math.max(8, wr.top) - 8, Math.max(ctx.h * kk, 320)) + 'px' }); panel._outside = true; Object.assign(nav.style, { flexWrap: 'wrap' }); const cb = nav.querySelector('[data-act=storyClose]'); cb.style.flexBasis = '100%'; cb.style.order = '3';
-    ctx.onClose = () => tween(ctx.wrap, { x: 0, s: 1 }, CO.move_ms * G.scale);
+    // 이야기에 집중: 상세 패널 등 카드 옆 요소를 숨기고 바탕을 70 % 어둡게(UX2 리뷰 5)
+    const ov = ctx.wrap.closest('.ovl'), hid = [...(ctx.wrap.parentNode ? ctx.wrap.parentNode.children : [])].filter((e) => e !== ctx.wrap && e.style.visibility !== 'hidden');
+    hid.forEach((e) => (e.style.visibility = 'hidden')); ov && ov.classList.add('storyDim');
+    ctx.onClose = () => { hid.forEach((e) => (e.style.visibility = '')); ov && ov.classList.remove('storyDim'); tween(ctx.wrap, { x: 0, s: 1 }, CO.move_ms * G.scale); };
   }
   else {
     // 세로: 이름 띠 아래부터 버튼 줄 위까지 덮음(30-art 11-8 "아래 = 카드 아래 끝 + 버튼 줄 위")
