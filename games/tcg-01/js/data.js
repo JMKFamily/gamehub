@@ -4,15 +4,15 @@ export const D = { cards: {}, list: [], tokens: {}, balance: null, art: null, de
 async function j(p) { const r = await fetch(p); if (!r.ok) throw new Error(p + ' ' + r.status); return r.json(); }
 
 export async function loadData() {
-  const [cards, balance, art, decks, strings, starters, portraits, uxIcons, glossary] = await Promise.all([
-    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'), j('data/ux-icons.json'), j('data/glossary.json'),
+  const [cards, balance, art, decks, strings, starters, portraits, uxIcons, glossary, storyOrder] = await Promise.all([
+    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'), j('data/ux-icons.json'), j('data/glossary.json'), j('data/story-order.json'),
   ]);
   for (const c of cards.cards) D.cards[c.id] = c;
   D.engineKw = cards.engine_kw;
   D.list = cards.cards;
   for (const t of cards.tokens) D.tokens[t.id] = t;
   D.balance = balance; D.art = art; D.decks = decks; D.starters = starters; D.portraits = portraits;
-  D.strings = strings; D.uxIcons = uxIcons; D.glossary = glossary;
+  D.strings = strings; D.uxIcons = uxIcons; D.glossary = glossary; D.story = storyOrder;
   D.heroIds = decks.map((d) => d.hero);
   applyPalette(art.palette);
 }

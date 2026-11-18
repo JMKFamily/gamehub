@@ -20,3 +20,5 @@ export function cardText(c) {
   return nb(c.text_ko || '');
 }
 export const kindKey = (k) => ({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k] || 'card_type_answerer');
+// 카드 스토리(lore cards-lore.json story_ko/story_en, 2~4문장)
+export const cardStory = (c) => (L.lang === 'en' ? c.story_en || c.story_ko : c.story_ko) || '';

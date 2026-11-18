@@ -266,3 +266,7 @@ button { font: inherit; color: inherit; }
 .gsearch { min-height: 48px; font-size: 15px; width: 100%; background: var(--bg_abyss); color: var(--salt_white); border: 1px solid var(--line_soft); padding: 0 10px; }
 #toastLayer.top { top: 10%; bottom: auto; }
 .tutBtn[data-tut-skip] { font-size: 11px; line-height: 13px; }
+/* 카드 스토리 패널(용어 사전 패널 스타일 재사용) */
+.storyOvl { z-index: 500; }
+.storyPanel { display: flex; flex-direction: column; gap: 8px; z-index: 5; text-align: left; }
+.storyText { flex: 1 1 auto; padding: 0; min-height: 0; word-break: keep-all; overflow-y: auto; }

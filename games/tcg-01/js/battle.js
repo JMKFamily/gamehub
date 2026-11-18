@@ -199,6 +199,7 @@ export class Battle {
     this.handLayer.classList.toggle('spread', this.spread);
     this.spreadBg.classList.toggle('hidden', !this.spread); this.sortBtn.classList.toggle('hidden', !this.spread);
     this.sortBtn.textContent = this.sortMode === 'family' ? t('deck_filter_type') : t('deck_filter_cost');
+    { const p0 = this.spreadPos(0, 1); this.sortBtn.style.right = ''; this.sortBtn.style.left = '8px'; this.sortBtn.style.top = Math.max(4, p0.y - 56) + 'px'; } // 펼친 카드 줄 바로 위 왼쪽
     this.render();
   }
   render(instant) {
@@ -724,25 +725,29 @@ export class Battle {
     }
     // 피해·회복·껍질 숫자(대상마다 60 ms 간격), 소금막, 봉인문, 손패 넘침, 공허 호명
     let k = 0;
-    const gap = 60 * G.scale * (G.fast ? 0.5 : 1);
-    const nd = T('damage_number'), nh = T('heal_number');
+    // 결정 O6: tier 3 큰 카드 한 행동은 효과 연출 포함 ≤ 2,200 ms — 착지 뒤 효과는 빠르게 값, 퍼짐 상한 100 ms
+    const post = big && !lethal;
+    const Tp = (id) => { const a = D.art.tempo.actions[id]; return post && a ? a.fast_ms * G.scale : T(id); };
+    const spread = (post ? 100 : 400) * G.scale;
+    const gap = 60 * G.scale * (G.fast || post ? 0.5 : 1);
+    const nd = Tp('damage_number'), nh = Tp('heal_number');
     let afterTurn = a.type !== 'end';
     for (const x of ev) {
       if (x.t === 'turn') afterTurn = true;
       if (!afterTurn && a.type === 'end' && (x.t === 'dmg' || x.t === 'heal')) { /* 턴 끝 효과도 같은 자리에서 */ }
-      const at = impact + Math.min(400 * G.scale, k * gap);
+      const at = impact + Math.min(spread, k * gap);
       if (x.t === 'dmg') { k++; tl.at(at, () => { const ps = this.posOfUid(x.uid); if (ps) number(ps.x, ps.y - 10, '-' + x.n, D.art.palette.state.damage, x.n, nd); }); tl.end(at + 100); }
       else if (x.t === 'heal') { k++; tl.at(at, () => { const ps = this.posOfUid(x.uid); if (ps) { number(ps.x, ps.y - 10, '+' + x.n, D.art.palette.state.heal, x.n, nh); sfx('heal'); } }); }
       else if (x.t === 'armor') { k++; tl.at(at, () => { const ps = this.posOfUid(st.players[x.p].hero.uid); if (ps) number(ps.x, ps.y - 10, '+' + x.n, D.art.palette.state.shell, x.n, nh); }); }
       else if (x.t === 'shield') { tl.at(at, () => { const ps = this.posOfUid(x.uid); if (ps) { burst(ps.x, ps.y, 12, D.art.palette.state.shell, 1.4); sfx('saltskin_break'); } }); }
-      else if (x.t === 'secret_open') { const so = T('sealwrit_open'); tl.lock = Math.max(tl.lock, lockOf('sealwrit_open')); tl.at(at, () => { toast(t('toast_sealwrit_opened')); sfx('sealwrit_open'); this.flashCard(x.cid, so); }); tl.end(at + so); }
-      else if (x.t === 'burn') { tl.at(at, () => { if (x.p === this.bottom) this.deny('toast_hand_full', { flash: [this.sideEls.my.deckN.parentNode] }); else toast(t('toast_hand_full')); const dr = this.R[this.sideOf(x.p) + '_deck']; burst(dr.x + dr.w / 2, dr.y, 14, D.art.palette.ui.salt_white); }); tl.end(at + T('hand_burn')); }
-      else if (x.t === 'fatigue') { tl.at(at, () => { toast(t('toast_hollow_call', { n: x.n })); sfx('hollow_call'); this.shakeNow('medium'); }); tl.end(at + T('hollow_call')); }
+      else if (x.t === 'secret_open') { const so = Tp('sealwrit_open'); tl.lock = Math.max(tl.lock, lockOf('sealwrit_open')); tl.at(at, () => { toast(t('toast_sealwrit_opened')); sfx('sealwrit_open'); this.flashCard(x.cid, so); }); tl.end(at + so); }
+      else if (x.t === 'burn') { tl.at(at, () => { if (x.p === this.bottom) this.deny('toast_hand_full', { flash: [this.sideEls.my.deckN.parentNode] }); else toast(t('toast_hand_full')); const dr = this.R[this.sideOf(x.p) + '_deck']; burst(dr.x + dr.w / 2, dr.y, 14, D.art.palette.ui.salt_white); }); tl.end(at + Tp('hand_burn')); }
+      else if (x.t === 'fatigue') { tl.at(at, () => { toast(t('toast_hollow_call', { n: x.n })); sfx('hollow_call'); this.shakeNow('medium'); }); tl.end(at + Tp('hollow_call')); }
       else if (x.t === 'draw' && x.p === this.bottom && x.cid) tl.at(at, () => sfx('card_draw'));
     }
     // 사망: 금 150 → 소금으로 부서짐 350(입자 18)
     if (dying.size) {
-      const dAt = impact + Math.min(400 * G.scale, k * gap) + 120 * G.scale, dd = T('death');
+      const dAt = impact + Math.min(spread, k * gap) + (post ? 0 : 120 * G.scale), dd = Tp('death');
       tl.at(dAt, () => {
         for (const uid of dying) {
           const el = this.tokEls.get(uid); if (!el) continue;
@@ -972,7 +977,9 @@ export class Battle {
     const P = this.state.players[this.bottom], base = P.view[cid] || c;
     wrap.appendChild(cardBox(cid, Z.w, { mode: 'full', stats: hc ? { cost: hc.cost, atk: hc.atk, hp: hc.hp } : undefined, base: { cost: base.cost, atk: base.attack, hp: base.health }, stage: (this.o.bt && this.o.bt[this.bottom] && this.o.bt[this.bottom][cid]) || 0 }));
     const kws = (c.kw_ui || []).filter((k) => `kw_${k}` in D.strings.ko);
-    if (kws.length) wrap.appendChild(h('div', { class: 'zoomHelp', text: kws.map((k) => t('kw_' + k)).join('\n'), style: 'white-space:pre-line' }));
+    // 대전 중 이야기는 열지 않고 한 줄 안내만(30-art 11-8, 10-lore card_story_battle_hint)
+    const help = [...kws.map((k) => t('kw_' + k)), c.story_ko ? t('card_story_battle_hint') : null].filter(Boolean);
+    if (help.length) wrap.appendChild(h('div', { class: 'zoomHelp', text: help.join('\n'), style: 'white-space:pre-line' }));
     this.stage.appendChild(wrap);
     setTf(wrap, { o: 0, s: 0.96 }); tween(wrap, { o: 1, s: 1 }, 90 * G.scale);
     this.zoom = wrap; void selecting;
@@ -1058,6 +1065,7 @@ export class Battle {
   tutStep() {
     const T0 = this.tut;
     if (!this.started || this.over || this.mullBox || this.discBox) return;
+    if (this.spread) { if (T0.cur) this.tutClose(); return; } // 손패 펼침 동안은 안내를 쉼(다음 기회에 다시)
     if (T0.cur) { this.tutPlace(); return; }
     for (const sp of this.tutSteps()) {
       if (T0.seen.has(sp.k)) continue;

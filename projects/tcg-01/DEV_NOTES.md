@@ -91,3 +91,10 @@ QA 대조 방법: `newBattle({heroA, heroB, seed, ai:'eval', human:null})`를 `a
 - tempoLog 하위 구간: 항목에 `phase_of`가 있으면 큰 타임라인 안 구간(`lethal_blow`·`hero_crack`·`victory/defeat`·`end_breath_press`·`turn_start_banner`).
 - 게임 시계 예약 `after(ms, fn)`(anim.js): 메뉴 연출도 빠르게 보기·`step()`·일시정지를 따름.
 - 친선 새김 슬롯: `M.s.slots[덱 id] = 카드 id`, 없으면 친선 돌파 0.
+
+## 용어·UX·카드 스토리 (2026-11-18)
+- 용어: sync가 10-lore 8절 표를 칸 수로 구분해 읽음(키 3칸, 메뉴 안내 5칸, 튜토리얼 6칸, 용어 사전 7칸 → `data/glossary.json`). 유형 표지·띠 무늬는 art `assets.mjs`로 만들어 `data/ux-icons.json`.
+- 튜토리얼: `battle.js tutSteps()`(대전 14단계, 8-7 순서·조건), 대전 밖 단계와 메뉴 안내는 `ui.js coach()`. 저장 `M.s.tut {seen, skipped, doneShown}`, `M.s.guides`. 테스트 모드에서는 `&tut=1`일 때만.
+- 안 되는 이유: `battle.js deny(key, {flash, shake, card, near, mark})` — 칩·빛남은 게임 시계(`after`).
+- 결정 O6: 큰 카드(tier 3) 한 행동은 효과 포함 ≤ 2,200 ms — 착지 뒤 효과는 빠르게 값·퍼짐 100 ms(실측 최대 1,824 ms).
+- **카드 스토리**: 크게 본 카드(수집 상세, 덱 빌더 칸 길게 누르기, 팩 공개 카드 탭)에서 글 상자 탭 또는 스토리 버튼(`icon-story.svg`) → 패널(30-art 11-8, `art.json story_panel`). 세로 = 글 상자 위를 덮음, 가로 = 카드 옆(폭 ≤ 320). 패널 밖 탭·같은 버튼(글이 "효과"로 바뀜)·Esc로 닫힘, 열기 180(빠르게 120)/닫기 140 ms, 잠금 0, 넘치면 패널 안 스크롤 + ▼. **대전 중에는 열지 않음**(길게 누르기는 효과·키워드 도움말 먼저 — 판단 정보 우선, 턴 타이머·흐름에 영향 없음). 글은 cards-lore `story_ko/story_en`(sync가 cards.json에 넣음).

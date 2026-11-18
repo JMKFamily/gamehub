@@ -99,20 +99,30 @@ for (const ln of loreMd.split('\n')) { const m = ln.match(/\|\s*`(line_[a-z]+_vs
 const LIN_ID = Object.fromEntries(Object.entries(A.LINEAGE_KO).map(([id, ko]) => [ko, id]));
 for (const ln of sec('### 5-3.', '### 5-4.').split('\n')) {
   const m = ln.match(/^\|\s*([^|/]+?)\s*\/\s*([A-Za-z]+)\s*\|/);
-  if (m && LIN_ID[m[1]]) { strings.ko[`lineage_${LIN_ID[m[1]]}`] = m[1]; strings.en[`lineage_${LIN_ID[m[1]]}`] = m[2]; }
+  const lid = m && (LIN_ID[m[1]] || (Object.keys(A.LINEAGE_KO).includes(m[2].toLowerCase()) ? m[2].toLowerCase() : null)); // 영문 이름 = 부류 id로도 맞춤(art 표 값이 달라도)
+  if (lid) { strings.ko[`lineage_${lid}`] = m[1]; strings.en[`lineage_${lid}`] = m[2]; }
 }
 for (const k of art.palette.keywords) { strings.ko[`kwname_${k.id}`] = k.ko; strings.en[`kwname_${k.id}`] = k.en; }
 // round-2: 개발 임시 키(strings-extra.json)는 10-lore 8-11로 확정되어 없앰. 남아 있으면 지움.
 if (existsSync(join(DATA_OUT, 'strings-extra.json'))) rmSync(join(DATA_OUT, 'strings-extra.json'));
 writeFileSync(join(DATA_OUT, 'strings.json'), JSON.stringify(strings));
-writeFileSync(join(DATA_OUT, 'glossary.json'), JSON.stringify(glossary)); // 10-lore 8-13 순서·아이콘 후보·흔히 부르는 말
+writeFileSync(join(DATA_OUT, 'glossary.json'), JSON.stringify(glossary));
+// 5-5 카드 스토리 줄기: 세력 이름(ko/en)과 카드 읽는 순서 → data/story-order.json
+const story = { factions: {}, order: {} };
+for (const ln of sec('### 5-5.', '\n## 6.').split('\n')) {
+  const m = ln.match(/^\|\s*(.+?)\s*\/\s*(.+?)\s*\(`(h_[a-z]+|neutral)`\)\s*\|\s*(.+?)\s*\/\s*(.+?)\s*\|/);
+  if (m) story.factions[m[3]] = { ko: m[1], en: m[2], title_ko: m[4], title_en: m[5] };
+  const o = ln.match(/^-\s*`(h_[a-z]+|neutral)`:\s*(.+)$/);
+  if (o) story.order[o[1]] = o[2].split('→').map((x) => x.trim()).filter(Boolean);
+}
+writeFileSync(join(DATA_OUT, 'story-order.json'), JSON.stringify(story)); // 10-lore 8-13 순서·아이콘 후보·흔히 부르는 말
 
 // 2-2) 카드: 엔진 수치(cards.json) + 이름·글(cards-lore.json) + 화면 키워드(ENGINE_KW 대응표, 엔진 id는 화면에 쓰지 않음)
 const loreById = Object.fromEntries(loreCards.map((l) => [l.id, l]));
 const cards = cardsJ.cards.map((c) => {
   const l = loreById[c.id] || {};
   const merged = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, concept_ko: l.concept_ko, visual_hint: l.visual_hint };
-  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, text_en: l.concept_en || null, kw_ui: A.cardKeywords(merged), family: S.familyOf(c) };
+  const out = { ...c, name_ko: l.name_ko, name_en: l.name_en, flavor_ko: l.flavor_ko, flavor_en: l.flavor_en, text_ko: l.concept_ko, text_en: l.concept_en || null, story_ko: l.story_ko || null, story_en: l.story_en || null, kw_ui: A.cardKeywords(merged), family: S.familyOf(c) };
   delete out.value; delete out.lore_ref; delete out.cost_band_ok;
   return out;
 });

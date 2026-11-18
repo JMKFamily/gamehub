@@ -1,11 +1,11 @@
 // 메뉴 화면들: 타이틀·부두·호명자 선택·수집(공명·새김)·영장첩·인양 상자·부두 시장·의뢰·조수 달력·설정·결과
 import { D, cardById, fac, portraitURL } from './data.js';
-import { t, L, setLang, cardName } from './i18n.js';
+import { t, L, setLang, cardName, cardStory } from './i18n.js';
 import { h, cardBox } from './cards.js';
 import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btDelta, craftCost, craft, openCrate, cratesToPity, buy, rerollComm, claimComm, claimWeekly, tideReward, deckProblems, allDecks } from './meta.js';
 import { G, tween, setTf, tf, after } from './anim.js';
 import { sfx, setSound, setMusic, unlock } from './audio.js';
-import { toast, show, coach } from './ui.js';
+import { toast, show, coach, markScroll } from './ui.js';
 // 첫 진입 안내(8-12)·대전 밖 튜토리얼 단계(8-7): 한 번만. 본 것은 M.s.guides / M.s.tut.seen에 저장
 function guideOnce(steps, tut) {
   const todo = steps.filter((x) => x.el && (tut ? !(M.s.tut.skipped || M.s.tut.seen.includes(x.key)) : !M.s.guides[x.key]));
@@ -110,7 +110,7 @@ export function heroScreen() {
 }
 
 function slotPicker(deck, after) {
-  const box = h('div', { class: 'ovl', style: 'position:fixed;overflow:auto' });
+  const box = h('div', { class: 'ovl', style: 'position:fixed;overflow:auto;justify-content:safe center' });
   box.appendChild(h('b', { text: t('recut_slot_title') })); box.appendChild(h('div', { class: 'small', text: t('recut_slot_desc') }));
   const grid = h('div', { class: 'grid collGrid', style: 'width:min(94vw,520px)' });
   for (const cid of [...new Set(deck.cards)].filter((c) => stageOf(c) > 0)) grid.appendChild(miniCell(cid, () => { M.s.slots[deck.id] = cid; save(); box.remove(); after(); }));
@@ -122,16 +122,18 @@ function slotPicker(deck, after) {
 // ---------- 수집(공명·새김 돌파) ----------
 export function collectionScreen() {
   const s = screen('collection', t('menu_collection'));
-  let flt = 'all', onlyOwned = false;
+  let flt = 'all', onlyOwned = false, storyOrd = false;
   const fl = h('div', { class: 'filters' }), grid = h('div', { class: 'grid collGrid' }), sc = h('div', { class: 'scroll' }, grid);
   const owners = ['all', ...D.heroIds, 'neutral'];
   const draw = () => {
     fl.innerHTML = '';
     for (const o of owners) fl.appendChild(btn(o === 'all' ? t('filter_all') : o === 'neutral' ? t('card_owner_common') : heroName(o), () => { flt = o; draw(); }, flt === o ? 'sel' : ''));
     fl.appendChild(btn(t('collection_owned'), () => { onlyOwned = !onlyOwned; draw(); }, onlyOwned ? 'sel' : ''));
+    fl.appendChild(btn(t('collection_story_order'), () => { storyOrd = !storyOrd; draw(); }, storyOrd ? 'sel' : '', { 'data-act': 'storyOrder' }));
     const n = D.list.filter((c) => owned(c.id) > 0).length;
     s.querySelector('h2').textContent = `${t('menu_collection')} ${n}/${D.list.length}`;
-    fillGrid(grid, D.list.filter((c) => (flt === 'all' || c.owner === flt) && (!onlyOwned || owned(c.id))).map((c) => c.id), (cid) => cardDetail(cid, draw));
+    const base = storyOrd ? Object.values(D.story.order).flat().map((id) => cardById(id)).filter(Boolean) : D.list;
+    fillGrid(grid, base.filter((c) => (flt === 'all' || c.owner === flt) && (!onlyOwned || owned(c.id))).map((c) => c.id), (cid) => cardDetail(cid, draw));
   };
   draw();
   s.appendChild(fl); s.appendChild(sc);
@@ -170,15 +172,26 @@ function statDeltaText(cid, st) {
   if (d.effect_n) for (const v of Object.values(d.effect_n)) out.push(`${t('stat_effect')} +${v}`);
   return out.length ? out.join(', ') : t('stat_cosmetic');
 }
-export function cardDetail(cid, after) {
-  const box = h('div', { class: 'ovl', style: 'position:fixed;overflow:auto' });
-  const close = () => { box.remove(); after && after(); };
+export function cardDetail(cid, after, opt = {}) {
+  const box = h('div', { class: 'ovl', style: 'position:fixed;overflow:auto;justify-content:safe center' });
+  const onKey = (ev) => { if (ev.key === 'Escape') { if (ctx.story) storyToggle(ctx); else close(); } };
+  const close = () => { box.remove(); removeEventListener('keydown', onKey); after && after(); };
+  addEventListener('keydown', onKey);
+  const ctx = { cid, story: null, goto: (n) => { box.remove(); removeEventListener('keydown', onKey); cardDetail(n, after, { story: true }); } };
+  // 스토리 패널 밖 탭 → 스토리만 닫힘(버튼·패널 안 탭은 제외)
+  box.addEventListener('click', (ev) => { if (ctx.story && !ev.target.closest('button') && !ev.target.closest('.storyPanel') && !ev.target.closest('[data-textbox]')) storyToggle(ctx); });
   const draw = () => {
-    box.innerHTML = '';
+    box.innerHTML = ''; ctx.story = null;
     const c = cardById(cid), e = M.s.coll[cid] || { n: 0, res: 0, stage: 0 }, th = thresholds(cid);
-    const w = Math.min(230, innerWidth - 40);
-    const wrap = h('div', { class: 'cardBox', 'data-detail': cid });
+    const land = innerWidth > innerHeight;
+    const w = Math.min(268, innerWidth - 40, land ? Math.max(180, innerHeight * 0.62 / 1.4) : 999), hh = Math.round(w * D.art.card.base_h_px / D.art.card.base_w_px);
+    const pw = land ? Math.max(D.art.story_panel.panel.min_w_px, Math.min(innerWidth - w - 48, 320)) : 0;
+    const wrap = h('div', { class: 'cardBox', 'data-detail': cid, style: `position:relative;width:${w}px;height:${hh}px;margin-right:${land && cardStory(c) ? pw + 8 : 0}px` });
     wrap.appendChild(cardBox(cid, w, { mode: 'full', stage: e.stage }));
+    // 글 상자 탭 → 스토리(30-art 11-8)
+    const k = w / D.art.card.base_w_px, tb = D.art.card.text_box;
+    if (cardStory(c)) { const hit = h('div', { 'data-textbox': '1', role: 'button', 'aria-label': t(STORY_KEYS.button), style: `position:absolute;left:${tb.x_px * k}px;top:${(D.art.card.name_band.y_px) * k}px;width:${tb.w_px * k}px;height:${(tb.y_px + tb.h_px - D.art.card.name_band.y_px) * k}px;cursor:pointer` }); hit.addEventListener('click', (ev) => { ev.stopPropagation(); sfx('ui_tap'); storyToggle(ctx); }); wrap.appendChild(hit); }
+    Object.assign(ctx, { wrap, w, h: hh });
     box.appendChild(wrap);
     box.appendChild(h('div', { class: 'panel col', style: `width:${w + 40}px;max-width:94vw` }, [
       h('b', { text: `${cardName(c)} · ${t('rarity_' + c.rarity)} · ${owned(cid)}/${cap(cid)}` }),
@@ -199,10 +212,17 @@ export function cardDetail(cid, after) {
       confirmBox(t('inscribe_confirm', { n: cost }), () => { const r = craft(cid); if (!r) { toast(t('ink_not_enough')); sfx('ui_deny'); } else { toast(r.isNew ? t('crate_new') : r.res ? t('crate_duplicate', { n: r.res }) : t('currency_ink') + ' +' + r.ink); } draw(); });
     }, M.s.cur.ink >= cost ? '' : 'off', { 'data-act': 'craft' }));
     row.appendChild(btn(t('menu_back'), close, '', { 'data-act': 'close' }));
+    if (cardStory(cardById(cid))) {
+      const lab = h('span', { text: t(STORY_KEYS.button) });
+      const sb = btn(h('span', { class: 'row', style: 'gap:6px;flex-wrap:nowrap' }, [h('img', { src: 'assets/icon-story.svg', alt: '', style: 'width:24px;height:24px' }), lab]), () => storyToggle(ctx), '', { 'data-act': 'story', style: 'min-width:96px' });
+      ctx.onToggle = (open) => { lab.textContent = t(open ? STORY_KEYS.effect : STORY_KEYS.button); };
+      row.appendChild(sb);
+    }
     box.appendChild(row);
   };
   draw();
   document.body.appendChild(box);
+  if (opt.story && cardStory(cardById(cid))) storyToggle(ctx);
   // 첫 진입 안내: 제작(8-12), 돌파 가능이면 돌파 버튼
   guideOnce([{ key: 'guide_craft_1', el: box.querySelector('[data-act=craft]') }, { key: 'guide_craft_2', el: box.querySelector('[data-act=craft]') }, ...(canRecut(cid) ? [{ key: 'guide_exp_2', el: box.querySelector('[data-act=recut]') }] : [])]);
 }
@@ -252,7 +272,7 @@ export function builderScreen({ deck }) {
     fl.innerHTML = '';
     for (let c = -1; c <= 7; c++) fl.appendChild(btn(c < 0 ? t('filter_all') : c === 7 ? '7+' : String(c), () => { cost = c; draw(); }, cost === c ? 'sel' : ''));
     const ids = D.list.filter((c) => (c.owner === 'neutral' || c.owner === deck.hero) && owned(c.id) && (cost < 0 || (cost === 7 ? c.cost >= 7 : c.cost === cost))).map((c) => c.id);
-    fillGrid(grid, ids, (cid) => add(cid), (el, cid) => { const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
+    fillGrid(grid, ids, (cid) => { if (Date.now() - (grid._lp || 0) < 600) return; add(cid); }, (el, cid) => { el.addEventListener('pointerdown', () => { clearTimeout(el._lpt); el._lpt = setTimeout(() => { grid._lp = Date.now(); cardDetail(cid); }, 450); }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) el.addEventListener(ev, () => clearTimeout(el._lpt)); const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
     strip.innerHTML = '';
     const uniq = [...new Set(deck.cards)].sort((a, b) => cardById(a).cost - cardById(b).cost);
     for (const cid of uniq) {
@@ -510,4 +530,41 @@ export function glossaryScreen() {
   q.addEventListener('input', () => { const v = q.value.trim().toLowerCase(); for (const b of lists) for (const r of b.children) r.classList.toggle('hidden', !!v && !r._text.includes(v)); });
   s.appendChild(sc);
   return s;
+}
+
+// ---------- 카드 스토리 패널(요청자 지시 2026-11-18, 30-art 11-8·art.json story_panel) ----------
+// 크게 본 카드(수집·덱 빌더 길게 누르기·팩 공개 결과)에서 글 상자 탭 또는 스토리 버튼. 세로 = 글 상자 위를 덮음, 가로 = 카드 옆.
+// 닫기: 패널 밖 탭·같은 버튼 다시 탭·Esc/뒤로. 열기 180(빠르게 120)·닫기 140 ms, 잠금 0. 대전 중에는 열지 않음.
+export const STORY_KEYS = { button: 'card_story_button', effect: 'card_story_tab_effect', title: 'card_story_title', close: 'card_story_close', faction: 'card_story_faction', next: 'card_story_next', prev: 'card_story_prev', locked: 'card_story_locked' };
+const storySeq = (c) => (D.story.order[c.owner] || []);
+const factionName = (owner) => { const F = D.story.factions[owner]; return F ? (L.lang === 'en' ? F.en : F.ko) : ''; };
+export function storyToggle(ctx) {
+  const SP = D.art.story_panel, P = SP.panel;
+  if (ctx.story) { const el = ctx.story; ctx.story = null; tween(el, { o: 0, y: 12 }, SP.tempo.close_ms * G.scale, { done: () => el.remove() }); ctx.onToggle && ctx.onToggle(false); return; }
+  const c = cardById(ctx.cid), f = fac(c.owner), land = innerWidth > innerHeight;
+  const w = ctx.w, k = w / D.art.card.base_w_px, top = (D.art.card.name_band.y_px + D.art.card.name_band.h_px) * k;
+  const fs = L.lang === 'en' ? P.font_en_px : P.font_ko_px;
+  const owner = c.owner === 'neutral' ? t('card_owner_common') : t(`hero_${c.owner.slice(2)}_name`);
+  const seq = storySeq(c), idx = seq.indexOf(ctx.cid), locked = owned(ctx.cid) === 0;
+  const body = h('div', { class: 'scroll storyText', style: `font-size:${fs}px;line-height:${P.line_h_ratio}${locked ? ';color:var(--salt_dim)' : ''}`, text: locked ? t(STORY_KEYS.locked) : cardStory(c) });
+  const go2 = (d) => { const n = seq[(idx + d + seq.length) % seq.length]; if (!n) return; ctx.goto && ctx.goto(n); };
+  const nav = h('div', { class: 'row', style: 'flex-wrap:nowrap;gap:6px;justify-content:space-between' }, [
+    btn('◀', () => go2(-1), '', { 'data-act': 'storyPrev', 'aria-label': t(STORY_KEYS.prev), style: 'min-width:48px;padding:0 8px' }),
+    btn(t(STORY_KEYS.close), () => storyToggle(ctx), '', { 'data-act': 'storyClose', style: 'flex:1;min-width:0;padding:0 8px' }),
+    btn('▶', () => go2(1), '', { 'data-act': 'storyNext', 'aria-label': t(STORY_KEYS.next), style: 'min-width:48px;padding:0 8px' })]);
+  const panel = h('div', { class: 'storyPanel', role: 'dialog', 'aria-label': t(STORY_KEYS.title, { name: cardName(c) }), 'data-story': ctx.cid, style: `background:${P.bg};color:${P.ink};border:3px solid ${f.primary};border-left-width:6px;padding:${P.pad_px}px` },
+    [h('div', { class: 'col', style: 'gap:0' }, [h('span', { style: 'font-size:12px;color:var(--salt_dim)', text: idx >= 0 ? t(STORY_KEYS.faction, { faction: factionName(c.owner), n: idx + 1, total: seq.length }) : owner }), h('b', { style: 'font-size:16px', text: t(STORY_KEYS.title, { name: cardName(c) }) })]), body, nav]);
+  if (land) { const pw = Math.max(P.min_w_px, Math.min(innerWidth - ctx.wrap.getBoundingClientRect().right - 16, 320)); Object.assign(panel.style, { position: 'absolute', left: w + 8 + 'px', top: '0px', width: pw + 'px', height: ctx.h + 'px' }); }
+  else {
+    // 세로: 이름 띠 아래부터 버튼 줄 위까지 덮음(30-art 11-8 "아래 = 카드 아래 끝 + 버튼 줄 위")
+    const wr = ctx.wrap.getBoundingClientRect(), row = ctx.wrap.parentNode.querySelector('[data-act=story]')?.parentNode;
+    const bottom = row ? row.getBoundingClientRect().top - 8 : wr.bottom;
+    Object.assign(panel.style, { position: 'absolute', left: '0px', top: top + 'px', width: Math.max(w, P.min_w_px) + 'px', height: Math.max(ctx.h - top, bottom - wr.top - top) + 'px' });
+  }
+  panel.addEventListener('click', (e) => e.stopPropagation());
+  ctx.wrap.appendChild(panel);
+  ctx.story = panel;
+  setTf(panel, { o: 0, y: 12 }); tween(panel, { o: 1, y: 0 }, (G.fast ? SP.tempo.fast_open_ms : SP.tempo.open_ms) * G.scale);
+  requestAnimationFrame(() => markScroll(panel));
+  ctx.onToggle && ctx.onToggle(true);
 }
