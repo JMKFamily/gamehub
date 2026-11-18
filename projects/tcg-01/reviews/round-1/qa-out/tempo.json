@@ -1,0 +1,584 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 523
+ },
+ "runs": [
+  {
+   "hA": "h_rider",
+   "hB": "h_warden",
+   "seed": 515,
+   "fast": false,
+   "wall_s": 106.858,
+   "actions": 80,
+   "half": 22,
+   "winner": 1,
+   "final": [
+    0,
+    22
+   ],
+   "nums": 0,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   },
+   "table": [
+    {
+     "kind": "attack",
+     "art_ms": 530,
+     "n": 19,
+     "real_p50": 583,
+     "real_mean": 755.2,
+     "real_max": 1150,
+     "planned_p50": 580,
+     "err_pct_vs_art": 10,
+     "err_pct_real_vs_planned": 0.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "calling",
+     "art_ms": 360,
+     "n": 10,
+     "real_p50": 367,
+     "real_mean": 366.8,
+     "real_max": 367,
+     "planned_p50": 360,
+     "err_pct_vs_art": 1.9,
+     "err_pct_real_vs_planned": 1.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "end_breath_press",
+     "art_ms": 250,
+     "n": 21,
+     "real_p50": 900,
+     "real_mean": 901.6,
+     "real_max": 917,
+     "planned_p50": 900,
+     "err_pct_vs_art": 260,
+     "err_pct_real_vs_planned": 0.2,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "game_start",
+     "art_ms": null,
+     "n": 1,
+     "real_p50": 1133,
+     "real_mean": 1133,
+     "real_max": 1133,
+     "planned_p50": 900,
+     "err_pct_vs_art": null,
+     "err_pct_real_vs_planned": 25.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "lethal_blow",
+     "art_ms": 1500,
+     "n": 1,
+     "real_p50": 3300,
+     "real_mean": 3300,
+     "real_max": 3300,
+     "planned_p50": 3287,
+     "err_pct_vs_art": 120,
+     "err_pct_real_vs_planned": 0.4,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_answerer",
+     "art_ms": 440,
+     "n": 16,
+     "real_p50": 450,
+     "real_mean": 483.2,
+     "real_max": 983,
+     "planned_p50": 440,
+     "err_pct_vs_art": 2.3,
+     "err_pct_real_vs_planned": 2,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_rite",
+     "art_ms": 520,
+     "n": 13,
+     "real_p50": 533,
+     "real_mean": 641.9,
+     "real_max": 1250,
+     "planned_p50": 520,
+     "err_pct_vs_art": 2.5,
+     "err_pct_real_vs_planned": 1.9,
+     "skipped": 0,
+     "queued_behind": 0
+    }
+   ],
+   "half_turn_ms": {
+    "n": 22,
+    "min": 1366,
+    "p50": 5150,
+    "p90": 6950,
+    "p99": 7584,
+    "max": 7584,
+    "mean": 4822.8
+   },
+   "half_over_cap": 0
+  },
+  {
+   "hA": "h_rider",
+   "hB": "h_warden",
+   "seed": 515,
+   "fast": true,
+   "wall_s": 52.054,
+   "actions": 80,
+   "half": 22,
+   "winner": 1,
+   "final": [
+    0,
+    22
+   ],
+   "nums": 0,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   },
+   "table": [
+    {
+     "kind": "attack",
+     "art_ms": 280,
+     "n": 19,
+     "real_p50": 334,
+     "real_mean": 429.2,
+     "real_max": 650,
+     "planned_p50": 330,
+     "err_pct_vs_art": 19.3,
+     "err_pct_real_vs_planned": 1.1,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "calling",
+     "art_ms": 180,
+     "n": 10,
+     "real_p50": 183,
+     "real_mean": 183.4,
+     "real_max": 184,
+     "planned_p50": 180,
+     "err_pct_vs_art": 1.7,
+     "err_pct_real_vs_planned": 1.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "end_breath_press",
+     "art_ms": 150,
+     "n": 21,
+     "real_p50": 450,
+     "real_mean": 452.3,
+     "real_max": 467,
+     "planned_p50": 450,
+     "err_pct_vs_art": 200,
+     "err_pct_real_vs_planned": 0.5,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "game_start",
+     "art_ms": null,
+     "n": 1,
+     "real_p50": 577,
+     "real_mean": 577,
+     "real_max": 577,
+     "planned_p50": 600,
+     "err_pct_vs_art": null,
+     "err_pct_real_vs_planned": -3.8,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "lethal_blow",
+     "art_ms": 800,
+     "n": 1,
+     "real_p50": 1800,
+     "real_mean": 1800,
+     "real_max": 1800,
+     "planned_p50": 1797,
+     "err_pct_vs_art": 125,
+     "err_pct_real_vs_planned": 0.2,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_answerer",
+     "art_ms": 220,
+     "n": 16,
+     "real_p50": 233,
+     "real_mean": 252.8,
+     "real_max": 550,
+     "planned_p50": 220,
+     "err_pct_vs_art": 5.9,
+     "err_pct_real_vs_planned": 5.1,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_rite",
+     "art_ms": 260,
+     "n": 13,
+     "real_p50": 267,
+     "real_mean": 343.2,
+     "real_max": 699,
+     "planned_p50": 260,
+     "err_pct_vs_art": 2.7,
+     "err_pct_real_vs_planned": 2.2,
+     "skipped": 0,
+     "queued_behind": 0
+    }
+   ],
+   "half_turn_ms": {
+    "n": 22,
+    "min": 683,
+    "p50": 2517,
+    "p90": 3384,
+    "p99": 3717,
+    "max": 3717,
+    "mean": 2345.5
+   },
+   "half_over_cap": 0
+  },
+  {
+   "hA": "h_wreck",
+   "hB": "h_choir",
+   "seed": 516,
+   "fast": false,
+   "wall_s": 68.888,
+   "actions": 52,
+   "half": 14,
+   "winner": 1,
+   "final": [
+    0,
+    31
+   ],
+   "nums": 0,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   },
+   "table": [
+    {
+     "kind": "attack",
+     "art_ms": 530,
+     "n": 14,
+     "real_p50": 584,
+     "real_mean": 728.6,
+     "real_max": 1034,
+     "planned_p50": 580,
+     "err_pct_vs_art": 10.2,
+     "err_pct_real_vs_planned": 1,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "calling",
+     "art_ms": 360,
+     "n": 4,
+     "real_p50": 367,
+     "real_mean": 366.5,
+     "real_max": 367,
+     "planned_p50": 360,
+     "err_pct_vs_art": 1.9,
+     "err_pct_real_vs_planned": 1.8,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "end_breath_press",
+     "art_ms": 250,
+     "n": 13,
+     "real_p50": 900,
+     "real_mean": 901.2,
+     "real_max": 916,
+     "planned_p50": 900,
+     "err_pct_vs_art": 260,
+     "err_pct_real_vs_planned": 0.1,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "game_start",
+     "art_ms": null,
+     "n": 1,
+     "real_p50": 876,
+     "real_mean": 876,
+     "real_max": 876,
+     "planned_p50": 900,
+     "err_pct_vs_art": null,
+     "err_pct_real_vs_planned": -2.7,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "lethal_blow",
+     "art_ms": 1500,
+     "n": 1,
+     "real_p50": 2916,
+     "real_mean": 2916,
+     "real_max": 2916,
+     "planned_p50": 2910,
+     "err_pct_vs_art": 94.4,
+     "err_pct_real_vs_planned": 0.2,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "mulligan_swap",
+     "art_ms": 500,
+     "n": 5,
+     "real_p50": 500,
+     "real_mean": 500.2,
+     "real_max": 501,
+     "planned_p50": 500,
+     "err_pct_vs_art": 0,
+     "err_pct_real_vs_planned": 0,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_answerer",
+     "art_ms": 440,
+     "n": 11,
+     "real_p50": 450,
+     "real_mean": 498.2,
+     "real_max": 983,
+     "planned_p50": 440,
+     "err_pct_vs_art": 2.3,
+     "err_pct_real_vs_planned": 1.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_rite",
+     "art_ms": 520,
+     "n": 4,
+     "real_p50": 533,
+     "real_mean": 554,
+     "real_max": 617,
+     "planned_p50": 520,
+     "err_pct_vs_art": 2.5,
+     "err_pct_real_vs_planned": 2.1,
+     "skipped": 0,
+     "queued_behind": 0
+    }
+   ],
+   "half_turn_ms": {
+    "n": 14,
+    "min": 1366,
+    "p50": 4917,
+    "p90": 7983,
+    "p99": 8167,
+    "max": 8167,
+    "mean": 4895.4
+   },
+   "half_over_cap": 0
+  },
+  {
+   "hA": "h_wreck",
+   "hB": "h_choir",
+   "seed": 516,
+   "fast": true,
+   "wall_s": 34.209,
+   "actions": 52,
+   "half": 14,
+   "winner": 1,
+   "final": [
+    0,
+    31
+   ],
+   "nums": 0,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   },
+   "table": [
+    {
+     "kind": "attack",
+     "art_ms": 280,
+     "n": 14,
+     "real_p50": 334,
+     "real_mean": 421.6,
+     "real_max": 584,
+     "planned_p50": 330,
+     "err_pct_vs_art": 19.3,
+     "err_pct_real_vs_planned": 1.2,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "calling",
+     "art_ms": 180,
+     "n": 4,
+     "real_p50": 184,
+     "real_mean": 183.5,
+     "real_max": 184,
+     "planned_p50": 180,
+     "err_pct_vs_art": 2.2,
+     "err_pct_real_vs_planned": 1.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "end_breath_press",
+     "art_ms": 150,
+     "n": 13,
+     "real_p50": 450,
+     "real_mean": 451.2,
+     "real_max": 467,
+     "planned_p50": 450,
+     "err_pct_vs_art": 200,
+     "err_pct_real_vs_planned": 0.3,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "game_start",
+     "art_ms": null,
+     "n": 1,
+     "real_p50": 589,
+     "real_mean": 589,
+     "real_max": 589,
+     "planned_p50": 600,
+     "err_pct_vs_art": null,
+     "err_pct_real_vs_planned": -1.8,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "lethal_blow",
+     "art_ms": 800,
+     "n": 1,
+     "real_p50": 1600,
+     "real_mean": 1600,
+     "real_max": 1600,
+     "planned_p50": 1585,
+     "err_pct_vs_art": 100,
+     "err_pct_real_vs_planned": 0.9,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "mulligan_swap",
+     "art_ms": 300,
+     "n": 5,
+     "real_p50": 301,
+     "real_mean": 306.8,
+     "real_max": 317,
+     "planned_p50": 300,
+     "err_pct_vs_art": 0.3,
+     "err_pct_real_vs_planned": 2.3,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_answerer",
+     "art_ms": 220,
+     "n": 11,
+     "real_p50": 233,
+     "real_mean": 261.8,
+     "real_max": 550,
+     "planned_p50": 220,
+     "err_pct_vs_art": 5.9,
+     "err_pct_real_vs_planned": 4.7,
+     "skipped": 0,
+     "queued_behind": 0
+    },
+    {
+     "kind": "play_rite",
+     "art_ms": 260,
+     "n": 4,
+     "real_p50": 267,
+     "real_mean": 291.5,
+     "real_max": 366,
+     "planned_p50": 260,
+     "err_pct_vs_art": 2.7,
+     "err_pct_real_vs_planned": 2.7,
+     "skipped": 0,
+     "queued_behind": 0
+    }
+   ],
+   "half_turn_ms": {
+    "n": 14,
+    "min": 683,
+    "p50": 2383,
+    "p90": 4000,
+    "p99": 4317,
+    "max": 4317,
+    "mean": 2422.8
+   },
+   "half_over_cap": 0
+  }
+ ],
+ "skip": [
+  {
+   "hA": "h_rider",
+   "hB": "h_warden",
+   "seed": 515,
+   "actions": 80,
+   "winner": 1,
+   "final": [
+    0,
+    22
+   ],
+   "nums": 0,
+   "skipped": 81,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   }
+  },
+  {
+   "hA": "h_wreck",
+   "hB": "h_choir",
+   "seed": 516,
+   "actions": 52,
+   "winner": 1,
+   "final": [
+    0,
+    31
+   ],
+   "nums": 0,
+   "skipped": 53,
+   "screen": {
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "ok": true
+   }
+  }
+ ],
+ "queue": {
+  "per_turn": [
+   "",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   "ok,q,q,q",
+   ""
+  ],
+  "max_queue_seen": 3,
+  "rejects": [],
+  "short": 0,
+  "total": 56
+ }
+}

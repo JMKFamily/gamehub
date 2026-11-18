@@ -1,0 +1,2315 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 1177
+ },
+ "summary": {
+  "small_by_screen": {
+   "08-collection-360x640": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "09-recut-ready-360x640": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "10-recut-done-360x640": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "11-builder-360x640": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(328x30)",
+    "1녹슨 장갑판●(328x30)",
+    "1황동 집게팔●(328x30)",
+    "1리벳 박기●(328x30)",
+    "2증기 심장●(328x30)",
+    "2해체공 견습●(328x30)",
+    "2압력 밸브●(328x30)",
+    "3청사진 덧칠●(328x30)",
+    "3태엽 짐꾼●(328x30)",
+    "3작업장 화로●(328x30)",
+    "4잡음 발생기●(328x30)",
+    "5인양 거상●(328x30)"
+   ],
+   "08-collection-412x915": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "09-recut-ready-412x915": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "10-recut-done-412x915": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "11-builder-412x915": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(380x30)",
+    "1녹슨 장갑판●(380x30)",
+    "1황동 집게팔●(380x30)",
+    "1리벳 박기●(380x30)",
+    "2증기 심장●(380x30)",
+    "2해체공 견습●(380x30)",
+    "2압력 밸브●(380x30)",
+    "3청사진 덧칠●(380x30)",
+    "3태엽 짐꾼●(380x30)",
+    "3작업장 화로●(380x30)",
+    "4잡음 발생기●(380x30)",
+    "5인양 거상●(380x30)"
+   ],
+   "08-collection-640x360": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "09-recut-ready-640x360": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "10-recut-done-640x360": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "11-builder-640x360": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(608x30)",
+    "1녹슨 장갑판●(608x30)",
+    "1황동 집게팔●(608x30)",
+    "1리벳 박기●(608x30)",
+    "2증기 심장●(608x30)",
+    "2해체공 견습●(608x30)",
+    "2압력 밸브●(608x30)",
+    "3청사진 덧칠●(608x30)",
+    "3태엽 짐꾼●(608x30)",
+    "3작업장 화로●(608x30)",
+    "4잡음 발생기●(608x30)",
+    "5인양 거상●(608x30)"
+   ],
+   "08-collection-1280x720": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "09-recut-ready-1280x720": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "10-recut-done-1280x720": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "11-builder-1280x720": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(1248x30)",
+    "1녹슨 장갑판●(1248x30)",
+    "1황동 집게팔●(1248x30)",
+    "1리벳 박기●(1248x30)",
+    "2증기 심장●(1248x30)",
+    "2해체공 견습●(1248x30)",
+    "2압력 밸브●(1248x30)",
+    "3청사진 덧칠●(1248x30)",
+    "3태엽 짐꾼●(1248x30)",
+    "3작업장 화로●(1248x30)",
+    "4잡음 발생기●(1248x30)",
+    "5인양 거상●(1248x30)"
+   ]
+  },
+  "clipped": {
+   "05-battle-360x640": [
+    "hand@-15,498,107x131",
+    "hand@275,498,107x131"
+   ],
+   "06-zoom-360x640": [
+    "hand@275,498,107x131"
+   ],
+   "07-result-360x640": [
+    "hand@-10,499,104x129",
+    "hand@275,499,104x129"
+   ],
+   "05-battle-412x915": [
+    "hand@-19,720,123x151",
+    "hand@315,720,123x151"
+   ],
+   "06-zoom-412x915": [
+    "hand@315,720,123x151"
+   ],
+   "04-mulligan-640x360": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "05-battle-640x360": [
+    "hand@224,306,78x104",
+    "hand@297,303,70x98",
+    "hand@362,306,78x104"
+   ],
+   "06-zoom-640x360": [
+    "hand@297,303,70x98",
+    "hand@362,306,78x104"
+   ],
+   "07-result-640x360": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "13-crate-tease-640x360": [
+    "@216,302,64x64",
+    "@360,302,64x64"
+   ],
+   "14-crate-reveal-640x360": [
+    "불타는 주석의식 · 이브로 탈@215,302,64x64",
+    "전리품 자루응답자 · 기수급류@358,302,64x64"
+   ],
+   "04-mulligan-1280x720": [
+    "hand@379,613,162x211",
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "05-battle-1280x720": [
+    "hand@259,611,172x217",
+    "hand@394,611,160x210",
+    "hand@530,613,147x201",
+    "hand@659,613,147x201",
+    "hand@782,611,160x210",
+    "hand@905,611,172x217"
+   ],
+   "06-zoom-1280x720": [
+    "hand@394,611,160x210",
+    "hand@530,613,147x201",
+    "hand@659,613,147x201",
+    "hand@782,611,160x210",
+    "hand@905,611,172x217"
+   ],
+   "07-result-1280x720": [
+    "hand@275,615,157x207",
+    "hand@367,614,152x204",
+    "hand@460,614,147x201",
+    "hand@552,614,142x198",
+    "hand@642,614,142x198",
+    "hand@729,614,147x201",
+    "hand@817,614,152x204",
+    "hand@904,615,157x207"
+   ]
+  },
+  "overlap": {
+   "04-mulligan-360x640": [
+    "power×탐구의 불꽃의식 · 이브로 탈(49x4)",
+    "power×mullok(26x43)",
+    "log×대열람실 점등의식 · 이브로 (43x21)",
+    "end×견습 필경사응답자 · 필경사잉(91x2)"
+   ],
+   "07-result-360x640": [
+    "power×menu(47x38)",
+    "end×menu(10x36)"
+   ],
+   "09-recut-ready-360x640": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "10-recut-done-360x640": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "11-builder-360x640": [
+    "2압력 밸브●×나머지 채우기(113x2)",
+    "2압력 밸브●×저장(60x2)",
+    "2압력 밸브●×영장첩 버리기(119x2)",
+    "3청사진 덧칠●×나머지 채우기(113x30)",
+    "3청사진 덧칠●×저장(60x30)",
+    "3청사진 덧칠●×영장첩 버리기(119x30)",
+    "3태엽 짐꾼●×나머지 채우기(113x12)",
+    "3태엽 짐꾼●×저장(60x12)",
+    "3태엽 짐꾼●×영장첩 버리기(119x12)"
+   ],
+   "04-mulligan-412x915": [
+    "power×mullok(27x9)"
+   ],
+   "07-result-412x915": [
+    "power×rematch(2x24)",
+    "power×menu(54x24)"
+   ],
+   "09-recut-ready-412x915": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "10-recut-done-412x915": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "11-builder-412x915": [
+    "3작업장 화로●×나머지 채우기(113x5)",
+    "3작업장 화로●×저장(60x5)",
+    "3작업장 화로●×영장첩 버리기(119x5)",
+    "4잡음 발생기●×나머지 채우기(113x30)",
+    "4잡음 발생기●×저장(60x30)",
+    "4잡음 발생기●×영장첩 버리기(119x30)",
+    "5인양 거상●×나머지 채우기(113x9)",
+    "5인양 거상●×저장(60x9)",
+    "5인양 거상●×영장첩 버리기(119x9)"
+   ],
+   "09-recut-ready-640x360": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "10-recut-done-640x360": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "11-builder-640x360": [
+    "1리벳 박기●×나머지 채우기(113x2)",
+    "1리벳 박기●×저장(60x2)",
+    "1리벳 박기●×영장첩 버리기(119x2)",
+    "2증기 심장●×나머지 채우기(113x30)",
+    "2증기 심장●×저장(60x30)",
+    "2증기 심장●×영장첩 버리기(119x30)",
+    "2해체공 견습●×나머지 채우기(113x12)",
+    "2해체공 견습●×저장(60x12)",
+    "2해체공 견습●×영장첩 버리기(119x12)"
+   ],
+   "13-crate-tease-640x360": [
+    "×revealAll(47x48)",
+    "×revealAll(51x44)",
+    "×뒤로(5x44)",
+    "×뒤로(47x48)"
+   ],
+   "14-crate-reveal-640x360": [
+    "불타는 주석의식 · 이브로 탈×revealAll(45x48)",
+    "해저 경매의식 · 공용인양: ×revealAll(52x44)",
+    "해저 경매의식 · 공용인양: ×뒤로(4x44)",
+    "전리품 자루응답자 · 기수급류×뒤로(48x48)"
+   ],
+   "09-recut-ready-1280x720": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "10-recut-done-1280x720": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "11-builder-1280x720": [
+    "3청사진 덧칠●×나머지 채우기(113x7)",
+    "3청사진 덧칠●×저장(60x7)",
+    "3청사진 덧칠●×영장첩 버리기(119x7)",
+    "3태엽 짐꾼●×나머지 채우기(113x30)",
+    "3태엽 짐꾼●×저장(60x30)",
+    "3태엽 짐꾼●×영장첩 버리기(119x30)",
+    "3작업장 화로●×나머지 채우기(113x7)",
+    "3작업장 화로●×저장(60x7)",
+    "3작업장 화로●×영장첩 버리기(119x7)"
+   ]
+  },
+  "textOver": {},
+  "scroll640x360": {
+   "01-title-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "02-dock-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col",
+      "hidden": 130,
+      "bar": false
+     }
+    ]
+   },
+   "03-heroes-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col",
+      "hidden": 311,
+      "bar": false
+     }
+    ]
+   },
+   "04-mulligan-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "05-battle-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "06-zoom-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "07-result-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "08-collection-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll",
+      "hidden": 4868,
+      "bar": false
+     }
+    ]
+   },
+   "09-recut-ready-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll",
+      "hidden": 4868,
+      "bar": false
+     },
+     {
+      "cls": "scroll",
+      "hidden": 4868,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "10-recut-done-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll",
+      "hidden": 4868,
+      "bar": false
+     },
+     {
+      "cls": "scroll",
+      "hidden": 4868,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "11-builder-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "filters",
+      "hidden": 10,
+      "bar": false
+     },
+     {
+      "cls": "scroll",
+      "hidden": 742,
+      "bar": false
+     },
+     {
+      "cls": "deckStrip",
+      "hidden": 274,
+      "bar": false
+     }
+    ]
+   },
+   "12-crates-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "13-crate-tease-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "14-crate-reveal-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "15-market-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col",
+      "hidden": 470,
+      "bar": false
+     }
+    ]
+   },
+   "16-settings-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col",
+      "hidden": 52,
+      "bar": false
+     }
+    ]
+   }
+  }
+ },
+ "screens": [
+  {
+   "label": "01-title-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "heroes",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 188,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "04-mulligan-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 13,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×탐구의 불꽃의식 · 이브로 탈(49x4)",
+    "power×mullok(26x43)",
+    "log×대열람실 점등의식 · 이브로 (43x21)",
+    "end×견습 필경사응답자 · 필경사잉(91x2)"
+   ],
+   "overlap_n": 4,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@-15,498,107x131",
+    "hand@275,498,107x131"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@275,498,107x131"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@-10,499,104x129",
+    "hand@275,499,104x129"
+   ],
+   "overlap": [
+    "power×menu(47x38)",
+    "end×menu(10x36)"
+   ],
+   "overlap_n": 2,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9538,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9538,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 9538,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 11,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9538,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 9538,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "builder",
+   "n_targets": 54,
+   "small": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(328x30)",
+    "1녹슨 장갑판●(328x30)",
+    "1황동 집게팔●(328x30)",
+    "1리벳 박기●(328x30)",
+    "2증기 심장●(328x30)",
+    "2해체공 견습●(328x30)",
+    "2압력 밸브●(328x30)",
+    "3청사진 덧칠●(328x30)",
+    "3태엽 짐꾼●(328x30)",
+    "3작업장 화로●(328x30)",
+    "4잡음 발생기●(328x30)",
+    "5인양 거상●(328x30)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "2압력 밸브●×나머지 채우기(113x2)",
+    "2압력 밸브●×저장(60x2)",
+    "2압력 밸브●×영장첩 버리기(119x2)",
+    "3청사진 덧칠●×나머지 채우기(113x30)",
+    "3청사진 덧칠●×저장(60x30)",
+    "3청사진 덧칠●×영장첩 버리기(119x30)",
+    "3태엽 짐꾼●×나머지 채우기(113x12)",
+    "3태엽 짐꾼●×저장(60x12)",
+    "3태엽 짐꾼●×영장첩 버리기(119x12)"
+   ],
+   "overlap_n": 9,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1326,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip",
+     "hidden": 178,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 190,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "settings",
+   "n_targets": 7,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "01-title-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "heroes",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "04-mulligan-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×mullok(27x9)"
+   ],
+   "overlap_n": 1,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@-19,720,123x151",
+    "hand@315,720,123x151"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 16,
+   "small": [],
+   "clipped": [
+    "hand@315,720,123x151"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 18,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×rematch(2x24)",
+    "power×menu(54x24)"
+   ],
+   "overlap_n": 2,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9263,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9263,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 9263,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 9263,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 9263,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "builder",
+   "n_targets": 54,
+   "small": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(380x30)",
+    "1녹슨 장갑판●(380x30)",
+    "1황동 집게팔●(380x30)",
+    "1리벳 박기●(380x30)",
+    "2증기 심장●(380x30)",
+    "2해체공 견습●(380x30)",
+    "2압력 밸브●(380x30)",
+    "3청사진 덧칠●(380x30)",
+    "3태엽 짐꾼●(380x30)",
+    "3작업장 화로●(380x30)",
+    "4잡음 발생기●(380x30)",
+    "5인양 거상●(380x30)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "3작업장 화로●×나머지 채우기(113x5)",
+    "3작업장 화로●×저장(60x5)",
+    "3작업장 화로●×영장첩 버리기(119x5)",
+    "4잡음 발생기●×나머지 채우기(113x30)",
+    "4잡음 발생기●×저장(60x30)",
+    "4잡음 발생기●×영장첩 버리기(119x30)",
+    "5인양 거상●×나머지 채우기(113x9)",
+    "5인양 거상●×저장(60x9)",
+    "5인양 거상●×영장첩 버리기(119x9)"
+   ],
+   "overlap_n": 9,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1144,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip",
+     "hidden": 85,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "16-settings-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "settings",
+   "n_targets": 7,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "01-title-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 130,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "03-heroes-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "heroes",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 311,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "04-mulligan-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 13,
+   "small": [],
+   "clipped": [
+    "hand@224,306,78x104",
+    "hand@297,303,70x98",
+    "hand@362,306,78x104"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [
+    "hand@297,303,70x98",
+    "hand@362,306,78x104"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 19,
+   "small": [],
+   "clipped": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 4868,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 4868,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 4868,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 123,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 4868,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 4868,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 123,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "builder",
+   "n_targets": 54,
+   "small": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(608x30)",
+    "1녹슨 장갑판●(608x30)",
+    "1황동 집게팔●(608x30)",
+    "1리벳 박기●(608x30)",
+    "2증기 심장●(608x30)",
+    "2해체공 견습●(608x30)",
+    "2압력 밸브●(608x30)",
+    "3청사진 덧칠●(608x30)",
+    "3태엽 짐꾼●(608x30)",
+    "3작업장 화로●(608x30)",
+    "4잡음 발생기●(608x30)",
+    "5인양 거상●(608x30)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "1리벳 박기●×나머지 채우기(113x2)",
+    "1리벳 박기●×저장(60x2)",
+    "1리벳 박기●×영장첩 버리기(119x2)",
+    "2증기 심장●×나머지 채우기(113x30)",
+    "2증기 심장●×저장(60x30)",
+    "2증기 심장●×영장첩 버리기(119x30)",
+    "2해체공 견습●×나머지 채우기(113x12)",
+    "2해체공 견습●×저장(60x12)",
+    "2해체공 견습●×영장첩 버리기(119x12)"
+   ],
+   "overlap_n": 9,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "filters",
+     "hidden": 10,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 742,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip",
+     "hidden": 274,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [
+    "@216,302,64x64",
+    "@360,302,64x64"
+   ],
+   "overlap": [
+    "×revealAll(47x48)",
+    "×revealAll(51x44)",
+    "×뒤로(5x44)",
+    "×뒤로(47x48)"
+   ],
+   "overlap_n": 4,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [
+    "불타는 주석의식 · 이브로 탈@215,302,64x64",
+    "전리품 자루응답자 · 기수급류@358,302,64x64"
+   ],
+   "overlap": [
+    "불타는 주석의식 · 이브로 탈×revealAll(45x48)",
+    "해저 경매의식 · 공용인양: ×revealAll(52x44)",
+    "해저 경매의식 · 공용인양: ×뒤로(4x44)",
+    "전리품 자루응답자 · 기수급류×뒤로(48x48)"
+   ],
+   "overlap_n": 4,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 470,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "settings",
+   "n_targets": 7,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 52,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "01-title-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "heroes",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "04-mulligan-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@379,613,162x211",
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@259,611,172x217",
+    "hand@394,611,160x210",
+    "hand@530,613,147x201",
+    "hand@659,613,147x201",
+    "hand@782,611,160x210",
+    "hand@905,611,172x217"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [
+    "hand@394,611,160x210",
+    "hand@530,613,147x201",
+    "hand@659,613,147x201",
+    "hand@782,611,160x210",
+    "hand@905,611,172x217"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 20,
+   "small": [],
+   "clipped": [
+    "hand@275,615,157x207",
+    "hand@367,614,152x204",
+    "hand@460,614,147x201",
+    "hand@552,614,142x198",
+    "hand@642,614,142x198",
+    "hand@729,614,147x201",
+    "hand@817,614,152x204",
+    "hand@904,615,157x207"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1958,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1958,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 1958,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 423,
+   "small": [
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)",
+    "전체(48x40)",
+    "이브로 탈(71x40)",
+    "수녀 나할(71x40)",
+    "렌(48x40)",
+    "카드라 순(71x40)",
+    "오다 벨(60x40)",
+    "펠 하스크(71x40)",
+    "공용(48x40)",
+    "가진 영장(71x40)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "back×back(60x48)",
+    "전체×전체(48x40)",
+    "이브로 탈×이브로 탈(71x40)",
+    "수녀 나할×수녀 나할(71x40)",
+    "렌×렌(48x40)",
+    "카드라 순×카드라 순(71x40)",
+    "오다 벨×오다 벨(60x40)",
+    "펠 하스크×펠 하스크(71x40)",
+    "공용×공용(48x40)",
+    "가진 영장×가진 영장(71x40)"
+   ],
+   "overlap_n": 10,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1958,
+     "bar": false
+    },
+    {
+     "cls": "scroll",
+     "hidden": 1958,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "builder",
+   "n_targets": 54,
+   "small": [
+    "전체(48x40)",
+    "0(48x40)",
+    "1(48x40)",
+    "2(48x40)",
+    "3(48x40)",
+    "4(48x40)",
+    "5(48x40)",
+    "6(48x40)",
+    "7+(48x40)",
+    "1갈고리 던지기●(1248x30)",
+    "1녹슨 장갑판●(1248x30)",
+    "1황동 집게팔●(1248x30)",
+    "1리벳 박기●(1248x30)",
+    "2증기 심장●(1248x30)",
+    "2해체공 견습●(1248x30)",
+    "2압력 밸브●(1248x30)",
+    "3청사진 덧칠●(1248x30)",
+    "3태엽 짐꾼●(1248x30)",
+    "3작업장 화로●(1248x30)",
+    "4잡음 발생기●(1248x30)",
+    "5인양 거상●(1248x30)"
+   ],
+   "clipped": [],
+   "overlap": [
+    "3청사진 덧칠●×나머지 채우기(113x7)",
+    "3청사진 덧칠●×저장(60x7)",
+    "3청사진 덧칠●×영장첩 버리기(119x7)",
+    "3태엽 짐꾼●×나머지 채우기(113x30)",
+    "3태엽 짐꾼●×저장(60x30)",
+    "3태엽 짐꾼●×영장첩 버리기(119x30)",
+    "3작업장 화로●×나머지 채우기(113x7)",
+    "3작업장 화로●×저장(60x7)",
+    "3작업장 화로●×영장첩 버리기(119x7)"
+   ],
+   "overlap_n": 9,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 223,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip",
+     "hidden": 151,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col",
+     "hidden": 110,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "settings",
+   "n_targets": 7,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  }
+ ]
+}
