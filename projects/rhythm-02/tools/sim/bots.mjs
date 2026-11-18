@@ -7,9 +7,17 @@
 //   k2:    "높이 읽기" 손해 모델(위험 K2, 20-balance 9-3) — 짧아지는 통·반박·두 공·새 기믹 첫 등장 접촉에 σ를 키우고 놓침률을 올림
 //   bias:  고정 밀림(+ = 늦게). 소리 따라 치는 아이(K3)는 bias = w × 남은 오디오 지연.
 //
-// 사용: node tools/sim/bots.mjs [시도 수=20000] [프로필|all] [레벨 id 쉼표]
+//   대표 봇(곡선 판정 원천) = balance.json bots.representative (2026-11-17 결정 14, 12세 프로젝트: novice_sd50 σ50). representativeProfile(bal) 로 얻음.
+//
+// 사용: node tools/sim/bots.mjs [시도 수=20000] [프로필|all, 기본 = 대표 봇] [레벨 id 쉼표]
 
 import { compileLevel, judgeAttempt, gradeRating, comboEvents } from './judge.mjs';
+
+// 대표 봇 프로필 이름·값 (없으면 옛 정의 child_sd70)
+export function representativeProfile(bal) {
+  const name = bal.bots.representative ?? 'child_sd70';
+  return { name, profile: bal.bots.profiles[name] };
+}
 
 export function makeRng(seed = 12345) {
   let s = seed;
@@ -158,7 +166,7 @@ if (isMain) {
   const PROJECT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
   const bal = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
   const N = +(process.argv[2] || 20000);
-  const only = process.argv[3] && process.argv[3] !== 'all' ? process.argv[3] : null;
+  const only = process.argv[3] === 'all' ? null : process.argv[3] || representativeProfile(bal).name;
   const ids = process.argv[4] ? process.argv[4].split(',') : null;
   const out = {};
   for (const f of bal.levels) {

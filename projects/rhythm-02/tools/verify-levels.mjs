@@ -2,7 +2,7 @@
 // rhythm-02 레벨 검증기 (node 만 사용) — round-2 "흘러오는 길"(스키마 v2)
 //
 // 사용법
-//   node tools/verify-levels.mjs            # 전체 실행. B·K 판정은 이 실행 기준(σ70 4만 회, σ25 10만 회, B6 시드 10개)
+//   node tools/verify-levels.mjs            # 전체 실행. B·K 판정은 이 실행 기준(대표 봇 = balance.json bots.representative, 2026-11-17 결정 14 이후 novice_sd50 σ50 · σ70·σ50 10만 회, σ25 10만 회, B6 시드 10개)
 //   node tools/verify-levels.mjs --quick    # 봇 표본을 줄여 도구 동작만 확인(B·K 검사는 정보로만)
 //   node tools/verify-levels.mjs --json     # 결과 JSON
 //   node tools/verify-levels.mjs --seed=N   # 난수 시드 바꾸기(기본 balance.json verify.seed)
@@ -21,7 +21,7 @@
 //   S1~S5 신호(round-1)       S6 카드 닫힘 < 레벨 0   S7 L1 손가락 ∩ 위험 물체 보임 = 0   S8 지붕 레벨 손가락 없음·카드   S9 지붕 착지 ±1박 신호 0   S10 UI 자리(layout, art 대기)
 //   N7  이어 하기 되감기 → 다음 접촉 ≥ 450 ms   C1 콤보(결과 파생·화음 자리·켬/끔 봇 동일)
 //   P1~P5 판정 이름·퍼센트(칸 경계·단조·등급 범위·비대칭 칸·정확도·켬/끔 동일)   (정보) P6 봇 정확도 분포
-//   B1~B8 곡선(q_nogo 0.15 봇)   B6s 시드 10개 분포   K2 손해 모델   K3 화면 판정 + K3b 보정 뒤 잔차 ±15 두 쪽(w = 1)   (정보) Q q_nogo 민감도·criteria 기본 행, K3d, 따라 치기·연습·해석
+//   B1~B8 곡선(대표 봇 σ50·q_nogo 0.05, 12세 재조정)   B6s 시드 10개 분포   (정보) B9 σ25·σ50·σ70 × q 두 값   K2 손해 모델   K3 화면 판정 + K3b 보정 뒤 잔차 ±15 두 쪽(w = 1)   (정보) Q q_nogo 민감도·criteria 기본 행, K3d, 따라 치기·연습·해석
 
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
@@ -38,6 +38,10 @@ const bal = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
 const V = bal.verify;
 const SEED = +(args.find((a) => a.startsWith('--seed='))?.split('=')[1] ?? V.seed);
 const N = QUICK ? V.N_quick : V.N_full;
+// 대표 봇(곡선 판정 원천): balance.json bots.representative — 2026-11-17 결정 14(12세 프로젝트) novice_sd50. 없으면 옛 정의 child_sd70
+const REP = bal.bots.representative ?? 'child_sd70';
+const RP = bal.bots.profiles[REP];
+const RL = `σ${RP.sd_ms}`;
 const NSK = QUICK ? V.N_quick : V.N_skilled_full;
 const SESS = QUICK ? V.sessions_quick : V.sessions_full;
 const f0 = (x) => (x === Infinity ? '∞' : x === -Infinity ? '-∞' : (+x).toFixed(0));
@@ -912,13 +916,13 @@ log('\n== C1 콤보 (balance.json combo, judge.mjs comboEvents) ==');
   let mism = 0;
   compiled.forEach((L, k) => {
     const n = Math.max(2000, N / 8);
-    const a = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: n, sessions: 50, seed: SEED + 9000 + k });
-    const b = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: n, sessions: 50, seed: SEED + 9000 + k, combo: true });
+    const a = runProfile(L, RP, bal, { N: n, sessions: 50, seed: SEED + 9000 + k });
+    const b = runProfile(L, RP, bal, { N: n, sessions: 50, seed: SEED + 9000 + k, combo: true });
     const { combo_mismatch, combo_mean_final, ...bb } = b;
     mism += combo_mismatch;
     if (JSON.stringify(a) !== JSON.stringify(bb)) diff.push(`L${L.level.id}`);
   });
-  check('all', 'C1b', !diff.length && !mism, `콤보 켬/끔 σ70 봇(q_nogo 포함, 레벨당 ${Math.max(2000, N / 8)}회 같은 시드): 클리어율·실패 위치·이유·진행도·세션 결과 ${diff.length ? `다름 ${diff}` : '모두 같음'} · 콤보 ≠ 판정 수인 시도 ${mism}`);
+  check('all', 'C1b', !diff.length && !mism, `콤보 켬/끔 대표 봇 ${RL}(q_nogo 포함, 레벨당 ${Math.max(2000, N / 8)}회 같은 시드): 클리어율·실패 위치·이유·진행도·세션 결과 ${diff.length ? `다름 ${diff}` : '모두 같음'} · 콤보 ≠ 판정 수인 시도 ${mism}`);
 }
 
 // ---------- C2 콤보 화음 시각 (1-2 R2-D2): 판정 접촉 다음 정박 중 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고
@@ -1047,13 +1051,13 @@ log('\n== P 판정 이름·퍼센트 (balance.json judgement_display, judge.mjs 
     check('all', 'P2', !e2.length, e2.length ? e2.slice(0, 5).join(' / ') : `0.01 ms 간격 ${swept}점(10레벨 × 이른·늦은 쪽): d 가 커지면 % 는 줄거나 같음, 딱 = 100/90 · 좋아 = 80~60 · 통과 = 50~10(% → 등급 = judgeAttempt 등급 불일치 0), 창 끝 = 10 %, 창 밖 = 표시 없음`);
     check('all', 'P3', !e3.length, e3.length ? e3.slice(0, 5).join(' / ') : `비대칭 창(늦은 쪽 +20 ms)에서도 통과 5칸이 각 쪽 (W−g)/5 로 똑같이 나뉨, 경계값 = 안쪽 칸·경계 +0.001 ms = 다음 칸, judge.mjs = 독립 계산 · ${rows3.join(' · ')}`);
     check('all', 'P4', !e4.length, e4.length ? e4.slice(0, 5).join(' / ') : `레벨 정확도: 완벽 입력 = 100(10레벨), 늦은 창 끝 입력 = 10, 100 + 90… 섞임 = 내림 평균, 지붕 참기(hold) % ·이름 없음·평균 제외, 실패·연습 = 표시 없음, 이름 키 = ${JD.names.perfect}/${JD.names.good}/${JD.names.pass}`);
-    // P5: 켜고 끔 — 같은 시드 σ70·σ25 봇 시도에서 % 계산 전후 판정 결과·콤보가 같고, 결과 객체를 바꾸지 않음
+    // P5: 켜고 끔 — 같은 시드 σ70·σ50·σ25 봇 시도에서 % 계산 전후 판정 결과·콤보가 같고, 결과 객체를 바꾸지 않음
     const e5 = [], acc = [];
     let tried = 0, hitN = 0;
     compiled.forEach((L, k) => {
       const id = +L.level.id;
-      const accs = { child_sd70: [], skilled_sd25: [] };
-      for (const prof of ['child_sd70', 'skilled_sd25']) {
+      const accs = { child_sd70: [], novice_sd50: [], skilled_sd25: [] };
+      for (const prof of ['child_sd70', 'novice_sd50', 'skilled_sd25']) {
         const p = bal.bots.profiles[prof];
         const n = QUICK ? 1500 : 6000;
         const rngA = makeRng(SEED + 7700 + k), rngB = makeRng(SEED + 7700 + k);
@@ -1076,12 +1080,12 @@ log('\n== P 판정 이름·퍼센트 (balance.json judgement_display, judge.mjs 
         }
       }
       const q = (arr, u) => { const s = [...arr].sort((x, y) => x - y); return s.length ? s[Math.min(s.length - 1, Math.floor(u * (s.length - 1)))] : '-'; };
-      acc.push(`L${id} σ70 ${q(accs.child_sd70, 0.5)}(${q(accs.child_sd70, 0.1)}~${q(accs.child_sd70, 0.9)}, 클리어 ${accs.child_sd70.length})·σ25 ${q(accs.skilled_sd25, 0.5)}`);
+      acc.push(`L${id} σ70 ${q(accs.child_sd70, 0.5)}(${q(accs.child_sd70, 0.1)}~${q(accs.child_sd70, 0.9)}, 클리어 ${accs.child_sd70.length})·σ50 ${q(accs.novice_sd50, 0.5)}(${q(accs.novice_sd50, 0.1)}~${q(accs.novice_sd50, 0.9)})·σ25 ${q(accs.skilled_sd25, 0.5)}`);
     });
     const minGapAll = Math.min(...compiled.map((L) => Math.min(...L.contacts.slice(1).map((c, k) => c.t - L.contacts[k].t))));
     if (!(JD.timing.pop_ms < minGapAll)) e5.push(`튐 ${JD.timing.pop_ms} ms ≥ 가장 짧은 접촉 간격 ${f0(minGapAll)}`);
     if (JD.timing.hold_until_ms + JD.timing.fade_ms !== JD.timing.total_ms) e5.push('표시 시간 합 ≠ total_ms');
-    check('all', 'P5', !e5.length, e5.length ? e5.slice(0, 5).join(' / ') : `% ·이름 켬/끔: 같은 시드 봇 시도 ${tried}회(σ70·σ25, 헛탭 포함)에서 판정 결과·콤보 사건 완전히 같음, % 계산이 결과 객체를 바꾸지 않음, hit 판정 ${hitN}개 모두 % → 등급 = 판정 등급, 정확도는 클리어 시도에만 · 튐 ${JD.timing.pop_ms} ms < 가장 짧은 접촉 간격 ${f0(minGapAll)} ms, 표시 ${JD.timing.hold_until_ms}+${JD.timing.fade_ms} = ${JD.timing.total_ms} ms`);
+    check('all', 'P5', !e5.length, e5.length ? e5.slice(0, 5).join(' / ') : `% ·이름 켬/끔: 같은 시드 봇 시도 ${tried}회(σ70·σ50·σ25, 헛탭 포함)에서 판정 결과·콤보 사건 완전히 같음, % 계산이 결과 객체를 바꾸지 않음, hit 판정 ${hitN}개 모두 % → 등급 = 판정 등급, 정확도는 클리어 시도에만 · 튐 ${JD.timing.pop_ms} ms < 가장 짧은 접촉 간격 ${f0(minGapAll)} ms, 표시 ${JD.timing.hold_until_ms}+${JD.timing.fade_ms} = ${JD.timing.total_ms} ms`);
     report.accuracy = acc;
     info('P6', `레벨 정확도(클리어한 시도만, 중앙값(10~90 백분위)) · ${acc.join(' · ')}`);
   }
@@ -1274,7 +1278,7 @@ log('\n== J 판정 기준 구현 (창 값 유한 확인 · Δ 0.001 ms 반올림
 }
 
 // ---------- 봇
-log(`\n== 봇 (σ70·σ50 ${N}회, σ25 ${NSK}회, 세션 ${SESS}, 시드 ${SEED}, q_nogo σ70 ${bal.bots.profiles.child_sd70.q_nogo}·σ50 ${bal.bots.profiles.novice_sd50.q_nogo}·σ25 ${bal.bots.profiles.skilled_sd25.q_nogo}${QUICK ? ', --quick: 판정 안 함' : ''}) ==`);
+log(`\n== 봇 (대표 봇 ${REP} = ${RL}, 결정 14 · σ70·σ50 ${N}회, σ25 ${NSK}회, 세션 ${SESS}, 시드 ${SEED}, q_nogo σ70 ${bal.bots.profiles.child_sd70.q_nogo}·σ50 ${bal.bots.profiles.novice_sd50.q_nogo}·σ25 ${bal.bots.profiles.skilled_sd25.q_nogo}${QUICK ? ', --quick: 판정 안 함' : ''}) ==`);
 log('레벨 | 프로필 | 첫 시도 클리어율 p | 연속 중앙값 | 정수 중앙값 | 90 % | 평균 진행도 | 실패 위치 중앙값(시간) | 이른 실패 | 지붕 콩 실패 | 최다 실패 접촉 몰림');
 const B = {};
 compiled.forEach((L, k) => {
@@ -1284,26 +1288,28 @@ compiled.forEach((L, k) => {
     B[id][pn] = r;
     log(`${id} | ${pn} | ${r.clear_rate} | ${r.median_continuous ?? '-'} | ${r.median_sessions} | ${r.p90_sessions} | ${r.mean_progress} % | ${r.median_fail_progress_time ?? '-'} % | ${r.early_fail_share} | ${r.roof_fail_share} | ${r.top_fail_contact_share} (접촉 ${r.top_fail_contact}, 실패 ${r.deaths})`);
   }
-  B[id].k2 = runProfile(L, bal.bots.profiles.child_sd70, bal, { N, sessions: SESS, seed: SEED + 7001 + k, k2: true });
+  B[id].k2 = runProfile(L, RP, bal, { N, sessions: SESS, seed: SEED + 7001 + k, k2: true });
 });
 report.bots = B;
-const m = (id) => B[id].child_sd70.median_continuous;
+const m = (id) => B[id][REP].median_continuous;
 log('');
 compiled.forEach((L, k) => {
   const id = L.level.id;
-  const lim = id === '01' ? V.l1_sd70_continuous_max : V.sd70_continuous_max;
-  const extra = id === '01' ? ` · 목표 ≤ ${V.l1_sd70_continuous_target} ${m(id) <= V.l1_sd70_continuous_target ? '달성' : '미달(!)'}` : '';
-  bchk(id, 'B1', m(id) != null && m(id) <= lim && (id !== '01' || m(id) <= V.l1_sd70_continuous_target), `σ70(q_nogo ${bal.bots.profiles.child_sd70.q_nogo}) 연속 중앙값 ${m(id)} ≤ ${lim}${extra} (정수 ${B[id].child_sd70.median_sessions})`);
+  const lim = id === '01' ? V.l1_rep_continuous_max : V.rep_continuous_max;
+  const [t0, t1] = V.l1_rep_continuous_target_range;
+  const inT = m(id) != null && m(id) >= t0 && m(id) <= t1;
+  const extra = id === '01' ? ` · 목표 ${t0} ~ ${t1} ${inT ? '달성' : '미달(!)'}` : '';
+  bchk(id, 'B1', m(id) != null && m(id) <= lim && (id !== '01' || inT), `${RL}(q_nogo ${RP.q_nogo}) 연속 중앙값 ${m(id)} ≤ ${lim}${extra} (정수 ${B[id][REP].median_sessions})`);
   const sk = B[id].skilled_sd25, nv = B[id].novice_sd50;
   if (sk.deaths >= 20) bchk(id, 'B3', sk.top_fail_contact_share <= 0.3, `σ25 실패 ${sk.deaths}회, 최다 접촉 ${sk.top_fail_contact} 몰림 ${sk.top_fail_contact_share} ≤ 0.3`);
   else bchk(id, 'B3', nv.top_fail_contact_share <= 0.3, `σ25 실패 ${sk.deaths}회(20 미만) → σ50 실패 ${nv.deaths}회, 최다 접촉 ${nv.top_fail_contact} 몰림 ${nv.top_fail_contact_share} ≤ 0.3`);
   if (k) {
     const a = compiled[k - 1].level.id;
     for (const pn of ['novice_sd50', 'child_sd70']) bchk(id, 'B2', B[id][pn].mean_progress < B[a][pn].mean_progress, `${pn} 평균 진행도 ${a} ${B[a][pn].mean_progress} % > ${id} ${B[id][pn].mean_progress} %`);
-    bchk(id, 'B5', m(id) <= V.max_growth_vs_prev * m(a), `σ70 연속 중앙값 ${a} ${m(a)} → ${id} ${m(id)} (${(m(id) / m(a)).toFixed(2)}배 ≤ ${V.max_growth_vs_prev})`);
+    bchk(id, 'B5', m(id) <= V.max_growth_vs_prev * m(a), `${RL} 연속 중앙값 ${a} ${m(a)} → ${id} ${m(id)} (${(m(id) / m(a)).toFixed(2)}배 ≤ ${V.max_growth_vs_prev})`);
   }
 });
-bchk('01', 'B4', B['01'].child_sd70.median_fail_progress_time >= 10, `L1 σ70 실패 위치 중앙값(레벨 시간) ${B['01'].child_sd70.median_fail_progress_time} % ≥ 10 %`);
+bchk('01', 'B4', B['01'][REP].median_fail_progress_time >= 10, `L1 ${RL} 실패 위치 중앙값(레벨 시간) ${B['01'][REP].median_fail_progress_time} % ≥ 10 %`);
 
 // B6·B7·B8 + B6s 시드 분포
 {
@@ -1314,12 +1320,12 @@ bchk('01', 'B4', B['01'].child_sd70.median_fail_progress_time >= 10, `L1 σ70 �
   const T = m3 * r ** (+R.extrapolate_to_level - +b3);
   const lo = (1 - R.tolerance_ratio) * T, hi = (1 + R.tolerance_ratio) * T;
   const m10 = m(R.apply_to_level);
-  const im = (id) => B[id].child_sd70.median_sessions;
+  const im = (id) => B[id][REP].median_sessions;
   const ir = Math.sqrt(im(b3) / im(b1)), iT = im(b3) * ir ** 3;
   report.l10_target = { m01: m1, m02: m2, m03: m3, r: +r.toFixed(4), T: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10, dev_pct: +(100 * (m10 / T - 1)).toFixed(1), integer_reference: { m01: im(b1), m03: im(b3), T: +iT.toFixed(2), L10: im(R.apply_to_level) } };
-  log(`\n== 레벨 10 목표 (연속 중앙값, q_nogo ${bal.bots.profiles.child_sd70.q_nogo}) ==\n  r = (m~3/m~1)^(1/2) = (${m3}/${m1})^(1/2) = ${r.toFixed(4)} (단계 배율 ${(m2 / m1).toFixed(3)}·${(m3 / m2).toFixed(3)}) · T = m~3·r^3 = ${T.toFixed(2)} · 범위 ${lo.toFixed(2)} ~ ${hi.toFixed(2)}`);
+  log(`\n== 레벨 10 목표 (대표 봇 ${RL} 연속 중앙값, q_nogo ${RP.q_nogo}) ==\n  r = (m~3/m~1)^(1/2) = (${m3}/${m1})^(1/2) = ${r.toFixed(4)} (단계 배율 ${(m2 / m1).toFixed(3)}·${(m3 / m2).toFixed(3)}) · T = m~3·r^3 = ${T.toFixed(2)} · 범위 ${lo.toFixed(2)} ~ ${hi.toFixed(2)}`);
   log(`  참고(판정 안 함) 정수 중앙값 L1/L3 ${im(b1)}/${im(b3)} → T ${iT.toFixed(2)} · L10 ${im(R.apply_to_level)}`);
-  bchk('10', 'B6', m10 >= lo && m10 <= hi, `L10 σ70 연속 중앙값 ${m10} ∈ [${lo.toFixed(2)}, ${hi.toFixed(2)}] (T ${T.toFixed(2)} 대비 ${(100 * (m10 / T - 1)).toFixed(1)} %)`);
+  bchk('10', 'B6', m10 >= lo && m10 <= hi, `L10 ${RL} 연속 중앙값 ${m10} ∈ [${lo.toFixed(2)}, ${hi.toFixed(2)}] (T ${T.toFixed(2)} 대비 ${(100 * (m10 / T - 1)).toFixed(1)} %)`);
   const seq = R.monotone_levels.map((id) => [id, m(id)]);
   const bad = [];
   for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
@@ -1337,7 +1343,7 @@ bchk('01', 'B4', B['01'].child_sd70.median_fail_progress_time >= 10, `L1 σ70 �
   const rowsS = [];
   for (let s = 0; s < ns; s++) {
     const sd = SEED + 100003 * (s + 1);
-    const q = (id, k) => runProfile(at(id), bal.bots.profiles.child_sd70, bal, { N, sessions: 10, seed: sd + 17 * k }).median_continuous;
+    const q = (id, k) => runProfile(at(id), RP, bal, { N, sessions: 10, seed: sd + 17 * k }).median_continuous;
     const a1 = q(b1, 1), a3 = q(b3, 3), a10 = q(R.apply_to_level, 10);
     const rr = Math.sqrt(a3 / a1), TT = a3 * rr ** 3;
     const dv = 100 * (a10 / TT - 1);
@@ -1354,85 +1360,117 @@ bchk('01', 'B4', B['01'].child_sd70.median_fail_progress_time >= 10, `L1 σ70 �
 {
   const R = V.l10_target_rule;
   const q0 = {};
-  compiled.forEach((L, k) => { q0[L.level.id] = runProfile(L, bal.bots.profiles.child_sd70, bal, { N, sessions: SESS, seed: SEED + 101 * k + 'child_sd70'.length, qNogo: 0 }).median_continuous; });
+  compiled.forEach((L, k) => { q0[L.level.id] = runProfile(L, RP, bal, { N, sessions: SESS, seed: SEED + 101 * k + REP.length, qNogo: 0 }).median_continuous; });
   report.curve_q0 = q0;
   const ids = compiled.map((L) => L.level.id);
   const seq = R.monotone_levels.map((id) => [id, q0[id]]);
   const bad = [];
   for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
-  const over = ids.filter((id) => !(q0[id] <= V.sd70_continuous_max));
+  const over = ids.filter((id) => !(q0[id] <= V.rep_continuous_max));
   const grow = ids.slice(1).filter((id, k) => q0[id] > V.max_growth_vs_prev * q0[ids[k]]);
   const gaps = seq.slice(1).map(([id, x], k) => [id, x / seq[k][1] - 1]);
   const minGap = gaps.reduce((a, b) => (b[1] < a[1] ? b : a));
   const gaps15 = seq.slice(1).map(([id], k) => [id, m(id) / m(seq[k][0]) - 1]);
   const minGap15 = gaps15.reduce((a, b) => (b[1] < a[1] ? b : a));
-  log(`\n== B7q 곡선의 q_nogo 의존 (R2-D3): q 0 와 q ${bal.bots.profiles.child_sd70.q_nogo} 두 곡선 ==\n  레벨 | q 0 | q ${bal.bots.profiles.child_sd70.q_nogo}(판정)\n` + ids.map((id) => `  ${id} | ${q0[id]} | ${m(id)}`).join('\n'));
-  bchk('10', 'B7q', !bad.length && !over.length && !grow.length, `q_nogo 0: ${seq.map(([id, x]) => `L${+id} ${x}`).join(' < ')} → ${bad.length ? `단조 아님 ${bad}` : '엄격 단조'} (가장 좁은 간격 L${+minGap[0]} +${(100 * minGap[1]).toFixed(1)} %) · 30회 초과 ${over.join(',') || '없음'} · 직전 2배 초과 ${grow.join(',') || '없음'} · q ${bal.bots.profiles.child_sd70.q_nogo} 판정 곡선(B7) 가장 좁은 간격 L${+minGap15[0]} +${(100 * minGap15[1]).toFixed(1)} % · B6 은 q ${bal.bots.profiles.child_sd70.q_nogo} 기준, q 0 의 L10 = ${q0['10']}`);
+  log(`\n== B7q 곡선의 q_nogo 의존 (R2-D3): q 0 와 q ${RP.q_nogo} 두 곡선 ==\n  레벨 | q 0 | q ${RP.q_nogo}(판정)\n` + ids.map((id) => `  ${id} | ${q0[id]} | ${m(id)}`).join('\n'));
+  bchk('10', 'B7q', !bad.length && !over.length && !grow.length, `q_nogo 0: ${seq.map(([id, x]) => `L${+id} ${x}`).join(' < ')} → ${bad.length ? `단조 아님 ${bad}` : '엄격 단조'} (가장 좁은 간격 L${+minGap[0]} +${(100 * minGap[1]).toFixed(1)} %) · 30회 초과 ${over.join(',') || '없음'} · 직전 2배 초과 ${grow.join(',') || '없음'} · q ${RP.q_nogo} 판정 곡선(B7) 가장 좁은 간격 L${+minGap15[0]} +${(100 * minGap15[1]).toFixed(1)} % · B6 은 q ${RP.q_nogo} 기준, q 0 의 L10 = ${q0['10']}`);
+}
+
+// 정보 B9 (2026-11-17 12세 재조정, insights tcg-01 "봇 실력 가정 하나만으로 판단하지 말 것"): σ25·σ50·σ70 × q 두 값(0 · 대표 봇 q) 곡선을 함께 봄
+{
+  const qRep = RP.q_nogo;
+  const ids = compiled.map((L) => L.level.id);
+  const T3 = {};
+  compiled.forEach((L, k) => {
+    const id = L.level.id;
+    const row = {};
+    for (const [pn, p] of Object.entries(bal.bots.profiles)) {
+      for (const q of [0, qRep]) {
+        const key = `${pn}_q${q}`;
+        if (pn === REP && q === qRep) row[key] = B[id][REP].median_continuous;
+        else if (pn === REP && q === 0) row[key] = report.curve_q0[id];
+        else if (q === p.q_nogo) row[key] = B[id][pn].median_continuous;
+        else row[key] = runProfile(L, p, bal, { N: pn === 'skilled_sd25' ? NSK : N, sessions: 10, seed: SEED + 8800 + 101 * k + pn.length, qNogo: q }).median_continuous;
+      }
+      if (p.q_nogo !== 0 && p.q_nogo !== qRep) row[`${pn}_q${p.q_nogo}`] = B[id][pn].median_continuous;
+    }
+    T3[id] = row;
+  });
+  report.three_bots = T3;
+  const cols = Object.keys(T3[ids[0]]);
+  log(`\n== 정보 B9 세 봇 곡선 (연속 중앙값, 대표 봇 ${RL}, q 0 · q ${qRep} · 프로필 자기 q) ==\n  레벨 | ${cols.join(' | ')}\n` + ids.map((id) => `  ${id} | ${cols.map((c) => T3[id][c] ?? '-').join(' | ')}`).join('\n'));
+  const R = V.l10_target_rule;
+  for (const c of cols) {
+    const seq = R.monotone_levels.map((id) => [id, T3[id][c]]);
+    const bad = [];
+    for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
+    info('B9', `${c}: L3~L10 ${bad.length ? `단조 아님 ${bad.join(',')}` : '엄격 단조'} · 30회 초과 ${ids.filter((id) => !(T3[id][c] <= V.rep_continuous_max)).join(',') || '없음'}`);
+  }
 }
 
 // K2
-log('\n== K2 높이 읽기 손해 모델 (σ70 + 짧아짐·반박 σ 배수, 첫 등장 놓침 +5 %p, 첫 지붕 2개 q +0.10) ==');
+log(`\n== K2 높이 읽기 손해 모델 (대표 봇 ${RL} + 짧아짐·반박 σ 배수, 첫 등장 놓침 +${100 * bal.bots.k2_model.first_gimmick_miss_add} %p, 첫 지붕 2개 q +${bal.bots.k2_model.first_nogo_q_add}) ==`);
 {
   const ids = compiled.map((L) => L.level.id);
   log('  ' + ids.map((id) => `L${+id} ${B[id].k2.median_continuous} (${(B[id].k2.median_continuous / m(id)).toFixed(2)}배)`).join(' · '));
-  const over = ids.filter((id) => !(B[id].k2.median_continuous <= V.sd70_continuous_max));
+  const over = ids.filter((id) => !(B[id].k2.median_continuous <= V.rep_continuous_max));
   const grow = ids.slice(1).filter((id, k) => B[id].k2.median_continuous > V.max_growth_vs_prev * B[ids[k]].k2.median_continuous);
   bchk('all', 'K2', !over.length && !grow.length, `손해 모델 봇: 30회 초과 ${over.join(',') || '없음'}, 직전 2배 초과 ${grow.join(',') || '없음'} (최대 L${+ids[ids.length - 1]} ${B[ids[ids.length - 1]].k2.median_continuous})`);
 }
 
 // K3 + K3b
-log('\n== K3 소리 따라 치는 아이 × 남은 오디오 지연 (σ70 연속 중앙값, 화면 판정) ==');
+log(`\n== K3 소리 따라 치는 아이 × 남은 오디오 지연 (대표 봇 ${RL} 연속 중앙값, 화면 판정) ==`);
 {
   const sf = bal.bots.sound_follow;
   const show = ['01', '05', '10'];
   report.k3 = {};
   const t1 = tapToLevelMs(5000, 1000, bal), t2 = tapToLevelMs(5000, 1000, { ...bal, audio_latency_ms: 220 });
   const L1 = compiled[0];
-  const w0 = runProfile(L1, bal.bots.profiles.child_sd70, bal, { N, sessions: 10, seed: SEED + 'child_sd70'.length, bias: 0 });
-  const same = w0.clear_rate === B['01'].child_sd70.clear_rate;
+  const w0 = runProfile(L1, RP, bal, { N, sessions: 10, seed: SEED + REP.length, bias: 0 });
+  const same = w0.clear_rate === B['01'][REP].clear_rate;
   log(`d(ms) \\ w | ${sf.follow_weight.map((w) => `w=${w}`).join(' | ')}   (레벨 ${show.join('/')})`);
   for (const d of sf.bt_residual_delay_ms) {
     const cells = sf.follow_weight.map((w) => show.map((id) => {
       const L = compiled.find((x) => x.level.id === id);
-      const r = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: N / 4, sessions: 10, seed: SEED + d + 13 * w, bias: w * d });
+      const r = runProfile(L, RP, bal, { N: N / 4, sessions: 10, seed: SEED + d + 13 * w, bias: w * d });
       (report.k3[id] ||= {})[`d${d}_w${w}`] = r.median_continuous;
       return r.median_continuous ?? '∞';
     }).join('/'));
     log(`${d} | ${cells.join(' | ')}`);
   }
-  check('all', 'K3', bal.judge_clock.audio_used_for_judge === false && t1 === t2 && same, `판정 입력 = 탭 시각(화면 시계, visual_comp ${bal.judge_clock.visual_comp_ms} ms 한 번) · 오디오 지연이 판정에 안 들어감 ${t1 === t2 ? '예' : '아님'} · 공을 보고 치는 아이(w=0) L1 p ${w0.clear_rate} = 기본 ${B['01'].child_sd70.clear_rate}`);
+  check('all', 'K3', bal.judge_clock.audio_used_for_judge === false && t1 === t2 && same, `판정 입력 = 탭 시각(화면 시계, visual_comp ${bal.judge_clock.visual_comp_ms} ms 한 번) · 오디오 지연이 판정에 안 들어감 ${t1 === t2 ? '예' : '아님'} · 공을 보고 치는 아이(w=0) L1 p ${w0.clear_rate} = 기본 ${B['01'][REP].clear_rate}`);
   // K3b (M1·E3): 소리 맞추기 무시 구간 0 → 보정 뒤 남은 오차 ±15 두 쪽, w = 1 봇 모든 레벨 30회·직전 2배
   const ss = bal.sound_sync;
   const res = {};
-  for (const b of sf.calibrated_residual_ms) res[b] = compiled.map((L, k) => runProfile(L, bal.bots.profiles.child_sd70, bal, { N, sessions: 10, seed: SEED + 5000 + 31 * k + b, bias: b }).median_continuous);
+  for (const b of sf.calibrated_residual_ms) res[b] = compiled.map((L, k) => runProfile(L, RP, bal, { N, sessions: 10, seed: SEED + 5000 + 31 * k + b, bias: b }).median_continuous);
   const bad = [];
-  for (const [b, arr] of Object.entries(res)) arr.forEach((x, k) => { if (!(x <= V.sd70_continuous_max)) bad.push(`${b}:L${k + 1} ${x}`); if (k && x > V.max_growth_vs_prev * arr[k - 1]) bad.push(`${b}:L${k + 1} 2배`); });
+  for (const [b, arr] of Object.entries(res)) arr.forEach((x, k) => { if (!(x <= V.rep_continuous_max)) bad.push(`${b}:L${k + 1} ${x}`); if (k && x > V.max_growth_vs_prev * arr[k - 1]) bad.push(`${b}:L${k + 1} 2배`); });
   report.k3.calibrated = res;
   bchk('all', 'K3b', ss.apply_only_if_abs_over_ms === 0 && !bad.length, `소리 맞추기 무시 구간 ${ss.apply_only_if_abs_over_ms} ms(없음, 경계 뒤집힘 없음) · 보정 뒤 남은 오차 w = 1: ${Object.entries(res).map(([b, arr]) => `${b > 0 ? '+' : ''}${b} ms → ${arr.map((x, k) => `L${k + 1} ${x}`).join(' ')}`).join(' | ')} · 30회·2배 초과 ${bad.join(', ') || '없음'}`);
-  const old = sf.old_deadzone_residual_ms.map((b) => `${b > 0 ? '+' : ''}${b} → L10 ${runProfile(compiled[9], bal.bots.profiles.child_sd70, bal, { N: N / 4, sessions: 10, seed: SEED + 77 + b, bias: b }).median_continuous}`);
+  const old = sf.old_deadzone_residual_ms.map((b) => `${b > 0 ? '+' : ''}${b} → L10 ${runProfile(compiled[9], RP, bal, { N: N / 4, sessions: 10, seed: SEED + 77 + b, bias: b }).median_continuous}`);
   info('K3b', `(round-1 무시 구간 ±30 경계 잔차였다면) ${old.join(' · ')}`);
 }
 
 // 정보 Q: q_nogo 민감도 + criteria 기본 행(q 0)
-log('\n== 정보 Q: 지붕 참기 실패율 q_nogo 민감도 (σ70 연속 중앙값) ==');
+log(`\n== 정보 Q: 지붕 참기 실패율 q_nogo 민감도 (대표 봇 ${RL} 연속 중앙값) ==`);
 {
   const qs = bal.bots.q_nogo_sensitivity;
   const roofLv = compiled.filter((L) => L.contacts.some((c) => c.kind === 'nogo'));
   report.q_sensitivity = {};
-  log(`레벨 | ${qs.map((q) => `q ${q}`).join(' | ')} | 첫 지붕 2개 0.25`);
+  log(`레벨 | ${qs.map((q) => `q ${q}`).join(' | ')} | 첫 지붕 2개 q ${+(RP.q_nogo + bal.bots.k2_model.first_nogo_q_add).toFixed(3)}`);
   for (const L of roofLv) {
     const id = L.level.id;
-    const row = qs.map((q) => runProfile(L, bal.bots.profiles.child_sd70, bal, { N: N / 2, sessions: 10, seed: SEED + 600 + +id, qNogo: q }).median_continuous);
+    const row = qs.map((q) => runProfile(L, RP, bal, { N: N / 2, sessions: 10, seed: SEED + 600 + +id, qNogo: q }).median_continuous);
     // 첫 지붕 2개만 0.25: k2 모델의 qAdd 만 쓰는 대신 직접 — 레벨 첫 두 지붕에 +0.10
     const L2 = { ...L, contacts: L.contacts.map((c) => ({ ...c })) };
     let n2 = 0; for (const c of L2.contacts) if (c.kind === 'nogo' && n2 < 2) { c.first = true; n2++; } else if (c.kind === 'nogo') c.first = false; else c.first = false;
-    const f2r = runProfile(L2, bal.bots.profiles.child_sd70, { ...bal, bots: { ...bal.bots, k2_model: { shorter_than_prev_sd_mult: 1, half_sd_mult: 1, two_ball_sd_mult: 1, first_gimmick_miss_add: 0, first_nogo_q_add: 0.1 } } }, { N: N / 2, sessions: 10, seed: SEED + 600 + +id, k2: true }).median_continuous;
+    const f2r = runProfile(L2, RP, { ...bal, bots: { ...bal.bots, k2_model: { shorter_than_prev_sd_mult: 1, half_sd_mult: 1, two_ball_sd_mult: 1, first_gimmick_miss_add: 0, first_nogo_q_add: bal.bots.k2_model.first_nogo_q_add } } }, { N: N / 2, sessions: 10, seed: SEED + 600 + +id, k2: true }).median_continuous;
     report.q_sensitivity[id] = { q: Object.fromEntries(qs.map((q, k) => [q, row[k]])), first_two_025: f2r };
     log(`${id} | ${row.join(' | ')} | ${f2r}`);
   }
-  const c0 = compiled.map((L, k) => runProfile(L, bal.bots.profiles.child_sd70, bal, { N: N / 2, sessions: 10, seed: SEED + 700 + k, qNogo: 0 }).median_continuous);
+  const c0 = compiled.map((L, k) => runProfile(L, RP, bal, { N: N / 2, sessions: 10, seed: SEED + 700 + k, qNogo: 0 }).median_continuous);
   report.criteria_default_q0 = c0;
-  info('Q', `criteria 기본 정의(σ70·놓침 3 %·헛탭 2 %, 지붕은 늘 참음 q 0): ${c0.map((x, k) => `L${k + 1} ${x}`).join(' · ')}`);
+  info('Q', `criteria 기본 정의(대표 봇 ${RL}·놓침 ${100 * RP.miss} %·헛탭 ${100 * RP.extra} %, 지붕은 늘 참음 q 0): ${c0.map((x, k) => `L${k + 1} ${x}`).join(' · ')}`);
 }
 
 // 정보 K3d
@@ -1441,9 +1479,9 @@ log('\n== 정보 Q: 지붕 참기 실패율 q_nogo 민감도 (σ70 연속 중앙
   const rng = (() => { let x = SEED; return () => ((x = (x * 16807) % 2147483647) / 2147483647); })();
   const g = () => { let u = 0, v = 0; while (!u) u = rng(); while (!v) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); };
   const med = (a) => { const q = [...a].sort((x, y) => x - y), n = q.length; return n % 2 ? q[(n - 1) / 2] : (q[n / 2 - 1] + q[n / 2]) / 2; };
-  const rate = (bias, n = QUICK ? 4000 : 40000) => { let k = 0; for (let i = 0; i < n; i++) { let ok = true; for (let w = 0; w < D.consecutive_windows; w++) { const a = []; for (let j = 0; j < D.window_taps; j++) a.push(bias + 70 * g()); if (med(a) < D.trigger_median_late_ms) { ok = false; break; } } if (ok) k++; } return k / n; };
+  const rate = (bias, n = QUICK ? 4000 : 40000) => { let k = 0; for (let i = 0; i < n; i++) { let ok = true; for (let w = 0; w < D.consecutive_windows; w++) { const a = []; for (let j = 0; j < D.window_taps; j++) a.push(bias + RP.sd_ms * g()); if (med(a) < D.trigger_median_late_ms) { ok = false; break; } } if (ok) k++; } return k / n; };
   const rows = [[0, '공을 봄(w=0)'], [60, 'w=0.5·d=120'], [85, 'w=0.5·d=170'], [120, 'w=1·d=120'], [170, 'w=1·d=170']].map(([b, nm]) => `${nm} ${(100 * rate(b)).toFixed(2)} %`);
-  log(`\n== 정보 K3d 밀림 감지(${D.window_taps}탭 중앙값 ≥ +${D.trigger_median_late_ms} ms 가 ${D.consecutive_windows}창 연속, σ70) 켜질 확률 ==\n  ${rows.join(' · ')}`);
+  log(`\n== 정보 K3d 밀림 감지(${D.window_taps}탭 중앙값 ≥ +${D.trigger_median_late_ms} ms 가 ${D.consecutive_windows}창 연속, ${RL}) 켜질 확률 ==\n  ${rows.join(' · ')}`);
 }
 
 // 정보: 따라 치는 아이, 연습 모드, 해석
@@ -1451,20 +1489,20 @@ log('\n== 정보: 따라 치는 아이(\'콩\' 30 %·토스 50 %·착지 50 %) /
 report.info = {};
 compiled.forEach((L, k) => {
   const id = L.level.id, j = L.judge;
-  const al = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: N / 4, sessions: 10, seed: SEED + 333 + k, along: bal.bots.along });
-  const pr = runPractice(L, bal.bots.profiles.child_sd70, bal, { sessions: QUICK ? 100 : 500, seed: SEED + 444 + k });
-  const an = analyticClear({ contacts: L.contacts.filter((c) => c.kind === 'hit').length, early: j.pass_early_ms, late: j.pass_late_ms, sd: 70, miss: 0.03 });
+  const al = runProfile(L, RP, bal, { N: N / 4, sessions: 10, seed: SEED + 333 + k, along: bal.bots.along });
+  const pr = runPractice(L, RP, bal, { sessions: QUICK ? 100 : 500, seed: SEED + 444 + k });
+  const an = analyticClear({ contacts: L.contacts.filter((c) => c.kind === 'hit').length, early: j.pass_early_ms, late: j.pass_late_ms, sd: RP.sd_ms, miss: RP.miss });
   report.info[id] = { along: al.median_continuous, practice_median: pr.median_total_attempts, analytic: an.median_continuous };
   log(`  L${+id}: 따라 치기 ${al.median_continuous} (기본 ${m(id)}) · 연습 모드 구절 ${pr.segments}개 총 ${pr.median_total_attempts}회(90 % ${pr.p90_total_attempts}) · 해석(지붕 없다고 볼 때) ${an.median_continuous}`);
 });
 
 // 요약 표
 log('\n== 곡선 요약 ==');
-log('레벨 | BPM | 길이 s | hit | 지붕 | 통과 창 | 앞쪽 박 | 새 기믹 | σ25 연속 | σ50 연속 | σ70 p | σ70 연속 | σ70 정수 | 직전 대비 | K2 연속 | 기준선');
+log(`레벨 | BPM | 길이 s | hit | 지붕 | 통과 창 | 앞쪽 박 | 새 기믹 | σ25 연속 | σ70 연속(참고, q ${bal.bots.profiles.child_sd70.q_nogo}) | 대표 ${RL} p | 대표 ${RL} 연속 | 대표 정수 | 직전 대비 | K2 연속 | 기준선`);
 compiled.forEach((L, k) => {
   const id = L.level.id, b = B[id];
   const prev = k ? m(compiled[k - 1].level.id) : null;
-  log(`${id} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.contacts.filter((c) => c.kind === 'hit').length} | ${L.contacts.filter((c) => c.kind === 'nogo').length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.scroll.ahead} | ${L.level.new_gimmick?.id || '-'} | ${b.skilled_sd25.median_continuous ?? '-'} | ${b.novice_sd50.median_continuous} | ${b.child_sd70.clear_rate} | ${m(id)} | ${b.child_sd70.median_sessions} | ${prev ? (m(id) / prev).toFixed(3) + '배' : '-'} | ${b.k2.median_continuous} | ${report.baseline?.[id] ?? '-'}`);
+  log(`${id} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.contacts.filter((c) => c.kind === 'hit').length} | ${L.contacts.filter((c) => c.kind === 'nogo').length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.scroll.ahead} | ${L.level.new_gimmick?.id || '-'} | ${b.skilled_sd25.median_continuous ?? '-'} | ${b.child_sd70.median_continuous} | ${b[REP].clear_rate} | ${m(id)} | ${b[REP].median_sessions} | ${prev ? (m(id) / prev).toFixed(3) + '배' : '-'} | ${b.k2.median_continuous} | ${report.baseline?.[id] ?? '-'}`);
 });
 
 const total = report.checks.length, waitN = report.waits.length, passN = report.checks.filter((c) => c.ok && !c.wait).length;
