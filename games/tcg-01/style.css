@@ -300,3 +300,6 @@ button { font: inherit; color: inherit; }
 /* 좁은 화면 제목: 말줄임 대신 두 줄까지(QA r2) */
 .top h2 { white-space: normal; text-overflow: clip; line-height: 1.15; font-size: clamp(13px, 4.2vw, 18px); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .tut.inbtn .tutBtn { height: 48px; min-height: 48px; }
+/* 세로 튜토리얼: 버튼을 패널 안 한 줄(오른쪽)에, 맨 위 층·각 48 px 이상(QA r3) */
+.tut.inbtn { flex-direction: row; flex-wrap: nowrap; align-items: center; }
+.tut.inbtn .tutBtn { position: relative; z-index: 2; min-width: 48px; min-height: 48px; height: 48px; flex: none; }

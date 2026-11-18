@@ -5,7 +5,7 @@ import { D, engineData, cardById, portraitURL, fac, warmPortraits, assetURL } fr
 import { t, cardName } from './i18n.js';
 import { G, A, T, lockOf, tierOf, Timeline, tween, setTf, tf, phase, after } from './anim.js';
 import { FX, fxInit, fxStep, burst, number, arrow, setAim, ring, darken, trail, rnd } from './fx.js';
-import { sfx, motif, tension, thump, duck } from './audio.js';
+import { sfx, motif, tension, thump, duck, battleHero } from './audio.js';
 import { h, cardBox, cardBack, tokenEl, updateToken, kwIcon } from './cards.js';
 import { toast } from './ui.js';
 
@@ -40,6 +40,7 @@ export class Battle {
     this.tut = o.tutorial && this.human != null ? { seen: new Set(o.tutorial.seen || []), cur: null } : null;
     warmPortraits([...o.decks[0], ...o.decks[1], ...Object.keys(D.tokens)]); // 첫 그림 미리(insights 구현 절)
     this.build();
+    battleHero(this.state.players[this.bottom].heroId);
     this.vm = this.snap();
     this.deferHand = this.human != null;
     this.render(true);
@@ -1122,7 +1123,8 @@ export class Battle {
       const tg = sp.tg ? sp.tg() : null;
       this.tutShow(sp, tg || { _pos: this.R.mid_band });
       const T0 = this.tut, pr = R(T0.panelEl), nr = R(T0.nx), kr = R(T0.sk), rr = R(T0.ring);
-      out.push({ step: sp.k, target: !!tg, panel_next: ov(pr, nr) && this.S.orientation !== 'portrait', panel_skip: ov(pr, kr) && this.S.orientation !== 'portrait', next_skip: ov(nr, kr), panel_ring: tg ? ov(pr, rr) : false, panel_slots: slotRects.some((sl) => ov(pr, sl)), next_h: Math.round(nr.h) });
+      const hitOk = (el) => { const r = el.getBoundingClientRect(); const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!top && (top === el || el.contains(top)); };
+      out.push({ step: sp.k, target: !!tg, panel_next: ov(pr, nr) && this.S.orientation !== 'portrait', panel_skip: ov(pr, kr) && this.S.orientation !== 'portrait', next_skip: ov(nr, kr), panel_ring: tg ? ov(pr, rr) : false, panel_slots: slotRects.some((sl) => ov(pr, sl)), next_h: Math.round(nr.h), next_w: Math.round(nr.w), skip_h: Math.round(kr.h), skip_w: Math.round(kr.w), next_hit: hitOk(T0.nx), skip_hit: hitOk(T0.sk) });
       this.tutClose();
     }
     this.tut = save; this.o.tutorial = so;

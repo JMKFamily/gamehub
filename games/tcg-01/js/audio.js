@@ -1,7 +1,6 @@
 // Web Audio 합성 효과음·음악 (art.json sound). 테스트 모드(?test=1)에서는 아무 소리도 만들지 않는다.
 import { D } from './data.js';
 import { UI } from './ui.js';
-import { M } from './meta.js';
 import { createMusic } from './music-synth.mjs';
 
 const S = { ctx: null, master: null, sfxBus: null, musBus: null, musFilter: null, enabled: true, music: true, off: false, drone: null, motifTimer: null, tension: 0, thumbAt: 0, hero: null };
@@ -97,13 +96,15 @@ function pickSong() {
   if (S.stingUntil && performance.now() < S.stingUntil) return;
   const scr = UI.screen;
   const song = scr === 'battle' ? (S.tension > 0 ? 'battle_tension' : 'battle') : scr === 'open' ? 'crate' : 'menu';
-  const hero = scr === 'battle' ? (M.s && M.s.lastHero) || S.hero : null;
+  const hero = scr === 'battle' ? S.battleHero || S.hero : null;
   if (song === S.song && hero === S.songHero) return;
   S.song = song; S.songHero = hero;
   S.mus.play(song, { hero });
 }
 // 대전이 부르는 자리(호환): 영웅 동기 기본값만 기억하고 곡은 pickSong이 정함
 export function motif(heroId) { S.hero = S.hero || heroId; }
+// 대전 시작 때 실제 내(사람 자리, AI 대 AI면 아래쪽) 영웅 — 영웅 동기 음 높이(테스트 훅 판 포함)
+export function battleHero(heroId) { S.battleHero = heroId; S.song = null; pickSong(); }
 export function stopMotif() {}
 export function tension(level) { S.tension = level || 0; if (!level) S.hero = null; pickSong(); }
 function stingFor(id) { if (!S.mus) return; S.mus.stop(); S.mus.sting(id); S.song = null; S.stingUntil = performance.now() + 8000; }
