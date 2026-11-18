@@ -1,0 +1,118 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [
+   "[360x640] Cannot read properties of undefined (reading 'cid') @     at Battle.perform (http://127.0.0.1:8845/games/tcg-01/js/battle.js:597:23) |     at Battle.aiStep (http://127.0.0.1:8845/games/tcg-01/js/battle.js:923:50) |     at Battle.update (http://127.0.0.1:8845/games/tcg-01/js/battle.js:891:52)",
+   "[360x640] Cannot read properties of undefined (reading 'cid') @     at Battle.perform (http://127.0.0.1:8845/games/tcg-01/js/battle.js:597:23) |     at Battle.aiStep (http://127.0.0.1:8845/games/tcg-01/js/battle.js:923:50) |     at Battle.update (http://127.0.0.1:8845/games/tcg-01/js/battle.js:891:52)"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 327
+ },
+ "rate": 6,
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_play_spell",
+    "tut_keyword",
+    "tut_play_creature",
+    "tut_ability"
+   ],
+   "seconds": 150.373,
+   "battle": {
+    "frames": 8959,
+    "avg_fps": 59.7,
+    "low1_fps": 40.6,
+    "max_ms": 150,
+    "over_33": 10
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 33.2,
+    "dock→heroes": 116.7,
+    "heroes→dock": 16.8,
+    "dock→collection": 150.1,
+    "collection→dock": 16.8,
+    "dock→crates": 50.1,
+    "crate open": 66.6,
+    "→market": 316.7,
+    "→decks": 66.6,
+    "dock→heroes→battle(첫 물때)": 483.4
+   }
+  },
+  {
+   "run": 2,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_play_spell",
+    "tut_keyword",
+    "tut_play_creature",
+    "tut_ability"
+   ],
+   "seconds": 150.364,
+   "battle": {
+    "frames": 8958,
+    "avg_fps": 59.7,
+    "low1_fps": 40.6,
+    "max_ms": 133.4,
+    "over_33": 11
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 150,
+    "dock→heroes": 116.6,
+    "heroes→dock": 16.8,
+    "dock→collection": 166.6,
+    "collection→dock": 16.8,
+    "dock→crates": 66.8,
+    "crate open": 49.9,
+    "→market": 233.4,
+    "→decks": 66.7,
+    "dock→heroes→battle(첫 물때)": 283.3
+   }
+  },
+  {
+   "run": 3,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_play_spell",
+    "tut_keyword",
+    "tut_play_creature",
+    "tut_ability",
+    "tut_wall"
+   ],
+   "seconds": 150.499,
+   "battle": {
+    "frames": 8969,
+    "avg_fps": 59.8,
+    "low1_fps": 44,
+    "max_ms": 116.6,
+    "over_33": 3
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 166.1,
+    "dock→heroes": 83.5,
+    "heroes→dock": 16.8,
+    "dock→collection": 133.4,
+    "collection→dock": 16.8,
+    "dock→crates": 16.8,
+    "crate open": 33.4,
+    "→market": 133.3,
+    "→decks": 33.2,
+    "dock→heroes→battle(첫 물때)": 249.9
+   }
+  }
+ ]
+}

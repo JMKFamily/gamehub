@@ -1,0 +1,583 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [
+   "[360x640] Cannot read properties of undefined (reading 'cid')",
+   "[360x640] Cannot read properties of undefined (reading 'cid')"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 1328
+ },
+ "summary": {
+  "dom_checked": 0,
+  "dom_old": [],
+  "dom_ban": [],
+  "dom_textOver": [],
+  "dom_clipped": [],
+  "dom_small": [],
+  "tut_runs": 8,
+  "tut_end_before_learn": 0,
+  "tut_cover_target": [
+   "640x360:tut_board",
+   "640x360:tut_attack",
+   "1280x720:tut_board",
+   "1280x720:tut_attack"
+  ],
+  "tut_cover_tokens": [
+   "360x640:tut_defense:1"
+  ],
+  "tut_again": [
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 1
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  ],
+  "tut_done": [
+   "tut_done",
+   "tut_done",
+   "tut_done",
+   "tut_done",
+   null,
+   "tut_done",
+   null,
+   null
+  ],
+  "story_n": 0,
+  "story_err": [],
+  "story_not_open": 0,
+  "story_out_of_view": 0,
+  "story_btn_small": [],
+  "story_close_fail": [],
+  "story_scroll_no_hint": 0,
+  "story_word_over": 0,
+  "story_ban": 0
+ },
+ "dom": [],
+ "tutorial": [
+  {
+   "view": "360x640",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_no_play",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 2,
+     "playable": true
+    },
+    {
+     "step": "tut_board",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 3,
+     "playable": true
+    },
+    {
+     "step": "tut_ability",
+     "turn": 4,
+     "playable": true
+    },
+    {
+     "step": "tut_defense",
+     "turn": 7,
+     "playable": true
+    }
+   ],
+   "steps": 9,
+   "end_before_learn": false,
+   "no_play_turn1": true,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "412x915",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_board",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 3,
+     "playable": true
+    },
+    {
+     "step": "tut_ability",
+     "turn": 4,
+     "playable": true
+    },
+    {
+     "step": "tut_defense",
+     "turn": 6,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 6,
+     "playable": false
+    },
+    {
+     "step": "tut_health",
+     "turn": 7,
+     "playable": false
+    },
+    {
+     "step": "tut_wall",
+     "turn": 8,
+     "playable": false
+    }
+   ],
+   "steps": 11,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "640x360",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 2,
+     "playable": false
+    }
+   ],
+   "steps": 7,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [
+    "tut_board",
+    "tut_attack"
+   ],
+   "cover_tokens": [],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "1280x720",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 2,
+     "playable": false
+    }
+   ],
+   "steps": 7,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [
+    "tut_board",
+    "tut_attack"
+   ],
+   "cover_tokens": [],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "360x640",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_ability",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_wall",
+     "turn": 4,
+     "playable": false
+    }
+   ],
+   "steps": 8,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": null,
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 1
+   }
+  },
+  {
+   "view": "360x640",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_board",
+     "turn": 2,
+     "playable": true
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 2,
+     "playable": true
+    },
+    {
+     "step": "tut_ability",
+     "turn": 3,
+     "playable": true
+    },
+    {
+     "step": "tut_attack",
+     "turn": 7,
+     "playable": true
+    },
+    {
+     "step": "tut_defense",
+     "turn": 7,
+     "playable": true
+    },
+    {
+     "step": "tut_health",
+     "turn": 7,
+     "playable": true
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 8,
+     "playable": true
+    },
+    {
+     "step": "tut_wall",
+     "turn": 8,
+     "playable": false
+    }
+   ],
+   "steps": 10,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [
+    "tut_defense:1"
+   ],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "360x640",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 2,
+     "playable": false
+    }
+   ],
+   "steps": 7,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": null,
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  },
+  {
+   "view": "360x640",
+   "mode": "skip",
+   "menuCoach": [
+    "tut_hero"
+   ],
+   "mullCoach": null,
+   "seq": [],
+   "steps": 0,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": null,
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  }
+ ],
+ "guides": null,
+ "story": [],
+ "battle_story": null
+}

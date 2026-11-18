@@ -1,0 +1,1673 @@
+{
+ "note": "검수자에게 보이지 않게 따로 둔 정답. 이미지별 카드 상자(x,y,w,h px)·카드 id·유형(family)·종류(kind)",
+ "families": [
+  "draw",
+  "buff",
+  "debuff",
+  "strike",
+  "atkdraw"
+ ],
+ "images": {
+  "ux-01.png": {
+   "view": "board_hand",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      45,
+      493,
+      100,
+      127
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-02.png": {
+   "view": "board_hand",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      45,
+      493,
+      100,
+      127
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-03.png": {
+   "view": "board_hand",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      45,
+      493,
+      100,
+      127
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-04.png": {
+   "view": "board_hand",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      45,
+      493,
+      100,
+      127
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-05.png": {
+   "view": "hand_spread",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      17,
+      439,
+      64,
+      90
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      87,
+      439,
+      64,
+      90
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      157,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      227,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      297,
+      439,
+      64,
+      90
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      122,
+      551,
+      64,
+      90
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      192,
+      551,
+      64,
+      90
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-06.png": {
+   "view": "hand_spread",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      17,
+      439,
+      64,
+      90
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      87,
+      439,
+      64,
+      90
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      157,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      227,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      297,
+      439,
+      64,
+      90
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      122,
+      551,
+      64,
+      90
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      192,
+      551,
+      64,
+      90
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-07.png": {
+   "view": "hand_spread",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      17,
+      439,
+      64,
+      90
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      87,
+      439,
+      64,
+      90
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      157,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      227,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      297,
+      439,
+      64,
+      90
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      122,
+      551,
+      64,
+      90
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      192,
+      551,
+      64,
+      90
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-08.png": {
+   "view": "hand_spread",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      17,
+      439,
+      64,
+      90
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      87,
+      439,
+      64,
+      90
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      157,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      227,
+      439,
+      64,
+      90
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      297,
+      439,
+      64,
+      90
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      122,
+      551,
+      64,
+      90
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      192,
+      551,
+      64,
+      90
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-09.png": {
+   "view": "zoom",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "zoom",
+     "box": [
+      46,
+      115,
+      268,
+      375
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      57,
+      457,
+      94,
+      132
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-10.png": {
+   "view": "zoom",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "zoom",
+     "box": [
+      46,
+      115,
+      268,
+      375
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      57,
+      457,
+      94,
+      132
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-11.png": {
+   "view": "zoom",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "zoom",
+     "box": [
+      46,
+      115,
+      268,
+      375
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      57,
+      457,
+      94,
+      132
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-12.png": {
+   "view": "zoom",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "zoom",
+     "box": [
+      46,
+      115,
+      268,
+      375
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "field",
+     "box": [
+      148,
+      125,
+      64,
+      83
+     ],
+     "cid": "B092",
+     "family": "buff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      57,
+      457,
+      94,
+      132
+     ],
+     "cid": "B053",
+     "family": "buff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      92,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      177,
+      491,
+      91,
+      121
+     ],
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      139,
+      493,
+      82,
+      115
+     ],
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    },
+    {
+     "where": "hand",
+     "box": [
+      215,
+      493,
+      100,
+      127
+     ],
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    },
+    {
+     "where": "hand",
+     "box": [
+      -1,
+      498,
+      107,
+      131
+     ],
+     "cid": "B099",
+     "family": "debuff",
+     "kind": "minion"
+    },
+    {
+     "where": "hand",
+     "box": [
+      253,
+      498,
+      107,
+      131
+     ],
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-13.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A008",
+     "family": "strike",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-14.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A008",
+     "family": "strike",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-15.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A008",
+     "family": "strike",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-16.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A008",
+     "family": "strike",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-17.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B052",
+     "family": "buff",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-18.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B052",
+     "family": "buff",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-19.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B052",
+     "family": "buff",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-20.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B052",
+     "family": "buff",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-21.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-22.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-23.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-24.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A032",
+     "family": "atkdraw",
+     "kind": "weapon"
+    }
+   ]
+  },
+  "ux-25.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-26.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-27.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-28.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "D009",
+     "family": "draw",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-29.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A006",
+     "family": "strike",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-30.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A006",
+     "family": "strike",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-31.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A006",
+     "family": "strike",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-32.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A006",
+     "family": "strike",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-33.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-34.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-35.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-36.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "B056",
+     "family": "debuff",
+     "kind": "spell"
+    }
+   ]
+  },
+  "ux-37.png": {
+   "view": "detail",
+   "cvd": "none",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-38.png": {
+   "view": "detail",
+   "cvd": "protan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-39.png": {
+   "view": "detail",
+   "cvd": "deutan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  },
+  "ux-40.png": {
+   "view": "detail",
+   "cvd": "tritan",
+   "cards": [
+    {
+     "where": "detail",
+     "cid": "A030",
+     "family": "atkdraw",
+     "kind": "minion"
+    }
+   ]
+  }
+ },
+ "deck_pick": [
+  {
+   "id": "D009",
+   "family": "draw",
+   "kind": "spell"
+  },
+  {
+   "id": "B052",
+   "family": "buff",
+   "kind": "minion"
+  },
+  {
+   "id": "B053",
+   "family": "buff",
+   "kind": "spell"
+  },
+  {
+   "id": "B056",
+   "family": "debuff",
+   "kind": "spell"
+  },
+  {
+   "id": "B099",
+   "family": "debuff",
+   "kind": "minion"
+  },
+  {
+   "id": "A008",
+   "family": "strike",
+   "kind": "spell"
+  },
+  {
+   "id": "A006",
+   "family": "strike",
+   "kind": "minion"
+  },
+  {
+   "id": "A034",
+   "family": "atkdraw",
+   "kind": "spell"
+  },
+  {
+   "id": "A032",
+   "family": "atkdraw",
+   "kind": "weapon"
+  },
+  {
+   "id": "A030",
+   "family": "atkdraw",
+   "kind": "minion"
+  }
+ ],
+ "made": "2026-11-18T06:09:54.105Z"
+}

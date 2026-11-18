@@ -1,0 +1,135 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 360
+ },
+ "rate": 6,
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_keyword",
+    "tut_board",
+    "tut_defense",
+    "tut_play_creature",
+    "tut_attack",
+    "tut_end",
+    "tut_wall",
+    "tut_play_spell",
+    "tut_ability"
+   ],
+   "seconds": 75.753,
+   "battle": {
+    "frames": 4499,
+    "avg_fps": 59.7,
+    "low1_fps": 38.1,
+    "max_ms": 83.4,
+    "over_33": 8
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 16.8,
+    "dock→heroes": 116.8,
+    "heroes→dock": 16.8,
+    "dock→collection": 133.3,
+    "collection→dock": 16.8,
+    "dock→crates": 33.3,
+    "crate open": 33.3,
+    "→market": 183.3,
+    "→decks": 33.4,
+    "dock→heroes→battle(첫 물때)": 200
+   }
+  },
+  {
+   "run": 2,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_play_spell",
+    "tut_keyword",
+    "tut_play_creature",
+    "tut_ability"
+   ],
+   "seconds": 150.371,
+   "battle": {
+    "frames": 8986,
+    "avg_fps": 59.9,
+    "low1_fps": 51,
+    "max_ms": 100,
+    "over_33": 3
+   },
+   "big_moments": {
+    "n": 1,
+    "kinds": [
+     "big_entry"
+    ],
+    "frames": 111,
+    "avg_fps": 59.5,
+    "low1_fps": 29.9,
+    "max_ms": 33.4,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 166.6,
+    "dock→heroes": 83.2,
+    "heroes→dock": 16.8,
+    "dock→collection": 116.6,
+    "collection→dock": 16.8,
+    "dock→crates": 33.4,
+    "crate open": 16.8,
+    "→market": 149.9,
+    "→decks": 33.3,
+    "dock→heroes→battle(첫 물때)": 200
+   }
+  },
+  {
+   "run": 3,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_play_spell",
+    "tut_keyword",
+    "tut_wall",
+    "tut_play_creature",
+    "tut_ability"
+   ],
+   "seconds": 150.381,
+   "battle": {
+    "frames": 8993,
+    "avg_fps": 59.9,
+    "low1_fps": 54.7,
+    "max_ms": 100.1,
+    "over_33": 2
+   },
+   "big_moments": {
+    "n": 2,
+    "kinds": [
+     "attack",
+     "attack_motion"
+    ],
+    "frames": 38,
+    "avg_fps": 60,
+    "low1_fps": 59.5,
+    "max_ms": 16.8,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 166.7,
+    "dock→heroes": 66.8,
+    "heroes→dock": 16.8,
+    "dock→collection": 116.7,
+    "collection→dock": 16.8,
+    "dock→crates": 16.8,
+    "crate open": 16.8,
+    "→market": 133.3,
+    "→decks": 33.4,
+    "dock→heroes→battle(첫 물때)": 233.3
+   }
+  }
+ ]
+}

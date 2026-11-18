@@ -19,7 +19,7 @@ const ROUND = opt('--round', '1');
 const PART = opt('--part', 'all');
 const PORT = +opt('--port', '8820');
 const CHANNEL = opt('--channel', 'msedge');
-const OUT = join(PROJ, 'reviews', `round-${ROUND}`);
+const OUT = join(PROJ, 'reviews', opt('--outdir', `round-${ROUND}`)); // --outdir terms → reviews/terms
 const QOUT = join(OUT, 'qa-out');
 const SHOTS = join(OUT, 'shots');
 mkdirSync(QOUT, { recursive: true }); mkdirSync(SHOTS, { recursive: true });
@@ -51,7 +51,7 @@ async function open(b, url, { w = 360, h = 640, touch = true, storage = null } =
   const page = await ctx.newPage();
   const tag = `${w}x${h}`;
   page.on('console', (m) => { if (['error', 'warning'].includes(m.type())) LOG.console.push(`[${tag}] ${m.type()}: ${m.text()}`); });
-  page.on('pageerror', (e) => LOG.pageerrors.push(`[${tag}] ${e.message}`));
+  page.on('pageerror', (e) => LOG.pageerrors.push(`[${tag}] ${e.message} @ ${String(e.stack || '').split(String.fromCharCode(10)).slice(1, 4).join(' | ')}`));
   page.on('request', (r) => { LOG.requests++; const u = new URL(r.url()); if (/^(https?|wss?):$/.test(u.protocol) && !['127.0.0.1', 'localhost'].includes(u.hostname)) LOG.external.push(r.url()); });
   page.on('requestfailed', (r) => LOG.failed.push(`[${tag}] ${r.url()} ${r.failure()?.errorText}`));
   page.on('response', (r) => { if (r.status() >= 400) LOG.failed.push(`[${tag}] ${r.url()} HTTP ${r.status()}`); });
@@ -108,7 +108,7 @@ async function partShots() {
     await sleep(400); await shot('01-title');
     await page.mouse.click(w / 2, h / 2); await sleep(400); await shot('02-dock');
     await page.locator('[data-nav=play]').last().click(); await sleep(400); await shot('03-heroes');
-    await page.locator('[data-nav=fight]').last().click(); await sleep(900); await shot('04-mulligan');
+    await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(900); await shot('04-mulligan');
     // 첫 물때 확정 → 실제 시간으로 판 진행(사람 자리도 AI, 연출 배율 0.25로 앞당김)
     await page.evaluate(() => { __game.mulligan([]); });
     await page.evaluate(() => { __game.autoplay(true); __game.setAnimScale(0.25); });
@@ -178,7 +178,9 @@ async function partSync() {
   const heroes = await page.evaluate(() => __qa.D.heroIds);
   const games = [];
   let k = 0;
+  const syncN = +opt('--sync-n', '18');
   for (let i = 0; i < heroes.length; i++) for (let d = 1; d <= 3; d++) {
+    if (k >= syncN) break;
     const hA = heroes[i], hB = heroes[(i + d) % heroes.length], seed = 9100 + (k++) * 37;
     const ex = await page.evaluate(async ({ hA, hB, seed }) => {
       await __game.newBattle({ heroA: hA, heroB: hB, seed, ai: 'eval', human: null });
@@ -382,14 +384,14 @@ async function partTempo() {
 // ================= perf: 6배 스로틀, 새 브라우저 3회 =================
 async function perfRun(i) {
   const b = await browser();
-  const { page, ctx } = await open(b, BASE, { w: 360, h: 640 });
+  const { page, ctx } = await open(b, BASE + opt('--perf-q', ''), { w: 360, h: 640 }); // --perf-q '?tut=0' → 튜토리얼 끈 변형(원인 가르기)
   const cdp = await ctx.newCDPSession(page);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
   const fr = async () => page.evaluate(() => { window.__pf = { t: [], on: true }; const f = (ts) => { if (!window.__pf.on) return; window.__pf.t.push(ts); requestAnimationFrame(f); }; requestAnimationFrame(f); });
   const stop = async () => page.evaluate(() => { window.__pf.on = false; return window.__pf.t; });
   // 메뉴 전환 최장 프레임
   const menu = {};
-  const tr = async (name, fn) => { await fr(); await fn(); await sleep(1200); const t = await stop(); const d = t.slice(1).map((x, j) => x - t[j]); menu[name] = +Math.max(...d).toFixed(1); };
+  const tr = async (name, fn) => { await fr(); await fn(); await sleep(1200); const t = await stop(); const d = t.slice(1).map((x, j) => x - t[j]); menu[name] = +Math.max(...d).toFixed(1); await coachSkipAll(page, 'next'); }; // 첫 진입 안내(코치)는 측정 뒤 넘김
   await tr('title→dock(첫 탭)', () => page.mouse.click(180, 320));
   await tr('dock→heroes', () => page.locator('[data-nav=play]').last().click());
   await tr('heroes→dock', () => page.evaluate(() => __game.go('dock')));
@@ -399,26 +401,30 @@ async function perfRun(i) {
   await tr('crate open', () => page.locator('[data-open=bare]').last().click());
   await tr('→market', () => page.evaluate(() => __game.go('market')));
   await tr('→decks', () => page.evaluate(() => __game.go('decks')));
-  await tr('dock→heroes→battle(첫 물때)', async () => { await page.evaluate(() => __game.go('heroes')); await page.locator('[data-nav=fight]').last().click(); });
+  await tr('dock→heroes→battle(첫 물때)', async () => { await page.evaluate(() => __game.go('heroes')); await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); });
   // 대전 중(AI 대 AI 실시간, 사람 자리 autoplay): 처음 150 s
-  await page.evaluate(() => { __game.mulligan([]); __game.autoplay(true); });
+  // 메뉴 경로 판은 사람이 후공일 수 있음 — AI 차례에 훅 runAI를 부르면 aiStep 예약 수와 겹쳐 낡은 행동이 실행돼 예외가 남(terms QA 하네스 오류). 사람 자리 차례에만.
+  // 사람 자리는 runAI(입력 경로)로 두고 튜토리얼 패널·스포트라이트는 켠 채로(안내 단계는 6 s마다 '다음')
+  if (opt('--perf-auto', '') === '1') await page.evaluate(() => { __game.mulligan([]); __game.autoplay(true); }); // round-2와 같은 운전(사람 자리 autoplay) — 원인 가르기
+  else await page.evaluate((cheap) => { window.__cheap = cheap; __game.mulligan([]); let n = 0; const hum = __game.export().heroes.indexOf(__game.state.lastHero); window.__hum = hum; window.__drv = setInterval(() => { const bt = __game.battle; if (!bt || bt.over) return; n++; if (n % 9 === 0) document.querySelector('[data-tut-next]')?.click(); if (bt.active === hum && !__game.busy) { if (window.__cheap) { const L = __game.legal(); const a = L.find((x) => x.type === 'play') || L.find((x) => x.type === 'attack') || { type: 'end' }; __game.act(a); } else __game.runAI(); } }, 700); }, opt('--perf-cheap', '') === '1');
   await fr();
   const t0 = Date.now();
   await page.waitForFunction(() => __game.battle.over, null, { timeout: 150000, polling: 500 }).catch(() => {});
   const t = await stop();
   const tempo = await page.evaluate(() => __game.tempoLog.actions);
+  const tutShown = tempo.filter((a) => a.kind === 'tutorial').map((a) => a.step);
   await b.close();
   const d = t.slice(1).map((x, j) => x - t[j]);
   const sum = (dd) => { if (!dd.length) return null; const s = [...dd].sort((a, b) => b - a); const n1 = Math.max(1, Math.floor(dd.length * 0.01)); const total = dd.reduce((a, b) => a + b, 0); return { frames: dd.length, avg_fps: +(dd.length / total * 1000).toFixed(1), low1_fps: +(1000 / (s.slice(0, n1).reduce((a, b) => a + b, 0) / n1)).toFixed(1), max_ms: +s[0].toFixed(1), over_33: dd.filter((x) => x > 33.4).length }; };
   // 큰 연출 구간(tier ≥ 2: 큰 카드·전멸·마지막 일격·승패) 안의 프레임만
   const big = tempo.filter((a) => a.tier >= 2 && a.end_real_ms);
   const inBig = []; for (let j = 1; j < t.length; j++) if (big.some((a) => t[j] >= a.start_real_ms && t[j] <= a.end_real_ms + 50)) inBig.push(t[j] - t[j - 1]);
-  return { run: i, seconds: (Date.now() - t0) / 1000, battle: sum(d), big_moments: { n: big.length, kinds: [...new Set(big.map((a) => a.kind))], ...sum(inBig) }, menu };
+  return { run: i, tutorial_steps_shown: tutShown, seconds: (Date.now() - t0) / 1000, battle: sum(d), big_moments: { n: big.length, kinds: [...new Set(big.map((a) => a.kind))], ...sum(inBig) }, menu };
 }
 async function partPerf() {
   const runs = [];
   for (let i = 1; i <= 3; i++) { runs.push(await perfRun(i)); console.log(JSON.stringify(runs[runs.length - 1])); }
-  save('perf', { log: LOG, rate: 6, runs });
+  save(opt('--perf-tag', 'perf'), { log: LOG, rate: 6, q: opt('--perf-q', ''), runs });
 }
 
 // ================= func =================
@@ -435,7 +441,7 @@ async function partFunc() {
     out.save_reload = { before, after, ok: JSON.stringify(before) === JSON.stringify({ salt: after.salt, music: after.music, lang: after.lang, res: after.res, crates: after.crates }) };
     // 결과 보상이 저장되는가: 판 끝 → 새로고침 → 전적
     await page.evaluate(() => __game.lang('ko'));
-    await page.evaluate(() => __game.go('heroes')); await page.locator('[data-nav=fight]').last().click(); await sleep(500);
+    await page.evaluate(() => __game.go('heroes')); await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(500);
     await page.evaluate(() => { __game.mulligan([]); __game.autoplay(true); __game.setAnimScale(0.05); });
     await page.waitForFunction(() => !!document.getElementById('result'), null, { timeout: 240000 });
     const g1 = await page.evaluate(() => __game.state.stats.games);
@@ -450,7 +456,7 @@ async function partFunc() {
     // 2b) 같은 화면 다시 그리기(설정 토글·시장 구매 등) 때 이전 화면이 남는가: ui.js show()가 같은 id는 지우지 않음
     out.stale_screens = await page.evaluate(() => { for (let i = 0; i < 5; i++) __game.go('settings'); const n1 = document.querySelectorAll('#app > #settings').length; for (let i = 0; i < 5; i++) __game.go('market'); return { settings_x5: n1, market_x5: document.querySelectorAll('#app > #market').length, app_children: document.getElementById('app').children.length }; });
     // 3) 백그라운드: visibilitychange 처리 유무 + 숨김 동안 오디오 상태 + 턴 타이머
-    await page.evaluate(() => __game.go('heroes')); await page.locator('[data-nav=fight]').last().click(); await sleep(400);
+    await page.evaluate(() => __game.go('heroes')); await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(400);
     await page.evaluate(() => __game.mulligan([]));
     await page.waitForFunction(() => __game.battle.active === 0 && !__game.busy, null, { timeout: 30000 }).catch(() => {});
     const bg = await page.evaluate(async () => {
@@ -652,7 +658,7 @@ async function partTut() {
     const { page, ctx } = await open(b, BASE, { w, h });
     await page.mouse.click(w / 2, h / 2); await sleep(300);
     await page.locator('[data-nav=play]').last().click(); await sleep(400);
-    await page.locator('[data-nav=fight]').last().click(); await sleep(1200);
+    await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(1200);
     await page.evaluate(() => __game.mulligan([]));
     const seq = [];
     for (let k = 0; k < 400 && seq.length < 10; k++) {
@@ -676,7 +682,285 @@ async function partTut() {
   save('tut', { log: LOG, runs, end_before_play_n: runs.filter((r) => r.end_before_play).length, runs_n: runs.length });
 }
 
-const parts = { tut: partTut, resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
+// ================= terms: 용어·튜토리얼·메뉴 안내·카드 스토리 (2026-11-18 요청자 지시 4건) =================
+const coachSkipAll = async (page, mode = 'next') => { for (let i = 0; i < 12; i++) { const b = await page.$(mode === 'next' ? '[data-coach-next]' : '[data-coach-skip]'); if (!b) break; await b.click().catch(() => {}); await sleep(150); } };
+function termLists() {
+  const src = readFileSync(join(PROJ, 'lore', 'check-cards.mjs'), 'utf8');
+  const arr = (name) => JSON.parse(src.match(new RegExp(`const ${name} = (\\[[^\\]]*\\]);`))[1].replace(/'/g, '"'));
+  const S = rj(join(REPO, 'games', 'tcg-01', 'data', 'strings.json')), C = rj(join(REPO, 'games', 'tcg-01', 'data', 'cards.json')).cards;
+  const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|faction_|story_arc_|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
+  const allow = [];
+  for (const L of ['ko', 'en']) for (const [k, v] of Object.entries(S[L])) if (STORY_KEY.test(k) && v) allow.push(v);
+  for (const c of C) allow.push(c.name_ko, c.name_en, c.flavor_ko, c.flavor_en, c.story_ko, c.story_en);
+  allow.push('썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea');
+  return { BANNED_KO: arr('BANNED_KO'), BANNED_EN: arr('BANNED_EN'), OLD_KO: arr('OLD_KO'), OLD_EN: arr('OLD_EN'), allow: allow.filter(Boolean).sort((a, b) => b.length - a.length) };
+}
+function scanText(txt, TL) {
+  let t = txt; for (const a of TL.allow) if (a.length >= 2) t = t.split(a).join(' ');
+  const old = [...TL.OLD_KO.filter((w) => t.includes(w)), ...TL.OLD_EN.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(t))];
+  const ban = [...TL.BANNED_KO.filter((w) => t.includes(w)), ...TL.BANNED_EN.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(t))];
+  return { old, ban };
+}
+const overlapR = (a, b) => a && b && Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x) > 1 && Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y) > 1;
+async function partTerms() {
+  const TL = termLists();
+  const b = await browser();
+  const R = { dom: [], tutorial: [], guides: null, story: [], battle_story: null };
+  const only = opt('--only', 'dom,tut,guides,story,battle').split(',');
+  // T1 화면 글: 4해상도 × ko/en
+  if (only.includes('dom')) for (const [w, h] of VIEWS) for (const lang of ['ko', 'en']) {
+    const { page, ctx } = await open(b, BASE + `?lang=${lang}`, { w, h, touch: w < 1000 });
+    for (const sc of ['title', 'dock', 'heroes', 'collection', 'decks', 'crates', 'market', 'commissions', 'calendar', 'settings', 'glossary']) {
+      await page.evaluate((sc) => __game.go(sc), sc); await sleep(450);
+      const coachTxt = await page.evaluate(() => [...document.querySelectorAll('.coach')].map((e) => e.textContent).join(' '));
+      const ins = await inspect(page, `${sc}-${lang}-${w}x${h}`);
+      const txt = await page.evaluate(() => document.body.innerText);
+      const s = scanText(txt + ' ' + coachTxt, TL);
+      R.dom.push({ view: `${w}x${h}`, lang, sc, old: s.old, ban: s.ban, textOver: ins.textOver, clipped: ins.clipped.filter((x) => !x.startsWith('hand')), small: ins.small, coach: coachTxt ? 1 : 0 });
+      if (w === 360 || sc === 'glossary') await page.screenshot({ path: join(SHOTS, `t-${sc}-${lang}-${w}x${h}.png`) });
+      await coachSkipAll(page, 'skip');
+    }
+    await ctx.close();
+  }
+  // T2 튜토리얼
+  const runs = opt('--tut-runs-spec', '') ? JSON.parse(opt('--tut-runs-spec', '[]')) : [[360, 640], [412, 915], [640, 360], [1280, 720], [360, 640], [360, 640], [360, 640], [360, 640, 'skip']];
+  if (only.includes('tut')) for (const [w, h, mode] of runs) {
+    const { page, ctx } = await open(b, BASE, { w, h, touch: w < 1000 });
+    await page.mouse.click(w / 2, h / 2); await sleep(300);
+    await page.locator('[data-nav=play]').last().click(); await sleep(500);
+    const menuCoach = [];
+    for (let i = 0; i < 4; i++) { const k = await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || null); if (!k) break; menuCoach.push(k); await page.locator(mode === 'skip' ? '[data-coach-skip]' : '[data-coach-next]').first().click(); await sleep(200); }
+    await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(1300);
+    const mullCoach = await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || document.querySelector('.tut')?.dataset.tut || null);
+    await coachSkipAll(page, mode === 'skip' ? 'skip' : 'next');
+    await page.evaluate(() => { __game.mulligan([]); __game.setAnimScale(0.35); window.__hum = __game.export().heroes.indexOf(__game.state.lastHero); });
+    const seq = []; const cover = []; let skipped = false;
+    for (let k = 0; k < 2400; k++) {
+      const st = await page.evaluate(() => {
+        const bt = __game.battle; if (!bt) return null; const el = document.querySelector('.tut'); const L = __game.legal();
+        const R = (e) => { if (!e) return null; const r = e.getBoundingClientRect(); return r.width ? { x: r.left, y: r.top, w: r.width, h: r.height } : null; };
+        const ring = document.querySelector('.spotRing'); const ringR = ring && ring.style.display !== 'none' ? R(ring) : null;
+        const toks = [...document.querySelectorAll('[data-uid]')].map(R).filter(Boolean);
+        return { over: bt.over, half: bt.half, active: bt.active === window.__hum ? 0 : 1, busy: __game.busy, tut: el ? el.dataset.tut : null, panel: R(el), next: R(document.querySelector('[data-tut-next]')), skip: R(document.querySelector('[data-tut-skip]')), ring: ringR, toks,
+          playable: bt.active === window.__hum && L.some((a) => a.type === 'play'), result: !!document.getElementById('result') };
+      });
+      if (!st) break;
+      if (st.result || st.over) break;
+      if (st.tut && (!seq.length || seq[seq.length - 1].step !== st.tut)) {
+        const turn = Math.ceil(st.half / 2);
+        const pr = [st.panel, st.next, st.skip];
+        const hitTarget = st.ring && pr.some((r) => overlapR(r, st.ring));
+        const hitTok = st.toks.filter((t) => pr.some((r) => overlapR(r, t))).length;
+        seq.push({ step: st.tut, turn, playable: st.playable });
+        cover.push({ step: st.tut, target: !!hitTarget, tokens: hitTok });
+        if (k < 400 && (w !== 360 || seq.length <= 4) && runs.indexOf(runs.find((x) => x[0] === w && x[1] === h)) === runs.findIndex((x) => x[0] === w && x[1] === h && !x[2])) await page.screenshot({ path: join(SHOTS, `tut-${w}x${h}-${String(seq.length).padStart(2, '0')}-${st.tut}.png`) }).catch(() => {});
+        if (mode === 'skip') { await page.locator('[data-tut-skip]').first().click(); skipped = true; await sleep(200); continue; }
+        if (/^tut_play|^tut_attack|^tut_ability|^tut_end$/.test(st.tut)) await page.evaluate(() => __game.runAI()); else await page.locator('[data-tut-next]').first().click().catch(() => {});
+        await sleep(200); continue;
+      }
+      if (st.active === 0 && !st.busy) await page.evaluate(() => __game.runAI());
+      await sleep(120);
+    }
+    await page.waitForFunction(() => !!document.getElementById('result'), null, { timeout: 240000 }).catch(() => {});
+    await sleep(800);
+    const endState = await page.evaluate(() => ({ result: !!document.getElementById('result'), over: !!__game.battle?.over, half: __game.battle?.half, tut: { ...__game.state.tut, seen: (__game.state.tut?.seen || []).length } }));
+    await page.locator('#result [data-nav=menu]').last().click().catch(() => {}); await sleep(700);
+    const doneCoach = await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || null);
+    await coachSkipAll(page, 'next');
+    await page.reload(); await page.waitForFunction(() => window.__game && window.__game.ready); await attach(page);
+    await page.mouse.click(w / 2, h / 2); await sleep(300);
+    await page.locator('[data-nav=play]').last().click(); await sleep(600);
+    const again = { menuCoach: await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || null) };
+    await coachSkipAll(page, 'next');
+    await coachSkipAll(page, 'next'); await page.locator('[data-nav=fight]').last().click(); await sleep(1300);
+    again.mullCoach = await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || null);
+    await coachSkipAll(page, 'next');
+    await page.evaluate(() => { __game.mulligan([]); __game.setAnimScale(0.35); window.__hum = __game.export().heroes.indexOf(__game.state.lastHero); });
+    let tutAgain = 0; const againSteps = new Set();
+    for (let k = 0; k < 200; k++) { const s2 = await page.evaluate(() => ({ t: document.querySelector('.tut')?.dataset.tut || null, half: __game.battle?.half || 0, a: __game.battle?.active === window.__hum ? 0 : 1, busy: __game.busy })); if (s2.t) { tutAgain++; againSteps.add(s2.t); } if (s2.half >= 5) break; if (s2.a === 0 && !s2.busy) await page.evaluate(() => __game.runAI()); await sleep(150); }
+    again.tut_panels = tutAgain; again.steps = [...againSteps]; again.repeated_seen = again.steps.filter((k) => seq.some((x) => x.step === k));
+    const iNo = seq.findIndex((x) => x.step === 'tut_no_play'), iPlay = seq.findIndex((x) => /^tut_play/.test(x.step)), iEnd = seq.findIndex((x) => x.step === 'tut_end');
+    const firstLearn = [iNo, iPlay].filter((x) => x >= 0); const learnIdx = firstLearn.length ? Math.min(...firstLearn) : -1;
+    R.tutorial.push({ view: `${w}x${h}`, mode: mode || 'complete', menuCoach, mullCoach, seq, steps: seq.length, end_before_learn: iEnd >= 0 && (learnIdx < 0 || iEnd < learnIdx), no_play_turn1: seq.some((x) => x.step === 'tut_no_play' && x.turn === 1),
+      cover_target: cover.filter((c) => c.target).map((c) => c.step), cover_tokens: cover.filter((c) => c.tokens).map((c) => `${c.step}:${c.tokens}`), doneCoach, skipped, again, endState });
+    console.log(w, h, mode || 'complete', seq.map((x) => x.step.replace('tut_', '') + '@' + x.turn).join(' '), '| done', doneCoach, '| again', JSON.stringify(again));
+    await ctx.close();
+  }
+  // T3 메뉴 첫 진입 안내 8개: 한 번만
+  if (only.includes('guides')) {
+    const { page, ctx } = await open(b, BASE, { w: 360, h: 640 });
+    await page.mouse.click(180, 320); await sleep(300);
+    const seen = [];
+    const grab = async () => { for (let i = 0; i < 6; i++) { const k = await page.evaluate(() => document.querySelector('.coach')?.dataset.coach || null); if (!k) break; seen.push(k); await page.locator('[data-coach-next]').first().click().catch(() => {}); await sleep(250); } };
+    const visit = async () => {
+      await page.evaluate(() => __game.go('crates')); await sleep(600); await grab();
+      await page.evaluate(() => { const S = __game.state; const id = Object.keys(S.coll).find((k) => S.coll[k].n > 0); S.coll[id].res = __qa.meta.thresholds(id)[1]; window.__cid = id; __game.go('collection'); }); await sleep(600);
+      const cid = await page.evaluate(() => window.__cid); await page.locator(`[data-cid="${cid}"]`).last().click(); await sleep(700); await grab();
+      await page.locator('[data-act=close]').last().click().catch(() => {}); await sleep(200);
+      await page.evaluate(() => { __game.state.crates.bare = Math.max(2, __game.state.crates.bare); __game.go('crates'); }); await sleep(500); await grab();
+      await page.locator('[data-open=bare]').last().click(); await sleep(1500); await page.locator('[data-act=revealAll]').last().click().catch(() => {}); await sleep(6000); await grab();
+      await page.evaluate(() => __game.go('heroes')); await sleep(600); await grab();
+      await page.locator('[data-mode=mode_accord]').last().click().catch(() => {}); await sleep(500); await grab();
+    };
+    await visit(); const first = [...seen]; seen.length = 0; await visit();
+    const guides = first.filter((k) => k.startsWith('guide_'));
+    R.guides = { first, second: [...seen], guide_unique: [...new Set(guides)], repeats_second: seen.filter((k) => k.startsWith('guide_')).length, dup_first: guides.length - new Set(guides).size };
+    console.log('guides', JSON.stringify(R.guides));
+    await ctx.close();
+  }
+  // T4 카드 스토리
+  const allIds = rj(join(REPO, 'games', 'tcg-01', 'data', 'cards.json')).cards.map((c) => c.id);
+  if (only.includes('story')) for (const [w, h] of VIEWS) for (const lang of ['ko', 'en']) {
+    const { page, ctx } = await open(b, BASE + `?lang=${lang}`, { w, h, touch: w < 1000 });
+    await page.evaluate(() => { const S = __game.state; for (const c of __qa.D.list) S.coll[c.id] = S.coll[c.id] || { n: 1, res: 0, stage: 0 }; S.guides = S.guides || {}; ['guide_craft_1', 'guide_craft_2', 'guide_exp_2', 'guide_exp_1', 'guide_pack_1', 'guide_pack_2', 'guide_ranked_1', 'guide_ranked_2'].forEach((k) => (S.guides[k] = true)); });
+    const sample = w === 360 ? allIds.filter((_, i) => i % 5 === 0) : allIds.filter((_, i) => i % 25 === 0);
+    for (const cid of sample) {
+      const r = await page.evaluate(async (cid) => {
+        const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        __game.go('collection'); await wait(300);
+        let cell = null; for (let i = 0; i < 20 && !(cell = document.querySelector(`[data-cid="${cid}"]`)); i++) await wait(100);
+        if (!cell) return { cid, err: 'no cell' }; cell.click(); await wait(400);
+        const sb = document.querySelector('[data-act=story]'); if (!sb) return { cid, err: 'no story btn' };
+        const sbr = sb.getBoundingClientRect();
+        const out = { cid, btn: [Math.round(sbr.width), Math.round(sbr.height)] };
+        sb.click(); await wait(350);
+        const p = document.querySelector('.storyPanel'); out.open1 = !!p;
+        if (p) { const pr = p.getBoundingClientRect(); out.inView = pr.left >= -1 && pr.top >= -1 && pr.right <= innerWidth + 1 && pr.bottom <= innerHeight + 1; const tx = p.querySelector('.storyText'); out.scroll = tx ? tx.scrollHeight > tx.clientHeight + 2 : false; out.more = tx ? (tx.classList.contains('more') || !!p.querySelector('.more, .moreArrow')) : false; out.text = tx ? tx.textContent : ''; out.btns = [...p.querySelectorAll('button')].map((b) => { const r = b.getBoundingClientRect(); return Math.round(Math.min(r.width, r.height)); }); out.wordOver = [...p.querySelectorAll('*')].filter((e) => e.scrollWidth > e.clientWidth + 2 && !/(auto|scroll)/.test(getComputedStyle(e).overflowX + getComputedStyle(e).overflowY)).length; }
+        const box = document.querySelector('.ovl'); if (box) { const r = box.getBoundingClientRect(); box.dispatchEvent(new MouseEvent('click', { bubbles: true, clientX: r.left + 4, clientY: r.top + 4 })); } await wait(350); out.closeOutside = !document.querySelector('.storyPanel');
+        document.querySelector('[data-act=story]')?.click(); await wait(350); document.querySelector('[data-act=storyClose]')?.click(); await wait(350); out.closeBtn = !document.querySelector('.storyPanel');
+        document.querySelector('[data-act=story]')?.click(); await wait(350); dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' })); await wait(350); out.closeEsc = !document.querySelector('.storyPanel');
+        document.querySelector('[data-act=story]')?.click(); await wait(350); document.querySelector('[data-act=story]')?.click(); await wait(350); out.closeToggle = !document.querySelector('.storyPanel');
+        document.querySelector('[data-act=close]')?.click(); await wait(300); out.detailClosed = !document.querySelector('[data-act=story]');
+        return out;
+      }, cid);
+      const ban = r.text ? scanText(r.text, { ...TL, allow: [] }).ban : [];
+      R.story.push({ view: `${w}x${h}`, lang, ...r, textLen: r.text ? [...r.text].length : 0, text: undefined, ban });
+      if (cid === sample[1]) { await page.evaluate(async (cid) => { __game.go('collection'); await new Promise((r) => setTimeout(r, 400)); document.querySelector(`[data-cid="${cid}"]`)?.click(); await new Promise((r) => setTimeout(r, 400)); document.querySelector('[data-act=story]')?.click(); }, cid); await sleep(500); await page.screenshot({ path: join(SHOTS, `story-${lang}-${w}x${h}.png`) }); await page.evaluate(() => document.querySelector('[data-act=close]')?.click()); await sleep(200); }
+    }
+    console.log('story', w, h, lang, R.story.filter((s) => s.view === `${w}x${h}` && s.lang === lang).length);
+    await ctx.close();
+  }
+  // T4b 대전 중 길게 누르기: 스토리 안 열림, 시계 계속
+  if (only.includes('battle')) {
+    const { page, ctx } = await open(b, BASE + '?tut=0', { w: 360, h: 640 });
+    await page.mouse.click(180, 320); await sleep(300);
+    await page.evaluate(() => __game.newBattle({ seed: 31, human: 0, noTimer: false })); await sleep(1200); await page.evaluate(() => __game.mulligan([]));
+    await page.waitForFunction(() => __game.battle.active === 0 && !__game.busy, null, { timeout: 60000 }); await sleep(800);
+    const hc = await page.$('[data-hand]'); const r = await hc.boundingBox();
+    const g0 = await page.evaluate(() => __qa.G.now);
+    await page.mouse.move(r.x + r.width / 2, r.y + 20); await page.mouse.down(); await sleep(900);
+    R.battle_story = await page.evaluate((g0) => ({ zoom: !!document.querySelector('.zoomWrap'), story: !!document.querySelector('.storyPanel'), clock_ms: Math.round(__qa.G.now - g0), paused: !!__game.paused }), g0);
+    await page.screenshot({ path: join(SHOTS, 'story-battle-longpress-360x640.png') });
+    await page.mouse.up(); await ctx.close();
+  }
+  await b.close();
+  const sum = {
+    dom_checked: R.dom.length, dom_old: R.dom.filter((d) => d.old.length).map((d) => `${d.sc}-${d.lang}-${d.view}: ${d.old.join('·')}`), dom_ban: R.dom.filter((d) => d.ban.length).map((d) => `${d.sc}-${d.lang}-${d.view}: ${d.ban.join('·')}`),
+    dom_textOver: R.dom.filter((d) => d.textOver.length).map((d) => `${d.sc}-${d.lang}-${d.view}: ${d.textOver.join('|')}`), dom_clipped: R.dom.filter((d) => d.clipped.length).map((d) => `${d.sc}-${d.lang}-${d.view}: ${d.clipped.slice(0, 3).join('|')}`), dom_small: R.dom.filter((d) => d.small.length).map((d) => `${d.sc}-${d.lang}-${d.view}: ${d.small.slice(0, 4).join('|')}`),
+    tut_runs: R.tutorial.length, tut_end_before_learn: R.tutorial.filter((t) => t.end_before_learn).length, tut_cover_target: R.tutorial.flatMap((t) => t.cover_target.map((s) => `${t.view}:${s}`)), tut_cover_tokens: R.tutorial.flatMap((t) => t.cover_tokens.map((s) => `${t.view}:${s}`)), tut_again: R.tutorial.map((t) => t.again), tut_done: R.tutorial.map((t) => t.doneCoach),
+    story_n: R.story.length, story_err: R.story.filter((s) => s.err).map((s) => `${s.view}-${s.lang}-${s.cid}: ${s.err}`), story_not_open: R.story.filter((s) => !s.err && !s.open1).length, story_out_of_view: R.story.filter((s) => s.inView === false).length,
+    story_btn_small: R.story.filter((s) => (s.btn && Math.min(...s.btn) < 48) || (s.btns || []).some((x) => x < 48)).map((s) => `${s.view}-${s.lang}-${s.cid} ${s.btn} ${s.btns}`).slice(0, 10),
+    story_close_fail: R.story.filter((s) => !s.err && !(s.closeOutside && s.closeBtn && s.closeEsc && s.closeToggle && s.detailClosed)).map((s) => `${s.view}-${s.lang}-${s.cid}: out ${s.closeOutside} btn ${s.closeBtn} esc ${s.closeEsc} tog ${s.closeToggle} back ${s.detailClosed}`).slice(0, 10),
+    story_scroll_no_hint: R.story.filter((s) => s.scroll && !s.more).length, story_word_over: R.story.filter((s) => s.wordOver).length, story_ban: R.story.filter((s) => s.ban && s.ban.length).length,
+  };
+  save('terms-' + only.join('_'), { log: LOG, summary: sum, ...R });
+}
+
+// ================= uxshots: 글을 가린 카드 스크린샷 세트(360x640) + 색약 3종, 정답은 따로 =================
+async function partUxShots() {
+  const C = rj(join(REPO, 'games', 'tcg-01', 'data', 'cards.json')).cards;
+  const pick = ['D009', 'B052', 'B053', 'B056', 'B099', 'A008', 'A006', 'A034', 'A032', 'A030'].filter((id) => C.find((c) => c.id === id));
+  const deck = []; for (let i = 0; deck.length < 30; i++) deck.push(pick[i % pick.length]);
+  const UXD = join(PROJ, 'reviews', 'terms', 'ux-shots'); mkdirSync(UXD, { recursive: true });
+  const CVD = { protan: '0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0', deutan: '0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0', tritan: '1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0' };
+  const b = await browser();
+  const { page } = await open(b, BASE + '?test=1&manual=1&tut=0', { w: 360, h: 640 });
+  // 시드를 바꿔 가며 손패 6장 이상 + 손패·필드의 유형×종류 조합이 가장 많은 순간을 고름
+  const best = await page.evaluate(async ({ deck, meta }) => {
+    const combos = () => { const bt = __game.battle; const set = new Set(); for (const h of bt.players[0].hand) if (meta[h.cid]) set.add(meta[h.cid].family + '|' + meta[h.cid].kind); for (const P of bt.players) for (const m of P.board) if (meta[m.cid]) set.add(meta[m.cid].family + '|' + meta[m.cid].kind); return set.size; };
+    let best = { seed: null, score: -1, half: 0 };
+    for (let seed = 2600; seed < 2640; seed++) for (const stop of [5, 7]) {
+      await __game.newBattle({ heroA: 'h_rider', heroB: 'h_choir', seed, human: 0, deckA: deck, noTimer: true }); __game.mulligan([]);
+      for (let g = 0; g < 6000 && __game.battle.half < stop && !__game.battle.over; g++) { const bt = __game.battle; if (bt.active === 0 && !__game.busy) { const L = __game.legal(); const pl = L.find((x) => x.type === 'play' && (x.hand % 2 === 0)) || L.find((x) => x.type === 'attack') ; __game.act(pl || { type: 'end' }); } __game.step(50); }
+      if (__game.battle.over) continue;
+      const sc = combos() + (__game.battle.players[0].hand.length >= 6 ? 3 : 0);
+      if (sc > best.score) best = { seed, stop, score: sc };
+    }
+    return best;
+  }, { deck, meta: Object.fromEntries(C.map((c) => [c.id, { family: c.family, kind: c.kind }])) });
+  await page.evaluate(async ({ deck, best }) => {
+    await __game.newBattle({ heroA: 'h_rider', heroB: 'h_choir', seed: best.seed, human: 0, deckA: deck, noTimer: true }); __game.mulligan([]);
+    for (let g = 0; g < 6000 && __game.battle.half < best.stop; g++) { const bt = __game.battle; if (bt.active === 0 && !__game.busy) { const L = __game.legal(); const pl = L.find((x) => x.type === 'play' && (x.hand % 2 === 0)) || L.find((x) => x.type === 'attack'); __game.act(pl || { type: 'end' }); } __game.step(50); }
+    for (let g = 0; g < 3000 && !(__game.battle.active === 0 && !__game.busy); g++) __game.step(50);
+    for (let i = 0; i < 80; i++) __game.step(16);
+  }, { deck, best });
+  console.log('ux 시드', JSON.stringify(best));
+  const answer = { note: '검수자에게 보이지 않게 따로 둔 정답. 이미지별 카드 상자(x,y,w,h px)·카드 id·유형(family)·종류(kind)', families: ['draw', 'buff', 'debuff', 'strike', 'atkdraw'], images: {} };
+  const meta = Object.fromEntries(C.map((c) => [c.id, { family: c.family, kind: c.kind }]));
+  const collect = async () => page.evaluate((meta) => {
+    const bt = __game.battle; const uidc = {}; for (const P of bt.players) for (const m of P.board) uidc[m.uid] = m.cid;
+    const R = (e) => { const r = e.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; };
+    const vis = (e) => { const r = e.getBoundingClientRect(); return r.width > 4 && r.bottom > 0 && r.top < innerHeight && getComputedStyle(e).visibility !== 'hidden' && getComputedStyle(e).display !== 'none'; };
+    const out = [];
+    for (const e of document.querySelectorAll('[data-hand]')) { const cid = e._hc && e._hc.cid; if (cid && meta[cid] && vis(e)) out.push({ where: 'hand', box: R(e), cid, ...meta[cid] }); }
+    for (const e of document.querySelectorAll('[data-uid]:not(.hero)')) { const cid = uidc[+e.dataset.uid]; if (cid && meta[cid] && vis(e)) out.push({ where: 'field', box: R(e), cid, ...meta[cid] }); }
+    const z = document.querySelector('.zoomWrap'); if (z && vis(z)) { const cid = window.__zcid || ([...document.querySelectorAll('[data-hand]')].find((e) => e._lift) || {})._hc?.cid; out.push({ where: 'zoom', box: R(z), cid: cid || null, ...(meta[cid] || {}) }); }
+    return out.sort((a, b) => a.box[1] - b.box[1] || a.box[0] - b.box[0]);
+  }, meta);
+  const hide = async (on) => page.evaluate((on) => { let s = document.getElementById('qaHide'); if (!s) { s = document.createElement('style'); s.id = 'qaHide'; document.head.appendChild(s); } s.textContent = on ? '#app *, #app *::before, #app *::after, #toastLayer * { color: transparent !important; text-shadow: none !important; } #app svg text { fill: transparent !important; stroke: none !important; }' : ''; }, on);
+  const cvd = async (name) => page.evaluate(({ name, m }) => { let f = document.getElementById('qaCvd'); if (!f) { f = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); f.id = 'qaCvd'; f.setAttribute('style', 'position:absolute;width:0;height:0'); f.innerHTML = '<filter id="qacvd" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter>'; document.body.appendChild(f); } if (m) f.querySelector('feColorMatrix').setAttribute('values', m); document.getElementById('app').style.filter = name ? 'url(#qacvd)' : ''; }, { name, m: CVD[name] });
+  let n = 0; const shots = [];
+  const order = [];
+  const shoot = async (view) => { const cards = await collect(); for (const v of ['', 'protan', 'deutan', 'tritan']) { await cvd(v); await sleep(150); n++; const f = `ux-${String(n).padStart(2, '0')}.png`; await page.screenshot({ path: join(UXD, f) }); shots.push({ file: f, view, cvd: v || 'none' }); answer.images[f] = { view, cvd: v || 'none', cards }; } await cvd(''); };
+  await hide(true);
+  await shoot('board_hand');
+  // 손패 펼침
+  const hb = await page.$('[data-hand]');
+  if (hb) { const r = await hb.boundingBox(); await page.mouse.click(r.x + r.width / 2, r.y + 12); for (let i = 0; i < 40; i++) await page.evaluate(() => __game.step(16)); await sleep(200); }
+  const spread = await page.evaluate(() => !!document.querySelector('.spread'));
+  await shoot(spread ? 'hand_spread' : 'hand_selected');
+  await page.mouse.click(180, 8); for (let i = 0; i < 30; i++) await page.evaluate(() => __game.step(16));
+  // 확대: 길게 누르기
+  const hc = await page.$('[data-hand]');
+  if (hc) { const r = await hc.boundingBox(); const zcid = await hc.evaluate((e) => e._hc && e._hc.cid); await page.evaluate((c) => { window.__zcid = c; }, zcid); await page.mouse.move(r.x + r.width / 2, r.y + 15); await page.mouse.down(); await sleep(700); for (let i = 0; i < 30; i++) await page.evaluate(() => __game.step(16)); await shoot('zoom'); await page.mouse.up(); }
+  // 크게 본 카드(수집 상세) 5장: 유형 5가지 × 종류 3가지를 채움(손패·필드에 안 나온 즉시타격 포함)
+  const { page: p2 } = await open(b, BASE + '?test=1&tut=0', { w: 360, h: 640 });
+  await p2.evaluate(() => { const S = __game.state; for (const c of __qa.D.list) S.coll[c.id] = { n: 1, res: 0, stage: 0 }; S.guides = S.guides || {}; for (const k of ['guide_craft_1', 'guide_craft_2', 'guide_exp_2']) S.guides[k] = true; });
+  const detail = ['A008', 'B052', 'A032', 'D009', 'A006', 'B056', 'A030'];
+  const pageBak = page;
+  for (const cid of detail) {
+    await p2.evaluate(async (cid) => { document.querySelectorAll('.ovl').forEach((e) => e.remove()); __game.go('collection'); for (let i = 0; i < 30 && !document.querySelector(`[data-cid="${cid}"]`); i++) await new Promise((r) => setTimeout(r, 100)); document.querySelector(`[data-cid="${cid}"]`).click(); await new Promise((r) => setTimeout(r, 500)); }, cid);
+    await p2.evaluate(() => { let s = document.getElementById('qaHide'); if (!s) { s = document.createElement('style'); s.id = 'qaHide'; document.head.appendChild(s); } s.textContent = 'body *, body *::before, body *::after { color: transparent !important; text-shadow: none !important; } svg text { fill: transparent !important; }'; });
+    for (const v of ['', 'protan', 'deutan', 'tritan']) {
+      await p2.evaluate(({ name, m }) => { let f = document.getElementById('qaCvd'); if (!f) { f = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); f.id = 'qaCvd'; f.setAttribute('style', 'position:absolute;width:0;height:0'); f.innerHTML = '<filter id="qacvd" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter>'; document.body.appendChild(f); } if (m) f.querySelector('feColorMatrix').setAttribute('values', m); document.body.style.filter = name ? 'url(#qacvd)' : ''; }, { name: v, m: CVD[v] });
+      await sleep(150); n++; const f = `ux-${String(n).padStart(2, '0')}.png`; await p2.screenshot({ path: join(UXD, f) });
+      shots.push({ file: f, view: 'detail', cvd: v || 'none' }); answer.images[f] = { view: 'detail', cvd: v || 'none', cards: [{ where: 'detail', cid, ...meta[cid] }] };
+    }
+  }
+  void pageBak;
+  await b.close();
+  writeFileSync(join(PROJ, 'reviews', 'terms', 'ux-shots-answer.json'), JSON.stringify({ ...answer, deck_pick: pick.map((id) => ({ id, ...meta[id] })), made: new Date().toISOString() }, null, 1));
+  save('uxshots', { log: LOG, shots, cards_per_image: Object.fromEntries(Object.entries(answer.images).map(([k, v]) => [k, v.cards.length])), combos: [...new Set(Object.values(answer.images).flatMap((v) => v.cards.map((c) => `${c.family}|${c.kind}`)))] });
+}
+
+// ================= perfctl: 게임 코드 없는 대조 페이지를 같은 조건(6배, 새 브라우저)으로 — 회차 흔들림이 환경인지 빌드인지 가름 =================
+async function partPerfCtl() {
+  const runs = [];
+  for (let i = 1; i <= 3; i++) {
+    const b = await browser(); const ctx = await b.newContext({ viewport: { width: 360, height: 640 } }); const page = await ctx.newPage();
+    await page.goto(`http://127.0.0.1:${PORT}/projects/tcg-01/tools/qa/perfctl.html`);
+    const cdp = await ctx.newCDPSession(page); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+    await page.evaluate(() => { window.__pf = { t: [], on: true }; const f = (ts) => { if (!window.__pf.on) return; window.__pf.t.push(ts); requestAnimationFrame(f); }; requestAnimationFrame(f); });
+    await sleep(60000);
+    const t = await page.evaluate(() => { window.__pf.on = false; return window.__pf.t; }); await b.close();
+    const d = t.slice(1).map((x, j) => x - t[j]); const s2 = [...d].sort((a, c) => c - a); const n1 = Math.max(1, Math.floor(d.length * 0.01));
+    runs.push({ run: i, frames: d.length, avg_fps: +(d.length / d.reduce((a, c) => a + c, 0) * 1000).toFixed(1), low1_fps: +(1000 / (s2.slice(0, n1).reduce((a, c) => a + c, 0) / n1)).toFixed(1), max_ms: +s2[0].toFixed(1) });
+    console.log(JSON.stringify(runs[runs.length - 1]));
+  }
+  save('perfctl', { runs });
+}
+
+const parts = { perfctl: partPerfCtl, terms: partTerms, uxshots: partUxShots, tut: partTut, resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
 try {
   for (const [k, f] of Object.entries(parts)) if (PART === 'all' || PART.split(',').includes(k)) { console.log(`== ${k}`); await f(); }
 } catch (e) { console.error(e); process.exitCode = 1; } finally { stopAll(); }

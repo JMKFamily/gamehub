@@ -1,0 +1,161 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 347
+ },
+ "summary": {
+  "dom_checked": 0,
+  "dom_old": [],
+  "dom_ban": [],
+  "dom_textOver": [],
+  "dom_clipped": [],
+  "dom_small": [],
+  "tut_runs": 2,
+  "tut_end_before_learn": 0,
+  "tut_cover_target": [],
+  "tut_cover_tokens": [],
+  "tut_again": [
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   }
+  ],
+  "tut_done": [
+   "tut_done",
+   null
+  ],
+  "story_n": 0,
+  "story_err": [],
+  "story_not_open": 0,
+  "story_out_of_view": 0,
+  "story_btn_small": [],
+  "story_close_fail": [],
+  "story_scroll_no_hint": 0,
+  "story_word_over": 0,
+  "story_ban": 0
+ },
+ "dom": [],
+ "tutorial": [
+  {
+   "view": "360x640",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 2,
+     "playable": false
+    },
+    {
+     "step": "tut_wall",
+     "turn": 3,
+     "playable": false
+    },
+    {
+     "step": "tut_defense",
+     "turn": 3,
+     "playable": false
+    }
+   ],
+   "steps": 9,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   "endState": {
+    "result": true,
+    "over": true,
+    "half": 27,
+    "tut": {
+     "seen": 13,
+     "skipped": false,
+     "doneShown": false
+    }
+   }
+  },
+  {
+   "view": "360x640",
+   "mode": "skip",
+   "menuCoach": [
+    "tut_hero"
+   ],
+   "mullCoach": null,
+   "seq": [],
+   "steps": 0,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [],
+   "doneCoach": null,
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0
+   },
+   "endState": {
+    "result": true,
+    "over": true,
+    "half": 12,
+    "tut": {
+     "seen": 1,
+     "skipped": true,
+     "doneShown": false
+    }
+   }
+  }
+ ],
+ "guides": null,
+ "story": [],
+ "battle_story": null
+}

@@ -1,0 +1,137 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 183
+ },
+ "summary": {
+  "dom_checked": 0,
+  "dom_old": [],
+  "dom_ban": [],
+  "dom_textOver": [],
+  "dom_clipped": [],
+  "dom_small": [],
+  "tut_runs": 1,
+  "tut_end_before_learn": 0,
+  "tut_cover_target": [],
+  "tut_cover_tokens": [
+   "412x915:tut_health:1"
+  ],
+  "tut_again": [
+   {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0,
+    "steps": [],
+    "repeated_seen": []
+   }
+  ],
+  "tut_done": [
+   "tut_done"
+  ],
+  "story_n": 0,
+  "story_err": [],
+  "story_not_open": 0,
+  "story_out_of_view": 0,
+  "story_btn_small": [],
+  "story_close_fail": [],
+  "story_scroll_no_hint": 0,
+  "story_word_over": 0,
+  "story_ban": 0
+ },
+ "dom": [],
+ "tutorial": [
+  {
+   "view": "412x915",
+   "mode": "complete",
+   "menuCoach": [
+    "tut_hero",
+    "tut_deck"
+   ],
+   "mullCoach": "tut_mulligan",
+   "seq": [
+    {
+     "step": "tut_mana",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_spell",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_keyword",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_play_creature",
+     "turn": 1,
+     "playable": true
+    },
+    {
+     "step": "tut_board",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_end",
+     "turn": 1,
+     "playable": false
+    },
+    {
+     "step": "tut_attack",
+     "turn": 3,
+     "playable": true
+    },
+    {
+     "step": "tut_ability",
+     "turn": 4,
+     "playable": true
+    },
+    {
+     "step": "tut_defense",
+     "turn": 8,
+     "playable": true
+    },
+    {
+     "step": "tut_health",
+     "turn": 10,
+     "playable": true
+    }
+   ],
+   "steps": 10,
+   "end_before_learn": false,
+   "no_play_turn1": false,
+   "cover_target": [],
+   "cover_tokens": [
+    "tut_health:1"
+   ],
+   "doneCoach": "tut_done",
+   "skipped": false,
+   "again": {
+    "menuCoach": null,
+    "mullCoach": null,
+    "tut_panels": 0,
+    "steps": [],
+    "repeated_seen": []
+   },
+   "endState": {
+    "result": true,
+    "over": true,
+    "half": 30,
+    "tut": {
+     "seen": 14,
+     "skipped": false,
+     "doneShown": false
+    }
+   }
+  }
+ ],
+ "guides": null,
+ "story": [],
+ "battle_story": null
+}

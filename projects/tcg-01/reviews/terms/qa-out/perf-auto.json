@@ -1,0 +1,124 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 467
+ },
+ "rate": 6,
+ "q": "",
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [],
+   "seconds": 118.744,
+   "battle": {
+    "frames": 6969,
+    "avg_fps": 59.1,
+    "low1_fps": 24.1,
+    "max_ms": 166.6,
+    "over_33": 29
+   },
+   "big_moments": {
+    "n": 14,
+    "kinds": [
+     "big_entry",
+     "play_rite",
+     "attack",
+     "attack_motion"
+    ],
+    "frames": 449,
+    "avg_fps": 58.9,
+    "low1_fps": 20,
+    "max_ms": 83.3,
+    "over_33": 2
+   },
+   "menu": {
+    "title→dock(첫 탭)": 383.3,
+    "dock→heroes": 200.1,
+    "heroes→dock": 16.8,
+    "dock→collection": 233.3,
+    "collection→dock": 16.8,
+    "dock→crates": 83.4,
+    "crate open": 83.4,
+    "→market": 100.1,
+    "→decks": 33.3,
+    "dock→heroes→battle(첫 물때)": 966.6
+   }
+  },
+  {
+   "run": 2,
+   "tutorial_steps_shown": [],
+   "seconds": 101.417,
+   "battle": {
+    "frames": 5908,
+    "avg_fps": 58.9,
+    "low1_fps": 22.5,
+    "max_ms": 183.3,
+    "over_33": 31
+   },
+   "big_moments": {
+    "n": 13,
+    "kinds": [
+     "attack",
+     "attack_motion",
+     "big_entry"
+    ],
+    "frames": 338,
+    "avg_fps": 58.8,
+    "low1_fps": 20,
+    "max_ms": 66.8,
+    "over_33": 3
+   },
+   "menu": {
+    "title→dock(첫 탭)": 183.4,
+    "dock→heroes": 183.3,
+    "heroes→dock": 16.8,
+    "dock→collection": 200.1,
+    "collection→dock": 16.8,
+    "dock→crates": 66.5,
+    "crate open": 83.4,
+    "→market": 333.4,
+    "→decks": 83.4,
+    "dock→heroes→battle(첫 물때)": 116.7
+   }
+  },
+  {
+   "run": 3,
+   "tutorial_steps_shown": [],
+   "seconds": 149.78,
+   "battle": {
+    "frames": 8796,
+    "avg_fps": 59.1,
+    "low1_fps": 22.9,
+    "max_ms": 183.3,
+    "over_33": 40
+   },
+   "big_moments": {
+    "n": 2,
+    "kinds": [
+     "attack",
+     "attack_motion"
+    ],
+    "frames": 59,
+    "avg_fps": 54.5,
+    "low1_fps": 10,
+    "max_ms": 100,
+    "over_33": 1
+   },
+   "menu": {
+    "title→dock(첫 탭)": 383.3,
+    "dock→heroes": 183.3,
+    "heroes→dock": 16.8,
+    "dock→collection": 266.7,
+    "collection→dock": 33.3,
+    "dock→crates": 50,
+    "crate open": 33.3,
+    "→market": 266.6,
+    "→decks": 66.6,
+    "dock→heroes→battle(첫 물때)": 433.3
+   }
+  }
+ ]
+}

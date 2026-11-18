@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><title>qa perf control (no game code)</title>
+<style>body{margin:0;background:#0b151b}.b{position:absolute;width:64px;height:90px;background:#2d4552;border:2px solid #f2b544;border-radius:6px}</style></head>
+<body><script>
+// 대조 페이지: 게임 코드 없음. 카드 크기 상자 24개를 transform으로 움직이는 rAF 루프(대전 화면과 비슷한 합성 부하)
+const els=[];for(let i=0;i<24;i++){const d=document.createElement('div');d.className='b';document.body.appendChild(d);els.push(d)}
+function f(t){for(let i=0;i<els.length;i++){els[i].style.transform=`translate(${(i%6)*58+Math.sin(t/400+i)*6}px,${Math.floor(i/6)*140+Math.cos(t/500+i)*6}px)`}requestAnimationFrame(f)}requestAnimationFrame(f);
+window.__ready=true;
+</script></body></html>

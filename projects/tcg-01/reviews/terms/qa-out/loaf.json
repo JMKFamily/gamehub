@@ -1,0 +1,215 @@
+{
+ "secs": 60,
+ "n": 16,
+ "over100": 6,
+ "script_ms": 599,
+ "render_ms": 106,
+ "forced_layout_ms": 2,
+ "by_function": [
+  [
+   "main.js:DOMWindow.onpointerdown",
+   268
+  ],
+  [
+   "main.js:frame",
+   191
+  ],
+  [
+   "main.js:import.then",
+   103
+  ],
+  [
+   "screens.js:SECTION#title.onpointerdown",
+   31
+  ],
+  [
+   "data.js:Response.json.then",
+   6
+  ]
+ ],
+ "top": [
+  {
+   "dur": 513,
+   "block": 332,
+   "render": 1,
+   "scripts": [
+    {
+     "d": 6,
+     "fn": "",
+     "src": "data.js",
+     "inv": "Response.json.then",
+     "forced": 0
+    },
+    {
+     "d": 268,
+     "fn": "",
+     "src": "main.js",
+     "inv": "DOMWindow.onpointerdown",
+     "forced": 0
+    },
+    {
+     "d": 31,
+     "fn": "",
+     "src": "screens.js",
+     "inv": "SECTION#title.onpointerdown",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 477,
+   "block": 239,
+   "render": 1,
+   "scripts": [
+    {
+     "d": 103,
+     "fn": "",
+     "src": "main.js",
+     "inv": "import.then",
+     "forced": 1
+    },
+    {
+     "d": 9,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 348,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 299,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 115,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 107,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 87,
+   "block": 26,
+   "render": 38,
+   "scripts": [
+    {
+     "d": 38,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 75,
+   "block": 0,
+   "render": 1,
+   "scripts": [
+    {
+     "d": 7,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 1
+    }
+   ]
+  },
+  {
+   "dur": 65,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 62,
+   "block": 0,
+   "render": 10,
+   "scripts": [
+    {
+     "d": 38,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 60,
+   "block": 0,
+   "render": 1,
+   "scripts": []
+  },
+  {
+   "dur": 59,
+   "block": 0,
+   "render": 13,
+   "scripts": [
+    {
+     "d": 29,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 57,
+   "block": 0,
+   "render": 9,
+   "scripts": [
+    {
+     "d": 21,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 54,
+   "block": 0,
+   "render": 13,
+   "scripts": [
+    {
+     "d": 26,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  },
+  {
+   "dur": 50,
+   "block": 0,
+   "render": 12,
+   "scripts": [
+    {
+     "d": 23,
+     "fn": "frame",
+     "src": "main.js",
+     "inv": "FrameRequestCallback",
+     "forced": 0
+    }
+   ]
+  }
+ ]
+}

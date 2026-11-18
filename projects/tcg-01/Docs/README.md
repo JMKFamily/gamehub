@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | qa-engineer | terms | [용어·튜토리얼·스토리·UX QA: 텍스트·흐름 거의 통과, 6배 대전 1% low 회귀 major, 기술 6.5 REVISE](qa-engineer/2026-11-18-terms-qa.md) |
 | 2026-11-18 | lore-writer | 검수 피드백 | [카드 스토리 200장(세력별 이야기 줄기 7개)](lore-writer/2026-11-18-card-stories.md) |
 | 2026-11-18 | game-developer | 용어·UX | [용어 쉽게·튜토리얼식 안내·카드 유형 한눈 구분 구현](game-developer/2026-11-18-terms-ux.md) |
 | 2026-11-18 | art-director | UX·용어 | [카드 유형 한눈 구분(색·모양·무늬, 색약 3종)·불가 피드백·튜토리얼 자리 + 새 용어 반영](art-director/2026-11-18-ux-terms.md) |

@@ -1,0 +1,264 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 496
+ },
+ "shots": [
+  {
+   "file": "ux-01.png",
+   "view": "board_hand",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-02.png",
+   "view": "board_hand",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-03.png",
+   "view": "board_hand",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-04.png",
+   "view": "board_hand",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-05.png",
+   "view": "hand_spread",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-06.png",
+   "view": "hand_spread",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-07.png",
+   "view": "hand_spread",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-08.png",
+   "view": "hand_spread",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-09.png",
+   "view": "zoom",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-10.png",
+   "view": "zoom",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-11.png",
+   "view": "zoom",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-12.png",
+   "view": "zoom",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-13.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-14.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-15.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-16.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-17.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-18.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-19.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-20.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-21.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-22.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-23.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-24.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-25.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-26.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-27.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-28.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-29.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-30.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-31.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-32.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-33.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-34.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-35.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-36.png",
+   "view": "detail",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-37.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-38.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-39.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-40.png",
+   "view": "detail",
+   "cvd": "tritan"
+  }
+ ],
+ "cards_per_image": {
+  "ux-01.png": 8,
+  "ux-02.png": 8,
+  "ux-03.png": 8,
+  "ux-04.png": 8,
+  "ux-05.png": 8,
+  "ux-06.png": 8,
+  "ux-07.png": 8,
+  "ux-08.png": 8,
+  "ux-09.png": 9,
+  "ux-10.png": 9,
+  "ux-11.png": 9,
+  "ux-12.png": 9,
+  "ux-13.png": 1,
+  "ux-14.png": 1,
+  "ux-15.png": 1,
+  "ux-16.png": 1,
+  "ux-17.png": 1,
+  "ux-18.png": 1,
+  "ux-19.png": 1,
+  "ux-20.png": 1,
+  "ux-21.png": 1,
+  "ux-22.png": 1,
+  "ux-23.png": 1,
+  "ux-24.png": 1,
+  "ux-25.png": 1,
+  "ux-26.png": 1,
+  "ux-27.png": 1,
+  "ux-28.png": 1,
+  "ux-29.png": 1,
+  "ux-30.png": 1,
+  "ux-31.png": 1,
+  "ux-32.png": 1,
+  "ux-33.png": 1,
+  "ux-34.png": 1,
+  "ux-35.png": 1,
+  "ux-36.png": 1,
+  "ux-37.png": 1,
+  "ux-38.png": 1,
+  "ux-39.png": 1,
+  "ux-40.png": 1
+ },
+ "combos": [
+  "buff|minion",
+  "debuff|spell",
+  "buff|spell",
+  "draw|spell",
+  "atkdraw|weapon",
+  "debuff|minion",
+  "atkdraw|minion",
+  "strike|spell",
+  "strike|minion"
+ ]
+}
