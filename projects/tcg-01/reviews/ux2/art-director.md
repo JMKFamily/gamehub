@@ -63,3 +63,11 @@
   - 로비 구역
   - 튜토리얼 띠
   - 덱 첫 화면 1차 버튼 수 ≤ 3
+
+## 추가 (lore 확정 반영)
+- 상대 실력은 **4단계 그림 카드 2×2**로 바꿨습니다(`ux2.difficulty.levels`, 키 `ai_tier_1~4_name/sub`·`ai_tier_locked`). 기본은 1단계이고, 잠긴 단계는 어둡게 + 자물쇠.
+- 월드맵은 `lore/worldmap.json`(지역 8·노드 30)을 직접 그립니다(`worldmapSVG(wm)`).
+  - 지도 900×1100, 두 방향 스크롤.
+  - 노드 상태 4가지: cleared / current / open / locked.
+  - 흑조의 균열은 열리기 전까지 안개로 덮습니다.
+  - 길: order 1 → `unlock.prev`(시장 1), order k → k−1.

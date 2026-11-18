@@ -222,8 +222,9 @@ put(SM, 'ux2-deck-tutorial-4.svg', X.deckTutorialStripSVG());
 put(SM, 'ux2-collection-card.svg', X.collectionCardSVG(byId('B003'), false));
 put(SM, 'ux2-collection-story.svg', X.collectionCardSVG(byId('B003'), true));
 for (const m of ['one', 'next', 'all']) put(SM, `ux2-pack-${m}.svg`, X.packOpenSVG(m, byId));
-put(SM, 'ux2-worldmap.svg', X.worldmapSVG());
-put(SM, 'ux2-worldmap-full.svg', X.worldmapSVG(undefined, 360, 640, true));
+const WM = JSON.parse(readFileSync(join(PROJ, 'lore', 'worldmap.json'), 'utf8'));
+put(SM, 'ux2-worldmap.svg', X.worldmapSVG(WM));
+put(SM, 'ux2-worldmap-full.svg', X.worldmapSVG(WM, 360, 640, true));
 { // 촛불 HUD 목업: 상태 5종 + 줄 + 비용 촛불 + 카드 낼 때 꺼지는 순서
   const st = ['lit', 'spent', 'spare', 'soot', 'empty'], KO = ['켜짐', '씀(연기)', '여분 심지', '그을음', '빈 자리'], q = [`<rect width="360" height="400" fill="${U.bg_abyss}"/>`];
   st.forEach((s, i) => q.push(nest(A.candleSVG(s, 40, 96), 16 + i * 68, 16, 40, 96), `<text x="${36 + i * 68}" y="${128}" text-anchor="middle" font-size="11" fill="${U.salt_white}" ${A.FONT}>${KO[i]}</text>`));
@@ -244,7 +245,7 @@ const art = {
   layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
   story_panel: S.storyPanel,
-  ux2: { ...X.UX2, lobby_rects_px: ux2.lobby, lobby_errs: ux2.errs, worldmap_regions: X.REGIONS, worldmap_nodes_placeholder: X.defaultNodes(), candle: S.candle },
+  ux2: { ...X.UX2, lobby_rects_px: ux2.lobby, lobby_errs: ux2.errs, worldmap_source: 'lore/worldmap.json(지역 8·노드 30, 좌표 0~100 → 지도 900×1100)', worldmap_canvas_px: [X.MAP_W, X.MAP_H], candle: S.candle },
   ux_fan: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, v.fan])),
   ux: { families: S.cardFamilies, debuff_branches: S.DEBUFF_BRANCHES, branch_glyph: S.branchGlyph, kinds: S.cardKinds, badge: S.badge, hierarchy: S.hierarchy, deny_feedback: S.denyFeedback, hand_compare: S.handCompare, tutorial_ui: S.tutorialUi, tutorial_layout: tutorial, cvd_min_dE: cvd, cvd_threshold_dE: CVD_MIN, family_rule: 'familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff' },
   assets: written.sort(),

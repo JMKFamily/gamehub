@@ -2729,26 +2729,45 @@
   "difficulty": {
    "levels": [
     {
-     "id": "easy",
-     "ko": "쉬움",
-     "art": "잔잔한 소금 평원 + 작은 물결 1",
+     "id": "tier1",
+     "name_key": "ai_tier_1_name",
+     "sub_key": "ai_tier_1_sub",
+     "ko": "모래 위 견습",
+     "sub": "쉬움 · 처음이라면 여기부터",
+     "art": "잔잔한 소금 평원 + 물결 1",
      "ring": "#6EE7A8",
      "default": true
     },
     {
-     "id": "normal",
-     "ko": "보통",
-     "art": "바람 부는 사구 + 물결 2",
+     "id": "tier2",
+     "name_key": "ai_tier_2_name",
+     "sub_key": "ai_tier_2_sub",
+     "ko": "시장 결투꾼",
+     "sub": "보통",
+     "art": "시장 천막 + 물결 2",
      "ring": "#FFD166"
     },
     {
-     "id": "hard",
-     "ko": "어려움",
-     "art": "솟는 흑조 + 물결 3",
-     "ring": "#FF6F5E"
+     "id": "tier3",
+     "name_key": "ai_tier_3_name",
+     "sub_key": "ai_tier_3_sub",
+     "ko": "소금 노장",
+     "sub": "어려움",
+     "art": "바람 사구 + 물결 3",
+     "ring": "#FF9A4D"
+    },
+    {
+     "id": "tier4",
+     "name_key": "ai_tier_4_name",
+     "sub_key": "ai_tier_4_sub",
+     "ko": "흑조의 그림자",
+     "sub": "매우 어려움",
+     "art": "솟는 흑조 + 물결 4",
+     "ring": "#FF6F5E",
+     "locked_in_mock": true
     }
    ],
-   "note": "단계 수·AI 강도는 balance(20-balance·balance.json). 기본 선택 = 쉬움. 그림 카드 3장, 선택 = 4 px 테두리 + 1.06배"
+   "note": "2×2 그림 카드 4장, 기본 선택 = 1단계(쉬움). 선택 = 4 px 테두리. 잠긴 단계 = 어둡게 + 자물쇠 + ai_tier_locked 글. AI 강도는 balance"
   },
   "deck_tutorial": {
    "cards": 4,
@@ -3268,167 +3287,10 @@
    }
   },
   "lobby_errs": [],
-  "worldmap_regions": [
-   {
-    "id": "fogbelt",
-    "ko": "안개 띠",
-    "y": 0.06,
-    "x": 0.5,
-    "kind": "fog"
-   },
-   {
-    "id": "saltcrown",
-    "ko": "염관 고원",
-    "y": 0.18,
-    "x": 0.28,
-    "kind": "cliff"
-   },
-   {
-    "id": "reddunes",
-    "ko": "붉은 사구",
-    "y": 0.32,
-    "x": 0.72,
-    "kind": "dune"
-   },
-   {
-    "id": "lamplit",
-    "ko": "등불 서고",
-    "y": 0.45,
-    "x": 0.3,
-    "kind": "towers"
-   },
-   {
-    "id": "bare",
-    "ko": "노해",
-    "y": 0.58,
-    "x": 0.62,
-    "kind": "flat"
-   },
-   {
-    "id": "rustribs",
-    "ko": "녹슨 갈비뼈",
-    "y": 0.72,
-    "x": 0.3,
-    "kind": "wrecks"
-   },
-   {
-    "id": "drownedloft",
-    "ko": "잠긴 성가대",
-    "y": 0.88,
-    "x": 0.6,
-    "kind": "trench"
-   }
-  ],
-  "worldmap_nodes_placeholder": [
-   {
-    "id": "n1",
-    "region": "fogbelt",
-    "title": "안개 띠 1장",
-    "state": "cleared"
-   },
-   {
-    "id": "n2",
-    "region": "fogbelt",
-    "title": "안개 띠 2장",
-    "state": "cleared"
-   },
-   {
-    "id": "n3",
-    "region": "saltcrown",
-    "title": "염관 고원 1장",
-    "state": "cleared"
-   },
-   {
-    "id": "n4",
-    "region": "saltcrown",
-    "title": "염관 고원 2장",
-    "state": "cleared"
-   },
-   {
-    "id": "n5",
-    "region": "saltcrown",
-    "title": "염관 고원 3장",
-    "state": "cleared"
-   },
-   {
-    "id": "n6",
-    "region": "reddunes",
-    "title": "붉은 사구 1장",
-    "state": "cleared"
-   },
-   {
-    "id": "n7",
-    "region": "reddunes",
-    "title": "붉은 사구 2장",
-    "state": "current"
-   },
-   {
-    "id": "n8",
-    "region": "lamplit",
-    "title": "등불 서고 1장",
-    "state": "locked"
-   },
-   {
-    "id": "n9",
-    "region": "lamplit",
-    "title": "등불 서고 2장",
-    "state": "locked"
-   },
-   {
-    "id": "n10",
-    "region": "lamplit",
-    "title": "등불 서고 3장",
-    "state": "locked"
-   },
-   {
-    "id": "n11",
-    "region": "bare",
-    "title": "노해 1장",
-    "state": "locked"
-   },
-   {
-    "id": "n12",
-    "region": "bare",
-    "title": "노해 2장",
-    "state": "locked"
-   },
-   {
-    "id": "n13",
-    "region": "rustribs",
-    "title": "녹슨 갈비뼈 1장",
-    "state": "locked"
-   },
-   {
-    "id": "n14",
-    "region": "rustribs",
-    "title": "녹슨 갈비뼈 2장",
-    "state": "locked"
-   },
-   {
-    "id": "n15",
-    "region": "rustribs",
-    "title": "녹슨 갈비뼈 3장",
-    "state": "locked"
-   },
-   {
-    "id": "n16",
-    "region": "drownedloft",
-    "title": "잠긴 성가대 1장",
-    "state": "locked"
-   },
-   {
-    "id": "n17",
-    "region": "drownedloft",
-    "title": "잠긴 성가대 2장",
-    "state": "locked"
-   },
-   {
-    "id": "final",
-    "region": "drownedloft",
-    "title": "흑조의 이름",
-    "state": "locked",
-    "final": true
-   }
+  "worldmap_source": "lore/worldmap.json(지역 8·노드 30, 좌표 0~100 → 지도 900×1100)",
+  "worldmap_canvas_px": [
+   900,
+   1100
   ],
   "candle": {
    "states": {

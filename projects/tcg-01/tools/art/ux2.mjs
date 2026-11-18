@@ -23,11 +23,13 @@ export const UX2 = {
   battle_button: { min_w_px: 160, h_px: 72, fill: ui.button_primary, ink: ui.button_primary_ink, pulse_ms: 1800 },
   difficulty: {
     levels: [
-      { id: 'easy', ko: '쉬움', art: '잔잔한 소금 평원 + 작은 물결 1', ring: '#6EE7A8', default: true },
-      { id: 'normal', ko: '보통', art: '바람 부는 사구 + 물결 2', ring: '#FFD166' },
-      { id: 'hard', ko: '어려움', art: '솟는 흑조 + 물결 3', ring: '#FF6F5E' },
+      // 이름·부제 = 10-lore ai_tier_1~4_name/sub (2026-11-19 lore 확정, 4단계)
+      { id: 'tier1', name_key: 'ai_tier_1_name', sub_key: 'ai_tier_1_sub', ko: '모래 위 견습', sub: '쉬움 · 처음이라면 여기부터', art: '잔잔한 소금 평원 + 물결 1', ring: '#6EE7A8', default: true },
+      { id: 'tier2', name_key: 'ai_tier_2_name', sub_key: 'ai_tier_2_sub', ko: '시장 결투꾼', sub: '보통', art: '시장 천막 + 물결 2', ring: '#FFD166' },
+      { id: 'tier3', name_key: 'ai_tier_3_name', sub_key: 'ai_tier_3_sub', ko: '소금 노장', sub: '어려움', art: '바람 사구 + 물결 3', ring: '#FF9A4D' },
+      { id: 'tier4', name_key: 'ai_tier_4_name', sub_key: 'ai_tier_4_sub', ko: '흑조의 그림자', sub: '매우 어려움', art: '솟는 흑조 + 물결 4', ring: '#FF6F5E', locked_in_mock: true },
     ],
-    note: '단계 수·AI 강도는 balance(20-balance·balance.json). 기본 선택 = 쉬움. 그림 카드 3장, 선택 = 4 px 테두리 + 1.06배',
+    note: '2×2 그림 카드 4장, 기본 선택 = 1단계(쉬움). 선택 = 4 px 테두리. 잠긴 단계 = 어둡게 + 자물쇠 + ai_tier_locked 글. AI 강도는 balance',
   },
   deck_tutorial: { cards: 4, center_band: [0.35, 0.65], pages: ['덱 = 카드 30장', '같은 카드는 2장(전설 1장)', '유형 비율 막대', '필터로 찾기'] },
   collection: { default: 'full_card_with_text', story_open: { card_shift: 'left', card_w_ratio_portrait: 0.46, panel_w_ratio_portrait: 0.5, move_ms: 220 } },
@@ -165,20 +167,19 @@ function tutPanel(w, h, b, text, page, pages) {
 function body2(b, text) { return text.map((t, i) => T(b.x + 16, b.y + 26 + i * 18, t, 13, ui.salt_white)).join(''); }
 
 export function battleSelectSVG(w = 360, h = 640) {
-  const p = [], L = UX2.difficulty.levels, cw = (w - 16 - 2 * 10) / 3, ch = cw * 1.5, y = 230;
-  p.push(T(w / 2, 86, '상대 실력을 고르세요', 16, ui.salt_white, 'middle', 700), nest(A.heroSVG('h_warden'), w / 2 - 60, 100, 50, 60), T(w / 2 - 2, 136, 'vs', 14, ui.salt_dim, 'middle', 700), nest(A.heroSVG('h_choir'), w / 2 + 10, 100, 50, 60));
+  const p = [], L = UX2.difficulty.levels, cw = (w - 16 - 10) / 2, ch = 168;
+  p.push(T(w / 2, 82, '상대 실력을 고르세요', 16, ui.salt_white, 'middle', 700), nest(A.heroSVG('h_warden'), w / 2 - 58, 92, 46, 54), T(w / 2, 124, 'vs', 13, ui.salt_dim, 'middle', 700), nest(A.heroSVG('h_choir'), w / 2 + 12, 92, 46, 54));
   L.forEach((lv, i) => {
-    const x = 8 + i * (cw + 10), sel = lv.default, sc = sel ? 1.06 : 1, bx = x - (cw * (sc - 1)) / 2, by = y - (ch * (sc - 1)) / 2, bw = cw * sc, bh = ch * sc;
-    p.push(`<path d="M${bx} ${by}H${bx + bw - 12}L${bx + bw} ${by + 12}V${by + bh}H${bx}Z" fill="${ui.bg_panel}" stroke="${sel ? lv.ring : ui.line_soft}" stroke-width="${sel ? 4 : 2}"/>`);
-    const ax = bx + 8, ay = by + 10, aw = bw - 16, ah = bh * 0.55, waves = i + 1;
-    p.push(`<rect x="${ax}" y="${ay}" width="${aw}" height="${ah}" fill="${i === 2 ? '#0A1218' : '#1B2A31'}"/>`);
-    p.push(`<path d="M${ax} ${ay + ah * 0.6}H${ax + aw}" stroke="${ui.salt_dim}" stroke-opacity=".5"/>`);
-    for (let k = 0; k < waves; k++) p.push(`<path d="M${ax + 6} ${ay + ah * (0.85 - k * 0.16)}Q${ax + aw * 0.3} ${ay + ah * (0.85 - k * 0.16) - 8 - i * 4} ${ax + aw * 0.55} ${ay + ah * (0.85 - k * 0.16)}T${ax + aw - 6} ${ay + ah * (0.85 - k * 0.16)}" fill="none" stroke="${i === 2 ? '#4DE0FF' : ui.salt_white}" stroke-width="${2 + i}" stroke-linecap="round"/>`);
-    p.push(T(bx + bw / 2, by + bh * 0.74, lv.ko, 18, sel ? lv.ring : ui.salt_white, 'middle', 800));
-    p.push(...Array.from({ length: 3 }, (_, k) => `<circle cx="${bx + bw / 2 - 12 + k * 12}" cy="${by + bh * 0.86}" r="4" fill="${k <= i ? lv.ring : ui.wick_spent}"/>`));
-    if (sel) p.push(T(bx + bw / 2, by + bh + 18, '추천 · 처음엔 여기부터', 10, lv.ring, 'middle', 700));
+    const x = 8 + (i % 2) * (cw + 10), y = 160 + Math.floor(i / 2) * (ch + 14), sel = lv.default, lock = lv.locked_in_mock;
+    p.push(`<path d="M${x} ${y}H${x + cw - 12}L${x + cw} ${y + 12}V${y + ch}H${x}Z" fill="${ui.bg_panel}" stroke="${sel ? lv.ring : ui.line_soft}" stroke-width="${sel ? 4 : 2}"/>`);
+    const ax = x + 8, ay = y + 8, aw = cw - 16, ah = ch * 0.5;
+    p.push(`<rect x="${ax}" y="${ay}" width="${aw}" height="${ah}" fill="${i === 3 ? '#070D12' : '#1B2A31'}"/><path d="M${ax} ${ay + ah * 0.55}H${ax + aw}" stroke="${ui.salt_dim}" stroke-opacity=".4"/>`);
+    for (let k = 0; k <= i; k++) p.push(`<path d="M${ax + 8} ${ay + ah * (0.88 - k * 0.15)}Q${ax + aw * 0.3} ${ay + ah * (0.88 - k * 0.15) - 6 - i * 4} ${ax + aw * 0.55} ${ay + ah * (0.88 - k * 0.15)}T${ax + aw - 8} ${ay + ah * (0.88 - k * 0.15)}" fill="none" stroke="${i === 3 ? '#4DE0FF' : ui.salt_white}" stroke-width="${2 + i * 0.8}" stroke-linecap="round" opacity="${0.6 + k * 0.1}"/>`);
+    if (i === 1) p.push(`<path d="M${ax + aw * 0.3} ${ay + ah * 0.5}L${ax + aw * 0.4} ${ay + ah * 0.25}L${ax + aw * 0.5} ${ay + ah * 0.5}ZM${ax + aw * 0.5} ${ay + ah * 0.5}L${ax + aw * 0.6} ${ay + ah * 0.28}L${ax + aw * 0.7} ${ay + ah * 0.5}Z" fill="#8A5A2E" stroke="#2A1D12"/>`);
+    p.push(T(x + cw / 2, y + ch * 0.68, lv.ko, 15, lock ? ui.salt_dim : sel ? lv.ring : ui.salt_white, 'middle', 800), T(x + cw / 2, y + ch * 0.8, lv.sub, 11, ui.salt_dim, 'middle'));
+    p.push(...Array.from({ length: 4 }, (_, k) => `<circle cx="${x + cw / 2 - 18 + k * 12}" cy="${y + ch * 0.9}" r="4" fill="${k <= i ? lv.ring : ui.wick_spent}"/>`));
+    if (lock) p.push(`<path d="M${x} ${y}H${x + cw - 12}L${x + cw} ${y + 12}V${y + ch}H${x}Z" fill="#000" opacity=".5"/><rect x="${x + cw / 2 - 12}" y="${y + ch * 0.28}" width="24" height="18" rx="3" fill="${ui.salt_dim}"/><path d="M${x + cw / 2 - 7} ${y + ch * 0.28}V${y + ch * 0.22}A7 7 0 0 1 ${x + cw / 2 + 7} ${y + ch * 0.22}V${y + ch * 0.28}" fill="none" stroke="${ui.salt_dim}" stroke-width="3"/>`, T(x + cw / 2, y + ch * 0.58, '앞 단계를 이기면 열립니다', 10, ui.salt_white, 'middle'));
   });
-  p.push(T(w / 2, 520, '쉬움에서 이기면 보통이 열립니다', 12, ui.salt_dim, 'middle'));
   return frame(w, h, '전투', p.join(''), '시작');
 }
 
@@ -254,60 +255,49 @@ export function packOpenSVG(mode, byId, w = 360, h = 640) {
   return frame(w, h, '카드 팩', p.join(''), null);
 }
 
-// ───────── 월드맵 ─────────
-export const REGIONS = [ // 10-lore 2-3 지리. y는 지도 높이 비율(위 = 옛 해안, 아래 = 가장 깊은 해구)
-  { id: 'fogbelt', ko: '안개 띠', y: 0.06, x: 0.5, kind: 'fog' },
-  { id: 'saltcrown', ko: '염관 고원', y: 0.18, x: 0.28, kind: 'cliff' },
-  { id: 'reddunes', ko: '붉은 사구', y: 0.32, x: 0.72, kind: 'dune' },
-  { id: 'lamplit', ko: '등불 서고', y: 0.45, x: 0.3, kind: 'towers' },
-  { id: 'bare', ko: '노해', y: 0.58, x: 0.62, kind: 'flat' },
-  { id: 'rustribs', ko: '녹슨 갈비뼈', y: 0.72, x: 0.3, kind: 'wrecks' },
-  { id: 'drownedloft', ko: '잠긴 성가대', y: 0.88, x: 0.6, kind: 'trench' },
-];
-export function defaultNodes() { // lore 목록이 오기 전 자리 채움: 지역마다 2~3장 + 마지막 흑조
-  const out = []; let k = 0;
-  REGIONS.forEach((g, i) => { const n = i === 6 ? 2 : i % 2 ? 3 : 2; for (let j = 0; j < n; j++) out.push({ id: `n${++k}`, region: g.id, title: `${g.ko} ${j + 1}장`, state: k <= 6 ? 'cleared' : k === 7 ? 'current' : 'locked' }); });
-  out.push({ id: 'final', region: 'drownedloft', title: '흑조의 이름', state: 'locked', final: true });
-  return out;
+// ───────── 월드맵 (2026-11-19: lore/worldmap.json 지역 8·노드 30·좌표 0~100) ─────────
+// 지도 캔버스 = MAP_W × MAP_H(두 방향 스크롤). 화면은 현재 노드를 가운데로 잘라 보임
+export const MAP_W = 900, MAP_H = 1100;
+const RART = {
+  bare: (x, y) => `<ellipse cx="${x}" cy="${y}" rx="120" ry="70" fill="${ui.card_plate}" opacity=".14"/>${[0, 1, 2, 3, 4].map((k) => { const a = (k / 5) * Math.PI * 2; return `<path d="M${x + Math.cos(a) * 60 - 12} ${y + Math.sin(a) * 34 + 10}L${x + Math.cos(a) * 60} ${y + Math.sin(a) * 34 - 12}L${x + Math.cos(a) * 60 + 12} ${y + Math.sin(a) * 34 + 10}Z" fill="#8C7F62" stroke="#2A1D12"/>`; }).join('')}<path d="M${x - 26} ${y + 70}Q${x} ${y + 20} ${x + 26} ${y + 70}" fill="none" stroke="${ui.card_plate}" stroke-width="7" opacity=".8"/>`,
+  warden: (x, y) => `<rect x="${x - 90}" y="${y - 60}" width="180" height="120" fill="none" stroke="#7590A0" stroke-width="10"/><ellipse cx="${x}" cy="${y}" rx="60" ry="34" fill="#2E6F8F" opacity=".85"/><rect x="${x - 10}" y="${y + 52}" width="20" height="16" fill="#1E2E38"/>`,
+  rider: (x, y) => [0, 1, 2, 3].map((k) => `<path d="M${x - 110 + k * 50} ${y + 40 - (k % 2) * 20}Q${x - 70 + k * 50} ${y - 30 - (k % 2) * 20} ${x - 30 + k * 50} ${y + 40 - (k % 2) * 20}Z" fill="#B5502E" opacity="${0.65 - k * 0.08}"/>`).join(''),
+  wreck: (x, y) => [0, 1, 2, 3, 4].map((k) => `<path d="M${x - 110 + k * 50} ${y + 40}Q${x - 90 + k * 50} ${y - 40} ${x - 70 + k * 50} ${y + 40}" fill="none" stroke="#C4642E" stroke-width="7" opacity=".75"/>`).join('') + `<rect x="${x + 70}" y="${y - 60}" width="12" height="40" fill="#3A2A1E"/>`,
+  choir: (x, y) => `<path d="M${x - 200} ${y - 40}Q${x} ${y + 50} ${x + 200} ${y - 40}V${y + 140}H${x - 200}Z" fill="#05090D"/><path d="M${x - 40} ${y + 10}V${y - 50}L${x - 20} ${y - 70}L${x} ${y - 50}V${y + 10}Z" fill="#1F3B39" transform="rotate(-8 ${x - 20} ${y})"/><ellipse cx="${x + 40}" cy="${y + 20}" rx="34" ry="10" fill="#226A65"/>`,
+  archive: (x, y) => [0, 1, 2, 3, 4, 5, 6].map((k) => `<rect x="${x - 80 + k * 24}" y="${y - 50 + (k % 2) * 16}" width="12" height="${60 - (k % 2) * 16}" fill="#3A2F22"/><circle cx="${x - 74 + k * 24}" cy="${y - 54 + (k % 2) * 16}" r="5" fill="${ui.wick_flame}"/>`).join('') + `<path d="M${x - 80} ${y + 6}H${x + 90}" stroke="#3A2F22" stroke-width="4"/>`,
+  nameless: (x, y) => `<g opacity=".55">${[0, 1, 2, 3].map((k) => `<path d="M${x - 130 + k * 20} ${y - 40 + k * 22}H${x + 110 - k * 14}" stroke="#A9BCC6" stroke-width="14" stroke-linecap="round"/>`).join('')}</g><rect x="${x + 30}" y="${y - 20}" width="24" height="16" fill="none" stroke="${ui.salt_white}" stroke-width="2"/>`,
+  rift: (x, y, locked) => `<path d="M${x - 70} ${y - 30}L${x - 30} ${y - 6}L${x - 46} ${y + 20}L${x + 6} ${y + 8}L${x + 30} ${y + 36}L${x + 70} ${y + 16}" fill="none" stroke="#05090D" stroke-width="12" stroke-linejoin="round"/><path d="M${x - 70} ${y - 30}L${x - 30} ${y - 6}L${x - 46} ${y + 20}L${x + 6} ${y + 8}L${x + 30} ${y + 36}L${x + 70} ${y + 16}" fill="none" stroke="#4DE0FF" stroke-width="2" opacity=".8"/>${locked ? `<g opacity=".85"><ellipse cx="${x}" cy="${y + 4}" rx="110" ry="54" fill="#8F969C" opacity=".55"/><ellipse cx="${x + 20}" cy="${y - 10}" rx="80" ry="34" fill="#AEB9BD" opacity=".4"/></g>` : ''}`,
+};
+// 노드 상태(목업용): 시장 1~4 지남, 파수단 1 지남·2 = 지금, 다른 세력 1장 열림, 나머지 잠김. 빌드는 저장값으로 정함
+export function worldmapData(wm) {
+  const riftMax = Math.max(...wm.nodes.filter((q) => q.region === 'rift').map((q) => q.order));
+  return wm.nodes.map((n) => ({ ...n, state: n.region === 'bare' || n.id === 'wm_warden_1' ? 'cleared' : n.id === 'wm_warden_2' ? 'current' : n.order === 1 && n.region !== 'rift' ? 'open' : 'locked', final: n.region === 'rift' && n.order === riftMax }));
 }
-export function worldmapSVG(nodes = defaultNodes(), w = 360, h = 640, fullMap = false) {
-  const MH = Math.round(h * 2.6), p = [];
-  p.push(`<defs><linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A3A40"/><stop offset=".55" stop-color="#1B2A31"/><stop offset="1" stop-color="#05090D"/></linearGradient></defs><rect width="${w}" height="${MH}" fill="url(#sea)"/>`);
-  // 소금 지형: 등고선 같은 흰 줄, 지역별 그림
-  for (let i = 0; i < 26; i++) { const y = (i / 26) * MH; p.push(`<path d="M0 ${y}Q${w * 0.3} ${y - 14 + (i % 3) * 10} ${w * 0.6} ${y + 6}T${w} ${y - 4}" fill="none" stroke="${ui.salt_white}" stroke-opacity="${0.05 + (i % 4) * 0.015}" stroke-width="1"/>`); }
-  for (const g of REGIONS) {
-    const cx = g.x * w, cy = g.y * MH;
-    const art = {
-      fog: `<g opacity=".45">${[0, 1, 2].map((k) => `<path d="M${cx - 150 + k * 30} ${cy + k * 14}H${cx + 120 - k * 20}" stroke="#A9BCC6" stroke-width="10" stroke-linecap="round"/>`).join('')}</g>`,
-      cliff: `<path d="M${cx - 110} ${cy + 40}L${cx - 80} ${cy - 20}H${cx + 60}L${cx + 100} ${cy + 40}Z" fill="#3A4B52" stroke="${ui.salt_white}" stroke-opacity=".4"/><ellipse cx="${cx - 10}" cy="${cy - 8}" rx="34" ry="10" fill="#2E6F8F" opacity=".8"/>`,
-      dune: [0, 1, 2].map((k) => `<path d="M${cx - 120 + k * 40} ${cy + 30 - k * 10}Q${cx - 70 + k * 40} ${cy - 20 - k * 10} ${cx - 20 + k * 40} ${cy + 30 - k * 10}Z" fill="#8A5A2E" opacity="${0.6 - k * 0.1}"/>`).join(''),
-      towers: [0, 1, 2, 3, 4, 5, 6].map((k) => `<rect x="${cx - 90 + k * 26}" y="${cy - 30 + (k % 2) * 10}" width="10" height="${40 - (k % 2) * 10}" fill="#3A2F22"/><circle cx="${cx - 85 + k * 26}" cy="${cy - 34 + (k % 2) * 10}" r="4" fill="${ui.wick_flame}"/>`).join(''),
-      flat: `<ellipse cx="${cx}" cy="${cy}" rx="140" ry="40" fill="${ui.card_plate}" opacity=".12"/>`,
-      wrecks: [0, 1, 2, 3].map((k) => `<path d="M${cx - 100 + k * 50} ${cy + 20}Q${cx - 80 + k * 50} ${cy - 30} ${cx - 60 + k * 50} ${cy + 20}" fill="none" stroke="#C4642E" stroke-width="5" opacity=".7"/>`).join(''),
-      trench: `<path d="M0 ${cy - 30}Q${w * 0.3} ${cy + 40} ${w * 0.6} ${cy - 10}T${w} ${cy + 20}V${MH}H0Z" fill="#05090D"/><path d="M0 ${cy - 30}Q${w * 0.3} ${cy + 40} ${w * 0.6} ${cy - 10}T${w} ${cy + 20}" fill="none" stroke="#4DE0FF" stroke-width="3" stroke-opacity=".7"/>`,
-    }[g.kind];
-    p.push(art, T(g.kind === 'trench' ? 16 : Math.min(w - 90, Math.max(12, cx - 40)), cy - 46, g.ko, 13, ui.salt_white, 'start', 700));
-  }
-  // 노드 자리: 지역 중심 둘레에 지그재그로
-  const pos = []; const byR = {};
-  nodes.forEach((n) => { (byR[n.region] = byR[n.region] || []).push(n); });
-  for (const g of REGIONS) (byR[g.id] || []).forEach((n, j, arr) => { const cx = g.x * w + (j - (arr.length - 1) / 2) * 70, cy = g.y * MH + 26 + (j % 2) * 26 + (n.final ? 60 : 0); pos.push({ n, x: Math.max(40, Math.min(w - 40, cx)), y: cy }); });
-  pos.sort((a, b) => a.y - b.y);
-  // 길
-  for (let i = 1; i < pos.length; i++) { const a = pos[i - 1], b = pos[i], done = a.n.state !== 'locked' && b.n.state !== 'locked'; p.push(`<path d="M${a.x} ${a.y}Q${(a.x + b.x) / 2 + (i % 2 ? 30 : -30)} ${(a.y + b.y) / 2} ${b.x} ${b.y}" fill="none" stroke="${done ? ui.salt_white : UX2.worldmap.locked}" stroke-width="${UX2.worldmap.path_px}" stroke-dasharray="${done ? '0' : '8 8'}" stroke-linecap="round" opacity="${done ? 0.85 : 0.7}"/>`); }
-  // 노드
-  const R = UX2.worldmap.node_px / 2;
-  for (const { n, x, y } of pos) {
-    if (n.state === 'current') p.push(`<circle cx="${x}" cy="${y}" r="${UX2.worldmap.current_ring_px / 2}" fill="none" stroke="${ui.focus}" stroke-width="4"/>`);
-    p.push(`<path d="M${x - R} ${y - R}H${x + R - 8}L${x + R} ${y - R + 8}V${y + R}H${x - R}Z" fill="${n.state === 'cleared' ? ui.card_plate : n.state === 'current' ? ui.button_primary : '#24343B'}" stroke="${n.final ? '#4DE0FF' : ui.stat_tab}" stroke-width="${n.final ? 3 : 2}"/>`);
+export function worldmapSVG(wm, w = 360, h = 640, fullMap = false) {
+  const nodes = worldmapData(wm), X = (v) => (v / 100) * MAP_W, Y = (v) => (v / 100) * MAP_H, p = [];
+  const riftLocked = !nodes.some((n) => n.region === 'rift' && n.state !== 'locked');
+  p.push(`<defs><radialGradient id="seabed" cx=".5" cy=".5" r=".7"><stop offset="0" stop-color="#2A3A40"/><stop offset=".7" stop-color="#1B2A31"/><stop offset="1" stop-color="#0B151B"/></radialGradient></defs><rect width="${MAP_W}" height="${MAP_H}" fill="url(#seabed)"/>`);
+  for (let i = 0; i < 14; i++) p.push(`<ellipse cx="${MAP_W / 2}" cy="${MAP_H * 0.52}" rx="${60 + i * 34}" ry="${50 + i * 40}" fill="none" stroke="${ui.salt_white}" stroke-opacity="${0.04 + (i % 3) * 0.015}"/>`);
+  for (const g of wm.regions) if (g.id !== 'bare') p.push(`<path d="M${X(50)} ${Y(52)}Q${(X(50) + X(g.x)) / 2 + 40} ${(Y(52) + Y(g.y)) / 2 - 30} ${X(g.x)} ${Y(g.y)}" fill="none" stroke="#3A4B52" stroke-width="18" stroke-linecap="round" opacity=".6"/>`);
+  for (const g of wm.regions) { if (RART[g.id]) p.push(RART[g.id](X(g.x), Y(g.y), g.id === 'rift' && riftLocked)); const ys = wm.nodes.filter((q) => q.region === g.id).map((q) => Y(q.y)), ly = g.id === 'rift' ? Math.max(...ys) + 50 : Math.min(...ys) - 32, lx = Math.min(MAP_W - 160, Math.max(10, X(g.x) - 60)); p.push(T(lx, ly, g.name_ko, 15, g.id === 'rift' && riftLocked ? ui.salt_dim : ui.salt_white, 'start', 800)); }
+  const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
+  const link = (a, b) => { const done = a.state !== 'locked' && b.state !== 'locked'; p.push(`<path d="M${X(a.x)} ${Y(a.y)}L${X(b.x)} ${Y(b.y)}" stroke="${done ? ui.salt_white : UX2.worldmap.locked}" stroke-width="${UX2.worldmap.path_px}" stroke-dasharray="${done ? '0' : '8 8'}" stroke-linecap="round" opacity="${done ? 0.85 : 0.65}"/>`); };
+  for (const n of nodes) { const prev = n.order > 1 ? nodes.find((q) => q.region === n.region && q.order === n.order - 1) : n.unlock && n.unlock.prev ? byId[n.unlock.prev] : n.region === 'rift' ? byId[wm.start_node] || nodes[0] : null; if (prev) link(prev, n); }
+  const R = 22;
+  for (const n of nodes) {
+    const x = X(n.x), y = Y(n.y);
+    if (n.state === 'current') p.push(`<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${ui.focus}" stroke-width="4"/>`);
+    const fill = n.state === 'cleared' ? ui.card_plate : n.state === 'current' ? ui.button_primary : n.state === 'open' ? '#3A5560' : '#24343B';
+    p.push(`<path d="M${x - R} ${y - R}H${x + R - 8}L${x + R} ${y - R + 8}V${y + R}H${x - R}Z" fill="${fill}" stroke="${n.final ? '#4DE0FF' : ui.stat_tab}" stroke-width="${n.final ? 3 : 2}"/>`);
     if (n.state === 'cleared') p.push(`<path d="M${x - 9} ${y}L${x - 2} ${y + 7}L${x + 10} ${y - 7}" fill="none" stroke="${ui.card_ink}" stroke-width="4" stroke-linecap="round"/>`);
     else if (n.state === 'locked') p.push(`<rect x="${x - 8}" y="${y - 2}" width="16" height="12" rx="2" fill="${UX2.worldmap.locked}"/><path d="M${x - 5} ${y - 2}V${y - 7}A5 5 0 0 1 ${x + 5} ${y - 7}V${y - 2}" fill="none" stroke="${UX2.worldmap.locked}" stroke-width="3"/>`);
-    else p.push(nest(A.heroSVG('h_warden'), x - 16, y - 22, 32, 38));
+    else if (n.state === 'open') p.push(T(x, y + 6, String(n.order), 16, ui.salt_white, 'middle', 800));
+    else p.push(nest(A.heroSVG('h_warden'), x - 15, y - 20, 30, 36));
   }
-  const cur = pos.find((q) => q.n.state === 'current') || pos[0];
-  if (fullMap) return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${MH}" width="${w}" height="${MH}"><title>월드맵 전체</title>${p.join('')}</svg>\n`;
-  // 화면: 현재 노드를 가운데로 + 위 HUD·아래 장 카드·뒤로
-  const vy = Math.max(0, Math.min(MH - h, cur.y - h / 2));
-  const curCard = `<g>${plate(r(84, h - 140, w - 92, 76), ui.bg_panel, ui.focus, 12)}${T(100, h - 112, cur.n.title, 15, ui.salt_white, 'start', 800)}${T(100, h - 92, '결투 1판 · 보상: 카드 1장', 11, ui.salt_dim)}${coreBtn(r(w - 120, h - 128, 104, 52), '들어가기', true)}</g>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><title>이야기 지도</title><g transform="translate(0 ${-vy})">${p.join('')}</g><rect width="${w}" height="56" fill="#0E1C23" opacity=".92"/>${T(16, 34, '이야기 지도 · 썰물 연대기', 15, ui.salt_white, 'start', 800)}${T(w - 16, 34, `${nodes.filter((q) => q.state === 'cleared').length} / ${nodes.length}`, 13, ui.salt_dim, 'end', 700)}${curCard}${plate(r(8, h - 56, 64, 48), ui.button_idle)}${T(40, h - 26, '뒤로', 14, ui.salt_white, 'middle', 700)}</svg>\n`;
+  if (fullMap) return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MAP_W} ${MAP_H}" width="${MAP_W}" height="${MAP_H}"><title>이야기 지도 전체</title>${p.join('')}</svg>\n`;
+  const cur = nodes.find((q) => q.state === 'current') || nodes[0];
+  const vx = Math.max(0, Math.min(MAP_W - w, X(cur.x) - w / 2)), vy = Math.max(0, Math.min(MAP_H - h, Y(cur.y) - h * 0.45));
+  const done = nodes.filter((q) => q.state === 'cleared').length;
+  const curCard = `<g>${plate(r(84, h - 140, w - 92, 76), ui.bg_panel, ui.focus, 12)}${T(100, h - 112, cur.title_ko || cur.id, 15, ui.salt_white, 'start', 800)}${T(100, h - 92, '파수단 영웅으로 1번 이기기', 11, ui.salt_dim)}${coreBtn(r(w - 120, h - 128, 104, 52), '들어가기', true)}</g>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><title>이야기 지도</title><g transform="translate(${-vx} ${-vy})">${p.join('')}</g><rect width="${w}" height="56" fill="#0E1C23" opacity=".92"/>${T(16, 34, '이야기 지도', 16, ui.salt_white, 'start', 800)}${T(w - 16, 34, `${done} / ${nodes.length}`, 13, ui.salt_dim, 'end', 700)}${curCard}${plate(r(8, h - 56, 64, 48), ui.button_idle)}${T(40, h - 26, '뒤로', 14, ui.salt_white, 'middle', 700)}</svg>\n`;
 }
