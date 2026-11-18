@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 600" width="720" height="600">
+<!-- 콤보 연출 기준 그림(30-art 6-2, layout.json combo, palette.json combo_fx, tools/art/combo-fx.mjs --write 생성 — 손으로 고치지 않음). 360x640 화면 윗부분, 위 흰 띠 = HUD 띠 자리. 큰 숫자 = 그 레벨 accent 불투명도 0.34(system-ui 굵게, 외부 글꼴 없음), 라벨 = [금빛 표지] 콤보 [단계 칸 4](ink 0.66), 조각 = 둥근 네모·마름모(accent 0.35·금빛·흰·민트). 실제 화면에서는 이 층 위에 언덕·바닥·북·박 표시·공·구름·지붕·가지·판정 표시·HUD 가 그려짐. 원작 COMBO 글자 디자인·글꼴·이펙트 모양 아님 -->
+<g transform="translate(0 0)"><clipPath id="c0"><rect width="360" height="300"/></clipPath><g clip-path="url(#c0)"><rect width="360" height="300" fill="#ECF6E4"/><rect x="83.2" y="330.9" width="5.6" height="5.6" rx="1.4" fill="#47801E" fill-opacity="0.35"/>
+<path d="M220.5 334.3L224.0 337.8L220.5 341.3L217.0 337.8Z" fill="#47801E" fill-opacity="0.35"/>
+<rect x="15.0" y="313.4" width="5.6" height="5.6" rx="1.4" fill="#47801E" fill-opacity="0.35"/>
+<path d="M130.0 68.7L133.4 72.1L130.0 75.6L126.5 72.1Z" fill="#47801E" fill-opacity="0.11"/>
+<rect x="22.0" y="352.3" width="5.6" height="5.6" rx="1.4" fill="#47801E" fill-opacity="0.35"/>
+<path d="M350.2 214.0L353.7 217.5L350.2 221.0L346.7 217.5Z" fill="#47801E" fill-opacity="0.35"/>
+<rect x="159.9" y="219.7" width="5.6" height="5.6" rx="1.4" fill="#47801E" fill-opacity="0.35"/>
+<path d="M217.8 288.9L221.3 292.3L217.8 295.8L214.3 292.3Z" fill="#47801E" fill-opacity="0.35"/>
+<text x="226.2" y="188.4" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="135" fill="#47801E" fill-opacity="0.34">12</text>
+<g opacity="0.66"><rect x="165.4" y="63.5" width="12.0" height="12.0" rx="2.6" fill="#FFC861" stroke="#23273A" stroke-width="1.5"/><text x="182.7" y="74.9" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="15" fill="#23273A">COMBO</text><rect x="245.7" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="256.9" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/><rect x="268.2" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/><rect x="279.4" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/></g><rect x="0" y="0" width="360" height="56" fill="#FFFFFF" fill-opacity="0.6"/><text x="8" y="20" font-family="sans-serif" font-size="11" fill="#23273A">level01 bg1 · 콤보 12 · 단계 1</text></g></g><g transform="translate(360 0)"><clipPath id="c1"><rect width="360" height="300"/></clipPath><g clip-path="url(#c1)"><rect width="360" height="300" fill="#D6EAF7"/><path d="M107.0 344.9L111.2 349.1L107.0 353.2L102.8 349.1Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="254.3" y="236.1" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.35"/>
+<path d="M285.1 346.5L289.3 350.7L285.1 354.8L281.0 350.7Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="204.5" y="65.2" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.09"/>
+<path d="M153.6 117.5L157.7 121.7L153.6 125.8L149.4 121.7Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="151.0" y="204.5" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.35"/>
+<path d="M300.0 125.9L304.2 130.0L300.0 134.2L295.8 130.0Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="332.5" y="184.4" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.35"/>
+<path d="M278.2 276.5L282.3 280.6L278.2 284.8L274.0 280.6Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="15.9" y="66.1" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.09"/>
+<path d="M274.4 301.4L278.5 305.5L274.4 309.7L270.2 305.5Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="339.2" y="295.8" width="6.7" height="6.7" rx="1.7" fill="#1E77B7" fill-opacity="0.35"/>
+<path d="M280.1 279.5L284.3 283.6L280.1 287.8L276.0 283.6Z" fill="#FFC861" fill-opacity="0.85"/>
+<text x="226.2" y="188.4" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="135" fill="#1E77B7" fill-opacity="0.34">23</text>
+<g opacity="0.66"><rect x="165.4" y="63.5" width="12.0" height="12.0" rx="2.6" fill="#FFC861" stroke="#23273A" stroke-width="1.5"/><text x="182.7" y="74.9" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="15" fill="#23273A">COMBO</text><rect x="245.7" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="256.9" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="268.2" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/><rect x="279.4" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/></g><rect x="0" y="0" width="360" height="56" fill="#FFFFFF" fill-opacity="0.6"/><text x="8" y="20" font-family="sans-serif" font-size="11" fill="#23273A">level03 bg2 · 콤보 23 · 단계 2</text></g></g><g transform="translate(0 300)"><clipPath id="c2"><rect width="360" height="300"/></clipPath><g clip-path="url(#c2)"><rect width="360" height="300" fill="#CCD1F5"/><rect x="82.6" y="81.2" width="7.3" height="7.3" rx="1.8" fill="#5768DB" fill-opacity="0.20"/>
+<rect x="134.0" y="159.1" width="7.3" height="7.3" rx="1.8" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M80.3 320.7L84.8 325.2L80.3 329.7L75.8 325.2Z" fill="#5768DB" fill-opacity="0.35"/>
+<rect x="27.4" y="82.4" width="7.3" height="7.3" rx="1.8" fill="#FFC861" fill-opacity="0.50"/>
+<path d="M316.9 325.4L321.4 329.9L316.9 334.4L312.4 329.9Z" fill="#FFFFFF" fill-opacity="0.90"/>
+<rect x="142.4" y="189.6" width="7.3" height="7.3" rx="1.8" fill="#5768DB" fill-opacity="0.35"/>
+<path d="M22.2 267.2L26.7 271.7L22.2 276.2L17.7 271.7Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="27.4" y="188.7" width="7.3" height="7.3" rx="1.8" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M25.7 241.7L30.2 246.2L25.7 250.7L21.1 246.2Z" fill="#5768DB" fill-opacity="0.35"/>
+<rect x="264.4" y="236.9" width="7.3" height="7.3" rx="1.8" fill="#FFC861" fill-opacity="0.85"/>
+<path d="M155.7 322.8L160.2 327.3L155.7 331.9L151.2 327.3Z" fill="#FFFFFF" fill-opacity="0.90"/>
+<rect x="21.2" y="125.8" width="7.3" height="7.3" rx="1.8" fill="#5768DB" fill-opacity="0.35"/>
+<path d="M135.9 208.3L140.4 212.8L135.9 217.4L131.4 212.8Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="263.4" y="261.9" width="7.3" height="7.3" rx="1.8" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M227.4 178.6L231.9 183.1L227.4 187.7L222.8 183.1Z" fill="#5768DB" fill-opacity="0.35"/>
+<rect x="11.0" y="306.0" width="7.3" height="7.3" rx="1.8" fill="#FFC861" fill-opacity="0.85"/>
+<path d="M204.3 334.2L208.8 338.7L204.3 343.2L199.8 338.7Z" fill="#FFFFFF" fill-opacity="0.90"/>
+<rect x="111.1" y="225.7" width="7.3" height="7.3" rx="1.8" fill="#5768DB" fill-opacity="0.35"/>
+<path d="M22.5 320.1L27.1 324.6L22.5 329.1L18.0 324.6Z" fill="#FFC861" fill-opacity="0.85"/>
+<text x="226.2" y="188.4" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="135" fill="#5768DB" fill-opacity="0.34">37</text>
+<g opacity="0.66"><rect x="165.4" y="63.5" width="12.0" height="12.0" rx="2.6" fill="#FFC861" stroke="#23273A" stroke-width="1.5"/><text x="182.7" y="74.9" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="15" fill="#23273A">COMBO</text><rect x="245.7" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="256.9" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="268.2" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="279.4" y="65.8" width="7.5" height="7.5" rx="1.5" fill="none" stroke="#23273A" stroke-width="1"/></g><rect x="0" y="0" width="360" height="56" fill="#FFFFFF" fill-opacity="0.6"/><text x="8" y="20" font-family="sans-serif" font-size="11" fill="#23273A">level09 bg3 · 콤보 37 · 단계 3</text></g></g><g transform="translate(360 300)"><clipPath id="c3"><rect width="360" height="300"/></clipPath><g clip-path="url(#c3)"><rect width="360" height="300" fill="#FDF3C4"/><rect x="82.2" y="108.2" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.35"/>
+<path d="M240.0 62.4L245.2 67.6L240.0 72.8L234.8 67.6Z" fill="#FFC861" fill-opacity="0.19"/>
+<rect x="13.3" y="81.9" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.53"/>
+<path d="M235.5 294.5L240.7 299.7L235.5 304.9L230.3 299.7Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<rect x="210.0" y="99.3" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.32"/>
+<path d="M120.2 228.8L125.4 234.0L120.2 239.3L115.0 234.0Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="133.5" y="174.4" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M104.4 104.2L109.6 109.4L104.4 114.6L99.2 109.4Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<rect x="81.9" y="192.8" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.35"/>
+<path d="M133.1 206.6L138.4 211.8L133.1 217.0L127.9 211.8Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="152.7" y="103.5" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M37.0 343.9L42.2 349.1L37.0 354.3L31.7 349.1Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<rect x="62.9" y="259.6" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.35"/>
+<path d="M351.7 136.8L356.9 142.0L351.7 147.2L346.5 142.0Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="194.4" y="145.0" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M78.9 225.1L84.1 230.3L78.9 235.5L73.7 230.3Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<rect x="-2.8" y="185.8" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.35"/>
+<path d="M347.4 310.0L352.6 315.2L347.4 320.5L342.2 315.2Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="58.9" y="171.1" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M346.0 59.9L351.2 65.1L346.0 70.3L340.8 65.1Z" fill="#B9EDC6" fill-opacity="0.15"/>
+<rect x="193.9" y="350.2" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.35"/>
+<path d="M68.8 166.7L74.0 171.9L68.8 177.2L63.6 171.9Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="39.6" y="99.1" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.83"/>
+<path d="M23.4 309.6L28.6 314.8L23.4 320.0L18.2 314.8Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<rect x="94.0" y="69.6" width="8.4" height="8.4" rx="2.1" fill="#86720B" fill-opacity="0.12"/>
+<path d="M22.1 281.1L27.4 286.3L22.1 291.5L16.9 286.3Z" fill="#FFC861" fill-opacity="0.85"/>
+<rect x="141.6" y="132.5" width="8.4" height="8.4" rx="2.1" fill="#FFFFFF" fill-opacity="0.90"/>
+<path d="M347.8 271.6L353.0 276.8L347.8 282.0L342.6 276.8Z" fill="#B9EDC6" fill-opacity="0.85"/>
+<text x="226.2" y="188.4" text-anchor="middle" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="135" fill="#86720B" fill-opacity="0.34">53</text>
+<g opacity="0.66"><rect x="165.4" y="63.5" width="12.0" height="12.0" rx="2.6" fill="#FFC861" stroke="#23273A" stroke-width="1.5"/><text x="182.7" y="74.9" font-family="system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif" font-weight="800" font-size="15" fill="#23273A">COMBO</text><rect x="245.7" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="256.9" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="268.2" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/><rect x="279.4" y="65.8" width="7.5" height="7.5" rx="1.5" fill="#23273A" stroke="#23273A" stroke-width="1"/></g><rect x="0" y="0" width="360" height="56" fill="#FFFFFF" fill-opacity="0.6"/><text x="8" y="20" font-family="sans-serif" font-size="11" fill="#23273A">level10 bg3 · 콤보 53 · 단계 4</text></g></g>
+</svg>

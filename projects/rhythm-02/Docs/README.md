@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | balance-designer | r2 손가락·콤보 S10 | [손가락 누름 시작 데이터 계산(−(pass_early − 25) = L1 −100 ms)·S10 새 콤보 설계(뒤 층·공 줄·판정·손가락 겹침 0) 기준](balance-designer/2026-11-18-r2-finger-combo-fix.md) |
+| 2026-11-18 | lore-writer | r2 콤보 라벨·12세 | [콤보 라벨 `combo_label` 콤보/COMBO 추가(aria-hidden, `aria_combo` meter는 큰 숫자 자리로), 점 10칸 설명 → 큰 숫자·라벨·조각, 대상 연령 12세 머리 반영(문구 변경 0, 키 89 → 90), 7-9 ⑤ 예외·⑩ 추가 PASS, combo-fx 라벨 대기 해소](lore-writer/2026-11-18-r2-combo-label-age12.md) |
 | 2026-11-17 | art-director | r2 콤보 연출 | [콤보 파격 연출: HUD 점 10칸 폐기 → 위쪽 가운데 큰 숫자(화면 높이 13~15 %, accent 0.34, 세로 화면은 공 비켜 0.63~0.69 W) + 라벨(표지·글·단계 칸) + 화면 조각 단계 10·20·30·50(8~28개 ×1~2, 상한 56), 모두 물체 뒤 층, 끊김 0.25 s 가라앉음, 움직임 줄이기 = 조각 0, 번쩍임·대비·겹침(구름만)·층 검사 combo-fx.mjs OK, HUD "글·숫자 없음"·"투명도 없음"·S10 규칙 콤보 층 예외 기록. check-all: layout finger L01 1건 FAIL(balance 12세 재조정, 기존)](art-director/2026-11-17-r2-combo-spectacle.md) |
 | 2026-11-17 | balance-designer | r2 12세 재조정 | [12세 기준 곡선 재조정: 대표 봇 σ50(q_nogo 0.05), 통과 창 L1 −125/+145 → L7~L10 −110/+130, hit 27~53·길이 31~49 s, L1 0.90 · r 1.375 · T 4.41 · L10 4.20(−4.8 %), q 0·0.05 모두 단조, B6 시드 10개 평균 −4.0 %, 세 봇 표(σ70 L3부터 70회+), M1 조건부 닫힘(−30 ms면 L10 34), % 칸 끝 재계산, verify 421/421 ALL PASS(시드 3개)](balance-designer/2026-11-17-r2-age12-recalibration.md) |
 | 2026-11-17 | balance-designer | r2 판정 단단히 | [판정 기준 구현 단단히: judge.mjs 판정 값 유한 확인(아니면 예외)·Δ 0.001 ms 반올림 "경계는 이하"(칸 끝도 반올림), 검증 J1(가짜 레벨 15개 예외)·J2(경계 ±0.0004/±0.0006 9360점)·J3(앞 탭 창 끝 + 다음 탭 창 밖 840경우·봇 6만 회 독립 대조), verify 421/421 ALL PASS, B6·K2 같음·B7/B7q/K3b 소수 셋째 자리만](balance-designer/2026-11-17-r2-judge-hardening.md) |

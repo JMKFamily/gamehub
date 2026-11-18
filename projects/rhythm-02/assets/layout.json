@@ -47,7 +47,7 @@
   "_def": "놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget (1-2 D5 공통 정의, round-2 그대로). 공 높이 h = 공 아랫점과 북 가죽 윗면 사이. 구름선 = h = 0.9·Hp(공 아랫점이 그 위면 숨음 — 숨은 공은 그리지 않음). 구름 통 꼭짓점(1.111·Hp)은 숨은 상태라 HUD 띠와 겹쳐도 그려지지 않음. 보이는 공 윗점 최고 = 구름선 − d ≥ HUD 띠 아래(검사)."
  },
  "hud": {
-  "_rule": "HUD 띠 = 화면 위 [safeTop, safeTop + band_h]. 글·숫자 없음. 플레이 중 버튼은 멈춤 하나. 흘러오는 모든 물체(구름·지붕·가지·언덕·배경 실루엣)와 보이는 공의 윗선 ≥ HUD 띠 아래 + gap(4해상도 검사, M2 일반화 — round-1 \"구름 윗부분이 진행도 막대 뒤로 가도 됨\" 문장 삭제). 콤보 표시·단계 연출도 이 띠 안에서만.",
+  "_rule": "HUD 띠 = 화면 위 [safeTop, safeTop + band_h]. 글·숫자 없음(콤보 숫자는 HUD 띠 밖 뒤 층 — combo 절, 2026-11-17 요청자 지시로 콤보 숫자만 풀림). 플레이 중 버튼은 멈춤 하나. 흘러오는 모든 물체(구름·지붕·가지·언덕·배경 실루엣)와 보이는 공의 윗선 ≥ HUD 띠 아래 + gap(4해상도 검사, M2 일반화 — round-1 \"구름 윗부분이 진행도 막대 뒤로 가도 됨\" 문장 삭제). 콤보는 이 띠에 그리지 않음(combo 절: HUD 띠 아래 뒤 층 큰 숫자·라벨·파티클).",
   "band_h": {
    "portrait": 56,
    "landscape": 48
@@ -102,82 +102,270 @@
    "valuenow": "지금 콤보",
    "valuetext": "숫자만(예 \"7\", 퍼센트로 읽히지 않게)",
    "live": "none(판정마다·끊김 때 읽지 않음)",
+   "where": "combo.number 자리(HUD 띠 밖 큰 숫자, 2026-11-17)",
    "_src": "R2-D7 · insights runner-01 콤보 대체 글"
   }
  },
  "combo": {
-  "source": "balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이)",
-  "place": {
-   "portrait": {
-    "row": 3,
-    "align": "left",
-    "x": 68,
-    "cy": 47
-   },
-   "landscape": {
-    "row": 2,
-    "align": "right",
-    "x_from_right": 20,
-    "cy": 31
-   }
-  },
-  "shape": {
-   "slot_px": 8,
-   "slot_gap_px": 3,
-   "ten_px": 14,
-   "ten_gap_px": 4,
-   "group_gap_px": 6,
-   "slots": 10,
-   "tens_max_layout": 3,
-   "rx_px": 2,
-   "fill": {
-    "slot_empty": "hudTrack + ink 1.4 px",
-    "slot_on": "ink",
-    "ten": "glow + ink 2 px (둥근 네모, 별 아님)"
-   }
-  },
+  "_src": "요청자 지시(2026-11-17, 리듬·러너 전 프로젝트) \"콤보는 더 파격적인 연출 — 중앙에 몇 콤보인지 크게, 매칭 비율은 타격 지점 가까이, 콤보가 지속될수록 화면 전체 파티클 강화\" · harness/criteria.md 게임 감각 \"파격적인 콤보 연출\"(131aa6a) · 30-art 6-2. 배치·크기·강화 구조만 참고(DJMAX 글자 디자인·글꼴·이펙트 모양 재현 금지).",
+  "source": "balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이). 단계 값 balance combo.stages, 화음 chord_stages·chord_timing 그대로",
+  "replaces": "round-2 의 HUD 띠 안 점 10칸 + 10마다 큰 표지(숫자 없음)는 폐기. HUD 띠 \"글·숫자 없음\" 규칙은 콤보 숫자에 한해 풀림 — 숫자는 HUD 띠 밖, 세계 물체 뒤 층에 그림(30-art 4-2·6-2)",
   "show_from": 2,
-  "update": {
-   "scale": [
-    1,
-    1.15,
-    1
+  "layer": {
+   "order": [
+    "bg",
+    "silhouette",
+    "combo_particles",
+    "combo_number",
+    "combo_label",
+    "hill",
+    "floor_lane_pebbles",
+    "drum_leg_shadow",
+    "marks",
+    "ball",
+    "cloud_roof_branch",
+    "bounce_lines",
+    "judgement",
+    "hud"
    ],
-   "ms": 120,
-   "at": "판정 프레임(hit = 친 순간, hold = roof_out)"
+   "behind": [
+    "hill",
+    "floor_lane_pebbles",
+    "drum_leg_shadow",
+    "marks",
+    "ball",
+    "cloud_roof_branch",
+    "bounce_lines",
+    "judgement",
+    "hud"
+   ],
+   "_rule": "콤보 층(파티클 → 숫자 → 라벨)은 바탕·배경 실루엣 바로 위, 모든 세계 물체·북·박 표시·공·튐 선·판정 표시·HUD 아래. 바닥 띠가 불투명해 파티클은 하늘(HUD 띠 아래 ~ 바닥 윗선)에만 보임. 공·위험·표시 위에 콤보 층을 그리지 않음"
   },
-  "stage": {
-   "5": {
-    "fx": "5번째 칸만 1.0 → 1.3 → 1.0, 120 ms",
-    "sound": null
-   },
-   "10": {
-    "fx": "점 10개가 큰 표지 자리로 0.25 s 미끄러지며 작아지고 큰 표지가 0.6 → 1.0 (0.4 s 합), 점 줄 비움",
-    "sound": "chord_1 (balance chord_timing, R2-D2: 그 판정 접촉 박 다음 정박 중 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고 지붕 착지 ±1박도 아닌 첫 정박 — sound-check 가 검사)"
-   },
-   "20": {
-    "fx": "10 과 같음 + 그 레벨 accent 색 네모 조각 5개(4 px)가 HUD 띠 안에서 띠 아래 6 px 위까지 내려옴(0.6 s)",
-    "sound": "chord_2 (한 음 높은 화음)"
-   },
-   "30": {
-    "fx": "20 과 같음(자리만)",
-    "sound": "chord_2"
-   }
+  "region": {
+   "gap_below_band_px": 6,
+   "gap_above_objects_px": 4,
+   "_rule": "세로 = HUD 띠 아래 + 6 ~ min(지붕 윗선, 가지 윗선) − 4 (지붕·가지 아랫면 비율 중 가장 높은 값 기준 — 레벨 개별 값도 검사). 그 사이에 걸치는 세계 물체는 구름(흰 면 + ink 외곽선, 앞 층)뿐. 다가오는 길 영역(S10)은 \"앞 층 UI 금지\"로 고침 — 뒤 층 콤보는 허용(물체가 늘 위에 그려지고 대비 검사)"
   },
-  "break": {
-   "fx": "실패 판정 순간부터 0.25 s 동안 점 줄·큰 표지가 제자리에서 1.0 → 0 으로 작아지며 사라짐(소리 없음)",
-   "within_s": 0.3,
+  "number": {
+   "digit_h_of_H": {
+    "target": 0.15,
+    "min": 0.12,
+    "max": 0.18
+   },
+   "digit_h_of_font": 0.71,
+   "digit_adv_of_font": 0.58,
+   "ink_fill_ratio": 0.5,
+   "weight": 800,
+   "family": "body 와 같은 system-ui 계열 굵게(외부 글꼴 없음)",
+   "letter_spacing": 0,
+   "align": "center",
+   "format": "<n>(숫자만, 쉼표·x·콤마 없음)",
+   "x": {
+    "rule": "cx = max(W/2, 공 세로 줄 오른쪽 + gap_ball_px + 2자리 폭 × stage 튐 / 2). 세로 화면은 공(0.30 W)을 비키려 가운데에서 조금 오른쪽, 가로 화면은 정가운데. 자리 수가 바뀌어도 cx 고정",
+    "gap_ball_px": 8,
+    "side_margin_px": 8
+   },
+   "size_rule": "font_px = round(target·H / digit_h_of_font). 실제 레벨 최대 콤보(지금 56 = 2자리)가 이 크기로 자리 안. 3자리(100, 예비)는 자리 폭을 넘으면 그 값만 줄임(정보로 셈)",
+   "color": "palette.json combo_fx.number (그 레벨 accent, 불투명도 0.34)",
+   "pop": {
+    "scale": [
+     1,
+     1.12,
+     1
+    ],
+    "ms": 120,
+    "up_ms": 40,
+    "stage_scale": [
+     1,
+     1.2,
+     1
+    ],
+    "stage_ms": 160,
+    "origin": "숫자 잉크 상자 가운데",
+    "min_interval_ms": 334,
+    "alpha": "const(튐 동안 불투명도·색 그대로 — 밝기 깜빡임 없음)",
+    "_rule": "판정 프레임(hit = 친 순간, hold = roof_out)마다 값 바꿔 그리고 튐. 단계(balance combo.stages 5·10·20·30 + 파티클 단계 50)에 닿은 판정은 stage_scale. 앞 튐 시작에서 334 ms 안의 판정은 값만 바꾸고 튐은 새로 시작하지 않음(튐 ≤ 3회/s, L6~L10 반박 쌍 246~263 ms)"
+   },
+   "appear": {
+    "ms": 120,
+    "rule": "combo = show_from(2) 판정 프레임에 불투명도 0 → 0.34 + 튐"
+   },
+   "break": {
+    "ms": 250,
+    "alpha_to": 0,
+    "sink_of_digit_h": 0.06,
+    "scale": "const",
+    "rule": "실패 판정 순간부터 0.25 s 동안 불투명도 → 0 + 0.06·숫자 높이만큼 아래로 가라앉음. ✕·경고음·흔들림·\"0\"·잃은 개수·빨강·크기 튐 없음, 콤보 크기와 무관하게 같은 연출"
+   },
+   "clear": "마지막 접촉 판정 확정 때 HUD 와 같이 0.2 s 페이드(게임 시간)",
+   "a11y": "role=\"meter\" 요소를 숫자 자리에(시각은 캔버스): 이름 aria_combo, aria-valuenow = 콤보, aria-valuetext = 숫자만, aria-live 없음(판정마다·끊길 때 읽지 않음). 라벨 글은 aria-hidden(이름이 이미 읽힘)"
+  },
+  "label": {
+   "text_key": "combo_label",
+   "check_candidates": [
+    "콤보",
+    "COMBO"
+   ],
+   "px_of_H": 0.024,
+   "px_min": 12,
+   "px_max": 20,
+   "weight": 800,
+   "gap_to_number_px": 6,
+   "est_em": {
+    "hangul": 1,
+    "upper": 0.75
+   },
+   "mark": {
+    "size_of_px": 0.8,
+    "gap_of_px": 0.35,
+    "fill": "glow",
+    "stroke": "ink",
+    "stroke_px": 1.5,
+    "rx_of_size": 0.22,
+    "_rule": "글 왼쪽 작은 금빛 둥근 네모(결과 화면 최고 콤보 표지·레벨 선택 최고 콤보 네모와 같은 \"이어서 잘함\" 표지, 별 아님)"
+   },
+   "tiers": {
+    "n": 4,
+    "size_of_px": 0.5,
+    "gap_of_px": 0.25,
+    "lead_of_px": 0.45,
+    "on": "ink 채움",
+    "off": "ink 외곽선 1 px",
+    "_rule": "글 오른쪽 단계 칸 4개 = 파티클 단계 1~4. 닿은 단계만 채움(움직임 없음) — 움직임 줄이기에서 파티클 대신 단계를 알림"
+   },
+   "color": "palette.json combo_fx.label (ink 불투명도 0.66, 표지 glow)",
+   "_rule": "숫자 바로 위 가운데(cx 같음) 작은 한 줄: [금빛 표지] 라벨 글 [단계 칸 4]. 글은 lore strings.json combo_label(12세 기준 \"콤보\"·\"COMBO\" 같은 짧은 말 — 원작 COMBO 글자 모양·기울기·글꼴 아님, body system-ui 굵게)"
+  },
+  "particles": {
+   "tiers": [
+    {
+     "at": 10,
+     "count_ref": 8,
+     "size_of_d": 0.2,
+     "rise_of_H_per_s": 0.05,
+     "colors": [
+      "accent"
+     ]
+    },
+    {
+     "at": 20,
+     "count_ref": 14,
+     "size_of_d": 0.24,
+     "rise_of_H_per_s": 0.07,
+     "colors": [
+      "accent",
+      "glow"
+     ]
+    },
+    {
+     "at": 30,
+     "count_ref": 20,
+     "size_of_d": 0.26,
+     "rise_of_H_per_s": 0.09,
+     "colors": [
+      "accent",
+      "glow",
+      "white"
+     ]
+    },
+    {
+     "at": 50,
+     "count_ref": 28,
+     "size_of_d": 0.3,
+     "rise_of_H_per_s": 0.11,
+     "colors": [
+      "accent",
+      "glow",
+      "white",
+      "mint"
+     ]
+    }
+   ],
+   "tiers_rule": "단계 1~3 = balance combo.stages 10·20·30(화음 chord_1·chord_2·chord_2 와 같은 판정, 화음 시각 규칙 그대로) · 단계 4 = 50(그림만, 소리 없음 — L9·L10 접촉 50·53개에서만 나옴). 콤보 2~9 = 파티클 없음(숫자만), 5 = 숫자 stage 튐만. 100 단계는 두지 않음(레벨 최대 56)",
+   "count_scale": {
+    "ref_sky_px2": 164160,
+    "min": 1,
+    "max": 2,
+    "rule": "count = round(count_ref × clamp(하늘 면적 / ref_sky_px2, 1, 2)), 하늘 = W × (바닥 윗선 − HUD 띠 아래)"
+   },
+   "count_cap": 56,
+   "shape": {
+    "kinds": [
+     "rsquare",
+     "diamond"
+    ],
+    "rx_of_size": 0.25,
+    "rotate": "none",
+    "_rule": "번갈아 둥근 네모·마름모(색종이 조각). 원(공)·별(rhythm-01)·빛줄기·불꽃·광선·후광·꼬리(원작 이펙트)·한 점에서 터지는 폭발 없음. 크기 ≤ 0.3d(공·박 표시와 크기로도 구분)"
+   },
+   "motion": {
+    "rise": "rise_of_H_per_s × H (아래 → 위, 떨어지지 않음 — 다가오는 물체와 방향이 다름)",
+    "drift_x_of_scroll": -0.3,
+    "sway_of_d": 0.15,
+    "sway_hz": 0.4,
+    "_rule": "가로는 세계 흐름 속도의 0.3배로 왼쪽(먼 층처럼) + 좌우 살랑(진폭 0.15d, 0.4 Hz, 위상 무작위). 회전·잔상·속도선 없음"
+   },
+   "spawn": {
+    "y": "바닥 윗선 + 크기(바닥 띠 뒤에서 나와 보이기 시작)",
+    "x": "0 ~ W 고른 무작위(결정적 LCG, 시드 = 레벨 번호·시도 번호 — QA 재현)",
+    "rate_max_of_count_per_s": 1,
+    "_rule": "목표 개수까지 초당 count 개를 넘지 않게 고르게 내보냄(한꺼번에 터뜨리지 않음)"
+   },
+   "fade": {
+    "in_s": 0.4,
+    "out_band_of_H": 0.08,
+    "_rule": "나온 뒤 0.4 s 동안 0 → 그 색 불투명도, HUD 띠 아래 0.08·H 구간에서 0 으로(띠 안에 그리지 않음)"
+   },
+   "tier_ramp_s": 0.5,
+   "break": {
+    "ms": 250,
+    "rule": "실패 판정 순간 새로 내보내지 않음, 모든 조각 불투명도 0.25 s 동안 → 0, 오름 속도도 0.25 s 동안 0 으로(제자리에서 가라앉듯 멈추며 사라짐). 크기·색 그대로, 소리 없음"
+   },
+   "clear": "마지막 접촉 판정 확정 때 새로 내보내지 않음, 0.6 s 동안 흐려짐(끝 구름·등급 칸과 시간이 겹치지 않음)",
+   "pause": "게임 시계로 멈춤(멈춤 메뉴·백그라운드)",
    "forbidden": [
-    "✕",
-    "경고음",
-    "흔들림",
-    "0 표시",
-    "잃은 개수",
-    "빨강"
-   ],
-   "restart": "1.1 s 뒤 빈 줄(콤보 1 까지는 안 보임)"
+    "원 모양",
+    "별 모양",
+    "빛줄기·불꽃·광선·후광",
+    "잔상·꼬리·속도선",
+    "번쩍임·깜빡임",
+    "공 색 ball·북 몸통 색 drumBody·지붕 색 roof·빨강",
+    "화면 흔들림",
+    "한 점에서 퍼지는 폭발",
+    "공·위험·박 표시 앞에 그리기"
+   ]
   },
-  "_rule": "숫자 없이 점 10칸 + 10마다 큰 표지(십의 자리 = 큰 표지 수). 콤보 2부터 보임. 공 색 ball·바탕 단계(바탕 전체 색 바뀜)와 모양·색이 겹치지 않음. 다가오는 길 영역 밖(S10). 지붕 밑 착지 ±1박에는 칸 채움·단계 연출 시작 없음(hold 는 roof_out 에 채움, S9)."
+  "reduced_motion": {
+   "media": "(prefers-reduced-motion: reduce)",
+   "setting": "게임 안 설정이 생기면 같은 동작(지금은 OS 설정만)",
+   "number_pop": false,
+   "number_break": "alpha 0.25 s 만(가라앉음 없음)",
+   "appear": "alpha 만",
+   "particles": 0,
+   "tier_signal": "label.tiers 단계 칸 채움(움직임 없음)",
+   "_rule": "움직임 줄이기: 숫자는 그대로 보이되 튐·가라앉음 없이 값만 바뀜, 파티클은 그리지 않음(0개), 단계는 라벨 옆 단계 칸으로만 알림"
+  },
+  "flash": {
+   "max_per_s": 3,
+   "area_limit_px2": 21824,
+   "_rule": "WCAG 2.3.1 일반 번쩍임 한도: 초당 3회 넘게 바뀌는 밝기 변화는 면적 < 0.25 × 341 × 256 CSS px²(10° 시야 25 %). 숫자 값 바뀜(판정 최소 간격 246 ms = 4.1회/s)은 바뀌는 숫자 한 자리 잉크 면적으로 검사, 튐은 334 ms 간격 제한으로 ≤ 3회/s, 파티클은 한 조각 수명 동안 나타남·사라짐 한 번(≥ 0.33 s 주기), 단계 오름 0.5 s, 끊김 한 번"
+  },
+  "perf": {
+   "cap": 56,
+   "draw_groups_max": 4,
+   "rule": "색마다 경로 하나 + fill 한 번(≤ 4 그룹), 미리 잡은 Float32Array 풀(프레임마다 객체·배열을 새로 만들지 않음 — GC 긴 프레임 방지), 숫자는 값이 바뀔 때만 오프스크린 캔버스에 한 번 그리고 프레임마다 drawImage + globalAlpha, 라벨·표지·단계 칸은 레벨 불러올 때 한 번(12절 미리 그리기). 단계 0 이면 갱신·그리기 없음",
+   "forbidden": [
+    "shadowBlur",
+    "filter",
+    "createLinearGradient/RadialGradient",
+    "globalCompositeOperation 바꾸기",
+    "getImageData",
+    "프레임마다 fillText(큰 숫자)"
+   ],
+   "measure": "6배 스로틀 평균 ≥ 55 fps · 1% low ≥ 45(criteria). 테스트 훅으로 콤보 50(단계 4, 최대 개수)을 켠 채 DPR 3 × 412x915·1280x720 에서 시작·재시작 구간 포함 측정(QA)"
+  },
+  "chords": "기존 규칙 그대로: balance combo.chord_stages 10·20·30 → chord_1·chord_2·chord_2, 그 판정 접촉 박 다음 빈 정박(chord_timing), 아이 탭보다 1 dB 이상 작게(sound-check). 그림(숫자 stage 튐·파티클 단계 오름)은 판정 프레임, 소리만 빈 정박",
+  "_rule": "중앙 큰 숫자 + 라벨 + 화면 전체 파티클(뒤 층·낮은 불투명도). 콤보 2부터 숫자. 공 색 ball·북 몸통 색·지붕 색 안 씀. 바탕 단계(받침 쉼에서 바탕 전체 색)와 구분: 콤보는 숫자·떠오르는 조각(판정마다), 바탕 단계는 면 색(받침 쉼). 지붕 밑 착지 ±1박에는 값 갱신·단계 시작 없음(hold 는 roof_out, S9)."
  },
  "cloud": {
   "base_of_h": 0.55,
@@ -255,7 +443,7 @@
    "_rule": "R2-D5: 클리어 뒤 길 멈춤 감속은 빌드 그리기만(judge.mjs scrollBeatAt·worldX 판정 쪽은 바꾸지 않음, 판정이 끝난 뒤). 마지막 1박 거리를 2박 시간에 걸쳐 속도 1 → 0 으로(속도 튐 없음). 끝 구름·공 숨김 검사는 이 그린 박으로 함"
   },
   "restart_rewind": "실패 → 0.85 s(공 다시 나타남)와 같은 프레임에 세상 위치를 0박(연습 = 그 구절)으로 한 번에 되감음. 실패 순간~0.85 s 는 세상 멈춤",
-  "approach_rect": "x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). HUD·콤보·글 자리·손가락이 이 안에 그려지지 않음(S10)"
+  "approach_rect": "x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). 앞 층 UI(HUD·글 자리·손가락·판정 표시)가 이 안에 그려지지 않음(S10). 뒤 층 콤보 숫자·파티클(combo 절)은 허용 — 모든 물체가 그 위에 그려지고 대비 검사(tools/art/combo-fx.mjs)"
  },
  "shadow": {
   "w_of_d_contact": 1,
@@ -339,7 +527,7 @@
    "path": "지붕 밑에 앉은 공을 친 탭: 북 톡과 함께 공이 0.15 s 동안 지붕 아랫면까지 떠 살짝 납작(0.85) 콩 닿음 → 북 오른쪽으로 떨어져 굴러 멈춤. 지붕은 움직이지 않음(흔들림·번쩍임 없음)",
    "sound": "roof_bump(아이 탭보다 작게, 부드러운 삼각파)"
   },
-  "world": "실패 순간 세상(길·표시·물체·배경)은 그 자리에 멈춤. 콤보는 0.25 s 안에 작아져 사라짐",
+  "world": "실패 순간 세상(길·표시·물체·배경)은 그 자리에 멈춤. 콤보 숫자·파티클은 0.25 s 안에 조용히 가라앉아 사라짐(combo.number.break·particles.break)",
   "two_balls": "예비(두 공 G5 내려감): 쓰면 round-1 규칙 그대로",
   "no_dust": true
  },
@@ -397,7 +585,7 @@
    0.6,
    1
   ],
-  "hud_fade": "마지막 접촉 판정 확정(clearTimeMs) 때 0.2 s 게임 시간(콤보 줄도 같이)",
+  "hud_fade": "마지막 접촉 판정 확정(clearTimeMs) 때 0.2 s 게임 시간(콤보 숫자·라벨도 같이, 파티클은 0.6 s 흐려짐)",
   "result_at": "length_beats",
   "_rule": "큰 튐(판정 없음): 공이 스스로 1.0·Hp 까지 떠 끝 구름(role clear 물체, 길 멈춤 자리) 속에 머묾. 끝 구름 cloud → clearCloud 1 s(연한 테마색, 등급 칸 진한 accent 와 구분), 바탕 → bg1 1 s, 등급 칸 3개 점선 → 받은 칸 accent 채움."
  },

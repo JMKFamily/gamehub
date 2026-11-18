@@ -286,7 +286,11 @@ export function fingerSchedule(L, bal, hits) {
   const from = toss ? toss.t : c.t - L.beatMs;
   const h = hits ? normHits(L, hits)(c.i) : null;
   const gone = h != null && h <= c.passEnd ? h : c.passEnd;
-  return { contact: c.i, from, pressStart: c.t + tf.press_start_beats * L.beatMs, pressEnd: c.t + (tf.press_end_beats ?? 0) * L.beatMs, gone, goneLatest: c.passEnd };
+  // 누름 시작 = 접촉 − (pass_early − 여유): 통과 창 이른 쪽 한계보다 여유만큼 안(insights "손가락 누름 시작은 통과 창 안").
+  // 레벨 파일의 옛 press_start_beats(-0.2박 고정)는 쓰지 않음 — pass_early 가 바뀌면 자동으로 따라감.
+  const inside = bal?.tutorial_finger?.press_start_inside_pass_ms ?? 25;
+  const pressStart = c.t - Math.max(0, L.judge.pass_early_ms - inside);
+  return { contact: c.i, from, pressStart, pressEnd: c.t + (tf.press_end_beats ?? 0) * L.beatMs, gone, goneLatest: c.passEnd };
 }
 
 // 실패 → 다음 시도 첫 프레임 1.1 s 배분. 늦음 / 일찍 / 지붕 콩(bump_roof) 세 판. 반환 구간은 실패 판정 시각 기준 s.

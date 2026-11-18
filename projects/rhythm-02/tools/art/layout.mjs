@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { ballSvg, cloudSvg, cloudGeom, fingerSvg, fingerBox, drumSvg, markSvg, roofSvg, roofGeom, branchSvg, branchGeom, marksUnder, hillSvg, comboSvg, comboWidth, SHAPE } from './cards.mjs';
+import { ballSvg, cloudSvg, cloudGeom, fingerSvg, fingerBox, drumSvg, markSvg, roofSvg, roofGeom, branchSvg, branchGeom, marksUnder, hillSvg, SHAPE } from './cards.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJ = resolve(HERE, '../..');
@@ -34,7 +34,7 @@ export const LAYOUT = {
     _def: '놀이 높이 Hp = (skinY − (safeTop + top_margin) − d − apex_margin) / apex_budget (1-2 D5 공통 정의, round-2 그대로). 공 높이 h = 공 아랫점과 북 가죽 윗면 사이. 구름선 = h = 0.9·Hp(공 아랫점이 그 위면 숨음 — 숨은 공은 그리지 않음). 구름 통 꼭짓점(1.111·Hp)은 숨은 상태라 HUD 띠와 겹쳐도 그려지지 않음. 보이는 공 윗점 최고 = 구름선 − d ≥ HUD 띠 아래(검사).',
   },
   hud: {
-    _rule: 'HUD 띠 = 화면 위 [safeTop, safeTop + band_h]. 글·숫자 없음. 플레이 중 버튼은 멈춤 하나. 흘러오는 모든 물체(구름·지붕·가지·언덕·배경 실루엣)와 보이는 공의 윗선 ≥ HUD 띠 아래 + gap(4해상도 검사, M2 일반화 — round-1 "구름 윗부분이 진행도 막대 뒤로 가도 됨" 문장 삭제). 콤보 표시·단계 연출도 이 띠 안에서만.',
+    _rule: 'HUD 띠 = 화면 위 [safeTop, safeTop + band_h]. 글·숫자 없음(콤보 숫자는 HUD 띠 밖 뒤 층 — combo 절, 2026-11-17 요청자 지시로 콤보 숫자만 풀림). 플레이 중 버튼은 멈춤 하나. 흘러오는 모든 물체(구름·지붕·가지·언덕·배경 실루엣)와 보이는 공의 윗선 ≥ HUD 띠 아래 + gap(4해상도 검사, M2 일반화 — round-1 "구름 윗부분이 진행도 막대 뒤로 가도 됨" 문장 삭제). 콤보는 이 띠에 그리지 않음(combo 절: HUD 띠 아래 뒤 층 큰 숫자·라벨·파티클).',
     band_h: { portrait: 56, landscape: 48 }, gap_below_band: 2,
     pause: { x: 12, y: 4, size: 44, touch: { x: 10, y: 2, size: 48 } },
     bar: { x0: 68, x1_from_right: 20, y: 10, h: 10, best_r: 6 },
@@ -42,23 +42,68 @@ export const LAYOUT = {
       _dots: '시도마다 작은 점 1개(drumBody). 10개가 차면 큰 점 1개로 묶음. 숫자 없음.' },
     practice: { flag_x: 70, flag_h: 14, bar_shift_px: 22, text: 'text_slots.practice_on(레벨 시작 2 s, 게임 시간)', _rule: '연습 모드일 때만 막대 왼쪽 끝에 작은 깃발(막대는 22 px 오른쪽에서 시작). HUD 안에 글 없음.' },
     aria: { bar: 'aria_progress', best: 'aria_best', dots: 'aria_attempts', flag: 'aria_checkpoint', pause: 'btn_pause', combo: 'aria_combo' },
-    combo_a11y: { role: 'meter', name: 'aria_combo', valuenow: '지금 콤보', valuetext: '숫자만(예 "7", 퍼센트로 읽히지 않게)', live: 'none(판정마다·끊김 때 읽지 않음)', _src: 'R2-D7 · insights runner-01 콤보 대체 글' },
+    combo_a11y: { role: 'meter', name: 'aria_combo', valuenow: '지금 콤보', valuetext: '숫자만(예 "7", 퍼센트로 읽히지 않게)', live: 'none(판정마다·끊김 때 읽지 않음)', where: 'combo.number 자리(HUD 띠 밖 큰 숫자, 2026-11-17)', _src: 'R2-D7 · insights runner-01 콤보 대체 글' },
   },
   combo: {
-    source: 'balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이)',
-    place: { portrait: { row: 3, align: 'left', x: 68, cy: 47 }, landscape: { row: 2, align: 'right', x_from_right: 20, cy: 31 } },
-    shape: { slot_px: SHAPE.combo.slot_px, slot_gap_px: SHAPE.combo.slot_gap_px, ten_px: SHAPE.combo.ten_px, ten_gap_px: SHAPE.combo.ten_gap_px, group_gap_px: SHAPE.combo.group_gap_px, slots: 10, tens_max_layout: 3, rx_px: 2,
-      fill: { slot_empty: 'hudTrack + ink 1.4 px', slot_on: 'ink', ten: 'glow + ink 2 px (둥근 네모, 별 아님)' } },
+    _src: '요청자 지시(2026-11-17, 리듬·러너 전 프로젝트) "콤보는 더 파격적인 연출 — 중앙에 몇 콤보인지 크게, 매칭 비율은 타격 지점 가까이, 콤보가 지속될수록 화면 전체 파티클 강화" · harness/criteria.md 게임 감각 "파격적인 콤보 연출"(131aa6a) · 30-art 6-2. 배치·크기·강화 구조만 참고(DJMAX 글자 디자인·글꼴·이펙트 모양 재현 금지).',
+    source: 'balance.json combo + tools/sim/judge.mjs comboEvents(L, result) — 값·시각 원본은 balance(별도 상태 없이 grades 길이). 단계 값 balance combo.stages, 화음 chord_stages·chord_timing 그대로',
+    replaces: 'round-2 의 HUD 띠 안 점 10칸 + 10마다 큰 표지(숫자 없음)는 폐기. HUD 띠 "글·숫자 없음" 규칙은 콤보 숫자에 한해 풀림 — 숫자는 HUD 띠 밖, 세계 물체 뒤 층에 그림(30-art 4-2·6-2)',
     show_from: 2,
-    update: { scale: [1, 1.15, 1], ms: 120, at: '판정 프레임(hit = 친 순간, hold = roof_out)' },
-    stage: {
-      '5': { fx: '5번째 칸만 1.0 → 1.3 → 1.0, 120 ms', sound: null },
-      '10': { fx: '점 10개가 큰 표지 자리로 0.25 s 미끄러지며 작아지고 큰 표지가 0.6 → 1.0 (0.4 s 합), 점 줄 비움', sound: 'chord_1 (balance chord_timing, R2-D2: 그 판정 접촉 박 다음 정박 중 어떤 접촉의 [놓침 구역 시작, 통과 창 끝]에도 들지 않고 지붕 착지 ±1박도 아닌 첫 정박 — sound-check 가 검사)' },
-      '20': { fx: '10 과 같음 + 그 레벨 accent 색 네모 조각 5개(4 px)가 HUD 띠 안에서 띠 아래 6 px 위까지 내려옴(0.6 s)', sound: 'chord_2 (한 음 높은 화음)' },
-      '30': { fx: '20 과 같음(자리만)', sound: 'chord_2' },
+    layer: {
+      order: ['bg', 'silhouette', 'combo_particles', 'combo_number', 'combo_label', 'hill', 'floor_lane_pebbles', 'drum_leg_shadow', 'marks', 'ball', 'cloud_roof_branch', 'bounce_lines', 'judgement', 'hud'],
+      behind: ['hill', 'floor_lane_pebbles', 'drum_leg_shadow', 'marks', 'ball', 'cloud_roof_branch', 'bounce_lines', 'judgement', 'hud'],
+      _rule: '콤보 층(파티클 → 숫자 → 라벨)은 바탕·배경 실루엣 바로 위, 모든 세계 물체·북·박 표시·공·튐 선·판정 표시·HUD 아래. 바닥 띠가 불투명해 파티클은 하늘(HUD 띠 아래 ~ 바닥 윗선)에만 보임. 공·위험·표시 위에 콤보 층을 그리지 않음',
     },
-    break: { fx: '실패 판정 순간부터 0.25 s 동안 점 줄·큰 표지가 제자리에서 1.0 → 0 으로 작아지며 사라짐(소리 없음)', within_s: 0.3, forbidden: ['✕', '경고음', '흔들림', '0 표시', '잃은 개수', '빨강'], restart: '1.1 s 뒤 빈 줄(콤보 1 까지는 안 보임)' },
-    _rule: '숫자 없이 점 10칸 + 10마다 큰 표지(십의 자리 = 큰 표지 수). 콤보 2부터 보임. 공 색 ball·바탕 단계(바탕 전체 색 바뀜)와 모양·색이 겹치지 않음. 다가오는 길 영역 밖(S10). 지붕 밑 착지 ±1박에는 칸 채움·단계 연출 시작 없음(hold 는 roof_out 에 채움, S9).',
+    region: { gap_below_band_px: 6, gap_above_objects_px: 4,
+      _rule: '세로 = HUD 띠 아래 + 6 ~ min(지붕 윗선, 가지 윗선) − 4 (지붕·가지 아랫면 비율 중 가장 높은 값 기준 — 레벨 개별 값도 검사). 그 사이에 걸치는 세계 물체는 구름(흰 면 + ink 외곽선, 앞 층)뿐. 다가오는 길 영역(S10)은 "앞 층 UI 금지"로 고침 — 뒤 층 콤보는 허용(물체가 늘 위에 그려지고 대비 검사)' },
+    number: {
+      digit_h_of_H: { target: 0.15, min: 0.12, max: 0.18 }, digit_h_of_font: 0.71, digit_adv_of_font: 0.58, ink_fill_ratio: 0.5,
+      weight: 800, family: 'body 와 같은 system-ui 계열 굵게(외부 글꼴 없음)', letter_spacing: 0, align: 'center', format: '<n>(숫자만, 쉼표·x·콤마 없음)',
+      x: { rule: 'cx = max(W/2, 공 세로 줄 오른쪽 + gap_ball_px + 2자리 폭 × stage 튐 / 2). 세로 화면은 공(0.30 W)을 비키려 가운데에서 조금 오른쪽, 가로 화면은 정가운데. 자리 수가 바뀌어도 cx 고정', gap_ball_px: 8, side_margin_px: 8 },
+      size_rule: 'font_px = round(target·H / digit_h_of_font). 실제 레벨 최대 콤보(지금 56 = 2자리)가 이 크기로 자리 안. 3자리(100, 예비)는 자리 폭을 넘으면 그 값만 줄임(정보로 셈)',
+      color: 'palette.json combo_fx.number (그 레벨 accent, 불투명도 0.34)',
+      pop: { scale: [1, 1.12, 1], ms: 120, up_ms: 40, stage_scale: [1, 1.2, 1], stage_ms: 160, origin: '숫자 잉크 상자 가운데', min_interval_ms: 334, alpha: 'const(튐 동안 불투명도·색 그대로 — 밝기 깜빡임 없음)',
+        _rule: '판정 프레임(hit = 친 순간, hold = roof_out)마다 값 바꿔 그리고 튐. 단계(balance combo.stages 5·10·20·30 + 파티클 단계 50)에 닿은 판정은 stage_scale. 앞 튐 시작에서 334 ms 안의 판정은 값만 바꾸고 튐은 새로 시작하지 않음(튐 ≤ 3회/s, L6~L10 반박 쌍 246~263 ms)' },
+      appear: { ms: 120, rule: 'combo = show_from(2) 판정 프레임에 불투명도 0 → 0.34 + 튐' },
+      break: { ms: 250, alpha_to: 0, sink_of_digit_h: 0.06, scale: 'const', rule: '실패 판정 순간부터 0.25 s 동안 불투명도 → 0 + 0.06·숫자 높이만큼 아래로 가라앉음. ✕·경고음·흔들림·"0"·잃은 개수·빨강·크기 튐 없음, 콤보 크기와 무관하게 같은 연출' },
+      clear: '마지막 접촉 판정 확정 때 HUD 와 같이 0.2 s 페이드(게임 시간)',
+      a11y: 'role="meter" 요소를 숫자 자리에(시각은 캔버스): 이름 aria_combo, aria-valuenow = 콤보, aria-valuetext = 숫자만, aria-live 없음(판정마다·끊길 때 읽지 않음). 라벨 글은 aria-hidden(이름이 이미 읽힘)',
+    },
+    label: { text_key: 'combo_label', check_candidates: ['콤보', 'COMBO'], px_of_H: 0.024, px_min: 12, px_max: 20, weight: 800, gap_to_number_px: 6, est_em: { hangul: 1.0, upper: 0.75 },
+      mark: { size_of_px: 0.8, gap_of_px: 0.35, fill: 'glow', stroke: 'ink', stroke_px: 1.5, rx_of_size: 0.22, _rule: '글 왼쪽 작은 금빛 둥근 네모(결과 화면 최고 콤보 표지·레벨 선택 최고 콤보 네모와 같은 "이어서 잘함" 표지, 별 아님)' },
+      tiers: { n: 4, size_of_px: 0.5, gap_of_px: 0.25, lead_of_px: 0.45, on: 'ink 채움', off: 'ink 외곽선 1 px', _rule: '글 오른쪽 단계 칸 4개 = 파티클 단계 1~4. 닿은 단계만 채움(움직임 없음) — 움직임 줄이기에서 파티클 대신 단계를 알림' },
+      color: 'palette.json combo_fx.label (ink 불투명도 0.66, 표지 glow)',
+      _rule: '숫자 바로 위 가운데(cx 같음) 작은 한 줄: [금빛 표지] 라벨 글 [단계 칸 4]. 글은 lore strings.json combo_label(12세 기준 "콤보"·"COMBO" 같은 짧은 말 — 원작 COMBO 글자 모양·기울기·글꼴 아님, body system-ui 굵게)' },
+    particles: {
+      tiers: [
+        { at: 10, count_ref: 8, size_of_d: 0.2, rise_of_H_per_s: 0.05, colors: ['accent'] },
+        { at: 20, count_ref: 14, size_of_d: 0.24, rise_of_H_per_s: 0.07, colors: ['accent', 'glow'] },
+        { at: 30, count_ref: 20, size_of_d: 0.26, rise_of_H_per_s: 0.09, colors: ['accent', 'glow', 'white'] },
+        { at: 50, count_ref: 28, size_of_d: 0.3, rise_of_H_per_s: 0.11, colors: ['accent', 'glow', 'white', 'mint'] },
+      ],
+      tiers_rule: '단계 1~3 = balance combo.stages 10·20·30(화음 chord_1·chord_2·chord_2 와 같은 판정, 화음 시각 규칙 그대로) · 단계 4 = 50(그림만, 소리 없음 — L9·L10 접촉 50·53개에서만 나옴). 콤보 2~9 = 파티클 없음(숫자만), 5 = 숫자 stage 튐만. 100 단계는 두지 않음(레벨 최대 56)',
+      count_scale: { ref_sky_px2: 360 * 456, min: 1, max: 2, rule: 'count = round(count_ref × clamp(하늘 면적 / ref_sky_px2, 1, 2)), 하늘 = W × (바닥 윗선 − HUD 띠 아래)' },
+      count_cap: 56,
+      shape: { kinds: ['rsquare', 'diamond'], rx_of_size: 0.25, rotate: 'none', _rule: '번갈아 둥근 네모·마름모(색종이 조각). 원(공)·별(rhythm-01)·빛줄기·불꽃·광선·후광·꼬리(원작 이펙트)·한 점에서 터지는 폭발 없음. 크기 ≤ 0.3d(공·박 표시와 크기로도 구분)' },
+      motion: { rise: 'rise_of_H_per_s × H (아래 → 위, 떨어지지 않음 — 다가오는 물체와 방향이 다름)', drift_x_of_scroll: -0.3, sway_of_d: 0.15, sway_hz: 0.4, _rule: '가로는 세계 흐름 속도의 0.3배로 왼쪽(먼 층처럼) + 좌우 살랑(진폭 0.15d, 0.4 Hz, 위상 무작위). 회전·잔상·속도선 없음' },
+      spawn: { y: '바닥 윗선 + 크기(바닥 띠 뒤에서 나와 보이기 시작)', x: '0 ~ W 고른 무작위(결정적 LCG, 시드 = 레벨 번호·시도 번호 — QA 재현)', rate_max_of_count_per_s: 1.0, _rule: '목표 개수까지 초당 count 개를 넘지 않게 고르게 내보냄(한꺼번에 터뜨리지 않음)' },
+      fade: { in_s: 0.4, out_band_of_H: 0.08, _rule: '나온 뒤 0.4 s 동안 0 → 그 색 불투명도, HUD 띠 아래 0.08·H 구간에서 0 으로(띠 안에 그리지 않음)' },
+      tier_ramp_s: 0.5,
+      break: { ms: 250, rule: '실패 판정 순간 새로 내보내지 않음, 모든 조각 불투명도 0.25 s 동안 → 0, 오름 속도도 0.25 s 동안 0 으로(제자리에서 가라앉듯 멈추며 사라짐). 크기·색 그대로, 소리 없음' },
+      clear: '마지막 접촉 판정 확정 때 새로 내보내지 않음, 0.6 s 동안 흐려짐(끝 구름·등급 칸과 시간이 겹치지 않음)',
+      pause: '게임 시계로 멈춤(멈춤 메뉴·백그라운드)',
+      forbidden: ['원 모양', '별 모양', '빛줄기·불꽃·광선·후광', '잔상·꼬리·속도선', '번쩍임·깜빡임', '공 색 ball·북 몸통 색 drumBody·지붕 색 roof·빨강', '화면 흔들림', '한 점에서 퍼지는 폭발', '공·위험·박 표시 앞에 그리기'],
+    },
+    reduced_motion: { media: '(prefers-reduced-motion: reduce)', setting: '게임 안 설정이 생기면 같은 동작(지금은 OS 설정만)',
+      number_pop: false, number_break: 'alpha 0.25 s 만(가라앉음 없음)', appear: 'alpha 만', particles: 0, tier_signal: 'label.tiers 단계 칸 채움(움직임 없음)',
+      _rule: '움직임 줄이기: 숫자는 그대로 보이되 튐·가라앉음 없이 값만 바뀜, 파티클은 그리지 않음(0개), 단계는 라벨 옆 단계 칸으로만 알림' },
+    flash: { max_per_s: 3, area_limit_px2: 0.25 * 341 * 256, _rule: 'WCAG 2.3.1 일반 번쩍임 한도: 초당 3회 넘게 바뀌는 밝기 변화는 면적 < 0.25 × 341 × 256 CSS px²(10° 시야 25 %). 숫자 값 바뀜(판정 최소 간격 246 ms = 4.1회/s)은 바뀌는 숫자 한 자리 잉크 면적으로 검사, 튐은 334 ms 간격 제한으로 ≤ 3회/s, 파티클은 한 조각 수명 동안 나타남·사라짐 한 번(≥ 0.33 s 주기), 단계 오름 0.5 s, 끊김 한 번' },
+    perf: { cap: 56, draw_groups_max: 4,
+      rule: '색마다 경로 하나 + fill 한 번(≤ 4 그룹), 미리 잡은 Float32Array 풀(프레임마다 객체·배열을 새로 만들지 않음 — GC 긴 프레임 방지), 숫자는 값이 바뀔 때만 오프스크린 캔버스에 한 번 그리고 프레임마다 drawImage + globalAlpha, 라벨·표지·단계 칸은 레벨 불러올 때 한 번(12절 미리 그리기). 단계 0 이면 갱신·그리기 없음',
+      forbidden: ['shadowBlur', 'filter', 'createLinearGradient/RadialGradient', 'globalCompositeOperation 바꾸기', 'getImageData', '프레임마다 fillText(큰 숫자)'],
+      measure: '6배 스로틀 평균 ≥ 55 fps · 1% low ≥ 45(criteria). 테스트 훅으로 콤보 50(단계 4, 최대 개수)을 켠 채 DPR 3 × 412x915·1280x720 에서 시작·재시작 구간 포함 측정(QA)' },
+    chords: '기존 규칙 그대로: balance combo.chord_stages 10·20·30 → chord_1·chord_2·chord_2, 그 판정 접촉 박 다음 빈 정박(chord_timing), 아이 탭보다 1 dB 이상 작게(sound-check). 그림(숫자 stage 튐·파티클 단계 오름)은 판정 프레임, 소리만 빈 정박',
+    _rule: '중앙 큰 숫자 + 라벨 + 화면 전체 파티클(뒤 층·낮은 불투명도). 콤보 2부터 숫자. 공 색 ball·북 몸통 색·지붕 색 안 씀. 바탕 단계(받침 쉼에서 바탕 전체 색)와 구분: 콤보는 숫자·떠오르는 조각(판정마다), 바탕 단계는 면 색(받침 쉼). 지붕 밑 착지 ±1박에는 값 갱신·단계 시작 없음(hold 는 roof_out, S9).',
   },
   cloud: { base_of_h: SHAPE.cloud.base_of_h, bump_r_of_h: SHAPE.cloud.bump_r_of_h, bump_gap_of_r: SHAPE.cloud.bump_gap_of_r, below_edge_of_d: 0.3, side_margin_of_d: 0.8, outline_px: SHAPE.cloud.outline_px,
     _shape: '긴 구름(W2 구름 통·클리어 끝 구름 role clear): 윗선 = HUD 띠 아래 + gap, 아랫선 = 구름선(0.9·Hp) + 0.3d(공이 구름 속으로 들어가며 위부터 가려짐), 아래 띠 0.55h + 혹(반지름 0.45h, 간격 = 반지름) → 혹 사이 오목한 곳도 0.94h 덮음. 가로 = 레벨 물체 [beat_in, beat_out] 의 화면 x 에 양쪽 0.8d 를 더함(공이 숨는 동안 공 너비를 늘 덮음). 공은 늘 구름 뒤에 그림.' },
@@ -76,7 +121,7 @@ export const LAYOUT = {
     deco: { parallax_default: 0.5, tile: 'palette.json themes.<키>.silhouette(v2, 너비 = W 띠가 끝없이 이어짐)', pebbles: { color: 'floorEdge', w_of_d: 0.32, h_px: 3, dy_of_d: 0.45, gaps_of_W: [0.23, 0.17, 0.31, 0.29], parallax: 1.0, _rule: '바닥 띠 길 아래 짧은 조약돌 — 흐름 속도감(박 격자가 아닌 엇간격, 표시보다 약한 대비)' } },
     scroll_stop: { ref: 'clear_sequence.scroll_stop_beat', ease_beats: 1, draw_only: true, curve: 'drawn = stop − 1 + u − u²/4, u = scrollBeatAt − (stop − 1) 을 감속 없이 이어 센 박(0 ~ 2), u ≥ 2 면 stop', _rule: 'R2-D5: 클리어 뒤 길 멈춤 감속은 빌드 그리기만(judge.mjs scrollBeatAt·worldX 판정 쪽은 바꾸지 않음, 판정이 끝난 뒤). 마지막 1박 거리를 2박 시간에 걸쳐 속도 1 → 0 으로(속도 튐 없음). 끝 구름·공 숨김 검사는 이 그린 박으로 함' },
     restart_rewind: '실패 → 0.85 s(공 다시 나타남)와 같은 프레임에 세상 위치를 0박(연습 = 그 구절)으로 한 번에 되감음. 실패 순간~0.85 s 는 세상 멈춤',
-    approach_rect: 'x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). HUD·콤보·글 자리·손가락이 이 안에 그려지지 않음(S10)',
+    approach_rect: 'x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선(laneBottom). 앞 층 UI(HUD·글 자리·손가락·판정 표시)가 이 안에 그려지지 않음(S10). 뒤 층 콤보 숫자·파티클(combo 절)은 허용 — 모든 물체가 그 위에 그려지고 대비 검사(tools/art/combo-fx.mjs)',
   },
   shadow: { w_of_d_contact: 1.0, w_of_d_far: 0.45, h_of_w: 0.28, _rule: '그림자 너비 = d·lerp(1.0, 0.45, min(1, h / Hp)). 구름 뒤에 있는 동안도 보임.' },
   bg_stage: { rule: 'n번째 받침 쉼(레벨 처음 = 1, 받침 쉼 P개) 이 시작할 때 단계 = 1 + round(2·(n − 1) / (P − 1)) (P = 1 이면 1). round-2: 받침 쉼이 2개인 레벨도 마지막 쉼에서 bg3 에 닿음(P=2: 1·3, P=3: 1·2·3, P=4: 1·2·2·3). 지붕 밑 쉼은 단계를 바꾸지 않음', blend: '그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임 없음)', restart: '처음부터 = bg1, 연습 체크포인트 = 그 받침 쉼 단계 색으로 바로', clear: '그때 단계 → bg1, 1 s' },
@@ -93,7 +138,7 @@ export const LAYOUT = {
     late: { motion_s: 0.45, path: '가죽 위 납작하게 앉음(통과 창 동안) → 북 오른쪽 끝으로 굴러 바닥에 떨어짐 → 굴러 멈춤', side: 'right' },
     early: { motion_max_s: 0.6, roll_s: 0.2, swing_lines_s: 0.12, path: '헛스윙 바람선 2개 → 공은 같은 포물선으로 내려오며 북 왼쪽 옆으로 비껴 떨어져 굴러 멈춤', side: 'left', motion_rule: 'm = min(0.6, max(0.45, 남은 낙하 + 0.2)) = balance early_fall_rule' },
     bump_roof: { motion_s: 0.45, rise_s: 0.15, touch_sq: 0.85, side: 'right', path: '지붕 밑에 앉은 공을 친 탭: 북 톡과 함께 공이 0.15 s 동안 지붕 아랫면까지 떠 살짝 납작(0.85) 콩 닿음 → 북 오른쪽으로 떨어져 굴러 멈춤. 지붕은 움직이지 않음(흔들림·번쩍임 없음)', sound: 'roof_bump(아이 탭보다 작게, 부드러운 삼각파)' },
-    world: '실패 순간 세상(길·표시·물체·배경)은 그 자리에 멈춤. 콤보는 0.25 s 안에 작아져 사라짐',
+    world: '실패 순간 세상(길·표시·물체·배경)은 그 자리에 멈춤. 콤보 숫자·파티클은 0.25 s 안에 조용히 가라앉아 사라짐(combo.number.break·particles.break)',
     two_balls: '예비(두 공 G5 내려감): 쓰면 round-1 규칙 그대로', no_dust: true,
   },
   restart_timeline_s: {
@@ -105,7 +150,7 @@ export const LAYOUT = {
   clear_timeline: {
     source: 'balance clear_sequence + levels clear_sequence + level objects(type cloud, role clear) — 시간축·구름 자리 원본은 balance',
     rise_to_of_Hp: 1.0, cloud_blend_s: 1.0, cloud_blend_to: 'palette themes.<키>.clearCloud (cloud 와 accent 35 % 섞음 — N11)', bg_blend_s: 1.0, clear_sound_at: 'big_toss', slots_appear_at: 'big_toss', grade_grow_s: 0.25, grade_grow: [0.6, 1.0],
-    hud_fade: '마지막 접촉 판정 확정(clearTimeMs) 때 0.2 s 게임 시간(콤보 줄도 같이)',
+    hud_fade: '마지막 접촉 판정 확정(clearTimeMs) 때 0.2 s 게임 시간(콤보 숫자·라벨도 같이, 파티클은 0.6 s 흐려짐)',
     result_at: 'length_beats',
     _rule: '큰 튐(판정 없음): 공이 스스로 1.0·Hp 까지 떠 끝 구름(role clear 물체, 길 멈춤 자리) 속에 머묾. 끝 구름 cloud → clearCloud 1 s(연한 테마색, 등급 칸 진한 accent 와 구분), 바탕 → bg1 1 s, 등급 칸 3개 점선 → 받은 칸 accent 채움.' },
   text_slots: {
@@ -191,14 +236,51 @@ export function compute(L, W, H, safeTop = 0, safeBottom = 0, drumXRatio = 0.3) 
   const c = 0.5 * Hp;
   const fingerH = L.finger.h_of_d * d, fingerX = drumLeft - 0.25 * fingerH - 2, fingerTip = laneY + L.finger.tip_dy_of_d * d;
   const fb = fingerBox(fingerX, fingerTip, fingerH, { mirror: true });
-  const comboP = portrait ? L.combo.place.portrait : L.combo.place.landscape;
-  const comboW = comboWidth(L.combo.shape.tens_max_layout);
-  const comboX0 = comboP.align === 'left' ? comboP.x : W - comboP.x_from_right - comboW;
-  const comboBox = { x0: comboX0, x1: comboX0 + comboW, y0: safeTop + comboP.cy - SHAPE.combo.ten_px / 2, y1: safeTop + comboP.cy + Math.max(SHAPE.combo.ten_px, SHAPE.combo.slot_px * 1.3) / 2 };
+  const r = d / 2 + L.ball.outline_of_d * d, ballRight = cx + r;
+  const combo = comboGeom(L, { W, H, portrait, d, bandBottom, skinY, Hp, ballRight, floorTop });
+  const comboBox = combo.popBox; // 2자리·stage 튐 상자(숫자 + 라벨)
   const A = L.hud.attempts, attW = A.max_big_shown * A.big_pitch + 9 * A.pitch;
   const attBox = { x0: A.x0 - A.big_r, x1: A.x0 - A.big_r + attW, y0: safeTop + A.cy - A.big_r, y1: safeTop + A.cy + A.big_r };
   const judge = L.judgement ? judgeGeom(L, { portrait, d, cx, drumLeft, skinY, floorTop, Hp, fingerBox: fb }) : null;
-  return { W, H, safeTop, safeBottom, portrait, S, d, dw, dh, skinY, floorTop, bandBottom, objTop, topLimit, Hp, cloudEdgeY, cloudBottom, cloudH, cx, drumLeft, laneY, laneBottom, c, fingerX, fingerTip, fingerH, fingerBox: fb, comboBox, attBox, comboP, judge };
+  return { W, H, safeTop, safeBottom, portrait, S, d, dw, dh, skinY, floorTop, bandBottom, objTop, topLimit, Hp, cloudEdgeY, cloudBottom, cloudH, cx, drumLeft, laneY, laneBottom, c, fingerX, fingerTip, fingerH, fingerBox: fb, comboBox, combo, attBox, judge };
+}
+
+// ---------- 콤보 큰 숫자·라벨 자리 (30-art 6-2, layout.json combo) ----------
+// 지붕·가지 윗선 중 가장 높은 곳(화면 y 가 가장 작은 곳): 아랫면 비율(under)이 클수록 높음. 레벨 개별 값은 combo-fx 검사에서 대조
+export function objTopY(g, bal = BAL0, roofUnder = null, branchUnder = null) {
+  const ru = roofUnder ?? bal.objects?.roof?.under_of_Hp ?? 0.45, bu = branchUnder ?? bal.objects?.branch?.under_of_Hp ?? 0.34;
+  const rg = roofGeom(0, 100, g.skinY - ru * g.Hp, g.d), roofTop = rg.domeTop - (rg.bodyTop - rg.domeTop);
+  const branchTop = branchGeom(0, 100, g.skinY - bu * g.Hp, g.d).top;
+  return { roofTop, branchTop, top: Math.min(roofTop, branchTop) };
+}
+export const labelEstW = (s, px) => [...s].reduce((a, ch) => a + (/[ㄱ-힣]/.test(ch) ? 1.0 : /[A-Z0-9]/.test(ch) ? 0.75 : ch === ' ' ? 0.3 : 0.62), 0) * px;
+// g: { W, H, portrait, d, bandBottom, skinY, Hp, ballRight, floorTop }, opt: { digits, label(가장 긴 라벨 글), topY(물체 윗선, 없으면 balance 기본) }
+export function comboGeom(L, g, opt = {}) {
+  const C = L.combo, N = C.number, B = C.label;
+  const digits = opt.digits ?? 2;
+  const topY = opt.topY ?? objTopY(g).top;
+  const labelPx = Math.round(Math.max(B.px_min, Math.min(B.px_max, B.px_of_H * g.H)));
+  let fontPx = Math.round((N.digit_h_of_H.target * g.H) / N.digit_h_of_font);
+  const stage = N.pop.stage_scale[1];
+  const w2 = 2 * N.digit_adv_of_font * fontPx;
+  const cxNum = Math.max(g.W / 2, g.ballRight + N.x.gap_ball_px + (w2 * stage) / 2);
+  // 자리 수가 많아 자리 폭을 넘으면 그 값만 줄임(cx 고정)
+  const halfAvail = Math.min(cxNum - (g.ballRight + N.x.gap_ball_px), g.W - N.x.side_margin_px - cxNum);
+  const needHalf = (digits * N.digit_adv_of_font * fontPx * stage) / 2;
+  let shrunk = false;
+  if (needHalf > halfAvail + 0.5) { fontPx = Math.floor((2 * halfAvail) / (digits * N.digit_adv_of_font * stage)); shrunk = true; }
+  const digitH = N.digit_h_of_font * fontPx, numW = digits * N.digit_adv_of_font * fontPx;
+  const labelY0 = g.bandBottom + C.region.gap_below_band_px, labelY1 = labelY0 + labelPx;
+  const cy = labelY1 + B.gap_to_number_px + (digitH * stage) / 2;
+  const digitBox = { x0: cxNum - numW / 2, x1: cxNum + numW / 2, y0: cy - digitH / 2, y1: cy + digitH / 2 };
+  const numPop = { x0: cxNum - (numW * stage) / 2, x1: cxNum + (numW * stage) / 2, y0: cy - (digitH * stage) / 2, y1: cy + (digitH * stage) / 2 };
+  const lbl = opt.label ?? B.check_candidates.reduce((a, s) => (labelEstW(s, labelPx) > labelEstW(a, labelPx) ? s : a), B.check_candidates[0]);
+  const markW = B.mark.size_of_px * labelPx, tiersW = B.tiers.n * B.tiers.size_of_px * labelPx + (B.tiers.n - 1) * B.tiers.gap_of_px * labelPx;
+  const labelW = markW + B.mark.gap_of_px * labelPx + labelEstW(lbl, labelPx) + B.tiers.lead_of_px * labelPx + tiersW;
+  const labelBox = { x0: cxNum - labelW / 2, x1: cxNum + labelW / 2, y0: labelY0, y1: labelY1 };
+  const popBox = { x0: Math.min(numPop.x0, labelBox.x0), x1: Math.max(numPop.x1, labelBox.x1), y0: labelY0, y1: numPop.y1 };
+  const region = { x0: g.ballRight + N.x.gap_ball_px, x1: g.W - N.x.side_margin_px, y0: labelY0, y1: topY - C.region.gap_above_objects_px };
+  return { digits, fontPx, digitH, numW, labelPx, label: lbl, labelW, markW, tiersW, cx: cxNum, cy, baseline: digitBox.y1, digitBox, numPop, labelBox, popBox, region, topY, shrunk, stage };
 }
 
 // ---------- 판정 이름·% 표시 (30-art 6-3, layout.json judgement) ----------
@@ -395,7 +477,7 @@ export function worldChecks(L, D) {
   return { out, fail, wait, rows };
 }
 
-// 화면 고정 검사(레벨 무관): HUD 띠·콤보·글 자리·손가락·구름 덮음·배경 실루엣 윗선
+// 화면 고정 검사(레벨 무관): HUD 띠·콤보(띠 밖)·글 자리·손가락·구름 덮음·배경 실루엣 윗선
 export function staticChecks(L, D) {
   let strings = null; try { strings = JSON.parse(readFileSync(join(PROJ, 'strings.json'), 'utf8')); } catch {}
   const rows = []; let fail = 0;
@@ -434,8 +516,7 @@ export function staticChecks(L, D) {
       hudBand: bandOk && g.bar_ok !== false,
       visibleBallBelowHud: g.cloudEdgeY - g.d - L.ball.outline_of_d * g.d >= g.objTop,
       cloudCovers: cg.coverTop <= coverNeed + 1e-6 && g.cloudH >= 1.4 * g.d,
-      comboInBand: g.comboBox.y0 >= st && g.comboBox.y1 <= g.bandBottom && g.comboBox.x1 <= W - 8,
-      comboAttemptsApart: g.comboP.row === 3 ? g.comboBox.y0 >= g.attBox.y1 + 1 : g.comboBox.x0 >= g.attBox.x1 + 8,
+      comboBelowBand: g.comboBox.y0 >= g.bandBottom && g.comboBox.x1 <= W - 8, // 콤보 숫자·라벨은 HUD 띠 밖(자세한 검사 = combo-fx.mjs)
       laneInside: g.laneBottom <= H - sb - 2,
       fingerOk: g.fingerBox.x0 >= 4 && g.fingerBox.x1 <= g.drumLeft - 1 && g.fingerBox.y1 <= H - sb - 1 && !inApproach(g.fingerBox),
       textSlot: strings ? slot.x1 - slot.x0 >= 100 && Object.values(lines).every((n) => n <= maxLines) && needH <= slot.y1 - slot.y0 && !inApproach(slot) : true,
@@ -552,12 +633,46 @@ export function judgementWorld(L, D) {
   return { out, fail };
 }
 
+// 콤보 층 SVG(목업·기준 그림): 파티클(그 콤보 단계) → 큰 숫자 → 라벨(표지·글·단계 칸). 색·불투명도 = palette combo_fx
+export const comboTier = (L, n) => { let k = 0; L.combo.particles.tiers.forEach((t, i) => { if (n >= t.at) k = i + 1; }); return k; };
+export function comboFxSvg(L, g, theme, n, { seed = 1, particles = true, label = null, PALx = PAL } = {}) {
+  const T = PALx.themes[theme], C = PALx.common, F = PALx.combo_fx || {};
+  const col = (key) => (key === 'accent' ? T.accent : C[key] ?? key);
+  const tierN = comboTier(L, n), P = L.combo.particles, s = [];
+  if (particles && tierN) {
+    const t = P.tiers[tierN - 1], sky = g.W * (g.floorTop - g.bandBottom);
+    const cnt = Math.min(P.count_cap, Math.round(t.count_ref * Math.max(P.count_scale.min, Math.min(P.count_scale.max, sky / P.count_scale.ref_sky_px2))));
+    let r = seed >>> 0; const rnd = () => ((r = (Math.imul(r, 1664525) + 1013904223) >>> 0) / 4294967296);
+    const sz = t.size_of_d * g.d, fadeY = g.bandBottom + P.fade.out_band_of_H * g.H;
+    for (let i = 0; i < cnt; i++) {
+      const x = rnd() * g.W, y = g.bandBottom + rnd() * (g.floorTop - g.bandBottom);
+      const ck = t.colors[i % t.colors.length], pc = F.particles?.[ck] || { color: ck, alpha: 0.5 };
+      const a = pc.alpha * Math.max(0, Math.min(1, (y - g.bandBottom) / (fadeY - g.bandBottom)));
+      if (a <= 0.01) continue;
+      if (i % 2 === 0) s.push(`<rect x="${(x - sz / 2).toFixed(1)}" y="${(y - sz / 2).toFixed(1)}" width="${sz.toFixed(1)}" height="${sz.toFixed(1)}" rx="${(sz * P.shape.rx_of_size).toFixed(1)}" fill="${col(pc.color)}" fill-opacity="${a.toFixed(2)}"/>`);
+      else s.push(`<path d="M${x.toFixed(1)} ${(y - sz * 0.62).toFixed(1)}L${(x + sz * 0.62).toFixed(1)} ${y.toFixed(1)}L${x.toFixed(1)} ${(y + sz * 0.62).toFixed(1)}L${(x - sz * 0.62).toFixed(1)} ${y.toFixed(1)}Z" fill="${col(pc.color)}" fill-opacity="${a.toFixed(2)}"/>`);
+    }
+  }
+  const G = g.combo, B = L.combo.label, fam = "system-ui, -apple-system, 'Segoe UI', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif";
+  const nf = F.number || { color: 'accent', alpha: 0.34 }, lf = F.label || { color: 'ink', alpha: 0.66 };
+  s.push(`<text x="${G.cx.toFixed(1)}" y="${G.baseline.toFixed(1)}" text-anchor="middle" font-family="${fam}" font-weight="${L.combo.number.weight}" font-size="${G.fontPx}" fill="${col(nf.color)}" fill-opacity="${nf.alpha}">${n}</text>`);
+  const lp = G.labelPx, lx0 = G.labelBox.x0, ly = G.labelBox.y0, ms = B.mark.size_of_px * lp;
+  let lab = `<g opacity="${lf.alpha}"><rect x="${lx0.toFixed(1)}" y="${(ly + (lp - ms) / 2).toFixed(1)}" width="${ms.toFixed(1)}" height="${ms.toFixed(1)}" rx="${(ms * B.mark.rx_of_size).toFixed(1)}" fill="${C[B.mark.fill]}" stroke="${C[B.mark.stroke]}" stroke-width="${B.mark.stroke_px}"/>`;
+  const tx = lx0 + ms + B.mark.gap_of_px * lp, txt = label ?? G.label;
+  lab += `<text x="${tx.toFixed(1)}" y="${(ly + lp * 0.86).toFixed(1)}" font-family="${fam}" font-weight="${B.weight}" font-size="${lp}" fill="${col(lf.color)}">${txt}</text>`;
+  const ts = B.tiers.size_of_px * lp; let x = tx + labelEstW(txt, lp) + B.tiers.lead_of_px * lp;
+  for (let i = 0; i < B.tiers.n; i++) { lab += `<rect x="${x.toFixed(1)}" y="${(ly + (lp - ts) / 2).toFixed(1)}" width="${ts.toFixed(1)}" height="${ts.toFixed(1)}" rx="1.5" fill="${i < tierN ? C.ink : 'none'}" stroke="${C.ink}" stroke-width="1"/>`; x += ts + B.tiers.gap_of_px * lp; }
+  s.push(lab + '</g>');
+  return s.join('\n');
+}
+
 function mockup(L, W, H, scene) {
   const g = compute(L, W, H), C = PAL.common, T = PAL.themes[scene.theme];
   const o = Math.max(2, L.ball.outline_of_d * g.d), ppb = ((1 - 0.3) * W) / scene.ahead, X = (b) => g.cx + b * ppb;
   const s = [];
   s.push(`<rect width="${W}" height="${H}" fill="${T.bg1}"/>`);
   for (const e of T.silhouette || []) { if (e.t === 'rect') { const top = e.anchor === 'floor' ? g.floorTop - e.dy * g.S - e.h * g.S : g.bandBottom + e.dy * g.S; s.push(`<rect x="${(e.x * W).toFixed(1)}" y="${top.toFixed(1)}" width="${(e.w === 'full' ? W : e.w * g.S).toFixed(1)}" height="${(e.h * g.S).toFixed(1)}" fill="${T.sil}"/>`); } }
+  if (scene.combo >= (L.combo.show_from ?? 2)) s.push(comboFxSvg(L, g, scene.theme, scene.combo, { seed: W + H }));
   s.push(`<rect x="0" y="${g.floorTop}" width="${W}" height="${H - g.floorTop}" fill="${T.floor}"/><rect x="0" y="${g.floorTop}" width="${W}" height="2" fill="${T.floorEdge}"/>`);
   for (const [i, gx] of L.world.deco.pebbles.gaps_of_W.entries()) s.push(`<rect x="${(W * (0.05 + L.world.deco.pebbles.gaps_of_W.slice(0, i).reduce((a, b) => a + b, 0))).toFixed(1)}" y="${(g.laneY + L.world.deco.pebbles.dy_of_d * g.d).toFixed(1)}" width="${(0.32 * g.d).toFixed(1)}" height="3" rx="1.5" fill="${T.floorEdge}"/>`);
   for (const ob of scene.objs || []) if (ob.type === 'hill') s.push(hillSvg(X(ob.b0), X(ob.b1), g.floorTop, 0.3 * g.Hp + g.dh, T.hill));
@@ -580,8 +695,6 @@ function mockup(L, W, H, scene) {
   s.push(`<rect x="${Hd.bar.x0 + 2}" y="${st + Hd.bar.y + 2}" width="${((bx1 - Hd.bar.x0 - 4) * scene.progress).toFixed(1)}" height="${Hd.bar.h - 4}" rx="3" fill="${C.drumBody}"/>`);
   s.push(`<circle cx="${(Hd.bar.x0 + (bx1 - Hd.bar.x0) * 0.62).toFixed(1)}" cy="${st + Hd.bar.y + Hd.bar.h / 2}" r="${Hd.bar.best_r}" fill="${C.ball}" stroke="${C.ink}" stroke-width="2"/>`);
   for (let i = 0; i < scene.attempts; i++) s.push(`<circle cx="${Hd.attempts.x0 + i * Hd.attempts.pitch}" cy="${st + Hd.attempts.cy}" r="${Hd.attempts.dot_r}" fill="${C.drumBody}"/>`);
-  const cp = g.comboP;
-  s.push(comboSvg(cp.align === 'left' ? cp.x : W - cp.x_from_right, st + cp.cy, scene.combo, { align: cp.align }));
   const pz = Hd.pause;
   s.push(`<rect x="${pz.x}" y="${pz.y}" width="${pz.size}" height="${pz.size}" rx="13" fill="${C.hudTrack}" stroke="${C.ink}" stroke-width="2"/><rect x="${pz.x + 14}" y="${pz.y + 12}" width="6" height="20" rx="3" fill="${C.ink}"/><rect x="${pz.x + 24}" y="${pz.y + 12}" width="6" height="20" rx="3" fill="${C.ink}"/>`);
   // 치수 표시(빌드에 그리지 않음)
@@ -589,10 +702,11 @@ function mockup(L, W, H, scene) {
   s.push(`<g stroke="#D11" stroke-width="1" fill="none" stroke-dasharray="4 3"><line x1="0" y1="${g.bandBottom}" x2="${W}" y2="${g.bandBottom}"/><line x1="8" y1="${g.skinY}" x2="${W - 8}" y2="${g.skinY}"/><line x1="8" y1="${yHp.toFixed(1)}" x2="${W - 8}" y2="${yHp.toFixed(1)}"/><line x1="8" y1="${g.cloudEdgeY.toFixed(1)}" x2="${W - 8}" y2="${g.cloudEdgeY.toFixed(1)}"/><line x1="${g.cx}" y1="${g.bandBottom}" x2="${g.cx}" y2="${H}"/>`);
   if (scene.slot) { const r = staticChecks(L).rows.find((x) => x.g.W === W && x.g.H === H).slot; s.push(`<rect x="${r.x0}" y="${r.y0.toFixed(1)}" width="${(r.x1 - r.x0).toFixed(1)}" height="${(r.y1 - r.y0).toFixed(1)}"/>`); }
   s.push(`<rect x="${g.drumLeft.toFixed(1)}" y="${g.bandBottom}" width="${(W - g.drumLeft).toFixed(1)}" height="${(g.laneBottom - g.bandBottom).toFixed(1)}" stroke="#1A8" stroke-dasharray="2 4"/>`);
+  { const R = g.combo.region; s.push(`<rect x="${R.x0.toFixed(1)}" y="${R.y0.toFixed(1)}" width="${(R.x1 - R.x0).toFixed(1)}" height="${(R.y1 - R.y0).toFixed(1)}" stroke="#E80" stroke-dasharray="6 3"/>`); }
   if (g.judge) { const Z = g.judge.zone; s.push(`<rect x="${Z.x0}" y="${Z.y0.toFixed(1)}" width="${(Z.x1 - Z.x0).toFixed(1)}" height="${(Z.y1 - Z.y0).toFixed(1)}" stroke="#C0C" stroke-dasharray="1 3"/>`); }
   s.push('</g>');
   s.push(`<g font-family="sans-serif" font-size="10" fill="#D11"><text x="${W - 150}" y="${g.bandBottom + 11}">HUD 띠 아래 y ${g.bandBottom}</text><text x="10" y="${g.skinY - 3}">북 가죽 h=0</text><text x="10" y="${(yHp - 3).toFixed(1)}">h = Hp ${g.Hp.toFixed(0)}px</text><text x="10" y="${(g.cloudEdgeY + 11).toFixed(1)}">구름선 0.9 Hp</text><text x="${g.cx + 4}" y="${H - 6}">북 0.30 W</text>${scene.slot ? `<text x="${scene.slotLabelX ?? 20}" y="${H - 6}">tut_tap 글 자리</text>` : ''}</g>`);
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">\n<!-- rhythm-02 round-2 플레이 화면 목업 ${W}x${H} (tools/art/layout.mjs 생성, 손으로 고치지 않음). ${scene.note} 빨간 점선 = HUD 띠 아래·북 가죽·Hp·구름선·북 0.30 W, 초록 점선 = 다가오는 길 영역(S10: UI 금지), 빨간 상자 = 글 자리(빌드에 없음), 보라 점선 = 판정 이름·% 자리(layout.json judgement, 빌드에 없음). 30-art 4절·6-3 -->\n${s.join('\n')}\n</svg>\n`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">\n<!-- rhythm-02 round-2 플레이 화면 목업 ${W}x${H} (tools/art/layout.mjs 생성, 손으로 고치지 않음). ${scene.note} 빨간 점선 = HUD 띠 아래·북 가죽·Hp·구름선·북 0.30 W, 초록 점선 = 다가오는 길 영역(S10: UI 금지), 빨간 상자 = 글 자리(빌드에 없음), 보라 점선 = 판정 이름·% 자리(layout.json judgement, 빌드에 없음), 주황 점선 = 콤보 큰 숫자·라벨 자리(layout.json combo.region, 빌드에 없음). 콤보 숫자·라벨·파티클은 바탕·실루엣 바로 위 뒤 층(물체·북·공이 그 위). 30-art 4절·6-2·6-3 -->\n${s.join('\n')}\n</svg>\n`;
 }
 
 const isMain = process.argv[1] && process.argv[1].replace(/\\/g, '/').endsWith('tools/art/layout.mjs');
@@ -601,7 +715,7 @@ if (isMain) {
   const L = args.includes('--check') ? JSON.parse(readFileSync(OUT, 'utf8')) : LAYOUT;
   if (!args.includes('--check')) {
     writeFileSync(OUT, JSON.stringify(L, null, 1) + '\n');
-    writeFileSync(join(PROJ, 'assets/mockup-play-360x640.svg'), mockup(L, 360, 640, { theme: 'level05', ahead: 3.5, marks: [0.45, 4.45], ballH: 0.15, objs: [{ type: 'roof', b0: 0.85, b1: 3.85 }], progress: 0.35, attempts: 3, combo: 7, judge: { grade: 'perfect', name: '딱이야', pct: 100 }, note: '레벨 5 색, 공 = 1박 비행 내려오는 중, 지붕(치지 마)이 다가옴(앞 3.5박), 콤보 7, 앞 hit 판정 표시 "딱이야 100%"(가장 긴 이름, 북 옆·공 세로 줄 왼쪽, 유지 400 ms 안의 모습).' }));
+    writeFileSync(join(PROJ, 'assets/mockup-play-360x640.svg'), mockup(L, 360, 640, { theme: 'level05', ahead: 3.5, marks: [0.45, 4.45], ballH: 0.15, objs: [{ type: 'roof', b0: 0.85, b1: 3.85 }], progress: 0.35, attempts: 3, combo: 23, judge: { grade: 'perfect', name: '딱이야', pct: 100 }, note: '레벨 5 색, 공 = 1박 비행 내려오는 중, 지붕(치지 마)이 다가옴(앞 3.5박), 콤보 23(파티클 단계 2: accent + 금빛 조각, 뒤 층), 앞 hit 판정 표시 "딱이야 100%"(가장 긴 이름, 북 옆·공 세로 줄 왼쪽, 유지 400 ms 안의 모습).' }));
     // 판정 표시 기준 그림: 360x640 크기(이름 28 / % 15 px), 위 = 한국어, 아래 = 영어, 왼→오 딱 / 좋아 / 통과. 두 바탕(L1 bg1, L9 bg3 = 가장 어두운 바탕)
     {
       let strings = {}; try { strings = JSON.parse(readFileSync(join(PROJ, 'strings.json'), 'utf8')); } catch {}
@@ -611,7 +725,7 @@ if (isMain) {
       [0, 1].forEach((k) => ['ko', 'en'].forEach((lang, li) => ['perfect', 'good', 'pass'].forEach((gr, i) => { b += judgementSvg(L, i * cell + cell - 14, (k * 2 + li) * rowH + 6, g.nameP, g.pctP, gr, names[gr][lang], { perfect: 100, good: 70, pass: 30 }[gr], PALc); })));
       writeFileSync(join(PROJ, 'assets/obj-judgement.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cell * 3} ${rowH * 4}" width="${cell * 3}" height="${rowH * 4}">\n<!-- 판정 이름·% 표시 기준(30-art 6-3, layout.json judgement, tools/art/layout.mjs 생성 — 손으로 고치지 않음). 360x640 크기: 이름 ${g.nameP} px(굵게, 면 = judgePerfect/judgeGood/judgePass + ink 외곽선 3 px paint-order stroke), % ${g.pctP} px(ink), 이름 위 튐 선 2·1·0쌍 = 공 옆 튐 선과 같은 수. 왼→오 딱(${names.perfect.ko}/${names.perfect.en}) · 좋아 · 통과, 줄 = 한국어 / 영어, 위 두 줄 L1 bg1 · 아래 두 줄 L9 bg3. 오른쪽 맞춤(자리 오른쪽 끝 = 북·공 쪽). 글꼴은 system-ui(외부 글꼴 없음) — 실제 폭은 빌드 글꼴에서 measureText. 원작 판정 글자·이름 아님 -->\n${b}\n</svg>\n`);
     }
-    writeFileSync(join(PROJ, 'assets/mockup-play-640x360.svg'), mockup(L, 640, 360, { theme: 'level01', ahead: 4, marks: [0, 1, 2, 3, 4], ballH: 0, finger: true, slot: true, progress: 0.08, attempts: 1, combo: 2, note: '레벨 1 색, 첫 접촉: 표시가 북 다리 밑에 옴 + 손가락(북 왼쪽 바닥) + tut_tap 글 자리, 콤보 2.' }));
+    writeFileSync(join(PROJ, 'assets/mockup-play-640x360.svg'), mockup(L, 640, 360, { theme: 'level01', ahead: 4, marks: [0, 1, 2, 3, 4], ballH: 0, finger: true, slot: true, progress: 0.08, attempts: 1, combo: 12, note: '레벨 1 색, 첫 접촉: 표시가 북 다리 밑에 옴 + 손가락(북 왼쪽 바닥) + tut_tap 글 자리, 콤보 12(파티클 단계 1 — 장면 설명용, 실제 첫 접촉은 콤보 0).' }));
   }
   let D = null;
   try { D = await loadLevels(); } catch (e) { console.log(`대기: levels/·balance.json·tools/sim/judge.mjs 읽기 실패(balance 수정 중일 수 있음): ${e.message}`); }
@@ -661,6 +775,6 @@ if (isMain) {
     for (const x of lc.out) console.log(x);
     total += Wc.fail + lc.fail; wait += Wc.wait + lc.wait;
   } else { wait++; }
-  console.log(total ? `layout FAIL ${total}${wait ? ` (대기 ${wait})` : ''}` : `layout OK (HUD 띠·콤보 자리·구름 덮음·보이는 공·실루엣 윗선 ≥ HUD 띠, 글 자리·손가락 길 영역 밖, 판정 이름·% 크기·자리·겹침(4해상도 × 가장 긴 이름, 시간축), 표시 간격 ≥ 32 px 4해상도, 높이 round-1 항목${wait ? ` — 대기 ${wait}: balance v2 레벨` : ''})`);
+  console.log(total ? `layout FAIL ${total}${wait ? ` (대기 ${wait})` : ''}` : `layout OK (HUD 띠·콤보 띠 밖·구름 덮음·보이는 공·실루엣 윗선 ≥ HUD 띠, 글 자리·손가락 길 영역 밖, 판정 이름·% 크기·자리·겹침(4해상도 × 가장 긴 이름, 시간축), 표시 간격 ≥ 32 px 4해상도, 높이 round-1 항목${wait ? ` — 대기 ${wait}: balance v2 레벨` : ''})`);
   process.exit(total ? 1 : 0);
 }

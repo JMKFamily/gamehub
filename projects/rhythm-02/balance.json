@@ -361,11 +361,11 @@
   "level": "01",
   "contact_index": 0,
   "appear": "at_toss",
-  "press_start_beats": -0.2,
+  "press_start_inside_pass_ms": 25,
   "press_end_beats": 0,
   "gone": "on_hit_else_contact_pass_end",
   "position": "relative_to_drum",
-  "_note": "레벨 1 첫 접촉 1회. 토스 때 나타나 접촉 -0.2박(100 BPM -120 ms, 통과 창 -150 안)에 누르기 시작, 접촉 시각에 다 누름(누름 120 ms), 공을 치는 순간 사라짐(늦어도 통과 창 끝 3170 ms). 사라짐 시각의 원본은 fingerSchedule().gone 하나(결정 D4): assets/layout.json finger 에 고정 ms 가 있으면 검증 S5 가 그 값으로도 다음 위험 구간(3250 ms~)과 겹침 0 ms 를 확인. 검증 S1·S5.",
+  "_note": "레벨 1 첫 접촉 1회. 토스 때 나타나 접촉 − (pass_early_ms − press_start_inside_pass_ms)에 누르기 시작(2026-11-18: 박 고정 -0.2박 → 데이터 계산. L1 pass_early 125 → 접촉 −100 ms, 통과 창 이른 끝보다 25 ms 안, art 기준 ≥ −105), 접촉 시각에 다 누름(누름 100 ms), 공을 치는 순간 사라짐(늦어도 통과 창 끝 3170 ms). 사라짐 시각의 원본은 fingerSchedule().gone 하나(결정 D4): assets/layout.json finger 에 고정 ms 가 있으면 검증 S5 가 그 값으로도 다음 위험 구간(3250 ms~)과 겹침 0 ms 를 확인. 검증 S1·S5.",
   "gone_source": "judge.mjs fingerSchedule().gone"
  },
  "bots": {
@@ -936,10 +936,11 @@
   "hold_shown_at": "roof_out",
   "show_from": 2,
   "display": {
-   "dots_per_row": 10,
-   "big_mark_every": 10,
-   "digits": false,
-   "place": "hud_band_under_progress_bar"
+   "digits": true,
+   "place": "top_center_behind_world",
+   "layout": "assets/layout.json combo (number·label·particles·layer)",
+   "particle_tiers": [10, 20, 30, 50],
+   "_note": "2026-11-18: 요청자 지시(criteria 131aa6a)로 art 가 HUD 띠 안 점 10칸 → 위쪽 가운데 큰 숫자 + 화면 전체 파티클(뒤 층)로 바꿈. 단계 10·20·30 = 화음 chord_stages 와 같은 판정(그림 파티클 단계 1~3), 50 = 파티클 단계 4(그림만, 소리 없음). 5 = 숫자 단계 튐만. 검증 S10."
   },
   "update_pop": {
    "scale": [
@@ -971,7 +972,7 @@
    "30": {
     "ms": 600,
     "sound": "chord_2",
-    "_note": "2026-11-17 12세 재조정: 레벨 접촉 27~56개라 L2~L10 에서 30 단계가 실제로 나옴(옛 reserved 해제). 연출은 20 과 같음(art layout.json combo 30 \"자리만\" 문구 갱신 필요). 40·50 단계는 두지 않음(점 줄 10칸 + 10마다 큰 표지로 표시)."
+    "_note": "2026-11-17 12세 재조정: 레벨 접촉 27~56개라 L2~L10 에서 30 단계가 실제로 나옴(옛 reserved 해제). 연출 = 숫자 단계 튐 + 파티클 단계 3(art layout.json combo). 소리 단계 40·50 은 두지 않음(50 은 art 파티클 단계 4 그림만, display.particle_tiers)."
    }
   },
   "chord_stages": [

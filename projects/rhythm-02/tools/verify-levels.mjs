@@ -18,7 +18,7 @@
 //   V18 보이는 시간(14-5)     V19 한 화면 위험 수(14-5)          V20 가장 짧은 표시 간격 ≥ 32 px(4해상도)     V21 지붕 배치 규칙 ①~⑦
 //   V22 물체 ↔ 공 여유(Hp·4해상도 px)   V23 물체 윗선 ≥ HUD 띠 아래(layout, art 대기)
 //   V-R0 도구 검증(round-1 레벨 → 14-1 표)   V-R1~R7 반복 방지(14-4)
-//   S1~S5 신호(round-1)       S6 카드 닫힘 < 레벨 0   S7 L1 손가락 ∩ 위험 물체 보임 = 0   S8 지붕 레벨 손가락 없음·카드   S9 지붕 착지 ±1박 신호 0   S10 UI 자리(layout, art 대기)
+//   S1~S5 신호(round-1)       S6 카드 닫힘 < 레벨 0   S7 L1 손가락 ∩ 위험 물체 보임 = 0   S8 지붕 레벨 손가락 없음·카드   S9 지붕 착지 ±1박 신호 0   S10 콤보 층·자리(layout combo, 뒤 층·공 줄·판정·손가락 겹침 0)
 //   N7  이어 하기 되감기 → 다음 접촉 ≥ 450 ms   C1 콤보(결과 파생·화음 자리·켬/끔 봇 동일)
 //   P1~P5 판정 이름·퍼센트(칸 경계·단조·등급 범위·비대칭 칸·정확도·켬/끔 동일)   (정보) P6 봇 정확도 분포
 //   B1~B8 곡선(대표 봇 σ50·q_nogo 0.05, 12세 재조정)   B6s 시드 10개 분포   (정보) B9 σ25·σ50·σ70 × q 두 값   K2 손해 모델   K3 화면 판정 + K3b 보정 뒤 잔차 ±15 두 쪽(w = 1)   (정보) Q q_nogo 민감도·criteria 기본 행, K3d, 따라 치기·연습·해석
@@ -474,7 +474,8 @@ compiled.forEach((L, li) => {
     if (id === '01') {
       const c = C[fs.contact];
       const pressRel = fs.pressStart - c.t;
-      check(id, 'S1', fs.contact === 0 && pressRel >= -j.pass_early_ms && pressRel <= 0, `손가락: 토스 ${f0(fs.from)} ms 에 나타남 → 누름 시작 ${f0(pressRel)} ms(통과 창 -${j.pass_early_ms} 안) → 친 순간·늦어도 +${j.pass_late_ms} ms 사라짐, 첫 접촉 1회`);
+      const inside = bal.tutorial_finger.press_start_inside_pass_ms, artMin = LAYOUT.finger?.press_start_min_ms_inside_pass ?? 0;
+      check(id, 'S1', fs.contact === 0 && Math.abs(pressRel + (j.pass_early_ms - inside)) < 1e-6 && inside >= artMin && pressRel <= 0, `손가락: 토스 ${f0(fs.from)} ms 에 나타남 → 누름 시작 ${f0(pressRel)} ms = −(pass_early ${j.pass_early_ms} − 여유 ${inside})(통과 창 이른 끝보다 ${inside} ms 안, art 최소 ${artMin}) → 친 순간·늦어도 +${j.pass_late_ms} ms 사라짐, 첫 접촉 1회`);
     } else check(id, 'S1', !lvl.tutorial_finger, `손가락 그림 ${lvl.tutorial_finger ? '있음(!)' : '없음(레벨 1만)'}`);
   }
   {
@@ -769,21 +770,68 @@ compiled.forEach((L, li) => {
   if (layoutDrumX == null) wait('all', 'V20b', `layout.json 에 북 가로 자리(drum.x_of_W 등) 없음 — art 대기(balance 값 ${bal.scroll.drum_x_ratio})`);
   else if (Math.abs(layoutDrumX - bal.scroll.drum_x_ratio) > 1e-9) wait('all', 'V20b', `layout 북 자리 ${layoutDrumX} ≠ balance ${bal.scroll.drum_x_ratio} — art 대기`);
   else check('all', 'V20b', true, `layout 북 자리 ${layoutDrumX} = balance`);
+  // S10 (2026-11-18 새 설계, art combo 절·criteria 131aa6a): 콤보 = 위쪽 가운데 큰 숫자 + 라벨 + 화면 전체 파티클(뒤 층).
+  // art combo-fx.mjs 와 코드 공유 없이 layout.json 값만 읽어 독립 계산(보수적 상자: 단계 튐 최대 배율, 라벨 글 폭은 est_em 대신 한 글자 1 em 이상).
   const CB = LAYOUT.combo || null;
-  if (!CB || !CB.place || !CB.shape) wait('all', 'S10', 'layout.json 에 콤보 자리(combo.place·shape) 없음 — art 대기(조건: HUD 띠 안 진행도 막대 아래, 다가오는 길 영역(x ≥ 북 왼쪽 끝, y = HUD 띠 아래 ~ 길 아랫선)에 그리지 않음)');
+  const N = CB?.number, LB = CB?.label, ORD = CB?.layer?.order;
+  if (!CB || !N || !LB || !Array.isArray(ORD) || !CB.region) wait('all', 'S10', 'layout.json combo 에 number·label·layer.order·region 없음 — art 대기(조건: 콤보 층은 공·박 표시·위험 물체 뒤, 숫자·라벨 자리가 공 세로 줄·판정 표시·손가락과 안 겹침)');
   else {
     const err = [], rows = [];
-    const pop = Math.max(...(CB.update?.scale || [1])); // 갱신 튐(1.15), 5단계는 점 칸만 1.3(art combo.stage.5)
+    // ① 층 순서: 콤보 3층이 세계 물체·공·표시·판정·HUD 보다 먼저(뒤에) 그려짐
+    const comboIdx = ['combo_particles', 'combo_number', 'combo_label'].map((k) => ORD.indexOf(k));
+    const front = ['hill', 'marks', 'ball', 'cloud_roof_branch', 'bounce_lines', 'judgement', 'hud'];
+    if (comboIdx.includes(-1)) err.push(`층 순서에 콤보 층 없음(${comboIdx.join(',')})`);
+    for (const k of front) { const i = ORD.indexOf(k); if (i < 0) err.push(`층 순서에 ${k} 없음`); else if (i < Math.max(...comboIdx)) err.push(`${k} 가 콤보 층보다 뒤`); }
+    // ② 단계: 파티클 단계 at ⊇ 화음 단계(앞 3칸 = chord_stages), 모두 balance combo.stages 또는 그 위
+    const tiers = (CB.particles?.tiers || []).map((t) => t.at), ch = bal.combo.chord_stages;
+    if (JSON.stringify(tiers.slice(0, ch.length)) !== JSON.stringify(ch)) err.push(`파티클 단계 ${tiers.join('·')} 앞 ${ch.length}칸 ≠ 화음 단계 ${ch.join('·')}`);
+    if (tiers.some((a) => !bal.combo.stages.includes(a) && a <= Math.max(...bal.combo.stages))) err.push(`파티클 단계 ${tiers.join('·')} 가 balance stages ${bal.combo.stages.join('·')} 와 어긋남`);
+    // ③ 자리(4해상도): 숫자 + 라벨 상자 vs 공 세로 줄·판정 표시 자리·손가락 상자
+    const maxCombo = Math.max(...compiled.map((L) => L.contacts.length));
+    const digits = Math.max(2, String(maxCombo).length);
+    const pop = Math.max(...(N.pop?.scale || [1]), ...(N.pop?.stage_scale || [1]));
+    const labels = [...(LB.check_candidates || [])];
+    if (STRINGS[LB.text_key]) labels.push(...Object.values(STRINGS[LB.text_key]).filter((s) => typeof s === 'string'));
+    const em = (s) => [...s].reduce((a, chr) => a + (/[A-Z]/.test(chr) ? Math.max(LB.est_em?.upper ?? 1, 0.75) : Math.max(LB.est_em?.hangul ?? 1, 1)), 0);
+    const lblEm = Math.max(...labels.map(em));
+    const hit2 = (a, b) => a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1;
+    const roofU = Math.min(bal.objects.roof.under_of_Hp, bal.objects.branch.under_of_Hp, ...compiled.flatMap((L) => (L.level.objects || []).filter((o) => o.under_of_Hp != null).map((o) => o.under_of_Hp)));
     for (const [W, Hh, st, sb] of V.layout_resolutions) {
       const g = layoutGeom(LAYOUT, W, Hh, st, sb);
-      const pl = g.portrait ? CB.place.portrait : CB.place.landscape;
-      const half = Math.max(CB.shape.slot_px * 1.3, CB.shape.ten_px * pop) / 2;
-      const y0 = st + pl.cy - half, y1 = st + pl.cy + half;
-      if (y0 < st - 1e-6 || y1 > g.hudBand + 1e-6) err.push(`${W}x${Hh} 콤보 ${y0.toFixed(0)}~${y1.toFixed(0)} 가 HUD 띠 [${st}, ${g.hudBand}] 밖`);
-      rows.push(`${W}x${Hh} ${y0.toFixed(0)}~${y1.toFixed(0)} ⊂ [${st}, ${g.hudBand}]`);
+      const cx = bal.scroll.drum_x_ratio * W, r = g.d / 2 + LAYOUT.ball.outline_of_d * g.d;
+      const ballCol = { x0: cx - r, x1: cx + r, y0: st, y1: g.skinY };
+      let fontPx = Math.round((N.digit_h_of_H.target * Hh) / N.digit_h_of_font);
+      const ncx = Math.max(W / 2, cx + r + N.x.gap_ball_px + (2 * N.digit_adv_of_font * fontPx * pop) / 2);
+      // size_rule "자리 폭을 넘으면 그 값만 줄임(cx 고정)": 자리 = 공 줄 오른쪽 + gap ~ W − side_margin. 줄인 뒤에도 숫자 높이 ≥ digit_h_of_H.min 이어야 함
+      const halfAvail = Math.min(ncx - (cx + r + N.x.gap_ball_px), W - N.x.side_margin_px - ncx);
+      let shrunk = '';
+      if ((digits * N.digit_adv_of_font * fontPx * pop) / 2 > halfAvail + 0.5) { const f0 = fontPx; fontPx = Math.floor((2 * halfAvail) / (digits * N.digit_adv_of_font * pop)); shrunk = ` 글자 ${f0}→${fontPx} px 줄임`; }
+      const digitH = N.digit_h_of_font * fontPx, numW = digits * N.digit_adv_of_font * fontPx;
+      const lpx = Math.round(Math.max(LB.px_min, Math.min(LB.px_max, LB.px_of_H * Hh)));
+      const lw = lpx * (lblEm + LB.mark.size_of_px + LB.mark.gap_of_px + LB.tiers.lead_of_px + LB.tiers.n * LB.tiers.size_of_px + (LB.tiers.n - 1) * LB.tiers.gap_of_px);
+      const y0 = g.hudBottom + CB.region.gap_below_band_px, ly1 = y0 + lpx, ny1 = ly1 + LB.gap_to_number_px + digitH * pop;
+      const half = Math.max(numW * pop, lw) / 2;
+      const box = { x0: ncx - half, x1: ncx + half, y0, y1: ny1 };
+      // 판정 표시 자리(layout judgement.zone): 세로 = 공 왼쪽, 가로 = 북 왼쪽, 세로 범위 = 지붕·가지 아랫면 아래 ~ 가죽 위
+      const drumL = cx - (LAYOUT.drum.w_of_d * g.d) / 2;
+      const JZ = LAYOUT.judgement?.zone;
+      const jx1 = g.portrait ? cx - r - (JZ?.portrait?.gap_ball_px ?? 0) : drumL - (JZ?.landscape?.gap_drum_px ?? 0);
+      const judge = { x0: 0, x1: jx1, y0: g.skinY - roofU * g.Hp + 4, y1: g.skinY };
+      // 손가락(layout finger): 끝 = 북 왼쪽 끝 − 0.25h − 2, 크기 h = h_of_d·d, 좌우 뒤집힘 → 끝 기준 ±h 로 넓게
+      const fh = LAYOUT.finger.h_of_d * g.d, fx = drumL - 0.25 * fh - 2;
+      const finger = { x0: fx - fh, x1: fx + fh, y0: g.skinY - fh, y1: Hh };
+      const bad = [];
+      if (box.y0 < g.hudBottom) bad.push('HUD 띠 안');
+      if (box.x0 < 0 || box.x1 > W) bad.push('화면 밖');
+      if (digitH / Hh < N.digit_h_of_H.min - 1e-9) bad.push(`숫자 높이 ${(digitH / Hh * 100).toFixed(1)} %·H < ${N.digit_h_of_H.min * 100} %`);
+      if (hit2(box, ballCol)) bad.push('공 세로 줄');
+      if (hit2(box, judge)) bad.push('판정 표시');
+      if (hit2(box, finger)) bad.push('손가락');
+      if (bad.length) err.push(`${W}x${Hh} ${bad.join('·')}`);
+      rows.push(`${W}x${Hh}${shrunk} 숫자 ${(digitH / Hh * 100).toFixed(1)} %·H 상자 x ${box.x0.toFixed(0)}~${box.x1.toFixed(0)} y ${box.y0.toFixed(0)}~${box.y1.toFixed(0)}(공 줄 오른쪽 ${ballCol.x1.toFixed(0)}, 판정 x ≤ ${jx1.toFixed(0)}·y ≥ ${judge.y0.toFixed(0)}, 손가락 y ≥ ${finger.y0.toFixed(0)})`);
     }
     if (err.length) wait('all', 'S10', err.join(' / ') + ' — art 대기');
-    else check('all', 'S10', true, `콤보 점 줄·큰 표지(점 1.3배·표지 ${pop}배 튐 포함)가 4해상도 모두 HUD 띠 안 = 다가오는 길 영역 밖: ${rows.join(' · ')}`);
+    else check('all', 'S10', true, `콤보 층(파티클·숫자·라벨) = 공·박 표시·위험 물체·판정·HUD 뒤 · 파티클 단계 ${tiers.join('·')} ⊇ 화음 ${ch.join('·')} · 숫자 ${digits}자리(최대 콤보 ${maxCombo})·튐 ${pop}배·라벨 ${labels.length}개 중 가장 긴 폭으로 4해상도 모두 공 세로 줄·판정 표시·손가락과 겹침 0: ${rows.join(' · ')}`);
   }
 }
 

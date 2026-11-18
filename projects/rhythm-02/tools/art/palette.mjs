@@ -111,16 +111,23 @@ export function build() {
     _source: 'tools/art/palette.mjs 가 생성(art-director 원본). 30-art 2절 표는 요약이고, 표와 이 파일이 다르면 이 파일이 기준. 빌드는 이 파일만 읽음(문서 표 파싱 금지).',
     _rules: [
       '공통 색(common)은 10레벨 같음. 흘러오는 물체(표시·지붕·가지·구름)도 공통 색 = 같은 모양은 어느 레벨에서나 같은 뜻. 레벨마다 바뀌는 것은 themes 의 바탕·바닥·accent·언덕·실루엣.',
-      '투명도(alpha) 없음. 그림자·튐 선·빛·콤보 연출 모두 불투명 단색.',
+      '투명도(alpha)는 콤보 층(큰 숫자·라벨·화면 파티클, combo_fx)에만 씀 — 2026-11-17 요청자 지시 "파격적인 콤보 연출"(뒤 층·투명도 낮춰 가독 유지)로 round-2 "투명도 없음"을 콤보 층에 한해 풂. 그 밖(그림자·튐 선·빛·물체·판정 글자·HUD)은 그대로 불투명 단색(판정 흐려짐 150 ms 만 불투명도 1 → 0).',
       '플레이 중 바탕 단계 = n번째 받침 쉼에서 min(n,3) 단계(bg1·bg2·bg3), 그 받침 쉼 첫 마디 동안 선형 섞기(번쩍임·깜빡임 없음).',
       '클리어: 끝 구름 면 cloud → clearCloud(= cloud 와 accent 의 35 % 섞음) 1 s, 등급 칸만 진한 accent(N11). 바탕은 그때 단계 → bg1 로 1 s.',
       '공 색(ball)은 공과 최고 기록 점에만(콤보·물체·판정 글자에 쓰지 않음). 북 몸통 색(drumBody)은 북·북 다리·박 표시·진행도 채움·시도 점에만.',
-      '콤보: 찬 칸 = ink, 빈 칸 = hudTrack + ink 외곽선, 10마다 큰 표지 = glow 둥근 네모 + ink 외곽선, 20 단계 색 조각 = 그 레벨 accent(HUD 띠 안). 바탕 단계(바탕 전체 색)와 모양이 겹치지 않음.',
+      '콤보(30-art 6-2, combo_fx): 큰 숫자 = 그 레벨 accent 불투명도 0.34, 라벨 = ink 0.66(표지 glow), 파티클 = accent 0.35 · glow 0.85 · 흰 0.9 · 민트(judgeGood) 0.85. 모두 세계 물체 뒤 층. 공 색·북 몸통 색·지붕 색·빨강 안 씀. 대비 검사 tools/art/combo-fx.mjs(숫자 보임 1.3~2.0 = 위험 4.5 보다 늘 약함, 겹칠 수 있는 물체 외곽선 ≥ 4.5·면 ≥ 3.0). 바탕 단계(바탕 전체 색)와 모양이 겹치지 않음.',
       '노랑 별·하늘색 공·어두운 바탕(rhythm-01), 가시·네모 블록·발판·고리·포털 모양(runner-01·원작)을 쓰지 않음(30-art 10절).',
       '판정 이름(30-art 6-3): 글자 면 judgePerfect(금빛, glow 와 같은 값)·judgeGood(민트)·judgePass(흰) + ink 외곽선 3 px(paint-order stroke), % 는 ink. 색은 보조 — 등급은 이름 위 튐 선 수(2·1·0쌍)·말로도 구분. 바탕 대비는 외곽선·% 의 ink 로(≥ 4.5).',
       'silhouette v2: anchor floor(dy = 바닥 위 높이) / sky(dy = HUD 띠 아래에서), 크기 S 단위, parallax(기본 0.5) 로 흘러감.',
     ],
     common: { ...COMMON },
+    combo_fx: {
+      _rule: '색 = common 키 또는 accent(그 레벨 themes.accent). alpha = 그 위에 그리는 불투명도(source-over). 콤보 층 전용(30-art 6-2). 검사 tools/art/combo-fx.mjs',
+      number: { color: 'accent', alpha: 0.34 },
+      label: { color: 'ink', alpha: 0.66, mark_fill: 'glow', mark_stroke: 'ink' },
+      particles: { accent: { color: 'accent', alpha: 0.35 }, glow: { color: 'glow', alpha: 0.85 }, white: { color: 'hudTrack', alpha: 0.9 }, mint: { color: 'judgeGood', alpha: 0.85 } },
+      limits: { number_vis_min: 1.3, number_vis_max: 2.0, label_vis_min: 3.0, accent_particle_vis_min: 1.3, edge_min: 4.5, fill_min: 3.0 },
+    },
     themes,
   };
 }
