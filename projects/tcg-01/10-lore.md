@@ -1133,6 +1133,30 @@ round-2 추가 키(dev 요청·리뷰):
 | `quest_reward_weekly` | 골드 {n} + 기본 카드 팩 {p} | {n} Gold + {p} Standard Pack | 주간 보상 줄(150 + 1) |
 | `quest_reward_track` | 트랙 경험치 +{n} | Track XP +{n} | 보상 줄 옆 시즌 트랙 경험치 |
 
+**오늘의 퀘스트 9종(balance 1.6.0 `economy.income.daily_commission_types`, 이름 ko 9자 이하)**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `commission_win_hero` | 지정 영웅 승리 | Hero Victory | 퀘스트 이름(type win_hero) |
+| `commission_win_hero_goal` | {hero} 영웅으로 결투 {n}번 이기기 | Win {n} duels as {hero} | 목표 문구 |
+| `commission_breakwater_blocks` | 방벽으로 막기 | Hold the Wall | 퀘스트 이름(type breakwater_blocks) |
+| `commission_breakwater_blocks_goal` | 방벽 소환수로 공격 {n}번 막기 | Block {n} attacks with Wall Creatures | 목표 문구 |
+| `commission_brine_damage` | 중독 피해 주기 | Spread Venom | 퀘스트 이름(type brine_damage) |
+| `commission_brine_damage_goal` | 중독으로 피해 {n} 주기 | Deal {n} Venom damage | 목표 문구 |
+| `commission_play_answerers` | 소환수 내기 | Summon Creatures | 퀘스트 이름(type play_answerers) |
+| `commission_play_answerers_goal` | 소환수 카드 {n}장 내기 | Play {n} Creature cards | 목표 문구 |
+| `commission_cast_rites` | 주문 쓰기 | Cast Spells | 퀘스트 이름(type cast_rites) |
+| `commission_cast_rites_goal` | 주문 카드 {n}장 쓰기 | Cast {n} Spell cards | 목표 문구 |
+| `commission_hero_damage` | 영웅 몰아치기 | Strike the Hero | 퀘스트 이름(type hero_damage) |
+| `commission_hero_damage_goal` | 상대 영웅에게 피해 {n} 주기 | Deal {n} damage to enemy Heroes | 목표 문구 |
+| `commission_open_crates` | 카드 팩 열기 | Open Packs | 퀘스트 이름(type open_crates) |
+| `commission_open_crates_goal` | 카드 팩 {n}개 열기 | Open {n} card packs | 목표 문구 |
+| `commission_recut_or_craft` | 돌파나 제작 | Break or Craft | 퀘스트 이름(type recut_or_craft) |
+| `commission_recut_or_craft_goal` | 카드 돌파 또는 제작 {n}번 | Breakthrough or craft cards {n} times | 목표 문구 |
+| `commission_worldmap_node` | 노해 탐험 | Explore the Bare | 퀘스트 이름(type worldmap_node) |
+| `commission_worldmap_node_goal` | 노해 지도에서 새 이야기 {n}개 읽기 | Read {n} new stories on the map | 목표 문구 |
+| `commission_reward` | 골드 {n} · 트랙 경험치 +{x} | {n} Gold · Track XP +{x} | 일일 퀘스트 보상 줄(슬롯 1·2·3 = 골드 20·30·40) |
+
 **시즌 보상 트랙(로비 위젯, 이미지화) — 세계관 포장: 마른 바다 바닥에서 깊은 곳으로 내려가는 길**
 
 | 키 | ko | en | 쓰는 곳 |
