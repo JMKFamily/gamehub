@@ -67,7 +67,7 @@ function tideBar(k) { const i = h('i'); i.style.transform = `scaleX(${Math.max(0
 export function heroScreen(args = {}) {
   const s = screen('heroes', t('choose_caller'));
   const sc = h('div', { class: 'scroll col' });
-  let hero = M.s.lastHero || D.heroIds[0], deckId = M.s.deckSel || null, mode = M.s.mode || 'mode_practice'; const tier = args.tier || M.s.aiTier || 1, ai = args.ai || (D.balance.ai.difficulty.tiers.find((x) => x.tier === tier) || {}).preset || 'easy';
+  let hero = M.s.lastHero || D.heroIds[0], deckId = M.s.deckSel || null, mode = M.s.mode || 'mode_practice'; const tier = args.tier || M.s.aiTier || 1, ai = (location.search.includes('aieval') ? 'eval' : null) || args.ai || (D.balance.ai.difficulty.tiers.find((x) => x.tier === tier) || {}).preset || 'easy'; // ?off=aieval: 성능 A/B용(UX2 전 기본 상대 eval과 같은 부하)
   const grid = h('div', { class: 'grid heroGrid' }), det = h('div', { class: 'col' });
   const draw = () => {
     grid.innerHTML = '';

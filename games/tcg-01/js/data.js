@@ -54,7 +54,7 @@ export async function bakeImages(ids, budgetMs = 6) {
 // 대전에서 크기가 바뀌며 움직이는 정적 SVG(키워드·준비 표시·영웅 초상·덱·카드 뒷면)도 PNG로 구움
 const ASSET_PX = { hero: [200, 240], 'card-back': [250, 350] };
 // 굽기 크기는 원래 비율대로(촛불 20×48 → 50×120: 정사각으로 구우면 contain에서 작게 보임 — art r2 major 원인)
-const pxOf = (n, d) => (n.startsWith('hero-') ? ASSET_PX.hero : n === 'card-back.svg' ? ASSET_PX['card-back'] : n.startsWith('candle-') ? [50, 120] : n === 'worldmap-bg.svg' ? [900, 1100] : n.startsWith('crate-') ? [128, 128] : d);
+const pxOf = (n, d) => (n.startsWith('hero-') ? ASSET_PX.hero : n === 'card-back.svg' ? ASSET_PX['card-back'] : n.startsWith('candle-') ? [30, 72] : n === 'worldmap-bg.svg' ? [900, 1100] : n.startsWith('crate-') ? [128, 128] : d);
 export async function bakeAssets() {
   const names = [...D.art.palette.keywords.map((k) => 'kw-' + k.id + '.svg'), 'icon-ready.svg', 'icon-asleep.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'icon-story.svg', ...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg'), ...Object.keys(D.art.ux.families).map((f) => 'type-' + f + '.svg'), 'kind-minion.svg', 'kind-spell.svg', 'kind-weapon.svg'];
   for (const n of names) {
@@ -72,12 +72,13 @@ export function bakeForBattle(cids, front) {
   bakeQ = front ? [...add, ...bakeQ.filter((k) => !add.includes(k))] : [...bakeQ, ...add.filter((k) => !bakeQ.includes(k))];
   if (!baking) idleBake();
 }
+let LAST_INPUT = 0; addEventListener('pointerdown', () => { LAST_INPUT = performance.now(); }, { capture: true, passive: true });
 function idleBake() {
   baking = bakeQ.length > 0;
   if (!baking) return;
   const ric = window.requestIdleCallback || ((f) => setTimeout(() => f({ timeRemaining: () => 10 }), 30));
   ric(async (dl) => {
-    if (dl.timeRemaining() > 8) {
+    if (dl.timeRemaining() > 8 && performance.now() - LAST_INPUT > 1200) { // r4: 탭 직후(화면 전환 중)에는 굽지 않음
       const k = bakeQ.shift();
       if (k.startsWith('a:')) { const n = k.slice(2), sz = pxOf(n, [64, 64]); await bake(k, 'assets/' + n, sz[0], sz[1]); }
       else if (k.startsWith('b:')) { const [f, br] = k.slice(2).split('|'); await bake(k, badgeURL(f, br), BAKE.badge[0], BAKE.badge[1]); }

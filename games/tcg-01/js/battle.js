@@ -109,12 +109,12 @@ export class Battle {
       wrap.appendChild(hero);
       const wr = R[side + '_wicks'];
       const wicks = h('div', { class: 'wicks', role: 'meter', 'aria-label': t('hud_aria_wicks'), 'aria-valuemin': 0, 'aria-valuemax': 10, style: `left:${wr.x}px;top:${wr.y}px;width:${wr.w}px;height:${wr.h}px` });
-      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand', 'data-st': 'empty' }, [h('img', { class: 'cl', src: assetURL('candle-lit.svg'), alt: '', draggable: 'false', style: `animation-delay:-${(i * 0.37) % 1.4}s;animation-duration:${1.1 + ((i * 0.23) % 0.6)}s` })]); b._st = 'empty'; bars.push(b); wicks.appendChild(b); }
-      const wn = h('b', { class: 'wpill' }); wicks.appendChild(wn);
+      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand', 'data-st': 'empty' }); b._st = 'empty'; bars.push(b); wicks.appendChild(b); }
+      const wn = h('b', { class: 'wpill', style: `left:${wr.x + wr.w - 34}px;top:${wr.y - 17}px` }); // r4: 촛불 층 밖(글이 바뀌어도 촛불 그림을 다시 칠하지 않게)
       { // 촛불 2줄 × 5(art ux2.candle.size_px.rule_r2): 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4
         const rows = wr.candle_rows || 2, cw = Math.min((wr.w - 12) / 5, (wr.h / rows) * 20 / 48), ch = Math.min(cw * 2.4, wr.h / rows);
         Object.assign(wicks.style, { display: 'grid', gridTemplateColumns: `repeat(5, ${cw}px)`, gridAutoRows: `${ch}px`, columnGap: '3px', rowGap: '0px', alignContent: 'center' }); }
-      wrap.appendChild(wicks);
+      wrap.appendChild(wicks); wrap.appendChild(wn);
       const cr = R[side + '_calling'];
       const call = h('button', { class: 'callBtn', type: 'button', 'data-k': side === 'my' ? 'power' : 'epower', 'aria-label': t(`hero_${hs}_power`), style: `--fac:${f.primary};left:${cr.x}px;top:${cr.y}px;width:${cr.w}px;height:${cr.h}px` },
         [h('span', { class: 'c', text: String(D.balance.heroes[P.heroId].power_cost_mana) }), h('span', { text: t(`hero_${hs}_power`) })]);
@@ -204,8 +204,7 @@ export class Battle {
       se.brn.classList.toggle('hidden', !(P.curse > 0)); se.brn.textContent = P.curse > 0 ? '◆' + P.curse : '';
       se.sec.classList.toggle('hidden', !P.secrets.length);
       this.renderCandles(se, P, instant, side === 'my' && vm.players[se.p].hand.some((x) => x.system));
-      se.wn.textContent = `${P.mana}/${P.maxMana}`;
-      const wk = se.bars[0].parentNode; wk.setAttribute('aria-valuenow', P.mana);
+      { const tx = `${P.mana}/${P.maxMana}`; if (se.wn.textContent !== tx) { se.wn.textContent = tx; se.bars[0].parentNode.setAttribute('aria-valuenow', P.mana); } } // 바뀔 때만
       se.deckN.textContent = P.deck;
       if (se.handN) se.handN.textContent = P.hand.length;
       se.call.classList.toggle('used', P.powerUsed);
@@ -282,7 +281,7 @@ export class Battle {
     this.sideEls.enemy.hero.classList.toggle('lethal', my && sum > 0 && sum >= E1.hp + E1.armor);
   }
   // 촛불: 왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리, 여분 심지는 오른쪽 끝. 끌 때 오른쪽부터 40 ms 간격(불꽃 140·연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격. 잠금 0
-  static candleVars() { const r = document.documentElement.style; for (const k of ['spent', 'soot', 'spare', 'empty']) r.setProperty(`--cd-${k}`, `url(${assetURL(`candle-${k}.svg`)})`); }
+  static candleVars() { const r = document.documentElement.style; for (const k of ['spent', 'soot', 'spare', 'empty', 'lit']) r.setProperty(`--cd-${k}`, `url(${assetURL(`candle-${k}.svg`)})`); }
   renderCandles(se, P, instant, spare) {
     const CA = D.art.ux2.candle, ex = CA.extinguish, re = CA.relight_turn_start || { per_candle_stagger_ms: 30, flame_in_ms: 160 };
     const want = se.bars.map((_, i) => (i < P.overloadNow ? 'soot' : i < P.overloadNow + P.mana ? 'lit' : i < P.maxMana ? 'spent' : spare && i === 9 ? 'spare' : 'empty'));
