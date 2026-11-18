@@ -515,7 +515,7 @@ if (PART === 'perf') {
     await br.close();
     return { ...fromD(d), audio_ctx_ms: ac };
   };
-  const okBlank = (b) => b.avg >= 55 && b.low1 >= 45;
+  const okBlank = (b) => b.avg >= 55 && b.low1 >= +opt('--blank-min-low1', 45);
   for (const cf of configs) for (let run = 0; run < (args.includes('--blank-only') ? 0 : RUNS); run++) {
     const blankPre = args.includes('--blank-pair') ? await blankRun(cf) : null;
     const br = await newBrowser();
