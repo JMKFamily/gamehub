@@ -1,5 +1,5 @@
 {
-  "_note": "노해 월드맵(2026-11-19 요청자 지시: 이야기를 월드맵을 탐험하며 나아가는 느낌으로). 좌표 x·y는 0~100(왼쪽 위 0,0) 제안, 그림은 art. unlock 값은 제안이며 balance가 확정. cards는 10-lore 5-5 세력 이야기 순서의 카드 스토리 id. 검사: lore/check-cards.mjs",
+  "_note": "노해 월드맵(2026-11-19 요청자 지시: 이야기를 월드맵을 탐험하며 나아가는 느낌으로). 좌표 x·y는 0~100(왼쪽 위 0,0) 제안, 그림은 art. unlock 값은 balance 1.5.0 확정값(세력 카드 16종·공용 20종). 노드 보상은 balance.json worldmap.node_reward. cards는 10-lore 5-5 세력 이야기 순서의 카드 스토리 id. 검사: lore/check-cards.mjs",
   "version": 1,
   "start_node": "wm_bare_1",
   "unlock_types": {
@@ -138,7 +138,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "neutral",
-        "n": 15
+        "n": 20
       },
       "cards": [
         "B096",
@@ -224,7 +224,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_warden",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "A021",
@@ -311,7 +311,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_rider",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "A030",
@@ -398,7 +398,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_wreck",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "A026",
@@ -485,7 +485,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_choir",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "B027",
@@ -572,7 +572,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_archive",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "A035",
@@ -659,7 +659,7 @@
       "unlock": {
         "type": "collect_owner",
         "owner": "h_nameless",
-        "n": 12
+        "n": 16
       },
       "cards": [
         "A042",

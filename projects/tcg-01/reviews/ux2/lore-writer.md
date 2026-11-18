@@ -23,31 +23,31 @@
 |---|---|---|---|---|---|---|
 | `wm_bare_1` | bare | 마른 바다의 아침 / Morning on the Dry Sea | 처음부터 | D016·B091·B093 | 50, 50 | 시장 입구 고래뼈 아치 |
 | `wm_bare_2` | bare | 소금 맹약 / The Brine Accord | 결투 1승 | D017·D018·A052 | 46, 56 | 경매대와 석판 |
-| `wm_bare_3` | bare | 갯것들의 길 / Road of the Shorelings | neutral 카드 15종 보유 | B096·B097·A051 | 56, 46 | 갯벌 거북이 지나는 소금길 |
+| `wm_bare_3` | bare | 갯것들의 길 / Road of the Shorelings | neutral 카드 20종 보유 | B096·B097·A051 | 56, 46 | 갯벌 거북이 지나는 소금길 |
 | `wm_bare_4` | bare | 멈춘 조수 시계 / The Stopped Tide Clock | 결투 5승 | B116·A054·B118 | 52, 58 | 광장 한가운데 멈춘 시계탑 |
 | `wm_warden_1` | warden | 제7수조의 점호 / Roll Call at the Seventh | 앞 노드 wm_bare_1 읽음 | D001·D002·B001 | 50, 18 | 성벽 정문과 수문 |
 | `wm_warden_2` | warden | 소금을 두른 벽 / A Wall Wrapped in Salt | h_warden로 1승 | B004·B013·B012 | 44, 14 | 방패를 세운 성벽 위 |
-| `wm_warden_3` | warden | 약탈자의 먼지 / Dust of the Raiders | h_warden 카드 12종 보유 | A021·A019·A022 | 58, 16 | 동쪽 성벽에 닿은 붉은 먼지 |
+| `wm_warden_3` | warden | 약탈자의 먼지 / Dust of the Raiders | h_warden 카드 16종 보유 | A021·A019·A022 | 58, 16 | 동쪽 성벽에 닿은 붉은 먼지 |
 | `wm_warden_4` | warden | 마지막 수조의 서약 / Oath of the Last Reservoir | h_warden로 3승 | B003·A001·B018 | 50, 8 | 열린 수문에서 쏟아지는 물 |
 | `wm_rider_1` | rider | 모래게 위의 아이들 / Children on Sand Crabs | 앞 노드 wm_bare_1 읽음 | B052·D009·B054 | 78, 32 | 사구 사이 야영지와 깃발 |
 | `wm_rider_2` | rider | 마른 강을 따라 / Along the Dry River | h_rider로 1승 | B063·B053·B059 | 86, 22 | 구불구불한 마른 강바닥 |
-| `wm_rider_3` | rider | 모래 위 잔치 / Feast on the Sand | h_rider 카드 12종 보유 | A030·A031·A033 | 90, 34 | 모닥불과 전리품 자루 |
+| `wm_rider_3` | rider | 모래 위 잔치 / Feast on the Sand | h_rider 카드 16종 보유 | A030·A031·A033 | 90, 34 | 모닥불과 전리품 자루 |
 | `wm_rider_4` | rider | 붉은 깃발이 오른 날 / The Day the Red Pennant Rose | h_rider로 3승 | B060·A010·B064 | 80, 24 | 언덕 꼭대기의 붉은 깃발 |
 | `wm_wreck_1` | wreck | 움직이지 않는 것은 부품 / If It Doesn't Move, It's Parts | 앞 노드 wm_bare_1 읽음 | D007·D005·B040 | 76, 70 | 갈비뼈 같은 선체 사이 입구 |
 | `wm_wreck_2` | wreck | 작업장의 불 / Fire of the Workshop | h_wreck로 1승 | B037·B039·B044 | 84, 78 | 굴뚝 연기와 붉은 화로 |
-| `wm_wreck_3` | wreck | 싸우면서 장 보기 / Shopping Mid-Fight | h_wreck 카드 12종 보유 | A026·A027·A028 | 74, 80 | 고철 더미와 수확기 |
+| `wm_wreck_3` | wreck | 싸우면서 장 보기 / Shopping Mid-Fight | h_wreck 카드 16종 보유 | A026·A027·A028 | 74, 80 | 고철 더미와 수확기 |
 | `wm_wreck_4` | wreck | 해일 기관 / The Surge Engine | h_wreck로 3승 | D008·B042·B051 | 86, 70 | 맞물린 큰 톱니 셋 |
 | `wm_choir_1` | choir | 물에 털어놓는 고해 / Confession to the Water | 앞 노드 wm_bare_1 읽음 | D003·B021·B019 | 46, 84 | 대성당 입구 계단 |
 | `wm_choir_2` | choir | 짠 숨의 노래 / Songs on a Salt Breath | h_choir로 1승 | B028·B020·B034 | 54, 86 | 사슬이 늘어진 회랑 |
-| `wm_choir_3` | choir | 이사 가는 사람들 / Those Who Move House | h_choir 카드 12종 보유 | B027·B023·A023 | 44, 92 | 물웅덩이 옆 뼈 제단 |
+| `wm_choir_3` | choir | 이사 가는 사람들 / Those Who Move House | h_choir 카드 16종 보유 | B027·B023·A023 | 44, 92 | 물웅덩이 옆 뼈 제단 |
 | `wm_choir_4` | choir | 종이 다시 울린 밤 / The Night the Bell Rang Again | h_choir로 3승 | B029·B026·B036 | 50, 96 | 기운 종탑의 종 |
 | `wm_archive_1` | archive | 열람 허가 / Reading Permit | 앞 노드 wm_bare_1 읽음 | D010·D011·B071 | 18, 58 | 첫 번째 등대 정문 |
 | `wm_archive_2` | archive | 봉인과 먹물 올가미 / Seals and Ink Snares | h_archive로 1승 | B065·B067·B068 | 10, 66 | 봉인이 걸린 책장 통로 |
-| `wm_archive_3` | archive | 번개 증명 / Proof by Lightning | h_archive 카드 12종 보유 | A035·A037·A039 | 20, 70 | 등대 사이 다리 위 결투장 |
+| `wm_archive_3` | archive | 번개 증명 / Proof by Lightning | h_archive 카드 16종 보유 | A035·A037·A039 | 20, 70 | 등대 사이 다리 위 결투장 |
 | `wm_archive_4` | archive | 봉쇄령과 대주해서 / Lockdown and the Grand Commentary | h_archive로 3승 | B074·A013·B078 | 12, 56 | 불빛이 모두 켜진 일곱 등대 |
 | `wm_nameless_1` | nameless | 이름을 버린 날 / The Day the Name Was Dropped | 앞 노드 wm_bare_1 읽음 | B079·B084·D014 | 20, 28 | 안개 속 지붕들 |
 | `wm_nameless_2` | nameless | 가면 공방 / The Mask Workshop | h_nameless로 1승 | B080·B085·B089 | 12, 20 | 가면이 걸린 공방 창문 |
-| `wm_nameless_3` | nameless | 소매 속 바늘 / The Needle in the Sleeve | h_nameless 카드 12종 보유 | A042·A043·A044 | 22, 18 | 골목에 붙은 실종 공고 |
+| `wm_nameless_3` | nameless | 소매 속 바늘 / The Needle in the Sleeve | h_nameless 카드 16종 보유 | A042·A043·A044 | 22, 18 | 골목에 붙은 실종 공고 |
 | `wm_nameless_4` | nameless | 빈 문패의 주인 / Whose Nameplate Is Empty | h_nameless로 3승 | A041·B090·A048 | 14, 30 | 빈 문패가 걸린 문 |
 | `wm_rift_1` | rift | 젖은 소금 / Wet Salt | 세력 6지역 완료 | B115·A059·B120 | 56, 64 | 갈라진 소금 바닥과 검은 물기 |
 | `wm_rift_2` | rift | 흑조의 전령 / Herald of the Blacktide | AI 실력 3단계 이상 1승 | A060·B119·A057 | 60, 68 | 균열 위에 선 검은 물의 형상 |
