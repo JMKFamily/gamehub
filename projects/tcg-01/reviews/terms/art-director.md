@@ -81,3 +81,23 @@
    - 위에 유형 비율 막대(색·무늬·표지·장 수).
 6. 샘플: `assets/samples/ux-hand-fan-cvd.png`, `ux-collection-grid.png`, `ux-deck-list.png`.
 7. 확인: `build.mjs`가 손패 5~10장 × 4해상도 보이는 띠 ≥ 29 %를 검사함(실패 시 종료 코드 1).
+
+## BGM (2026-11-18 요청자 지시 "아주 비어 있고 느리고 음산한 멜로디") — 30-art 6절
+1. `projects/tcg-01/tools/art/music-synth.mjs`를 `games/tcg-01/js/`로 그대로 복사합니다. 이 파일은 의존성 없는 ES 모듈입니다.
+   - `audio.js`의 `startBed()`·`motif()`·`stopMotif()`를 새 합성기로 바꿉니다.
+   - 생성: `const music = createMusic(S.ctx, S.musBus, D.art.sound.music, { seed: Date.now() })`
+2. 곡 전환은 `music.play(곡, { hero })`이고, 교차는 3 s입니다(`crossfade_s`).
+   - 타이틀·메뉴·수집·덱 빌더·상점: `menu`
+   - 대전: `battle`. 내 영웅 id를 `hero`로 넘기면 동기가 그 영웅 음 높이로 나옵니다.
+   - 내 체력 ≤ 10: `battle_tension`. 체력이 다시 > 10이 되면 `battle`로 돌아갑니다. 예전 `tension()`의 필터·디튠 처리는 이것으로 대체합니다.
+   - 팩 개봉 화면: `crate`
+   - 승패: 곡을 멈추고 `music.sting('victory'|'defeat')`. 효과음 `victory`/`defeat`와 함께 냅니다.
+3. 음악 끔(설정) = `musBus` 이득 0(지금처럼). 백그라운드 = `ctx.suspend()`(지금처럼). 다시 들어오면 실시간 스케줄러가 이어서 돕니다.
+4. 성능
+   - 동시 목소리 상한 `max_voices` 24. 넘으면 그 사건을 건너뜁니다.
+   - 드론 2~3개, 바람 잡음 1개, 잔향(ConvolverNode, 합성 IR 5.5 s) 1개, 딜레이 1개가 상시 돕니다.
+   - 사건은 0.5 s마다 앞 1.5 s만 예약합니다.
+5. 확인
+   - `node tools/art/music-render.mjs`: 곡별 LUFS·피크와 효과음 대비 검사 4개가 OK여야 합니다.
+   - 6배 CPU 스로틀 fps가 기존과 같은지 qa가 잽니다.
+6. 효과음 `victory`의 음을 [294, 440, 587](빈 5도)로 바꿨습니다(장3도 제거). `data/art.json`을 다시 복사합니다.

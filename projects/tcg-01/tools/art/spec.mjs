@@ -278,24 +278,68 @@ export const sound = {
     { id: 'chunk_break_pearl', desc: '진주 덩이: 유리 울림 1음', osc: 'noise+sine', f_hz: [1318], dur_ms: 600, gain_db: -18, filter: null },
     { id: 'chunk_break_coral', desc: '산호 덩이: 유리 화음 2음 + 저음', osc: 'noise+sine x3', f_hz: [98, 1318, 1976], dur_ms: 900, gain_db: -6, filter: null },
     { id: 'chunk_break_abyss', desc: '심해 덩이: 흑조 솟음 + 유리 화음 4음', osc: 'sawtooth+sine x4', f_hz: [41, 659, 988, 1318, 1976], dur_ms: 1600, gain_db: -9, filter: { type: 'lowpass_sweep_up', f_hz: 3000 } },
-    { id: 'victory',      desc: '승리: 소금 마름(밝은 장3도 상행)', osc: 'triangle x3', f_hz: [392, 494, 587, 784], dur_ms: 1600, gain_db: -5, filter: null },
+    { id: 'victory',      desc: '승리: 빈 5도로 열림(장3도 없음, BGM 음산 톤에 맞춤)', osc: 'triangle x3', f_hz: [294, 440, 587], dur_ms: 1600, gain_db: -5, filter: null },
     { id: 'defeat',       desc: '패배: 명줄 끊김(하행 단2도)', osc: 'sine', f_hz: [294, 277, 220], dur_ms: 1500, gain_db: -14, filter: { type: 'lowpass', f_hz: 1200 } },
     { id: 'ui_tap',       desc: '메뉴 버튼', osc: 'sine', f_hz: [700], dur_ms: 50, gain_db: -22, filter: null },
     { id: 'ui_deny',      desc: '할 수 없음(심지 부족 등)', osc: 'square', f_hz: [160, 140], dur_ms: 120, gain_db: -20, filter: { type: 'lowpass', f_hz: 800 } },
   ],
-  // 음악: 모두 "마른 바다" 공통 바탕(낮은 지속음 + 유리 배음 + 물방울) 위에 영웅 모티프 4~6음.
+  // 음악(2026-11-18 요청자 지시 재작성): "아주 비어 있고 느리고 음산한 멜로디". 합성기 tools/art/music-synth.mjs, 렌더 tools/art/music-render.mjs
+  // 원칙: 박 거의 없음(맥박은 대전 긴장·팩만, 52~56 BPM), 음은 드물게(동기 사이 14~40 s), 넓은 잔향(5.5 s IR 합성), 저음 드론 위 단2·트라이톤 짧은 동기.
+  //       밝은 장조·화려한 리듬·꽉 찬 화음 금지. 시드 무작위 배치라 반복 주기 없음. 동시 목소리 상한 max_voices.
   music: {
-    bed: { drone_hz: 55, drone_osc: 'sawtooth', drone_lowpass_hz: 320, glass_partials_hz: [440, 660, 990], drip_every_s: [3, 7], gain_db: -20 },
-    menu: { bpm: 64, mode: 'aeolian', root: 'A2', motif: 'A C E D C (긴 음, 소금 바람)' },
-    heroes: {
-      h_warden:   { bpm: 84,  mode: 'dorian',     root: 'D3', timbre: 'square→lowpass 900 Hz(무딘 나팔)', motif: 'D A A G A — 계단처럼 고르게(행진)' },
-      h_choir:    { bpm: 60,  mode: 'phrygian',   root: 'E3', timbre: 'sine 3겹 ±6 cent(합창 패드)',      motif: 'E F E D E — 반음 내려앉는 기도' },
-      h_wreck:    { bpm: 100, mode: 'mixolydian', root: 'G2', timbre: 'noise 짧은 금속 + triangle',        motif: 'G G Bb C D — 망치 박자 위 상행' },
-      h_rider:    { bpm: 132, mode: 'harmonic_minor', root: 'A2', timbre: 'sawtooth 짧은 + 북(6/8)',      motif: 'A B C# E — 달리는 6/8' },
-      h_archive:  { bpm: 72,  mode: 'major_pentatonic', root: 'C4', timbre: 'sine 종(빠른 감쇠, 유리)',    motif: 'C E G A G — 등불 일곱 점(7박 순환)' },
-      h_nameless: { bpm: 92,  mode: 'whole_tone', root: 'F#3', timbre: 'triangle 뜯기 + 잡음 숨',          motif: 'F# G# A# C — 끝이 해결 안 됨' },
+    crossfade_s: 3, max_voices: 24, bgm_vs_sfx_target_lu: -6, bgm_vs_sfx_reference: '효과음 card_play·attack_light·attack_heavy의 순간 최대(400 ms) 평균',
+    fx: { reverb_s: 5.5, reverb_decay: 2.6, reverb_wet_db: -4, delay_s: 0.83, delay_feedback: 0.42, delay_lowpass_hz: 1800, delay_wet_db: -14 },
+    tracks: {
+      menu: {
+        gain_db: -24, feel: '먼 바람과 물방울, 아주 가끔 멀리서 두 음',
+        drone: { notes: ['A1', 'E2'], osc: 'sine', detune_cents: 5, upper_db: -12, lowpass_hz: 260, lfo_hz: 0.02, gain_db: -18 },
+        wind: { gain_db: -26, q: 0.8, f_lo_hz: 220, f_hi_hz: 900 },
+        drip: { every_s: [5, 13], f_lo_hz: 700, f_hi_hz: 1300, gain_db: -30 },
+        metal: { every_s: [28, 60], f_lo_hz: 180, f_hi_hz: 320, partials: [1, 2.76, 5.4, 8.93], decay_s: 6, gain_db: -30 },
+        motif: { every_s: [26, 44], root: 'A3', cells: [[0, 1], [0, -2, -1], [7, 6]], note_s: [2.2, 3.6], osc: 'triangle', lowpass_hz: 1400, attack_s: 0.6, gain_db: -24 },
+      },
+      battle: {
+        gain_db: -18, feel: '낮은 드론 위 드문 단2·트라이톤 동기, 금속 울림이 가끔',
+        drone: { notes: ['D1', 'A1'], osc: 'sawtooth', detune_cents: 7, upper_db: -10, lowpass_hz: 180, lfo_hz: 0.03, gain_db: -19 },
+        wind: { gain_db: -30, q: 1.1, f_lo_hz: 180, f_hi_hz: 600 },
+        drip: { every_s: [7, 16], f_lo_hz: 600, f_hi_hz: 1100, gain_db: -32 },
+        metal: { every_s: [20, 45], f_lo_hz: 140, f_hi_hz: 260, partials: [1, 2.76, 5.4, 8.93], decay_s: 7, gain_db: -28 },
+        motif: { every_s: [16, 32], root: 'D3', cells: [[0, 1, 0], [0, 6], [3, 2, -4], [0, -1, 6]], note_s: [1.6, 3], osc: 'triangle', lowpass_hz: 1200, attack_s: 0.4, gain_db: -23 },
+      },
+      battle_tension: {
+        gain_db: -21, feel: '체력 ≤ 10: 드론 반음 위 + 트라이톤 겹침, 느린 맥박(52 BPM), 동기가 조금 잦아짐',
+        drone: { notes: ['D#1', 'A1', 'A2'], osc: 'sawtooth', detune_cents: 12, upper_db: -9, lowpass_hz: 220, lfo_hz: 0.06, gain_db: -18 },
+        wind: { gain_db: -28, q: 1.6, f_lo_hz: 300, f_hi_hz: 1100 },
+        drip: { every_s: [9, 20], f_lo_hz: 500, f_hi_hz: 900, gain_db: -32 },
+        metal: { every_s: [14, 30], f_lo_hz: 110, f_hi_hz: 200, partials: [1, 2.76, 5.4, 8.93], decay_s: 8, gain_db: -27 },
+        motif: { every_s: [11, 22], root: 'D#3', cells: [[0, 1], [0, 6, 7], [1, 0, -5]], note_s: [1.2, 2.4], osc: 'triangle', lowpass_hz: 1000, attack_s: 0.3, gain_db: -22 },
+        pulse: { bpm: 52, hz: 46, gain_db: -24 },
+      },
+      crate: {
+        gain_db: -20, feel: '팩 개봉: 고요 + 유리 같은 금속 울림, 아주 느린 맥박(56 BPM)으로 기대감',
+        drone: { notes: ['E1', 'B1'], osc: 'sine', detune_cents: 4, upper_db: -8, lowpass_hz: 300, lfo_hz: 0.05, gain_db: -19 },
+        wind: { gain_db: -32, q: 0.9, f_lo_hz: 400, f_hi_hz: 1400 },
+        drip: { every_s: [4, 9], f_lo_hz: 900, f_hi_hz: 1700, gain_db: -30 },
+        metal: { every_s: [9, 18], f_lo_hz: 300, f_hi_hz: 520, partials: [1, 2.76, 5.4, 8.93], decay_s: 5, gain_db: -28 },
+        motif: { every_s: [20, 34], root: 'E4', cells: [[0, 1], [0, 6]], note_s: [1.8, 3], osc: 'sine', lowpass_hz: 2200, attack_s: 0.5, gain_db: -26 },
+        pulse: { bpm: 56, hz: 52, gain_db: -28 },
+      },
     },
-    tension: { low_lifeline_drone_up_semitones: 1, low_lifeline_lowpass_hz: 600 },
+    stingers: {
+      victory: { notes: ['D3', 'A3', 'D4'], note_s: [1.4, 1.4, 3.2], osc: 'triangle', lowpass_hz: 1800, gain_db: -38, metal: true, feel: '빈 5도로 열리고 끝음이 오래 울림(장3도 없음)' },
+      defeat: { notes: ['D3', 'C#3', 'G2'], note_s: [1.6, 1.6, 3.6], osc: 'triangle', lowpass_hz: 900, gain_db: -37, metal: false, feel: '단2 하행 + 트라이톤 아래로 가라앉음' },
+    },
+    // 영웅 색: 대전 기본 곡의 동기만 영웅별 음 높이·세포로(같은 음산한 톤). motif는 예전 빌드 파서 호환 문자열
+    heroes: {
+      h_warden:   { root: 'D3',  cells: [[0, -2, -1], [0, 7, 6]], bpm: 56, mode: 'aeolian',  timbre: 'triangle', motif: 'D C C# — 내려앉는 행진 끝음' },
+      h_choir:    { root: 'E3',  cells: [[0, 1, 0], [1, 0, -5]],  bpm: 52, mode: 'phrygian', timbre: 'sine',     motif: 'E F E — 반음 기도' },
+      h_wreck:    { root: 'G2',  cells: [[0, 6], [0, 1, 6]],      bpm: 58, mode: 'locrian',  timbre: 'triangle', motif: 'G C# — 녹슨 트라이톤' },
+      h_rider:    { root: 'A2',  cells: [[0, 3, 1], [0, -1, 6]],  bpm: 62, mode: 'harmonic_minor', timbre: 'triangle', motif: 'A C A# — 먼 북 없는 질주' },
+      h_archive:  { root: 'C4',  cells: [[0, 1], [6, 7, 1]],      bpm: 54, mode: 'phrygian', timbre: 'sine',     motif: 'C Db — 등불 두 점' },
+      h_nameless: { root: 'F#3', cells: [[0, 6], [0, -1, -7]],    bpm: 50, mode: 'locrian',  timbre: 'triangle', motif: 'F# C — 해결 없음' },
+    },
+    bed: { drone_hz: 36.7, drone_osc: 'sawtooth', drone_lowpass_hz: 180, glass_partials_hz: [], drip_every_s: [7, 16], gain_db: -26, note: '예전 빌드 호환(새 합성기로 바꾸면 쓰지 않음)' },
+    tension: { low_lifeline_drone_up_semitones: 1, low_lifeline_lowpass_hz: 600, note: '새 합성기에서는 battle_tension 곡으로 3 s 교차' },
   },
 };
 

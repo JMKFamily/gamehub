@@ -1,0 +1,110 @@
+{
+ "seconds": 120,
+ "seed": 20261118,
+ "reference_sfx": {
+  "card_play": {
+   "lufs_i": -41.4,
+   "momentary_max": -41.4,
+   "peak_dbfs": -21.1
+  },
+  "attack_light": {
+   "lufs_i": -43,
+   "momentary_max": -43,
+   "peak_dbfs": -22.6
+  },
+  "attack_heavy": {
+   "lufs_i": -40,
+   "momentary_max": -40,
+   "peak_dbfs": -19.1
+  },
+  "big_entry": {
+   "lufs_i": -32.3,
+   "momentary_max": -28.2,
+   "peak_dbfs": -14.5
+  },
+  "turn_timer": {
+   "lufs_i": -67,
+   "momentary_max": -67,
+   "peak_dbfs": -43.8
+  },
+  "card_draw": {
+   "lufs_i": -56.6,
+   "momentary_max": -56.6,
+   "peak_dbfs": -34.3
+  }
+ },
+ "rows": [
+  {
+   "kind": "track",
+   "id": "menu",
+   "lufs_i": -48.5,
+   "momentary_max": -47.2,
+   "peak_dbfs": -39.4,
+   "seconds": 120,
+   "vs_sfx_lu": -7
+  },
+  {
+   "kind": "track",
+   "id": "battle",
+   "lufs_i": -47.6,
+   "momentary_max": -43.8,
+   "peak_dbfs": -34.2,
+   "seconds": 120,
+   "vs_sfx_lu": -6.1
+  },
+  {
+   "kind": "track",
+   "id": "battle_tension",
+   "lufs_i": -47.6,
+   "momentary_max": -43.9,
+   "peak_dbfs": -35,
+   "seconds": 120,
+   "vs_sfx_lu": -6.1
+  },
+  {
+   "kind": "track",
+   "id": "crate",
+   "lufs_i": -47.9,
+   "momentary_max": -45.4,
+   "peak_dbfs": -35.6,
+   "seconds": 120,
+   "vs_sfx_lu": -6.4
+  },
+  {
+   "kind": "sting",
+   "id": "victory",
+   "lufs_i": -43.1,
+   "momentary_max": -41,
+   "peak_dbfs": -34.1,
+   "seconds": 8,
+   "vs_sfx_lu": 0.5
+  },
+  {
+   "kind": "sting",
+   "id": "defeat",
+   "lufs_i": -43.9,
+   "momentary_max": -40.9,
+   "peak_dbfs": -34.3,
+   "seconds": 8,
+   "vs_sfx_lu": 0.6
+  }
+ ],
+ "checks": [
+  {
+   "n": "BGM 4곡 통합 음량이 효과음 기준보다 6 LU 이상 작음",
+   "ok": true
+  },
+  {
+   "n": "BGM 피크 ≤ −12 dBFS(효과음 머리 공간)",
+   "ok": true
+  },
+  {
+   "n": "대전 긴장 곡이 대전 기본보다 크거나 같음(±1 LU)",
+   "ok": true
+  },
+  {
+   "n": "맺음 동기 순간 최대가 큰 카드 효과음보다 작고 효과음 기준 ±6 LU 안",
+   "ok": true
+  }
+ ]
+}
