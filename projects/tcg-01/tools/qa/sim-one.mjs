@@ -14,7 +14,7 @@ const PROJ = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const rj = (p) => JSON.parse(readFileSync(p, 'utf8'));
 const data = loadData(rj(join(PROJ, 'cards.json')), rj(join(PROJ, 'balance.json')));
 const decks = {};
-for (const f of readdirSync(join(PROJ, 'decks'))) if (f.endsWith('.json')) { const d = rj(join(PROJ, 'decks', f)); decks[d.hero] = d; }
+for (const f of readdirSync(join(PROJ, 'decks'))) if (f.endsWith('.json') && !f.startsWith('starter-')) { /* 표준 영장첩만(입문 starter-*는 빌드 훅 newBattle 기본 덱이 아님) */ const d = rj(join(PROJ, 'decks', f)); decks[d.hero] = d; }
 const [mode, a1, a2, a3, a4] = process.argv.slice(2);
 const fin = (st) => ({ winner: st.winner, half: st.half, reason: st.endReason, final: st.players.map((P) => P.hero.hp + P.hero.armor), hp: st.players.map((P) => P.hero.hp), armor: st.players.map((P) => P.hero.armor) });
 const mk = (hA, hB, seed, decksAB, bt) => createGame({ cards: data.cards, tokens: data.tokens, rules: data.rules, heroes: data.heroes, seed,

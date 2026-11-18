@@ -201,7 +201,9 @@ async function partSync() {
 
 // ================= 사람 속도 한 판 (실시간·실제 포인터) =================
 // 사람 정책: 낼 수 있는 가장 비싼 카드 → 호명술 → 공격(수호 우선, 그다음 호명자) → 숨 고르기. 행동 사이 2~4 s 생각(시드 고정 난수).
-async function humanGame(page, { seed = 4242, think = [2000, 4000], fast = false, tapAI = false } = {}) {
+async function humanGame(page, { seed = 4242, think = [2000, 4000], turnThink = null, policy = 'greedy', fast = false, tapAI = false } = {}) {
+  let lastHalf = -1;
+  if (policy === 'eval') await page.evaluate(async () => { const base = new URL('js/', location.href).href; window.__qa.ai = await import(base + 'engine/ai.mjs?qa=1'); window.__qa.dataMod = await import(base + 'data.js'); });
   let rs = seed; const rnd = () => { rs = (rs * 16807) % 2147483647; return rs / 2147483647; };
   await page.evaluate(({ fast }) => {
     __game.setFast(fast);
@@ -219,19 +221,26 @@ async function humanGame(page, { seed = 4242, think = [2000, 4000], fast = false
   // 첫 물때: 비싼 카드(4+) 바꾸기 — 화면 버튼으로 확정
   await sleep(900);
   await page.evaluate(() => __game.mulligan([]));
-  for (let guard = 0; guard < 400; guard++) {
+  for (let guard = 0; guard < 50000; guard++) { // 끝은 판 종료·20분 상한으로(반복 수 상한이 AI 턴 대기 중 판을 끊던 문제)
     const s = await page.evaluate(() => { const b = __game.battle; return { over: b.over, active: b.active, half: b.half, busy: __game.busy, pend: !!b.pending, n: __game.export().actions.length }; });
     if (s.over) break;
     if (s.active !== 0) { if (tapAI && !aiTaps) { await page.mouse.click(W.width / 2, W.height * 0.45); aiTaps++; } await sleep(120); continue; }
     if (s.pend) { await sleep(think[0]); await page.evaluate(() => __game.act({ type: 'choose', index: 0 })); continue; }
-    await sleep(think[0] + rnd() * (think[1] - think[0]));
-    const L = await page.evaluate(() => { const b = __game.battle, P = b.players[0]; const legal = __game.legal(); const cost = (i) => { const h = P.hand[i]; const c = h && __qa.D.cards[h.cid]; return c ? c.cost + (h.costMod || 0) : 0; }; return { legal, costs: P.hand.map((_, i) => cost(i)), enemyGuards: b.players[1].board.filter((m) => (m.keywords || []).includes('guard') || m.guard).map((m) => m.uid), enemyHero: b.players[1].hero.uid, mana: P.mana }; });
-    const plays = L.legal.filter((a) => a.type === 'play').sort((a, b) => L.costs[b.hand] - L.costs[a.hand]);
-    const atk = L.legal.filter((a) => a.type === 'attack');
-    const pw = L.legal.filter((a) => a.type === 'power');
-    let a = plays[0] && (plays.find((x) => x.hand === plays[0].hand && x.target === L.enemyHero) || plays[0]);
+    // 생각 시간: 턴 첫 행동 앞 turnThink(있으면), 그다음 행동 사이 think
+    if (turnThink && s.half !== lastHalf) { lastHalf = s.half; await sleep(turnThink[0] + rnd() * (turnThink[1] - turnThink[0])); } else await sleep(think[0] + rnd() * (think[1] - think[0]));
+    let a = null;
+    if (policy === 'eval') {
+      // 교환형 정책: 빌드 export(첫 물때·행동열)로 엔진 상태를 페이지 안에서 다시 만들고 eval AI가 고른 수(빌드 판 상태는 건드리지 않음)
+      a = await page.evaluate(() => { const ex = __game.export(), E = __game.engine, Dm = window.__qa.dataMod, D = Dm.D; const st = E.createGame({ ...Dm.engineData(), seed: ex.seed >>> 0, players: ex.heroes.map((h) => ({ hero: h, deck: D.decks.find((d) => d.hero === h).cards, bt: {} })), log: false }); st.players.forEach((P, i) => { P.aiFace = 1; }); E.applyMulligan(st, 0, ex.mulligan[0]); E.applyMulligan(st, 1, ex.mulligan[1]); E.startGame(st); for (const x of ex.actions) E.applyAction(st, x); return window.__qa.ai.chooseAction(st, 'eval'); });
+    } else {
+    const L = await page.evaluate(() => { const b = __game.battle, P = b.players[0]; const legal = __game.legal(); const cost = (i) => { const h = P.hand[i]; const c = h && __qa.D.cards[h.cid]; return c ? c.cost + (h.costMod || 0) : 0; }; return { legal, costs: P.hand.map((_, i) => cost(i)), enemyHero: b.players[1].hero.uid }; });
+    const plays = L.legal.filter((x) => x.type === 'play').sort((x, y) => L.costs[y.hand] - L.costs[x.hand]);
+    const atk = L.legal.filter((x) => x.type === 'attack');
+    const pw = L.legal.filter((x) => x.type === 'power');
+    a = plays[0] && (plays.find((x) => x.hand === plays[0].hand && x.target === L.enemyHero) || plays[0]);
     if (!a && pw.length) a = pw.find((x) => x.target === L.enemyHero) || pw[0];
     if (!a && atk.length) a = atk.find((x) => x.target === L.enemyHero) || atk[0];
+    }
     if (!a) a = { type: 'end' };
     // 포인터로 실행
     try {
@@ -257,16 +266,16 @@ function tempoTable(actions, fast) {
   const by = {};
   let prevEnd = 0;
   for (const r of actions) {
-    const queuedBehind = r.start_real_ms < prevEnd - 1; prevEnd = Math.max(prevEnd, r.end_real_ms || 0);
-    if (r.end_real_ms == null) continue;
-    const k = r.kind; (by[k] = by[k] || { real: [], plan: [], skipped: 0, behind: 0, deaths: 0 });
+    const queuedBehind = !r.phase_of && r.start_real_ms < prevEnd - 1; if (!r.phase_of) prevEnd = Math.max(prevEnd, r.end_real_ms || 0);
+    if (r.end_real_ms == null || r.kind === 'tutorial') continue;
+    const k = r.phase_of ? r.kind : (r.kind + (A[r.kind] && ['lethal_blow', 'end_breath_press', 'attack'].includes(r.kind) ? ':tl' : '')); (by[k] = by[k] || { real: [], plan: [], skipped: 0, behind: 0, deaths: 0 });
     if (r.skipped) { by[k].skipped++; continue; }
     if (queuedBehind) { by[k].behind++; continue; }
     by[k].real.push(r.end_real_ms - r.start_real_ms); by[k].plan.push(r.planned_ms);
   }
   const rows = [];
   for (const [k, v] of Object.entries(by)) {
-    const ref = A[k] ? (fast ? A[k].fast_ms : A[k].normal_ms) : null;
+    const k0 = k === 'attack_motion' ? 'attack' : k.replace(/:tl$/, ''); const ref = A[k0] ? (fast ? A[k0].fast_ms : A[k0].normal_ms) : null;
     const st = stats(v.real), pl = stats(v.plan);
     rows.push({ kind: k, art_ms: ref, n: st.n, real_p50: st.p50, real_mean: st.mean, real_max: st.max, planned_p50: pl.p50, err_pct_vs_art: ref && st.p50 != null ? +((st.p50 - ref) / ref * 100).toFixed(1) : null, err_pct_real_vs_planned: pl.p50 ? +(((st.mean - pl.mean) / pl.mean) * 100).toFixed(1) : null, skipped: v.skipped, queued_behind: v.behind });
   }
@@ -289,18 +298,30 @@ function turnStats(frames) {
 }
 
 async function partHuman() {
-  const b = await browser();
-  const { page } = await open(b, BASE, { w: 360, h: 640 });
-  await page.mouse.click(180, 320); await sleep(300); // 타이틀 → 부두(오디오 잠금 해제 = 실제 경로)
-  await page.evaluate(() => __game.newBattle({ seed: 4242, human: 0, noTimer: true }));
-  const r = await humanGame(page, { seed: 4242 });
-  await b.close();
-  const resp = r.tempo.inputs.map((x) => x.response_ms).filter((x) => x != null);
-  writeFileSync(join(QOUT, 'human-export.json'), JSON.stringify({ ...r.ex, decks: null }));
-  const rep = simOne('replay', join(QOUT, 'human-export.json'));
-  save('human', { log: LOG, wall_s: r.wall_s, minutes: +(r.wall_s / 60).toFixed(2), turns: Math.ceil(r.ex.half / 2), actions: r.ex.actions.length, pointerOk: r.pointerOk, pointerMiss: r.pointerMiss,
-    response_ms: stats(resp), response_over_100: resp.filter((x) => x > 100).length, inputs_by_kind: r.tempo.inputs.reduce((o, x) => ((o[x.kind] = (o[x.kind] || 0) + 1), o), {}),
-    tempo: tempoTable(r.tempo.actions, false), turns_t: turnStats(r.frames), winner: r.ex.winner, final: r.ex.final, replay: rep, replay_same: rep.winner === r.ex.winner && JSON.stringify(rep.final) === JSON.stringify(r.ex.final) && !rep.error });
+  const games = +opt('--games', '1'), seed0 = +opt('--seed', '4242'), policy = opt('--policy', 'greedy');
+  const think = opt('--think', '2000,4000').split(',').map(Number), tt = opt('--turn-think', '');
+  const turnThink = tt ? tt.split(',').map(Number) : null;
+  const tag = opt('--tag', 'human');
+  const g0 = +opt('--g0', '0');
+  for (let g = g0; g < g0 + games; g++) {
+    const seed = seed0 + g * 101;
+    const b = await browser();
+    const { page } = await open(b, BASE, { w: 360, h: 640 });
+    await page.mouse.click(180, 320); await sleep(300); // 타이틀 → 부두(오디오 잠금 해제 = 실제 경로)
+    const heroes = await page.evaluate(() => __qa.D.heroIds);
+    const hA = heroes[g % heroes.length], hB = heroes[(g + 3) % heroes.length];
+    await page.evaluate(({ seed, hA, hB }) => __game.newBattle({ seed, human: 0, noTimer: true, heroA: hA, heroB: hB }), { seed, hA, hB });
+    const r = await humanGame(page, { seed, think, turnThink, policy });
+    await b.close();
+    const resp = r.tempo.inputs.map((x) => x.response_ms).filter((x) => x != null);
+    const exf = join(QOUT, `${tag}-${seed}-export.json`);
+    writeFileSync(exf, JSON.stringify({ ...r.ex, decks: null }));
+    const rep = simOne('replay', exf);
+    const tsum = turnStats(r.frames);
+    save(`${tag}-${seed}`, { log: LOG, policy, think, turnThink, heroes: [hA, hB], wall_s: r.wall_s, minutes: +(r.wall_s / 60).toFixed(2), turns: Math.ceil(r.ex.half / 2), half: r.ex.half, actions: r.ex.actions.length, pointerOk: r.pointerOk, pointerMiss: r.pointerMiss,
+      response_ms: stats(resp), response_over_100: resp.filter((x) => x > 100).length, tempo: tempoTable(r.tempo.actions, false), turns_t: tsum, human_turn_over_50s: (tsum.human_turn_ms.max || 0) > 50000, winner: r.ex.winner, final: r.ex.final, replay: rep, replay_same: rep.winner === r.ex.winner && JSON.stringify(rep.final) === JSON.stringify(r.ex.final) && !rep.error });
+    console.log(`${hA} vs ${hB} s${seed}: ${(r.wall_s / 60).toFixed(2)}분 ${Math.ceil(r.ex.half / 2)}턴 승자 ${r.ex.winner}`);
+  }
 }
 
 // ================= tempo: AI 대 AI 실시간 보통/빠르게 + 정보 손실 + 예약 =================
@@ -440,8 +461,12 @@ async function partFunc() {
       document.dispatchEvent(new Event('visibilitychange')); window.dispatchEvent(new Event('blur'));
       const g0 = __qa.G.now, h0 = __game.battle.half;
       await new Promise((r) => setTimeout(r, 3000));
-      const res = { ctx_state_hidden: __qa.audio.ctx ? __qa.audio.ctx.state : null, game_clock_advanced_ms_while_hidden: Math.round(__qa.G.now - g0), half_changed: __game.battle.half !== h0, pause_overlay: !!document.querySelector('.pause, #pause, [data-pause]') };
+      const res = { ctx_state_hidden: __qa.audio.ctx ? __qa.audio.ctx.state : null, game_clock_advanced_ms_while_hidden: Math.round(__qa.G.now - g0), half_changed: __game.battle.half !== h0, paused_flag_hidden: !!__game.paused };
       delete document.visibilityState; delete document.hidden; document.dispatchEvent(new Event('visibilitychange'));
+      await new Promise((r) => setTimeout(r, 300));
+      res.resume_overlay_after_visible = !!document.getElementById('pauseOvl'); res.still_paused_before_tap = !!__game.paused;
+      document.querySelector('#pauseOvl button')?.click(); await new Promise((r) => setTimeout(r, 300));
+      res.paused_after_tap = !!__game.paused; res.ctx_state_after_tap = __qa.audio.ctx ? __qa.audio.ctx.state : null; const g1 = __qa.G.now; await new Promise((r) => setTimeout(r, 500)); res.clock_runs_after_tap = __qa.G.now - g1 > 300;
       void handlers; void oa; void timerOf; return res;
     });
     // CDP 동결(실제 백그라운드 탭처럼 rAF·타이머 정지) 5 s → 재개 후 게임 시계 증가량
@@ -480,13 +505,13 @@ async function partFunc() {
       const hero = D.heroIds[0];
       // 모든 카드를 넉넉히 가진 상태(소유 제한이 규칙 검사를 가리지 않게)
       for (const c of D.list) S.coll[c.id] = { n: M.cap(c.id), res: 0, stage: 0 };
-      __game.go('decks'); document.querySelector(`[data-new="${hero}"]`).click();
+      __game.go('decks'); await new Promise((r) => setTimeout(r, 600)); document.querySelector(`[data-new="${hero}"]`).click(); await new Promise((r) => setTimeout(r, 600)); await new Promise((r) => setTimeout(r, 600)); 
       const deck = S.decks[S.decks.length - 1];
       const tap = (cid) => document.querySelector(`.collGrid [data-cid="${cid}"]`)?.click();
       const sand = D.list.find((c) => c.owner === hero && c.rarity !== 'abyss');
       const abyss = D.list.find((c) => (c.owner === hero || c.owner === 'neutral') && c.rarity === 'abyss');
       const other = D.list.find((c) => c.owner !== hero && c.owner !== 'neutral');
-      for (let i = 0; i < 5; i++) tap(sand.id);
+      for (let i = 0; i < 5; i++) { tap(sand.id); await new Promise((r) => setTimeout(r, 30)); }
       for (let i = 0; i < 3; i++) tap(abyss.id);
       const otherShown = !!document.querySelector(`.collGrid [data-cid="${other.id}"]`);
       // 30장 넘기기: 보이는 칸을 모두 3번씩
@@ -495,7 +520,7 @@ async function partFunc() {
       const over2 = Object.entries(cnt).filter(([c, n]) => n > (D.cards[c].rarity === 'abyss' ? 1 : 2));
       // 빈 덱 저장 → 호명자 화면에서 고를 수 있는가
       const d2 = { id: 'qa-bad', name: 'qa bad', hero, cards: [sand.id] }; S.decks.push(d2);
-      __game.go('heroes'); const btn = document.querySelector('[data-deck="qa-bad"]'); btn?.click();
+      __game.go('heroes'); await new Promise((r) => setTimeout(r, 600)); const btn = document.querySelector('[data-deck="qa-bad"]'); btn?.click(); await new Promise((r) => setTimeout(r, 600)); 
       const selected = document.querySelector('[data-deck="qa-bad"]')?.classList.contains('sel');
       return { size: deck.cards.length, sand_copies: cnt[sand.id], abyss_copies: cnt[abyss.id], other_hero_card_shown: otherShown, over_limit: over2, owner_mismatch: deck.cards.filter((c) => D.cards[c].owner !== hero && D.cards[c].owner !== 'neutral').length, problems: M.deckProblems(deck), bad_deck_selectable: !!selected, bad_deck_btn_off: btn?.classList.contains('off') };
     });
@@ -545,7 +570,8 @@ async function partFunc() {
   const viol = [];
   for (const v of out.breakthrough.views) {
     const c = pcm[v.id]; if (!c || c.kind !== 'minion') continue;
-    const exp1 = [c.attack, c.health + 1], exp2 = [c.attack + (c.cost >= 4 ? 1 : 0), c.health + 1];
+    const exc = (rule.exception_cheap_charge && JSON.stringify(rule.exception_cheap_charge).includes(v.id)) || (c.breakthrough && Object.values(c.breakthrough).every((x) => !x || !Object.keys(x).some((k) => ['attack', 'health'].includes(k))) && c.cost <= 3 && (c.keywords || []).includes('charge'));
+    const exp1 = exc ? [c.attack, c.health] : [c.attack, c.health + 1], exp2 = exc ? [c.attack, c.health] : [c.attack + (c.cost >= 4 ? 1 : 0), c.health + 1];
     if (JSON.stringify(v.v[0]) !== JSON.stringify(exp1)) viol.push(`${v.id} s1 ${v.v[0]} 기대 ${exp1}`);
     if (JSON.stringify(v.v[1]) !== JSON.stringify(exp2)) viol.push(`${v.id} s2 ${v.v[1]} 기대 ${exp2}`);
     if (JSON.stringify(v.v[2]) !== JSON.stringify(v.v[1])) viol.push(`${v.id} s3 ${v.v[2]} ≠ s2(외형만이어야)`);
@@ -616,7 +642,41 @@ async function partResp() {
   save('resp', { log: LOG, runs: out });
 }
 
-const parts = { resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
+// ================= tut: 첫 연습 판 튜토리얼 순서(실제 메뉴 경로, 새 저장소, 무작위 시드) =================
+async function partTut() {
+  const b = await browser();
+  const runs = [];
+  const n = +opt('--tut-runs', '8');
+  for (let i = 0; i < n; i++) {
+    const [w, h] = i < 2 ? [[360, 640], [640, 360]][i] : [360, 640];
+    const { page, ctx } = await open(b, BASE, { w, h });
+    await page.mouse.click(w / 2, h / 2); await sleep(300);
+    await page.locator('[data-nav=play]').last().click(); await sleep(400);
+    await page.locator('[data-nav=fight]').last().click(); await sleep(1200);
+    await page.evaluate(() => __game.mulligan([]));
+    const seq = [];
+    for (let k = 0; k < 400 && seq.length < 10; k++) {
+      const st = await page.evaluate(() => { const b = __game.battle; if (!b) return null; const el = document.querySelector('.tut'); const L = __game.legal(); return { over: b.over, half: b.half, active: b.active, busy: __game.busy, tut: el ? el.dataset.tut : null, playable: b.active === 0 && L.some((a) => a.type === 'play'), onlyEnd: b.active === 0 && L.length === 1 }; });
+      if (!st || st.over) break;
+      if (st.tut && (!seq.length || seq[seq.length - 1].step !== st.tut)) {
+        seq.push({ step: st.tut, turn: Math.ceil(st.half / 2), playable_now: st.playable, only_end: st.onlyEnd });
+        if (i < 2 && seq.length <= 3) await page.screenshot({ path: join(SHOTS, `tut-${String(seq.length).padStart(2, '0')}-${st.tut}-${w}x${h}.png`) });
+        await sleep(300);
+        await page.locator('.tut .btn.primary').last().click().catch(() => {}); await sleep(200);
+        continue;
+      }
+      if (st.active === 0 && !st.busy) await page.evaluate(() => __game.runAI());
+      await sleep(250);
+    }
+    const first3 = seq.findIndex((x) => x.step === 'tut_3_play'), first8 = seq.findIndex((x) => x.step === 'tut_8_end');
+    runs.push({ view: `${w}x${h}`, seq, end_before_play: first8 >= 0 && (first3 < 0 || first8 < first3), steps_shown: seq.length });
+    await ctx.close();
+  }
+  await b.close();
+  save('tut', { log: LOG, runs, end_before_play_n: runs.filter((r) => r.end_before_play).length, runs_n: runs.length });
+}
+
+const parts = { tut: partTut, resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
 try {
   for (const [k, f] of Object.entries(parts)) if (PART === 'all' || PART.split(',').includes(k)) { console.log(`== ${k}`); await f(); }
 } catch (e) { console.error(e); process.exitCode = 1; } finally { stopAll(); }

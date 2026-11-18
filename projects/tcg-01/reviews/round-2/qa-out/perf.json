@@ -1,0 +1,108 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 421
+ },
+ "rate": 6,
+ "runs": [
+  {
+   "run": 1,
+   "seconds": 107.494,
+   "battle": {
+    "frames": 6413,
+    "avg_fps": 59.9,
+    "low1_fps": 49.6,
+    "max_ms": 83.4,
+    "over_33": 4
+   },
+   "big_moments": {
+    "n": 1,
+    "kinds": [
+     "big_entry"
+    ],
+    "frames": 112,
+    "avg_fps": 60,
+    "low1_fps": 59.5,
+    "max_ms": 16.8,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 16.8,
+    "dock→heroes": 100.1,
+    "heroes→dock": 16.8,
+    "dock→collection": 116.6,
+    "collection→dock": 16.8,
+    "dock→crates": 33.4,
+    "crate open": 33.3,
+    "→market": 133.3,
+    "→decks": 33.4,
+    "dock→heroes→battle(첫 물때)": 133.4
+   }
+  },
+  {
+   "run": 2,
+   "seconds": 125.782,
+   "battle": {
+    "frames": 7514,
+    "avg_fps": 59.9,
+    "low1_fps": 52.6,
+    "max_ms": 83.3,
+    "over_33": 2
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 16.8,
+    "dock→heroes": 83.2,
+    "heroes→dock": 16.8,
+    "dock→collection": 116.7,
+    "collection→dock": 16.8,
+    "dock→crates": 16.8,
+    "crate open": 33.3,
+    "→market": 150.1,
+    "→decks": 33.3,
+    "dock→heroes→battle(첫 물때)": 116.6
+   }
+  },
+  {
+   "run": 3,
+   "seconds": 131.9,
+   "battle": {
+    "frames": 7879,
+    "avg_fps": 59.9,
+    "low1_fps": 51.7,
+    "max_ms": 66.6,
+    "over_33": 3
+   },
+   "big_moments": {
+    "n": 4,
+    "kinds": [
+     "attack",
+     "attack_motion"
+    ],
+    "frames": 133,
+    "avg_fps": 60,
+    "low1_fps": 59.5,
+    "max_ms": 16.8,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 183.4,
+    "dock→heroes": 100,
+    "heroes→dock": 16.8,
+    "dock→collection": 133.4,
+    "collection→dock": 16.8,
+    "dock→crates": 16.8,
+    "crate open": 16.8,
+    "→market": 133.4,
+    "→decks": 33.3,
+    "dock→heroes→battle(첫 물때)": 100
+   }
+  }
+ ]
+}

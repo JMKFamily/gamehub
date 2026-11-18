@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | qa-engineer | round-2 | [round-2 QA: round-1 major 8/9 해결, O5 사람 속도 4.6분, 치열함 판정 지표 통과, 기술 8.5 PASS](qa-engineer/2026-11-18-r2-qa.md) |
 | 2026-11-18 | game-developer | round-2 | [round-1 개발 28건 수정(성능·일시정지·가로 상자·튜토리얼·영어 글·입문 덱)](game-developer/2026-11-18-r2-fixes.md) |
 | 2026-11-18 | balance-designer | round-2 | [round-2 밸런스 수정 (펠 상성·입문 덱·판 시간 보정)](balance-designer/2026-11-18-r2-fixes.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-1 게이트 불통과(6.95)·결정 O3~O5](orchestrator/2026-11-18-1-7-round1-gate.md) |

@@ -1,0 +1,2155 @@
+{
+ "round": 2,
+ "date": "2026-11-18",
+ "basic": {
+  "console_errors_warnings": 0,
+  "failed_requests": 0,
+  "external_requests": 0,
+  "requests": 4688
+ },
+ "engine_sync": {
+  "hash": "엔진 해시 일치: 4개 파일 (engine 2.0.0)",
+  "data_copy": {
+   "balance_equal": true,
+   "cards_n": 200,
+   "card_field_diffs": [],
+   "card_field_diff_n": 0
+  },
+  "games": 18,
+  "actions": 1501,
+  "mismatches": 0
+ },
+ "human_game": null,
+ "tempo_ai_vs_ai": {
+  "runs": [
+   {
+    "hA": "h_rider",
+    "hB": "h_warden",
+    "fast": false,
+    "wall_s": 106.83,
+    "actions": 80,
+    "half_turn_ms": {
+     "n": 22,
+     "min": 1366,
+     "p50": 5184,
+     "p90": 6800,
+     "p99": 7483,
+     "max": 7483,
+     "mean": 4822.7
+    },
+    "half_over_cap": 0,
+    "table": [
+     {
+      "kind": "attack_motion",
+      "art_ms": 530,
+      "n": 20,
+      "real_p50": 533,
+      "real_mean": 559.1,
+      "real_max": 950,
+      "planned_p50": 530,
+      "err_pct_vs_art": 0.6,
+      "err_pct_real_vs_planned": 0.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "attack:tl",
+      "art_ms": 530,
+      "n": 19,
+      "real_p50": 534,
+      "real_mean": 723.7,
+      "real_max": 1150,
+      "planned_p50": 530,
+      "err_pct_vs_art": 0.8,
+      "err_pct_real_vs_planned": 1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "calling",
+      "art_ms": 360,
+      "n": 10,
+      "real_p50": 366,
+      "real_mean": 366.4,
+      "real_max": 367,
+      "planned_p50": 360,
+      "err_pct_vs_art": 1.7,
+      "err_pct_real_vs_planned": 1.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "defeat",
+      "art_ms": 1600,
+      "n": 1,
+      "real_p50": 1600,
+      "real_mean": 1600,
+      "real_max": 1600,
+      "planned_p50": 1600,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "game_start",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 1075,
+      "real_mean": 1075,
+      "real_max": 1075,
+      "planned_p50": 900,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 19.4,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "hero_crack",
+      "art_ms": 700,
+      "n": 1,
+      "real_p50": 700,
+      "real_mean": 700,
+      "real_max": 700,
+      "planned_p50": 700,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_blow",
+      "art_ms": 1500,
+      "n": 1,
+      "real_p50": 1500,
+      "real_mean": 1500,
+      "real_max": 1500,
+      "planned_p50": 1500,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_sequence",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 3983,
+      "real_mean": 3983,
+      "real_max": 3983,
+      "planned_p50": 3977,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.2,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_answerer",
+      "art_ms": 440,
+      "n": 16,
+      "real_p50": 450,
+      "real_mean": 483.1,
+      "real_max": 984,
+      "planned_p50": 440,
+      "err_pct_vs_art": 2.3,
+      "err_pct_real_vs_planned": 2,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_rite",
+      "art_ms": 520,
+      "n": 13,
+      "real_p50": 534,
+      "real_mean": 639.5,
+      "real_max": 1266,
+      "planned_p50": 520,
+      "err_pct_vs_art": 2.7,
+      "err_pct_real_vs_planned": 1.5,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_change",
+      "art_ms": null,
+      "n": 21,
+      "real_p50": 900,
+      "real_mean": 902.3,
+      "real_max": 917,
+      "planned_p50": 900,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.3,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_start_banner",
+      "art_ms": 900,
+      "n": 22,
+      "real_p50": 900,
+      "real_mean": 909.9,
+      "real_max": 1075,
+      "planned_p50": 900,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 1.1,
+      "skipped": 0,
+      "queued_behind": 0
+     }
+    ]
+   },
+   {
+    "hA": "h_rider",
+    "hB": "h_warden",
+    "fast": true,
+    "wall_s": 52.082,
+    "actions": 80,
+    "half_turn_ms": {
+     "n": 22,
+     "min": 667,
+     "p50": 2500,
+     "p90": 3300,
+     "p99": 3667,
+     "max": 3667,
+     "mean": 2344.8
+    },
+    "half_over_cap": 0,
+    "table": [
+     {
+      "kind": "attack_motion",
+      "art_ms": 300,
+      "n": 20,
+      "real_p50": 300,
+      "real_mean": 314.1,
+      "real_max": 516,
+      "planned_p50": 300,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "attack:tl",
+      "art_ms": 300,
+      "n": 19,
+      "real_p50": 300,
+      "real_mean": 409.5,
+      "real_max": 650,
+      "planned_p50": 300,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "calling",
+      "art_ms": 180,
+      "n": 10,
+      "real_p50": 183,
+      "real_mean": 183.3,
+      "real_max": 184,
+      "planned_p50": 180,
+      "err_pct_vs_art": 1.7,
+      "err_pct_real_vs_planned": 1.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "defeat",
+      "art_ms": 800,
+      "n": 1,
+      "real_p50": 800,
+      "real_mean": 800,
+      "real_max": 800,
+      "planned_p50": 800,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "game_start",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 598,
+      "real_mean": 598,
+      "real_max": 598,
+      "planned_p50": 600,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": -0.3,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "hero_crack",
+      "art_ms": 400,
+      "n": 1,
+      "real_p50": 400,
+      "real_mean": 400,
+      "real_max": 400,
+      "planned_p50": 400,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_blow",
+      "art_ms": 800,
+      "n": 1,
+      "real_p50": 800,
+      "real_mean": 800,
+      "real_max": 800,
+      "planned_p50": 800,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_sequence",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 2117,
+      "real_mean": 2117,
+      "real_max": 2117,
+      "planned_p50": 2104,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.6,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_answerer",
+      "art_ms": 220,
+      "n": 16,
+      "real_p50": 233,
+      "real_mean": 252.8,
+      "real_max": 550,
+      "planned_p50": 220,
+      "err_pct_vs_art": 5.9,
+      "err_pct_real_vs_planned": 5.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_rite",
+      "art_ms": 260,
+      "n": 13,
+      "real_p50": 267,
+      "real_mean": 343.6,
+      "real_max": 700,
+      "planned_p50": 260,
+      "err_pct_vs_art": 2.7,
+      "err_pct_real_vs_planned": 2.3,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_change",
+      "art_ms": null,
+      "n": 21,
+      "real_p50": 450,
+      "real_mean": 451.5,
+      "real_max": 466,
+      "planned_p50": 450,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.3,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_start_banner",
+      "art_ms": 450,
+      "n": 22,
+      "real_p50": 449,
+      "real_mean": 450.8,
+      "real_max": 466,
+      "planned_p50": 450,
+      "err_pct_vs_art": -0.2,
+      "err_pct_real_vs_planned": 0.2,
+      "skipped": 0,
+      "queued_behind": 0
+     }
+    ]
+   },
+   {
+    "hA": "h_wreck",
+    "hB": "h_choir",
+    "fast": false,
+    "wall_s": 69.396,
+    "actions": 52,
+    "half_turn_ms": {
+     "n": 14,
+     "min": 1367,
+     "p50": 4850,
+     "p90": 7950,
+     "p99": 9000,
+     "max": 9000,
+     "mean": 4929.8
+    },
+    "half_over_cap": 0,
+    "table": [
+     {
+      "kind": "attack_motion",
+      "art_ms": 530,
+      "n": 14,
+      "real_p50": 533,
+      "real_mean": 553.4,
+      "real_max": 650,
+      "planned_p50": 530,
+      "err_pct_vs_art": 0.6,
+      "err_pct_real_vs_planned": 0.9,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "attack:tl",
+      "art_ms": 530,
+      "n": 14,
+      "real_p50": 534,
+      "real_mean": 693,
+      "real_max": 1034,
+      "planned_p50": 530,
+      "err_pct_vs_art": 0.8,
+      "err_pct_real_vs_planned": 1.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "calling",
+      "art_ms": 360,
+      "n": 4,
+      "real_p50": 367,
+      "real_mean": 366.8,
+      "real_max": 367,
+      "planned_p50": 360,
+      "err_pct_vs_art": 1.9,
+      "err_pct_real_vs_planned": 1.9,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "defeat",
+      "art_ms": 1600,
+      "n": 1,
+      "real_p50": 1600,
+      "real_mean": 1600,
+      "real_max": 1600,
+      "planned_p50": 1600,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "game_start",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 884,
+      "real_mean": 884,
+      "real_max": 884,
+      "planned_p50": 900,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": -1.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "hero_crack",
+      "art_ms": 700,
+      "n": 1,
+      "real_p50": 700,
+      "real_mean": 700,
+      "real_max": 700,
+      "planned_p50": 700,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_blow",
+      "art_ms": 1500,
+      "n": 1,
+      "real_p50": 1500,
+      "real_mean": 1500,
+      "real_max": 1500,
+      "planned_p50": 1500,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_sequence",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 3850,
+      "real_mean": 3850,
+      "real_max": 3850,
+      "planned_p50": 3850,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "mulligan_swap",
+      "art_ms": 500,
+      "n": 5,
+      "real_p50": 500,
+      "real_mean": 500.2,
+      "real_max": 501,
+      "planned_p50": 500,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_answerer",
+      "art_ms": 440,
+      "n": 11,
+      "real_p50": 450,
+      "real_mean": 498.4,
+      "real_max": 983,
+      "planned_p50": 440,
+      "err_pct_vs_art": 2.3,
+      "err_pct_real_vs_planned": 1.9,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_rite",
+      "art_ms": 520,
+      "n": 4,
+      "real_p50": 533,
+      "real_mean": 553.8,
+      "real_max": 616,
+      "planned_p50": 520,
+      "err_pct_vs_art": 2.5,
+      "err_pct_real_vs_planned": 2.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_change",
+      "art_ms": null,
+      "n": 13,
+      "real_p50": 900,
+      "real_mean": 903.8,
+      "real_max": 917,
+      "planned_p50": 900,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.4,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_start_banner",
+      "art_ms": 900,
+      "n": 14,
+      "real_p50": 900,
+      "real_mean": 901.9,
+      "real_max": 916,
+      "planned_p50": 900,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0.2,
+      "skipped": 0,
+      "queued_behind": 0
+     }
+    ]
+   },
+   {
+    "hA": "h_wreck",
+    "hB": "h_choir",
+    "fast": true,
+    "wall_s": 34.207,
+    "actions": 52,
+    "half_turn_ms": {
+     "n": 14,
+     "min": 683,
+     "p50": 2333,
+     "p90": 3967,
+     "p99": 4616,
+     "max": 4616,
+     "mean": 2422.6
+    },
+    "half_over_cap": 0,
+    "table": [
+     {
+      "kind": "attack_motion",
+      "art_ms": 300,
+      "n": 14,
+      "real_p50": 300,
+      "real_mean": 310.4,
+      "real_max": 350,
+      "planned_p50": 300,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 1.4,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "attack:tl",
+      "art_ms": 300,
+      "n": 14,
+      "real_p50": 316,
+      "real_mean": 389.1,
+      "real_max": 584,
+      "planned_p50": 300,
+      "err_pct_vs_art": 5.3,
+      "err_pct_real_vs_planned": 0.9,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "calling",
+      "art_ms": 180,
+      "n": 4,
+      "real_p50": 183,
+      "real_mean": 183.3,
+      "real_max": 184,
+      "planned_p50": 180,
+      "err_pct_vs_art": 1.7,
+      "err_pct_real_vs_planned": 1.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "defeat",
+      "art_ms": 800,
+      "n": 1,
+      "real_p50": 801,
+      "real_mean": 801,
+      "real_max": 801,
+      "planned_p50": 800,
+      "err_pct_vs_art": 0.1,
+      "err_pct_real_vs_planned": 0.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "game_start",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 578,
+      "real_mean": 578,
+      "real_max": 578,
+      "planned_p50": 600,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": -3.7,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "hero_crack",
+      "art_ms": 400,
+      "n": 1,
+      "real_p50": 400,
+      "real_mean": 400,
+      "real_max": 400,
+      "planned_p50": 400,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_blow",
+      "art_ms": 800,
+      "n": 1,
+      "real_p50": 799,
+      "real_mean": 799,
+      "real_max": 799,
+      "planned_p50": 800,
+      "err_pct_vs_art": -0.1,
+      "err_pct_real_vs_planned": -0.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "lethal_sequence",
+      "art_ms": null,
+      "n": 1,
+      "real_p50": 2016,
+      "real_mean": 2016,
+      "real_max": 2016,
+      "planned_p50": 2012,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.2,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "mulligan_swap",
+      "art_ms": 300,
+      "n": 5,
+      "real_p50": 300,
+      "real_mean": 300.2,
+      "real_max": 301,
+      "planned_p50": 300,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0.1,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_answerer",
+      "art_ms": 220,
+      "n": 11,
+      "real_p50": 233,
+      "real_mean": 261.8,
+      "real_max": 550,
+      "planned_p50": 220,
+      "err_pct_vs_art": 5.9,
+      "err_pct_real_vs_planned": 4.7,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "play_rite",
+      "art_ms": 260,
+      "n": 4,
+      "real_p50": 267,
+      "real_mean": 291.8,
+      "real_max": 367,
+      "planned_p50": 260,
+      "err_pct_vs_art": 2.7,
+      "err_pct_real_vs_planned": 2.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_change",
+      "art_ms": null,
+      "n": 13,
+      "real_p50": 450,
+      "real_mean": 453.5,
+      "real_max": 467,
+      "planned_p50": 450,
+      "err_pct_vs_art": null,
+      "err_pct_real_vs_planned": 0.8,
+      "skipped": 0,
+      "queued_behind": 0
+     },
+     {
+      "kind": "turn_start_banner",
+      "art_ms": 450,
+      "n": 14,
+      "real_p50": 450,
+      "real_mean": 452.6,
+      "real_max": 466,
+      "planned_p50": 450,
+      "err_pct_vs_art": 0,
+      "err_pct_real_vs_planned": 0.6,
+      "skipped": 0,
+      "queued_behind": 0
+     }
+    ]
+   }
+  ],
+  "queue": {
+   "per_turn": [
+    "",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    "ok,q,q,q",
+    ""
+   ],
+   "max_queue_seen": 3,
+   "rejects": [],
+   "short": 2,
+   "total": 95
+  }
+ },
+ "info_loss": {
+  "rows": [
+   {
+    "hA": "h_rider",
+    "hB": "h_warden",
+    "seed": 515,
+    "mode": "normal",
+    "actions": 80,
+    "winner": 1,
+    "nums": 38,
+    "skipped": 0,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 127,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_rider",
+    "hB": "h_warden",
+    "seed": 515,
+    "mode": "fast",
+    "actions": 80,
+    "winner": 1,
+    "nums": 38,
+    "skipped": 0,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 54,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_rider",
+    "hB": "h_warden",
+    "seed": 515,
+    "mode": "skip",
+    "actions": 80,
+    "winner": 1,
+    "nums": 38,
+    "skipped": 81,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 127,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_wreck",
+    "hB": "h_choir",
+    "seed": 516,
+    "mode": "normal",
+    "actions": 52,
+    "winner": 1,
+    "nums": 26,
+    "skipped": 0,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 75,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_wreck",
+    "hB": "h_choir",
+    "seed": 516,
+    "mode": "fast",
+    "actions": 52,
+    "winner": 1,
+    "nums": 26,
+    "skipped": 0,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 32,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_wreck",
+    "hB": "h_choir",
+    "seed": 516,
+    "mode": "skip",
+    "actions": 52,
+    "winner": 1,
+    "nums": 26,
+    "skipped": 53,
+    "dom_tokens": 4,
+    "engine_tokens": 4,
+    "idle_checks": 81,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_archive",
+    "hB": "h_nameless",
+    "seed": 517,
+    "mode": "normal",
+    "actions": 132,
+    "winner": 0,
+    "nums": 72,
+    "skipped": 0,
+    "dom_tokens": 3,
+    "engine_tokens": 3,
+    "idle_checks": 197,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_archive",
+    "hB": "h_nameless",
+    "seed": 517,
+    "mode": "fast",
+    "actions": 132,
+    "winner": 0,
+    "nums": 72,
+    "skipped": 0,
+    "dom_tokens": 3,
+    "engine_tokens": 3,
+    "idle_checks": 86,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_archive",
+    "hB": "h_nameless",
+    "seed": 517,
+    "mode": "skip",
+    "actions": 132,
+    "winner": 0,
+    "nums": 72,
+    "skipped": 133,
+    "dom_tokens": 3,
+    "engine_tokens": 3,
+    "idle_checks": 207,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_choir",
+    "hB": "h_rider",
+    "seed": 518,
+    "mode": "normal",
+    "actions": 78,
+    "winner": 0,
+    "nums": 43,
+    "skipped": 0,
+    "dom_tokens": 1,
+    "engine_tokens": 1,
+    "idle_checks": 125,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_choir",
+    "hB": "h_rider",
+    "seed": 518,
+    "mode": "fast",
+    "actions": 78,
+    "winner": 0,
+    "nums": 43,
+    "skipped": 0,
+    "dom_tokens": 1,
+    "engine_tokens": 1,
+    "idle_checks": 55,
+    "idle_hp_mismatch": 0
+   },
+   {
+    "hA": "h_choir",
+    "hB": "h_rider",
+    "seed": 518,
+    "mode": "skip",
+    "actions": 78,
+    "winner": 0,
+    "nums": 43,
+    "skipped": 79,
+    "dom_tokens": 1,
+    "engine_tokens": 1,
+    "idle_checks": 125,
+    "idle_hp_mismatch": 0
+   }
+  ],
+  "nums_equal_all_modes": true,
+  "screen_eq_engine": true
+ },
+ "first_response_independent": [
+  {
+   "cpu_rate": 1,
+   "ms": {
+    "n": 16,
+    "min": 7,
+    "p50": 16,
+    "p90": 16,
+    "p99": 16,
+    "max": 16,
+    "mean": 15.4
+   },
+   "none": 0
+  },
+  {
+   "cpu_rate": 6,
+   "ms": {
+    "n": 16,
+    "min": 15,
+    "p50": 16,
+    "p90": 16,
+    "p99": 21,
+    "max": 21,
+    "mean": 16.2
+   },
+   "none": 0
+  }
+ ],
+ "perf": {
+  "log": {
+   "console": [],
+   "pageerrors": [],
+   "failed": [],
+   "external": [],
+   "requests": 421
+  },
+  "rate": 6,
+  "runs": [
+   {
+    "run": 1,
+    "seconds": 107.494,
+    "battle": {
+     "frames": 6413,
+     "avg_fps": 59.9,
+     "low1_fps": 49.6,
+     "max_ms": 83.4,
+     "over_33": 4
+    },
+    "big_moments": {
+     "n": 1,
+     "kinds": [
+      "big_entry"
+     ],
+     "frames": 112,
+     "avg_fps": 60,
+     "low1_fps": 59.5,
+     "max_ms": 16.8,
+     "over_33": 0
+    },
+    "menu": {
+     "title→dock(첫 탭)": 16.8,
+     "dock→heroes": 100.1,
+     "heroes→dock": 16.8,
+     "dock→collection": 116.6,
+     "collection→dock": 16.8,
+     "dock→crates": 33.4,
+     "crate open": 33.3,
+     "→market": 133.3,
+     "→decks": 33.4,
+     "dock→heroes→battle(첫 물때)": 133.4
+    }
+   },
+   {
+    "run": 2,
+    "seconds": 125.782,
+    "battle": {
+     "frames": 7514,
+     "avg_fps": 59.9,
+     "low1_fps": 52.6,
+     "max_ms": 83.3,
+     "over_33": 2
+    },
+    "big_moments": {
+     "n": 0,
+     "kinds": []
+    },
+    "menu": {
+     "title→dock(첫 탭)": 16.8,
+     "dock→heroes": 83.2,
+     "heroes→dock": 16.8,
+     "dock→collection": 116.7,
+     "collection→dock": 16.8,
+     "dock→crates": 16.8,
+     "crate open": 33.3,
+     "→market": 150.1,
+     "→decks": 33.3,
+     "dock→heroes→battle(첫 물때)": 116.6
+    }
+   },
+   {
+    "run": 3,
+    "seconds": 131.9,
+    "battle": {
+     "frames": 7879,
+     "avg_fps": 59.9,
+     "low1_fps": 51.7,
+     "max_ms": 66.6,
+     "over_33": 3
+    },
+    "big_moments": {
+     "n": 4,
+     "kinds": [
+      "attack",
+      "attack_motion"
+     ],
+     "frames": 133,
+     "avg_fps": 60,
+     "low1_fps": 59.5,
+     "max_ms": 16.8,
+     "over_33": 0
+    },
+    "menu": {
+     "title→dock(첫 탭)": 183.4,
+     "dock→heroes": 100,
+     "heroes→dock": 16.8,
+     "dock→collection": 133.4,
+     "collection→dock": 16.8,
+     "dock→crates": 16.8,
+     "crate open": 16.8,
+     "→market": 133.4,
+     "→decks": 33.3,
+     "dock→heroes→battle(첫 물때)": 100
+    }
+   }
+  ]
+ },
+ "layout": {
+  "small_by_screen": {},
+  "clipped": {
+   "05-battle-412x915": [
+    "hand@-6,720,123x151",
+    "hand@295,720,123x151"
+   ],
+   "06-zoom-412x915": [
+    "hand@295,720,123x151"
+   ],
+   "05-battle-640x360": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "06-zoom-640x360": [
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "05-battle-1280x720": [
+    "hand@379,613,162x211",
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "06-zoom-1280x720": [
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ]
+  },
+  "overlap": {
+   "04-mulligan-360x640": [
+    "power×경고 봉인문의식 · 이브로 탈(49x4)",
+    "power×mullok(26x43)",
+    "log×책장 파수꾼응답자 · 필경사방(43x21)",
+    "end×번개 증명의식 · 이브로 탈피(91x2)"
+   ],
+   "07-result-360x640": [
+    "power×menu(47x38)",
+    "end×menu(10x36)"
+   ],
+   "11-builder-360x640": [
+    "1리벳 박기●×나머지 채우기(113x28)",
+    "1리벳 박기●×저장(60x28)",
+    "1리벳 박기●×영장첩 버리기(119x28)",
+    "2해체공 견습●×나머지 채우기(113x18)",
+    "2해체공 견습●×저장(60x18)",
+    "2해체공 견습●×영장첩 버리기(119x18)"
+   ],
+   "04-mulligan-412x915": [
+    "power×mullok(27x9)"
+   ],
+   "07-result-412x915": [
+    "power×rematch(2x24)",
+    "power×menu(54x24)"
+   ],
+   "11-builder-412x915": [
+    "2압력 밸브●×나머지 채우기(113x35)",
+    "2압력 밸브●×저장(60x35)",
+    "2압력 밸브●×영장첩 버리기(119x35)",
+    "2잠수종 정비●×나머지 채우기(113x11)",
+    "2잠수종 정비●×저장(60x11)",
+    "2잠수종 정비●×영장첩 버리기(119x11)"
+   ],
+   "11-builder-640x360": [
+    "1녹슨 장갑판●×나머지 채우기(113x24)",
+    "1녹슨 장갑판●×저장(60x24)",
+    "1녹슨 장갑판●×영장첩 버리기(119x24)",
+    "1황동 집게팔●×나머지 채우기(113x22)",
+    "1황동 집게팔●×저장(60x22)",
+    "1황동 집게팔●×영장첩 버리기(119x22)"
+   ],
+   "11-builder-1280x720": [
+    "1리벳 박기●×나머지 채우기(113x1)",
+    "1리벳 박기●×저장(60x1)",
+    "1리벳 박기●×영장첩 버리기(119x1)",
+    "2해체공 견습●×나머지 채우기(113x45)",
+    "2해체공 견습●×저장(60x45)",
+    "2해체공 견습●×영장첩 버리기(119x45)"
+   ]
+  },
+  "textOver": {},
+  "scroll640x360": {
+   "01-title-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "02-dock-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 112,
+      "bar": false
+     }
+    ]
+   },
+   "03-heroes-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 345,
+      "bar": false
+     }
+    ]
+   },
+   "04-mulligan-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "05-battle-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "06-zoom-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "07-result-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "08-collection-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     }
+    ]
+   },
+   "09-recut-ready-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "10-recut-done-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "11-builder-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "filters",
+      "hidden": 18,
+      "bar": false
+     },
+     {
+      "cls": "scroll more",
+      "hidden": 709,
+      "bar": false
+     },
+     {
+      "cls": "deckStrip more",
+      "hidden": 490,
+      "bar": false
+     }
+    ]
+   },
+   "12-crates-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "13-crate-tease-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "14-crate-reveal-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "15-market-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 422,
+      "bar": false
+     }
+    ]
+   },
+   "16-settings-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 116,
+      "bar": false
+     }
+    ]
+   }
+  }
+ },
+ "func": {
+  "save_reload": {
+   "before": {
+    "salt": 323,
+    "music": false,
+    "lang": "en",
+    "res": 7,
+    "crates": 11
+   },
+   "after": {
+    "salt": 323,
+    "music": false,
+    "lang": "en",
+    "res": 7,
+    "crates": 11,
+    "title": "Ebbwrit"
+   },
+   "ok": true
+  },
+  "save_after_battle": {
+   "games_before_reload": 1,
+   "games_after_reload": 1
+  },
+  "mute": {
+   "sound_setting": false,
+   "music_setting": true,
+   "audio_enabled": false,
+   "music_bus_gain": 1,
+   "ctx_state": "running"
+  },
+  "stale_screens": {
+   "settings_x5": 1,
+   "market_x5": 1,
+   "app_children": 1
+  },
+  "background": {
+   "ctx_state_hidden": "suspended",
+   "game_clock_advanced_ms_while_hidden": 0,
+   "half_changed": false,
+   "paused_flag_hidden": true,
+   "resume_overlay_after_visible": true,
+   "still_paused_before_tap": true,
+   "paused_after_tap": false,
+   "ctx_state_after_tap": "running",
+   "clock_runs_after_tap": true,
+   "frozen_5s_game_clock_ms": 5100,
+   "source_has_visibility_handler": true
+  },
+  "lang": {
+   "ko-360x640": {
+    "rows": [],
+    "missingKeys": []
+   },
+   "en-360x640": {
+    "rows": [],
+    "missingKeys": []
+   },
+   "ko-640x360": {
+    "rows": [
+     {
+      "sc": "battle",
+      "textOver": [],
+      "clipped": [
+       "hand@189,306,81x105",
+       "hand@261,304,74x101",
+       "hand@329,304,74x101",
+       "hand@394,306,81x105"
+      ]
+     }
+    ],
+    "missingKeys": []
+   },
+   "en-640x360": {
+    "rows": [
+     {
+      "sc": "battle",
+      "textOver": [],
+      "clipped": [
+       "hand@189,306,81x105",
+       "hand@261,304,74x101",
+       "hand@329,304,74x101",
+       "hand@394,306,81x105"
+      ]
+     }
+    ],
+    "missingKeys": []
+   }
+  },
+  "builder": {
+   "size": 25,
+   "sand_copies": 2,
+   "abyss_copies": 1,
+   "other_hero_card_shown": false,
+   "over_limit": [],
+   "owner_mismatch": 0,
+   "problems": [
+    "deck_incomplete"
+   ],
+   "bad_deck_selectable": false,
+   "bad_deck_btn_off": true
+  },
+  "crates": {
+   "packs": 1000,
+   "slot": {
+    "sand": 2796,
+    "pearl": 968,
+    "coral": 196,
+    "abyss": 40
+   },
+   "gslot": {
+    "sand": 0,
+    "pearl": 785,
+    "coral": 162,
+    "abyss": 53
+   },
+   "abyssDupWhileUnowned": 0,
+   "pity_gap_max": 30,
+   "first_abyss_at": 10,
+   "coral_gap_max": 10,
+   "abyss_packs": 92,
+   "odds_text": [
+    "일반 칸: 모래 70% · 진주 24% · 산호 5% · 심해 1%",
+    "보장 칸: 진주 80% · 산호 16% · 심해 4%",
+    "등대 보장: 심해 30상자, 산호 10상자, 첫 심해 10상자 안"
+   ],
+   "guarantee_text": "등대 보장까지 27상자",
+   "expected_slot": {
+    "sand": {
+     "exp": 2800,
+     "obs": 2796,
+     "z": -0.14
+    },
+    "pearl": {
+     "exp": 960,
+     "obs": 968,
+     "z": 0.3
+    },
+    "coral": {
+     "exp": 200,
+     "obs": 196,
+     "z": -0.29
+    },
+    "abyss": {
+     "exp": 40,
+     "obs": 40,
+     "z": 0
+    }
+   },
+   "expected_guarantee": {
+    "pearl": {
+     "exp_no_pity": 800,
+     "obs": 785
+    },
+    "coral": {
+     "exp_no_pity": 160,
+     "obs": 162
+    },
+    "abyss": {
+     "exp_no_pity": 40,
+     "obs": 53
+    }
+   },
+   "pity_spec": {
+    "abyss_within_crates": 30,
+    "coral_within_crates": 10,
+    "first_abyss_within_crates": 10,
+    "reset_on_hit": true,
+    "public_display": true
+   }
+  },
+  "breakthrough": {
+   "rows": [
+    {
+     "r": "sand",
+     "ok": true
+    },
+    {
+     "r": "pearl",
+     "ok": true
+    },
+    {
+     "r": "coral",
+     "ok": true
+    },
+    {
+     "r": "abyss",
+     "ok": true
+    }
+   ],
+   "minion_rule_violations": 0,
+   "minions_checked": 86
+  },
+  "static": {
+   "http_urls": [],
+   "window_open": false,
+   "payment_words": 0,
+   "ads_calls": 0
+  }
+ },
+ "fierceness": {
+  "targets": {
+   "close_game_winner_hp_lte": 10,
+   "archetype_overall_wr_min": 0.45,
+   "archetype_overall_wr_max": 0.55,
+   "archetype_overall_spread_max_pp": 10,
+   "matchup_cell_min": 0.35,
+   "matchup_cell_max": 0.65,
+   "close_game_ratio_min": 0.2,
+   "close_game_ratio_max": 0.4,
+   "lopsided_ratio_max": 0.15,
+   "lopsided_def": "승자 명줄+껍질 ≥ 20 이고 게임 길이 ≤ 6",
+   "comeback_deficit": -10,
+   "comeback_ratio_min": 0.15,
+   "comeback_ratio_max": 0.35,
+   "lead_changes_mean_min": 1,
+   "lead_band": 3,
+   "first_player_overall_pp_max": 4,
+   "first_player_per_archetype_pp_max": 8,
+   "game_length_median_min": 8,
+   "game_length_median_max": 11,
+   "draw_ratio_max": 0.01,
+   "breakthrough_max_vs_zero_wr_max": 0.55,
+   "mana_use_t1_6_min": 0.7,
+   "game_length_def": "마지막 턴을 진행한 쪽의 자기 턴 번호 = ceil(반턴 수/2)",
+   "primary_ai": "eval",
+   "late_close_ratio_min": 0.3,
+   "late_close_ratio_max": 0.5,
+   "matchup_cell_hard_min": 0.25,
+   "matchup_cell_hard_max": 0.75,
+   "matchup_cells_outside_35_65_max": 3,
+   "big_moment_game_ratio_min": 0.6,
+   "est_minutes_min": 4,
+   "est_minutes_max": 8,
+   "acts_per_turn_mean_max": 4.5
+  },
+  "sim": {
+   "eval": {
+    "games_per_pair": 1000,
+    "seed": 821,
+    "sets": [],
+    "arch_wr": {
+     "archive-kindle": 46.2,
+     "choir-brine": 50.4,
+     "nameless-wake": 52.7,
+     "rider-rush": 49.5,
+     "warden-bulwark": 49,
+     "wreck-fit": 52.3
+    },
+    "arch_spread_pp": 6.5,
+    "cells_outside_35_65": 3,
+    "cell_range": [
+     30.1,
+     69.9
+    ],
+    "close_pct": 20.4,
+    "late_close_pct": 30.3,
+    "comeback_pct": 21.8,
+    "lopsided_pct": 3.6,
+    "first_minus_second_pp": -1.9,
+    "deck_first_second_pp": {
+     "archive-kindle": -2,
+     "choir-brine": 1.8,
+     "nameless-wake": -4.6,
+     "rider-rush": -6.5,
+     "warden-bulwark": -5.9,
+     "wreck-fit": 6.1
+    },
+    "len_median": 10,
+    "draw_pct": 0.03,
+    "est_minutes_median": 2.54,
+    "big_moment_pct": 88.6,
+    "lead_changes": 0.97
+   },
+   "race": {
+    "games_per_pair": 1000,
+    "seed": 822,
+    "sets": [
+     "ai.flat_hp=1.5",
+     "ai.race=1",
+     "ai.race_fast=1.5",
+     "ai.race_slow=0.85"
+    ],
+    "arch_wr": {
+     "archive-kindle": 43.5,
+     "choir-brine": 51.5,
+     "nameless-wake": 56.1,
+     "rider-rush": 41.7,
+     "warden-bulwark": 52.6,
+     "wreck-fit": 54.7
+    },
+    "arch_spread_pp": 14.4,
+    "cells_outside_35_65": 2,
+    "cell_range": [
+     28.4,
+     71.6
+    ],
+    "close_pct": 32.8,
+    "late_close_pct": 43.4,
+    "comeback_pct": 19.5,
+    "lopsided_pct": 2.5,
+    "first_minus_second_pp": -0.6,
+    "deck_first_second_pp": {
+     "archive-kindle": -2.5,
+     "choir-brine": 5.7,
+     "nameless-wake": -3.1,
+     "rider-rush": -0.1,
+     "warden-bulwark": -6.3,
+     "wreck-fit": 2.6
+    },
+    "len_median": 9,
+    "draw_pct": 0,
+    "est_minutes_median": 2.32,
+    "big_moment_pct": 87.3,
+    "lead_changes": 1.09
+   }
+  }
+ },
+ "human_speed_o5": {
+  "games": [
+   {
+    "heroes": [
+     "h_archive",
+     "h_rider"
+    ],
+    "minutes": 4.54,
+    "turns": 11,
+    "actions": 77,
+    "winner": 0,
+    "response_p50": 16,
+    "response_max": 17,
+    "ai_turn_max": 7483,
+    "human_turn_p50": 17633,
+    "locked_share": 0.031,
+    "replay_same": true
+   },
+   {
+    "heroes": [
+     "h_choir",
+     "h_warden"
+    ],
+    "minutes": 5.86,
+    "turns": 14,
+    "actions": 103,
+    "winner": 0,
+    "response_p50": 16,
+    "response_max": 17,
+    "ai_turn_max": 9117,
+    "human_turn_p50": 21151,
+    "locked_share": 0.03,
+    "replay_same": true
+   },
+   {
+    "heroes": [
+     "h_nameless",
+     "h_wreck"
+    ],
+    "minutes": 4.69,
+    "turns": 10,
+    "actions": 86,
+    "winner": 0,
+    "response_p50": 16,
+    "response_max": 17,
+    "ai_turn_max": 6900,
+    "human_turn_p50": 19934,
+    "locked_share": 0.031,
+    "replay_same": true
+   },
+   {
+    "heroes": [
+     "h_rider",
+     "h_archive"
+    ],
+    "minutes": 4.52,
+    "turns": 11,
+    "actions": 75,
+    "winner": 1,
+    "response_p50": 16,
+    "response_max": 17,
+    "ai_turn_max": 8967,
+    "human_turn_p50": 17000,
+    "locked_share": 0.025,
+    "replay_same": true
+   }
+  ],
+  "minutes_median": 4.69,
+  "turns": [
+   11,
+   14,
+   10,
+   11
+  ]
+ },
+ "tutorial": {
+  "runs": [
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": true,
+    "steps_shown": 9
+   },
+   {
+    "view": "640x360",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": false,
+      "only_end": false
+     }
+    ],
+    "end_before_play": false,
+    "steps_shown": 6
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": false,
+      "only_end": false
+     }
+    ],
+    "end_before_play": false,
+    "steps_shown": 6
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": false,
+    "steps_shown": 9
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 4,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 5,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": true,
+    "steps_shown": 8
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_6_breakwater",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": true,
+    "steps_shown": 10
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 5,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": true,
+    "steps_shown": 9
+   },
+   {
+    "view": "360x640",
+    "seq": [
+     {
+      "step": "tut_1_welcome",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_2_wicks",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_3_play",
+      "turn": 1,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_6_breakwater",
+      "turn": 1,
+      "playable_now": false,
+      "only_end": false
+     },
+     {
+      "step": "tut_7_calling",
+      "turn": 2,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_4_summon_sick",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_8_end",
+      "turn": 2,
+      "playable_now": false,
+      "only_end": true
+     },
+     {
+      "step": "tut_9_lifeline",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_5_attack",
+      "turn": 3,
+      "playable_now": true,
+      "only_end": false
+     },
+     {
+      "step": "tut_10_keyword",
+      "turn": 4,
+      "playable_now": true,
+      "only_end": false
+     }
+    ],
+    "end_before_play": false,
+    "steps_shown": 10
+   }
+  ],
+  "end_before_play": "4/8"
+ }
+}

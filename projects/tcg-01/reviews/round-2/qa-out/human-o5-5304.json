@@ -1,0 +1,279 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 88
+ },
+ "policy": "eval",
+ "think": [
+  2000,
+  4000
+ ],
+ "turnThink": [
+  8000,
+  15000
+ ],
+ "heroes": [
+  "h_rider",
+  "h_archive"
+ ],
+ "wall_s": 271.005,
+ "minutes": 4.52,
+ "turns": 11,
+ "half": 22,
+ "actions": 75,
+ "pointerOk": 33,
+ "pointerMiss": 0,
+ "response_ms": {
+  "n": 33,
+  "min": 3,
+  "p50": 16,
+  "p90": 17,
+  "p99": 17,
+  "max": 17,
+  "mean": 14.2
+ },
+ "response_over_100": 0,
+ "tempo": [
+  {
+   "kind": "attack_motion",
+   "art_ms": 530,
+   "n": 18,
+   "real_p50": 533,
+   "real_mean": 566.7,
+   "real_max": 950,
+   "planned_p50": 530,
+   "err_pct_vs_art": 0.6,
+   "err_pct_real_vs_planned": 0.6,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "attack:tl",
+   "art_ms": 530,
+   "n": 17,
+   "real_p50": 533,
+   "real_mean": 659.3,
+   "real_max": 1023,
+   "planned_p50": 530,
+   "err_pct_vs_art": 0.6,
+   "err_pct_real_vs_planned": 0.8,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "big_entry",
+   "art_ms": 1800,
+   "n": 1,
+   "real_p50": 2666,
+   "real_mean": 2666,
+   "real_max": 2666,
+   "planned_p50": 2660,
+   "err_pct_vs_art": 48.1,
+   "err_pct_real_vs_planned": 0.2,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "calling",
+   "art_ms": 360,
+   "n": 7,
+   "real_p50": 366,
+   "real_mean": 361.6,
+   "real_max": 367,
+   "planned_p50": 360,
+   "err_pct_vs_art": 1.7,
+   "err_pct_real_vs_planned": 0.4,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "defeat",
+   "art_ms": 1600,
+   "n": 1,
+   "real_p50": 1600,
+   "real_mean": 1600,
+   "real_max": 1600,
+   "planned_p50": 1600,
+   "err_pct_vs_art": 0,
+   "err_pct_real_vs_planned": 0,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "end_breath_press",
+   "art_ms": 250,
+   "n": 11,
+   "real_p50": 244,
+   "real_mean": 246.1,
+   "real_max": 263,
+   "planned_p50": 250,
+   "err_pct_vs_art": -2.4,
+   "err_pct_real_vs_planned": -1.6,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "game_start",
+   "art_ms": null,
+   "n": 1,
+   "real_p50": 987,
+   "real_mean": 987,
+   "real_max": 987,
+   "planned_p50": 900,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": 9.7,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "hero_crack",
+   "art_ms": 700,
+   "n": 1,
+   "real_p50": 700,
+   "real_mean": 700,
+   "real_max": 700,
+   "planned_p50": 700,
+   "err_pct_vs_art": 0,
+   "err_pct_real_vs_planned": 0,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "lethal_blow",
+   "art_ms": 1500,
+   "n": 1,
+   "real_p50": 1500,
+   "real_mean": 1500,
+   "real_max": 1500,
+   "planned_p50": 1500,
+   "err_pct_vs_art": 0,
+   "err_pct_real_vs_planned": 0,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "lethal_sequence",
+   "art_ms": null,
+   "n": 1,
+   "real_p50": 3983,
+   "real_mean": 3983,
+   "real_max": 3983,
+   "planned_p50": 3977,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": 0.2,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "play_answerer",
+   "art_ms": 440,
+   "n": 18,
+   "real_p50": 449,
+   "real_mean": 444.6,
+   "real_max": 450,
+   "planned_p50": 440,
+   "err_pct_vs_art": 2,
+   "err_pct_real_vs_planned": 1,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "play_rite",
+   "art_ms": 520,
+   "n": 10,
+   "real_p50": 539,
+   "real_mean": 656.7,
+   "real_max": 1134,
+   "planned_p50": 550,
+   "err_pct_vs_art": 3.7,
+   "err_pct_real_vs_planned": 0,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "turn_change",
+   "art_ms": null,
+   "n": 21,
+   "real_p50": 1018,
+   "real_mean": 969.8,
+   "real_max": 1032,
+   "planned_p50": 1025,
+   "err_pct_vs_art": null,
+   "err_pct_real_vs_planned": 0.4,
+   "skipped": 0,
+   "queued_behind": 0
+  },
+  {
+   "kind": "turn_start_banner",
+   "art_ms": 900,
+   "n": 22,
+   "real_p50": 899,
+   "real_mean": 906.8,
+   "real_max": 985,
+   "planned_p50": 900,
+   "err_pct_vs_art": -0.1,
+   "err_pct_real_vs_planned": 0.8,
+   "skipped": 0,
+   "queued_behind": 0
+  }
+ ],
+ "turns_t": {
+  "ai_turn_ms": {
+   "n": 11,
+   "min": 2733,
+   "p50": 3933,
+   "p90": 7267,
+   "p99": 8967,
+   "max": 8967,
+   "mean": 5048.6
+  },
+  "ai_turn_over_12s": 0,
+  "human_turn_ms": {
+   "n": 11,
+   "min": 8317,
+   "p50": 17000,
+   "p90": 23750,
+   "p99": 35784,
+   "max": 35784,
+   "mean": 19001.5
+  },
+  "human_locked_ms_per_turn": {
+   "n": 11,
+   "min": 0,
+   "p50": 500,
+   "p90": 632,
+   "p99": 1000,
+   "max": 1000,
+   "mean": 473.9
+  },
+  "human_locked_share": 0.025
+ },
+ "human_turn_over_50s": false,
+ "winner": 1,
+ "final": [
+  0,
+  26
+ ],
+ "replay": {
+  "winner": 1,
+  "half": 22,
+  "reason": "hero_dead",
+  "final": [
+   0,
+   26
+  ],
+  "hp": [
+   0,
+   26
+  ],
+  "armor": [
+   0,
+   0
+  ],
+  "error": null
+ },
+ "replay_same": true
+}

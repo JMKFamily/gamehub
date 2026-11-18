@@ -1,0 +1,343 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 573
+ },
+ "save_reload": {
+  "before": {
+   "salt": 323,
+   "music": false,
+   "lang": "en",
+   "res": 7,
+   "crates": 11
+  },
+  "after": {
+   "salt": 323,
+   "music": false,
+   "lang": "en",
+   "res": 7,
+   "crates": 11,
+   "title": "Ebbwrit"
+  },
+  "ok": true
+ },
+ "save_after_battle": {
+  "games_before_reload": 1,
+  "games_after_reload": 1
+ },
+ "mute": {
+  "sound_setting": false,
+  "music_setting": true,
+  "audio_enabled": false,
+  "music_bus_gain": 1,
+  "ctx_state": "running"
+ },
+ "stale_screens": {
+  "settings_x5": 1,
+  "market_x5": 1,
+  "app_children": 1
+ },
+ "background": {
+  "ctx_state_hidden": "suspended",
+  "game_clock_advanced_ms_while_hidden": 0,
+  "half_changed": false,
+  "paused_flag_hidden": true,
+  "resume_overlay_after_visible": true,
+  "still_paused_before_tap": true,
+  "paused_after_tap": false,
+  "ctx_state_after_tap": "running",
+  "clock_runs_after_tap": true,
+  "frozen_5s_game_clock_ms": 5100,
+  "source_has_visibility_handler": true
+ },
+ "lang": {
+  "ko-360x640": {
+   "rows": [],
+   "missingKeys": []
+  },
+  "en-360x640": {
+   "rows": [],
+   "missingKeys": []
+  },
+  "ko-640x360": {
+   "rows": [
+    {
+     "sc": "battle",
+     "textOver": [],
+     "clipped": [
+      "hand@189,306,81x105",
+      "hand@261,304,74x101",
+      "hand@329,304,74x101",
+      "hand@394,306,81x105"
+     ]
+    }
+   ],
+   "missingKeys": []
+  },
+  "en-640x360": {
+   "rows": [
+    {
+     "sc": "battle",
+     "textOver": [],
+     "clipped": [
+      "hand@189,306,81x105",
+      "hand@261,304,74x101",
+      "hand@329,304,74x101",
+      "hand@394,306,81x105"
+     ]
+    }
+   ],
+   "missingKeys": []
+  }
+ },
+ "builder": {
+  "size": 25,
+  "sand_copies": 2,
+  "abyss_copies": 1,
+  "other_hero_card_shown": false,
+  "over_limit": [],
+  "owner_mismatch": 0,
+  "problems": [
+   "deck_incomplete"
+  ],
+  "bad_deck_selectable": false,
+  "bad_deck_btn_off": true
+ },
+ "crates": {
+  "packs": 1000,
+  "slot": {
+   "sand": 2796,
+   "pearl": 968,
+   "coral": 196,
+   "abyss": 40
+  },
+  "gslot": {
+   "sand": 0,
+   "pearl": 785,
+   "coral": 162,
+   "abyss": 53
+  },
+  "abyssDupWhileUnowned": 0,
+  "pity_gap_max": 30,
+  "first_abyss_at": 10,
+  "coral_gap_max": 10,
+  "abyss_packs": 92,
+  "odds_text": [
+   "일반 칸: 모래 70% · 진주 24% · 산호 5% · 심해 1%",
+   "보장 칸: 진주 80% · 산호 16% · 심해 4%",
+   "등대 보장: 심해 30상자, 산호 10상자, 첫 심해 10상자 안"
+  ],
+  "guarantee_text": "등대 보장까지 27상자",
+  "expected_slot": {
+   "sand": {
+    "exp": 2800,
+    "obs": 2796,
+    "z": -0.14
+   },
+   "pearl": {
+    "exp": 960,
+    "obs": 968,
+    "z": 0.3
+   },
+   "coral": {
+    "exp": 200,
+    "obs": 196,
+    "z": -0.29
+   },
+   "abyss": {
+    "exp": 40,
+    "obs": 40,
+    "z": 0
+   }
+  },
+  "expected_guarantee": {
+   "pearl": {
+    "exp_no_pity": 800,
+    "obs": 785
+   },
+   "coral": {
+    "exp_no_pity": 160,
+    "obs": 162
+   },
+   "abyss": {
+    "exp_no_pity": 40,
+    "obs": 53
+   }
+  },
+  "pity_spec": {
+   "abyss_within_crates": 30,
+   "coral_within_crates": 10,
+   "first_abyss_within_crates": 10,
+   "reset_on_hit": true,
+   "public_display": true
+  }
+ },
+ "breakthrough": {
+  "rows": [
+   {
+    "r": "sand",
+    "cid": "D001",
+    "cap": 2,
+    "thresholds": [
+     0,
+     20,
+     50,
+     100
+    ],
+    "per_extra": 10,
+    "ink_after_max": null,
+    "seq_res": [
+     0,
+     0,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10,
+     10
+    ],
+    "exp_cap": 2,
+    "exp_thr": [
+     0,
+     20,
+     50,
+     100
+    ],
+    "exp_per": 10,
+    "ok": true
+   },
+   {
+    "r": "pearl",
+    "cid": "D002",
+    "cap": 2,
+    "thresholds": [
+     0,
+     50,
+     125,
+     250
+    ],
+    "per_extra": 25,
+    "ink_after_max": null,
+    "seq_res": [
+     0,
+     0,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25,
+     25
+    ],
+    "exp_cap": 2,
+    "exp_thr": [
+     0,
+     50,
+     125,
+     250
+    ],
+    "exp_per": 25,
+    "ok": true
+   },
+   {
+    "r": "coral",
+    "cid": "D008",
+    "cap": 2,
+    "thresholds": [
+     0,
+     200,
+     500,
+     1000
+    ],
+    "per_extra": 100,
+    "ink_after_max": null,
+    "seq_res": [
+     0,
+     0,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100,
+     100
+    ],
+    "exp_cap": 2,
+    "exp_thr": [
+     0,
+     200,
+     500,
+     1000
+    ],
+    "exp_per": 100,
+    "ok": true
+   },
+   {
+    "r": "abyss",
+    "cid": "B018",
+    "cap": 1,
+    "thresholds": [
+     0,
+     800,
+     2000,
+     4000
+    ],
+    "per_extra": 400,
+    "ink_after_max": null,
+    "seq_res": [
+     0,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400,
+     400
+    ],
+    "exp_cap": 1,
+    "exp_thr": [
+     0,
+     800,
+     2000,
+     4000
+    ],
+    "exp_per": 400,
+    "ok": true
+   }
+  ],
+  "minion_rule_violations": [],
+  "minion_rule_violation_n": 0,
+  "minions_checked": 86
+ },
+ "static": {
+  "http_urls": [],
+  "window_open": false,
+  "payment_words": 0,
+  "ads_calls": 0
+ }
+}

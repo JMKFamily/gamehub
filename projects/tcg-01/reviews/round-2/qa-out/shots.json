@@ -1,0 +1,1369 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 1172
+ },
+ "summary": {
+  "small_by_screen": {},
+  "clipped": {
+   "05-battle-412x915": [
+    "hand@-6,720,123x151",
+    "hand@295,720,123x151"
+   ],
+   "06-zoom-412x915": [
+    "hand@295,720,123x151"
+   ],
+   "05-battle-640x360": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "06-zoom-640x360": [
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "05-battle-1280x720": [
+    "hand@379,613,162x211",
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "06-zoom-1280x720": [
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ]
+  },
+  "overlap": {
+   "04-mulligan-360x640": [
+    "power×경고 봉인문의식 · 이브로 탈(49x4)",
+    "power×mullok(26x43)",
+    "log×책장 파수꾼응답자 · 필경사방(43x21)",
+    "end×번개 증명의식 · 이브로 탈피(91x2)"
+   ],
+   "07-result-360x640": [
+    "power×menu(47x38)",
+    "end×menu(10x36)"
+   ],
+   "11-builder-360x640": [
+    "1리벳 박기●×나머지 채우기(113x28)",
+    "1리벳 박기●×저장(60x28)",
+    "1리벳 박기●×영장첩 버리기(119x28)",
+    "2해체공 견습●×나머지 채우기(113x18)",
+    "2해체공 견습●×저장(60x18)",
+    "2해체공 견습●×영장첩 버리기(119x18)"
+   ],
+   "04-mulligan-412x915": [
+    "power×mullok(27x9)"
+   ],
+   "07-result-412x915": [
+    "power×rematch(2x24)",
+    "power×menu(54x24)"
+   ],
+   "11-builder-412x915": [
+    "2압력 밸브●×나머지 채우기(113x35)",
+    "2압력 밸브●×저장(60x35)",
+    "2압력 밸브●×영장첩 버리기(119x35)",
+    "2잠수종 정비●×나머지 채우기(113x11)",
+    "2잠수종 정비●×저장(60x11)",
+    "2잠수종 정비●×영장첩 버리기(119x11)"
+   ],
+   "11-builder-640x360": [
+    "1녹슨 장갑판●×나머지 채우기(113x24)",
+    "1녹슨 장갑판●×저장(60x24)",
+    "1녹슨 장갑판●×영장첩 버리기(119x24)",
+    "1황동 집게팔●×나머지 채우기(113x22)",
+    "1황동 집게팔●×저장(60x22)",
+    "1황동 집게팔●×영장첩 버리기(119x22)"
+   ],
+   "11-builder-1280x720": [
+    "1리벳 박기●×나머지 채우기(113x1)",
+    "1리벳 박기●×저장(60x1)",
+    "1리벳 박기●×영장첩 버리기(119x1)",
+    "2해체공 견습●×나머지 채우기(113x45)",
+    "2해체공 견습●×저장(60x45)",
+    "2해체공 견습●×영장첩 버리기(119x45)"
+   ]
+  },
+  "textOver": {},
+  "scroll640x360": {
+   "01-title-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "02-dock-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 112,
+      "bar": false
+     }
+    ]
+   },
+   "03-heroes-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 345,
+      "bar": false
+     }
+    ]
+   },
+   "04-mulligan-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "05-battle-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "06-zoom-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "07-result-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "08-collection-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     }
+    ]
+   },
+   "09-recut-ready-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "10-recut-done-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll more",
+      "hidden": 4649,
+      "bar": false
+     },
+     {
+      "cls": "ovl",
+      "hidden": 123,
+      "bar": false
+     }
+    ]
+   },
+   "11-builder-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "filters",
+      "hidden": 18,
+      "bar": false
+     },
+     {
+      "cls": "scroll more",
+      "hidden": 709,
+      "bar": false
+     },
+     {
+      "cls": "deckStrip more",
+      "hidden": 490,
+      "bar": false
+     }
+    ]
+   },
+   "12-crates-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "13-crate-tease-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "14-crate-reveal-640x360": {
+    "docScroll": false,
+    "scrollers": []
+   },
+   "15-market-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 422,
+      "bar": false
+     }
+    ]
+   },
+   "16-settings-640x360": {
+    "docScroll": false,
+    "scrollers": [
+     {
+      "cls": "scroll col more",
+      "hidden": 116,
+      "bar": false
+     }
+    ]
+   }
+  }
+ },
+ "screens": [
+  {
+   "label": "01-title-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "heroes",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 278,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "04-mulligan-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 10,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×경고 봉인문의식 · 이브로 탈(49x4)",
+    "power×mullok(26x43)",
+    "log×책장 파수꾼응답자 · 필경사방(43x21)",
+    "end×번개 증명의식 · 이브로 탈피(91x2)"
+   ],
+   "overlap_n": 4,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 17,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 17,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "battle",
+   "n_targets": 12,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×menu(47x38)",
+    "end×menu(10x36)"
+   ],
+   "overlap_n": 2,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 10162,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 10162,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 11,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 10162,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "builder",
+   "n_targets": 51,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "1리벳 박기●×나머지 채우기(113x28)",
+    "1리벳 박기●×저장(60x28)",
+    "1리벳 박기●×영장첩 버리기(119x28)",
+    "2해체공 견습●×나머지 채우기(113x18)",
+    "2해체공 견습●×저장(60x18)",
+    "2해체공 견습●×영장첩 버리기(119x18)"
+   ],
+   "overlap_n": 6,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 1267,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip more",
+     "hidden": 394,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 142,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-360x640",
+   "vw": 360,
+   "vh": 640,
+   "screen": "settings",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "01-title-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "heroes",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "04-mulligan-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 11,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×mullok(27x9)"
+   ],
+   "overlap_n": 1,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 17,
+   "small": [],
+   "clipped": [
+    "hand@-6,720,123x151",
+    "hand@295,720,123x151"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 18,
+   "small": [],
+   "clipped": [
+    "hand@295,720,123x151"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "battle",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "power×rematch(2x24)",
+    "power×menu(54x24)"
+   ],
+   "overlap_n": 2,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 11513,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 11513,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 11513,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "builder",
+   "n_targets": 51,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "2압력 밸브●×나머지 채우기(113x35)",
+    "2압력 밸브●×저장(60x35)",
+    "2압력 밸브●×영장첩 버리기(119x35)",
+    "2잠수종 정비●×나머지 채우기(113x11)",
+    "2잠수종 정비●×저장(60x11)",
+    "2잠수종 정비●×영장첩 버리기(119x11)"
+   ],
+   "overlap_n": 6,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 1303,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip",
+     "hidden": 301,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "16-settings-412x915",
+   "vw": 412,
+   "vh": 915,
+   "screen": "settings",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "01-title-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 112,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "03-heroes-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "heroes",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 345,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "04-mulligan-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 11,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 14,
+   "small": [],
+   "clipped": [
+    "hand@189,306,81x105",
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [
+    "hand@261,304,74x101",
+    "hand@329,304,74x101",
+    "hand@394,306,81x105"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "battle",
+   "n_targets": 13,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 4649,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 4649,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 123,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 4649,
+     "bar": false
+    },
+    {
+     "cls": "ovl",
+     "hidden": 123,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "builder",
+   "n_targets": 51,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "1녹슨 장갑판●×나머지 채우기(113x24)",
+    "1녹슨 장갑판●×저장(60x24)",
+    "1녹슨 장갑판●×영장첩 버리기(119x24)",
+    "1황동 집게팔●×나머지 채우기(113x22)",
+    "1황동 집게팔●×저장(60x22)",
+    "1황동 집게팔●×영장첩 버리기(119x22)"
+   ],
+   "overlap_n": 6,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "filters",
+     "hidden": 18,
+     "bar": false
+    },
+    {
+     "cls": "scroll more",
+     "hidden": 709,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip more",
+     "hidden": 490,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 422,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-640x360",
+   "vw": 640,
+   "vh": 360,
+   "screen": "settings",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 116,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "01-title-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "title",
+   "n_targets": 0,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "02-dock-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "dock",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "03-heroes-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "heroes",
+   "n_targets": 15,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "04-mulligan-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 11,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "05-battle-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 17,
+   "small": [],
+   "clipped": [
+    "hand@379,613,162x211",
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "06-zoom-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 18,
+   "small": [],
+   "clipped": [
+    "hand@522,613,147x201",
+    "hand@658,613,147x201",
+    "hand@788,613,162x211"
+   ],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "07-result-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "battle",
+   "n_targets": 13,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "08-collection-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 210,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll",
+     "hidden": 1876,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "09-recut-ready-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 1876,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "10-recut-done-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "collection",
+   "n_targets": 213,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 1876,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "11-builder-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "builder",
+   "n_targets": 51,
+   "small": [],
+   "clipped": [],
+   "overlap": [
+    "1리벳 박기●×나머지 채우기(113x1)",
+    "1리벳 박기●×저장(60x1)",
+    "1리벳 박기●×영장첩 버리기(119x1)",
+    "2해체공 견습●×나머지 채우기(113x45)",
+    "2해체공 견습●×저장(60x45)",
+    "2해체공 견습●×영장첩 버리기(119x45)"
+   ],
+   "overlap_n": 6,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll more",
+     "hidden": 215,
+     "bar": false
+    },
+    {
+     "cls": "deckStrip more",
+     "hidden": 367,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "12-crates-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "crates",
+   "n_targets": 3,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "13-crate-tease-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "14-crate-reveal-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "open",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  },
+  {
+   "label": "15-market-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "market",
+   "n_targets": 9,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": [
+    {
+     "cls": "scroll col more",
+     "hidden": 62,
+     "bar": false
+    }
+   ]
+  },
+  {
+   "label": "16-settings-1280x720",
+   "vw": 1280,
+   "vh": 720,
+   "screen": "settings",
+   "n_targets": 8,
+   "small": [],
+   "clipped": [],
+   "overlap": [],
+   "overlap_n": 0,
+   "textOver": [],
+   "docScroll": false,
+   "scrollers": []
+  }
+ ]
+}

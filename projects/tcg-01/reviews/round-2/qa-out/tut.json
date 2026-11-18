@@ -1,0 +1,471 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 756
+ },
+ "runs": [
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": true,
+   "steps_shown": 9
+  },
+  {
+   "view": "640x360",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": false,
+     "only_end": false
+    }
+   ],
+   "end_before_play": false,
+   "steps_shown": 6
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": false,
+     "only_end": false
+    }
+   ],
+   "end_before_play": false,
+   "steps_shown": 6
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": false,
+   "steps_shown": 9
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 4,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 5,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": true,
+   "steps_shown": 8
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_6_breakwater",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": true,
+   "steps_shown": 10
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 5,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": true,
+   "steps_shown": 9
+  },
+  {
+   "view": "360x640",
+   "seq": [
+    {
+     "step": "tut_1_welcome",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_2_wicks",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_3_play",
+     "turn": 1,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_6_breakwater",
+     "turn": 1,
+     "playable_now": false,
+     "only_end": false
+    },
+    {
+     "step": "tut_7_calling",
+     "turn": 2,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_4_summon_sick",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_8_end",
+     "turn": 2,
+     "playable_now": false,
+     "only_end": true
+    },
+    {
+     "step": "tut_9_lifeline",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_5_attack",
+     "turn": 3,
+     "playable_now": true,
+     "only_end": false
+    },
+    {
+     "step": "tut_10_keyword",
+     "turn": 4,
+     "playable_now": true,
+     "only_end": false
+    }
+   ],
+   "end_before_play": false,
+   "steps_shown": 10
+  }
+ ],
+ "end_before_play_n": 4,
+ "runs_n": 8
+}
