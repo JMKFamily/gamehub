@@ -23,7 +23,7 @@ const PLAN = {
   h_archive: [4, 14, 2, 5], h_nameless: [2, 12, 2, 9], neutral: [5, 30, 3, 12],
 };
 // 2026-11-18 "용어 쉽게" 개정 키워드(10-lore 6절)
-const KEYWORDS = ['등장', '사망 시', '방벽', '튕겨내기', '위장', '기습', '즉시 공격', '즉사', '흡혈', '효과 지우기', '속박', '주문 위력', '덫', '마나 빚', '후속', '골라잡기', '성장', '중독'];
+const KEYWORDS = ['등장', '사망 시', '방벽', '튕겨내기', '위장', '기습', '즉시 공격', '즉사', '생명 훔치기', '효과 지우기', '속박', '주문 위력', '덫', '마나 빚', '후속', '골라잡기', '성장', '중독'];
 
 // 1. 개수·필드
 if (cards.length !== 200) fail(`총 ${cards.length}장 (200장이어야 함)`);
@@ -84,8 +84,8 @@ for (const c of cards) {
 const longText = cards.filter((c) => len(c.concept_ko) > 56).map((c) => `${c.id}(${len(c.concept_ko)})`);
 // 9. 원본 보호: 레퍼런스 키워드·기본 용어(영문·공식 한국어 번역어)가 카드 글·이름·플레이버에 없음
 // 레퍼런스 공식 한국어 용어·키워드 + 다른 상용 TCG 공식 키워드 번역(10-lore 2-8). '마나'·'영웅'·'주문'은 장르 공통어라 허용
-const BANNED_KO = ['돌격', '돌진', '속공', '도발', '은신', '질풍', '침묵', '빙결', '발견', '과부하', '연계', '비밀', '독성', '생명력 흡수', '주문 공격력', '천상의 보호막', '전투의 함성', '죽음의 메아리', '환생', '하수인', '방어도', '마나 수정', '영웅 능력', '탈진', '종족', '전장', '유닛', '팔로워', '보호막', '수호', '잠복', '유언', '선제공격', '신속', '죽음의 손길', '생명연결'];
-const BANNED_EN = ['charge', 'rush', 'taunt', 'stealth', 'windfury', 'silence', 'freeze', 'discover', 'overload', 'combo', 'secret', 'poisonous', 'lifesteal', 'spell damage', 'divine shield', 'battlecry', 'deathrattle', 'reborn', 'minion', 'armor', 'mana crystal', 'hero power', 'forge', 'echo', 'invoke', 'tidecaller', 'fatigue', 'tribe', 'unit', 'follower', 'barrier', 'elusive', 'ward', 'ambush', 'last words', 'haste', 'deathtouch', 'lifelink', 'trap', 'first strike'];
+const BANNED_KO = ['돌격', '돌진', '속공', '도발', '은신', '질풍', '침묵', '빙결', '발견', '과부하', '연계', '비밀', '독성', '생명력 흡수', '주문 공격력', '천상의 보호막', '전투의 함성', '죽음의 메아리', '환생', '하수인', '방어도', '마나 수정', '영웅 능력', '탈진', '종족', '전장', '유닛', '팔로워', '보호막', '수호', '잠복', '유언', '선제공격', '신속', '죽음의 손길', '생명연결', '흡혈', '체력 흡수', '주문 증폭', '질주', '필살'];
+const BANNED_EN = ['charge', 'rush', 'taunt', 'stealth', 'windfury', 'silence', 'freeze', 'discover', 'overload', 'combo', 'secret', 'poisonous', 'lifesteal', 'spell damage', 'divine shield', 'battlecry', 'deathrattle', 'reborn', 'minion', 'armor', 'mana crystal', 'hero power', 'forge', 'echo', 'invoke', 'tidecaller', 'fatigue', 'tribe', 'unit', 'follower', 'barrier', 'elusive', 'ward', 'ambush', 'last words', 'haste', 'deathtouch', 'lifelink', 'trap', 'first strike', 'drain', 'toxic', 'bane', 'spellboost'];
 // 옛 세계관 기능 용어(2026-11-18 요청자 "용어 쉽게"): 카드 글·UI 키 표에 남으면 실패. 이야기 문장·카드 이름·풍미글·대사는 검사 안 함
 const OLD_KO = ['호명자', '호명술', '응답자', '영장', '조수원', '심지', '명줄', '껍질', '숨 고르기', '공허 호명', '가라앉은 자리', '첫 숨', '썰물', '방파제', '소금막', '물안개', '박차', '급류', '익사', '들이켬', '이름 지우기', '닻', '잉걸', '봉인문', '그을음', '뒷물결', '인양', '차오름', '소금독', '덧새김', '혈통', '공명', '새김', '소금화', '각인 먹', '의뢰', '물때', '의식', '인장', '부두'];
 const OLD_EN = ['caller', 'calling', 'answerer', 'writ', 'writbook', 'circle', 'wick', 'wicks', 'lifeline', 'shell', 'end breath', 'hollow call', 'the sunk', 'first breath', 'ebb', 'breakwater', 'saltskin', 'seamist', 'spur', 'rapids', 'drown', 'draught', 'unname', 'unnamed', 'anchor', 'kindle', 'sealwrit', 'soot', 'wake', 'salvage', 'swell', 'brine', 'etch', 'fit', 'resonance', 'recut', 'salt marks', 'carving ink', 'commission', 'commissions', 'crate', 'crates', 'rite', 'rites', 'brand', 'dock'];

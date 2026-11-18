@@ -160,7 +160,19 @@
 | 부류 / Kin | 허용 | 레퍼런스 "종족 / Tribe" 금지 |
 | 하수인·영웅 능력·방어도·마나 수정·동전·탈진·종족·전장·전투의 함성·죽음의 메아리·도발·돌진·돌격·속공·은신·질풍·침묵·빙결·발견·과부하·연계·비밀·천상의 보호막·생명력 흡수·독성·주문 공격력 | **금지** | 레퍼런스 공식 한국어 용어·키워드 |
 | Minion·Hero Power·Armor·Mana Crystal·The Coin·Fatigue·Tribe·Battlecry·Deathrattle·Taunt·Charge·Rush·Stealth·Windfury·Silence·Freeze·Discover·Overload·Combo·Secret·Divine Shield·Lifesteal·Poisonous·Spell Damage | **금지** | 레퍼런스 공식 영어 용어·키워드 |
-| 유닛·팔로워·보호막·수호·잠복·유언·회피·선제공격·신속·죽음의 손길·생명연결 / Unit·Follower·Barrier·Ward·Ambush·Last Words·Elusive·First Strike·Haste·Deathtouch·Lifelink·Trap | **금지(우리 용어로)** | 다른 상용 TCG(LoR·Shadowverse·MTG)의 공식 키워드·용어 번역 |
+| 유닛·팔로워·보호막·수호·잠복·유언·회피·선제공격·신속·죽음의 손길·생명연결·흡혈·체력 흡수·주문 증폭·질주·필살 / Unit·Follower·Barrier·Ward·Ambush·Last Words·Elusive·First Strike·Haste·Deathtouch·Lifelink·Trap·Drain·Toxic·Bane·Spellboost | **금지(우리 용어로)** | 다른 상용 TCG(LoR·Shadowverse·MTG)의 공식 키워드·용어 번역 |
+
+#### 2-8-1. 키워드 이름 검색 확인 (2026-11-18, WebSearch·WebFetch)
+
+| 대상 | 검색어·확인한 곳 | 결과 요지 | 판정 |
+|---|---|---|---|
+| 레전드 오브 룬테라 한국어 키워드 전체 | Riot 한국어 지원 페이지 `support.riotgames.com/ko/legends-of-runeterra/gameplay/keywords-and-game-vocab-legends-of-runeterra` | 우리 키워드 18개와 같은 이름 없음. "등장"은 LoR에서 키워드가 아니라 "카드가 전장이나 손에 있는 상태"를 뜻하는 기본 용어라 뜻이 다름. LoR 공식어(보호막·잠복·체력 흡수·구속·저주·흡수·유닛·함정)는 우리 용어에 없음 | 유지 |
+| 매직 더 개더링 한국어 키워드 | 공식 한국어 용어집 `magic.wizards.com/ko/keyword-glossary` | 한국어로 같은 이름 없음(치명타·선제공격·신속·생명연결·돌진·경계 등). 다만 영어 MTG "Toxic N"이 우리 영문 "Toxin N"과 사실상 같음 | **Toxin → Venom** (ko "중독"은 유지) |
+| 섀도우버스 키워드 | `Shadowverse keyword Drain Bane Ward Storm Rush Spellboost list`, `섀도우버스 "흡혈" 키워드` | 공식 영문 키워드 Drain(공격해 준 피해만큼 리더 회복)이 우리 "흡혈 / Drain"과 이름·기능 모두 같음(한국어판 "흡혈"). Storm("질주")·Rush("돌진")·Ward("수호")·Bane("필살")·Spellboost("주문 증폭")도 확인 | **흡혈 / Drain → 생명 훔치기 / Siphon**. 카드 이름 "굶주린 질주"·"끝장 질주"의 "질주"는 "내달림"으로 바꿈. 금지어 목록에 추가 |
+| 하스스톤 "주문 공격력"과 우리 "주문 위력" | `하스스톤 "주문 공격력" 키워드 Spell Damage 한국어` | 레퍼런스는 "주문 공격력 / Spell Damage"(초기 이름 Spell Power). 우리 "주문 위력 / Empower"는 기능이 같지만 낱말이 다름(공격력 ≠ 위력, Spell Damage·Spell Power ≠ Empower) | 유지. 기능은 장르 공통이고 이름이 다름. 레퍼런스 이름은 둘 다 금지어 |
+| "기습" | `레전드 오브 룬테라 키워드 "기습" 한국어`, MTG 용어집, `유희왕 한국어 "기습" 키워드` | LoR·MTG·유희왕·섀도우버스 공식 키워드에 "기습" 없음 | 유지 |
+| "성장" | 섀도우버스·하스스톤·LoR·MTG 검색 | 공식 키워드 "성장" 없음(LoR은 "레벨 업", 섀도우버스는 "진화") | 유지 |
+
 
 ---
 
@@ -191,7 +203,7 @@
 | 라이벌 | **카드라 순**(수조 약탈을 막다가 서로 동생·부하를 잃음). 무명단 렌이 수조 장부를 훔쳐간 일로 렌을 쫓음 |
 | 고유 능력 | **자리 지켜 / Hold the Line**: 내 소환수 하나 +0/+1, 내 다음 턴까지 방벽 |
 | 플레이 정체성 | **미드레인지·방어**. 앞을 막고 넓게 깐 뒤 전체 강화로 교환에서 이김 |
-| 아키타입 | ① 방벽 성벽(방벽 + 방어로 버티다 B003·B013으로 굳힘) ② 대열 군단(넓게 깔고 B005·B008·B018 전체 강화) ③ 배급 버팀(B007·B014·B017 회복·흡혈) |
+| 아키타입 | ① 방벽 성벽(방벽 + 방어로 버티다 B003·B013으로 굳힘) ② 대열 군단(넓게 깔고 B005·B008·B018 전체 강화) ③ 배급 버팀(B007·B014·B017 회복·생명 훔치기) |
 | 시각 힌트 | 청회색 + 소금 흰색. 실루엣 = 아래가 넓은 **사각형**(방패), 머리 위 수평선 한 줄. 정면으로 꼿꼿이 선 자세 |
 
 대사:
@@ -403,7 +415,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | | `b_aura` | 전체·오라 | 전체 강화, 필드에 있는 동안 주변 강화 | 오다·카드라·공용 |
 | | `b_swell` | 지속 성장 | 성장 등 시간이 갈수록 강해짐 | 펠·카드라·공용 |
 | | `b_guard` | 보호 | 방벽·튕겨내기·위장 | 오다·공용 |
-| | `b_mend` | 회복·방어 | 체력 회복, 방어, 흡혈 | 오다·이브로·공용 |
+| | `b_mend` | 회복·방어 | 체력 회복, 방어, 생명 훔치기 | 오다·이브로·공용 |
 | | `b_weaken` | 약화 | 적 공격력·체력 감소 | 나할·렌·카드라 |
 | | `b_unname` | 효과 지우기 | 효과 제거 | 나할·렌·이브로 |
 | | `b_anchor` | 속박(행동 봉쇄) | 다음 공격 기회를 빼앗음 | 나할·이브로 |
@@ -456,7 +468,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | 염수 파수단 / Brinewardens (`h_warden`) | 마지막 저수지의 해 / The Year of the Last Reservoir | 제7수조가 마르기 시작한 해. 오다 벨은 점호와 장부로 사람과 물을 함께 세며, 물 한 잔에 지원한 신병들을 벽으로 만든다. 소금을 갑옷에 문지르고 노래로 벽을 세우며 버티던 파수단은 씨족의 약탈 앞에서 수문을 열어 아껴 둔 물을 쏟고, 마지막 서약으로 "물이 남는 한 모두를 지킨다"고 맹세한다. |
 | 익사자 합창회 / Drowned Choir (`h_choir`) | 진혼곡이 완성되는 밤 / The Night the Requiem Is Finished | 잠긴 성가대에서 나할은 바다에 사과할 진혼곡을 쓴다. 고해로 사람을 받아들이고, 짠 숨의 노래와 젖은 사슬로 이단자를 길들이며, 스스로 가라앉는 단원들의 희생으로 힘을 모은다. 조수표의 계산이 맞아 갈수록 땅 밑 검은 물의 속삭임이 커지고, 대성당의 종이 다시 울리는 밤 진혼곡의 마지막 소절이 불린다. |
 | 난파 조합 / Wreckwrights (`h_wreck`) | 해일 기관을 깨우다 / Waking the Surge Engine | "움직이지 않는 것은 부품이다." 녹슨 갈비뼈의 조합원들은 난파선을 뜯어 장갑판·집게팔·증기 심장을 만들고, 부서진 기계마저 다음 기계의 재료로 돌린다. 펠 하스크는 싸움터에서도 장을 보듯 부품을 모아 청사진을 덧칠하고, 끝내 물마루 최후의 기계 「해일 기관」에 시동을 건다. |
-| 염풍 씨족 / Saltwind Clans (`h_rider`) | 마른 강을 따라 / Along the Dry River | 아이들은 걷기 전에 모래게에 오르고, 씨족은 지도 대신 깃발이 꺾이는 쪽으로 달린다. 척후의 짧은 보고, 북소리, 달군 모래와 흙먼지 장막 속에서 습격이 이어지고, 이긴 밤에는 모래 위 잔치가 다음 습격을 낳는다. 굶주린 해, 카드라 순은 어머니의 붉은 깃발을 올리고 제7수조를 향한 끝장 질주에 나선다. |
+| 염풍 씨족 / Saltwind Clans (`h_rider`) | 마른 강을 따라 / Along the Dry River | 아이들은 걷기 전에 모래게에 오르고, 씨족은 지도 대신 깃발이 꺾이는 쪽으로 달린다. 척후의 짧은 보고, 북소리, 달군 모래와 흙먼지 장막 속에서 습격이 이어지고, 이긴 밤에는 모래 위 잔치가 다음 습격을 낳는다. 굶주린 해, 카드라 순은 어머니의 붉은 깃발을 올리고 제7수조를 향한 끝장 내달림에 나선다. |
 | 등불 서고회 / Lamplit Archive (`h_archive`) | 바다의 이름을 고치는 책 / The Book That Corrects the Sea | 열람 허가와 여백 주석, 천 번 베끼는 필경사와 등잔 수리공이 서고를 움직인다. 봉인과 먹물 올가미로 침입자를 막고, 원본 대조로 잘못 새긴 힘을 지우며, 학자들의 결투는 반론과 번개 증명으로 끝난다. 이브로 탈은 서고 봉쇄령을 내리고, 바다의 참이름을 바로잡을 대주해서의 마지막 장을 쓴다. |
 | 무명단 / the Nameless (`h_nameless`) | 빈 문패의 주인 / Whose Nameplate Is Empty | 이름을 잃은 날을 생일로 세는 자들. 서명 없는 견습과 결사원이 안개 띠에서 연막 소금과 가면으로 숨고, 바늘과 소매치기로 이름 있는 자들의 기록을 조금씩 훔친다. 렌은 판결 기록을 한 장씩 모으며 빈 문패를 걸어 두고, 언젠가 그 더미에서 자기 이름을 찾아 이름 박탈 제도를 끝내려 한다. |
 | 노해 사람들 / Folk of the Bare (`neutral`) | 바다가 떠난 뒤의 사람들 / Those Left After the Sea | 웅덩이를 뒤지는 사람, 염전 일꾼, 바다유리 상인, 바다가 떠난 걸 모르는 거북과 안개 속 갈매기. 노해의 평범한 사람과 갯것들이 결투장 주변에서 살아가며 경매와 현상금, 약탈과 장례로 하루를 잇는다. 그러나 멈춘 조수 시계, 썰물 망령, 바닥의 턱이 하나씩 나타나고, 마지막에 땅 밑 검은 물이 사람 모양으로 일어선다. |
@@ -486,7 +498,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | 6 | 즉시 공격(소환수만) | **기습 / Skirmish** | 박차 / Spur | 기습 | `rush` | 14 |
 | 7 | 즉시 공격(영웅 포함) | **즉시 공격 / Instant Attack** | 급류 / Rapids | 즉시 공격 | `charge` | 7 |
 | 8 | 닿으면 처치 | **즉사 / Deadly** | 익사 / Drown | 즉사 | `deadly` | 7 |
-| 9 | 준 피해만큼 회복 | **흡혈 / Drain** | 들이켬 / Draught | 흡혈 | `lifesteal` | 6 |
+| 9 | 준 피해만큼 회복 | **생명 훔치기 / Siphon** | 들이켬 / Draught | 생명 훔치기 | `lifesteal` | 6 |
 | 10 | 효과 지우기 | **효과 지우기 / Erase** | 이름 지우기 / Unname | 효과 지우기 | do `silence` | 9 |
 | 11 | 행동 봉쇄 | **속박 / Bind** | 닻 / Anchor | 속박 | do `freeze` | 9 |
 | 12 | 주문 피해 증가 | **주문 위력 +N / Empower +N** | 잉걸 / Kindle | 주문 위력 +N / 주문 위력 적용 | spell power | 9 |
@@ -495,7 +507,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | 15 | 앞선 카드 조건 | **후속 / Follow-up** | 뒷물결 / Wake | 후속: (효과) | cond `combo` | 10 |
 | 16 | 셋 중 하나 고르기 | **골라잡기 / Pick** | 인양 / Salvage | 골라잡기: (후보) 3장 중 1장 | do `discover` | 6 (+펠 고유 능력) |
 | 17 | 턴마다 쌓임 | **성장 / Grow** | 차오름 / Swell | 성장 / 성장(+X/+Y) | trigger `turn_start` | 11 |
-| 18 | 저주 누적 | **중독 N / Toxin N** | 소금독 / Brine | 중독 N | do `curse` | 23 (+나할 고유 능력) |
+| 18 | 저주 누적 | **중독 N / Venom N** | 소금독 / Brine | 중독 N | do `curse` | 23 (+나할 고유 능력) |
 
 키워드가 아닌 규칙 용어: **손패 강화 / Prime**(손패 카드 미리 강화), **부품 / Part**(소환수에 붙는 강화 카드), **희생**(내 소환수 파괴, 사망 시 효과는 발동), **방어 +N / Defense +N**, **표식 / Mark**(렌 고유 능력).
 
@@ -503,7 +515,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 
 ### 6-1. 8장 미만 키워드 5개 (1-2 의견 유지)
 
-흡혈·골라잡기 6, 즉시 공격·즉사·덫 7. 각각 한 영웅의 정체성 키워드라 합치지 않고 18개 유지(1-2 결정과 같음). 즉사는 렌 > 펠 상성의 원인이라 늘리지 않음.
+생명 훔치기·골라잡기 6, 즉시 공격·즉사·덫 7. 각각 한 영웅의 정체성 키워드라 합치지 않고 18개 유지(1-2 결정과 같음). 즉사는 렌 > 펠 상성의 원인이라 늘리지 않음.
 
 ---
 
@@ -611,7 +623,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `hero_choir_name` | 수녀 나할 | Sister Nhal |
 | `hero_choir_title` | 잠긴 성가대의 선창자 | Cantor of the Drowned Loft |
 | `hero_choir_power` | 짠 숨 | Salt Breath |
-| `hero_choir_power_desc` | 적 하나에 중독 1. | Give an enemy Toxin 1. |
+| `hero_choir_power_desc` | 적 하나에 중독 1. | Give an enemy Venom 1. |
 | `hero_wreck_name` | 펠 하스크 | Pell Hask |
 | `hero_wreck_title` | 녹슨 갈비뼈의 수석 해체공 | Chief Breaker of the Rustribs |
 | `hero_wreck_power` | 고철 뒤지기 | Scrap Haul |
@@ -733,7 +745,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `toast_hollow_call` | 덱 고갈 피해 {n} | Deck-out! {n} damage |
 | `toast_sealwrit_opened` | 덫이 발동했습니다 | A Snare triggers |
 | `toast_soot` | 마나 빚 {n} | Mana Debt {n} |
-| `toast_brine_burst` | 중독 피해 | Toxin damage |
+| `toast_brine_burst` | 중독 피해 | Venom damage |
 | `toast_salvage` | 하나를 고르세요 | Pick one |
 | `hud_aria_lifeline` | 체력 | Health |
 | `hud_aria_wicks` | 사용 가능한 마나 | Available Mana |
@@ -818,7 +830,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `kw_spur` | 기습: 낸 턴에 적 소환수를 공격할 수 있습니다. | Skirmish: Can attack Creatures the turn it is played. |
 | `kw_rapids` | 즉시 공격: 낸 턴에 무엇이든 공격할 수 있습니다. | Instant Attack: Can attack anything the turn it is played. |
 | `kw_drown` | 즉사: 이것에게 피해를 받은 소환수는 죽습니다. | Deadly: Creatures damaged by this die. |
-| `kw_draught` | 흡혈: 준 피해만큼 내 영웅 체력을 회복합니다. | Drain: Heals your Hero by the damage dealt. |
+| `kw_draught` | 생명 훔치기: 준 피해만큼 내 영웅 체력을 회복합니다. | Siphon: Heals your Hero by the damage dealt. |
 | `kw_unname` | 효과 지우기: 카드 글 효과와 강화를 모두 지웁니다. | Erase: Removes all card text and buffs. |
 | `kw_anchor` | 속박: 다음 공격 기회를 잃습니다. | Bind: Loses its next attack. |
 | `kw_kindle` | 주문 위력 +N: 내 주문 피해가 N 늘어납니다. | Empower +N: Your Spells deal N more damage. |
@@ -827,7 +839,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `kw_wake` | 후속: 이번 턴 다른 카드를 먼저 냈으면 추가 효과. | Follow-up: Bonus if you played another card first this turn. |
 | `kw_salvage` | 골라잡기: 후보 3장 중 1장을 골라 손패로. | Pick: Choose 1 of 3 cards to add to your hand. |
 | `kw_swell` | 성장: 내 턴 시작마다 +1/+1. | Grow: Gains +1/+1 at the start of your turn. |
-| `kw_brine` | 중독 N: 걸린 쪽 턴 시작에 N 피해, 그 뒤 1 줄어듭니다. | Toxin N: Takes N damage at the start of its turn, then N drops by 1. |
+| `kw_brine` | 중독 N: 걸린 쪽 턴 시작에 N 피해, 그 뒤 1 줄어듭니다. | Venom N: Takes N damage at the start of its turn, then N drops by 1. |
 | `kw_etch` | 손패 강화: 손패에 있는 카드를 미리 강화합니다. | Prime: Upgrades a card while it is in your hand. |
 | `kw_fit` | 부품: 소환수 하나에 붙어 강화합니다. | Part: Attaches to a Creature to upgrade it. |
 
@@ -841,7 +853,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `commission_claim` | 보상 받기 | Claim |
 | `commission_example_win` | {name}(으)로 결투 {n}번 이기기 | Win {n} duels as {name} |
 | `commission_example_breakwater` | 방벽 소환수로 공격 {n}번 막기 | Block {n} attacks with Wall |
-| `commission_example_brine` | 중독 피해 {n} 주기 | Deal {n} Toxin damage |
+| `commission_example_brine` | 중독 피해 {n} 주기 | Deal {n} Venom damage |
 | `calendar_title` | 보상 트랙 | Reward Track |
 | `calendar_season` | 시즌 {n} | Season {n} |
 | `calendar_ends_in` | 시즌 종료까지 {n}일 | Season ends in {n} days |
@@ -893,13 +905,13 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `crate_second_copy` | 2장째 · 이제 덱에 2장 | 2nd copy · Now 2 for your Deck | 팩 공개(2장째 사본, qa 11번) |
 | `crate_resonance_gain` | 경험치 +{n} | EXP +{n} | 팩 공개(3장째부터) |
 | `deck_arch_archive_kindle` | 주문 컨트롤 | Spell Control | 표준 덱 이름 뒤(영어 모드에서 한국어가 나오던 곳) |
-| `deck_arch_choir_brine` | 중독 컨트롤 | Toxin Control | 〃 |
+| `deck_arch_choir_brine` | 중독 컨트롤 | Venom Control | 〃 |
 | `deck_arch_nameless_wake` | 위장 후속 템포 | Camouflage Tempo | 〃 |
 | `deck_arch_rider_rush` | 즉시 공격 어그로 | Instant Attack Aggro | 〃 |
 | `deck_arch_warden_bulwark` | 방벽 미드레인지 | Wall Midrange | 〃 |
 | `deck_arch_wreck_fit` | 부품 성장 콤보 | Part Growth Engine | 〃 |
 | `hero_warden_bio` | 마지막 저수지를 지키는 수문장. 벽을 세우고 버틴다. | Keeper of the last reservoir. Builds walls and holds. | 영웅 고르기 |
-| `hero_choir_bio` | 바다를 다시 부르려는 선창자. 중독으로 천천히 잠근다. | A cantor summoning the sea back. Drowns foes slowly in Toxin. | 〃 |
+| `hero_choir_bio` | 바다를 다시 부르려는 선창자. 중독으로 천천히 잠근다. | A cantor summoning the sea back. Drowns foes slowly in Venom. | 〃 |
 | `hero_wreck_bio` | 침몰선을 되살리는 해체공. 부품을 붙여 키운다. | A breaker reviving wrecks. Grows Creatures with Parts. | 〃 |
 | `hero_rider_bio` | 사구를 달리는 씨족 선봉. 먼저 치고 빨리 끝낸다. | Vanguard of the dune clans. Strikes first, ends fast. | 〃 |
 | `hero_archive_bio` | 모든 이름을 기록한 사서장. 빠른 적을 미리 읽고 지운다. | The archivist who recorded every name. Reads and erases fast foes. | 〃 |
@@ -1020,7 +1032,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `skirmish` | 기습 | Skirmish | 낸 턴에 소환수를 공격 가능. | Can hit Creatures right away. | kw-spur.svg | 즉시 교전 |
 | `instant` | 즉시 공격 | Instant Attack | 낸 턴에 무엇이든 공격 가능. | Can attack anything right away. | kw-rapids.svg | 빠른 공격 |
 | `deadly` | 즉사 | Deadly | 피해를 받은 소환수는 죽음. | Kills any Creature it damages. | kw-drown.svg | 치명 독 |
-| `drain` | 흡혈 | Drain | 준 피해만큼 영웅 회복. | Heals your Hero by damage dealt. | kw-draught.svg | 드레인, 흡수 |
+| `drain` | 생명 훔치기 | Siphon | 준 피해만큼 영웅 회복. | Heals your Hero by damage dealt. | kw-draught.svg | 피해만큼 회복 |
 | `erase` | 효과 지우기 | Erase | 카드 글 효과와 강화를 지움. | Removes text and buffs. | kw-unname.svg | 디스펠, 무효화 |
 | `bind` | 속박 | Bind | 다음 공격을 못 함. | Skips its next attack. | kw-anchor.svg | 스턴, 묶기 |
 | `empower` | 주문 위력 | Empower | 내 주문 피해 +N. | Your Spells deal +N. | kw-kindle.svg | 주문 피해 증가 |
@@ -1029,7 +1041,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `followup` | 후속 | Follow-up | 먼저 다른 카드를 냈으면 추가 효과. | Bonus if another card came first. | kw-wake.svg | 연속 사용 보너스 |
 | `pick` | 골라잡기 | Pick | 3장 중 1장을 골라 손패로. | Choose 1 of 3 cards. | kw-salvage.svg | 3장 중 선택 |
 | `grow` | 성장 | Grow | 내 턴 시작마다 강해짐. | Gets stronger each turn. | kw-swell.svg | 레벨업, 성장 |
-| `toxin` | 중독 | Toxin | 턴 시작마다 피해, 매번 1 줄어듦. | Damage each turn, dropping by 1. | kw-brine.svg | 독 데미지, DoT |
+| `toxin` | 중독 | Venom | 턴 시작마다 피해, 매번 1 줄어듦. | Damage each turn, dropping by 1. | kw-brine.svg | 독 데미지, DoT |
 
 | 키 | ko | en |
 |---|---|---|
@@ -1068,7 +1080,7 @@ round-2 추가 키(dev 요청·리뷰):
 
 ## 10. 다른 역할에 넘기는 메모
 
-- **balance-designer**: 카드마다 `concept_ko`는 의도이고, 소환수/주문/무기 구분·비용·수치는 당신이 정합니다. `cost_band`는 low(1~3)·mid(4~6)·high(7~10) 감각입니다. 중독 규칙(턴 시작 N 피해 후 1 감소)은 제안입니다. 8장 미만 키워드 5개(흡혈·골라잡기 6, 즉시 공격·즉사·덫 7)는 6-1절 의견대로 합치지 않고 유지합니다. 1-2에서 근사 11장·주문→소환수 5장 문구를 cards.json에 맞췄습니다(1-2 리뷰 `reviews/1-2/lore-writer.md`).
+- **balance-designer**: 카드마다 `concept_ko`는 의도이고, 소환수/주문/무기 구분·비용·수치는 당신이 정합니다. `cost_band`는 low(1~3)·mid(4~6)·high(7~10) 감각입니다. 중독 규칙(턴 시작 N 피해 후 1 감소)은 제안입니다. 8장 미만 키워드 5개(생명 훔치기·골라잡기 6, 즉시 공격·즉사·덫 7)는 6-1절 의견대로 합치지 않고 유지합니다. 1-2에서 근사 11장·주문→소환수 5장 문구를 cards.json에 맞췄습니다(1-2 리뷰 `reviews/1-2/lore-writer.md`).
 - **art-director**: 영웅·세력 색과 실루엣은 4절, 카드마다 `visual_hint`(세력 색 + 모티프). 마나는 세로 막대(마나), 후공 보상은 초 토막, 카드 프레임은 소금유리 판(모서리가 깨진 직사각) 방향을 권합니다(레퍼런스 프레임 모양 금지). 희귀도 색: 모래 베이지·진주 흰 무지개·산호 주홍·심해 검푸름.
 - **game-developer**: 화면 문구는 8절 키만 씁니다. 카드 이름·글은 `lore/cards-lore.json`의 `name_*`·`flavor_*`·`concept_ko`·**`concept_en`(round-1부터 200장)**을 씁니다. 영어 모드의 "키워드 이름 + 풍미글" 대체는 지우고 `concept_en`을 보여 주세요. 대사표 `위기` 줄(내 체력 ≤ 10)과 4-8 맞대결 대사 키, 8-11 키는 round-1에서 추가.
 
