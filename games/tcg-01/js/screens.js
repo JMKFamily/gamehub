@@ -1,5 +1,5 @@
 // 메뉴 화면들: 타이틀·부두·호명자 선택·수집(공명·새김)·영장첩·인양 상자·부두 시장·의뢰·조수 달력·설정·결과
-import { D, cardById, fac, portraitURL } from './data.js';
+import { D, cardById, fac, portraitURL, imgURL, badgeURL, badgeImgURL, patternCSS, assetURL } from './data.js';
 import { t, L, setLang, cardName, cardStory } from './i18n.js';
 import { h, cardBox } from './cards.js';
 import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btDelta, craftCost, craft, openCrate, cratesToPity, buy, rerollComm, claimComm, claimWeekly, tideReward, deckProblems, allDecks } from './meta.js';
@@ -27,7 +27,7 @@ function screen(id, title, back = 'dock') {
 }
 function curBar() {
   const c = M.s.cur;
-  const it = (icon, n, key) => h('span', { class: 'cur', title: t(key), 'aria-label': `${t(key)} ${n}` }, [h('img', { src: `assets/${icon}.svg`, alt: '' }), String(n)]);
+  const it = (icon, n, key) => h('span', { class: 'cur', title: t(key), 'aria-label': `${t(key)} ${n}` }, [h('img', { src: assetURL(`${icon}.svg`), alt: '' }), String(n)]);
   return h('span', { class: 'row' }, [it('currency-salt', c.salt, 'currency_salt'), it('currency-ink', c.ink, 'currency_ink'), it('currency-pearl', c.pearl, 'currency_pearl')]);
 }
 const heroName = (hid) => t(`hero_${HS(hid)}_name`);
@@ -143,11 +143,8 @@ export function collectionScreen() {
 function miniCell(cid, onclick) {
   const n = owned(cid), st = stageOf(cid), e = M.s.coll[cid], c = cardById(cid), f = fac(c.owner), rar = D.art.palette.rarity[c.rarity || 'sand'];
   const el = h('div', { class: 'cell mini' + (n ? '' : ' miss'), 'data-cid': cid, style: `--fac:${f.primary};--rar:${rar.facet}`, onclick: () => { sfx('ui_tap'); onclick(); } });
-  el.appendChild(h('img', { class: 'mp', src: portraitURL(cid), alt: '', loading: 'lazy', decoding: 'async', draggable: 'false' }));
-  el.appendChild(h('span', { class: 'mc', text: String(c.cost) }));
+  el.appendChild(cardBox(cid, 96, { mode: 'hand', stage: st }));
   el.appendChild(h('div', { class: 'mn', text: cardName(c) }));
-  if (c.kind !== 'spell') el.appendChild(h('span', { class: 'ms', text: `${c.attack}/${c.health}` }));
-  if (st) el.appendChild(h('span', { class: 'mt', text: '▮'.repeat(st) }));
   if (n) el.appendChild(h('span', { class: 'cnt', text: `${n}/${cap(cid)}` }));
   const th = thresholds(cid), next = th[Math.min(3, st + 1)];
   const k = st >= 3 ? 1 : e ? Math.min(1, (e.res - th[st]) / Math.max(1, next - th[st])) : 0;
@@ -161,8 +158,8 @@ function fillGrid(grid, ids, onclick, decorate) {
   const tok = (grid._tok = (grid._tok || 0) + 1);
   let i = 0;
   const batch = (n) => { const fr = document.createDocumentFragment(); for (let k = 0; k < n && i < ids.length; k++, i++) { const cid = ids[i]; const el = miniCell(cid, () => onclick(cid)); if (decorate) decorate(el, cid); fr.appendChild(el); } grid.appendChild(fr); };
-  batch(12);
-  const more = () => { if (grid._tok !== tok || i >= ids.length) return; batch(24); requestAnimationFrame(more); };
+  batch(3);
+  const more = () => { if (grid._tok !== tok || i >= ids.length) return; const t0 = performance.now(); while (i < ids.length && performance.now() - t0 < 4) batch(1); requestAnimationFrame(more); };
   requestAnimationFrame(more);
 }
 function statDeltaText(cid, st) {
@@ -253,11 +250,11 @@ export function decksScreen() {
 export function builderScreen({ deck }) {
   const s = screen('builder', null);
   const R = D.balance.rules;
-  let cost = -1;
+  let cost = -1; const famSel = new Set(), kindSel = new Set();
   const name = h('input', { value: deck.name || '', 'aria-label': t('deck_rename'), style: 'flex:1;min-height:40px;font-size:15px;background:var(--bg_abyss);color:var(--salt_white);border:1px solid var(--line_soft);padding:0 8px' });
   const cnt = h('b');
   s.appendChild(h('div', { class: 'top' }, [btn(t('menu_back'), () => go('decks')), name, cnt]));
-  const fl = h('div', { class: 'filters' }), grid = h('div', { class: 'grid collGrid' }), strip = h('div', { class: 'deckStrip' }), curve = h('div', { class: 'curve' });
+  const fl = h('div', { class: 'filters' }), fl0 = h('div', { class: 'filters ffam' }), grid = h('div', { class: 'grid collGrid' }), strip = h('div', { class: 'deckStrip' }), curve = h('div', { class: 'curve' }), ratio = h('div', { class: 'ratio' });
   const count = (cid) => deck.cards.filter((x) => x === cid).length;
   const add = (cid) => {
     if (deck.cards.length >= R.deck_size_cards) { toast(t('deck_count', { n: deck.cards.length })); return; }
@@ -269,25 +266,33 @@ export function builderScreen({ deck }) {
   };
   const draw = () => {
     cnt.textContent = t('deck_count', { n: deck.cards.length });
-    fl.innerHTML = '';
+    fl.innerHTML = ''; fl0.innerHTML = '';
+    // 유형 5(첫 줄)·종류 3 + 마나(둘째 줄), 여러 개 함께(30-art 11-7b)
+    const FAMS = D.art.ux.families, LBL = (F) => (L.lang === 'en' ? F.en : F.ko);
+    for (const fid of Object.keys(FAMS)) fl0.appendChild(btn(h('img', { src: assetURL(`type-${fid}.svg`), alt: LBL(FAMS[fid]), style: 'width:32px;height:32px' }), () => { famSel.has(fid) ? famSel.delete(fid) : famSel.add(fid); draw(); }, 'fbtn' + (famSel.has(fid) ? ' on' : ''), { 'aria-label': `${t('deck_filter_type')}: ${LBL(FAMS[fid])}`, 'aria-pressed': famSel.has(fid) ? 'true' : 'false', 'data-fam': fid }));
+    for (const k of ['minion', 'spell', 'weapon']) { const kl = t({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k]); fl.appendChild(btn(h('img', { src: assetURL(`kind-${k}.svg`), alt: kl, style: 'width:28px;height:32px' }), () => { kindSel.has(k) ? kindSel.delete(k) : kindSel.add(k); draw(); }, 'fbtn' + (kindSel.has(k) ? ' on' : ''), { 'aria-label': kl, 'aria-pressed': kindSel.has(k) ? 'true' : 'false', 'data-kind': k })); }
     for (let c = -1; c <= 7; c++) fl.appendChild(btn(c < 0 ? t('filter_all') : c === 7 ? '7+' : String(c), () => { cost = c; draw(); }, cost === c ? 'sel' : ''));
-    const ids = D.list.filter((c) => (c.owner === 'neutral' || c.owner === deck.hero) && owned(c.id) && (cost < 0 || (cost === 7 ? c.cost >= 7 : c.cost === cost))).map((c) => c.id);
+    const ids = D.list.filter((c) => (c.owner === 'neutral' || c.owner === deck.hero) && owned(c.id) && (cost < 0 || (cost === 7 ? c.cost >= 7 : c.cost === cost)) && (!famSel.size || famSel.has(c.family)) && (!kindSel.size || kindSel.has(c.kind))).map((c) => c.id);
     fillGrid(grid, ids, (cid) => { if (Date.now() - (grid._lp || 0) < 600) return; add(cid); }, (el, cid) => { el.addEventListener('pointerdown', () => { clearTimeout(el._lpt); el._lpt = setTimeout(() => { grid._lp = Date.now(); cardDetail(cid); }, 450); }); for (const ev of ['pointerup', 'pointerleave', 'pointercancel']) el.addEventListener(ev, () => clearTimeout(el._lpt)); const n = count(cid); if (n) el.appendChild(h('span', { class: 'dk', text: '●'.repeat(n) })); });
     strip.innerHTML = '';
     const uniq = [...new Set(deck.cards)].sort((a, b) => cardById(a).cost - cardById(b).cost);
     for (const cid of uniq) {
       const c = cardById(cid);
-      strip.appendChild(h('div', { class: 'dline', style: `--fac:${fac(c.owner).primary}`, onclick: () => { deck.cards.splice(deck.cards.indexOf(cid), 1); draw(); } }, [h('span', { class: 'c', text: String(c.cost) }), h('span', { class: 'grow', text: cardName(c) }), h('span', { text: '●'.repeat(count(cid)) })]));
+      const F = D.art.ux.families[c.family];
+      strip.appendChild(h('div', { class: 'dline', style: `--fac:${F.color}`, onclick: () => { deck.cards.splice(deck.cards.indexOf(cid), 1); draw(); } }, [h('img', { src: badgeImgURL(c.family, c.branch), alt: '', style: 'width:22px;height:22px;flex:none' }), h('span', { class: 'c', text: String(c.cost) }), h('img', { src: assetURL(`kind-${c.kind}.svg`), alt: '', style: 'width:18px;height:22px;flex:none' }), h('span', { class: 'grow', text: cardName(c) }), h('span', { text: count(cid) > 1 ? '×2' : '' })]));
     }
+    ratio.innerHTML = '';
+    const fc = {}; for (const cid of deck.cards) { const fm = cardById(cid).family; fc[fm] = (fc[fm] || 0) + 1; }
+    for (const fid of Object.keys(D.art.ux.families)) if (fc[fid]) { const F = D.art.ux.families[fid]; ratio.appendChild(h('span', { class: 'rseg', style: `flex:${fc[fid]};background-color:${F.color};background-image:${patternCSS(fid)};color:${F.ink}` }, [h('img', { src: assetURL(`type-${fid}.svg`), alt: '' }), String(fc[fid])])); }
     curve.innerHTML = '';
     const buckets = Array(8).fill(0); for (const cid of deck.cards) buckets[Math.min(7, cardById(cid).cost)]++;
     const mx = Math.max(1, ...buckets);
     for (const b of buckets) curve.appendChild(h('i', { style: `height:100%;transform:scaleY(${(b / mx).toFixed(3)})` }));
   };
   draw();
-  s.appendChild(fl);
+  s.appendChild(fl0); s.appendChild(fl);
   s.appendChild(h('div', { class: 'scroll' }, grid));
-  s.appendChild(h('div', { class: 'panel col' }, [h('div', { class: 'row' }, [h('span', { class: 'small', text: t('deck_curve') }), h('div', { class: 'grow' }, curve)]), strip,
+  s.appendChild(h('div', { class: 'panel col' }, [ratio, h('div', { class: 'row' }, [h('span', { class: 'small', text: t('deck_curve') }), h('div', { class: 'grow' }, curve)]), strip,
     h('div', { class: 'row' }, [
       btn(t('deck_auto_fill'), () => {
         const std = D.decks.find((d) => d.hero === deck.hero);
@@ -307,10 +312,10 @@ export function cratesScreen() {
   const sc = h('div', { class: 'scroll col' });
   sc.appendChild(h('div', { class: 'small', text: t('crate_guarantee', { n: cratesToPity() }) }));
   const row = (img, label, n, onOpen, key) => h('div', { class: 'panel row' }, [h('img', { src: img, alt: '', style: 'width:64px;height:64px' }), h('b', { class: 'grow', text: `${label} × ${n}` }), btn(t('crate_open'), onOpen, n ? 'primary' : 'off', { 'data-open': key })]);
-  sc.appendChild(row('assets/crate-bare-sea.svg', t('crate_bare_sea'), M.s.crates.bare, () => { if (M.s.crates.bare <= 0) return toast(t('crate_none')); M.s.crates.bare--; go('open', { kind: 'bare' }); }, 'bare'));
+  sc.appendChild(row(assetURL('crate-bare-sea.svg'), t('crate_bare_sea'), M.s.crates.bare, () => { if (M.s.crates.bare <= 0) return toast(t('crate_none')); M.s.crates.bare--; go('open', { kind: 'bare' }); }, 'bare'));
   for (const hid of D.heroIds) {
     const n = M.s.crates.faction[hid] || 0;
-    if (n) sc.appendChild(row(`assets/crate-${HS(hid)}.svg`, t('crate_' + HS(hid)), n, () => { M.s.crates.faction[hid]--; go('open', { kind: 'faction', hero: hid }); }, hid));
+    if (n) sc.appendChild(row(assetURL(`crate-${HS(hid)}.svg`), t('crate_' + HS(hid)), n, () => { M.s.crates.faction[hid]--; go('open', { kind: 'faction', hero: hid }); }, hid));
   }
   sc.appendChild(btn(t('crate_odds'), () => {
     const E = D.balance.economy;
@@ -338,7 +343,7 @@ export function openScreen({ kind, hero }) {
   const land = W > H;
   s.classList.toggle('land', land);
   const boxW = land ? Math.min(W * 0.3 - 16, H * 0.5) : Math.min(140, H * 0.22);
-  const crate = h('img', { src: kind === 'bare' ? 'assets/crate-bare-sea.svg' : `assets/crate-${HS(hero)}.svg`, alt: '', style: `position:absolute;left:0;top:0;width:${boxW}px;height:${boxW}px` });
+  const crate = h('img', { src: kind === 'bare' ? assetURL('crate-bare-sea.svg') : `assets/crate-${HS(hero)}.svg`, alt: '', style: `position:absolute;left:0;top:0;width:${boxW}px;height:${boxW}px` });
   stage.appendChild(crate);
   const crX = land ? (W * 0.3 - boxW) / 2 : (W - boxW) / 2, crY = land ? (H - boxW) / 2 - 20 : 16;
   setTf(crate, { x: crX, y: crY, s: 1, o: 1 });
@@ -399,9 +404,9 @@ export function marketScreen() {
   const MK = D.balance.economy.dock_market, F = D.balance.economy.crates.faction_crate;
   const item = (img, label, price, onBuy, key) => h('div', { class: 'panel row', style: 'flex-wrap:nowrap' }, [h('img', { src: img, alt: '', style: 'width:48px;height:48px;flex:none' }), h('b', { class: 'grow', style: 'min-width:0;font-size:14px;line-height:1.25', text: label }), btn(h('span', { class: 'col', style: 'gap:0;font-size:13px' }, [h('span', { text: t('market_buy') }), h('span', { text: price })]), onBuy, '', { 'data-buy': key, style: 'flex:none' })]);
   const done = (ok) => { if (!ok) { toast(t('market_not_enough')); sfx('ui_deny'); } else { toast(t('market_bought')); go('market'); } };
-  sc.appendChild(item('assets/crate-bare-sea.svg', t('crate_bare_sea'), t('market_price', { n: MK.bare_sea_crate_salt_marks }), () => done(buy({ type: 'bare' })), 'bare'));
+  sc.appendChild(item(assetURL('crate-bare-sea.svg'), t('crate_bare_sea'), t('market_price', { n: MK.bare_sea_crate_salt_marks }), () => done(buy({ type: 'bare' })), 'bare'));
   for (const hid of D.heroIds) {
-    sc.appendChild(item(`assets/crate-${HS(hid)}.svg`, `${t('crate_' + HS(hid))} (${heroName(hid)})`, t('market_price', { n: MK.faction_crate_salt_marks }), () => done(buy({ type: 'faction', hero: hid })), 'f_' + hid));
+    sc.appendChild(item(assetURL(`crate-${HS(hid)}.svg`), `${t('crate_' + HS(hid))} (${heroName(hid)})`, t('market_price', { n: MK.faction_crate_salt_marks }), () => done(buy({ type: 'faction', hero: hid })), 'f_' + hid));
     if (M.s.cur.pearl >= F.price_abyss_pearl_alt) sc.appendChild(btn(`${t('crate_' + HS(hid))} · ${t('currency_pearl')} ${F.price_abyss_pearl_alt}`, () => done(buy({ type: 'faction', hero: hid, pearl: true }))));
   }
   const fc = cardById(M.s.daily.featured);
@@ -509,8 +514,8 @@ export function glossaryScreen() {
   const q = h('input', { class: 'gsearch', type: 'search', 'aria-label': t('menu_glossary') });
   sc.appendChild(q);
   const lg = h('div', { class: 'legend', 'aria-label': t('deck_filter_type') });
-  for (const [fid, F] of Object.entries(D.art.ux.families)) lg.appendChild(h('span', {}, [h('img', { src: `assets/type-${fid}.svg`, alt: '' }), L.lang === 'en' ? F.en : F.ko]));
-  for (const k of ['minion', 'spell', 'weapon']) lg.appendChild(h('span', {}, [h('img', { src: `assets/kind-${k}.svg`, alt: '' }), t({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k])]));
+  for (const [fid, F] of Object.entries(D.art.ux.families)) lg.appendChild(h('span', {}, [h('img', { src: assetURL(`type-${fid}.svg`), alt: '' }), L.lang === 'en' ? F.en : F.ko]));
+  for (const k of ['minion', 'spell', 'weapon']) lg.appendChild(h('span', {}, [h('img', { src: assetURL(`kind-${k}.svg`), alt: '' }), t({ minion: 'card_type_answerer', spell: 'card_type_rite', weapon: 'card_type_brand' }[k])]));
   sc.appendChild(lg);
   const kwStart = D.glossary.findIndex((g) => g.id === 'on_play');
   const groups = [D.glossary.slice(0, kwStart < 0 ? D.glossary.length : kwStart), kwStart < 0 ? [] : D.glossary.slice(kwStart)];

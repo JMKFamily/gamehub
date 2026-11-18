@@ -1,0 +1,113 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 1802
+ },
+ "rate": 6,
+ "q": "?tut=0",
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [],
+   "seconds": 150.565,
+   "battle": {
+    "frames": 8990,
+    "avg_fps": 59.9,
+    "low1_fps": 53.1,
+    "max_ms": 50,
+    "over_33": 3
+   },
+   "big_moments": {
+    "n": 2,
+    "kinds": [
+     "big_entry",
+     "play_answerer"
+    ],
+    "frames": 142,
+    "avg_fps": 60,
+    "low1_fps": 59.5,
+    "max_ms": 16.8,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 150,
+    "dock→heroes": 83.3,
+    "heroes→dock": 16.8,
+    "dock→collection": 133.4,
+    "collection→dock": 83.4,
+    "dock→crates": 200.1,
+    "crate open": 99.8,
+    "→market": 83.4,
+    "→decks": 33.5,
+    "dock→heroes→battle(첫 물때)": 99.9
+   }
+  },
+  {
+   "run": 2,
+   "tutorial_steps_shown": [],
+   "seconds": 140.839,
+   "battle": {
+    "frames": 8410,
+    "avg_fps": 59.9,
+    "low1_fps": 51.1,
+    "max_ms": 50,
+    "over_33": 5
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 166.7,
+    "dock→heroes": 100,
+    "heroes→dock": 16.8,
+    "dock→collection": 133.4,
+    "collection→dock": 100,
+    "dock→crates": 150,
+    "crate open": 116.7,
+    "→market": 133.3,
+    "→decks": 33.4,
+    "dock→heroes→battle(첫 물때)": 133.3
+   }
+  },
+  {
+   "run": 3,
+   "tutorial_steps_shown": [],
+   "seconds": 130.648,
+   "battle": {
+    "frames": 7808,
+    "avg_fps": 60,
+    "low1_fps": 56.7,
+    "max_ms": 33.4,
+    "over_33": 0
+   },
+   "big_moments": {
+    "n": 4,
+    "kinds": [
+     "attack",
+     "attack_motion"
+    ],
+    "frames": 126,
+    "avg_fps": 60,
+    "low1_fps": 59.5,
+    "max_ms": 16.8,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 183.4,
+    "dock→heroes": 99.9,
+    "heroes→dock": 16.8,
+    "dock→collection": 116.7,
+    "collection→dock": 83.4,
+    "dock→crates": 199.9,
+    "crate open": 116.7,
+    "→market": 116.7,
+    "→decks": 33.5,
+    "dock→heroes→battle(첫 물때)": 116.6
+   }
+  }
+ ]
+}

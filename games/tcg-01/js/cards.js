@@ -1,5 +1,5 @@
 // 카드·응답자·호명자 DOM (30-art 3절 형태 언어: 한 모서리 깨진 소금유리 판, 아래 매달린 스탯 판). 색은 art.json.
-import { D, cardById, portraitURL, fac, badgeURL, patternCSS, familyOf } from './data.js';
+import { D, cardById, portraitURL, imgURL, fac, badgeURL, badgeImgURL, patternCSS, familyOf, assetURL } from './data.js';
 import { t, cardName, cardText, kindKey } from './i18n.js';
 
 export function h(tag, attrs, kids) {
@@ -14,7 +14,7 @@ export function h(tag, attrs, kids) {
 }
 const L_fam = (F) => (document.documentElement.lang === 'en' ? F.en : F.ko);
 const img = (src, cls, alt = '') => h('img', { src, class: cls, alt, draggable: 'false' });
-export const kwIcon = (k) => `assets/kw-${k}.svg`;
+export const kwIcon = (k) => assetURL(`kw-${k}.svg`);
 const KW_NAMES = () => D.art.palette.keywords.map((k) => (document.documentElement.lang === 'en' ? k.en : k.ko)).sort((a, b) => b.length - a.length);
 
 function boldText(el, text) {
@@ -35,14 +35,16 @@ export function cardFace(cid, opt = {}) {
   const fid = familyOf(c), FAM = D.art.ux.families[fid];
   const el = h('div', { class: `card ${kind} ${mode} st${st} fam-${fid}`, 'data-family': fid, 'data-kind': c.kind });
   el.appendChild(h('div', { class: 'plate' }));
-  const sp = h('div', { class: 'spine', style: `background:${f.primary}` }); el.appendChild(sp);
+  // 30-art 11-7b: 왼쪽 14 px 기둥 = 유형 색 + 무늬, 세력은 오른쪽 6 px 띠(정적으로 한 번만 그림)
+  el.appendChild(h('div', { class: 'spine', style: `background-color:${FAM.color};background-image:${patternCSS(fid)}` }));
+  el.appendChild(h('div', { class: 'fstrip', style: `background:${f.primary}` }));
   const rc = D.art.recut[st] || D.art.recut[0];
   for (let i = 0; i < rc.frame_groove_lines; i++) el.appendChild(h('div', { class: 'groove' + (i ? ' g2' : ''), style: `border-color:${f.primary}` }));
   el.appendChild(h('div', { class: 'facet', style: `background:${rar.facet}` }));
-  const art = h('div', { class: 'art' }, img(c.spare ? 'assets/icon-spare-wick.svg' : portraitURL(cid)));
+  const art = h('div', { class: 'art' }, img(c.spare ? 'assets/icon-spare-wick.svg' : imgURL(cid)));
   el.appendChild(art);
   // 유형 표지(오른쪽 위, 유형 모양 + 갈래 도형) — 30-art 11절, 손패 1.6배
-  el.appendChild(h('img', { class: 'badge', src: badgeURL(fid, c.branch), alt: L_fam(FAM), draggable: 'false' }));
+  el.appendChild(h('img', { class: 'badge', src: badgeImgURL(fid, c.branch), alt: L_fam(FAM), draggable: 'false' }));
   if (mode === 'full') {
     el.appendChild(h('div', { class: 'name', style: `background-color:${FAM.color};background-image:${patternCSS(fid)};color:${FAM.ink}`, text: cardName(c) }));
     el.appendChild(img(`assets/rarity-${c.rarity || 'sand'}.svg`, 'rar'));
@@ -80,7 +82,7 @@ export function cardBox(cid, w, opt) {
 export function cardBack(w) {
   const k = w / D.art.card.base_w_px;
   const box = h('div', { class: 'cardBox', style: `width:${w}px;height:${Math.round(D.art.card.base_h_px * k)}px` });
-  const f = h('div', { class: 'card', style: `transform:scale(${k})` }, h('div', { class: 'back' }, img('assets/card-back.svg')));
+  const f = h('div', { class: 'card', style: `transform:scale(${k})` }, h('div', { class: 'back' }, img(assetURL('card-back.svg'))));
   box.appendChild(f);
   return box;
 }
@@ -93,13 +95,13 @@ export function tokenEl(m) {
   el._parts = {};
   el.appendChild(el._parts.bw = h('div', { class: 'bw hidden', style: `background:${D.art.palette.keywords.find((k) => k.id === 'breakwater').color}` }));
   el.appendChild(h('div', { class: 'pl', style: `background:${f.deep};border:2px solid ${D.art.palette.ui.stat_tab}` }));
-  el.appendChild(img(portraitURL(m.cid), 'pi'));
+  el.appendChild(img(imgURL(m.cid), 'pi'));
   el.appendChild(h('div', { style: `position:absolute;left:0;top:0;width:5px;height:120px;background:${f.primary}` }));
-  { const fid = familyOf(c), FAM = D.art.ux.families[fid]; el.appendChild(h('div', { class: 'fband', style: `background:${FAM.color}` })); el.appendChild(h('img', { class: 'tbadge', src: badgeURL(fid, c.branch), alt: '', draggable: 'false' })); el.dataset.family = fid; }
+  { const fid = familyOf(c), FAM = D.art.ux.families[fid]; el.appendChild(h('div', { class: 'fband', style: `background:${FAM.color}` })); el.appendChild(h('img', { class: 'tbadge', src: badgeImgURL(fid, c.branch), alt: '', draggable: 'false' })); el.dataset.family = fid; }
   el.appendChild(el._parts.mist = h('div', { class: 'mist hidden', style: `background:${D.art.palette.keywords.find((k) => k.id === 'seamist').color}` }));
   el.appendChild(el._parts.skin = h('div', { class: 'skin hidden' }));
   el.appendChild(el._parts.frz = img(kwIcon('anchor'), 'frz hidden'));
-  el.appendChild(el._parts.rdy = img('assets/icon-asleep.svg', 'rdy'));
+  el.appendChild(el._parts.rdy = img(assetURL('icon-asleep.svg'), 'rdy'));
   el._parts.ki = [0, 1, 2].map((i) => { const e = img(kwIcon('drown'), 'ki hidden'); e.style.top = 20 + i * 24 + 'px'; el.appendChild(e); return e; });
   el.appendChild(el._parts.brn = h('div', { class: 'brn hidden' }));
   el._parts.atk = h('span'); el._parts.hp = h('span');
@@ -120,7 +122,7 @@ export function updateToken(el, m) {
   P.mist.classList.toggle('hidden', !m.kw.seamist);
   P.skin.classList.toggle('hidden', !m.kw.saltskin);
   P.frz.classList.toggle('hidden', !m.frozen);
-  P.rdy.src = m.ready ? 'assets/icon-ready.svg' : 'assets/icon-asleep.svg';
+  P.rdy.src = assetURL(m.ready ? 'icon-ready.svg' : 'icon-asleep.svg');
   const others = Object.keys(m.kw).filter((k) => m.kw[k] && !STATE_KW.includes(k));
   for (const k of (c.kw_ui || [])) if (['ebb', 'swell', 'kindle', 'wake'].includes(k) && !m.silenced && !others.includes(k)) others.push(k);
   P.ki.forEach((e, i) => { const k = others[i]; e.classList.toggle('hidden', !k); if (k) e.src = kwIcon(k); });

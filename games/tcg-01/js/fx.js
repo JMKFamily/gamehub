@@ -38,6 +38,10 @@ function curve(c, x0, y0, x1, y1, dash) {
 export function fxStep(dt) {
   const c = FX.ctx;
   if (!c) return;
+  // 그릴 것이 없으면 캔버스를 건드리지 않음(빈 캔버스를 매 프레임 지우고 올리던 비용 제거, QA terms 1)
+  const dk0 = FX.dark, idle = !FX.parts.length && !FX.nums.length && !FX.arrows.length && !FX.rings.length && !FX.aim && !FX.guide && !FX.demo && dk0.a <= 0.001 && !(dk0.dur > 0 && dk0.t < dk0.dur);
+  if (idle && FX.clean) return;
+  FX.clean = idle;
   const P = D.art.palette;
   c.setTransform(FX.k, 0, 0, FX.k, 0, 0);
   c.clearRect(0, 0, FX.W, FX.H);

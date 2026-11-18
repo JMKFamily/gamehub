@@ -1,0 +1,7 @@
+BLIND GUESSES (recorded before opening answer/legend) 2026-11-18
+shape legend I inferred: blue circle(card glyph)=draw; yellow up-triangle=buff; purple down-triangle=debuff; red diamond lightning=direct strike; pink square=attack+draw
+kind: dark stat box bottom=creature; none=spell; thin line above box=weapon
+select view (05-08) L->R top row then bottom: 1 waves=draw/spell 2 glasses=buff/spell 3 dots=debuff/spell 4 dots=debuff/spell 5 triangle pink-sq=attack+draw/creature 6 moon purple-X=debuff/creature 7 arrows pink-sq=attack+draw/weapon
+battle (01-04): enemy board creature yellow tri=buff/creature; fanned hand L->R moon,glasses,dots,waves,dots,arrows,triangle: badges hidden except last (pink sq=attack+draw/creature); others type unknown from fan alone; kinds: moon creature, glasses spell, dots spell, waves spell, dots spell, arrows weapon
+zoom 09-12: yellow tri+zigzag band = buff/spell ; zoom 13-16: red diamond lightning + red hatch band = direct strike/spell
+collection 17-40: 6 views identical grid, no detail overlay, no type badge on grid cards -> cannot guess type

@@ -1,5 +1,5 @@
 // 부팅·화면 전환·게임 시계·테스트 훅(window.__game)
-import { D, loadData, warmAllIdle } from './data.js';
+import { D, loadData, warmAllIdle, bakeForBattle, bakeMenuAssets } from './data.js';
 import { t, setLang, L } from './i18n.js';
 import { G, A, stepAll } from './anim.js';
 import { initAudio, unlock, setSound, setMusic, sfx, suspendAudio, resumeAudio } from './audio.js';
@@ -32,7 +32,7 @@ const ROUTES = {
   calendar: () => S.calendarScreen(), glossary: () => S.glossaryScreen(), settings: () => S.settingsScreen({ apply: applySettings }),
 };
 // 무거운 화면(수집·영장첩·대전)은 눌림 표시가 먼저 그려지도록 한 프레임 뒤에 만든다(round-2 D1, 첫 반응 ≤ 100 ms)
-const HEAVY = new Set(['collection', 'builder', 'battle', 'glossary']);
+const HEAVY = new Set(['collection', 'builder', 'battle', 'glossary', 'market', 'decks', 'heroes', 'crates', 'open', 'commissions', 'calendar']);
 function go(name, args) {
   if (HEAVY.has(name) && !go._now) { requestAnimationFrame(() => setTimeout(() => { go._now = true; try { go(name, args); } finally { go._now = false; } }, 0)); return; }
   if (name !== 'battle' && battle) { battle = null; A.finishAll(); A.queue.length = 0; }
@@ -62,6 +62,7 @@ async function startBattleFromMenu({ hero, deck, mode, ai }) {
 }
 
 async function newBattle(o) {
+  bakeForBattle([...new Set([...o.decks[0], ...o.decks[1], ...Object.keys(D.tokens)])], true); // 이번 판 카드를 맨 앞으로
   aiMod = await freshAI();
   const sec = document.createElement('section');
   sec.id = 'battle'; sec.className = 'screen';
@@ -98,8 +99,8 @@ function onBattleEnd(res) {
 let last = performance.now();
 function frame(now) {
   const dt = Math.min(100, now - last); last = now;
-  if (!MANUAL) tick(dt);
-  requestAnimationFrame(frame);
+  requestAnimationFrame(frame); // 먼저 다음 프레임을 걸어 둠: tick 예외 하나로 판이 멈추지 않게(QA terms 6)
+  if (!MANUAL) { try { tick(dt); } catch (e) { logList.push({ t: 'tick_error', msg: String(e && e.message), stack: String(e && e.stack).slice(0, 400), at: Math.round(G.now) }); if (!frame._warned) { frame._warned = true; console.warn('tick error', e); } } }
 }
 function tick(dt) {
   if (G.paused) return;
@@ -156,7 +157,7 @@ window.__game = {
   act(a) { if (!battle) return { ok: false }; if (a.type === 'choose') return battle.chooseDiscover(a.index); return battle.input(toIntent(a)); },
   endTurn() { return battle ? battle.input({ k: 'end' }) : { ok: false }; },
   legal() { return battle ? Engine.legalActions(battle.state) : []; },
-  runAI() { if (!battle || battle.state.over) return null; const a = battle.AI.chooseAction(battle.state, battle.ai[battle.state.active]); if (a.type === 'choose') { battle.chooseDiscover(a.index); return a; } const r = battle.isAI(battle.state.active) ? (A.busy && A.finishAll(), battle.perform(a), { ok: true }) : battle.input(toIntent(a)); return { action: a, ...r }; },
+  runAI() { if (!battle || battle.state.over) return null; if (battle.isAI(battle.state.active) && !battle.auto) return { ok: false, reason: 'ai_turn' }; const a = battle.AI.chooseAction(battle.state, battle.ai[battle.state.active]); if (a.type === 'choose') { battle.chooseDiscover(a.index); return a; } const r = battle.isAI(battle.state.active) ? (A.busy && A.finishAll(), battle.perform(a), { ok: true }) : battle.input(toIntent(a)); return { action: a, ...r }; },
   autoplay(on = true) { if (battle) battle.auto = on; },
   step(ms = 16) { let left = ms; while (left > 0) { const d = Math.min(16, left); tick(d); left -= d; } return battle ? battle.state.half : null; },
   finishAnim() { A.finishAll(); },
@@ -181,6 +182,9 @@ window.__game = {
     document.title = t('game_title');
     go(Q.get('screen') || 'title');
     warmAllIdle();
+    setTimeout(bakeMenuAssets, 400);
+    // 첫 탭 3 s 뒤부터 쉬는 시간에 입문·표준 덱 카드 그림을 한 장씩 구워 둠(대전 직전 굽기 부담을 줄임)
+    addEventListener('pointerdown', () => setTimeout(() => bakeForBattle([...new Set([...D.starters, ...D.decks].flatMap((d) => d.cards))]), 3000), { once: true });
     requestAnimationFrame(frame);
     window.__game.ready = true;
   } catch (e) {

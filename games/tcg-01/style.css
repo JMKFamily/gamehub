@@ -56,7 +56,8 @@ button { font: inherit; color: inherit; }
 .card { position: absolute; left: 0; top: 0; width: 250px; height: 350px; transform-origin: 0 0; color: var(--card_ink); }
 .card .plate { position: absolute; inset: 0 0 14px 0; background: var(--card_plate); clip-path: polygon(0 0, 216px 0, 250px 34px, 250px 100%, 0 100%); }
 .card.rite .plate { inset: 0; clip-path: polygon(34px 0, 216px 0, 250px 34px, 250px 330px, 190px 318px, 125px 336px, 60px 318px, 0 330px, 0 34px); }
-.card .spine { position: absolute; left: 2px; top: 2px; bottom: 16px; width: 10px; }
+.card .spine { position: absolute; left: 2px; top: 2px; bottom: 16px; width: 14px; }
+.card .fstrip { position: absolute; right: 2px; top: 40px; bottom: 16px; width: 6px; }
 .card .groove { position: absolute; inset: 7px 7px 21px 7px; border: 2px solid; opacity: .8; pointer-events: none; }
 .card .groove.g2 { inset: 11px 11px 25px 11px; border-width: 1px; opacity: .5; }
 .card .facet { position: absolute; right: 0; top: 0; width: 46px; height: 46px; clip-path: polygon(0 0, 12px 0, 46px 34px, 46px 46px); }
@@ -69,8 +70,8 @@ button { font: inherit; color: inherit; }
 .card .text { position: absolute; left: 22px; width: 206px; top: 228px; height: 80px; font-size: 13px; line-height: 17px; text-align: center; overflow: hidden; word-break: keep-all; }
 .card.rite .text { height: 92px; }
 .card .text b { font-weight: 800; }
-.card .kws { position: absolute; left: 22px; top: 160px; display: flex; gap: 4px; }
-.card.hand .kws { top: 196px; }
+.card .kws { position: absolute; left: 48px; top: 160px; display: flex; gap: 4px; }
+.card.hand .kws { top: 196px; left: 68px; }
 .card .kws img { width: 22px; height: 22px; }
 .card.hand .kws img { width: 34px; height: 34px; }
 .card .cost { position: absolute; left: 8px; top: 10px; width: 42px; height: 58px; background: var(--wick_lit_bar); color: var(--wick_ink); border: 2.5px solid var(--wick_ink); border-radius: 7px; font-size: 34px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
@@ -220,12 +221,12 @@ button { font: inherit; color: inherit; }
 .btn.down { transform: scale(.96); filter: brightness(1.15); }
 
 /* 용어·UX 개정(30-art 11절): 유형 표지·띠·날밑 */
-.card .badge { position: absolute; left: 194px; top: 20px; width: 40px; height: 40px; }
-.card.hand .badge { left: 168px; top: 14px; width: 64px; height: 64px; }
+.card .badge { position: absolute; left: 8px; top: 74px; width: 34px; height: 34px; }
+.card.hand .badge { left: 8px; top: 104px; width: 54px; height: 54px; }
 .card .guard { position: absolute; left: 50px; right: 50px; bottom: 44px; height: 8px; border-radius: 2px; }
 .card.hand .guard { bottom: 64px; left: 30px; right: 30px; }
 .tok .fband { position: absolute; left: 5px; right: 14px; top: 0; height: 6px; }
-.tok .tbadge { position: absolute; right: 2px; top: 30px; width: 24px; height: 24px; }
+.tok .tbadge { position: absolute; left: 4px; top: 26px; width: 24px; height: 24px; }
 .tok .ki { right: 26px; }
 .card .name { text-shadow: none; }
 .hcard .hname { display: none; position: absolute; left: 0; right: 0; top: 100%; text-align: center; font-size: 12px; font-weight: 700; color: var(--salt_white); white-space: nowrap; overflow: hidden; transform-origin: 50% 0; }
@@ -270,3 +271,28 @@ button { font: inherit; color: inherit; }
 .storyOvl { z-index: 500; }
 .storyPanel { display: flex; flex-direction: column; gap: 8px; z-index: 5; text-align: left; }
 .storyText { flex: 1 1 auto; padding: 0; min-height: 0; word-break: keep-all; overflow-y: auto; }
+.tut .tt { word-break: keep-all; overflow-wrap: anywhere; }
+.tut.inbtn { display: flex; align-items: center; gap: 4px; }
+.tut.inbtn .tt { flex: 1; min-width: 0; }
+.tut.inbtn .tutBtn { padding: 0 6px; font-size: 12px; white-space: nowrap; min-width: 44px; }
+.tutBtn { white-space: nowrap; }
+.coach .txt { word-break: keep-all; }
+.top h2 { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; font-size: clamp(14px, 4.6vw, 18px); }
+/* 성능(QA terms 1): 움직이는 카드·토큰·연출 판은 자기 층으로 — 옮길 때 안쪽 그림(SVG·clip-path)을 다시 그리지 않음 */
+.hcard, .tok, .fly, #boardWrap, .bubble, .banner, .zoomWrap { will-change: transform, opacity; }
+.card .art img, .tok .pi, .card .badge, .tok .tbadge { image-rendering: auto; }
+
+/* 수집·빌더 격자: 손패형 카드 + 이름 12 px(30-art 11-7b) */
+.cell.mini { aspect-ratio: auto; background: none; border-left: 0; clip-path: none; contain-intrinsic-size: 96px 154px; display: flex; flex-direction: column; align-items: center; }
+.cell.mini::after { display: none; }
+.cell.mini .mn { position: static; color: var(--salt_white); font-size: 12px; line-height: 15px; max-height: 30px; margin-top: 2px; }
+.cell.mini .resbar { width: 96px; }
+.filters .fbtn { min-width: 48px; min-height: 48px; padding: 0 6px; }
+.filters .fbtn.on { background: #2E4650; outline: 2px solid var(--focus); outline-offset: -2px; }
+.dline { border-left-width: 8px; }
+.ratio { display: flex; height: 26px; gap: 2px; }
+.ratio .rseg { display: flex; align-items: center; justify-content: center; gap: 2px; font-size: 12px; font-weight: 800; min-width: 30px; }
+.ratio img { width: 18px; height: 18px; }
+
+.dim4 { position: absolute; z-index: 84; pointer-events: none; }
+.coachDim { position: fixed; z-index: 450; pointer-events: none; background: rgba(0,0,0,.5); }

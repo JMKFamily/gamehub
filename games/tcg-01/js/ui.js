@@ -15,7 +15,7 @@ export function toast(text, ms = 1300, pos) {
 export function show(id, el) {
   const app = document.getElementById('app');
   for (const c of [...app.children]) if (c !== el) c.remove();
-  for (const o of document.querySelectorAll('body > .ovl, body > .coach, body > .coachSpot, body > .coachRing')) o.remove();
+  for (const o of document.querySelectorAll('body > .ovl, body > .coach, body > .coachSpot, body > .coachRing, body > .coachDim')) o.remove();
   if (el.parentNode !== app) app.appendChild(el);
   el.classList.add('show');
   UI.screen = id;
@@ -43,7 +43,10 @@ export function coach(steps, t, { onSkip, onEach } = {}) {
     const r = st.el && st.el.isConnected ? st.el.getBoundingClientRect() : null;
     if (r) {
       const pad = 8, box = (cls) => { const d = document.createElement('div'); d.className = cls; Object.assign(d.style, { left: r.left - pad + 'px', top: r.top - pad + 'px', width: r.width + pad * 2 + 'px', height: r.height + pad * 2 + 'px' }); document.body.appendChild(d); els.push(d); };
-      box('coachSpot'); box('coachRing');
+      // 어두운 사각형 4장(큰 그림자 대신)
+      const pad2 = 8, x0 = r.left - pad2, y0 = r.top - pad2, x1 = r.right + pad2, y1 = r.bottom + pad2, W = innerWidth, H = innerHeight;
+      for (const [x, y, w, hh] of [[0, 0, W, y0], [0, y1, W, H - y1], [0, y0, x0, y1 - y0], [x1, y0, W - x1, y1 - y0]]) { const d = document.createElement('div'); d.className = 'coachDim'; Object.assign(d.style, { left: x + 'px', top: y + 'px', width: Math.max(0, w) + 'px', height: Math.max(0, hh) + 'px' }); document.body.appendChild(d); els.push(d); }
+      box('coachRing');
     }
     const p = document.createElement('div'); p.className = 'coach'; p.setAttribute('role', 'note'); p.dataset.coach = st.key;
     const low = r && r.top + r.height / 2 > innerHeight / 2;
