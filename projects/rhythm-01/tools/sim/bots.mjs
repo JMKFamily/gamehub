@@ -424,3 +424,28 @@ export function levelAccuracy(L, result, acc) {
   for (const g of result.grades) s += accuracyPct(g.e, L.judge, acc);
   return Math.floor(s / result.grades.length);
 }
+
+// ── 12세 대표 봇 (2026-11-17 요청자 지시 "러너와 리듬의 연령 기준은 12세 정도", criteria 대상 연령 절 결정 14, 20-balance.md 18장) ──
+// 판정 기준 봇 = novice_sd50 (σ50 ms · 탭 놓침 1 % · 헛탭 1 %, 누름 100 ms). B1(30회·L7까지 20·L1)·B4·B5(2배)·B6/B6s(레벨 10 = L1~L3 곡선의 L6)·B7(엄격 단조)과
+// N8 덩어리 비용은 이 봇의 "처음 보는 무늬 비용" 포함 세션(runNoveltySessions)으로 잰다. σ70(child_sd70, 5~6세 대리)은 참고(INFO)로만.
+// 위 함수들은 바꾸지 않고, 프로필 이름을 한곳(balance.json bots.representative.profile)에서 읽는 얇은 덧붙임만 둔다.
+export const REPRESENTATIVE_PROFILE = 'novice_sd50';
+export const REPRESENTATIVE_SPEC = { sd_ms: 50, miss: 0.01, extra: 0.01 }; // criteria 결정 14 값 (검증기 B0 가 balance.json 과 대조)
+
+export function representativeProfile(bal) {
+  const id = bal.bots.representative?.profile ?? REPRESENTATIVE_PROFILE;
+  const p = bal.bots.profiles[id];
+  if (!p) throw new Error(`대표 봇 프로필 ${id} 없음`);
+  return { id, p };
+}
+
+// 대표 봇 세션(처음 보는 무늬 비용 포함). 옵션은 runNoveltySessions 와 같음(sessions·seed·bias·sessionBias·novelty·maxAttempts)
+export function runRepresentativeSessions(L, bal, opts = {}) {
+  const { id, p } = representativeProfile(bal);
+  return { profile: id, ...runNoveltySessions(L, p, bal, opts) };
+}
+
+// 대표 봇 별 위험률 (N8 덩어리 비용용)
+export function representativeHazards(L, bal, opts = {}) {
+  return starHazards(L, representativeProfile(bal).p, bal, opts);
+}

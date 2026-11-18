@@ -137,3 +137,11 @@
 
 ## 요청자 새 지시 (메인 세션 전달) — 콤보 파격 연출 (criteria 131aa6a)
 - 내용: STATUS "콤보 파격 연출" 절. round-3 QA 전이라 이번 빌드 범위에 포함(balance 12세 재조정과 병렬로 art 규격 → 이후 dev가 데이터 재반영과 함께 구현). 30-art 16-4(점 10칸)·16-8(콤보 숫자 금지) 대체.
+- 인사이트 수신(flow-01, 8485b81): (1) 판정 대상 4개 이하 레벨 몰림 한도 max(30 %, 1.5/개수) — rhythm-01 레벨은 별 18~28개라 해당 없음. (2) 생성기로 만든 레벨의 검증기에 생성용 가지치기를 넣지 말 것 — `tools/sim/path.mjs`(생성)와 `verify-levels.mjs` N1~N11(검증)이 같은 가지치기·가정을 공유하지 않는지 round-3 balance 리뷰·QA 지시에 넣음.
+- 같은 인사이트 메인 세션 재전달: QA 때 verify-levels·판정 기준 함수가 빌드·생성 코드와 가정을 공유하지 않는지 확인. 주의: `js/judge.js`는 `tools/sim/judge.mjs`와 바이트 동일(설계상 공유) → round-3 QA는 판정·%·N 규칙을 criteria 문장만 보고 **독립 구현**해 전수 대조(round-2 보정 3자 대조와 같은 방식).
+
+## balance 12세 재조정 감시 — 통과 (2026-11-18)
+- diff: levels/01~10(`chunks_r3b_deprecated` 보존), balance.json(새 키 `bots.representative`·`verify.rep_limits`, 바뀐 값은 `_r3b_deprecated` 보존), verify-levels(판정 봇 → 대표 봇 σ50, σ70은 INFO), bots.mjs 덧붙임만, 20-balance 18장, 보고서, README 한 줄. 빌드·judge·calib·harness 미수정, git·서버 미사용.
+- **직접 전체 실행: 종료 0, FAIL 0, ALL PASS.** 대표 봇 연속 중앙값 1.738 → 10.916, B6 T 11.05 [8.84, 13.26] −1.2 %, 시드 10개 −7.7 ~ +2.7 %, L7 7회, 최대 1.52배. 별 29~69개, 길이 39~44 s. L7·L10 4박 숨 고르기 축소(덩어리 간격 L10 2.31 → 1.74 s) — 몰입 위험 6 완화.
+- 위험(major 후보, round-3 리뷰에서 판단): 곡선이 "처음 보는 무늬 비용" 가정에 크게 기댐(비용 없으면 L10 3.64). σ70은 L3부터 한도 초과 — 결정 14의 대가로 기록.
+- 사용 한도 정지(약 03:00) → 요청자 "한도 해제되었습니다 이어서 진행하세요. 모든 스레드에 내용 전파해주세요" → art 콤보 연출 재개, 연결 세션 5개(마스터·Tossaloft·Pairpaint·Ebbwrit·Reverbound)에 재개 전파.

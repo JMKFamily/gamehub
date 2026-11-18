@@ -22,7 +22,7 @@
 //   S8 새 기믹 ≤ 1, 새 기믹이 있으면 그림 카드 1장(card_<id>, 레벨 시작 전), 없으면 카드 없음. 레벨 1 은 카드 필수
 //   S9 놓침 구역이 "8분 하나 이른 탭"을 덮고 "1박 이른 탭"은 무시
 //   S10 레벨 간 통과 창 폭 ≥ 직전의 50 %
-//   S11 레벨 1: 별 수 16~20, 첫 별 10 % 이후, 재시작 1.08 s 와 단계 배분 합
+//   S11 레벨 1: 별 수 16~20 [round-3 12세: 24~36, verify.l1_star_count_range, 옛 값 _r3b_deprecated], 첫 별 10 % 이후, 재시작 1.08 s 와 단계 배분 합
 //   S12 (폐기, round-3 R19) 한 마디 앞 같은 자리에서 커지며 나타남 → P1 로 대체
 //   S13·S14·S16 (폐기, round-3 R18) 보여 주기 마디·북채 → 해당 없음(보여 주기 마디·북채가 없음). S15 → T1 로 대체
 //   P1 미리 보기(R19): 가로·세로 모두 미리 보기 ≥ 1.2 s, 판단 시간(미리 보기 − 이른 통과 창) ≥ 1.0 s, 레퍼런스(1.16 s / 0.80 s)보다 짧지 않음
@@ -31,7 +31,11 @@
 //   (P1 추가) 레벨 path 미리 보기 박 = balance.json preview.lead_beats 거울, 세로 = min(가로, 3.5) (art 16-2 해결안 A)
 //   T1 레벨 1 손가락: 첫 별 1박 전 등장, 누름 시작이 통과 창 안, 손가락 구간 ∩ 다른 판정 별 [놓침 구역 시작, 통과 창 끝] = 없음
 //   N1~N11 반복 회피 규칙(00-benchmark 8-3, R20): tools/sim/path.mjs nChecks
-//   B1 봇 σ70 첫 클리어 정수 중앙값 ≤ 레벨별 한도 (L1 5, L7까지 20, 전 레벨 30) — 처음 보는 무늬 비용 포함 세션
+//   ※ round-3 12세 재조정(2026-11-17 요청자 지시 "러너와 리듬의 연령 기준은 12세 정도", criteria 결정 14): 아래 B1·B4·B5·B6·B6s·B7 과
+//     N8 덩어리 비용의 판정 봇은 σ70 → 대표 봇 novice_sd50(σ50·놓침 1 %·헛탭 1 %, balance.json bots.representative). 한도 = verify.rep_limits.
+//     아래 줄의 "σ70" 표기는 옛 기준(폐기 표시, verify._child_sd70_limits_status)이며 σ70 값은 정보 줄로만 나온다. 정보 R17·R17b·R23·보정 화면도 플레이어 = 대표 봇.
+//   B0 (round-3 12세) 대표 봇 정의 = criteria 결정 14 (σ50·1 %·1 %), 대상 연령 12, 참고 봇 child_sd70
+//   B1 봇 σ70 첫 클리어 정수 중앙값 ≤ 레벨별 한도 (L1 5, L7까지 20, 전 레벨 30) — 처음 보는 무늬 비용 포함 세션 [→ 대표 봇, 정수·연속 둘 다]
 //   B2 봇 평균 진행도(판정 별 기준, 비용 없는 독립 시도)가 레벨 순서대로 단조 감소
 //   B3 숙련 봇(σ25) 실패가 한 별에 30 % 넘게 몰리지 않음 (실패 20회 이상일 때만)
 //   B4 레벨 1 σ70 첫 시도 실패 위치 중앙값(레벨 시간 기준) ≥ 10 % — 처음 보는 무늬 비용 포함
@@ -62,7 +66,7 @@ import { existsSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { compileLevel, judgeAttempt } from './sim/judge.mjs';
 import * as simCalib from './sim/calib.mjs';
-import { runProfile, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng, autoShiftCalibBias, stableWaitMs, botTaps, runNoveltySessions, starHazards, runPracticeV3, accuracyPct, gradeFromPct, levelAccuracy } from './sim/bots.mjs';
+import { runProfile, analyticClear, calibrationBias, guardianCalibrationBias, driftDetectAttempt, makeRng, autoShiftCalibBias, stableWaitMs, botTaps, runNoveltySessions, starHazards, runPracticeV3, accuracyPct, gradeFromPct, levelAccuracy, representativeProfile, REPRESENTATIVE_SPEC, representativeHazards } from './sim/bots.mjs';
 import { buildPlanLevel } from './sim/plan.mjs';
 import { layoutChunks, nChecks, previewInfo, beatToMs, comboTrace } from './sim/path.mjs';
 
@@ -77,6 +81,11 @@ const SESS = QUICK ? 400 : 2000;
 const bal = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
 const V = bal.verify;
 const NSESS = QUICK ? 2000 : (V.novelty_sessions || 20000);
+// 12세 대표 봇(2026-11-17 요청자 지시, criteria 대상 연령 절 결정 14): B1·B4·B5·B6·B6s·B7·N8 판정 원천. σ70 은 참고(INFO)
+const REP = representativeProfile(bal).id;
+const REPP = bal.bots.profiles[REP];
+const RL = V.rep_limits; // 대표 봇 한도 (옛 child_sd70_* 키는 폐기 표시만 하고 남김)
+const repLabel = `σ${REPP.sd_ms} 대표 봇(${REP})`;
 const report = { levels: {}, fails: [] };
 const log = (...a) => { if (!JSON_OUT) console.log(...a); };
 const check = (lv, code, ok, msg) => {
@@ -266,7 +275,8 @@ for (const { src, lvl } of entries) {
   if (id === '01' && !(lvl.cues || []).some((c) => c.key === bal.tutorial_cue.key)) check(id, 'T1', false, `${bal.tutorial_cue.key} 손가락 없음(!)`);
 
   // N1~N11 (R20)
-  const hz = starHazards(L, bal.bots.profiles.child_sd70, bal, { N });
+  // N8 덩어리 비용 = 대표 봇 별 위험률 합 (round-3 12세, 옛 σ70 은 path_v3.rules._n8_cost_profile_r3a_deprecated)
+  const hz = representativeHazards(L, bal, { N });
   report.levels[id].n = {};
   for (const c of nChecks(lvl, L, bal, { hazards: hz })) { check(id, c.code, c.ok, c.msg); report.levels[id].n[c.code] = c.ok; }
   report.levels[id].practice_checkpoints = lvl.practice.checkpoints.map((c) => c.beat);
@@ -308,14 +318,21 @@ for (const L of compiled) {
   prog[id] = report.levels[id].bots;
 }
 const nv = bal.bots.novelty;
-log(`\n== 봇 (2) 처음 보는 무늬 비용 포함 (R20): 마디 내용 노출 e 마다 별 놓침 +${100 * nv.extra_miss_first_exposure} × (1 − e/${nv.exposures_to_zero}) %p, 세션(첫 클리어까지, 상한 200) σ70 ${NSESS}개·그 밖 ${Math.round(NSESS / 4)}개 (B1·B4·B5·B6·B7 판정) ==`);
+log(`\n== 봇 (2) 처음 보는 무늬 비용 포함 (R20): 마디 내용 노출 e 마다 별 놓침 +${100 * nv.extra_miss_first_exposure} × (1 − e/${nv.exposures_to_zero}) %p, 세션(첫 클리어까지, 상한 200) 대표 봇 ${REP} ${NSESS}개·그 밖 ${Math.round(NSESS / 4)}개 (B1·B4·B5·B6·B7 판정 = ${repLabel}, 12세 결정 14 · σ70 은 정보) ==`);
+// B0 대표 봇 정의 = criteria 결정 14 (σ50 · 놓침 1 % · 헛탭 1 %)
+report.levels._rep = {};
+{
+  const sp = REPRESENTATIVE_SPEC, rp = bal.bots.representative || {};
+  const ok = REPP.sd_ms === sp.sd_ms && REPP.miss === sp.miss && REPP.extra === sp.extra && rp.profile === REP && rp.target_age === 12 && (rp.info_profiles || []).includes('child_sd70');
+  check('_rep', 'B0', ok, `대표 봇 ${REP} = σ${REPP.sd_ms} ms · 놓침 ${100 * REPP.miss} % · 헛탭 ${100 * REPP.extra} % (criteria 대상 연령 절 결정 14: σ${sp.sd_ms}·${100 * sp.miss} %·${100 * sp.extra} %) · 대상 연령 ${rp.target_age}세 · 참고 봇 ${(rp.info_profiles || []).join(',')} · 옛 판정 봇 child_sd70 한도는 폐기 표시(verify._child_sd70_limits_status, bots.representative.judged_profile_r3b_deprecated)`);
+}
 log('레벨 | 프로필 | 첫 클리어 연속 중앙값 m~ | 정수 중앙값 | 90 % | 1번째 시도 클리어율 | 시도 1~5 클리어율 | 상한 200 도달 세션');
 const nov = {};
 for (const L of compiled) {
   const id = L.level.id;
   nov[id] = {};
   for (const [pn, p] of Object.entries(bal.bots.profiles)) {
-    const r = runNoveltySessions(L, p, bal, { sessions: pn === 'child_sd70' ? NSESS : Math.round(NSESS / 4) });
+    const r = runNoveltySessions(L, p, bal, { sessions: pn === REP ? NSESS : Math.round(NSESS / 4) });
     nov[id][pn] = r;
     log(`${id} | ${pn} | ${r.median_first_clear_continuous ?? '-'} | ${r.median_first_clear_sessions} | ${r.p90_first_clear_sessions} | ${r.attempt1_clear_rate} | ${r.attempt_clear_rate_1_to_5.join('/')} | ${r.capped_sessions}`);
   }
@@ -324,9 +341,9 @@ for (const L of compiled) {
 log('');
 for (const L of compiled) {
   const id = L.level.id, b = nov[id];
-  const lim = V.child_sd70_median_max_by_level[id] ?? V.child_sd70_median_max_all;
-  const lim2 = Math.min(lim, V.child_sd70_median_max_all, +id <= +V.child_sd70_median_max_through_level.level ? V.child_sd70_median_max_through_level.max : Infinity, id === '01' ? V.l1_child_sd70_median_max : Infinity);
-  check(id, 'B1', b.child_sd70.median_first_clear_sessions <= lim2, `σ70 첫 클리어 정수 중앙값(비용 포함) ${b.child_sd70.median_first_clear_sessions}회 ≤ ${lim2} (연속 ${b.child_sd70.median_first_clear_continuous}, 비용 없음 ${prog[id].child_sd70.median_first_clear_sessions})`);
+  const lim = RL.by_level[id] ?? RL.all_max;
+  const lim2 = Math.min(lim, RL.all_max, +id <= +RL.through_level.level ? RL.through_level.max : Infinity, id === '01' ? RL.l1_max : Infinity);
+  check(id, 'B1', b[REP].median_first_clear_sessions <= lim2 && b[REP].median_first_clear_continuous <= lim2, `${repLabel} 첫 클리어 정수 중앙값(비용 포함) ${b[REP].median_first_clear_sessions}회 · 연속 ${b[REP].median_first_clear_continuous} ≤ ${lim2} (레벨 한도 ${lim}, 전 레벨 ${RL.all_max}, L${+RL.through_level.level}까지 ${RL.through_level.max}${id === '01' ? `, L1 ${RL.l1_max}` : ''}; 비용 없음 ${prog[id][REP].median_first_clear_sessions}) · 정보 σ70 ${b.child_sd70.median_first_clear_sessions}회${b.child_sd70.median_first_clear_sessions > RL.all_max ? '(30회 넘음, 5~6세 참고값 — 연습 모드 정보 참고)' : ''}`);
   const sk = prog[id].skilled_sd25;
   const skDeaths = Math.round((1 - sk.clear_rate) * N);
   if (skDeaths >= 20) check(id, 'B3', sk.top_fail_star_share <= 0.3, `σ25 최다 실패 별 몰림 ${sk.top_fail_star_share} ≤ 0.3 (실패 ${skDeaths}회)`);
@@ -337,16 +354,17 @@ for (let k = 1; k < compiled.length; k++) {
   for (const pn of ['novice_sd50', 'child_sd70']) {
     check(c, 'B2', prog[c][pn].mean_progress < prog[a][pn].mean_progress, `${pn} 평균 진행도(별) ${a} ${prog[a][pn].mean_progress} % > ${c} ${prog[c][pn].mean_progress} %`);
   }
-  const ma = nov[a].child_sd70.median_first_clear_sessions, mc = nov[c].child_sd70.median_first_clear_sessions;
-  const ca = nov[a].child_sd70.median_first_clear_continuous, cc = nov[c].child_sd70.median_first_clear_continuous;
-  check(c, 'B5', mc <= V.child_sd70_median_max_growth_vs_prev * ma && cc <= V.child_sd70_median_max_growth_vs_prev * ca, `σ70 중앙값(비용 포함) ${a} ${ma}회 → ${c} ${mc}회 (${(mc / ma).toFixed(2)}배, 연속 ${(cc / ca).toFixed(3)}배 ≤ ${V.child_sd70_median_max_growth_vs_prev})`);
+  const ma = nov[a][REP].median_first_clear_sessions, mc = nov[c][REP].median_first_clear_sessions;
+  const ca = nov[a][REP].median_first_clear_continuous, cc = nov[c][REP].median_first_clear_continuous;
+  const sa = nov[a].child_sd70.median_first_clear_continuous, sc = nov[c].child_sd70.median_first_clear_continuous;
+  check(c, 'B5', mc <= RL.growth_vs_prev * ma && cc <= RL.growth_vs_prev * ca, `${repLabel} 중앙값(비용 포함) ${a} ${ma}회 → ${c} ${mc}회 (${(mc / ma).toFixed(2)}배, 연속 ${(cc / ca).toFixed(3)}배 ≤ ${RL.growth_vs_prev}) · 정보 σ70 연속 ${sa ?? '상한'} → ${sc ?? '상한'}${sa && sc ? ` (${(sc / sa).toFixed(2)}배)` : ''}`);
 }
 // B6·B7 레벨 10 목표 (요청자 지시: 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6). R3 연속 중앙값, round-3 처음 보는 무늬 비용 포함
 const R = V.l10_target_rule;
 const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / steps); return { r, T: m3 * Math.pow(r, ahead) }; };
 {
-  const med = (id) => nov[id]?.child_sd70.median_first_clear_continuous;
-  const imed = (id) => nov[id]?.child_sd70.median_first_clear_sessions;
+  const med = (id) => nov[id]?.[REP].median_first_clear_continuous;
+  const imed = (id) => nov[id]?.[REP].median_first_clear_sessions;
   const b1 = R.base_levels[0], b2 = R.base_levels[1], b3 = R.base_levels[R.base_levels.length - 1];
   const m1 = med(b1), m2 = med(b2), m3 = med(b3);
   const steps = +b3 - +b1;
@@ -355,20 +373,25 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
   const lo = (1 - R.tolerance_ratio) * T, hi = (1 + R.tolerance_ratio) * T;
   const m10 = med(R.apply_to_level);
   const i1 = imed(b1), i3 = imed(b3), ir = Math.pow(i3 / i1, 1 / steps), iT = i3 * Math.pow(ir, ahead);
-  const c1 = prog[b1].child_sd70.median_first_clear_continuous, c3 = prog[b3].child_sd70.median_first_clear_continuous, cT = targetOf(c1, c3, steps, ahead).T;
-  report.l10_target = { estimator: R.estimator, m01: m1, m02: m2, m03: m3, ratio: +r.toFixed(4), target_L6_extrapolated: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10,
+  const c1 = prog[b1][REP].median_first_clear_continuous, c3 = prog[b3][REP].median_first_clear_continuous, cT = targetOf(c1, c3, steps, ahead).T;
+  // 정보: σ70(5~6세 대리, 옛 판정 봇) 같은 계산 — 판정 안 함
+  const s70 = (id) => nov[id]?.child_sd70.median_first_clear_continuous;
+  const s70T = s70(b1) && s70(b3) ? targetOf(s70(b1), s70(b3), steps, ahead) : null;
+  report.l10_target = { profile: REP, estimator: R.estimator, m01: m1, m02: m2, m03: m3, ratio: +r.toFixed(4), target_L6_extrapolated: +T.toFixed(2), range: [+lo.toFixed(2), +hi.toFixed(2)], L10: m10,
     integer_reference: { m01: i1, m02: imed(b2), m03: i3, ratio: +ir.toFixed(4), target: +iT.toFixed(2), L10: imed(R.apply_to_level) },
-    no_novelty_reference: { m01: c1, m03: c3, target: +cT.toFixed(2), L10: prog[R.apply_to_level].child_sd70.median_first_clear_continuous }, quick: QUICK };
-  log(`\n== 레벨 10 목표 (B6, σ70 연속 중앙값, 처음 보는 무늬 비용 포함 세션 ${NSESS}개) ==\n  r = (${m2}/${m1} × ${m3}/${m2})^(1/${steps}) = (${m3}/${m1})^(1/${steps}) = ${r.toFixed(4)} · T = ${m3} × r^${ahead} = ${T.toFixed(2)} · 범위 ±${100 * R.tolerance_ratio} % = ${lo.toFixed(2)} ~ ${hi.toFixed(2)}${QUICK ? ' (--quick: 참고용, 판정은 전체 실행)' : ''}`);
+    no_novelty_reference: { m01: c1, m03: c3, target: +cT.toFixed(2), L10: prog[R.apply_to_level][REP].median_first_clear_continuous },
+    sd70_info: { m01: s70(b1), m02: s70(b2), m03: s70(b3), ratio: s70T ? +s70T.r.toFixed(4) : null, target: s70T ? +s70T.T.toFixed(2) : null, L10: s70(R.apply_to_level), L10_integer: nov[R.apply_to_level].child_sd70.median_first_clear_sessions }, quick: QUICK };
+  log(`\n== 레벨 10 목표 (B6, ${repLabel} 연속 중앙값, 처음 보는 무늬 비용 포함 세션 ${NSESS}개) ==\n  r = (${m2}/${m1} × ${m3}/${m2})^(1/${steps}) = (${m3}/${m1})^(1/${steps}) = ${r.toFixed(4)} · T = ${m3} × r^${ahead} = ${T.toFixed(2)} · 범위 ±${100 * R.tolerance_ratio} % = ${lo.toFixed(2)} ~ ${hi.toFixed(2)}${QUICK ? ' (--quick: 참고용, 판정은 전체 실행)' : ''}`);
   log(`  참고(판정 안 함) 정수 중앙값: L1~L3 ${i1}/${imed(b2)}/${i3} → r ${ir.toFixed(4)} · T ${iT.toFixed(2)} · L10 ${imed(R.apply_to_level)}`);
-  log(`  참고(판정 안 함) 비용 없는 ln0.5/ln(1-p): L1 ${c1} · L3 ${c3} → T ${cT.toFixed(2)} · L10 ${prog[R.apply_to_level].child_sd70.median_first_clear_continuous} (T 대비 ${(100 * (prog[R.apply_to_level].child_sd70.median_first_clear_continuous / cT - 1)).toFixed(1)} %)`);
+  log(`  참고(판정 안 함) 비용 없는 ln0.5/ln(1-p): L1 ${c1} · L3 ${c3} → T ${cT.toFixed(2)} · L10 ${prog[R.apply_to_level][REP].median_first_clear_continuous} (T 대비 ${(100 * (prog[R.apply_to_level][REP].median_first_clear_continuous / cT - 1)).toFixed(1)} %)`);
+  log(`  정보(판정 안 함, 옛 판정 봇 σ70 = 5~6세 대리): L1~L3 ${s70(b1)}/${s70(b2)}/${s70(b3)}${s70T ? ` → r ${s70T.r.toFixed(4)} · T ${s70T.T.toFixed(2)}` : ''} · L10 연속 ${s70(R.apply_to_level) ?? '상한 200 넘음'} (정수 ${nov[R.apply_to_level].child_sd70.median_first_clear_sessions}) · σ70 L1~L10 정수 ${compiled.map((L) => nov[L.level.id].child_sd70.median_first_clear_sessions).join('/')}`);
   const chk = QUICK ? (lv, code, ok, msg) => log(`  정보 ${code}(--quick, 판정 안 함) ${ok ? '범위 안' : '범위 밖'}: ${msg}`) : check;
-  chk(R.apply_to_level, 'B6', m10 != null && m10 >= lo && m10 <= hi, `L10 σ70 연속 중앙값 ${m10}회 ∈ [${lo.toFixed(2)}, ${hi.toFixed(2)}] (T 대비 ${(100 * (m10 / T - 1)).toFixed(1)} %, L1~L3 ${m1}/${m2}/${m3}, 기하 평균 배율 ${r.toFixed(4)}, L6 외삽 ${T.toFixed(2)}; 정수 중앙값 ${imed(R.apply_to_level)})`);
+  chk(R.apply_to_level, 'B6', m10 != null && m10 >= lo && m10 <= hi, `L10 ${repLabel} 연속 중앙값 ${m10}회 ∈ [${lo.toFixed(2)}, ${hi.toFixed(2)}] (T 대비 ${(100 * (m10 / T - 1)).toFixed(1)} %, L1~L3 ${m1}/${m2}/${m3}, 기하 평균 배율 ${r.toFixed(4)}, L6 외삽 ${T.toFixed(2)}; 정수 중앙값 ${imed(R.apply_to_level)})`);
   const seq = R.monotone_levels.map((id) => [id, med(id)]);
   const bad = [];
   for (let k = 1; k < seq.length; k++) if (!(seq[k][1] > seq[k - 1][1])) bad.push(`${seq[k - 1][0]}→${seq[k][0]}`);
   const insideHi = seq.slice(0, -1).every(([, m]) => m < hi);
-  chk(R.apply_to_level, 'B7', !bad.length && insideHi, `σ70 연속 중앙값 ${seq.map(([id, m]) => `L${+id} ${m}`).join(' < ')} → ${bad.length ? `단조 아님: ${bad}` : '엄격 단조 증가'} · L3~L9 가 L10 목표 상한 ${hi.toFixed(2)} 미만 ${insideHi ? '예' : '아님(!)'} (정수 중앙값 참고 ${R.monotone_levels.map(imed).join('/')})`);
+  chk(R.apply_to_level, 'B7', !bad.length && insideHi, `${repLabel} 연속 중앙값 ${seq.map(([id, m]) => `L${+id} ${m}`).join(' < ')} → ${bad.length ? `단조 아님: ${bad}` : '엄격 단조 증가'} · L3~L9 가 L10 목표 상한 ${hi.toFixed(2)} 미만 ${insideHi ? '예' : '아님(!)'} (정수 중앙값 참고 ${R.monotone_levels.map(imed).join('/')})`);
   // B6s 시드 분포
   const sp = R.seed_spread;
   if (sp) {
@@ -377,7 +400,7 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
     const devs = [];
     for (let k = 0; k < sp.seeds; k++) {
       const seed = 1000 + 7919 * k;
-      const m = Object.fromEntries(sp.levels.map((id) => [id, runNoveltySessions(byId[id], bal.bots.profiles.child_sd70, bal, { sessions: S, seed }).median_first_clear_continuous]));
+      const m = Object.fromEntries(sp.levels.map((id) => [id, runNoveltySessions(byId[id], REPP, bal, { sessions: S, seed }).median_first_clear_continuous]));
       const t = targetOf(m[b1], m[b3], steps, ahead).T;
       devs.push({ seed, m, T: t, dev: m[R.apply_to_level] / t - 1 });
     }
@@ -392,8 +415,8 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
 }
 {
   const L = compiled[0];
-  const r = nov[L.level.id].child_sd70, c = prog[L.level.id].child_sd70;
-  check(L.level.id, 'B4', r.first_fail_progress_time_median >= 10, `σ70 첫 시도(비용 포함) 실패 위치 중앙값(레벨 시간) ${r.first_fail_progress_time_median} % ≥ 10 % (비용 없음 ${c.median_fail_progress_time} %, 별 기준 ${c.median_fail_progress} %)`);
+  const r = nov[L.level.id][REP], c = prog[L.level.id][REP];
+  check(L.level.id, 'B4', r.first_fail_progress_time_median >= 10, `${repLabel} 첫 시도(비용 포함) 실패 위치 중앙값(레벨 시간) ${r.first_fail_progress_time_median} % ≥ 10 % (비용 없음 ${c.median_fail_progress_time} %, 별 기준 ${c.median_fail_progress} %) · 정보 σ70 ${nov[L.level.id].child_sd70.first_fail_progress_time_median} %`);
 }
 
 // K0·K1 콤보 (공통 문서 harness/benchmarks/djmax-judgement.md 4-2, round-3 확정)
@@ -511,9 +534,9 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
     }
     check('_accuracy', 'A2', diff === 0, `σ70 봇 탭 ${n}시도: % ·레벨 정확도를 센 뒤 판정 결과(클리어·실패 위치·이유·등급·헛탭) 다름 ${diff}건 · % 는 judgeAttempt 입력에 없음(판정 창·놓침 구역·재시작 시각 그대로)`);
     const ids = [R.base_levels?.[0] ?? '01', '03', R.apply_to_level].filter((x, i, a) => a.indexOf(x) === i);
-    const again = ids.map((id) => { const L = compiled.find((x) => x.level.id === id); return [id, runNoveltySessions(L, bal.bots.profiles.child_sd70, bal, { sessions: NSESS })]; });
-    const same = again.every(([id, r]) => r.median_first_clear_continuous === nov[id].child_sd70.median_first_clear_continuous && r.median_first_clear_sessions === nov[id].child_sd70.median_first_clear_sessions);
-    log(`  정보 A2 (B1·B6 원천 다시 계산, % 를 센 뒤 같은 시드 세션 ${NSESS}개): ${again.map(([id, r]) => `L${id} ${r.median_first_clear_sessions}회 (연속 ${r.median_first_clear_continuous}) = 앞 ${nov[id].child_sd70.median_first_clear_sessions} (${nov[id].child_sd70.median_first_clear_continuous})`).join(' · ')} → ${same ? '같음: 클리어·30회 한도(B1)·L10 목표(B6) 영향 0' : '다름(!)'}`);
+    const again = ids.map((id) => { const L = compiled.find((x) => x.level.id === id); return [id, runNoveltySessions(L, REPP, bal, { sessions: NSESS })]; });
+    const same = again.every(([id, r]) => r.median_first_clear_continuous === nov[id][REP].median_first_clear_continuous && r.median_first_clear_sessions === nov[id][REP].median_first_clear_sessions);
+    log(`  정보 A2 (B1·B6 원천 = ${repLabel} 다시 계산, % 를 센 뒤 같은 시드 세션 ${NSESS}개): ${again.map(([id, r]) => `L${id} ${r.median_first_clear_sessions}회 (연속 ${r.median_first_clear_continuous}) = 앞 ${nov[id][REP].median_first_clear_sessions} (${nov[id][REP].median_first_clear_continuous})`).join(' · ')} → ${same ? '같음: 클리어·30회 한도(B1)·L10 목표(B6) 영향 0' : '다름(!)'}`);
     if (!same) report.fails.push('_accuracy A2 정보: B1·B6 원천 다시 계산 값이 다름');
     report.accuracy.invariance = { rejudge_diff: diff, attempts: n, b6_sources_same: same };
   }
@@ -569,15 +592,15 @@ const targetOf = (m1, m3, steps, ahead) => { const r = Math.pow(m3 / m1, 1 / ste
 }
 
 // 곡선 요약
-log('\n== 곡선 요약 (σ70 첫 클리어, 처음 보는 무늬 비용 포함 세션 = 판정 원천 / 비용 없음 = 참고) ==');
-log('레벨 | BPM | 길이 s | 판정 별 | 덩어리 | 통과 창 | 미리 보기 박(가로/세로) | 새 기믹 | σ25 | σ50 | σ70 정수 | σ70 연속 m~ | σ90 | 직전 대비(연속) | 비용 없음 σ70 연속');
+log(`\n== 곡선 요약 (${repLabel} 첫 클리어, 처음 보는 무늬 비용 포함 세션 = 판정 원천 / σ25·σ70·σ90 = 정보 / 비용 없음 = 참고) ==`);
+log('레벨 | BPM | 길이 s | 판정 별 | 덩어리 | 통과 창 | 미리 보기 박(가로/세로) | 새 기믹 | σ25 정수 (연속) | 대표 σ50 정수 | 대표 σ50 연속 m~ | σ70 정수 (연속, 정보) | σ90 정수 | 직전 대비(대표 연속) | 비용 없음 대표 연속');
 report.curve_summary = {};
 compiled.forEach((L, k) => {
   const id = L.level.id, b = nov[id];
-  const mc = b.child_sd70.median_first_clear_continuous;
-  const prevC = k ? nov[compiled[k - 1].level.id].child_sd70.median_first_clear_continuous : null;
-  report.curve_summary[id] = { sd70_continuous: mc, sd70: b.child_sd70.median_first_clear_sessions, sd25: b.skilled_sd25.median_first_clear_sessions, sd50: b.novice_sd50.median_first_clear_sessions, sd90: b.child_sd90.median_first_clear_sessions, sd70_continuous_no_novelty: prog[id].child_sd70.median_first_clear_continuous };
-  log(`${id} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.stars.length} | ${L.level.path.chunks.length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.level.path.preview_lead_beats}/${L.level.path.preview_lead_beats_portrait} | ${L.level.new_gimmicks.map((x) => x.id).join(',') || '-'} | ${b.skilled_sd25.median_first_clear_sessions} | ${b.novice_sd50.median_first_clear_sessions} | ${b.child_sd70.median_first_clear_sessions} | ${mc} | ${b.child_sd90.median_first_clear_sessions} | ${prevC ? (mc / prevC).toFixed(3) + '배' : '-'} | ${prog[id].child_sd70.median_first_clear_continuous}`);
+  const mc = b[REP].median_first_clear_continuous;
+  const prevC = k ? nov[compiled[k - 1].level.id][REP].median_first_clear_continuous : null;
+  report.curve_summary[id] = { representative: REP, rep_continuous: mc, rep: b[REP].median_first_clear_sessions, sd25_continuous: b.skilled_sd25.median_first_clear_continuous, sd70_continuous: b.child_sd70.median_first_clear_continuous, sd70: b.child_sd70.median_first_clear_sessions, sd25: b.skilled_sd25.median_first_clear_sessions, sd50: b.novice_sd50.median_first_clear_sessions, sd90: b.child_sd90.median_first_clear_sessions, sd70_continuous_no_novelty: prog[id].child_sd70.median_first_clear_continuous, rep_continuous_no_novelty: prog[id][REP].median_first_clear_continuous };
+  log(`${id} | ${L.level.bpm} | ${(L.durationMs / 1000).toFixed(1)} | ${L.stars.length} | ${L.level.path.chunks.length} | -${L.judge.pass_early_ms}/+${L.judge.pass_late_ms} | ${L.level.path.preview_lead_beats}/${L.level.path.preview_lead_beats_portrait} | ${L.level.new_gimmicks.map((x) => x.id).join(',') || '-'} | ${b.skilled_sd25.median_first_clear_sessions} (${b.skilled_sd25.median_first_clear_continuous}) | ${b[REP].median_first_clear_sessions} | ${mc} | ${b.child_sd70.median_first_clear_sessions} (${b.child_sd70.median_first_clear_continuous ?? '상한'}) | ${b.child_sd90.median_first_clear_sessions} | ${prevC ? (mc / prevC).toFixed(3) + '배' : '-'} | ${prog[id][REP].median_first_clear_continuous}`);
 });
 
 // 정보: 지연 오차 민감도 (데이터 레벨)
@@ -597,7 +620,7 @@ for (const bias of V.bias_sweep_ms) {
 }
 
 // 정보: 보정 화면 영향 (결정 9)
-log('\n== 정보: 지연 보정 화면 영향 — σ70 첫 클리어 중앙값 (세션마다 남은 오차 1회 추첨) ==');
+log('\n== 정보: 지연 보정 화면 영향 — 플레이어 ' + repLabel + ' 첫 클리어 중앙값 (세션마다 남은 오차 1회 추첨; 경우 이름의 σ 는 보정을 친 사람) ==');
 const cal = bal.audio_latency.calibration;
 const gcal = bal.audio_latency.guardian_calibration;
 const scen = [
@@ -617,7 +640,7 @@ log('경우 | ' + compiled.map((L) => 'L' + L.level.id).join(' | '));
 for (const [name, fn] of scen) {
   const row = [];
   for (const L of compiled) {
-    const r = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: 200, sessions: SESS / 2, seed: 555, sessionBias: fn });
+    const r = runProfile(L, REPP, bal, { N: 200, sessions: SESS / 2, seed: 555, sessionBias: fn });
     row.push(r.median_first_clear_sessions);
     (report.calibration[name] ||= {})[L.level.id] = r.median_first_clear_sessions;
   }
@@ -627,7 +650,7 @@ for (const [name, fn] of scen) {
 // 정보 R17 (round-3): 보정 때와 플레이 때 자동 지연 차이 Δ. 판정에 섞지 않음(INFO). 20-balance.md 8-1·8-3
 {
   const A = V.calibration_auto_shift, rd = bal.audio_latency.auto_latency_read, st = rd.stable_wait;
-  log(`\n== 정보 R17: 보정 때와 플레이 때 자동 지연 차이 Δ — σ70 아이가 플레이, 첫 클리어 중앙값 (보호자 흐름, 기기 남은 오차 ${V.calibration_device_residual_ms.join('~')}, 세션 ${SESS / 2}, 시드 555) ==`);
+  log(`\n== 정보 R17: 보정 때와 플레이 때 자동 지연 차이 Δ — ${repLabel}가 플레이, 첫 클리어 중앙값 (보호자 흐름, 기기 남은 오차 ${V.calibration_device_residual_ms.join('~')}, 세션 ${SESS / 2}, 시드 555) ==`);
   log(`  모델: 자동 지연 보고값이 잠금 해제 ${A.jump_at_ms} ms 뒤 ${A.stable_auto_ms - 64}→${A.stable_auto_ms} ms 처럼 Δ 만큼 바뀜. (a) round-2 = 보정 시작(${A.r2_calib_start_ms} ms)에 읽은 값으로 보정 내내 잼, (b) R11 = 안정 대기 뒤 탭마다 그 순간 autoNow 로 잼. 두 방식 모두 시도 시작마다 autoNow 다시 읽음`);
   report.auto_shift = {};
   const rows = [];
@@ -643,7 +666,7 @@ for (const [name, fn] of scen) {
     const res = {};
     const row = [];
     for (const L of compiled) {
-      const r = runProfile(L, bal.bots.profiles.child_sd70, bal, { N: 200, sessions: SESS / 2, seed: 555, sessionBias: fn });
+      const r = runProfile(L, REPP, bal, { N: 200, sessions: SESS / 2, seed: 555, sessionBias: fn });
       res[L.level.id] = r.median_first_clear_sessions;
       row.push(r.median_first_clear_sessions);
     }
@@ -660,10 +683,10 @@ for (const [name, fn] of scen) {
       (report.auto_shift_same ||= {})[`sd${sd}_d${c.delta}_j${c.jump}`] = same;
     }
     const a64 = rows.find((c) => c.sd === sd && c.method === 'r2' && c.delta !== 0);
-    const over = compiled.filter((L) => a64.res[L.level.id] > V.child_sd70_median_max_all).map((L) => 'L' + L.level.id);
-    log(`  정보 R17 σ${sd} (a) Δ ${a64.delta}: L1 ${a64.res['01']}회(한도 ${V.l1_child_sd70_median_max}) · 30회 넘는 레벨 ${over.join(',') || '없음'}`);
+    const over = compiled.filter((L) => a64.res[L.level.id] > RL.all_max).map((L) => 'L' + L.level.id);
+    log(`  정보 R17 σ${sd} (a) Δ ${a64.delta}: L1 ${a64.res['01']}회(한도 ${RL.l1_max}) · 30회 넘는 레벨 ${over.join(',') || '없음'}`);
     for (const c of rows.filter((x) => x.sd === sd && x.method === 'r2' && x.r3)) {
-      const ov = compiled.filter((L) => c.res[L.level.id] > V.child_sd70_median_max_all).map((L) => 'L' + L.level.id);
+      const ov = compiled.filter((L) => c.res[L.level.id] > RL.all_max).map((L) => 'L' + L.level.id);
       log(`  정보 R17 σ${sd} (a) Δ ${c.delta} (round-3 추가${c.delta < 0 ? ', 음의 Δ: 보정 뒤 자동 지연이 줄어듦 → 이른 쪽 남은 오차' : ''}): L1 ${c.res['01']}회 · 30회 넘는 레벨 ${ov.join(',') || '없음'}`);
     }
   }
@@ -701,19 +724,19 @@ for (const [name, fn] of scen) {
   const bnd = V.calibration_boundary_residual_ms || [];
   if (bnd.length) {
     const g = bal.audio_latency.guardian_calibration;
-    log(`\n== 정보 R17b: 보호자 보정 무시 구간(|m| ≤ ${g.apply_only_if_abs_over_ms} ms 면 적용 안 함) 경계값을 남은 오차로 고정 — σ70 첫 클리어 정수 중앙값 (연속), 처음 보는 무늬 비용 포함 세션 ${Math.round(NSESS / 4)}개 ==`);
+    log(`\n== 정보 R17b: 보호자 보정 무시 구간(|m| ≤ ${g.apply_only_if_abs_over_ms} ms 면 적용 안 함) 경계값을 남은 오차로 고정 — ${repLabel} 첫 클리어 정수 중앙값 (연속), 처음 보는 무늬 비용 포함 세션 ${Math.round(NSESS / 4)}개 ==`);
     log('남은 오차 ms | ' + compiled.map((L) => 'L' + L.level.id).join(' | ') + ' | 30회 한도 · 직전 2배');
     report.boundary_residual = {};
     for (const bias of [0, ...bnd]) {
       const row = [], ints = [];
       for (const L of compiled) {
-        const r = runNoveltySessions(L, bal.bots.profiles.child_sd70, bal, { sessions: Math.round(NSESS / 4), bias, seed: 6060 });
+        const r = runNoveltySessions(L, REPP, bal, { sessions: Math.round(NSESS / 4), bias, seed: 6060 });
         row.push(`${r.median_first_clear_sessions} (${r.median_first_clear_continuous})`);
         ints.push(r.median_first_clear_sessions);
         (report.boundary_residual[bias] ||= {})[L.level.id] = r.median_first_clear_continuous;
       }
-      const over = ints.filter((x) => x > V.child_sd70_median_max_all).length;
-      const grow = ints.slice(1).filter((x, k) => x > V.child_sd70_median_max_growth_vs_prev * ints[k]).length;
+      const over = ints.filter((x) => x > RL.all_max).length;
+      const grow = ints.slice(1).filter((x, k) => x > RL.growth_vs_prev * ints[k]).length;
       log(`${bias > 0 ? '+' : ''}${bias} | ${row.join(' | ')} | 30회 넘음 ${over}레벨 · 2배 넘음 ${grow}곳${bias ? '' : ' (기준)'}`);
     }
   }
@@ -727,7 +750,7 @@ for (const [name, fn] of scen) {
     const S = QUICK ? Math.round(R.sessions / 4) : R.sessions;
     const lv = compiled.filter((L) => R.levels.includes(L.level.id));
     log(`
-== 정보 R23: 보호자 보정 측정 잡음(σ${R.tapper_sd_ms}, ${g0.rounds}회 × ${g0.taps_per_round}탭, ${g0.use_from_tap}번째부터 사용) — 기기 남은 오차 d 고정, 무시 구간별 남은 오차와 σ70 첫 클리어 정수 중앙값 (연속), 처음 보는 무늬 비용 포함 세션 ${S}개 (지금 값 ${g0.apply_only_if_abs_over_ms} ms) ==`);
+== 정보 R23: 보호자 보정 측정 잡음(σ${R.tapper_sd_ms}, ${g0.rounds}회 × ${g0.taps_per_round}탭, ${g0.use_from_tap}번째부터 사용) — 기기 남은 오차 d 고정, 무시 구간별 남은 오차와 ${repLabel} 첫 클리어 정수 중앙값 (연속), 처음 보는 무늬 비용 포함 세션 ${S}개 (지금 값 ${g0.apply_only_if_abs_over_ms} ms) ==`);
     log('무시 구간 ms | d ms | 남은 오차 평균 |r| | |r| > |d| 비율 | 이른 쪽 r < −12 비율 | ' + lv.map((L) => 'L' + L.level.id).join(' | ') + ' | 30회 넘음');
     report.r23 = {};
     let worstNew = 0;
@@ -740,14 +763,14 @@ for (const [name, fn] of scen) {
         const mabs = rs.reduce((a, x) => a + Math.abs(x), 0) / rs.length;
         const worse = rs.filter((x) => Math.abs(x) > Math.abs(d) + 1e-9).length / rs.length;
         const early12 = rs.filter((x) => x < -12).length / rs.length;
-        const row = lv.map((L) => runNoveltySessions(L, bal.bots.profiles.child_sd70, bal, { sessions: S, seed: 6161, sessionBias: guardianCalibrationBias(bal.audio_latency.calibration, g, { device: [d, d], sd: R.tapper_sd_ms }) }));
-        const over = row.filter((r) => r.median_first_clear_sessions > V.child_sd70_median_max_all).length;
+        const row = lv.map((L) => runNoveltySessions(L, REPP, bal, { sessions: S, seed: 6161, sessionBias: guardianCalibrationBias(bal.audio_latency.calibration, g, { device: [d, d], sd: R.tapper_sd_ms }) }));
+        const over = row.filter((r) => r.median_first_clear_sessions > RL.all_max).length;
         if (thr === g0.apply_only_if_abs_over_ms) worstNew = Math.max(worstNew, ...row.map((r) => r.median_first_clear_sessions));
-        (report.r23[thr] ||= {})[d] = { mean_abs_residual_ms: +mabs.toFixed(1), worse_share: +worse.toFixed(3), early_below_minus12_share: +early12.toFixed(3), sd70: Object.fromEntries(row.map((r, k) => [lv[k].level.id, r.median_first_clear_continuous])) };
+        (report.r23[thr] ||= {})[d] = { mean_abs_residual_ms: +mabs.toFixed(1), worse_share: +worse.toFixed(3), early_below_minus12_share: +early12.toFixed(3), rep: Object.fromEntries(row.map((r, k) => [lv[k].level.id, r.median_first_clear_continuous])) };
         log(`${thr}${thr === g0.apply_only_if_abs_over_ms ? '(지금)' : '(옛)'} | ${d > 0 ? '+' : ''}${d} | ${mabs.toFixed(1)} | ${worse.toFixed(3)} | ${early12.toFixed(3)} | ${row.map((r) => `${r.median_first_clear_sessions} (${r.median_first_clear_continuous})`).join(' | ')} | ${over}레벨`);
       }
     }
-    log(`  정보 R23 지금 값 ${g0.apply_only_if_abs_over_ms} ms: 모든 d 에서 L${R.levels[0]}~L${R.levels[R.levels.length - 1]} 최대 ${worstNew}회 ${worstNew <= V.child_sd70_median_max_all ? '≤' : '>'} ${V.child_sd70_median_max_all}회 한도${worstNew <= V.child_sd70_median_max_all ? '' : '(!)'}`);
+    log(`  정보 R23 지금 값 ${g0.apply_only_if_abs_over_ms} ms: 모든 d 에서 L${R.levels[0]}~L${R.levels[R.levels.length - 1]} 최대 ${worstNew}회 ${worstNew <= RL.all_max ? '≤' : '>'} ${RL.all_max}회 한도${worstNew <= RL.all_max ? '' : '(!)'}`);
   }
 }
 
