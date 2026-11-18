@@ -5,12 +5,12 @@
 //
 // 1) sync-build --check: 빌드 복사본(js/board.js·rng.js, data/*) = 기획 원본 바이트
 // 2) 빌드 배치 식 = layout.json (4해상도 × 판 5종 + 지도·결과·타이틀·보호자·오류)
-// 3) ?test=1: 10레벨 모두 생성 답(solution) 드래그 열로 완료 → 별·결과 100 %·모두 1단, 결과 화면, 드래그 기록을 board.mjs playDrag 로 다시 넣어 같은 결과
+// 3) ?test=1: 50레벨(훅 levelCount) 모두 생성 답(solution) 드래그 열로 완료 → 별·결과 100 %·모두 1단, 결과 화면, 드래그 기록을 board.mjs playDrag 로 다시 넣어 같은 결과
 //    + 규칙 확인(L2 빈칸 숨 쉬기 3회·3번째에 gap_left 글, 막힘, 자르기·되살림, 되돌리기 이동 수 유지, 완료 1.0 s 잠금·결과 버튼 1280 ms)
 // 4) 일반 모드(오디오 켬, rAF): 실제 마우스 포인터로 10레벨 생성 답 드래그 → 완료·별, 백그라운드 → 오디오 suspended, 새로고침 뒤 진행 유지
 // 5) 4해상도 버튼 48 px 이상·겹침 0, ko/en 글 넘침 0, 스크린샷
 // 콘솔 에러·경고 0, 외부 요청 0. 정적 서버는 tools/serve.mjs 를 8740~8749 중 빈 포트에 하나 띄우고 그 PID 만 끝에 종료.
-import { mkdirSync, readFileSync, readdirSync } from 'node:fs';
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawn, spawnSync } from 'node:child_process';
@@ -112,6 +112,8 @@ const G = (p, f, a) => p.evaluate(f, a);
   }, s1);
   const exp1 = Math.floor((100 * (l1.pairs.length - 1)) / l1.pairs.length);
   if (nb.r1.accuracyPct !== exp1 || nb.r1.star || nb.vis1 || nb.r2.accuracyPct !== 100 || !nb.r2.newBest || !nb.vis2) fail('결과 %·신기록 ' + JSON.stringify(nb)); else ok(`결과 %: 한 쌍을 되돌려 다시 이음 → ${exp1} %·별 없음, 다음 판 100 % → 신기록 표지`);
+  const hookCount = await G(p, () => window.__game.levelCount);
+  if (hookCount !== LEVELS.length) fail(`훅 levelCount ${hookCount} ≠ 레벨 파일 ${LEVELS.length}`); else ok(`훅 levelCount = ${hookCount}`);
   const replay = [];
   for (let i = 0; i < LEVELS.length; i++) {
     const lv = LEVELS[i];
@@ -130,7 +132,7 @@ const G = (p, f, a) => p.evaluate(f, a);
     if (!lockOk) fail(`L${lv.order} 완료 잠금 1.0 s → 결과 화면 전환 아님`);
     const early = await G(p, () => window.__game.resultNext());
     if (early) fail(`L${lv.order} 결과 버튼이 1280 ms 전에 눌림`);
-    const pctTxt = await G(p, () => { window.__game.step(1000); return document.querySelector('#rPct b').textContent; });
+    const pctTxt = await G(p, () => { window.__game.step(1600); return document.querySelector('#rPct b').textContent; }).then(async (t) => (t === '100%' ? t : G(p, () => { window.__game.step(1000); return document.querySelector('#rPct b').textContent; })));
     if (pctTxt !== '100%') fail(`L${lv.order} 결과 % 글 ${pctTxt}`);
     // 빌드 드래그 기록 → board.mjs 재판정
     const pz = Bm.makePuzzle(lv), g = Bm.newGame(pz, { cut: BAL.input.cut_enabled });
@@ -138,7 +140,7 @@ const G = (p, f, a) => p.evaluate(f, a);
     replay.push(g.completed && g.moves === s.moves && Bm.isStar(g));
     if (!replay[i]) fail(`L${lv.order} 드래그 기록 재판정 불일치`);
   }
-  ok(`10레벨 생성 답 드래그 → 완료·별·결과 100 %·1단, 재판정 일치 ${replay.filter(Boolean).length}/10`);
+  ok(`${LEVELS.length}레벨 생성 답 드래그 → 완료·별·결과 100 %·1단, 재판정 일치 ${replay.filter(Boolean).length}/${LEVELS.length}`);
 
   // 규칙 확인
   const l2 = LEVELS[1];
@@ -185,6 +187,36 @@ const G = (p, f, a) => p.evaluate(f, a);
   if (!cutCase || !r3.cut || !r3.restore || !r3.cutKept) fail(`자르기 L${cutCase && cutCase.li + 1}: 소리 ${r3.cut} 되살림 ${r3.restore} 손 떼면 확정 ${r3.cutKept}`); else ok(`L${cutCase.li + 1} 자르기 → 같은 드래그에서 되돌아오면 되살아남(이동 0), 손 떼면 잘림 확정`);
   if (!r3.undoKeeps) fail('되돌리기가 이동 수를 바꾸거나 되살리지 못함'); else ok('되돌리기: 이동 수 그대로, 잘린 선 되살아남');
   if (!blockCase || !r3.blocked) fail('다른 색 점 막힘 확인 실패'); else ok(`L${blockCase.li + 1} 다른 색 점으로는 못 들어감(판 변화 0)`);
+  // round-2 규칙: H2 처음부터 = 새 시도·바로 다음 되돌리기 = 취소 / H4 막힘 bump / S16 이동 수 도움 / 카드 6 s·400 ms / 색 슬롯 돌려쓰기
+  const r2 = await G(p, ({ s1, l8, blockCase, PAL, L }) => {
+    const g = window.__game, o = {};
+    g.loadLevel(0); g.step(300); g.drag(s1[0]); g.drag(s1[1]);
+    const before = JSON.stringify(g.board.paths), m = g.moves;
+    g.restart(); o.resetZero = g.moves === 0 && g.board.paths.every((q) => !q.length);
+    g.undo(); o.undoCancels = g.moves === m && JSON.stringify(g.board.paths) === before;
+    g.restart(); g.drag(s1[0]); g.undo(); o.noCancelAfterChange = g.moves === 1;
+    g.loadLevel(blockCase.li); g.closeCard(); g.step(300);
+    const n0 = g.sfxLog.filter((x) => x === 'bump').length; g.drag(blockCase.drag); o.bump = g.sfxLog.filter((x) => x === 'bump').length === n0 + 1;
+    g.loadLevel(l8.i); g.step(300);
+    const trig = l8.trig; let k = 0; o.breathBefore = g.board.helpBreath;
+    while (g.moves < trig && k++ < 200) { g.drag(l8.s0); g.undo(); }
+    g.step(20); o.breathAt = g.board.helpBreath; o.trigMoves = g.moves;
+    g.help(); g.step(20); o.breathAfterHelp = g.board.helpBreath;
+    g.clearProgress();
+    g.loadLevel(1); o.card0 = g.board.card; o.pressDuring = g.drag(L.l2s0).pressed;
+    g.step(300); document.getElementById('pCard').dispatchEvent(new PointerEvent('pointerdown')); o.earlyTapIgnored = g.board.card && !g.board.locked === false;
+    g.step(5800); o.openAt6 = g.board.card; g.step(300); o.closedAfter = !g.board.card && !g.board.locked;
+    o.colors = [];
+    for (const i of L.rotIdx) { g.loadLevel(i); o.colors.push(g.board.colors); }
+    return o;
+  }, { s1, l8: { i: 7, trig: BAL.help.moves_trigger_by_level['08'], s0: solOf(LEVELS[7])[0] }, blockCase, PAL: null, L: { l2s0: solOf(LEVELS[1])[0], rotIdx: LEVELS.map((lv, i) => i).filter((i) => LEVELS[i].order >= 11).slice(0, 12) } });
+  const PALj = JSON.parse(readFileSync(join(PROJ, 'assets/palette.json'), 'utf8'));
+  const expCols = LEVELS.filter((lv) => lv.order >= 11).slice(0, 12).map((lv) => { const k = lv.pairs.length, rot = (k === 3 || k === 4) ? PALj.slot_rotation.by_level[String(lv.order)][String(k)] : null; return lv.pairs.map((pr) => PALj.pairs[rot ? rot[pr.color_slot] : pr.color_slot].key); });
+  if (!r2.resetZero || !r2.undoCancels || !r2.noCancelAfterChange) fail('H2 처음부터/되돌리기 ' + JSON.stringify(r2)); else ok('H2: 처음부터 = 이동 수 0·판 비움, 바로 다음 되돌리기 = 처음부터 취소(판·이동 수 복구), 판이 바뀐 뒤엔 취소 없음');
+  if (!r2.bump) fail('H4 막힘 bump 소리 없음'); else ok('H4: 막힘 → bump 소리 1회(튕김)');
+  if (r2.breathBefore || !r2.breathAt || r2.breathAfterHelp) fail('S16 이동 수 도움 ' + JSON.stringify({ b: r2.breathBefore, a: r2.breathAt, m: r2.trigMoves, h: r2.breathAfterHelp })); else ok(`S16: L8 이동 수 ${r2.trigMoves} ≥ ${BAL.help.moves_trigger_by_level['08']} → 도움 숨 쉼, 누르면 그 시도 동안 끔`);
+  if (!r2.card0 || r2.pressDuring || !r2.openAt6 || !r2.closedAfter) fail('카드 ' + JSON.stringify(r2)); else ok(`카드: 떠 있는 동안 판 입력 없음, 400 ms 안 누름 무시, ${BAL.rule_card.auto_close_ms} ms 뒤 닫힘 → 바로 판 조작`);
+  if (JSON.stringify(r2.colors) !== JSON.stringify(expCols)) fail('색 슬롯 돌려쓰기 불일치 ' + JSON.stringify(r2.colors.slice(0, 3))); else ok(`색 슬롯 돌려쓰기(palette slot_rotation) L11~ ${expCols.length}판 일치`);
   await c.close();
 }
 
@@ -202,7 +234,7 @@ const G = (p, f, a) => p.evaluate(f, a);
     const lv = LEVELS[i];
     if (i > 0) { await G(p, (i) => window.__game.loadLevel(i), i); }
     await p.waitForTimeout(250);
-    if (await G(p, () => window.__game.board.card)) { await p.mouse.click(5, 5 + 300); await p.waitForTimeout(300); }
+    if (await G(p, () => window.__game.board.card)) { await p.waitForTimeout(300); await p.mouse.click(5, 5 + 300); await p.waitForTimeout(250); }
     const gr = await G(p, () => window.__game.layout.grid);
     const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
     for (const path of solOf(lv)) {
@@ -214,14 +246,14 @@ const G = (p, f, a) => p.evaluate(f, a);
     if (r && r.star && r.accuracyPct === 100) stars++; else fail(`일반 모드 L${lv.order} 마우스 완료 실패 ${JSON.stringify(r)}`);
     await p.waitForFunction(() => window.__game.state === 'result', null, { timeout: 5000 });
   }
-  if (stars === 10) ok('일반 모드(rAF·실제 마우스·오디오) 10레벨 생성 답 → 완료·별 10/10');
+  if (stars === LEVELS.length) ok(`일반 모드(rAF·실제 마우스·오디오) ${LEVELS.length}레벨 생성 답 → 완료·별 ${stars}/${LEVELS.length}`);
   const au = await G(p, () => window.__game.audioState);
   const hid = await G(p, async () => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); const s = window.__game.audioState; Object.defineProperty(document, 'hidden', { value: false, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); return [s, window.__game.audioState]; });
   if (au !== 'running' || hid[0] !== 'suspended' || hid[1] !== 'running') fail(`오디오 ${au}, 백그라운드 ${hid}`); else ok('오디오 running → 백그라운드 suspended → 복귀 running');
   await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
   const st = await G(p, () => window.__game.store);
   const done = Object.values(st.levels).filter((r) => r.done && r.star && r.bestPct === 100).length;
-  if (done !== 10) fail(`새로고침 뒤 진행 ${done}/10`); else ok('새로고침 뒤 진행·별·최고 % 유지 10/10');
+  if (done !== LEVELS.length) fail(`새로고침 뒤 진행 ${done}/${LEVELS.length}`); else ok(`새로고침 뒤 진행·별·최고 % 유지 ${done}/${LEVELS.length}`);
   await c.close();
 }
 
@@ -239,13 +271,60 @@ const G = (p, f, a) => p.evaluate(f, a);
   await c.close();
 }
 
+// 6) 성능: 6배 CPU 스로틀(CDP), 같은 조건 대조 페이지(rAF 만). 1% low = 1000 / 99번째 백분위 프레임 간격
+async function frames(p, ms) {
+  await p.evaluate(() => { window.__fr = []; window.__frOn = true; const f = (t) => { if (!window.__frOn) return; window.__fr.push(t); requestAnimationFrame(f); }; requestAnimationFrame(f); });
+  await p.waitForTimeout(ms);
+  const fr = await p.evaluate(() => { window.__frOn = false; return window.__fr; });
+  const d = []; for (let i = 1; i < fr.length; i++) if (fr[i] - fr[i - 1] > 0.5) d.push(fr[i] - fr[i - 1]);
+  d.sort((a, b) => a - b);
+  const avg = d.length ? (1000 * d.length) / d.reduce((a, b) => a + b, 0) : 0, p99 = d[Math.min(d.length - 1, Math.floor(d.length * 0.99))] || 0;
+  return { avg: +avg.toFixed(1), low1: +(p99 ? 1000 / p99 : 0).toFixed(1), max: +(d[d.length - 1] || 0).toFixed(1), n: d.length };
+}
+const PERF = {};
+for (const dsf of [1, 2]) {
+  const c = await browser.newContext({ viewport: { width: 412, height: 915 }, deviceScaleFactor: dsf });
+  const p = await c.newPage();
+  p.on('pageerror', (e) => rep.console.push('[perf] ' + e.message));
+  const cdp = await c.newCDPSession(p);
+  // 대조 페이지
+  await p.goto('data:text/html,<body style="margin:0;background:%23eee">x</body>');
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  const ctl = await frames(p, 2500);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  await p.goto(BASE); await p.waitForFunction(() => window.__game?.ready === true);
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
+  await p.waitForTimeout(800);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  // 타이틀 → 지도(첫 탭, 오디오 잠금 해제 포함)
+  const fA = frames(p, 1500); await p.waitForTimeout(100); await p.mouse.click(206, 600); const menu1 = await fA;
+  // 지도 → 판(노드 누름)
+  const nb = await p.locator('.node').first().boundingBox();
+  const fB = frames(p, 1500); await p.waitForTimeout(100); await p.mouse.click(nb.x + nb.width / 2, nb.y + nb.height / 2); const menu2 = await fB;
+  // 레벨 시작 직후 + 끄는 중: L10(6x6) 을 열고 바로 답 선 하나씩 끎
+  const lv = LEVELS[9];
+  const fC = frames(p, 3500);
+  await G(p, () => window.__game.loadLevel(9));
+  const gr = await G(p, () => window.__game.layout.grid);
+  const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
+  for (const path of solOf(lv).slice(0, 4)) { const [x0, y0] = at(path[0]); await p.mouse.move(x0, y0); await p.mouse.down(); for (const cell of path.slice(1)) { const [x, y] = at(cell); await p.mouse.move(x, y, { steps: 4 }); } await p.mouse.up(); }
+  const play = await fC;
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
+  PERF['dpr' + dsf] = { control: ctl, title_to_map: menu1, map_to_play: menu2, L10_start_drag: play };
+  console.log(`  perf DPR${dsf}: 대조 평균 ${ctl.avg}/1%low ${ctl.low1} | 타이틀→지도 최장 ${menu1.max} ms | 지도→판 최장 ${menu2.max} ms | L10 시작·끄는 중 평균 ${play.avg} 1%low ${play.low1} 최장 ${play.max} ms`);
+  if (play.avg < 55 || play.low1 < 45) fail(`성능 DPR${dsf} 판: 평균 ${play.avg} 1% low ${play.low1} (기준 55·45, 대조 ${ctl.avg}/${ctl.low1})`);
+  if (menu1.max > 100 || menu2.max > 100) fail(`성능 DPR${dsf} 메뉴 전환 최장 ${menu1.max}·${menu2.max} ms (기준 ≤ 100)`);
+  await c.close();
+}
+writeFileSync(join(OUT, 'perf.json'), JSON.stringify(PERF, null, 1));
+
 // 5) 4해상도: 버튼 크기·겹침, 글 넘침, 스크린샷
 const RES = [[360, 640], [412, 915], [640, 360], [1280, 720]];
 const partial = { v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: { '01': { done: true, star: true, bestPct: 100, bestFill: 100 }, '02': { done: true, star: false, bestPct: 66, bestFill: 100 }, '03': { done: true, star: true, bestPct: 100, bestFill: 100 }, '04': { done: false, star: false, bestPct: null, bestFill: 40 } } };
 async function checkUi(p, tag) {
   const r = await p.evaluate(() => {
     const vis = (el) => { const cs = getComputedStyle(el); if (el.hidden || cs.display === 'none' || cs.visibility === 'hidden') return false; let e = el.parentElement; while (e) { const s = getComputedStyle(e); if (e.hidden || s.display === 'none') return false; e = e.parentElement; } return true; };
-    const els = [...document.querySelectorAll('.screen.show button')].filter(vis).filter((b) => !b.closest('.modal[hidden]'));
+    const els = [...document.querySelectorAll('.screen.show button')].filter((b) => !b.closest('#mTabs')).filter(vis).filter((b) => !b.closest('.modal[hidden]'));
     const rs = els.map((b) => ({ id: b.id || b.className + (b.dataset.i ?? ''), r: b.getBoundingClientRect() }));
     const small = rs.filter((x) => x.r.width < 47.5 || x.r.height < 47.5).map((x) => x.id);
     const over = [];
@@ -264,15 +343,16 @@ for (const [W, H] of RES) {
     const shots = lang === 'ko' || W === 360;
     await G(p, () => window.__game.step(400)); await checkUi(p, tag + ' title'); if (shots) await shot(p, `${tag}-title.png`);
     await G(p, () => { window.__game.toMap(); window.__game.step(400); }); await checkUi(p, tag + ' map'); if (shots) await shot(p, `${tag}-map.png`);
+    if (W === 360 && lang === 'ko') { await G(p, () => { window.__game.turnPage(1); window.__game.step(400); }); await shot(p, `${tag}-map-page2.png`); }
     await G(p, () => { const g = window.__game; g.loadLevel(0); g.step(500 + 250 + 150 + 260 + 100); }); await checkUi(p, tag + ' play-L1'); if (shots) await shot(p, `${tag}-play-L1-tutorial.png`);
     const l6 = LEVELS[5], s6 = solOf(l6);
-    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.step(200); }, s6); if (shots && W === 360 && lang === 'ko') await shot(p, `${tag}-play-L6-card.png`);
+    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.step(450); }, s6); await checkUi(p, tag + ' play-L6-card'); if (shots && (lang === 'ko' || W === 640)) await shot(p, `${tag}-play-L6-card.png`);
     await G(p, (s6) => { const g = window.__game; g.closeCard(); g.step(300); g.drag(s6[0]); g.drag(s6[2]); g.drag(s6[4]); g.step(60); }, s6); await checkUi(p, tag + ' play-L6'); if (shots) await shot(p, `${tag}-play-L6-judge.png`);
     if (W === 360 && lang === 'ko') {
       const l2 = LEVELS[1], s2 = solOf(l2), straight = l2.pairs.map((pr, k) => (k === 2 ? [pr.a, pr.b] : s2[k]));
       await G(p, (paths) => { const g = window.__game; g.loadLevel(1); g.closeCard(); g.step(300); for (const c of paths) g.drag(c); g.step(630 + 2 * 2600 + 250); }, straight); await shot(p, `${tag}-play-L2-gap.png`);
     }
-    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 1300); }, s6); await checkUi(p, tag + ' result'); if (shots) await shot(p, `${tag}-result.png`);
+    await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 2200); }, s6); await checkUi(p, tag + ' result'); if (shots) await shot(p, `${tag}-result.png`);
     await G(p, () => { window.__game.toGuardian(); window.__game.step(400); }); await checkUi(p, tag + ' guardian'); if (shots && (W === 360 || W === 640)) await shot(p, `${tag}-guardian.png`);
     await c.close();
   }

@@ -1,0 +1,265 @@
+{
+ "schema_version": 1,
+ "id": "49",
+ "order": 49,
+ "chapter": 5,
+ "chapter_pos": 9,
+ "chapter_key": "chapter5_name",
+ "name_key": "level49_name",
+ "width": 6,
+ "height": 6,
+ "holes": [],
+ "pairs": [
+  {
+   "id": "c1",
+   "color_slot": 0,
+   "a": [
+    3,
+    0
+   ],
+   "b": [
+    1,
+    3
+   ]
+  },
+  {
+   "id": "c2",
+   "color_slot": 1,
+   "a": [
+    1,
+    1
+   ],
+   "b": [
+    2,
+    2
+   ]
+  },
+  {
+   "id": "c3",
+   "color_slot": 2,
+   "a": [
+    2,
+    3
+   ],
+   "b": [
+    2,
+    1
+   ]
+  },
+  {
+   "id": "c4",
+   "color_slot": 3,
+   "a": [
+    5,
+    0
+   ],
+   "b": [
+    2,
+    0
+   ]
+  }
+ ],
+ "solution": [
+  {
+   "id": "c1",
+   "path": [
+    [
+     3,
+     0
+    ],
+    [
+     4,
+     0
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     3
+    ]
+   ]
+  },
+  {
+   "id": "c2",
+   "path": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ]
+   ]
+  },
+  {
+   "id": "c3",
+   "path": [
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     2,
+     1
+    ]
+   ]
+  },
+  {
+   "id": "c4",
+   "path": [
+    [
+     5,
+     0
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     0,
+     5
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     2
+    ],
+    [
+     0,
+     1
+    ],
+    [
+     0,
+     0
+    ],
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     0
+    ]
+   ]
+  }
+ ],
+ "new_element": "none",
+ "new_element_ko": "없음(배치로 난이도)",
+ "tutorial": null,
+ "fill_card": null,
+ "hole_card": null,
+ "structure": {
+  "size": "6x6",
+  "cells": 36,
+  "pairs": 4,
+  "holes": 0,
+  "min_len": 3,
+  "max_len": 18,
+  "mean_len": 9,
+  "bends": 9,
+  "illusion": 2,
+  "detour_cells": 4,
+  "edge_cells": 20,
+  "shortest_trap_combos": 0,
+  "solver_nodes": 85
+ },
+ "generator": {
+  "version": "gen-1.0.0",
+  "core_version": "1.2.0",
+  "seed": 55001162,
+  "candidate_index": null,
+  "family": "E",
+  "attempts": 5289,
+  "params": {
+   "width": 6,
+   "height": 6,
+   "pairs": 4,
+   "holes": 0,
+   "minLen": 3,
+   "allowSelfAdjacent": false
+  },
+  "independent_note": "원작 판을 보지 않고 시드 생성. 같은 시드·생성기 버전이면 같은 판"
+ }
+}

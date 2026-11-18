@@ -28,29 +28,35 @@
   <span id="tLogo" class="art" aria-hidden="true"></span>
   <h1 id="tName" class="slot"></h1>
   <p id="tTag" class="slot soft"></p>
+  <canvas id="tHero" class="art" aria-hidden="true"></canvas>
   <p id="tTap" class="slot"></p>
 </div>
 
 <div id="map" class="screen">
-  <svg id="mPath" aria-hidden="true"></svg>
   <button id="mSound" class="ib" type="button" aria-pressed="true"></button>
   <h2 id="mTitle" class="slot"></h2>
   <div id="mStars" role="meter" aria-valuemin="0"></div>
-  <ol id="mNodes"></ol>
+  <span id="mAll" class="sr" role="meter" aria-valuemin="0"></span>
+  <div id="mPage"><svg id="mPath" aria-hidden="true"></svg><ol id="mNodes"></ol></div>
+  <button id="mPrev" class="ib" type="button"></button>
+  <div id="mTabs" role="tablist"></div>
+  <button id="mNext" class="ib" type="button"></button>
   <p id="mHold" class="slot soft small" aria-hidden="true"></p>
   <button id="mGear" class="ib" type="button" aria-describedby="mHoldSr"><span class="hold" aria-hidden="true"></span></button>
   <span id="mHoldSr" class="sr"></span>
 </div>
 
 <div id="play" class="screen">
+  <h2 id="pName" class="sr"></h2>
   <button id="pMap" class="ib" type="button"></button>
   <div id="pPairs" role="meter" aria-valuemin="0"></div>
+  <div id="pFill" aria-hidden="true"><i id="pFillTrack"><b id="pFillBar"></b></i><span id="pFillPct"></span></div>
   <button id="pUndo" class="ib" type="button"></button>
   <button id="pHelp" class="ib" type="button"></button>
   <button id="pRestart" class="ib" type="button"></button>
   <p id="pText" class="slot"></p>
   <div id="pLive" class="sr" aria-live="polite"></div>
-  <div id="pCard" class="card" hidden><span id="pCardArt" class="art" aria-hidden="true"></span></div>
+  <div id="pCard" class="card" hidden><span id="pCardArt" class="art" aria-hidden="true"></span><p id="pCardText" class="slot"></p></div>
 </div>
 
 <div id="result" class="screen">
@@ -58,7 +64,8 @@
   <h2 id="rTitle" class="slot" aria-live="polite"></h2>
   <div id="rBoard"></div>
   <span id="rStar" class="art" role="img"></span>
-  <div id="rPct" role="meter" aria-valuemin="0" aria-valuemax="100"><span class="art" aria-hidden="true"></span><b aria-hidden="true"></b></div>
+  <div id="rDots" role="meter" aria-valuemin="0"></div>
+  <div id="rPct" role="meter" aria-valuemin="0" aria-valuemax="100"><b aria-hidden="true"></b></div>
   <span id="rBest" class="art" role="img" hidden></span>
   <button id="rMap" class="ib" type="button"></button>
   <button id="rNext" class="ib big" type="button"></button>
@@ -69,6 +76,7 @@
   <div id="gScroll">
     <div id="gCol"></div>
   </div>
+  <div id="gHint" aria-hidden="true" hidden><span></span></div>
   <button id="gClose" class="ib" type="button"></button>
   <div id="gConfirm" class="modal" hidden role="dialog" aria-modal="true" aria-labelledby="gConfirmText">
     <div class="mcard"><p id="gConfirmText" class="slot"></p><button id="gNo" class="tb" type="button"></button><button id="gYes" class="tb" type="button"></button></div>

@@ -71,3 +71,32 @@ body.notext .slot, body.notext .band, body.notext .tb, body.notext .mlab { color
 .tog[aria-checked="true"] i { left: calc(66% - 6px); }
 .modal { position: absolute; inset: 0; background: rgba(38,43,64,0.25); }
 .modal .mcard { position: absolute; background: #fff; border-radius: 18px; border: 1.5px solid #DCE1EE; }
+
+/* ---- round-2 ---- */
+#cv { background: transparent; }
+#pFill { position: absolute; pointer-events: none; }
+#pFillTrack { position: absolute; display: block; overflow: hidden; }
+#pFillBar { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; transform-origin: 0 50%; border-radius: inherit; will-change: transform; }
+#pFillPct { position: absolute; display: flex; align-items: center; justify-content: flex-end; font-weight: 700; color: var(--inkSoft); }
+.card { border: 1.5px solid #DCE1EE; box-shadow: 0 4px 12px rgba(38,43,64,0.08); will-change: opacity, transform; }
+.card .art { position: absolute; inset: auto; }
+.card .art img { width: 100%; height: 100%; display: block; }
+.card .slot { position: absolute; }
+.card.closing { pointer-events: none; }
+#rDots { position: absolute; pointer-events: none; }
+#rDots span { position: absolute; display: block; will-change: transform; }
+#rDots svg, #rStar img, #rBoard img { width: 100%; height: 100%; display: block; }
+#mPage { position: absolute; inset: 0; pointer-events: none; will-change: transform, opacity; }
+#mPage .node, #mPage li { pointer-events: auto; }
+#mPage li { position: absolute; }
+#mPage img { width: 100%; height: 100%; display: block; pointer-events: none; }
+#mTabs { position: absolute; display: flex; pointer-events: auto; }
+#mTabs button { flex: 1 1 0; height: 100%; padding: 0; margin: 0; border: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+#mTabs button i { display: block; border-radius: 50%; }
+#mStars img { display: block; }
+#gHint { position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none; background: linear-gradient(rgba(228,238,250,0), var(--bgBot)); display: flex; align-items: flex-end; justify-content: center; }
+#gHint span { display: block; border-right: 3px solid var(--inkSoft); border-bottom: 3px solid var(--inkSoft); transform: rotate(45deg); margin-bottom: 10px; }
+#gScroll { overflow-y: auto; }
+.art img { width: 100%; height: 100%; display: block; }
+#map { pointer-events: auto; touch-action: pan-y; }
+#rBoard .chk img { width: 100%; height: 100%; }

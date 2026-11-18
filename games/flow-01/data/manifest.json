@@ -10,7 +10,47 @@
   "07-level7.json",
   "08-level8.json",
   "09-level9.json",
-  "10-level10.json"
+  "10-level10.json",
+  "11-level11.json",
+  "12-level12.json",
+  "13-level13.json",
+  "14-level14.json",
+  "15-level15.json",
+  "16-level16.json",
+  "17-level17.json",
+  "18-level18.json",
+  "19-level19.json",
+  "20-level20.json",
+  "21-level21.json",
+  "22-level22.json",
+  "23-level23.json",
+  "24-level24.json",
+  "25-level25.json",
+  "26-level26.json",
+  "27-level27.json",
+  "28-level28.json",
+  "29-level29.json",
+  "30-level30.json",
+  "31-level31.json",
+  "32-level32.json",
+  "33-level33.json",
+  "34-level34.json",
+  "35-level35.json",
+  "36-level36.json",
+  "37-level37.json",
+  "38-level38.json",
+  "39-level39.json",
+  "40-level40.json",
+  "41-level41.json",
+  "42-level42.json",
+  "43-level43.json",
+  "44-level44.json",
+  "45-level45.json",
+  "46-level46.json",
+  "47-level47.json",
+  "48-level48.json",
+  "49-level49.json",
+  "50-level50.json"
  ],
  "icons": [
   "icon-close",
@@ -20,6 +60,8 @@
   "icon-new_best",
   "icon-next",
   "icon-one_go",
+  "icon-page_next",
+  "icon-page_prev",
   "icon-restart",
   "icon-settings",
   "icon-sound_off",
@@ -35,7 +77,7 @@
  "files": {
   "js/board.js": {
    "from": "projects/flow-01/tools/core/board.mjs",
-   "sha256": "1eed24450637707ec8518e6b12fcd33a6e402acc4236938d98136daf19fd9146"
+   "sha256": "4d6940f311c0e98c40ed9ccf2e7b40ee26555aa2240a0c767b28bf32f231e513"
   },
   "js/rng.js": {
    "from": "projects/flow-01/tools/core/rng.mjs",
@@ -43,63 +85,223 @@
   },
   "data/balance.json": {
    "from": "projects/flow-01/balance.json",
-   "sha256": "bfda52c5ad00e228efe79e0e523b8f88332294b198b6e39ee77643ca1cad1984"
+   "sha256": "4cfd4583103774d325fa1b7068e2e16a4417900bc41685af42cc966e799a679a"
   },
   "data/strings.json": {
    "from": "projects/flow-01/strings.json",
-   "sha256": "182f7c7be36cfe09929bb256fbcea1367b6d97c619050cd485fc38eb46495900"
+   "sha256": "0e140b23bf86179c5c73d881d2a2760cc4f4f17c39af3e64a9c46187f97df89e"
   },
   "data/levels/01-level1.json": {
    "from": "projects/flow-01/levels/01-level1.json",
-   "sha256": "d0fbde5b869f03e465e3171a47091bd57287eb7e93809d82034ded78fb818e4d"
+   "sha256": "a72f3748ea4c34d8218492b8ae112d5c93ba00d4043d674cfb8052bd64553fa4"
   },
   "data/levels/02-level2.json": {
    "from": "projects/flow-01/levels/02-level2.json",
-   "sha256": "16d9bbc3f47b31bafcfc2884c07c13523c07539dccf426a75ddbe22f225b2927"
+   "sha256": "53bcb4aaa840cb029586acba4155bbb95e8f1e04f6d5a52a7a69d69c723e15eb"
   },
   "data/levels/03-level3.json": {
    "from": "projects/flow-01/levels/03-level3.json",
-   "sha256": "9b73bf99c4870477fd23d34187c8a503b7f1858d0700e013a866a15b927160b2"
+   "sha256": "3ee30c175a8178999d50e23c2ce0e20255f002fb013d76a0de7b13ad7720f241"
   },
   "data/levels/04-level4.json": {
    "from": "projects/flow-01/levels/04-level4.json",
-   "sha256": "fcd2c8f42cdaf7b84bb208ceed34975a86e09ea892eeb85aeaec3b36928f9571"
+   "sha256": "18dd921e33f057ba3a1f067f82a0387b51332c2b9c880e66b1812134188ecc90"
   },
   "data/levels/05-level5.json": {
    "from": "projects/flow-01/levels/05-level5.json",
-   "sha256": "7fa4835bd440f266ca738065aa32b9f499a634721538cdf9f4604e4dfc80d529"
+   "sha256": "c4c55d5b4a04b61c92f39e7e783766a7e15bdecc682507c1b05f251fa6642be3"
   },
   "data/levels/06-level6.json": {
    "from": "projects/flow-01/levels/06-level6.json",
-   "sha256": "fd40abad452d1af19ad0937db1f77d26f50d679fa69acea2a7d1560bb7b74dca"
+   "sha256": "eb551fd6c9fe8ebe7aea265dd12d98bf0b97aef3ce3b72f269caea6e54103680"
   },
   "data/levels/07-level7.json": {
    "from": "projects/flow-01/levels/07-level7.json",
-   "sha256": "2776baa8ee072c4cad9a127a6428047cacc55812b31c957486fa8e4f0c85ccf1"
+   "sha256": "cc4e4b8c5f66c9836ccb7d092e250760bca165ddaa61948b76449d04b701bb34"
   },
   "data/levels/08-level8.json": {
    "from": "projects/flow-01/levels/08-level8.json",
-   "sha256": "fe0286983c0d8ae4c69b68c0b473684ceafe81c68a2ae886d292a54c43869e83"
+   "sha256": "0d6a12cbb07aa78ba7d02bd64a3e0c3d5c3e1711dcd27f3fb18e3ad620ae4600"
   },
   "data/levels/09-level9.json": {
    "from": "projects/flow-01/levels/09-level9.json",
-   "sha256": "0711c5f991a4df21b0e4a5e3b8d3be8406b07c5de949a51dcc5316388a04e898"
+   "sha256": "914c9ab320a66fadfbbbcad772a79577477689a388c89346679494c666e4b70c"
   },
   "data/levels/10-level10.json": {
    "from": "projects/flow-01/levels/10-level10.json",
-   "sha256": "7cd15e656861e4af80b6156db7462901412d9a32285a8aa0e2ac5edf688c9894"
+   "sha256": "2a0545281d0651bfb6893d98bdf7c1b4d432b2f28da3ec36277f032bc7fba0c1"
+  },
+  "data/levels/11-level11.json": {
+   "from": "projects/flow-01/levels/11-level11.json",
+   "sha256": "d00e718189de4a557bdea263889b3640c0d6380885a087dc141385b935267230"
+  },
+  "data/levels/12-level12.json": {
+   "from": "projects/flow-01/levels/12-level12.json",
+   "sha256": "837176c2b37d691b2a7cf2719a78b70f6c2ebef2e50bddc69de0fc83742e324a"
+  },
+  "data/levels/13-level13.json": {
+   "from": "projects/flow-01/levels/13-level13.json",
+   "sha256": "68f01a7366186c8ab621e31f38cb776ca738f2f3d1110324e79889d2e5013d70"
+  },
+  "data/levels/14-level14.json": {
+   "from": "projects/flow-01/levels/14-level14.json",
+   "sha256": "9fc5fb1022bae5c7aaedec39077f0c23a492b160dd6ee61181b1ff1f622765e1"
+  },
+  "data/levels/15-level15.json": {
+   "from": "projects/flow-01/levels/15-level15.json",
+   "sha256": "a6ad57cb98e88625eb5d904685134d5782a7059792d5e54d76c2f3cf4af69981"
+  },
+  "data/levels/16-level16.json": {
+   "from": "projects/flow-01/levels/16-level16.json",
+   "sha256": "feb1e4dd6606a4961050a456b920a427da35045a2f6f7442bcfcf2e6fa8d4516"
+  },
+  "data/levels/17-level17.json": {
+   "from": "projects/flow-01/levels/17-level17.json",
+   "sha256": "6538d58b44f9cac00c666e5783dda6894260320e6c6597d6723cb6cb6dfab4ba"
+  },
+  "data/levels/18-level18.json": {
+   "from": "projects/flow-01/levels/18-level18.json",
+   "sha256": "8c61f8cf2296123db454c3e17bf1bc4a702a1e5b27c32024169c0a3e28d5f723"
+  },
+  "data/levels/19-level19.json": {
+   "from": "projects/flow-01/levels/19-level19.json",
+   "sha256": "71445b1539ead1b61273a72938b2e9fccdc317017a3bbd727763d4311b732eaf"
+  },
+  "data/levels/20-level20.json": {
+   "from": "projects/flow-01/levels/20-level20.json",
+   "sha256": "77d9a1efc69e42b12775141bdb581e05db008eff486b88c8108e903952db9410"
+  },
+  "data/levels/21-level21.json": {
+   "from": "projects/flow-01/levels/21-level21.json",
+   "sha256": "6d9a54db0558bf95dddad771fd1feda21455356aead0565f8bbecb0250e46edf"
+  },
+  "data/levels/22-level22.json": {
+   "from": "projects/flow-01/levels/22-level22.json",
+   "sha256": "b82015557d8f954c2aef8bccce320229127da7177c9c449a582a88794e9930df"
+  },
+  "data/levels/23-level23.json": {
+   "from": "projects/flow-01/levels/23-level23.json",
+   "sha256": "0bbe6d4832f96aae17a55df332fbda1253feed567a96b19eb7bb683f684f9138"
+  },
+  "data/levels/24-level24.json": {
+   "from": "projects/flow-01/levels/24-level24.json",
+   "sha256": "e9a5d93010df1d899319593bfb8b6fd02f162c224f1d881750604c89465ad6e7"
+  },
+  "data/levels/25-level25.json": {
+   "from": "projects/flow-01/levels/25-level25.json",
+   "sha256": "43295eee7b75fe97f1907b948ca77e6155fc20f2d33628425fc430bfcaf37a9f"
+  },
+  "data/levels/26-level26.json": {
+   "from": "projects/flow-01/levels/26-level26.json",
+   "sha256": "12fed48d51c901f05b73ef549bcfb24e48d5a673c201310e1e04c5609382f73d"
+  },
+  "data/levels/27-level27.json": {
+   "from": "projects/flow-01/levels/27-level27.json",
+   "sha256": "a8129135c1a370b4ae06fb9eaa2a5b24d96243bdd9c7838da0cfbff76a4b80ef"
+  },
+  "data/levels/28-level28.json": {
+   "from": "projects/flow-01/levels/28-level28.json",
+   "sha256": "ff1452a561a46f7723c39c015e69079beca463f71b863bafe1b8486a5517b865"
+  },
+  "data/levels/29-level29.json": {
+   "from": "projects/flow-01/levels/29-level29.json",
+   "sha256": "8c27e7196af3c4dc3a6a54edc408f57c0ac9e3a8c521528b73578c515c239bf7"
+  },
+  "data/levels/30-level30.json": {
+   "from": "projects/flow-01/levels/30-level30.json",
+   "sha256": "6a1c9380fcf1163f8019180248349d7c44aaf53274478ac39bc01274ac051449"
+  },
+  "data/levels/31-level31.json": {
+   "from": "projects/flow-01/levels/31-level31.json",
+   "sha256": "b8455ba4ed5ca92e68954f706c6158e9697c7a2740c9cc43e00977d6f263d181"
+  },
+  "data/levels/32-level32.json": {
+   "from": "projects/flow-01/levels/32-level32.json",
+   "sha256": "79c6b29ddc86fceaad81f8de9dc6cb2de38948618aea3e313ae59284c5e70c64"
+  },
+  "data/levels/33-level33.json": {
+   "from": "projects/flow-01/levels/33-level33.json",
+   "sha256": "8ab15fc0939542df7ec9da52e0ed9f2c2d339bde7b17357f240624746f87c1a9"
+  },
+  "data/levels/34-level34.json": {
+   "from": "projects/flow-01/levels/34-level34.json",
+   "sha256": "d1deb40a9041cf061db54f596a7022d20ef8ae236b8fa68b3c3de8f8513fa5d2"
+  },
+  "data/levels/35-level35.json": {
+   "from": "projects/flow-01/levels/35-level35.json",
+   "sha256": "597de3ac1064fad941d6b894ecfeaaaca6e01f561fae81d895cfb30c6985c572"
+  },
+  "data/levels/36-level36.json": {
+   "from": "projects/flow-01/levels/36-level36.json",
+   "sha256": "1c8d224f8e86cefebd6e0a0e3da641f033edfb5b221b31d2ab9dd8a4403ef214"
+  },
+  "data/levels/37-level37.json": {
+   "from": "projects/flow-01/levels/37-level37.json",
+   "sha256": "7890baf36ab5c9948eb314956a9e2e8900e81901eb07ad21aaa87a6a390abdb8"
+  },
+  "data/levels/38-level38.json": {
+   "from": "projects/flow-01/levels/38-level38.json",
+   "sha256": "9b64115971a2976cece97f5134295b9cdeaeb5cdacb9385f80340bd99a9cbfc0"
+  },
+  "data/levels/39-level39.json": {
+   "from": "projects/flow-01/levels/39-level39.json",
+   "sha256": "be190df162a8bbbe2906ca7bac5a9fea25b6c293aa6fd855b4b36b89794dbcc8"
+  },
+  "data/levels/40-level40.json": {
+   "from": "projects/flow-01/levels/40-level40.json",
+   "sha256": "c3b187fba7b0e60e8b1b03363e0a6b14b19d867b68e83a7a9ad94bac8a3b1530"
+  },
+  "data/levels/41-level41.json": {
+   "from": "projects/flow-01/levels/41-level41.json",
+   "sha256": "948c80753e57e1754dc6b6264a0648437c6a5d1a2521f782ee6c0e332b179f13"
+  },
+  "data/levels/42-level42.json": {
+   "from": "projects/flow-01/levels/42-level42.json",
+   "sha256": "4b2cb246fcd3cb4179492d8296afac8f8012d2d1dec3e6ca1b2088c66a4855c7"
+  },
+  "data/levels/43-level43.json": {
+   "from": "projects/flow-01/levels/43-level43.json",
+   "sha256": "5001340272438e7463892afcac6eabd0f7abfee5577f02143914c882533bbab1"
+  },
+  "data/levels/44-level44.json": {
+   "from": "projects/flow-01/levels/44-level44.json",
+   "sha256": "4947613d6b83686b6656e2903189e953c6d2341e7b16c21c0699d1c9b607d147"
+  },
+  "data/levels/45-level45.json": {
+   "from": "projects/flow-01/levels/45-level45.json",
+   "sha256": "4cec218788bc650de62fca2b375874619d978e26024d8d543551ca506044f8da"
+  },
+  "data/levels/46-level46.json": {
+   "from": "projects/flow-01/levels/46-level46.json",
+   "sha256": "f48c025c6ca6c6219195a105c9b2aee31ab4aa703c28f2f3df8ee2875a3c7542"
+  },
+  "data/levels/47-level47.json": {
+   "from": "projects/flow-01/levels/47-level47.json",
+   "sha256": "6c98fa8dfbfe6324dd90c9200dd46786bc825e60e248ecbed0107b3e2b6bb1ed"
+  },
+  "data/levels/48-level48.json": {
+   "from": "projects/flow-01/levels/48-level48.json",
+   "sha256": "09588d864ad95bb753cbda5d5cf663467f248da35b043666ed9050e386a9e9ba"
+  },
+  "data/levels/49-level49.json": {
+   "from": "projects/flow-01/levels/49-level49.json",
+   "sha256": "7b487cc40c9e5885b7e864774203b6f5732dc00c5cfcf2f3c6be5f448cbedd0a"
+  },
+  "data/levels/50-level50.json": {
+   "from": "projects/flow-01/levels/50-level50.json",
+   "sha256": "0486c64bbe9464627a006469a2e4bc9381e83ab8a02ba1d8e4160de214af8e28"
   },
   "data/palette.json": {
    "from": "projects/flow-01/assets/palette.json",
-   "sha256": "6ffc1f739a702d5794379d5936507daaf56e314f0f754df0b4f2e4c0e98adc79"
+   "sha256": "fe5df08d892a418100f2282e1f25b018c766de1a01a3aae89743b20e1891c0a5"
   },
   "data/layout.json": {
    "from": "projects/flow-01/assets/layout.json",
-   "sha256": "fb6a04f8fbc4827d475da5734830f3e5f8b16926940b47305d8a3217cce53e80"
+   "sha256": "6cb6f4d2eba8c7abbb7b64b52e4bc94177dafb4b542b8d3f176c60224ff2ff28"
   },
   "data/sound.json": {
    "from": "projects/flow-01/assets/sound.json",
-   "sha256": "6b4a40fbb1cf6f35d365e712557cb4ace264a9fbb7c696096d357e3f678f71f5"
+   "sha256": "03fbd33d49d5201b9a8e24e65b587f4407721ccbeada9061c52e0ab04e828ac5"
   },
   "data/finger.svg": {
    "from": "projects/flow-01/assets/finger.svg",
@@ -115,7 +317,7 @@
   },
   "data/icons/icon-filled.svg": {
    "from": "projects/flow-01/assets/icons/icon-filled.svg",
-   "sha256": "86f81235bf1e923c2381e52b5bfa6854f454d2b86e34503ebcaf2dcfc8f691ff"
+   "sha256": "da2cb36e59c988b726fd868dfdea2432b4f8f050d739342364e693b1014be453"
   },
   "data/icons/icon-help.svg": {
    "from": "projects/flow-01/assets/icons/icon-help.svg",
@@ -136,6 +338,14 @@
   "data/icons/icon-one_go.svg": {
    "from": "projects/flow-01/assets/icons/icon-one_go.svg",
    "sha256": "ed73685bc9ab2b707a06e26f926a27f62bceeda02da227ed6daff484d9233e4c"
+  },
+  "data/icons/icon-page_next.svg": {
+   "from": "projects/flow-01/assets/icons/icon-page_next.svg",
+   "sha256": "1fc1585628c9600c4f26bb8c59bd15f7431405e8ee2e2ef428f1f67a3d999c8b"
+  },
+  "data/icons/icon-page_prev.svg": {
+   "from": "projects/flow-01/assets/icons/icon-page_prev.svg",
+   "sha256": "bdefcb2ceb5249debf79bf12056117fe6f02b2b885c64a979e136eb7365caa9c"
   },
   "data/icons/icon-restart.svg": {
    "from": "projects/flow-01/assets/icons/icon-restart.svg",
@@ -159,7 +369,7 @@
   },
   "data/icons/icon-star_empty.svg": {
    "from": "projects/flow-01/assets/icons/icon-star_empty.svg",
-   "sha256": "a28b527f51389ec2a13665132e628eccb5571860867af8f0a25649e7e2d966f1"
+   "sha256": "703a011792b49dbf40d229f34d19f3b90d0cca8e16ae345d30b18842e0c9713b"
   },
   "data/icons/icon-undo.svg": {
    "from": "projects/flow-01/assets/icons/icon-undo.svg",
@@ -167,11 +377,11 @@
   },
   "data/icons/node-done-example.svg": {
    "from": "projects/flow-01/assets/icons/node-done-example.svg",
-   "sha256": "411b34b8e0cb5ca465c4b97c4777d1ff0566e5c4515cdc3ff3433512a3bd0968"
+   "sha256": "7dbfd97795b4508d02555dde90a286db11b23c1cd328b6882c4892425a2ecec0"
   },
   "data/icons/node-locked.svg": {
    "from": "projects/flow-01/assets/icons/node-locked.svg",
-   "sha256": "d473819d3d608e4fd53744ab7b77bf4c3394130e406b28b003c4c0c7b1f39532"
+   "sha256": "0a9843270e773e97b1b1f4b10cf2bb2b341e5a8c16b695ab8b90e56ae25c0a0c"
   },
   "data/icons/node-open.svg": {
    "from": "projects/flow-01/assets/icons/node-open.svg",
@@ -183,11 +393,11 @@
   },
   "data/tutorial/card-fill.svg": {
    "from": "projects/flow-01/assets/tutorial/card-fill.svg",
-   "sha256": "581f56d4d6fcc9dccea9a42e153c6a42cfef1444b6cd2832044cad1e8db9c0c2"
+   "sha256": "00a7e98e4d882b195f607f2cb0387f1c0d78095c86a287615de08e0b061a55ea"
   },
   "data/tutorial/card-hole.svg": {
    "from": "projects/flow-01/assets/tutorial/card-hole.svg",
-   "sha256": "98dfcc1e82677ef86f03a2ad91144bab9f983554b144e07c3335817b892b629e"
+   "sha256": "fd09f97e9a4d26f1649249f4a3f8fd175b2cdca767710f80b9b2c368747b225d"
   }
  }
 }

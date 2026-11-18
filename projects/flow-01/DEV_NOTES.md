@@ -40,3 +40,20 @@
 - 6배 CPU 스로틀링 fps·1% low, 메뉴 전환 가장 긴 프레임: 재지 않음(첫 프레임 미리 그리기·판 카드 캐시·DOM 값 바뀔 때만 쓰기는 넣음).
 - 효과음 빌드 OfflineAudioContext 렌더값 ↔ sound.json measured 대조(criteria rhythm-02 줄).
 - 실기기 터치(안드로이드 진동·iOS) 확인, 접근성 트리(ariaSnapshot) 확인.
+
+## round-2 빌드 (2026-11-18)
+
+| # | 내용 | 근거·확인할 역할 |
+|---|---|---|
+| D2 | (바뀜) `js/layout.js` 는 이제 **sync-build 가 `assets/check/layout.mjs` 의 배치 식(PARAM ~ errorScreen)을 그대로 떼어** `makeLayout(STR, BAL_CARD_CLOSE)` 로 감싸 생성(손으로 옮기지 않음, `export ` 앞말만 지움). layout.mjs 가 바뀌면 sync-build 한 번이면 맞춰지고 `--check`·selfcheck(3232값 일치)가 잡음. 구간 표지 = `const PARAM = {` ~ `// ---------- 구멍 칸` — art 가 이 주석을 바꾸면 sync-build 가 실패로 알림 | art-director |
+| D3 | (바뀜, H4) 막힘 = `motion.blocked` 튕김 + `bump` 소리. 1-3 의 "막은 점 숨 쉼 + 고리" 는 없앰(빈칸 누름 안내와 겹쳐 S4) | — |
+| D6 | (바뀜) 카드 자동 닫힘 = `balance.json rule_card.auto_close_ms`(6 s), 400 ms 안 누름 무시, 닫히기 시작부터 판 입력 통과. 카드는 여전히 아직 다 칠하지 않은 판에서만 | balance |
+| D10 | (바뀜) 판정 이름 = 쌍 색 × 3등급 비트맵(흰 테두리·1단 별 포함)을 레벨마다 유휴 시간에 한 쌍씩 그림, 매 프레임 drawImage 만. 이름 아래 % 는 없앰(H3, 채움 막대로) | art render |
+| D20 | 그리기: 캔버스는 투명, 레벨 바탕은 캔버스 CSS 그라디언트(레벨 시작 때 한 번). `drawPlay` 는 바뀜(dirty)·연출 중(playActive)·연출 끝난 다음 한 프레임에만 부름. 판 그림자는 shadowBlur 대신 2·3 px 아래로 옮긴 외곽선 두 겹(투명도 0.08) | art render(그림자 모양 확인) |
+| D21 | 판 열기를 두 프레임으로 나눔: 노드·▶ 누른 프레임 = 판 캐시·점 비트맵 준비(지도는 그대로 보임), 두 rAF 뒤 = 화면 바꾸기 + 첫 그림. 테스트 훅 `loadLevel` 은 한 번에(동기). 레벨 전환 연출은 바꾸기 프레임에서 시작 | qa(메뉴 전환 측정) |
+| D22 | 결과 점 줄·미니 판·지도 노드·별·카드 그림은 SVG 글 → Blob URL `<img>` + `decode()` 캐시(`render.svgImg`), 화면에는 복제본을 붙임 | — |
+| D23 | 색 슬롯 돌려쓰기: order ≥ 11 이고 쌍 3·4개면 `palette.slot_rotation.by_level[order][쌍 수][color_slot]` 번째 pairs(색·표지·tint·shade), 아니면 color_slot 그대로. 판·쌍 점 줄·미니 판·결과 점 모두 같은 매핑(`colorsOf`) | art |
+| D24 | 지도: 처음 열면 "다음"(또는 풀다 나간) 노드가 있는 장, 판을 처음 끝내고 돌아오면 그 판의 장. 장 점은 tablist(탭 하나 22×48, 누름 자리 112×48 을 다섯으로 나눔 — selfcheck 48 px 검사에서 제외), 화살표 키로도 넘김. 잠긴 장도 넘겨 볼 수 있고 노드는 모두 실루엣 | ux-reviewer(탭 크기) |
+| D25 | 아직 안 넣은 연출(minor): 장 마지막 판 완료 뒤 다음 장 점 튐·▶ 숨 쉼, 판 완료 때 채움 막대 밝아짐, 결과로 갈 때 판이 미니 그림 자리로 줄어듦, 지도로 갈 때 판이 노드로 줄어듦(역방향). 결과 카드는 아래에서 올라옴 그대로 | art |
+| D26 | 성능 측정(selfcheck 6): CDP `Emulation.setCPUThrottlingRate 6`, 같은 브라우저의 rAF 만 도는 대조 페이지와 같은 조건, 412x915 DPR 1·2. 결과는 `reviews/round-1/dev-shots/perf.json`. 1회 측정이라 QA 3회 반복이 판정 | qa-engineer |
+| D12 | (바뀜) 텍스트 키 118개 중 빌드에서 안 쓰는 키 2개: `store_short`(스토어 문구, 4단계용), `map_screen`(지도 제목이 r2부터 장 이름 `chapterN_name` — layout map.title "없으면 map_screen" 의 예비 글) | lore |

@@ -336,6 +336,28 @@
      }
     }
    ]
+  },
+  "bump": {
+   "bus": "sfx",
+   "db": -24,
+   "when": "r2 H4: 막힘(선 머리가 다른 색 점에 막힌 프레임, motion.blocked 튕김과 함께). 짧고 낮고 부드러운 \"툭\" — 경고음·떨림 아님. 250 ms 안 반복은 건너뜀. 연결음보다 최고값 ≥ 6 dB 작게(검사 S8)",
+   "layers": [
+    {
+     "wave": "sine",
+     "f": 196,
+     "fTo": 147,
+     "glideMs": 50,
+     "filter": {
+      "type": "lowpass",
+      "f": 700,
+      "Q": 0.5
+     },
+     "env": {
+      "a": 3,
+      "decay": 90
+     }
+    }
+   ]
   }
  },
  "ambient": {
@@ -379,12 +401,19 @@
   "_rule": "웹 navigator.vibrate(ms) — 안드로이드 크롬 계열만 실제로 울림. 포인터 이벤트 처리 안에서만 부름(사용자 동작). 80 ms 안에 또 오면 건너뜀. 'vibrate' in navigator 와 반환값을 믿지 말고 실패해도 다른 피드백은 그대로. 보호자 설정 settings_vibrate 로 끔(기본 켬). 게임 정보는 소리·그림만으로 다 전달되고 진동은 손맛 보조일 뿐.",
   "connect": {
    "web_ms": 12,
-   "capacitor": "Haptics.impact({ style: 'LIGHT' })"
+   "capacitor": "Haptics.impact({ style: 'LIGHT' })",
+   "_rule": "r2: 등급과 관계없이 12 ms 한 번(진동으로 등급을 구분하지 않음 — 잦아서 피로)"
   },
   "complete": {
    "web_ms": 30,
    "capacitor": "Haptics.notification({ type: 'SUCCESS' })",
-   "_rule": "마지막 연결이면 connect 대신 이것 하나만(마지막 연결 + 150 ms, 완료 화음과 함께)"
+   "_rule": "마지막 연결이면 connect 대신 이것 하나만(마지막 연결 + 150 ms, 완료 화음과 함께)",
+   "web_pattern": [
+    18,
+    40,
+    26
+   ],
+   "_pattern": "r2 주스: 웹은 [18, 40, 26] 두 번 톡(안드로이드), capacitor 는 SUCCESS 그대로"
   },
   "none": [
    "grab",
@@ -394,9 +423,18 @@
    "gap_hint",
    "undo",
    "restart",
-   "ui_tap"
+   "ui_tap",
+   "bump",
+   "page_turn",
+   "result_dots"
   ],
-  "ios_web": "진동 없음(사파리 미지원). 숨은 체크박스 스위치 토글 꼼수는 쓰지 않음(00-benchmark 10-5). 대신 연결 튐·고리·연결음이 그대로 같은 정보를 줌 — 추가 대체 연출 없음(같은 화면이 모든 기기에서 같아야 qa 비교가 쉬움)."
+  "ios_web": "진동 없음(사파리 미지원). 숨은 체크박스 스위치 토글 꼼수는 쓰지 않음(00-benchmark 10-5). 대신 연결 튐·고리·연결음이 그대로 같은 정보를 줌 — 추가 대체 연출 없음(같은 화면이 모든 기기에서 같아야 qa 비교가 쉬움).",
+  "star": {
+   "web_ms": 14,
+   "capacitor": "Haptics.impact({ style: 'LIGHT' })",
+   "_rule": "r2 주스: 결과 별이 튈 때 한 번(모든 점이 꽉 찼을 때만)"
+  },
+  "_patterns_r2": "진동 패턴 요약: 연결 12 · 판 완료 [18,40,26] · 결과 별 14 · 그 밖(막힘 포함) 없음. 80 ms 안 반복은 건너뜀"
  },
  "measured": {
   "_by": "assets/check/sound-check.mjs (node 합성식, 2026-11-18 G4 반영). 빌드 렌더값 대조는 1-3 뒤 qa.",
@@ -404,7 +442,8 @@
    "s7_grade_rms_step_db": 2.04,
    "s1_db": 1.63,
    "s2_db": 19.22,
-   "s5_db": 16.9
+   "s5_db": 16.9,
+   "s8_bump_db": 13.09
   },
   "values": {
    "connect_g1@1": {
@@ -547,6 +586,10 @@
     "peak_db": -12.45,
     "rms_db": -21.87
    },
+   "bump": {
+    "peak_db": -23.91,
+    "rms_db": -37.84
+   },
    "ambient": {
     "peak_db": -27.72,
     "rms_db": -61.48
@@ -554,7 +597,8 @@
    "worst_mix": {
     "peak_db": -6.98
    },
-   "grade_rms_step_min_db": 2.04
+   "grade_rms_step_min_db": 2.04,
+   "bump_margin_db": 13.09
   }
  }
 }

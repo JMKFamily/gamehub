@@ -17,7 +17,7 @@ export class Audio {
     this.master = c.createGain(); this.master.gain.value = dbToGain(S.master.db); this.master.connect(c.destination);
     this.bus = {};
     for (const [k, b] of Object.entries(S.buses)) { const g = c.createGain(); g.gain.value = dbToGain(b.db); g.connect(this.master); this.bus[k] = g; }
-    if (!this.enabled) this.ctx.suspend().catch(() => {});
+    if (!this.enabled) this.ctx.suspend().catch(() => {}); else if (this.ctx.state !== 'running' && !document.hidden) this.ctx.resume().catch(() => {});
   }
   setEnabled(on) {
     this.enabled = on;
@@ -62,7 +62,7 @@ export class Audio {
       return;
     }
     const f0 = opt.pitch || 440;
-    for (const L of s.layers) this._layer(L, f0, t0, s.db, bus);
+    for (const L of s.layers) this._layer(L, f0, t0, s.db + (opt.db || 0), bus);
   }
   connect(grade, connectedCount) {
     const key = ['connect_g1', 'connect_g2', 'connect_g3'][grade - 1];

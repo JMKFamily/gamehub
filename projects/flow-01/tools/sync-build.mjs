@@ -58,6 +58,22 @@ for (const f of levelFiles) {
   for (const c of [lv.tutorial, lv.fill_card, lv.hole_card]) if (c && c.text_key && !STR[c.text_key]) { bad++; console.log(`strings ${c.text_key} 없음`); }
 }
 
+// js/layout.js: assets/check/layout.mjs 의 배치 식(PARAM ~ errorScreen)을 그대로 떼어 옴(손으로 옮기지 않음, DEV_NOTES D2)
+{
+  const src = readFileSync(join(PROJ, 'assets/check/layout.mjs'), 'utf8');
+  const a = src.indexOf('const PARAM = {'), b = src.indexOf('// ---------- 구멍 칸');
+  if (a < 0 || b < a) { bad++; console.log('layout.mjs 에서 배치 식 구간을 못 찾음'); }
+  else {
+    const body = src.slice(a, b).replace(/^export /gm, '');
+    const out = '// 생성 파일: projects/flow-01/tools/sync-build.mjs 가 assets/check/layout.mjs 의 배치 식을 그대로 떼어 감쌈. 손으로 고치지 않음.\n' +
+      '// STR = strings.json, BAL_CARD_CLOSE = balance.json rule_card.auto_close_ms (layout.mjs 와 같은 입력)\n' +
+      'export function makeLayout(STR, BAL_CARD_CLOSE) {\n' + body + 'return { PARAM, kOf, textW, play, map, result, titleScreen, guardianScreen, errorScreen };\n}\n';
+    const p = join(GAME, 'js/layout.js');
+    if (CHECK) { if (!existsSync(p) || readFileSync(p, 'utf8') !== out) { bad++; console.log('DIFF js/layout.js ≠ layout.mjs 배치 식'); } }
+    else writeFileSync(p, out);
+  }
+}
+
 // index.html 부트 블록
 const bootKeys = ['title', 'loading', 'load_error', 'load_error_detail', 'btn_reload'];
 const T = { ko: {}, en: {} };

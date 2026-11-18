@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | game-developer | round-2 | [빌드 수정: 성능 render 규칙(6배 스로틀 1% low 59.5·메뉴 전환 ≤ 67 ms), H1~H4, 50스테이지 장 페이지·색 돌려쓰기, 주스 연출, selfcheck 50판 ALL PASS](game-developer/2026-11-18-r2-build.md) |
 | 2026-11-18 | art-director | round-2 기획 | [카드 = 판 안 + 카드 안 글(S3, 겹침 검사), 채움 막대·결과 쌍 점 줄(H3), 막힘 튕김 + 툭 −13 dB(H4), 그리기 규칙(S1·S2), 선 0.48·50바탕·챕터 페이지·주스 표](art-director/2026-11-18-r2-plan.md) |
 | 2026-11-18 | balance-designer | round-2 기획 | [판정 모듈 1.2.0(H2), 스테이지 50개(5챕터, 전체 실행 ALL PASS, 끝 m̃ 25.33), 도움 이동 신호 43레벨, 규칙 카드 6 s, H1 문구 확정](balance-designer/2026-11-18-r2-plan.md) |
 | 2026-11-18 | lore-writer | round-2 기획 | [guardian_intro 고쳐 씀(E4), Nice!, 플레이 .sr 제목, 결과 점 줄 result_dots(H3), 막힘 낭독 없음(H4), 50판·5장 이름·레벨 선택 문구, 키 117·9-9 PASS](lore-writer/2026-11-18-r2-plan.md) |

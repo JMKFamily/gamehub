@@ -11,5 +11,7 @@ export class Haptics {
     try { if (typeof navigator.vibrate === 'function') navigator.vibrate(ms); } catch {}
   }
   connect(nowMs) { this._buzz(this.H.connect.web_ms, nowMs); }
-  complete(nowMs) { this._buzz(this.H.complete.web_ms, nowMs); }
+  // r2: 판 완료는 web_pattern([18, 40, 26]) 이 있으면 그것, 결과 별은 star.web_ms
+  complete(nowMs) { this._buzz(this.H.complete.web_pattern || this.H.complete.web_ms, nowMs); }
+  star(nowMs) { if (this.H.star) this._buzz(this.H.star.web_ms, nowMs); }
 }
