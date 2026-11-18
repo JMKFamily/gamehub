@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><title>세력 상자 h_warden</title>
+<ellipse cx="100" cy="182" rx="80" ry="10" fill="#000" opacity=".35"/>
+<path d="M28 70L100 46L172 70V160L100 184L28 160Z" fill="#5A4430" stroke="#2A1D12" stroke-width="4" stroke-linejoin="round"/>
+<path d="M28 70L100 94L172 70M100 94V184" fill="none" stroke="#2A1D12" stroke-width="4"/>
+<path d="M28 98L100 122L172 98M28 128L100 152L172 128" fill="none" stroke="#3E2D1E" stroke-width="3"/>
+<path d="M40 74L100 54L160 74L100 92Z" fill="#6E5539"/>
+<path d="M58 66L100 52M70 80L136 58" stroke="#3E2D1E" stroke-width="3"/>
+<path d="M28 70Q36 62 46 68Q56 58 66 64M134 60Q146 54 156 62Q166 58 172 70M30 160Q40 152 50 160M150 162Q160 154 170 160" fill="none" stroke="#EDE6D3" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+<path d="M64 110L100 122L136 110" fill="none" stroke="#7590A0" stroke-width="10"/>
+<path d="M118 132Q126 124 134 132T150 132" fill="none" stroke="#EDE6D3" stroke-width="4" stroke-linecap="round"/>
+<path d="M44 116Q40 140 48 160M156 116Q160 140 152 160" fill="none" stroke="#C9A24A" stroke-width="3" stroke-dasharray="6 5"/>
+<g opacity=".95"><g transform="translate(100.0 70.0) rotate(0) scale(11.0)" stroke-width="0.182" stroke-linejoin="round" stroke-linecap="round"><path d="M-.75-.8H.75V.15Q.75.6 0 .95Q-.75.6-.75.15Z" fill="#7590A0" stroke="#EDE6D3"/><path d="M-.75-.45H.75" stroke="#EDE6D3" fill="none"/></g></g></svg>

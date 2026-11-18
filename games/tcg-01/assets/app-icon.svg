@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><title>썰물 영장 앱 아이콘</title><rect width="512" height="512" rx="96" fill="#0B151B"/>
+<path d="M0 380Q90 340 180 380T360 380T512 370V512H0Z" fill="#05090D"/><path d="M0 380Q90 340 180 380T360 380T512 370" fill="none" stroke="#4DE0FF" stroke-width="8" stroke-opacity=".8"/>
+<g transform="rotate(-10 256 240)"><path d="M150 90H330L376 136V400H150Z" fill="#E6E0D2" stroke="#142027" stroke-width="10" stroke-linejoin="round"/><path d="M314 90H330L376 136V152Z" fill="#FF7A52"/><rect x="150" y="90" width="22" height="310" fill="#226A65"/>
+<circle cx="268" cy="250" r="64" fill="none" stroke="#142027" stroke-width="10"/><path d="M220 250H316" stroke="#142027" stroke-width="8"/></g>
+<rect x="232" y="160" width="40" height="110" rx="8" fill="#E9A62E" stroke="#1B1306" stroke-width="6" transform="rotate(-10 256 240)"/>
+<path d="M238 92Q272 128 258 150A20 20 0 0 1 222 146Q214 120 238 92Z" fill="#F4B740"/></svg>

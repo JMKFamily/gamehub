@@ -1,0 +1,195 @@
+/* 색은 모두 art.json palette에서 부팅 때 --변수로 넣는다(여기 값 없음). 움직임은 transform/opacity만. */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; background: var(--bg_abyss); color: var(--salt_white); overflow: hidden;
+  font-family: 'Noto Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', system-ui, sans-serif; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+button { font: inherit; color: inherit; }
+.hidden { display: none !important; }
+#app { position: fixed; inset: 0; }
+.screen { position: absolute; inset: 0; display: none; flex-direction: column; overflow: hidden; }
+.screen.show { display: flex; }
+#loading { align-items: center; justify-content: center; gap: 12px; }
+
+/* 판 모양 버튼: 한 모서리 깨진 사각 */
+.btn { min-height: 48px; min-width: 48px; padding: 0 16px; border: 0; cursor: pointer; background: var(--button_idle); color: var(--button_idle_ink);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn.primary { background: var(--button_primary); color: var(--button_primary_ink); }
+.btn.big { min-height: 64px; font-size: 20px; }
+.btn[disabled], .btn.off { opacity: .45; }
+.btn.sel { outline: 3px solid var(--focus); outline-offset: -3px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.grow { flex: 1; }
+.dim { color: var(--salt_dim); }
+.small { font-size: 12px; }
+.panel { background: var(--bg_panel); padding: 10px; clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); }
+
+/* 메뉴 화면 공통 */
+.top { display: flex; align-items: center; gap: 8px; padding: 8px; background: var(--bg_panel); min-height: 56px; }
+.top h2 { margin: 0; font-size: 18px; flex: 1; }
+.cur { display: inline-flex; align-items: center; gap: 4px; font-weight: 700; font-size: 14px; }
+.cur img { width: 22px; height: 22px; }
+.scroll { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 10px; -webkit-overflow-scrolling: touch; }
+.grid { display: grid; gap: 8px; }
+
+/* 타이틀 */
+#title { align-items: center; justify-content: center; text-align: center; gap: 10px; cursor: pointer; }
+#title h1 { margin: 0; font-size: 40px; letter-spacing: 2px; }
+#title .sub { color: var(--salt_dim); font-size: 16px; }
+#title img.icon { width: 140px; height: 140px; }
+#title .tap { margin-top: 30px; font-size: 16px; color: var(--wick_flame); }
+
+/* 부두 */
+.dockGrid { grid-template-columns: 1fr 1fr; }
+.dockGrid .btn { min-height: 56px; width: 100%; }
+
+/* 호명자 선택 */
+.heroGrid { grid-template-columns: repeat(3, 1fr); }
+@media (orientation: landscape) { .heroGrid { grid-template-columns: repeat(6, 1fr); } }
+.heroCard { border: 0; padding: 4px; background: var(--bg_panel); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 2px; min-height: 48px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); border-bottom: 5px solid var(--fac); }
+.heroCard img { width: 100%; max-width: 76px; aspect-ratio: 200/240; }
+.heroCard b { font-size: 13px; }
+.heroCard.sel { outline: 3px solid var(--focus); outline-offset: -3px; }
+
+/* 카드 면(250x350 기준, 바깥에서 scale) */
+.cardBox { position: relative; overflow: visible; }
+.card { position: absolute; left: 0; top: 0; width: 250px; height: 350px; transform-origin: 0 0; color: var(--card_ink); }
+.card .plate { position: absolute; inset: 0 0 14px 0; background: var(--card_plate); clip-path: polygon(0 0, 216px 0, 250px 34px, 250px 100%, 0 100%); }
+.card.rite .plate { inset: 0; clip-path: polygon(34px 0, 216px 0, 250px 34px, 250px 330px, 190px 318px, 125px 336px, 60px 318px, 0 330px, 0 34px); }
+.card .spine { position: absolute; left: 2px; top: 2px; bottom: 16px; width: 10px; }
+.card .groove { position: absolute; inset: 7px 7px 21px 7px; border: 2px solid; opacity: .8; pointer-events: none; }
+.card .groove.g2 { inset: 11px 11px 25px 11px; border-width: 1px; opacity: .5; }
+.card .facet { position: absolute; right: 0; top: 0; width: 46px; height: 46px; clip-path: polygon(0 0, 12px 0, 46px 34px, 46px 46px); }
+.card .art { position: absolute; left: 16px; top: 20px; width: 218px; height: 154px; background: var(--stat_tab); overflow: hidden; }
+.card .art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.card.hand .art { height: 200px; }
+.card .name { position: absolute; left: 12px; right: 2px; top: 176px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px; white-space: nowrap; overflow: hidden; padding: 0 30px; }
+.card .rar { position: absolute; right: 6px; top: 180px; width: 22px; height: 22px; }
+.card .type { position: absolute; left: 0; right: 0; top: 210px; text-align: center; font-size: 11px; color: var(--card_ink_dim); }
+.card .text { position: absolute; left: 22px; width: 206px; top: 228px; height: 80px; font-size: 13px; line-height: 17px; text-align: center; overflow: hidden; word-break: keep-all; }
+.card.rite .text { height: 92px; }
+.card .text b { font-weight: 800; }
+.card .kws { position: absolute; left: 22px; top: 160px; display: flex; gap: 4px; }
+.card.hand .kws { top: 196px; }
+.card .kws img { width: 22px; height: 22px; }
+.card.hand .kws img { width: 34px; height: 34px; }
+.card .cost { position: absolute; left: 8px; top: 10px; width: 42px; height: 58px; background: var(--wick_lit_bar); color: var(--wick_ink); border: 2.5px solid var(--wick_ink); border-radius: 7px; font-size: 34px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.card.hand .cost { width: 64px; height: 88px; font-size: 54px; }
+.card .cost.down { color: var(--card_ink); background: var(--heal); }
+.card .cost.up { background: var(--damage); }
+.card .stat { position: absolute; left: 65px; bottom: 0; width: 120px; height: 44px; background: var(--stat_tab); border: 2.5px solid; clip-path: polygon(8px 0, 112px 0, 120px 22px, 112px 44px, 8px 44px, 0 22px);
+  display: flex; align-items: center; justify-content: space-around; font-size: 30px; font-weight: 800; color: var(--salt_white); }
+.card.hand .stat { left: 38px; width: 174px; height: 64px; font-size: 44px; clip-path: polygon(10px 0, 164px 0, 174px 32px, 164px 64px, 10px 64px, 0 32px); }
+.card .stage { position: absolute; left: 14px; bottom: 50px; font-size: 11px; color: var(--card_ink_dim); }
+.card.st1 .groove, .card.st2 .groove, .card.st3 .groove { border-width: 2px; }
+.card.st3 .plate { box-shadow: inset 0 0 0 3px var(--abyss_glow); }
+.card .back { position: absolute; inset: 0; background: var(--tide_black); clip-path: polygon(0 0, 216px 0, 250px 34px, 250px 100%, 0 100%); }
+.card .back img { width: 100%; height: 100%; }
+.buffv { color: var(--buff) !important; }
+.debuffv { color: var(--debuff) !important; }
+.dmgv { color: var(--damage) !important; }
+
+/* 대전 무대(설계 해상도 그대로, 바깥에서 scale) */
+#battle { background: var(--bg_abyss); }
+#stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+#boardWrap { position: absolute; inset: 0; transform-origin: 50% 50%; }
+.abs { position: absolute; left: 0; top: 0; }
+.slotBg { position: absolute; border: 2px dashed var(--board_slot); border-radius: 6px; }
+.circle { position: absolute; background: var(--board_wet_salt); border: 2px solid var(--board_ring); border-radius: 14px; }
+#wet { position: absolute; background: var(--tide_black); pointer-events: none; opacity: 0; border-radius: 14px; }
+.hero { position: absolute; overflow: visible; cursor: pointer; }
+.hero .hp { position: absolute; left: 0; right: 0; top: 0; bottom: 22px; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); border-bottom: 4px solid var(--fac); background: var(--fac_deep); }
+.hero .hp img { width: 100%; height: 100%; object-fit: cover; }
+.hero .tab { position: absolute; left: 4px; right: 4px; bottom: 0; height: 26px; background: var(--stat_tab); display: flex; align-items: center; justify-content: space-around; font-weight: 800; font-size: 17px;
+  clip-path: polygon(6px 0, calc(100% - 6px) 0, 100% 50%, calc(100% - 6px) 100%, 6px 100%, 0 50%); }
+.hero .tab .sh { color: var(--shell); font-size: 13px; }
+.hero .wpn { position: absolute; left: -6px; top: 4px; background: var(--stat_tab); border: 2px solid var(--fac); padding: 0 4px; font-size: 12px; font-weight: 800; }
+.hero .brn { position: absolute; right: 2px; top: 2px; font-size: 11px; font-weight: 800; color: var(--debuff); background: var(--stat_tab); padding: 0 3px; }
+.hero .sec { position: absolute; right: -4px; bottom: 26px; width: 20px; height: 20px; }
+.hero.tgt::after, .tok.tgt::after { content: ''; position: absolute; inset: -4px; border: 3px solid var(--focus); border-radius: 8px; pointer-events: none; }
+.hero.lethal .tab { animation: tremble .12s infinite; }
+@keyframes tremble { 0% { transform: translateX(-1px); } 50% { transform: translateX(1px); } 100% { transform: translateX(-1px); } }
+.tok { position: absolute; width: 100px; height: 130px; transform-origin: 0 0; cursor: pointer; }
+.tok .pl { position: absolute; inset: 0 0 10px 0; clip-path: polygon(0 0, 86px 0, 100px 14px, 100px 100%, 0 100%); }
+.tok .pi { position: absolute; left: 5px; top: 5px; width: 90px; height: 86px; object-fit: cover; }
+.tok .bw { position: absolute; left: -4px; right: -4px; top: 30px; bottom: 4px; }
+.tok .mist { position: absolute; left: 3px; top: 3px; width: 94px; height: 88px; opacity: .55; }
+.tok .skin { position: absolute; inset: 0 0 10px 0; border: 3px dashed var(--salt_white); }
+.tok .rdy { position: absolute; left: 4px; top: 4px; width: 22px; height: 22px; }
+.tok .ki { position: absolute; right: 2px; width: 22px; height: 22px; }
+.tok .frz { position: absolute; left: 10px; top: 10px; width: 80px; height: 70px; }
+.tok .bt { position: absolute; left: 0; right: 0; bottom: 0; height: 38px; background: var(--stat_tab); border: 2.5px solid; display: flex; align-items: center; justify-content: space-around; font-size: 27px; font-weight: 800; color: var(--salt_white);
+  clip-path: polygon(6px 0, 94px 0, 100px 19px, 94px 38px, 6px 38px, 0 19px); }
+.tok .brn { position: absolute; left: 6px; top: 70px; font-size: 14px; font-weight: 800; color: var(--debuff); background: var(--stat_tab); padding: 0 3px; }
+.tok.can::before { content: ''; position: absolute; inset: -3px -3px 7px -3px; border: 3px solid var(--wick_flame); border-radius: 4px; }
+.tok.selA::before, .hcard.selA::before { content: ''; position: absolute; inset: -4px; border: 4px solid var(--focus); border-radius: 6px; }
+.hcard { position: absolute; transform-origin: 50% 100%; cursor: pointer; }
+.hcard.can::after { content: ""; position: absolute; inset: -3px; border: 3px solid var(--wick_flame); border-radius: 6px; pointer-events: none; }
+.wicks { position: absolute; display: flex; gap: 2px; align-items: stretch; }
+.wicks i { flex: 1; background: var(--wick_spent); border-radius: 2px; }
+.wicks i.on { background: var(--wick_lit_bar); }
+.wicks i.soot { background: var(--wick_soot); }
+.wicks i.none { opacity: .15; }
+.wicks b { position: absolute; right: 0; top: 100%; font-size: 12px; color: var(--wick_flame); }
+.callBtn { position: absolute; border: 0; padding: 0; background: var(--bg_panel); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); border-bottom: 4px solid var(--fac); }
+.callBtn .c { font-size: 18px; color: var(--wick_flame); }
+.callBtn.used { opacity: .4; }
+.callBtn.can { box-shadow: inset 0 0 0 3px var(--wick_flame); }
+.endBtn { position: absolute; border: 0; background: var(--button_idle); color: var(--button_idle_ink); font-weight: 800; font-size: 15px; cursor: pointer; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%); }
+.endBtn.ready { background: var(--button_primary); color: var(--button_primary_ink); }
+.endBtn.ready .glow { animation: breathe 1.6s ease-in-out infinite; }
+.endBtn .glow { position: absolute; inset: 0; background: var(--wick_flame); opacity: 0; pointer-events: none; }
+.endBtn.off { opacity: .5; }
+@keyframes breathe { 0%,100% { opacity: 0; } 50% { opacity: .35; } }
+.deckBox, .ehand { position: absolute; display: flex; align-items: center; justify-content: center; gap: 3px; font-size: 13px; font-weight: 700; }
+.deckBox img, .ehand img { height: 80%; }
+.logBtn { position: absolute; border: 0; background: var(--bg_panel); cursor: pointer; padding: 8px; }
+.logBtn img { width: 100%; height: 100%; }
+.timer { position: absolute; height: 6px; }
+.timer .dimline { position: absolute; inset: 2px 0; background: var(--line_soft); opacity: .35; }
+.timer .burn { position: absolute; left: 0; top: 1px; width: 100%; height: 3px; background: var(--wick_flame); transform-origin: 0 50%; opacity: 0; }
+.timer .burn.crit { background: var(--damage); }
+#vignette { position: absolute; inset: 0; pointer-events: none; opacity: 0; }
+#vignette.l1 { animation: vig 1.8s ease-in-out infinite; }
+#vignette.l2 { animation: vig2 1.2s ease-in-out infinite; }
+@keyframes vig { 0%,100% { opacity: .45; } 50% { opacity: 1; } }
+@keyframes vig2 { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+#fx { position: absolute; left: 0; top: 0; pointer-events: none; }
+.banner { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; opacity: 0; }
+.banner span { background: var(--tide_black); border: 2px solid var(--wick_flame); padding: 8px 24px; font-size: 22px; font-weight: 800; color: var(--wick_flame); }
+.bubble { position: absolute; max-width: 220px; background: var(--salt_white); color: var(--card_ink); padding: 6px 10px; font-size: 13px; pointer-events: none; opacity: 0; border-radius: 8px; }
+.ovl { position: absolute; inset: 0; background: rgba(0,0,0,.72); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; z-index: 90; padding: 12px; }
+.zoomWrap { position: absolute; z-index: 70; pointer-events: auto; }
+.zoomHelp { position: absolute; left: 0; right: 0; top: 100%; background: var(--bg_panel); color: var(--salt_white); font-size: 12px; padding: 6px; margin-top: 4px; }
+.fly { position: absolute; left: 0; top: 0; z-index: 55; pointer-events: none; }
+#toastLayer { position: fixed; left: 0; right: 0; top: 38%; display: flex; flex-direction: column; align-items: center; gap: 6px; pointer-events: none; z-index: 200; }
+.toast { background: var(--tide_black); border: 2px solid var(--line_soft); padding: 8px 14px; font-weight: 700; font-size: 14px; }
+.logList { max-height: 50vh; overflow-y: auto; width: min(340px, 92vw); font-size: 12px; background: var(--bg_panel); padding: 8px; }
+
+/* 수집·덱 */
+.collGrid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+.cell { position: relative; cursor: pointer; }
+.cell.miss { opacity: .35; }
+.cell .cnt { position: absolute; right: 2px; top: 2px; background: var(--tide_black); padding: 0 4px; font-size: 12px; font-weight: 800; }
+.resbar { height: 6px; background: var(--wick_spent); margin-top: 2px; }
+.resbar i { display: block; height: 100%; background: var(--focus); transform-origin: 0 50%; }
+.resbar.ready i { background: var(--heal); }
+.filters { display: flex; gap: 4px; overflow-x: auto; padding: 6px 8px; background: var(--bg_panel); }
+.filters .btn { min-height: 40px; padding: 0 10px; font-size: 13px; flex: none; }
+.deckStrip { max-height: 34vh; overflow-y: auto; background: var(--bg_panel); padding: 6px; }
+.dline { display: flex; align-items: center; gap: 6px; min-height: 30px; font-size: 13px; cursor: pointer; border-left: 6px solid var(--fac); padding-left: 6px; margin-bottom: 2px; background: var(--bg_abyss); }
+.dline .c { color: var(--wick_flame); font-weight: 800; width: 18px; }
+.curve { display: flex; align-items: flex-end; gap: 3px; height: 36px; }
+.curve i { flex: 1; background: var(--wick_lit_bar); transform-origin: 50% 100%; }
+.detail { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+/* 상자 */
+#crateStage { position: relative; flex: 1; overflow: hidden; }
+.chunk { position: absolute; width: 64px; height: 64px; cursor: pointer; }
+.chunk img { width: 100%; height: 100%; }
+.chunk .gl { position: absolute; inset: -14px; border-radius: 50%; pointer-events: none; }
+.revealTag { position: absolute; left: 0; right: 0; bottom: -20px; text-align: center; font-size: 12px; font-weight: 800; color: var(--focus); }
+.trackBar { height: 14px; background: var(--wick_spent); position: relative; }
+.trackBar i { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; background: var(--focus); transform-origin: 0 50%; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }

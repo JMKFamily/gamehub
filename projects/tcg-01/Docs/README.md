@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | game-developer | 1-3 | [첫 플레이 가능 빌드(games/tcg-01): 엔진 복사·해시, 템포 연출, 메타 최소 동작](game-developer/2026-11-18-1-3-first-build.md) |
 | 2026-11-18 | balance-designer | 1-2 | [교차 리뷰와 밸런스 1회 수정](balance-designer/2026-11-18-1-2-cross-review.md) |
 | 2026-11-18 | lore-writer | 1-2 | [교차 리뷰와 세계관 문서 수정](lore-writer/2026-11-18-1-2-cross-review.md) |
 | 2026-11-18 | art-director | 1-2 | [교차 리뷰(lore·balance↔art)와 30-art 수정: 5칸·실수치 재생성, 템포 대조, 원작 닮음 3곳](art-director/2026-11-18-1-2-cross-review.md) |
