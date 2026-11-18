@@ -936,7 +936,7 @@ export class Battle {
   // 턴 타이머(50 s): 앞 35 s는 흐린 선만, 남은 15 s부터 타는 선, 5 s부터 붉게. 연출 잠금 동안은 멈춤
   timerStep(dt) {
     const st = this.state, TT = D.art.tempo.immersion.turn_timer;
-    if (this.auto || st.active !== this.human || st.pending || A.locked) { if (st.active !== this.human) this.burnEl.style.opacity = 0; return; }
+    if (this.auto || st.active !== this.human || st.pending || A.locked || (this.tut && this.tut.cur)) { /* 튜토리얼 안내가 떠 있는 동안 턴 타이머 멈춤 */ if (st.active !== this.human) this.burnEl.style.opacity = 0; return; }
     if (this.o.noTimer) return;
     this.timer -= dt;
     const left = this.timer / 1000;

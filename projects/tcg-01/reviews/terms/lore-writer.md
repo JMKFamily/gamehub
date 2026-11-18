@@ -47,7 +47,7 @@
 | `rush` | 박차 / Spur | **기습 / Skirmish** |
 | `charge` | 급류 / Rapids | **즉시 공격 / Instant Attack** |
 | `deadly` | 익사 / Drown | **즉사 / Deadly** |
-| `lifesteal` | 들이켬 / Draught | **흡혈 / Drain** |
+| `lifesteal` | 들이켬 / Draught | **생명 훔치기 / Siphon** (11-18 섀도우버스 Drain과 겹쳐 변경) |
 | do `silence` | 이름 지우기 / Unname | **효과 지우기 / Erase** |
 | do `freeze` | 닻 / Anchor | **속박 / Bind** |
 | spell power | 잉걸 / Kindle | **주문 위력 +N / Empower +N** |
@@ -56,7 +56,7 @@
 | cond `combo` | 뒷물결 / Wake | **후속 / Follow-up** |
 | do `discover` | 인양 / Salvage | **골라잡기 / Pick** |
 | trigger `turn_start` | 차오름 / Swell | **성장 / Grow** |
-| do `curse` | 소금독 / Brine | **중독 N / Toxin N** |
+| do `curse` | 소금독 / Brine | **중독 N / Venom N** (11-18 MTG Toxic과 겹쳐 en 변경) |
 
 엔진 id는 그대로라 엔진·밸런스 수치는 바뀌지 않습니다(엔진 해시 유지).
 
