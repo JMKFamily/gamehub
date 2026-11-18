@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | lore-writer | 검수 피드백 | [용어 쉽게 + 튜토리얼식 안내(튜토리얼 18단계·메뉴 안내·용어 사전)](lore-writer/2026-11-18-terms.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-2 게이트 통과(8.33)·O6·배포](orchestrator/2026-11-18-1-7-round2-gate.md) |
 | 2026-11-18 | qa-engineer | round-2 1-6 | [round-2 점수 집계: 총점 8.33, 게이트 통과(blocker·major 0), 남은 minor 18건·criteria 3줄](qa-engineer/2026-11-18-r2-score.md) |
 | 2026-11-18 | balance-designer | round-2 | [round-2 밸런스 리뷰 (게이트 표본 재측정)](balance-designer/2026-11-18-r2-review.md) |
