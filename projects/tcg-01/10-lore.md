@@ -826,6 +826,19 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 
 대사: 4절 대사표에 `위기` 줄(내 명줄 ≤ 10, 한 판 1회) 6개 추가, 4-8에 맞대결 첫 대사 키 8개 추가.
 
+round-2 추가 키(dev 요청·리뷰):
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `pause_title` | 숨을 고르는 중 | Holding your breath | 백그라운드 복귀 이어하기 화면 제목 |
+| `pause_resume` | 이어하기 | Resume | 같은 화면 ▶ 버튼 글·aria-label |
+| `pause_hint` | 결투가 멈춰 있었습니다. 누르면 이어 갑니다. | The duel was paused. Tap to continue. | 같은 화면 설명 |
+| `deck_starter` | 입문 영장첩 | Starter Writbook | 입문 영장첩 이름(목록: "{호명자} · 입문 영장첩") |
+| `deck_starter_desc` | 모래 영장만으로 짠 첫 영장첩 | A first Writbook of Sand writs only | 영장첩 고르기 보조 줄 |
+| `tut_3_no_play` | 낼 영장이 없습니다. 다음 턴에 내 보세요. | No writ you can play. Try next turn. | 튜토리얼: 1턴에 심지가 모자라 낼 카드가 없을 때 tut_3 대신. 그 뒤 처음 낼 수 있는 턴에 tut_3을 다시 보임 |
+
+튜토리얼 순서 규칙(round-2 리뷰): `tut_8_end`(숨 고르기)는 `tut_3_play` 또는 `tut_3_no_play`를 보인 뒤에만. 조건이 지나간 단계는 다음 기회에 다시 보임. `tut_done`은 결과 화면이 닫힌 뒤(또는 결과 오버레이 아래 자리)에 보임.
+
 ### 8-10. 오류·확인
 
 | 키 | ko | en |

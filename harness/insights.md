@@ -100,3 +100,5 @@
 - [tcg-01·2026-11-17] 중복 카드로 성능을 올리는 성장(레벨업·돌파)은 PvP 승률을 "수집량 지표"로 바꿀 위험이 있다(다른 게임은 대회 레벨 고정, 외형만 강화로 분리). 성장 장치를 넣으면 "같은 덱 최대 강화 vs 무강화 승률" 상한을 먼저 정한다. 근거: projects/tcg-01/00-benchmark.md 7절. 적용: balance-designer
 - [tcg-01·2026-11-17] 탐욕 AI만으로 돌린 대전 시뮬레이터는 빠른 공격 덱을 과대평가한다(아껴두기 판단 없음). AI 수준을 2단계 이상 두고 매트릭스를 따로 낸다. 근거: projects/tcg-01/00-benchmark.md 11절. 적용: balance-designer·qa-engineer (봇 실력 가정이 결과를 바꾼다는 점은 리듬 팀의 σ 봇에도 같음)
 - [tcg-01·2026-11-17] 원본 보호 검사는 영문 고유어뿐 아니라 **공식 한국어 번역어**도 걸러야 한다. 기능명 표를 먼저 만들고 이름은 lore가 새로 짓는다. 근거: projects/tcg-01/Docs/benchmark-analyst/2026-11-17-1-0-benchmark.md. 적용: 모든 기획 역할, 리뷰 때 grep 목록에 번역어 포함
+- [tcg-01·2026-11-18] 대전형 판 시간은 AI 대 AI 시간으로 재면 크게 짧게 나온다(봇 2.5분 vs 사람 속도 봇 4.6분). 사람 속도 봇(턴 시작 생각 8~15 s + 행동 사이 2~4 s)으로 3판 이상 재야 목표와 비교할 수 있다. 근거: projects/tcg-01/reviews/round-2/qa.md, Docs/orchestrator/2026-11-18-1-7-round1-gate.md O5. 적용: qa-engineer·balance-designer
+- [tcg-01·2026-11-18] 경계값 지표(하한 바로 위)는 쌍당 표본을 늘리고 시드를 2개 이상으로 나눠 둘 다 통과해야 게이트로 본다. 1000판 1시드에서 63.6 vs 58.6 %처럼 5 %p가 흔들렸다. 근거: projects/tcg-01/reviews/round-1/balance-designer.md, round-2/balance-designer.md. 적용: balance-designer·qa-engineer

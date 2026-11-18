@@ -186,7 +186,7 @@ export const tempo = {
     { tier: 0, name: '잔 행동', examples: '뽑기·심지·작은 강화·피해 1~2·소금독 틱', max_ms: 400, hitstop_ms: 0,   shake: 'none',   zoom_ratio: 1.0,  sfx_gain_db: -22, music_duck_db: 0 },
     { tier: 1, name: '보통',    examples: '카드 내기·공격(공격력 3~4)·사망·의식',   max_ms: 600, hitstop_ms: 50,  shake: 'light',  zoom_ratio: 1.0,  sfx_gain_db: -14, music_duck_db: 0 },
     { tier: 2, name: '큰 수',   examples: '공격력 5~7·휩쓸기·한 번에 3명 이상 사망·봉인문 열림', max_ms: 900, hitstop_ms: 90, shake: 'medium', zoom_ratio: 1.03, sfx_gain_db: -10, music_duck_db: -4 },
-    { tier: 3, name: '절정',    examples: '심해 등장·비용 7+ 등장·치명타(한 번에 8 이상 또는 호명자 명줄 절반 이상)·역전·마지막 일격·승패', max_ms: 2200, hitstop_ms: 160, shake: 'heavy', zoom_ratio: 1.08, sfx_gain_db: -6, music_duck_db: -8, music_duck_ms: 600 },
+    { tier: 3, name: '절정', max_note_r2: 'max_ms는 등장 연출 자체 길이. 이어지는 첫 숨 효과·피해·사망 연출(각자 표 값)은 따로 세며, 잠금은 등장 lock 600만',     examples: '심해 등장·비용 7+ 등장·치명타(한 번에 8 이상 또는 호명자 명줄 절반 이상)·역전·마지막 일격·승패', max_ms: 2200, hitstop_ms: 160, shake: 'heavy', zoom_ratio: 1.08, sfx_gain_db: -6, music_duck_db: -8, music_duck_ms: 600 },
   ],
   // 역전: 형세 점수(00-benchmark 11절)가 −10 이하였던 쪽이 부호를 뒤집는 순간 → 조수원 고리가 한 바퀴 빛나며 tier 3 처리(한 판 최대 2회)
   comeback: { swing_from_score: -10, ring_flash_ms: 700, max_per_game: 2 },
