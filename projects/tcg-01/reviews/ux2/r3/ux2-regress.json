@@ -1,0 +1,141 @@
+{
+ "errors": [],
+ "quests": {
+  "days": 30,
+  "dup_days": 0,
+  "types": {
+   "cast_rites": 13,
+   "play_answerers": 19,
+   "worldmap_node": 4,
+   "win_hero": 11,
+   "open_crates": 7,
+   "hero_damage": 16,
+   "breakwater_blocks": 9,
+   "brine_damage": 9,
+   "recut_or_craft": 2
+  }
+ },
+ "candles": {
+  "ko-360x640": {
+   "n": 20,
+   "min_w": 14.2,
+   "min_h": 34,
+   "first": [
+    14.2,
+    34
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "en-360x640": {
+   "n": 20,
+   "min_w": 14.2,
+   "min_h": 34,
+   "first": [
+    14.2,
+    34
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "ko-412x915": {
+   "n": 20,
+   "min_w": 16.3,
+   "min_h": 39,
+   "first": [
+    16.3,
+    39
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "en-412x915": {
+   "n": 20,
+   "min_w": 16.3,
+   "min_h": 39,
+   "first": [
+    16.3,
+    39
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "ko-640x360": {
+   "n": 20,
+   "min_w": 12.5,
+   "min_h": 30,
+   "first": [
+    12.5,
+    30
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "en-640x360": {
+   "n": 20,
+   "min_w": 12.5,
+   "min_h": 30,
+   "first": [
+    12.5,
+    30
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "ko-1280x720": {
+   "n": 20,
+   "min_w": 25,
+   "min_h": 60,
+   "first": [
+    25,
+    60
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  },
+  "en-1280x720": {
+   "n": 20,
+   "min_w": 25,
+   "min_h": 60,
+   "first": [
+    25,
+    60
+   ],
+   "states": [
+    "empty",
+    "spent"
+   ]
+  }
+ },
+ "lobby_ellipsis": {
+  "ko-360x640": [],
+  "en-360x640": [],
+  "ko-412x915": [],
+  "en-412x915": [],
+  "ko-640x360": [],
+  "en-640x360": [],
+  "ko-1280x720": [],
+  "en-1280x720": []
+ },
+ "worldmap": {
+  "nodes": 28,
+  "with_img": 28,
+  "sizes": [
+   "48x48"
+  ]
+ }
+}
