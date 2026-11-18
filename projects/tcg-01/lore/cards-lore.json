@@ -10,6 +10,7 @@
     "flavor_ko": "빠진 이름 없이 불러라.",
     "flavor_en": "Call every name. Miss none.",
     "concept_ko": "영장첩에서 방파제 응답자 1장을 찾아 손패로 가져온다.",
+    "concept_en": "Search your Writbook for a Breakwater Answerer and add it to your hand.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 두루마리 위 작은 방패"
@@ -24,7 +25,8 @@
     "name_en": "Ration Ledger",
     "flavor_ko": "물 한 잔에 이름 한 줄.",
     "flavor_en": "One cup, one line.",
-    "concept_ko": "카드 2장을 뽑는다. 내 필드에 응답자가 3명 이상이면 1장 더 뽑는다.",
+    "concept_ko": "카드 2장을 뽑는다. 내 조수원에 응답자가 3명 이상이면 1장 더 뽑는다.",
+    "concept_en": "Draw 2. If you have 3+ Answerers in your Circle, draw 1 more.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 펼친 장부와 물잔"
@@ -40,6 +42,7 @@
     "flavor_ko": "물은 모든 고백을 듣는다.",
     "flavor_en": "Water hears every confession.",
     "concept_ko": "내 응답자 1명을 희생해 카드 2장을 뽑는다. 희생한 응답자의 썰물은 그대로 발동한다.",
+    "concept_en": "Sacrifice one of your Answerers to draw 2. Its Ebb still triggers.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 물방울 속 다문 입"
@@ -55,6 +58,7 @@
     "flavor_ko": "다음 밀물의 날을 외워라.",
     "flavor_en": "Recite the day of the next flood.",
     "concept_ko": "영장첩에서 소금독 카드 1장을 찾는다. 이번 판 소금독이 터졌으면 비용 1 감소.",
+    "concept_en": "Search your Writbook for a Brine card. If Brine has ticked this game, it costs 1 less.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 원형 달력과 눈금"
@@ -70,6 +74,7 @@
     "flavor_ko": "걸리는 건 다 우리 거다.",
     "flavor_en": "Whatever it snags is ours.",
     "concept_ko": "인양: 부품 카드 3장 중 1장을 손패로.",
+    "concept_en": "Salvage: 1 of 3 Fit cards.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 갈고리와 육각 너트"
@@ -85,6 +90,7 @@
     "flavor_ko": "나사는 도망가지 않는다.",
     "flavor_en": "Bolts don't run away.",
     "concept_ko": "이번 턴 손패의 응답자 카드 비용 모두 1 감소.",
+    "concept_en": "This turn, Answerer cards in your hand cost 1 less.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 줄지어 선 톱니"
@@ -100,6 +106,7 @@
     "flavor_ko": "배 한 척이면 부품이 백 개.",
     "flavor_en": "One ship, a hundred parts.",
     "concept_ko": "내 응답자 1명을 파괴하고 그 비용만큼(최대 3) 카드를 뽑는다.",
+    "concept_en": "Destroy one of your Answerers. Draw cards equal to its cost (max 3).",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 부서진 용골 선"
@@ -114,7 +121,8 @@
     "name_en": "Blueprint Overdraw",
     "flavor_ko": "설계도는 늘 실물보다 크다.",
     "flavor_en": "Blueprints always run large.",
-    "concept_ko": "손패의 응답자 2명에게 덧새김 +1/+1. 부품이 붙은 응답자가 필드에 있으면 3명.",
+    "concept_ko": "손패의 응답자 2명에게 덧새김 +1/+1. 부품이 붙은 응답자가 조수원에 있으면 3명.",
+    "concept_en": "Etch +1/+1 onto 2 Answerers in your hand. 3 if you control an Answerer with a Fit.",
     "cost_band": "mid",
     "rarity_hint": "coral",
     "visual_hint": "녹 주황+황동, 육각 톱니; 파란 격자 종이"
@@ -130,6 +138,7 @@
     "flavor_ko": "모래 너머에 물이 있다.",
     "flavor_en": "Water lies past the dunes.",
     "concept_ko": "카드 1장을 뽑는다. 뽑은 카드 비용이 2 이하면 1장 더 뽑는다.",
+    "concept_en": "Draw 1. If it costs 2 or less, draw 1 more.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 망원경과 사구 선"
@@ -145,6 +154,7 @@
     "flavor_ko": "문은 심지 하나만큼 열린다.",
     "flavor_en": "The door opens one wick wide.",
     "concept_ko": "카드 2장을 뽑는다.",
+    "concept_en": "Draw 2.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 열쇠와 작은 불꽃"
@@ -160,6 +170,7 @@
     "flavor_ko": "여백의 말이 본문보다 오래 산다.",
     "flavor_en": "The margin outlives the text.",
     "concept_ko": "손패 무작위 의식 하나 덧새김(피해 +1), 무작위 의식 하나 비용 1 감소.",
+    "concept_en": "Etch a random Rite in hand (+1 damage). A random Rite in hand costs 1 less.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 깃펜 끝"
@@ -174,7 +185,8 @@
     "name_en": "The Great Hall Lit",
     "flavor_ko": "모든 심지를 한꺼번에.",
     "flavor_en": "Every wick at once.",
-    "concept_ko": "이번 턴 내 의식 비용 모두 2 감소(최소 1). 카드 1장을 뽑는다.",
+    "concept_ko": "이번 턴 내 의식 비용 모두 2 감소, 최소 1. 카드 1장을 뽑는다.",
+    "concept_en": "This turn, your Rites cost 2 less (min 1). Draw 1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 큰 램프와 흰 빛살"
@@ -189,7 +201,8 @@
     "name_en": "The Forbidden Index",
     "flavor_ko": "이 목록 자체가 금서다.",
     "flavor_en": "The list itself is banned.",
-    "concept_ko": "인양: 상대 영웅 전용 카드 3장 중 1장을 손패로.",
+    "concept_ko": "인양: 상대 호명자 전용 카드 3장 중 1장을 손패로.",
+    "concept_en": "Salvage: 1 of 3 cards from the enemy Caller's own pool.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 자물쇠 걸린 검은 표지"
@@ -205,6 +218,7 @@
     "flavor_ko": "이름이 없으면 손도 가볍다.",
     "flavor_en": "No name, light hands.",
     "concept_ko": "카드 1장을 뽑는다. 뒷물결: 1장 더 뽑는다.",
+    "concept_en": "Draw 1. Wake: Draw 1 more.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 장갑"
@@ -220,6 +234,7 @@
     "flavor_ko": "찾는 자는 나를 못 찾는다.",
     "flavor_en": "Those who seek won't find me.",
     "concept_ko": "영장첩에서 물안개 응답자 1장을 찾아 손패로. 그 카드 비용 1 감소.",
+    "concept_en": "Search your Writbook for a Seamist Answerer. It costs 1 less.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 지워진 문패"
@@ -235,6 +250,7 @@
     "flavor_ko": "남은 물에도 무언가 산다.",
     "flavor_en": "Something lives in what's left.",
     "concept_ko": "카드 1장을 뽑는다. 이번 턴 다음에 내는 카드 비용 1 감소.",
+    "concept_en": "Draw 1. The next card you play this turn costs 1 less.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 작은 웅덩이 원"
@@ -250,6 +266,7 @@
     "flavor_ko": "부르는 값이 곧 이름값.",
     "flavor_en": "Your bid is your name.",
     "concept_ko": "인양: 공용 응답자 3장 중 1장을 손패로.",
+    "concept_en": "Salvage: 1 of 3 Common Answerers.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 경매 망치와 원"
@@ -265,6 +282,7 @@
     "flavor_ko": "한 획이면 충분하다.",
     "flavor_en": "One stroke is enough.",
     "concept_ko": "손패의 무작위 응답자 3명에게 덧새김 +1/+0.",
+    "concept_en": "Etch +1/+0 onto 3 random Answerers in your hand.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; V자 칼끝"
@@ -280,6 +298,7 @@
     "flavor_ko": "돌아올 배를 하나도 잊지 않았다.",
     "flavor_en": "He forgot no ship that might return.",
     "concept_ko": "영장첩에서 비용이 가장 높은 카드 1장을 찾는다. 그 카드 비용 2 감소.",
+    "concept_en": "Search your Writbook for its highest-cost card. It costs 2 less.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 탑과 빛줄기"
@@ -295,6 +314,7 @@
     "flavor_ko": "짧게 자르면 더 밝다.",
     "flavor_en": "Trim it short, it burns bright.",
     "concept_ko": "다음에 내는 카드 비용 2 감소. 그을음 1.",
+    "concept_en": "The next card you play costs 2 less. Soot 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 가위와 심지"
@@ -310,6 +330,7 @@
     "flavor_ko": "방패는 무겁고 급료는 가볍다.",
     "flavor_en": "Heavy shield, light pay.",
     "concept_ko": "방파제. 첫 숨: 인접 응답자 +0/+1.",
+    "concept_en": "Breakwater. First Breath: Adjacent Answerers get +0/+1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 작은 사각 방패"
@@ -324,7 +345,8 @@
     "name_en": "Cistern Guard",
     "flavor_ko": "물 앞에서는 아무도 지나가지 못한다.",
     "flavor_en": "No one passes the water.",
-    "concept_ko": "방파제. 내 영웅에게 껍질이 있으면 +1/+1.",
+    "concept_ko": "방파제. 내 호명자에게 껍질이 있으면 +1/+1.",
+    "concept_en": "Breakwater. Has +1/+1 while your Caller has Shell.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 두 겹 방패"
@@ -339,7 +361,8 @@
     "name_en": "Seventh Bulwark",
     "flavor_ko": "마지막 물은 마지막 벽 뒤에 있다.",
     "flavor_en": "The last water hides behind the last wall.",
-    "concept_ko": "방파제. 첫 숨: 내 영웅 껍질 +5.",
+    "concept_ko": "방파제. 첫 숨: 내 호명자 껍질 +3.",
+    "concept_en": "Breakwater. First Breath: Gain 3 Shell.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 거대한 사각 벽"
@@ -355,6 +378,7 @@
     "flavor_ko": "짠 바람이 갑옷을 기운다.",
     "flavor_en": "Salt wind mends the mail.",
     "concept_ko": "응답자 하나에 소금막.",
+    "concept_en": "Give an Answerer Saltskin.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 흰 결정 무늬 막"
@@ -370,6 +394,7 @@
     "flavor_ko": "간격을 맞춰라. 물이 샌다.",
     "flavor_en": "Close the gaps. Water leaks.",
     "concept_ko": "내 응답자 모두 +1/+1.",
+    "concept_en": "Give your Answerers +1/+1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 가로로 늘어선 사각들"
@@ -384,7 +409,8 @@
     "name_en": "Seventh Flagbearer",
     "flavor_ko": "깃발이 서 있는 한 수조는 마르지 않는다.",
     "flavor_en": "While the flag stands, the cistern holds.",
-    "concept_ko": "필드에 있는 동안 인접 응답자 +1 공격력.",
+    "concept_ko": "조수원에 있는 동안 인접 응답자 +1 공격력.",
+    "concept_en": "Adjacent Answerers have +1 Attack.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 세로 깃발"
@@ -399,7 +425,8 @@
     "name_en": "Water Steward",
     "flavor_ko": "한 모금씩, 공평하게.",
     "flavor_en": "One sip each. Fairly.",
-    "concept_ko": "첫 숨: 응답자 하나 또는 내 영웅의 명줄 3 회복.",
+    "concept_ko": "첫 숨: 응답자 하나 또는 내 호명자의 명줄 3 회복.",
+    "concept_en": "First Breath: Restore 3 Lifeline to an Answerer or your Caller.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 물 국자"
@@ -414,7 +441,8 @@
     "name_en": "Saltgrain Banner",
     "flavor_ko": "이 천에는 일곱 세대의 땀이 배어 있다.",
     "flavor_en": "Seven generations of sweat in this cloth.",
-    "concept_ko": "필드에 있는 동안 내 다른 응답자 +1/+1. 썰물: 응답자 하나에 소금막.",
+    "concept_ko": "조수원에 있는 동안 내 다른 응답자 +1/+1. 썰물: 응답자 하나에 소금막.",
+    "concept_en": "Your other Answerers have +1/+1. Ebb: Give an Answerer Saltskin.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 넓은 휘장"
@@ -430,6 +458,7 @@
     "flavor_ko": "맹세는 소금처럼 굳는다.",
     "flavor_en": "Oaths set like salt.",
     "concept_ko": "응답자 하나 +1/+2. 그 응답자가 방파제면 소금막도 준다.",
+    "concept_en": "Give an Answerer +1/+2. If it has Breakwater, also give it Saltskin.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 굳은 손"
@@ -445,6 +474,7 @@
     "flavor_ko": "자리를 지켜라. 그게 명령이다.",
     "flavor_en": "Hold. That is the order.",
     "concept_ko": "응답자 하나에 방파제와 +0/+3.",
+    "concept_en": "Give an Answerer Breakwater and +0/+3.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 아래로 내리찍는 화살표"
@@ -459,7 +489,8 @@
     "name_en": "Crust Up",
     "flavor_ko": "소금은 쌓을수록 단단하다.",
     "flavor_en": "Salt hardens as it piles.",
-    "concept_ko": "내 영웅 껍질 +4. 내 방파제 응답자 하나 +1 공격력.",
+    "concept_ko": "내 호명자 껍질 +4. 내 방파제 응답자 하나 +1 공격력.",
+    "concept_en": "Gain 4 Shell. Give one of your Breakwater Answerers +1 Attack.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 겹친 판"
@@ -475,6 +506,7 @@
     "flavor_ko": "서른 해 동안 한 걸음도 물러서지 않았다.",
     "flavor_en": "Thirty years, not one step back.",
     "concept_ko": "차오름: 내 턴 시작에 내 방파제 응답자 모두 +0/+1.",
+    "concept_en": "Swell: At the start of your turn, your Breakwater Answerers get +0/+1.",
     "cost_band": "mid",
     "rarity_hint": "coral",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 긴 창과 흰 수염"
@@ -490,6 +522,7 @@
     "flavor_ko": "벽을 세우는 데 노래 한 곡이면 된다.",
     "flavor_en": "A wall takes one song to raise.",
     "concept_ko": "내 응답자 모두 방파제와 이번 턴 +0/+2.",
+    "concept_en": "Give your Answerers Breakwater and +0/+2 this turn.",
     "cost_band": "high",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 겹겹 벽"
@@ -504,7 +537,8 @@
     "name_en": "A Clean Sip",
     "flavor_ko": "이 물은 아직 짜지 않다.",
     "flavor_en": "This water isn't brackish yet.",
-    "concept_ko": "응답자 하나에 들이켬. 내 영웅 명줄 2 회복.",
+    "concept_ko": "응답자 하나에 들이켬. 내 호명자 명줄 2 회복.",
+    "concept_en": "Give an Answerer Draught. Restore 2 Lifeline to your Caller.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 맑은 물방울"
@@ -520,6 +554,7 @@
     "flavor_ko": "처음 받은 방패가 제일 무겁다.",
     "flavor_en": "The first shield is the heaviest.",
     "concept_ko": "첫 숨: 다른 응답자 하나 +1/+1.",
+    "concept_en": "First Breath: Give another Answerer +1/+1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 작은 투구"
@@ -535,6 +570,7 @@
     "flavor_ko": "하나가 무너지면 모두 젖는다.",
     "flavor_en": "One breaks, all get wet.",
     "concept_ko": "이번 턴 내 응답자 모두 +1 공격력. 내 방파제 응답자가 있으면 +2.",
+    "concept_en": "Your Answerers get +1 Attack this turn, or +2 if you control a Breakwater.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 화살표 대열"
@@ -550,6 +586,7 @@
     "flavor_ko": "금 간 곳은 밤에 메운다.",
     "flavor_en": "Cracks are filled by night.",
     "concept_ko": "내 턴 끝에 피해 입은 다른 응답자 하나 명줄 2 회복. 들이켬.",
+    "concept_en": "Draught. At the end of your turn, restore 2 Lifeline to another damaged Answerer.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 흙손"
@@ -565,6 +602,7 @@
     "flavor_ko": "물이 남는 한 우리도 남는다.",
     "flavor_en": "While water remains, so do we.",
     "concept_ko": "이번 판 남은 동안 내가 내는 응답자 모두 +1/+1.",
+    "concept_en": "For the rest of the game, Answerers you play get +1/+1.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 봉인된 수조 원"
@@ -580,6 +618,7 @@
     "flavor_ko": "첫 음은 늘 짜다.",
     "flavor_en": "The first note is always salt.",
     "concept_ko": "적 응답자 하나에 소금독 2.",
+    "concept_en": "Give an enemy Answerer Brine 2.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 떨어지는 소금 알"
@@ -595,6 +634,7 @@
     "flavor_ko": "가라앉는 건 무겁기 때문이다.",
     "flavor_en": "What sinks is only heavy.",
     "concept_ko": "적 응답자 하나에 닻. 그 응답자에 소금독이 있으면 다른 적 하나도 닻.",
+    "concept_en": "Anchor an enemy Answerer. If it has Brine, Anchor another enemy too.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 사슬 고리"
@@ -610,6 +650,7 @@
     "flavor_ko": "아직 숨을 오래 못 참는다.",
     "flavor_en": "Can't hold a breath for long yet.",
     "concept_ko": "첫 숨: 적 하나에 소금독 1.",
+    "concept_en": "First Breath: Give an enemy Brine 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 작은 물방울 두건"
@@ -625,6 +666,7 @@
     "flavor_ko": "기도가 무거워지면 칼도 무거워진다.",
     "flavor_en": "Heavy prayer, heavy blade.",
     "concept_ko": "첫 숨: 적 응답자 하나 -2 공격력, 소금독 1.",
+    "concept_en": "First Breath: Give an enemy Answerer -2 Attack and Brine 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 젖은 손을 모은 수도승"
@@ -640,6 +682,7 @@
     "flavor_ko": "먼저 간 자가 손을 내민다.",
     "flavor_en": "Those gone first reach back.",
     "concept_ko": "내 응답자 하나를 희생한다. 그 공격력만큼 적 응답자 하나에 소금독.",
+    "concept_en": "Sacrifice one of your Answerers. Give an enemy Answerer Brine equal to its Attack.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 물에서 솟은 손"
@@ -655,6 +698,7 @@
     "flavor_ko": "그녀는 물속에서 더 잘 듣는다.",
     "flavor_en": "She hears better underwater.",
     "concept_ko": "적의 소금독이 터질 때마다 +1/+1.",
+    "concept_en": "Gets +1/+1 whenever an enemy's Brine ticks.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 긴 베일 물방울"
@@ -670,6 +714,7 @@
     "flavor_ko": "이름은 물속에서 소리 나지 않는다.",
     "flavor_en": "Names make no sound underwater.",
     "concept_ko": "첫 숨: 적 응답자 하나에 이름 지우기, 소금독 1.",
+    "concept_en": "First Breath: Unname an enemy Answerer and give it Brine 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 입을 가린 사제"
@@ -685,6 +730,7 @@
     "flavor_ko": "종이 울리면 바다가 돌아온다고 했다.",
     "flavor_en": "They said the bell brings the sea back.",
     "concept_ko": "적 응답자 모두 닻. 소금독이 있는 적은 -1/-1.",
+    "concept_en": "Anchor all enemy Answerers. Those with Brine get -1/-1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 기운 종"
@@ -700,6 +746,7 @@
     "flavor_ko": "바다는 빈손을 받지 않는다.",
     "flavor_en": "The sea takes no empty hands.",
     "concept_ko": "내 응답자 하나를 희생한다. 그 체력만큼 무작위 내 응답자에게 +1/+1을 하나씩 준다.",
+    "concept_en": "Sacrifice one of your Answerers. Give +1/+1 to a random ally once per point of its Health.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 뼈 제단"
@@ -715,6 +762,7 @@
     "flavor_ko": "상처에 소금을.",
     "flavor_en": "Salt in the wound.",
     "concept_ko": "적 응답자 하나 -1/-1. 소금독 1.",
+    "concept_en": "Give an enemy Answerer -1/-1 and Brine 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 휘어진 줄"
@@ -729,7 +777,8 @@
     "name_en": "Blacktide Whisper",
     "flavor_ko": "들리는가, 돌아오는 물소리가.",
     "flavor_en": "Do you hear it? The water returning.",
-    "concept_ko": "적 응답자 모두와 적 영웅에게 소금독 1.",
+    "concept_ko": "적 응답자 모두와 적 호명자에게 소금독 1.",
+    "concept_en": "Give all enemy Answerers and the enemy Caller Brine 1.",
     "cost_band": "mid",
     "rarity_hint": "coral",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 검은 물결 선"
@@ -745,6 +794,7 @@
     "flavor_ko": "물 위로 올라올 때까지 참아라.",
     "flavor_en": "Hold it until you surface.",
     "concept_ko": "응답자 하나 +0/+3. 썰물: 적 하나에 소금독 2.",
+    "concept_en": "Give an Answerer +0/+3 and \"Ebb: Give an enemy Brine 2.\"",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 부푼 볼"
@@ -759,7 +809,8 @@
     "name_en": "The Flooded Loft",
     "flavor_ko": "여기서 부른 노래는 아직 메아리친다.",
     "flavor_en": "Songs sung here still ring below.",
-    "concept_ko": "필드에 있는 동안 적의 소금독이 터질 때 피해 +1.",
+    "concept_ko": "조수원에 있는 동안 적의 소금독이 터질 때 피해 +1.",
+    "concept_en": "Enemy Brine deals 1 extra damage when it ticks.",
     "cost_band": "high",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 물에 잠긴 계단석"
@@ -775,6 +826,7 @@
     "flavor_ko": "한 알마다 익사한 이름 하나.",
     "flavor_en": "One bead, one drowned name.",
     "concept_ko": "차오름: 내 턴 시작에 무작위 적 하나에 소금독 1.",
+    "concept_en": "Swell: At the start of your turn, give a random enemy Brine 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 이어진 원 알"
@@ -790,6 +842,7 @@
     "flavor_ko": "모두 털어놓으면 가벼워진다.",
     "flavor_en": "Confess it all. You'll float.",
     "concept_ko": "적 응답자 하나에 이름 지우기. 그 공격력을 1로 만든다.",
+    "concept_en": "Unname an enemy Answerer and set its Attack to 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 벌어진 입"
@@ -805,6 +858,7 @@
     "flavor_ko": "수의는 마르지 않는다.",
     "flavor_en": "A shroud never dries.",
     "concept_ko": "적 응답자 하나: 걸린 소금독 수만큼 -1/-1.",
+    "concept_en": "Give an enemy Answerer -1/-1 for each Brine on it.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 늘어진 천"
@@ -820,6 +874,7 @@
     "flavor_ko": "짠 입술, 마지막 숨.",
     "flavor_en": "Salt lips, last breath.",
     "concept_ko": "내 응답자 하나에 익사.",
+    "concept_en": "Give one of your Answerers Drown.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 검은 입술 선"
@@ -834,7 +889,8 @@
     "name_en": "Nhal's Requiem",
     "flavor_ko": "바다여, 이 이름들을 데려가라.",
     "flavor_en": "Sea, take these names.",
-    "concept_ko": "모든 적의 소금독을 두 배로 만든다. 그 뒤 소금독이 걸린 적 하나당 내 영웅 명줄 1 회복.",
+    "concept_ko": "모든 적의 소금독을 두 배로 만든다. 그 뒤 소금독이 걸린 적 하나당 내 호명자 명줄 1 회복.",
+    "concept_en": "Double all enemy Brine. Then restore 1 Lifeline per enemy with Brine.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 거꾸로 선 큰 물방울"
@@ -850,6 +906,7 @@
     "flavor_ko": "녹도 두꺼우면 갑옷이다.",
     "flavor_en": "Rust thick enough is a hull.",
     "concept_ko": "부품: 응답자 하나 +0/+2, 방파제.",
+    "concept_en": "Fit: Give an Answerer +0/+2 and Breakwater.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 겹친 철판"
@@ -865,6 +922,7 @@
     "flavor_ko": "물면 놓지 않는다.",
     "flavor_en": "It bites and won't let go.",
     "concept_ko": "부품: 응답자 하나 +2/+0.",
+    "concept_en": "Fit: Give an Answerer +2/+0.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 집게"
@@ -880,6 +938,7 @@
     "flavor_ko": "침몰선의 보일러는 아직 따뜻하다.",
     "flavor_en": "The wreck's boiler is still warm.",
     "concept_ko": "부품: 응답자 하나 +1/+1, 차오름.",
+    "concept_en": "Fit: Give an Answerer +1/+1 and Swell.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 김 나는 원통"
@@ -895,6 +954,7 @@
     "flavor_ko": "드라이버 하나로 시작했다.",
     "flavor_en": "Started with one screwdriver.",
     "concept_ko": "첫 숨: 부품이 붙은 응답자 하나 +1/+1.",
+    "concept_en": "First Breath: Give an Answerer with a Fit +1/+1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 작은 렌치"
@@ -910,6 +970,7 @@
     "flavor_ko": "감으면 걷는다. 잊으면 멈춘다.",
     "flavor_en": "Wind it, it walks. Forget, it stops.",
     "concept_ko": "차오름. 썰물: 인양(부품 카드 3장 중 1장).",
+    "concept_en": "Swell. Ebb: Salvage 1 of 3 Fit cards.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 등에 태엽"
@@ -925,6 +986,7 @@
     "flavor_ko": "바다 밑에서 일어선 첫 번째 것.",
     "flavor_en": "The first thing to stand up from the seabed.",
     "concept_ko": "부품이 붙을 때마다 그 효과에 더해 +1/+1.",
+    "concept_en": "Whenever a Fit attaches to this, it also gets +1/+1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "녹 주황+황동, 육각 톱니; 큰 육각 몸통"
@@ -940,6 +1002,7 @@
     "flavor_ko": "한 방, 한 방, 단단히.",
     "flavor_en": "Strike by strike, tight.",
     "concept_ko": "응답자 하나 +1/+2. 부품이 붙어 있으면 소금막도.",
+    "concept_en": "Give an Answerer +1/+2. If it has a Fit, also give it Saltskin.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 리벳 머리"
@@ -954,7 +1017,8 @@
     "name_en": "Workshop Furnace",
     "flavor_ko": "불이 꺼지면 조합도 끝이다.",
     "flavor_en": "When the fire dies, so does the guild.",
-    "concept_ko": "필드에 있는 동안 내 부품 효과 +1 공격력.",
+    "concept_ko": "조수원에 있는 동안 내 부품 효과 +1 공격력.",
+    "concept_en": "Your Fits give +1 more Attack.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 화로 입구"
@@ -970,6 +1034,7 @@
     "flavor_ko": "버린 나사로 다시 조인다.",
     "flavor_en": "Tightened again with a cast-off screw.",
     "concept_ko": "응답자 하나에 썰물: 1/1 고철 인부를 소환한다.",
+    "concept_en": "Give an Answerer \"Ebb: Summon a 1/1 Scrap Hand.\"",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 나선 나사"
@@ -985,6 +1050,7 @@
     "flavor_ko": "빨간 선을 넘기지 마라. 아마도.",
     "flavor_en": "Don't pass the red line. Probably.",
     "concept_ko": "차오름(공격력만). 공격력 5 이상이 되면 소금막을 얻는다.",
+    "concept_en": "Swell (Attack only). Gains Saltskin once its Attack reaches 5.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 눈금 바늘"
@@ -1000,6 +1066,7 @@
     "flavor_ko": "안에 공기가 남아 있을 때까지는 안전하다.",
     "flavor_en": "Safe while the air lasts.",
     "concept_ko": "내 방파제 응답자 하나 +0/+4.",
+    "concept_en": "Give one of your Breakwater Answerers +0/+4.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 잠수종"
@@ -1015,6 +1082,7 @@
     "flavor_ko": "부서진 건 부품이 될 뿐이다.",
     "flavor_en": "Broken just means parts.",
     "concept_ko": "내 응답자 모두에 썰물: 부품 카드 1장을 손패로.",
+    "concept_en": "Give your Answerers \"Ebb: Add a Fit card to your hand.\"",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 흩어진 볼트"
@@ -1030,6 +1098,7 @@
     "flavor_ko": "윙 소리가 나면 주문이 엉킨다.",
     "flavor_en": "When it hums, inscriptions blur.",
     "concept_ko": "첫 숨: 적 응답자 하나에 이름 지우기.",
+    "concept_en": "First Breath: Unname an enemy Answerer.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 진동선 원"
@@ -1045,6 +1114,7 @@
     "flavor_ko": "원래는 배를 묶는 물건이었다.",
     "flavor_en": "It used to moor ships.",
     "concept_ko": "첫 숨: 적 응답자 하나에 닻.",
+    "concept_en": "First Breath: Anchor an enemy Answerer.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 닻과 발사관"
@@ -1060,6 +1130,7 @@
     "flavor_ko": "바다를 다시 부를 수 있다면 기계로 부르겠다.",
     "flavor_en": "If the sea can be called back, a machine will call it.",
     "concept_ko": "차오름. 이 응답자에게 붙는 부품은 두 번 적용된다.",
+    "concept_en": "Swell. Fits attached to this apply twice.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "녹 주황+황동, 육각 톱니; 큰 톱니 셋 맞물림"
@@ -1075,6 +1146,7 @@
     "flavor_ko": "게가 옆으로 가면 나도 옆으로 간다.",
     "flavor_en": "When the crab goes sideways, so do I.",
     "concept_ko": "첫 숨: 박차가 있는 응답자 하나 +1 공격력.",
+    "concept_en": "First Breath: Give an Answerer with Spur +1 Attack.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 작은 게 등 위 삼각"
@@ -1090,6 +1162,7 @@
     "flavor_ko": "북이 울리면 모래가 일어선다.",
     "flavor_en": "When drums sound, the sand rises.",
     "concept_ko": "이번 턴 내 응답자 모두 +2 공격력.",
+    "concept_en": "Give your Answerers +2 Attack this turn.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 북 두 개"
@@ -1104,7 +1177,8 @@
     "name_en": "Windbanner",
     "flavor_ko": "깃발이 꺾이는 쪽으로 달린다.",
     "flavor_en": "Ride where the flag bends.",
-    "concept_ko": "필드에 있는 동안 내 박차·급류 응답자 +1 공격력.",
+    "concept_ko": "조수원에 있는 동안 내 박차·급류 응답자 +1 공격력.",
+    "concept_en": "Your Answerers with Spur or Rapids have +1 Attack.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 휘날리는 삼각기"
@@ -1120,6 +1194,7 @@
     "flavor_ko": "소금이 피를 굳힌다.",
     "flavor_en": "Salt stanches blood.",
     "concept_ko": "응답자 하나 +2/+1.",
+    "concept_en": "Give an Answerer +2/+1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 붉은 천 조각"
@@ -1135,6 +1210,7 @@
     "flavor_ko": "눈에 들어가면 칼이 무뎌진다.",
     "flavor_en": "In the eyes, the blade dulls.",
     "concept_ko": "적 응답자 하나 상대의 다음 턴 끝까지 -2 공격력. 뒷물결: 카드 1장.",
+    "concept_en": "Give an enemy Answerer -2 Attack until the end of their next turn. Wake: Draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 뜨거운 모래 점"
@@ -1150,6 +1226,7 @@
     "flavor_ko": "달릴 때마다 조금씩 더 사나워진다.",
     "flavor_en": "Wilder with every ride.",
     "concept_ko": "박차. 공격할 때마다 영구히 +1 공격력.",
+    "concept_en": "Spur. Whenever this attacks, it gains +1 Attack permanently.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 창을 든 삼각"
@@ -1165,6 +1242,7 @@
     "flavor_ko": "갈기가 서면 다들 비켜선다.",
     "flavor_en": "When the mane rises, all step aside.",
     "concept_ko": "첫 숨: 다른 응답자 하나 이번 턴 +2 공격력과 급류.",
+    "concept_en": "First Breath: Give another Answerer +2 Attack and Rapids this turn.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 갈기 실루엣"
@@ -1180,6 +1258,7 @@
     "flavor_ko": "모래가 앞을 가리면 기수는 보인다.",
     "flavor_en": "Sand blinds them, not the rider.",
     "concept_ko": "응답자 하나에 물안개(내 다음 턴까지).",
+    "concept_en": "Give an Answerer Seamist until your next turn.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 먼지 소용돌이"
@@ -1195,6 +1274,7 @@
     "flavor_ko": "오늘 먹지 못하면 내일은 없다.",
     "flavor_en": "No meal today, no tomorrow.",
     "concept_ko": "응답자 하나 +3/+0. 그을음 1.",
+    "concept_en": "Give an Answerer +3/+0. Soot 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 앞으로 기운 삼각"
@@ -1210,6 +1290,7 @@
     "flavor_ko": "이 낙인을 받은 자는 뒤를 보지 않는다.",
     "flavor_en": "Who bears this mark doesn't look back.",
     "concept_ko": "응답자 하나 +2/+2와 박차.",
+    "concept_en": "Give an Answerer +2/+2 and Spur.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 불에 달군 표식"
@@ -1225,6 +1306,7 @@
     "flavor_ko": "사구에서는 바람도 편을 든다.",
     "flavor_en": "On the dunes, even wind takes sides.",
     "concept_ko": "적 응답자 모두 상대의 다음 턴 끝까지 -1 공격력. 카드 1장을 뽑는다.",
+    "concept_en": "Enemy Answerers get -1 Attack until the end of their next turn. Draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 휘어진 바람 선"
@@ -1240,6 +1322,7 @@
     "flavor_ko": "강이 있던 자리를 따라 달린다.",
     "flavor_en": "We ride where rivers ran.",
     "concept_ko": "차오름: 내 턴 시작에 박차가 있는 내 응답자 모두 +1/+0.",
+    "concept_en": "Swell: At the start of your turn, your Answerers with Spur get +1/+0.",
     "cost_band": "mid",
     "rarity_hint": "coral",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 마른 강바닥 선"
@@ -1254,7 +1337,8 @@
     "name_en": "Kadra's Red Pennant",
     "flavor_ko": "이 깃발 아래서는 아무도 기다리지 않는다.",
     "flavor_en": "No one waits beneath this flag.",
-    "concept_ko": "필드에 있는 동안 내 응답자 모두 급류와 +1 공격력.",
+    "concept_ko": "조수원에 있는 동안 내 응답자 모두 급류와 +1 공격력.",
+    "concept_en": "Your Answerers have Rapids and +1 Attack.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 붉은 큰 삼각기"
@@ -1270,6 +1354,7 @@
     "flavor_ko": "열람 전 손을 씻으시오.",
     "flavor_en": "Wash hands before reading.",
     "concept_ko": "봉인문: 상대 응답자가 공격하면 그 공격자에 닻.",
+    "concept_en": "Sealwrit: When an enemy Answerer attacks, Anchor it.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 봉인 밀랍 원"
@@ -1285,6 +1370,7 @@
     "flavor_ko": "이의 있음.",
     "flavor_en": "Objection.",
     "concept_ko": "봉인문: 상대가 의식을 쓰면 상대 다음 턴 그을음 2.",
+    "concept_en": "Sealwrit: When the enemy casts a Rite, they get Soot 2 next turn.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; X자 봉인"
@@ -1300,6 +1386,7 @@
     "flavor_ko": "글자는 발목을 잡는다.",
     "flavor_en": "Letters trip the feet.",
     "concept_ko": "봉인문: 상대가 응답자를 내면 그 응답자 -2/-2.",
+    "concept_en": "Sealwrit: When the enemy plays an Answerer, give it -2/-2.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 먹 방울 고리"
@@ -1315,6 +1402,7 @@
     "flavor_ko": "여기서는 이름도 조용히.",
     "flavor_en": "Even names keep quiet here.",
     "concept_ko": "첫 숨: 적 응답자 하나에 이름 지우기.",
+    "concept_en": "First Breath: Unname an enemy Answerer.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 입 앞에 손가락을 댄 학자"
@@ -1330,6 +1418,7 @@
     "flavor_ko": "봉인은 문서만 하는 게 아니다.",
     "flavor_en": "Not only letters get sealed.",
     "concept_ko": "첫 숨: 적 응답자 하나에 닻, 피해 1.",
+    "concept_en": "First Breath: Anchor an enemy Answerer and deal 1 damage to it.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 밀랍 인장을 든 손"
@@ -1345,6 +1434,7 @@
     "flavor_ko": "책을 빼려면 나부터 빼라.",
     "flavor_en": "To pull a book, pull me first.",
     "concept_ko": "방파제. 잉걸 +1.",
+    "concept_en": "Breakwater. Kindle +1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 책장 모양 사각"
@@ -1360,6 +1450,7 @@
     "flavor_ko": "오늘도 같은 글자 천 번.",
     "flavor_en": "The same letter a thousand times.",
     "concept_ko": "잉걸 +1. 첫 숨: 손패의 의식 하나에 덧새김(피해 +1).",
+    "concept_en": "Kindle +1. First Breath: Etch a Rite in your hand (+1 damage).",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 잉크병"
@@ -1374,7 +1465,8 @@
     "name_en": "Preservation",
     "flavor_ko": "종이는 사람보다 오래 산다.",
     "flavor_en": "Paper outlives people.",
-    "concept_ko": "내 영웅 껍질 +5. 응답자 하나 명줄 3 회복.",
+    "concept_ko": "내 호명자 껍질 +5. 응답자 하나 명줄 3 회복.",
+    "concept_en": "Gain 5 Shell. Restore 3 Lifeline to an Answerer.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 투명 덮개"
@@ -1390,6 +1482,7 @@
     "flavor_ko": "심지 끝을 보면 그 사람을 안다.",
     "flavor_en": "Read a man by his wick's end.",
     "concept_ko": "내가 의식을 쓸 때마다 +1/+1.",
+    "concept_en": "Gets +1/+1 whenever you cast a Rite.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 작은 등잔과 렌치"
@@ -1405,6 +1498,7 @@
     "flavor_ko": "오늘은 아무도 나가지 못한다.",
     "flavor_en": "No one leaves today.",
     "concept_ko": "적 응답자 모두 닻. 영장첩에서 봉인문 하나를 꺼내 설치한다.",
+    "concept_en": "Anchor all enemy Answerers. Set a Sealwrit from your Writbook.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 빗장 걸린 문"
@@ -1419,7 +1513,8 @@
     "name_en": "Collation",
     "flavor_ko": "원본과 다르면 지운다.",
     "flavor_en": "If it differs from the original, strike it.",
-    "concept_ko": "적 응답자 하나에 이름 지우기. 잃은 공격력·체력 합 +2만큼 내 영웅 껍질.",
+    "concept_ko": "적 응답자 하나에 이름 지우기. 잃은 공격력·체력 합 +2만큼 내 호명자 껍질.",
+    "concept_en": "Unname an enemy Answerer. Gain Shell equal to the stats it lost +2.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 겹쳐진 두 장"
@@ -1435,6 +1530,7 @@
     "flavor_ko": "봉인은 지키는 자가 있어야 봉인이다.",
     "flavor_en": "A seal needs a keeper.",
     "concept_ko": "첫 숨: 영장첩에서 봉인문 하나를 꺼내 설치한다. 내 봉인문이 있으면 +1/+1.",
+    "concept_en": "First Breath: Set a Sealwrit from your Writbook. +1/+1 if you have a Sealwrit.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 열쇠 꾸러미"
@@ -1449,7 +1545,8 @@
     "name_en": "Tallow-Clad Doorman",
     "flavor_ko": "녹은 초도 식으면 단단하다.",
     "flavor_en": "Even melted tallow sets hard.",
-    "concept_ko": "첫 숨: 내 영웅 껍질 +3. 내 잉걸이 있으면 +2 더.",
+    "concept_ko": "첫 숨: 내 호명자 껍질 +3. 내 잉걸이 있으면 +2 더.",
+    "concept_en": "First Breath: Gain 3 Shell, or 5 if you have Kindle.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 흘러내린 초를 두른 문지기"
@@ -1465,6 +1562,7 @@
     "flavor_ko": "모든 것은 이미 쓰였다. 나는 각주를 달 뿐.",
     "flavor_en": "All is written. I add footnotes.",
     "concept_ko": "이번 판 내 봉인문은 발동한 뒤 한 번 다시 설치된다. 영장첩에서 봉인문 하나를 설치한다.",
+    "concept_en": "For the rest of the game, your Sealwrits re-set once after opening. Set a Sealwrit from your Writbook.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 두꺼운 책과 불꽃"
@@ -1480,6 +1578,7 @@
     "flavor_ko": "아직 아무도 아니다. 그래서 어디든 간다.",
     "flavor_en": "No one yet. So anywhere.",
     "concept_ko": "물안개. 첫 숨: 다른 물안개 응답자 하나 +1/+0.",
+    "concept_en": "Seamist. First Breath: Give another Seamist Answerer +1/+0.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 사각 가면"
@@ -1495,6 +1594,7 @@
     "flavor_ko": "불에 던지면 사람이 사라진다.",
     "flavor_en": "Toss it in fire; people vanish.",
     "concept_ko": "응답자 하나에 물안개.",
+    "concept_en": "Give an Answerer Seamist.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 연기 소용돌이"
@@ -1510,6 +1610,7 @@
     "flavor_ko": "목에 감기면 바닥까지 간다.",
     "flavor_en": "Round the neck, down to the floor.",
     "concept_ko": "응답자 하나에 익사.",
+    "concept_en": "Give an Answerer Drown.",
     "cost_band": "low",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 추 달린 실"
@@ -1525,6 +1626,7 @@
     "flavor_ko": "무엇을 잊었는지도 잊게 해 주지.",
     "flavor_en": "You'll forget what you forgot.",
     "concept_ko": "적 응답자 하나에 이름 지우기. 내 물안개 응답자가 있으면 그 응답자 +1/+1.",
+    "concept_en": "Unname an enemy Answerer. If you have a Seamist Answerer, give it +1/+1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 도려낸 원"
@@ -1540,6 +1642,7 @@
     "flavor_ko": "안개 속에서 손이 나온다.",
     "flavor_en": "A hand from the fog.",
     "concept_ko": "적 응답자 하나에 닻.",
+    "concept_en": "Anchor an enemy Answerer.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 바닥에서 뻗은 손"
@@ -1555,6 +1658,7 @@
     "flavor_ko": "이름을 버린 날 처음 숨을 쉬었다.",
     "flavor_en": "First breath on the day the name was dropped.",
     "concept_ko": "물안개. 물안개 상태인 동안 차오름(+1/+0).",
+    "concept_en": "Seamist. Has Swell (+1/+0) while in Seamist.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 후드 실루엣"
@@ -1569,7 +1673,8 @@
     "name_en": "Mask Workshop",
     "flavor_ko": "얼굴은 하나지만 가면은 백 개.",
     "flavor_en": "One face, a hundred masks.",
-    "concept_ko": "필드에 있는 동안 내 물안개 응답자 +1/+1.",
+    "concept_ko": "조수원에 있는 동안 내 물안개 응답자 +1/+1.",
+    "concept_en": "Your Seamist Answerers have +1/+1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 걸린 가면 셋"
@@ -1585,6 +1690,7 @@
     "flavor_ko": "이름이 싸지면 목숨도 싸다.",
     "flavor_en": "Cheap name, cheap life.",
     "concept_ko": "적 응답자 하나 -2/-2. 이름이 지워진 응답자면 -3/-3.",
+    "concept_en": "Give an enemy Answerer -2/-2, or -3/-3 if it is Unnamed.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 잘린 문패"
@@ -1600,6 +1706,7 @@
     "flavor_ko": "가벼워졌다. 그리고 빨라졌다.",
     "flavor_en": "Lighter. And faster.",
     "concept_ko": "내 응답자 하나에 이름 지우기(나쁜 효과도 지움) 후 +2/+2와 물안개.",
+    "concept_en": "Unname one of your Answerers (clearing bad effects), then give it +2/+2 and Seamist.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 벗겨진 껍질"
@@ -1615,6 +1722,7 @@
     "flavor_ko": "본 사람은 연락 바람. 아무도 안 봤다.",
     "flavor_en": "Seen him? No one has.",
     "concept_ko": "적 응답자 하나 -1/-1. 뒷물결: 대신 -2/-2.",
+    "concept_en": "Give an enemy Answerer -1/-1. Wake: -2/-2 instead.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 찢긴 벽보"
@@ -1630,6 +1738,7 @@
     "flavor_ko": "정원에 들어간 자를 셀 수는 있어도 나온 자는 못 센다.",
     "flavor_en": "You can count who enters. Not who leaves.",
     "concept_ko": "내 응답자 모두에 물안개(내 다음 턴까지), 이번 턴 +1/+0. 카드 1장을 뽑는다.",
+    "concept_en": "Give your Answerers Seamist until your next turn and +1/+0 this turn. Draw 1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 안개 낀 원형 정원"
@@ -1645,6 +1754,7 @@
     "flavor_ko": "네 이름도 곧 여기 걸린다. 지워진 채로.",
     "flavor_en": "Your name hangs here soon. Erased.",
     "concept_ko": "적 응답자 하나에 이름 지우기. 지워진 효과를 내 응답자 하나에 옮겨 새긴다.",
+    "concept_en": "Unname an enemy Answerer. Carve its erased effect onto one of your Answerers.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 문패와 못"
@@ -1660,6 +1770,7 @@
     "flavor_ko": "해가 떠야 소금이 핀다.",
     "flavor_en": "Salt blooms when the sun is up.",
     "concept_ko": "첫 숨: 응답자 하나 +1/+1.",
+    "concept_en": "First Breath: Give an Answerer +1/+1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 갈퀴"
@@ -1675,6 +1786,7 @@
     "flavor_ko": "껍데기 산을 지키는 것도 일이다.",
     "flavor_en": "Guarding a shell heap is still a job.",
     "concept_ko": "방파제.",
+    "concept_en": "Breakwater.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 껍데기 더미"
@@ -1689,7 +1801,8 @@
     "name_en": "Seaglass Trader",
     "flavor_ko": "깨진 것도 닳으면 보석이다.",
     "flavor_en": "Worn enough, broken is a gem.",
-    "concept_ko": "첫 숨: 내 영웅 명줄 3 회복.",
+    "concept_ko": "첫 숨: 내 호명자 명줄 3 회복.",
+    "concept_en": "First Breath: Restore 3 Lifeline to your Caller.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 둥근 유리 조각"
@@ -1705,6 +1818,7 @@
     "flavor_ko": "소리가 나야 맞춘 거다.",
     "flavor_en": "If it cracks, it's set.",
     "concept_ko": "첫 숨: 응답자 하나 명줄 모두 회복하고 +0/+1.",
+    "concept_en": "First Breath: Fully heal an Answerer and give it +0/+1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 뼈와 붕대"
@@ -1719,7 +1833,8 @@
     "name_en": "Old Lighthouse Bell",
     "flavor_ko": "배는 오지 않지만 종은 운다.",
     "flavor_en": "No ships come. The bell still rings.",
-    "concept_ko": "필드에 있는 동안 인접 응답자 +1/+1.",
+    "concept_ko": "조수원에 있는 동안 인접 응답자 +1/+1.",
+    "concept_en": "Adjacent Answerers have +1/+1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 작은 종"
@@ -1735,6 +1850,7 @@
     "flavor_ko": "바다가 떠난 걸 아직 모른다.",
     "flavor_en": "Hasn't noticed the sea left.",
     "concept_ko": "방파제. 소금막.",
+    "concept_en": "Breakwater. Saltskin.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 둥근 등딱지"
@@ -1750,6 +1866,7 @@
     "flavor_ko": "안개 속에서만 운다.",
     "flavor_en": "Cries only in fog.",
     "concept_ko": "물안개.",
+    "concept_en": "Seamist.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 날개 V"
@@ -1765,6 +1882,7 @@
     "flavor_ko": "하나만 더. 늘 하나만 더.",
     "flavor_en": "One more. Always one more.",
     "concept_ko": "차오름(+0/+1).",
+    "concept_en": "Swell (+0/+1).",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 껍데기 주머니"
@@ -1780,6 +1898,7 @@
     "flavor_ko": "모든 이름은 결국 모래가 된다.",
     "flavor_en": "Every name turns to sand.",
     "concept_ko": "첫 숨: 응답자 하나에 이름 지우기.",
+    "concept_en": "First Breath: Unname an Answerer.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 감은 눈"
@@ -1795,6 +1914,7 @@
     "flavor_ko": "물이 없어도 닻은 던진다.",
     "flavor_en": "No water, still throws anchor.",
     "concept_ko": "첫 숨: 적 응답자 하나에 닻.",
+    "concept_en": "First Breath: Anchor an enemy Answerer.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 닻을 든 팔"
@@ -1810,6 +1930,7 @@
     "flavor_ko": "말라도 질기다.",
     "flavor_en": "Dry but tough.",
     "concept_ko": "적 응답자 하나에 닻. 그 응답자가 이미 닻이면 피해 2.",
+    "concept_en": "Anchor an enemy Answerer. If it was already Anchored, deal 2 damage to it.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 꼬인 줄"
@@ -1825,6 +1946,7 @@
     "flavor_ko": "울면 더 짜진다.",
     "flavor_en": "Weeping makes it saltier.",
     "concept_ko": "적 하나에 소금독 2.",
+    "concept_en": "Give an enemy Brine 2.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 눈물 두 방울"
@@ -1840,6 +1962,7 @@
     "flavor_ko": "한 발 들면 두 발이 빠진다.",
     "flavor_en": "Lift one foot, sink two.",
     "concept_ko": "적 응답자 하나 -2 공격력.",
+    "concept_en": "Give an enemy Answerer -2 Attack.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 빠지는 발 선"
@@ -1855,6 +1978,7 @@
     "flavor_ko": "흐르지 않는 물은 썩는다.",
     "flavor_en": "Still water rots.",
     "concept_ko": "적 응답자 모두 -1/-1.",
+    "concept_en": "Give all enemy Answerers -1/-1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 녹색 고인 원"
@@ -1870,6 +1994,7 @@
     "flavor_ko": "불을 키우는 건 바람이다.",
     "flavor_en": "Wind grows the fire.",
     "concept_ko": "응답자 하나 +2/+0과 박차.",
+    "concept_en": "Give an Answerer +2/+0 and Spur.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 풀무"
@@ -1885,6 +2010,7 @@
     "flavor_ko": "물이 돌아오면 다리가 필요할 테니.",
     "flavor_en": "When the water returns, you'll need a pier.",
     "concept_ko": "첫 숨: 다른 응답자 하나에 방파제.",
+    "concept_en": "First Breath: Give another Answerer Breakwater.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 망치와 판자"
@@ -1899,7 +2025,8 @@
     "name_en": "Whalebone Arch",
     "flavor_ko": "이 문을 지나면 모두 바다의 자식이다.",
     "flavor_en": "Pass this arch, be the sea's child.",
-    "concept_ko": "필드에 있는 동안 내 방파제 응답자 +0/+2, 다른 응답자 +1/+0.",
+    "concept_ko": "조수원에 있는 동안 내 방파제 응답자 +0/+2, 다른 응답자 +1/+0.",
+    "concept_en": "Your Breakwater Answerers have +0/+2. Your other Answerers have +1/+0.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 흰 아치"
@@ -1915,6 +2042,7 @@
     "flavor_ko": "빛을 먹고 빛을 토한다.",
     "flavor_en": "Eats light, spits light.",
     "concept_ko": "첫 숨: 응답자 하나에 들이켬.",
+    "concept_en": "First Breath: Give an Answerer Draught.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 빛나는 반원"
@@ -1930,6 +2058,7 @@
     "flavor_ko": "오늘도 반짝이는 건 모래뿐.",
     "flavor_en": "Only sand shines today.",
     "concept_ko": "차오름. 썰물: 응답자 하나 +2/+2.",
+    "concept_en": "Swell. Ebb: Give an Answerer +2/+2.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 채반"
@@ -1945,6 +2074,7 @@
     "flavor_ko": "하나는 시끄럽고 백은 무섭다.",
     "flavor_en": "One is noisy. A hundred, frightening.",
     "concept_ko": "이번 턴 내 응답자 모두 +1/+0과 박차. 카드 1장을 뽑는다.",
+    "concept_en": "Give your Answerers +1/+0 and Spur this turn. Draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 흩어진 V들"
@@ -1960,6 +2090,7 @@
     "flavor_ko": "누가 뒤돌아보다 이렇게 됐다던가.",
     "flavor_en": "Someone looked back, they say.",
     "concept_ko": "방파제. 소금막.",
+    "concept_en": "Breakwater. Saltskin.",
     "cost_band": "high",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 하얀 기둥 실루엣"
@@ -1975,6 +2106,7 @@
     "flavor_ko": "바다를 따라가다 바다를 잃었다.",
     "flavor_en": "Followed the sea; lost it.",
     "concept_ko": "썰물: 내 응답자 모두 +1/+1.",
+    "concept_en": "Ebb: Give your Answerers +1/+1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 지팡이와 발자국"
@@ -1990,6 +2122,7 @@
     "flavor_ko": "구멍은 언제나 하나 더 있다.",
     "flavor_en": "There's always one more hole.",
     "concept_ko": "내 턴 끝에 내 다른 응답자 모두 명줄 1 회복.",
+    "concept_en": "At the end of your turn, restore 1 Lifeline to your other Answerers.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 그물 격자"
@@ -2005,6 +2138,7 @@
     "flavor_ko": "봉인은 서고만의 것이 아니다.",
     "flavor_en": "Seals aren't the archive's alone.",
     "concept_ko": "봉인문: 상대가 내 응답자를 의식 대상으로 삼으면 그 응답자에 소금막.",
+    "concept_en": "Sealwrit: When the enemy targets your Answerer with a Rite, give it Saltskin.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 구겨진 봉인"
@@ -2019,7 +2153,8 @@
     "name_en": "Cursed Pearl",
     "flavor_ko": "아름다운 건 대개 물에서 나온다.",
     "flavor_en": "Beauty mostly comes from water.",
-    "concept_ko": "적 응답자 하나에 소금독 3. 내 영웅에게 소금독 1.",
+    "concept_ko": "적 응답자 하나에 소금독 3. 내 호명자에게 소금독 1.",
+    "concept_en": "Give an enemy Answerer Brine 3. Your Caller gets Brine 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 검은 진주"
@@ -2035,6 +2170,7 @@
     "flavor_ko": "바늘은 아직 밀물을 가리킨다.",
     "flavor_en": "The hand still points to high tide.",
     "concept_ko": "차오름: 내 턴 시작에 무작위 내 응답자 하나 +1/+1.",
+    "concept_en": "Swell: At the start of your turn, give a random ally +1/+1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 멈춘 시계 원"
@@ -2050,6 +2186,7 @@
     "flavor_ko": "터지기 전까지는 방패다.",
     "flavor_en": "A shield until it pops.",
     "concept_ko": "응답자 하나 +0/+2와 방파제.",
+    "concept_en": "Give an Answerer +0/+2 and Breakwater.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 거품 원"
@@ -2065,6 +2202,7 @@
     "flavor_ko": "장사는 늘 잘된다.",
     "flavor_en": "Business is always good.",
     "concept_ko": "내 다른 응답자의 썰물이 발동할 때마다 +1/+1.",
+    "concept_en": "Gets +1/+1 whenever another of your Answerers' Ebb triggers.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 긴 삽"
@@ -2080,6 +2218,7 @@
     "flavor_ko": "바닥까지 갔다 온 사람은 그 하나뿐이다.",
     "flavor_en": "The only one who touched bottom and returned.",
     "concept_ko": "첫 숨: 다른 응답자 하나 +3/+3과 소금막.",
+    "concept_en": "First Breath: Give another Answerer +3/+3 and Saltskin.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 잠수 헬멧 원"
@@ -2094,7 +2233,8 @@
     "name_en": "The Sunken Crown",
     "flavor_ko": "왕은 물과 함께 떠났다. 관만 남았다.",
     "flavor_en": "The king left with the water. The crown stayed.",
-    "concept_ko": "필드에 있는 동안 내 다른 응답자 +1/+1.",
+    "concept_ko": "조수원에 있는 동안 내 다른 응답자 +1/+1.",
+    "concept_en": "Your other Answerers have +1/+1.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 해초 감긴 관"
@@ -2110,6 +2250,7 @@
     "flavor_ko": "아끼던 물을 한꺼번에 쏟는다.",
     "flavor_en": "Pour out the hoarded water at once.",
     "concept_ko": "적 응답자 모두 1 피해. 내 방파제 응답자 수만큼 피해 +1(최대 +2).",
+    "concept_en": "Deal 1 damage to all enemy Answerers, +1 per Breakwater you control (max +2).",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 열린 수문 사각"
@@ -2125,6 +2266,7 @@
     "flavor_ko": "그들이 원한 대로 바다가 왔다.",
     "flavor_en": "The sea came, as they wished.",
     "concept_ko": "모든 응답자 2 피해. 살아남은 적에게 소금독 1.",
+    "concept_en": "Deal 2 damage to all Answerers. Surviving enemies get Brine 1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 덮치는 물결"
@@ -2140,6 +2282,7 @@
     "flavor_ko": "이리 와. 물이 따뜻해.",
     "flavor_en": "Come. The water's warm.",
     "concept_ko": "적 하나에 걸린 소금독 수만큼 피해(최소 1).",
+    "concept_en": "Deal damage to an enemy equal to its Brine (min 1).",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 손짓하는 손"
@@ -2154,7 +2297,8 @@
     "name_en": "Steam Jet",
     "flavor_ko": "쉿 소리 다음엔 비명.",
     "flavor_en": "After the hiss, the scream.",
-    "concept_ko": "피해 2. 내 필드에 부품이 붙은 응답자가 있으면 피해 3.",
+    "concept_ko": "피해 2. 내 조수원에 부품이 붙은 응답자가 있으면 피해 3.",
+    "concept_en": "Deal 2 damage, or 3 if you control an Answerer with a Fit.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 김 줄기"
@@ -2170,6 +2314,7 @@
     "flavor_ko": "브레이크는 인양하지 못했다.",
     "flavor_en": "They never salvaged the brakes.",
     "concept_ko": "급류. 첫 숨: 무작위 적 하나에 피해 2.",
+    "concept_en": "Rapids. First Breath: Deal 2 damage to a random enemy.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 앞으로 기운 육각"
@@ -2185,6 +2330,7 @@
     "flavor_ko": "먼지보다 먼저 도착한다.",
     "flavor_en": "Arrives before the dust.",
     "concept_ko": "급류.",
+    "concept_en": "Rapids.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 낮은 삼각 창"
@@ -2200,6 +2346,7 @@
     "flavor_ko": "게는 옆으로, 칼은 앞으로.",
     "flavor_en": "Crabs go sideways, blades go forward.",
     "concept_ko": "박차. 공격할 때 공격 대상 인접 적에게도 피해 1.",
+    "concept_en": "Spur. When this attacks, deal 1 damage to enemies next to its target.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 게 집게 두 개"
@@ -2215,6 +2362,7 @@
     "flavor_ko": "던진 창은 주우러 간다.",
     "flavor_en": "You go fetch a thrown spear.",
     "concept_ko": "피해 3. 그을음 1.",
+    "concept_en": "Deal 3 damage. Soot 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 날아가는 선"
@@ -2229,7 +2377,8 @@
     "name_en": "Red Sandstorm",
     "flavor_ko": "씨족은 폭풍 속에서 태어난다.",
     "flavor_en": "Clans are born in storms.",
-    "concept_ko": "적 응답자 모두 피해 1, 적 영웅 피해 2. 그을음 1.",
+    "concept_ko": "적 응답자 모두 피해 1, 적 호명자 피해 2. 그을음 1.",
+    "concept_en": "Deal 1 damage to all enemy Answerers and 2 to the enemy Caller. Soot 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 붉은 소용돌이"
@@ -2244,7 +2393,8 @@
     "name_en": "Final Gallop",
     "flavor_ko": "돌아갈 길은 처음부터 없었다.",
     "flavor_en": "There was never a way back.",
-    "concept_ko": "급류. 내 영웅이 잃은 명줄 5마다 +1 공격력.",
+    "concept_ko": "급류. 내 호명자이 잃은 명줄 5마다 +1 공격력.",
+    "concept_en": "Rapids. +1 Attack for every 5 Lifeline your Caller has lost.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 길게 뻗은 삼각"
@@ -2259,7 +2409,8 @@
     "name_en": "Clan Howl",
     "flavor_ko": "소리만으로 사람을 쓰러뜨린다.",
     "flavor_en": "The sound alone drops men.",
-    "concept_ko": "적 영웅에게 피해 4. 그을음 2.",
+    "concept_ko": "적 호명자에게 피해 5. 그을음 1.",
+    "concept_en": "Deal 5 damage to the enemy Caller. Soot 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 벌린 입 삼각"
@@ -2275,6 +2426,7 @@
     "flavor_ko": "각주에도 불은 붙는다.",
     "flavor_en": "Footnotes burn too.",
     "concept_ko": "피해 2. 잉걸 적용.",
+    "concept_en": "Deal 2 damage. Uses Kindle.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 불붙은 작은 글"
@@ -2290,6 +2442,7 @@
     "flavor_ko": "지식은 한 번 탄다. 아주 밝게.",
     "flavor_en": "Knowledge burns once. Very bright.",
     "concept_ko": "적 응답자 모두 피해 3. 잉걸 적용. 그을음 2.",
+    "concept_en": "Deal 3 damage to all enemy Answerers. Uses Kindle. Soot 2.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 번지는 불꽃"
@@ -2305,6 +2458,7 @@
     "flavor_ko": "돌아봤을 땐 이미 늦었다.",
     "flavor_en": "By the time you turn, too late.",
     "concept_ko": "피해 입은 적 응답자 하나 처치, 아니면 피해 2. 이번 턴 내 다음 응답자에 익사.",
+    "concept_en": "Destroy a damaged enemy Answerer, or deal 2 damage. Your next Answerer this turn gets Drown.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 가는 바늘"
@@ -2320,6 +2474,7 @@
     "flavor_ko": "안개가 걷히면 하나가 없다.",
     "flavor_en": "When the fog lifts, one is missing.",
     "concept_ko": "박차. 뒷물결: 익사와 물안개를 얻는다.",
+    "concept_en": "Spur. Wake: Gains Drown and Seamist.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 안개 속 초승달"
@@ -2335,6 +2490,7 @@
     "flavor_ko": "물이 없어 화가 났다.",
     "flavor_en": "Angry the water's gone.",
     "concept_ko": "박차.",
+    "concept_en": "Spur.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 둥근 머리 실루엣"
@@ -2350,6 +2506,7 @@
     "flavor_ko": "고래가 없으니 사람을 노린다.",
     "flavor_en": "No whales left. So, people.",
     "concept_ko": "첫 숨: 피해 2.",
+    "concept_en": "First Breath: Deal 2 damage.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 작살"
@@ -2365,6 +2522,7 @@
     "flavor_ko": "마른 하늘에도 벼락은 떨어진다.",
     "flavor_en": "Lightning falls even from dry skies.",
     "concept_ko": "첫 숨: 다른 모든 응답자에게 피해 2.",
+    "concept_en": "First Breath: Deal 2 damage to all other Answerers.",
     "cost_band": "high",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 번개 지그재그"
@@ -2380,6 +2538,7 @@
     "flavor_ko": "방패도 무기다.",
     "flavor_en": "A shield is a weapon too.",
     "concept_ko": "내 방파제 응답자 하나의 공격력만큼 적 응답자 하나에 피해. 처치하면 카드 1장.",
+    "concept_en": "One of your Breakwater Answerers deals damage equal to its Attack to an enemy Answerer. If it dies, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 앞으로 민 방패"
@@ -2394,7 +2553,8 @@
     "name_en": "Gatekeeper's Mace",
     "flavor_ko": "문을 두드리는 건 이걸로.",
     "flavor_en": "This is how we knock.",
-    "concept_ko": "인장. 들이켬. 내 영웅이 적 응답자를 처치하면 카드 1장.",
+    "concept_ko": "인장. 들이켬. 내 호명자이 적 응답자를 처치하면 카드 1장.",
+    "concept_en": "Brand. Draught. When your Caller kills an enemy Answerer, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 둥근 철퇴"
@@ -2410,6 +2570,7 @@
     "flavor_ko": "막고, 되받아치고, 다시 막는다.",
     "flavor_en": "Block, strike back, block again.",
     "concept_ko": "내 응답자 하나가 적 응답자 하나와 바로 싸운다. 적이 죽으면 카드 1장.",
+    "concept_en": "One of your Answerers fights an enemy Answerer. If the enemy dies, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 교차한 두 화살표"
@@ -2425,6 +2586,7 @@
     "flavor_ko": "창끝은 언제나 물 쪽을 향한다.",
     "flavor_en": "The spear always points to the water.",
     "concept_ko": "박차. 공격해 적을 처치하면 카드 1장.",
+    "concept_en": "Spur. When this kills an enemy, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "청회색+소금 흰색, 사각 방패; 긴 창 사각"
@@ -2440,6 +2602,7 @@
     "flavor_ko": "바닥은 생각보다 가깝다.",
     "flavor_en": "The bottom is closer than you think.",
     "concept_ko": "소금독이 걸린 적 응답자 하나에 피해 3. 처치하면 카드 1장.",
+    "concept_en": "Deal 3 damage to an enemy Answerer with Brine. If it dies, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 아래로 감기는 선"
@@ -2455,6 +2618,7 @@
     "flavor_ko": "바다는 무게로 심판한다.",
     "flavor_en": "The sea judges by weight.",
     "concept_ko": "적 응답자 하나에 피해 2. 그 응답자에 소금독이 있었으면 카드 1장.",
+    "concept_en": "Deal 2 damage to an enemy Answerer. If it had Brine, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 저울과 물방울"
@@ -2470,6 +2634,7 @@
     "flavor_ko": "노래는 숨이 끝나도 이어진다.",
     "flavor_en": "The song outlasts the breath.",
     "concept_ko": "들이켬. 썰물: 카드 1장.",
+    "concept_en": "Draught. Ebb: Draw 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "짙은 청록+뼈색, 거꾸로 선 물방울; 입 벌린 물방울"
@@ -2484,7 +2649,8 @@
     "name_en": "Breaker Saw",
     "flavor_ko": "이빨 하나 나가면 하나 끼운다.",
     "flavor_en": "Lose a tooth, fit a tooth.",
-    "concept_ko": "인장. 내 영웅이 공격할 때 부품 카드 1장을 손패로.",
+    "concept_ko": "인장. 내 호명자이 공격할 때 부품 카드 1장을 손패로.",
+    "concept_en": "Brand. When your Caller attacks, add a Fit card to your hand.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 둥근 톱날"
@@ -2500,6 +2666,7 @@
     "flavor_ko": "크면 부순다. 작으면 더 부순다.",
     "flavor_en": "Big, we break. Small, we break more.",
     "concept_ko": "적 응답자 하나에 피해 3. 처치하면 인양(부품 카드 3장 중 1장).",
+    "concept_en": "Deal 3 damage to an enemy Answerer. If it dies, Salvage 1 of 3 Fit cards.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "녹 주황+황동, 육각 톱니; 큰 망치머리"
@@ -2515,6 +2682,7 @@
     "flavor_ko": "전장은 제일 좋은 고철장이다.",
     "flavor_en": "A battlefield is the best scrapyard.",
     "concept_ko": "적 응답자가 죽을 때마다 카드 1장(턴당 2장까지).",
+    "concept_en": "Whenever an enemy Answerer dies, draw 1 (up to 2 per turn).",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "녹 주황+황동, 육각 톱니; 집게 달린 육각"
@@ -2529,7 +2697,8 @@
     "name_en": "Ricochet Rivet",
     "flavor_ko": "어디 맞을지는 리벳 마음이다.",
     "flavor_en": "Where it hits is up to the rivet.",
-    "concept_ko": "무작위 적에게 피해 1을 두 번. 부품이 붙은 내 응답자가 있으면 카드 1장.",
+    "concept_ko": "무작위 적에게 피해 1을 2번. 부품이 붙은 내 응답자가 있으면 카드 1장.",
+    "concept_en": "Deal 1 damage to a random enemy twice. If you control an Answerer with a Fit, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "녹 주황+황동, 육각 톱니; 튕기는 점선"
@@ -2544,7 +2713,8 @@
     "name_en": "Plunder Rider",
     "flavor_ko": "먼저 쳐야 먼저 가져간다.",
     "flavor_en": "First to hit, first to take.",
-    "concept_ko": "박차. 적 영웅에게 피해를 주면 카드 1장.",
+    "concept_ko": "박차. 적 호명자에게 피해를 주면 카드 1장.",
+    "concept_en": "Spur. When this damages the enemy Caller, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 자루 멘 삼각"
@@ -2559,7 +2729,8 @@
     "name_en": "Spoils Sack",
     "flavor_ko": "자루가 무거우면 말이 느려진다. 그래도 든다.",
     "flavor_en": "Heavy sack slows the mount. Carry it anyway.",
-    "concept_ko": "급류. 적 영웅에게 피해를 주면 상대 영장첩 맨 위 카드의 사본을 손패로.",
+    "concept_ko": "급류. 적 호명자에게 피해를 주면 상대 영장첩 맨 위 카드의 사본을 손패로.",
+    "concept_en": "Rapids. When this damages the enemy Caller, copy the top card of their Writbook into your hand.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 불룩한 자루"
@@ -2574,7 +2745,8 @@
     "name_en": "Forked Lance",
     "flavor_ko": "하나는 찌르고 하나는 끌어온다.",
     "flavor_en": "One prong stabs, one drags.",
-    "concept_ko": "인장. 내 영웅이 공격한 뒤 카드 1장. 그을음 1.",
+    "concept_ko": "인장. 내 호명자이 공격한 뒤 카드 1장. 그을음 1.",
+    "concept_en": "Brand. After your Caller attacks, draw 1. Soot 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 두 갈래 끝"
@@ -2590,6 +2762,7 @@
     "flavor_ko": "이긴 날 밤엔 모래도 달다.",
     "flavor_en": "On victory nights, even sand tastes sweet.",
     "concept_ko": "이번 턴 내 응답자가 처치한 적 수만큼 카드를 뽑는다(최대 3).",
+    "concept_en": "Draw 1 for each enemy your Answerers killed this turn (max 3).",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 모닥불 삼각"
@@ -2604,7 +2777,8 @@
     "name_en": "Reading the Wind",
     "flavor_ko": "바람이 바뀌면 길도 바뀐다.",
     "flavor_en": "Wind turns, the road turns.",
-    "concept_ko": "피해 1. 뒷물결: 카드 1장.",
+    "concept_ko": "피해 2. 뒷물결: 카드 1장.",
+    "concept_en": "Deal 2 damage. Wake: Draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "황토+붉은 천, 위로 찌르는 삼각; 바람 화살표"
@@ -2620,6 +2794,7 @@
     "flavor_ko": "논쟁은 한 문장으로 끝난다.",
     "flavor_en": "One sentence ends the debate.",
     "concept_ko": "피해 2. 처치하면 카드 1장.",
+    "concept_en": "Deal 2 damage. If it dies, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 날카로운 따옴표"
@@ -2635,6 +2810,7 @@
     "flavor_ko": "물음은 타오른다.",
     "flavor_en": "Questions burn.",
     "concept_ko": "피해 3. 내 잉걸이 있으면 카드 1장.",
+    "concept_en": "Deal 3 damage. If you have Kindle, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 물음표 모양 불꽃"
@@ -2650,6 +2826,7 @@
     "flavor_ko": "증명 끝.",
     "flavor_en": "Q.E.D.",
     "concept_ko": "피해 2. 뒷물결: 대신 피해 4와 카드 1장. 잉걸 적용.",
+    "concept_en": "Deal 2 damage. Wake: Deal 4 instead and draw 1. Uses Kindle.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 번개와 밑줄"
@@ -2665,6 +2842,7 @@
     "flavor_ko": "이 항목은 삭제되었습니다.",
     "flavor_en": "This entry has been removed.",
     "concept_ko": "적 응답자 모두 피해 1. 처치한 수만큼 카드를 뽑는다. 잉걸 적용.",
+    "concept_en": "Deal 1 damage to all enemy Answerers. Draw 1 per kill. Uses Kindle.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 타는 목록"
@@ -2679,7 +2857,8 @@
     "name_en": "Archive Duelist",
     "flavor_ko": "그는 책으로 사람을 벤다.",
     "flavor_en": "He cuts men with books.",
-    "concept_ko": "잉걸 +1. 내 의식이 적 영웅에게 피해를 주면 카드 1장(턴당 1회).",
+    "concept_ko": "잉걸 +1. 내 의식이 적 호명자에게 피해를 주면 카드 1장(턴당 1회).",
+    "concept_en": "Kindle +1. When your Rite damages the enemy Caller, draw 1 (once per turn).",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "호박색 등불+먹색, 세로 직사각과 불꽃; 책과 칼"
@@ -2694,7 +2873,8 @@
     "name_en": "Nameless Dirk",
     "flavor_ko": "손잡이에 새긴 이름은 긁어냈다.",
     "flavor_en": "The name on the hilt was scraped off.",
-    "concept_ko": "인장. 내 물안개 응답자가 있을 때 내 영웅이 공격하면 카드 1장.",
+    "concept_ko": "인장. 내 물안개 응답자가 있을 때 내 호명자이 공격하면 카드 1장.",
+    "concept_en": "Brand. When your Caller attacks while you have a Seamist Answerer, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 짧은 단검"
@@ -2709,7 +2889,8 @@
     "name_en": "Shade Blade",
     "flavor_ko": "빛이 닿지 않는 곳에서만 벤다.",
     "flavor_en": "Cuts only where light won't reach.",
-    "concept_ko": "물안개. 적 영웅에게 피해를 주면 카드 1장.",
+    "concept_ko": "물안개. 적 호명자에게 피해를 주면 카드 1장.",
+    "concept_en": "Seamist. When this damages the enemy Caller, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 그림자 초승달"
@@ -2725,6 +2906,7 @@
     "flavor_ko": "악수할 땐 조심하라.",
     "flavor_en": "Careful when shaking hands.",
     "concept_ko": "피해 1. 뒷물결: 카드 1장과 이번 턴 내 다음 응답자에 익사.",
+    "concept_en": "Deal 1 damage. Wake: Draw 1, and your next Answerer this turn gets Drown.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 소매와 바늘"
@@ -2740,6 +2922,7 @@
     "flavor_ko": "하나 훔치고, 또 하나.",
     "flavor_en": "One lifted, then another.",
     "concept_ko": "박차. 공격할 때 상대 손패 무작위 1장의 사본을 손패로.",
+    "concept_en": "Spur. When this attacks, copy a random card from the enemy hand into yours.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 이어진 손"
@@ -2755,6 +2938,7 @@
     "flavor_ko": "소리 없이, 이름 없이.",
     "flavor_en": "No sound. No name.",
     "concept_ko": "익사. 공격해 처치하면 카드 1장.",
+    "concept_en": "Drown. When this kills an enemy, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 가는 칼선"
@@ -2770,6 +2954,7 @@
     "flavor_ko": "이름 없는 자가 이름 있는 자를 사냥한다.",
     "flavor_en": "The nameless hunt the named.",
     "concept_ko": "체력 3 이하 적 응답자 하나 처치. 그 응답자가 이름이 지워져 있었으면 카드 2장, 아니면 1장.",
+    "concept_en": "Destroy an enemy Answerer with 3 or less Health. Draw 2 if it was Unnamed, otherwise 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 원 과녁"
@@ -2785,6 +2970,7 @@
     "flavor_ko": "양쪽 다 내 손님이다.",
     "flavor_en": "Both sides are my clients.",
     "concept_ko": "무작위 적 응답자에게 피해 2를 두 번. 뒷물결: 이 피해로 처치한 수만큼 카드를 뽑는다.",
+    "concept_en": "Deal 2 damage to a random enemy Answerer twice. Wake: Draw 1 per kill.",
     "cost_band": "mid",
     "rarity_hint": "coral",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 두 개의 손"
@@ -2800,6 +2986,7 @@
     "flavor_ko": "계약서에 이름 쓸 칸이 없다.",
     "flavor_en": "The contract has no line for a name.",
     "concept_ko": "적 응답자 하나 처치. 그 카드의 사본을 손패로.",
+    "concept_en": "Destroy an enemy Answerer. Add a copy of it to your hand.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 서명란"
@@ -2814,7 +3001,8 @@
     "name_en": "Wren's Unsigned Blade",
     "flavor_ko": "이 칼에 베인 자는 이름부터 잃는다.",
     "flavor_en": "Cut by this, you lose your name first.",
-    "concept_ko": "인장. 내 영웅이 공격할 때마다 카드 1장. 뽑은 카드에 뒷물결이 있으면 비용 1 감소.",
+    "concept_ko": "인장. 내 호명자이 공격할 때마다 카드 1장. 뽑은 카드에 뒷물결이 있으면 비용 1 감소.",
+    "concept_en": "Brand. Whenever your Caller attacks, draw 1. If it has Wake, it costs 1 less.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "안개 회색+탁한 보라, 초승달과 빈 사각; 빈 초승달 칼"
@@ -2830,6 +3018,7 @@
     "flavor_ko": "바닷가의 모든 건 주운 자의 것.",
     "flavor_en": "Everything on the shore belongs to who finds it.",
     "concept_ko": "공격해 처치하면 카드 1장.",
+    "concept_en": "When this kills an enemy, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 둥근 어깨"
@@ -2845,6 +3034,7 @@
     "flavor_ko": "껍데기도 세게 던지면 아프다.",
     "flavor_en": "Shells hurt, thrown hard.",
     "concept_ko": "첫 숨: 피해 1. 그 피해로 처치하면 카드 1장.",
+    "concept_en": "First Breath: Deal 1 damage. If it kills, draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 던지는 껍데기"
@@ -2860,6 +3050,7 @@
     "flavor_ko": "뭐든 먹는다. 너도.",
     "flavor_en": "Eats anything. You too.",
     "concept_ko": "박차. 익사. 공격해 처치하면 카드 1장.",
+    "concept_en": "Spur. Drown. When this kills an enemy, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 큰 집게 원"
@@ -2875,6 +3066,7 @@
     "flavor_ko": "이름이 있으면 값도 있다.",
     "flavor_en": "If it has a name, it has a price.",
     "concept_ko": "첫 숨: 적 응답자 하나를 표적으로 정한다. 그 표적이 죽으면 카드 2장.",
+    "concept_en": "First Breath: Mark an enemy Answerer. When it dies, draw 2.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 과녁 원"
@@ -2890,6 +3082,7 @@
     "flavor_ko": "피 맛은 짜다.",
     "flavor_en": "Blood tastes of salt.",
     "concept_ko": "들이켬. 공격하고 살아남으면 카드 1장.",
+    "concept_en": "Draught. When this attacks and survives, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 교차한 칼"
@@ -2905,6 +3098,7 @@
     "flavor_ko": "물이 빠질 때 함께 나갔다.",
     "flavor_en": "It went out with the tide.",
     "concept_ko": "썰물: 카드 1장.",
+    "concept_en": "Ebb: Draw 1.",
     "cost_band": "low",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 흐릿한 물결 인형"
@@ -2919,7 +3113,8 @@
     "name_en": "Wreck Looting",
     "flavor_ko": "선장이 남긴 건 다 우리 몫이다.",
     "flavor_en": "What the captain left is ours.",
-    "concept_ko": "적 응답자 하나에 피해 2. 인양: 상대 영웅 전용 카드 3장 중 1장.",
+    "concept_ko": "적 응답자 하나에 피해 2. 인양: 상대 호명자 전용 카드 3장 중 1장.",
+    "concept_en": "Deal 2 damage to an enemy Answerer. Salvage 1 of 3 cards from the enemy Caller's own pool.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 부서진 상자"
@@ -2934,7 +3129,8 @@
     "name_en": "Sunken Sword",
     "flavor_ko": "삼백 년 녹을 털어내면 아직 벤다.",
     "flavor_en": "Shake off three centuries of rust; it still cuts.",
-    "concept_ko": "인장. 내 영웅이 공격해 처치하면 카드 1장.",
+    "concept_ko": "인장. 내 호명자이 공격해 처치하면 카드 1장.",
+    "concept_en": "Brand. When your Caller kills an enemy by attacking, draw 1.",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 녹슨 장검"
@@ -2950,6 +3146,7 @@
     "flavor_ko": "마지막 파도의 기억.",
     "flavor_en": "A memory of the last wave.",
     "concept_ko": "피해 3. 뒷물결: 카드 1장.",
+    "concept_en": "Deal 3 damage. Wake: Draw 1.",
     "cost_band": "mid",
     "rarity_hint": "sand",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 부서지는 물마루"
@@ -2964,7 +3161,8 @@
     "name_en": "Lighthouse Marksman",
     "flavor_ko": "높은 곳에선 다 보인다.",
     "flavor_en": "From up high, all is seen.",
-    "concept_ko": "적 영웅에게 피해를 주면 카드 1장(턴당 1회).",
+    "concept_ko": "적 호명자에게 피해를 주면 카드 1장(턴당 1회).",
+    "concept_en": "When this damages the enemy Caller, draw 1 (once per turn).",
     "cost_band": "mid",
     "rarity_hint": "pearl",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 탑 위 조준선"
@@ -2980,6 +3178,7 @@
     "flavor_ko": "바다는 떠났지만 그것은 남았다.",
     "flavor_en": "The sea left. It didn't.",
     "concept_ko": "첫 숨: 적 응답자 하나 처치. 처치한 응답자 비용이 5 이상이면 카드 1장.",
+    "concept_en": "First Breath: Destroy an enemy Answerer. If it cost 5 or more, draw 1.",
     "cost_band": "high",
     "rarity_hint": "coral",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 위아래 이빨 선"
@@ -2994,7 +3193,8 @@
     "name_en": "Blacktide Herald",
     "flavor_ko": "바다가 돌아올 때, 나는 맨 앞에 있다.",
     "flavor_en": "When the sea returns, I'll be first.",
-    "concept_ko": "방파제. 썰물: 카드 3장을 뽑고 적 영웅에게 소금독 3.",
+    "concept_ko": "방파제. 썰물: 카드 3장을 뽑고 적 호명자에게 소금독 3.",
+    "concept_en": "Breakwater. Ebb: Draw 3 and give the enemy Caller Brine 3.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "모래 베이지+바다유리 녹색, 원; 검은 큰 물결"

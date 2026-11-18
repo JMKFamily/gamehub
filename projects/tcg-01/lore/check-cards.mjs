@@ -9,7 +9,7 @@ const cards = JSON.parse(readFileSync(join(here, 'cards-lore.json'), 'utf8'));
 const errors = [];
 const fail = (m) => errors.push(m);
 
-const REQ = ['id', 'type', 'attack_sub', 'branch', 'owner', 'name_ko', 'name_en', 'flavor_ko', 'flavor_en', 'concept_ko', 'cost_band', 'rarity_hint', 'visual_hint'];
+const REQ = ['id', 'type', 'attack_sub', 'branch', 'owner', 'name_ko', 'name_en', 'flavor_ko', 'flavor_en', 'concept_ko', 'concept_en', 'cost_band', 'rarity_hint', 'visual_hint'];
 const OWNERS = ['h_warden', 'h_choir', 'h_wreck', 'h_rider', 'h_archive', 'h_nameless', 'neutral'];
 const BRANCH = {
   drawbuff: ['d_draw', 'd_seek', 'd_discount', 'd_etch', 'd_salvage'],
@@ -78,6 +78,8 @@ for (const c of cards) {
   if (len(c.concept_ko) > 60) fail(`${c.id}: concept ${len(c.concept_ko)}자 (60자 초과, 글 상자 4줄 넘침)`);
   if (len(c.name_ko) > 10) fail(`${c.id}: name_ko ${len(c.name_ko)}자 (10자 초과)`);
   if (len(c.name_en) > 21) fail(`${c.id}: name_en ${len(c.name_en)}자 (21자 초과)`);
+  if (len(c.concept_en || "") > 120) fail(`${c.id}: concept_en ${len(c.concept_en)}자 (120자 초과, 영어 글 상자 4줄 넘침)`);
+  if (/영웅|필드/.test(c.concept_ko)) fail(`${c.id}: 화면 용어는 호명자·조수원 (영웅·필드 금지)`);
 }
 const longText = cards.filter((c) => len(c.concept_ko) > 56).map((c) => `${c.id}(${len(c.concept_ko)})`);
 // 9. 원본 보호: 레퍼런스 키워드·기본 용어(영문·공식 한국어 번역어)가 카드 글·이름·플레이버에 없음
@@ -85,7 +87,7 @@ const BANNED_KO = ['돌격', '돌진', '속공', '도발', '은신', '질풍', '
 const BANNED_EN = ['charge', 'rush', 'taunt', 'stealth', 'windfury', 'silence', 'freeze', 'discover', 'overload', 'combo', 'secret', 'poisonous', 'lifesteal', 'spell damage', 'divine shield', 'battlecry', 'deathrattle', 'reborn', 'minion', 'armor', 'mana', 'hero power', 'forge', 'echo', 'invoke', 'tidecaller'];
 for (const c of cards) {
   const ko = `${c.name_ko} ${c.flavor_ko} ${c.concept_ko}`;
-  const en = `${c.name_en} ${c.flavor_en}`.toLowerCase();
+  const en = `${c.name_en} ${c.flavor_en} ${c.concept_en}`.toLowerCase();
   for (const w of BANNED_KO) if (ko.includes(w)) fail(`${c.id}: 금지어 "${w}"`);
   for (const w of BANNED_EN) if (new RegExp(`\\b${w}\\b`).test(en)) fail(`${c.id}: 금지어 "${w}"`);
 }

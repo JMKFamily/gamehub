@@ -249,8 +249,8 @@ export function cardBackSVG() {
 
 // 앱 아이콘 512: 흑조 위 기울어진 소금유리 영장 + 켜진 심지
 export function appIconSVG() {
-  return svg(512, 512, `<rect width="512" height="512" rx="96" fill="${ui.bg_abyss}"/>
-<path d="M0 380Q90 340 180 380T360 380T512 370V512H0Z" fill="#05090D"/><path d="M0 380Q90 340 180 380T360 380T512 370" fill="none" stroke="#4DE0FF" stroke-width="8" stroke-opacity=".8"/>
+  return svg(512, 512, `<defs><clipPath id="ic"><rect width="512" height="512" rx="96"/></clipPath></defs><g clip-path="url(#ic)"><rect width="512" height="512" fill="${ui.bg_abyss}"/>
+<path d="M0 380Q90 340 180 380T360 380T512 370V512H0Z" fill="#05090D"/><path d="M0 380Q90 340 180 380T360 380T512 370" fill="none" stroke="#4DE0FF" stroke-width="8" stroke-opacity=".8"/></g>
 <g transform="rotate(-10 256 240)"><path d="M150 90H330L376 136V400H150Z" fill="${ui.card_plate}" stroke="${ui.stat_tab}" stroke-width="10" stroke-linejoin="round"/><path d="M314 90H330L376 136V152Z" fill="${RAR.coral.fill}"/><rect x="150" y="90" width="22" height="310" fill="${factions.h_choir.primary}"/>
 <circle cx="268" cy="250" r="64" fill="none" stroke="${ui.stat_tab}" stroke-width="10"/><path d="M220 250H316" stroke="${ui.stat_tab}" stroke-width="8"/></g>
 <rect x="232" y="160" width="40" height="110" rx="8" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="6" transform="rotate(-10 256 240)"/>

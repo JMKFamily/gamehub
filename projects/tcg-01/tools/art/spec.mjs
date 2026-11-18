@@ -137,7 +137,7 @@ export const layoutInput = {
 export const tempo = {
   input: {
     first_response_max_ms: 100, touch_feedback_frame_max_ms: 16, sfx_start_max_ms: 30,
-    queue_max_actions: 3, catch_up_speed_ratio: 2.0, // 예약이 있을 때 남은 연출 배속
+    queue_max_actions: 3, catch_up_speed_ratio: 2.0, catch_up_mode: 'finish_to_end_state', // round-1: 예약이 있으면 진행 중 연출을 끝 상태로 바로 넘김(빌드 방식 채택, 정보 손실 0 실측). 2배속은 쓰지 않음
     tap_to_skip_after_ms: 0,                           // 아무 연출이나 탭하면 그 연출의 끝 상태로 즉시
   },
   speed_modes: { normal: 1.0, fast: 0.5 }, // 설정 "빠르게 보기". 아래 표는 두 값을 직접 적음(단순 곱이 아님)
@@ -150,7 +150,7 @@ export const tempo = {
     play_brand:        { normal_ms: 480,  fast_ms: 240,  lock_ms: 120, tier: 1 },
     first_breath:      { normal_ms: 300,  fast_ms: 160,  lock_ms: 0,   tier: 1, note: '응답자 착지 직후 이어짐(따로 기다리지 않음)' },
     calling:           { normal_ms: 360,  fast_ms: 180,  lock_ms: 100, tier: 1, note: '호명술 판이 눌려 들어갔다 빛남' },
-    attack:            { normal_ms: 530,  fast_ms: 280,  lock_ms: 150, tier: 1, phases_normal_ms: { windup: 120, dash: 160, hitstop: 50, return: 200 }, arc_height_ratio: 0.18, overshoot_px: 6 },
+    attack:            { normal_ms: 530,  fast_ms: 300,  lock_ms: 150, tier: 1, phases_normal_ms: { windup: 120, dash: 160, hitstop: 50, return: 200 }, phases_fast_ms: { windup: 60, dash: 90, hitstop: 40, return: 110 }, note_r1: 'round-1: 빠르게 실측 334(+19 %). 정지 프레임도 빠르게 값(40)으로, tier 정지(TI.hitstop_ms)는 빠르게에서 절반', arc_height_ratio: 0.18, overshoot_px: 6 },
     damage_number:     { normal_ms: 800,  fast_ms: 500,  lock_ms: 0,   tier: 0, rise_px: 26, font_px_min: 20, font_px_max: 36, font_px_per_damage: 2, pop_scale_ratio: 1.35 },
     heal_number:       { normal_ms: 700,  fast_ms: 450,  lock_ms: 0,   tier: 0 },
     buff_debuff:       { normal_ms: 260,  fast_ms: 150,  lock_ms: 0,   tier: 0, note: '수치 칸이 한 번 튀고 색이 바뀜' },
@@ -162,7 +162,7 @@ export const tempo = {
     wick_light:        { normal_ms: 360,  fast_ms: 200,  lock_ms: 0,   tier: 0, stagger_normal_ms: 30 },
     end_breath_press:  { normal_ms: 250,  fast_ms: 150,  lock_ms: 250, tier: 0, note: '버튼 눌림 → 상대 차례 배너' },
     big_entry:         { normal_ms: 1800, fast_ms: 900,  lock_ms: 600, tier: 3, trigger: 'rarity==abyss || cost>=7', skippable_after_ms: 400, phases_normal_ms: { dim_in: 220, card_rise: 480, name_title: 700, land: 400 }, dim_ratio: 0.6, zoom_ratio: 1.08 },
-    lethal_blow:       { normal_ms: 1500, fast_ms: 800,  lock_ms: 1500, tier: 3, note: '마지막 일격: 공격 궤적 0.35배 느리게 400 ms → 정지 160 ms → 명줄 실 끊김', slowmo_ratio: 0.35, slowmo_ms: 400 },
+    lethal_blow:       { normal_ms: 1500, fast_ms: 800,  lock_ms: 1500, tier: 3, chain_note_r1: '마지막 일격(1500) → 호명자 부서짐(700) → 결과 오버레이(승 1800/패 1600)를 따로 기록. 일격+부서짐 = 2200(빠르게 1200), 결과 화면 등장까지 tempoLog phase로 나눠 적기', note: '마지막 일격: 공격 궤적 0.35배 느리게 400 ms → 정지 160 ms → 명줄 실 끊김', slowmo_ratio: 0.35, slowmo_ms: 400 },
     hero_crack:        { normal_ms: 700,  fast_ms: 400,  lock_ms: 700, tier: 3 },
     victory:           { normal_ms: 1800, fast_ms: 900,  lock_ms: 600, tier: 3 },
     defeat:            { normal_ms: 1600, fast_ms: 800,  lock_ms: 600, tier: 3 },
@@ -262,7 +262,7 @@ export const sound = {
     { id: 'saltskin_break', desc: '소금막 깨짐', osc: 'noise', f_hz: [5000, 9000], dur_ms: 160, gain_db: -16, filter: { type: 'highpass', f_hz: 3500 } },
     { id: 'death_crumble', desc: '응답자 부서짐', osc: 'noise', f_hz: [800, 200], dur_ms: 420, gain_db: -14, filter: { type: 'lowpass', f_hz: 1400 } },
     { id: 'ebb_trigger',  desc: '썰물 발동(물러가는 물)', osc: 'noise', f_hz: [1200, 300], dur_ms: 500, gain_db: -18, filter: { type: 'bandpass_sweep_down', f_hz: 1200 } },
-    { id: 'rite_cast',    desc: '의식(물마루 공식) 발동', osc: 'sine x3', f_hz: [392, 587, 784], dur_ms: 500, gain_db: -15, filter: null },
+    { id: 'rite_cast',    desc: '의식(물마루 공식) 발동', osc: 'sine x3', f_hz: [392, 587, 784], dur_ms: 500, gain_db: -11, filter: null },
     { id: 'heal',         desc: '회복', osc: 'sine', f_hz: [660, 990], dur_ms: 300, gain_db: -18, filter: null },
     { id: 'buff',         desc: '강화', osc: 'triangle', f_hz: [440, 660], dur_ms: 200, gain_db: -18, filter: null },
     { id: 'debuff',       desc: '약화·소금독', osc: 'triangle', f_hz: [330, 233], dur_ms: 260, gain_db: -18, filter: { type: 'lowpass', f_hz: 1500 } },
@@ -273,13 +273,13 @@ export const sound = {
     { id: 'turn_yours',   desc: '내 차례(심지 둘 켜지는 소리)', osc: 'sine', f_hz: [523, 784], dur_ms: 420, gain_db: -14, filter: null },
     { id: 'turn_timer',   desc: '심지 타들어 감(남은 15 s, 1초마다)', osc: 'noise', f_hz: [1500, 2500], dur_ms: 80, gain_db: -26, filter: { type: 'bandpass', f_hz: 2000 } },
     { id: 'hollow_call',  desc: '공허 호명(흑조 응답)', osc: 'sawtooth', f_hz: [70, 50], dur_ms: 600, gain_db: -12, filter: { type: 'lowpass', f_hz: 500 } },
-    { id: 'crate_lid',    desc: '상자 뚜껑', osc: 'noise+square', f_hz: [140, 80], dur_ms: 300, gain_db: -14, filter: { type: 'lowpass', f_hz: 1200 } },
+    { id: 'crate_lid',    desc: '상자 뚜껑', osc: 'noise+square', f_hz: [140, 80], dur_ms: 300, gain_db: -18, filter: { type: 'lowpass', f_hz: 1200 } },
     { id: 'chunk_break_sand',  desc: '모래 덩이 부서짐', osc: 'noise', f_hz: [1500, 600], dur_ms: 250, gain_db: -16, filter: { type: 'lowpass', f_hz: 2500 } },
-    { id: 'chunk_break_pearl', desc: '진주 덩이: 유리 울림 1음', osc: 'noise+sine', f_hz: [1318], dur_ms: 600, gain_db: -14, filter: null },
-    { id: 'chunk_break_coral', desc: '산호 덩이: 유리 화음 2음 + 저음', osc: 'noise+sine x3', f_hz: [98, 1318, 1976], dur_ms: 900, gain_db: -12, filter: null },
+    { id: 'chunk_break_pearl', desc: '진주 덩이: 유리 울림 1음', osc: 'noise+sine', f_hz: [1318], dur_ms: 600, gain_db: -18, filter: null },
+    { id: 'chunk_break_coral', desc: '산호 덩이: 유리 화음 2음 + 저음', osc: 'noise+sine x3', f_hz: [98, 1318, 1976], dur_ms: 900, gain_db: -6, filter: null },
     { id: 'chunk_break_abyss', desc: '심해 덩이: 흑조 솟음 + 유리 화음 4음', osc: 'sawtooth+sine x4', f_hz: [41, 659, 988, 1318, 1976], dur_ms: 1600, gain_db: -9, filter: { type: 'lowpass_sweep_up', f_hz: 3000 } },
-    { id: 'victory',      desc: '승리: 소금 마름(밝은 장3도 상행)', osc: 'triangle x3', f_hz: [392, 494, 587, 784], dur_ms: 1600, gain_db: -10, filter: null },
-    { id: 'defeat',       desc: '패배: 명줄 끊김(하행 단2도)', osc: 'sine', f_hz: [294, 277, 220], dur_ms: 1500, gain_db: -12, filter: { type: 'lowpass', f_hz: 1200 } },
+    { id: 'victory',      desc: '승리: 소금 마름(밝은 장3도 상행)', osc: 'triangle x3', f_hz: [392, 494, 587, 784], dur_ms: 1600, gain_db: -5, filter: null },
+    { id: 'defeat',       desc: '패배: 명줄 끊김(하행 단2도)', osc: 'sine', f_hz: [294, 277, 220], dur_ms: 1500, gain_db: -14, filter: { type: 'lowpass', f_hz: 1200 } },
     { id: 'ui_tap',       desc: '메뉴 버튼', osc: 'sine', f_hz: [700], dur_ms: 50, gain_db: -22, filter: null },
     { id: 'ui_deny',      desc: '할 수 없음(심지 부족 등)', osc: 'square', f_hz: [160, 140], dur_ms: 120, gain_db: -20, filter: { type: 'lowpass', f_hz: 800 } },
   ],

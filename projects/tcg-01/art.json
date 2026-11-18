@@ -1230,6 +1230,7 @@
    "sfx_start_max_ms": 30,
    "queue_max_actions": 3,
    "catch_up_speed_ratio": 2,
+   "catch_up_mode": "finish_to_end_state",
    "tap_to_skip_after_ms": 0
   },
   "speed_modes": {
@@ -1299,7 +1300,7 @@
    },
    "attack": {
     "normal_ms": 530,
-    "fast_ms": 280,
+    "fast_ms": 300,
     "lock_ms": 150,
     "tier": 1,
     "phases_normal_ms": {
@@ -1308,6 +1309,13 @@
      "hitstop": 50,
      "return": 200
     },
+    "phases_fast_ms": {
+     "windup": 60,
+     "dash": 90,
+     "hitstop": 40,
+     "return": 110
+    },
+    "note_r1": "round-1: 빠르게 실측 334(+19 %). 정지 프레임도 빠르게 값(40)으로, tier 정지(TI.hitstop_ms)는 빠르게에서 절반",
     "arc_height_ratio": 0.18,
     "overshoot_px": 6
    },
@@ -1414,6 +1422,7 @@
     "fast_ms": 800,
     "lock_ms": 1500,
     "tier": 3,
+    "chain_note_r1": "마지막 일격(1500) → 호명자 부서짐(700) → 결과 오버레이(승 1800/패 1600)를 따로 기록. 일격+부서짐 = 2200(빠르게 1200), 결과 화면 등장까지 tempoLog phase로 나눠 적기",
     "note": "마지막 일격: 공격 궤적 0.35배 느리게 400 ms → 정지 160 ms → 명줄 실 끊김",
     "slowmo_ratio": 0.35,
     "slowmo_ms": 400
@@ -1872,7 +1881,7 @@
      784
     ],
     "dur_ms": 500,
-    "gain_db": -15,
+    "gain_db": -11,
     "filter": null
    },
    {
@@ -2022,7 +2031,7 @@
      80
     ],
     "dur_ms": 300,
-    "gain_db": -14,
+    "gain_db": -18,
     "filter": {
      "type": "lowpass",
      "f_hz": 1200
@@ -2051,7 +2060,7 @@
      1318
     ],
     "dur_ms": 600,
-    "gain_db": -14,
+    "gain_db": -18,
     "filter": null
    },
    {
@@ -2064,7 +2073,7 @@
      1976
     ],
     "dur_ms": 900,
-    "gain_db": -12,
+    "gain_db": -6,
     "filter": null
    },
    {
@@ -2096,7 +2105,7 @@
      784
     ],
     "dur_ms": 1600,
-    "gain_db": -10,
+    "gain_db": -5,
     "filter": null
    },
    {
@@ -2109,7 +2118,7 @@
      220
     ],
     "dur_ms": 1500,
-    "gain_db": -12,
+    "gain_db": -14,
     "filter": {
      "type": "lowpass",
      "f_hz": 1200

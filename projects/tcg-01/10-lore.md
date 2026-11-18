@@ -123,7 +123,7 @@
 - **분위기**: 마른 바다의 쓸쓸함 + 법정 같은 긴장. 웅장한 영웅담보다 **살아남은 자들의 냉정한 거래**. 유머는 건조하고 짧게(노동자·도둑 대사).
 - **성인 톤(18세)**: 죽음·희생·익사·이름 박탈을 직접 다루지만 잔혹 묘사(신체 훼손·고어)는 하지 않습니다. 피는 "소금이 굳힌다" 수준. 종교 세력은 광신이지만 조롱하지 않고 나름의 논리를 줍니다.
 - **세력 말투**: 파수단 = 군대식 짧은 명령, 합창회 = 기도문·2인칭 유혹, 조합 = 현장 은어·숫자, 씨족 = 짧은 함성·자연 비유, 서고회 = 학자 말투·인용·각주, 무명단 = 냉소·반문.
-- **문장 규칙**: 카드 글(concept)은 키워드 + 조건 + 효과 2문장까지, 30-art 글 상자(13 px, 한 줄 15자 × 최대 4줄 = 60자) 안에 들어가게 **60자 이하**(줄바꿈 여유로 56자 권장). 카드 이름은 이름 띠(17 px, 약 200 px)에 맞게 **한국어 10자·영문 21자 이하**(`check-cards.mjs`가 넘으면 실패, 56자 초과는 경고). 플레이버는 한 문장 위주(25자 안팎). 대전 중 토스트는 한 문장 12자 이내(영어 6단어)로 짧게(insights 텍스트 항목을 성인 화면에도 그대로 적용: 글 읽는 시간보다 수 읽는 시간을 남김).
+- **문장 규칙**: 카드 글(concept)은 키워드 + 조건 + 효과 2문장까지, 30-art 글 상자(13 px, 한 줄 15자 × 최대 4줄 = 60자) 안에 들어가게 **60자 이하**(줄바꿈 여유로 56자 권장). 카드 이름은 이름 띠(17 px, 약 200 px)에 맞게 **한국어 10자·영문 21자 이하**(`check-cards.mjs`가 넘으면 실패, 56자 초과는 경고). 영어 카드 글 `concept_en`은 120자 이하(글 상자 영어 약 30자 × 4줄). 카드 글 안의 용어는 화면 용어로만: **호명자·조수원**(영웅·필드 금지, 검사기가 실패 처리). 숫자는 엔진(cards.json) 값과 같게. 플레이버는 한 문장 위주(25자 안팎). 대전 중 토스트는 한 문장 12자 이내(영어 6단어)로 짧게(insights 텍스트 항목을 성인 화면에도 그대로 적용: 글 읽는 시간보다 수 읽는 시간을 남김).
 - **금지**: 레퍼런스의 대사 패턴(인사·감사·위협 이모트 문구), "빛·성기사·악마·마법사" 같은 레퍼런스 직업 연상어를 세력 이름에 쓰지 않음. 엘프·드워프·오크·드래곤 같은 종족을 쓰지 않음. 이 세계의 생물은 **마른 바다의 갯것**(게·거북·물개·해파리·갈매기·갈기 도마뱀)과 기계, 사람, 망자뿐.
 
 ---
@@ -155,6 +155,7 @@
 | 승리 | 수조는 오늘도 찼다. | The cistern holds another day. |
 | 패배 | ...문을 닫아라. 내가 마지막이 아니길. | ...Seal the gate. Let me not be the last. |
 | 위협 | 한 걸음만 더 오면 물 대신 소금을 먹이겠다. | One more step and you'll drink salt. |
+| 위기 | 벽이 갈라진다. 그래도 물러서지 않는다. | The wall cracks. I still won't step back. |
 | 감사 | 고맙다. 장부에 적어 두지. | Thank you. I'll note it in the ledger. |
 | 경의 | 좋은 수였다. 다음엔 막는다. | Good move. Next time, I'll stop it. |
 | 심지 부족 | 심지가 모자란다. | Not enough wicks. |
@@ -180,6 +181,7 @@
 | 승리 | 이 이름도 바다에 돌려보낼게요. | I'll return this name to the sea. |
 | 패배 | 괜찮아요... 물은 결국 모두를 데려가요. | It's alright... water takes everyone in the end. |
 | 위협 | 당신 폐에도 소금이 차오르는 게 느껴지나요? | Do you feel the salt filling your lungs? |
+| 위기 | 아, 물이 저를 먼저 부르네요. | Ah, the water calls me first. |
 | 감사 | 바다가 당신을 기억할 거예요. | The sea will remember you. |
 | 경의 | 아름다운 수였어요. 슬플 만큼. | A beautiful move. Almost sad. |
 | 심지 부족 | 아직 숨이 모자라요. | Not enough breath yet. |
@@ -205,6 +207,7 @@
 | 승리 | 쓸 만한 부품이 꽤 나오겠는데. | Plenty of good parts in this one. |
 | 패배 | 나사 하나가... 모자랐어. | One bolt... short. |
 | 위협 | 네 응답자, 분해하면 몇 개 나올까? | How many parts in your Answerer, I wonder? |
+| 위기 | 어디 보자, 예비 부품을 어디 뒀더라... | Let's see, where'd I put the spare parts... |
 | 감사 | 좋아, 외상으로 달아 두지. | Fine. I'll put it on your tab. |
 | 경의 | 이야, 그거 설계 좀 빌려 줘. | Huh. Lend me that blueprint. |
 | 심지 부족 | 압력이 안 올라와. | Pressure's too low. |
@@ -230,6 +233,7 @@
 | 승리 | 바람이 내 편이었지. | The wind was on my side. |
 | 패배 | 칫... 다음 바람엔 안 진다. | Tch... Next wind, I win. |
 | 위협 | 네 명줄, 몇 번이면 끊어질까? | How many hits till your Lifeline snaps? |
+| 위기 | 피 좀 났다고 멈출 줄 알아? | Think a little blood will stop me? |
 | 감사 | 빚졌다. 씨족은 갚는다. | I owe you. Clans repay. |
 | 경의 | 빠르네. 마음에 들어. | Fast. I like it. |
 | 심지 부족 | 심지가 안 남았어! | Out of wicks! |
@@ -255,6 +259,7 @@
 | 승리 | 결론: 예상대로. | Conclusion: as expected. |
 | 패배 | 흥미롭군. 각주로 남겨 두겠소. | Interesting. I'll leave a footnote. |
 | 위협 | 당신 이름의 철자를 이미 알고 있소. | I already know how your name is spelled. |
+| 위기 | 기록상 이런 위기는... 처음이군. | On record, a crisis like this is... a first. |
 | 감사 | 기록해 두겠소. | Noted. |
 | 경의 | 훌륭한 반론이오. | An excellent rebuttal. |
 | 심지 부족 | 등잔이 아직 어둡소. | My lamps are still dim. |
@@ -280,27 +285,44 @@
 | 승리 | 네 이름, 잠깐 빌려 갈게. | I'll borrow your name for a while. |
 | 패배 | 괜찮아. 잃을 이름도 없거든. | It's fine. No name to lose. |
 | 위협 | 뒤에 누가 있는지 안 궁금해? | Not curious who's behind you? |
+| 위기 | 이름도 없는데 목숨까지 잃긴 아깝지. | No name already. Shame to lose my life too. |
 | 감사 | 오, 공짜는 좋지. | Oh, free is nice. |
 | 경의 | 제법인데? 누구더라, 너. | Not bad. Who were you again? |
 | 심지 부족 | 심지가 없네. 훔칠까? | No wicks. Should I steal some? |
 
-### 4-7. 상성과 라이벌 고리 (1-1 측정 반영, 1-2 수정)
+### 4-7. 상성과 라이벌 고리 (balance 1-2 최종 측정 반영, round-1 갱신)
 
-balance 1-1 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이김, `20-balance.md` 7절)에 맞춰 이야기를 고쳤습니다. 1-1 초안과 달라진 곳은 ★.
+balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이김, 48~52 % = 호각, `20-balance.md` 9-1)에 맞춰 이야기를 고쳤습니다. 1-1 초안과 방향이 바뀐 곳은 ★.
 
 | 호명자 | 이기는 상대 (측정 %) | 지는 상대 | 세계관 해석 |
 |---|---|---|---|
-| 카드라 (어그로) | 펠 66.1, ★나할 60.9, 렌 54.0 | 이브로 44.4, 오다 41.9 | 사구 기병은 소금독이 스밀 시간을 주지 않고, 인양장(펠)을 털어 감. 벽(오다)과 기록(이브로)에 막힘 |
-| 오다 (미드·방어) | 카드라 58.1, ★이브로 64.0 | 나할 37.8, 렌 33.5, 펠 37.3 | 수조의 벽은 서고의 불로도 다 타지 않음. 하지만 물에 잠기고(나할), 장부를 도둑맞고(렌), 기계에 뚫림(펠) |
-| 나할 (저주 컨트롤) | 오다 62.2, ★이브로 63.7, 렌 59.4 | 카드라 39.1, 펠 36.0 | 옛 제자가 스승(이브로)의 기록을 신앙으로 넘어섬. 가만히 있는 자는 모두 잠기지만 달리는 자와 기계는 잠기지 않음 |
-| 펠 (부품 성장) | 나할 63.9, 이브로 62.9, 오다 62.7 | 렌 23.5(과함), 카드라 33.9 | 해체공은 망자의 노래도, 서고의 법도, 수조의 벽도 뜯어 냄. 도둑과 약탈자에게는 부품을 빼앗김 |
-| 이브로 (제거 컨트롤) | ★렌 59.3, ★카드라 55.6 | 나할 36.3, 오다 36.0, 펠 37.1 | 서고는 이름 없는 도둑과 성급한 기수를 **기록으로 미리 앎**. 느리게 쌓는 벽·저주·기계에는 지울 기록이 모자람 |
-| 렌 (템포) | 펠 76.5(과함, balance 조정 중), 오다 66.5 | 이브로 40.7, 나할 40.6, 카드라 46.0 | 수조 장부를 훔친 도둑. 자기 이름을 쥔 이브로에게는 아직 못 이김 → 썰물 연대기에서 렌의 이야기 목표 |
+| 카드라 (어그로) | 펠 56.9, ★나할 60.1 (렌 51.2 호각) | ★이브로 41.4, 오다 35.5 | 사구 기병은 소금독이 스밀 시간을 주지 않고 인양장(펠)을 털어 감. 수조의 벽(오다)과 서고의 기록(이브로)에 막힘 |
+| 오다 (미드·방어) | 카드라 64.5, ★이브로 59.0 | 나할 44.5, 렌 38.3, 펠 30.7 | 수조의 벽은 서고의 불로도 다 타지 않음. 하지만 물에 잠기고(나할), 장부를 도둑맞고(렌), 기계에 뚫림(펠) |
+| 나할 (저주 컨트롤) | 오다 55.5, ★이브로 55.9, 렌 57.1 | ★카드라 40.0, 펠 29.2 | 옛 제자가 스승의 기록을 신앙으로 넘어섬. 가만히 있는 자는 모두 잠기지만 달리는 자와 기계는 잠기지 않음 |
+| 펠 (부품 성장) | 나할 70.8, 이브로 68.0, 오다 69.3 | 렌 26.4, 카드라 43.1 | 해체공은 망자의 노래도, 서고의 법도, 수조의 벽도 뜯어 냄. 도둑과 약탈자에게는 부품을 빼앗김 |
+| 이브로 (제거 컨트롤) | ★렌 65.7, ★카드라 58.6 | ★나할 44.1, ★오다 41.0, 펠 31.9 | 4-8절 |
+| 렌 (템포) | 펠 73.6, 오다 61.7 | ★이브로 34.3, 나할 42.9 (카드라 48.8 호각) | 수조 장부를 훔친 도둑. 자기 이름을 쥔 판관 이브로가 천적 |
 
-- 라이벌 서사 세 쌍은 측정과 같은 방향으로 맞춤: 오다 > 카드라(물), 나할 > 이브로(옛 스승과 제자, ★방향 바꿈), 이브로 > 렌(이름, ★방향 바꿈: 렌은 "아직 못 이긴 상대에게 도전하는 자").
-- 펠 ↔ 나할(망자)은 펠 우세 그대로.
-- 상성 고리 예: 이브로 > 렌 > 오다 > 이브로, 이브로 > 카드라 > 나할 > 이브로.
-- balance에 요청하는 방향은 없음(이야기를 측정에 맞춤). 렌 > 펠 76.5 %만 balance가 25~75 % 안으로 조정.
+- 라이벌 서사 세 쌍은 측정과 같은 방향: 오다 > 카드라(물), 나할 > 이브로(옛 스승과 제자), 이브로 > 렌(이름을 지운 판관과 지워진 자).
+- 상성 고리 예: 이브로 > 렌 > 오다 > 이브로, 이브로 > 카드라 > 나할 > 이브로, 펠 > 나할 > 렌 > 펠.
+- balance에 방향을 바꿔 달라는 요청은 없음(이야기를 측정에 맞춤).
+
+### 4-8. 이브로의 상성 4칸 이야기 (연대기·맞대결 대사 소재)
+
+이브로는 "모든 이름을 기록한 자"라서, **기록할 시간을 주지 않고 덮치는 자(빠른 덱)는 이미 기록에 있어 대비**하지만, **기록보다 오래 버티는 것(벽·신앙)은 지울 방법이 없다**. 이 원리 하나로 4칸을 설명합니다. 맞대결 첫 대사는 상대가 정해진 짝일 때 일반 등장 대사 대신 쓰는 선택 키입니다.
+
+| 칸 | 측정 | 장면 | 맞대결 첫 대사 키 | ko | en |
+|---|---|---|---|---|---|
+| 이브로 > 렌 | 65.7 % | 렌이 훔치려는 판결 기록은 이브로가 직접 썼다. 렌의 수법(물안개·뒷물결)은 이미 각주에 다 적혀 있다. 렌은 이길 때까지 다시 온다 | `line_archive_vs_nameless` | 당신 수법은 3권 41쪽에 있소. | Your tricks are in volume three, page forty-one. |
+| | | | `line_nameless_vs_archive` | 오늘은 그 책을 태우러 왔어. | Today I came to burn that book. |
+| 이브로 > 카드라 | 58.6 % | 씨족의 길은 마른 강바닥뿐이고, 서고는 모든 강의 지도를 가졌다. 카드라는 지도에 없는 길을 찾는 중 | `line_archive_vs_rider` | 당신이 지나갈 강바닥에 이미 봉인을 묻어 두었소. | I have already buried seals in the riverbed you will ride. |
+| | | | `line_rider_vs_archive` | 지도에 없는 길로 가면 그만이지! | Then I'll ride a road that isn't on your map! |
+| 나할 > 이브로 | 55.9 % | 스승은 바다를 "고칠 기록"으로 봤고, 제자는 "사과할 신"으로 봤다. 기록은 지울 수 있지만 믿음은 지울 데가 없다 | `line_choir_vs_archive` | 스승님, 바다는 각주를 읽지 않아요. | Teacher, the sea doesn't read footnotes. |
+| | | | `line_archive_vs_choir` | 너를 가르친 걸 기록에서 지울 수는 없구나. | I can't strike from the record that I taught you. |
+| 오다 > 이브로 | 59.0 % | 서고의 심지는 수조의 기름으로 켠다. 이브로의 의식은 오다의 벽을 태우기 전에 기름이 먼저 떨어진다 | `line_warden_vs_archive` | 당신 등잔 기름, 어느 수조에서 나오는지 알지? | You know which cistern fuels your lamps, don't you? |
+| | | | `line_archive_vs_warden` | 알고 있소. 그래서 늘 빚진 기분이오. | I do. That's why I always feel in your debt. |
+
+(펠 > 이브로 68.0 %: 해체공은 기록 대신 실물을 뜯는다. 맞대결 대사는 round-2 후보.)
 
 ---
 
@@ -478,7 +500,7 @@ balance 1-1 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이�
 | 모드 (ko/en) | 설정 | 비고 |
 |---|---|---|
 | **맹약 결투 / Accord Duel** | 공식 순위전. 새김 깊이를 맞춤(돌파 정규화 제안) | 랭크 |
-| **조수원 친선 / Circle Sparring** | 순위 없는 결투. 새김 그대로 | 일반 |
+| **조수원 친선 / Circle Sparring** | 순위 없는 결투. 새김은 **고른 영장 한 종(새김 슬롯 1)**만 적용(balance 결정) | 일반 |
 | **모래 위 연습 / Sand Practice** | AI 호명자와 연습 | AI 대전·튜토리얼 |
 | **썰물 연대기 / Ebb Chronicle** | 호명자 6명의 이야기 결투(각 3~5판). 마지막 장은 흑조의 정체 | 혼자 하기 |
 
@@ -509,7 +531,7 @@ balance 1-1 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이�
 | `mode_sparring` | 조수원 친선 | Circle Sparring |
 | `mode_practice` | 모래 위 연습 | Sand Practice |
 | `mode_accord_desc` | 순위가 걸린 결투. 새김 깊이를 맞춥니다. | Ranked. Recut depth is equalized. |
-| `mode_sparring_desc` | 순위 없는 결투. 새김 그대로 싸웁니다. | Unranked. Cards fight at their own depth. |
+| `mode_sparring_desc` | 순위 없는 결투. 고른 영장 한 종만 새김을 적용합니다. | Unranked. Recut applies to one chosen writ. |
 | `mode_practice_desc` | AI 호명자와 연습합니다. | Practice against an AI Caller. |
 | `choose_caller` | 호명자를 고르세요 | Choose your Caller |
 | `choose_writbook` | 영장첩을 고르세요 | Choose a Writbook |
@@ -745,6 +767,65 @@ balance 1-1 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이�
 | `chronicle_title` | 썰물 연대기 | Ebb Chronicle |
 | `chronicle_locked` | 앞 장을 마쳐야 열립니다 | Finish the previous chapter |
 
+### 8-11. round-1 추가 키 (개발 임시 키 29개 확정 + 새 키)
+
+`games/tcg-01/data/strings-extra.json`의 임시 키 29개(실제 28개 + 메모)를 검토해 확정합니다. 값을 고친 키는 `ai_level`(en: Opponent → Opponent skill)과 `recut_rule_note`(친선 = 고른 영장 한 종, 영어 문장 나눔) 2개입니다. 이 표가 생겼으므로 임시 파일은 지워도 됩니다.
+
+| 키 | ko | en |
+|---|---|---|
+| `settings_fast_view` | 빠르게 보기 | Fast view |
+| `settings_reduce_motion` | 움직임 줄이기 | Reduce motion |
+| `battle_concede` | 결투 포기 | Concede |
+| `deck_standard` | 표준 영장첩 | Standard Writbook |
+| `deck_standard_locked` | 표준 영장첩은 고칠 수 없습니다. 새 영장첩을 만드세요. | Standard Writbooks can't be edited. Make a new one. |
+| `deck_saved` | 저장했습니다 | Saved |
+| `ai_level` | 상대 실력 | Opponent skill |
+| `ai_easy` | 서툰 호명자 | Green Caller |
+| `ai_hard` | 노련한 호명자 | Seasoned Caller |
+| `filter_all` | 전체 | All |
+| `stat_attack` | 공격력 | Attack |
+| `stat_health` | 명줄 | Lifeline |
+| `stat_durability` | 새김 수 | Cuts |
+| `stat_effect` | 효과 수치 | Effect value |
+| `stat_cosmetic` | 외형만 | Cosmetic only |
+| `recut_rule_note` | 맹약 결투는 새김 깊이를 맞추고, 조수원 친선은 고른 영장 한 종만, 모래 위 연습은 모두 적용합니다. | Accord Duels equalize Recut depth. Circle Sparring applies one chosen writ. Sand Practice applies all. |
+| `ink_not_enough` | 각인 먹이 모자랍니다. | Not enough Carving Ink. |
+| `crate_none` | 열 상자가 없습니다. | No crates to open. |
+| `odds_slot` | 일반 칸 | Normal slot |
+| `odds_guarantee_slot` | 보장 칸 | Guaranteed slot |
+| `odds_pity` | 등대 보장: 심해 {a}상자, 산호 {c}상자, 첫 심해 {f}상자 안 | Lighthouse Guarantee: Abyss within {a}, Coral within {c}, first Abyss within {f} crates |
+| `market_bought` | 샀습니다 | Bought |
+| `market_featured` | 오늘의 영장 | Writ of the Day |
+| `market_sold_out` | 다 팔렸습니다 | Sold out |
+| `commission_claimed` | 받았습니다 | Claimed |
+| `on` | 켬 | On |
+| `off` | 끔 | Off |
+| `result_turns` | {n}번째 턴 | Turn {n} |
+
+새 키(리뷰에서 빠진 글):
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `recut_slot_title` | 새김 슬롯 | Recut Slot | 친선 전 영장첩 화면 |
+| `recut_slot_desc` | 친선에서 새김을 살릴 영장 한 종을 고르세요. | Pick one writ to keep its Recut in Sparring. | 같은 화면 |
+| `recut_slot_empty` | 고른 영장 없음 | No writ chosen | 같은 화면 |
+| `crate_second_copy` | 2장째 · 이제 영장첩에 2장 | 2nd copy · Now 2 for your Writbook | 상자 공개(2장째 사본, qa 11번) |
+| `crate_resonance_gain` | 공명 +{n} | Resonance +{n} | 상자 공개(3장째부터) |
+| `deck_arch_archive_kindle` | 잉걸 의식 컨트롤 | Kindle Rite Control | 표준 영장첩 이름 뒤(영어 모드에서 한국어가 나오던 곳) |
+| `deck_arch_choir_brine` | 소금독 컨트롤 | Brine Control | 〃 |
+| `deck_arch_nameless_wake` | 물안개 뒷물결 템포 | Seamist Wake Tempo | 〃 |
+| `deck_arch_rider_rush` | 급류 어그로 | Rapids Aggro | 〃 |
+| `deck_arch_warden_bulwark` | 방파제 미드레인지 | Breakwater Midrange | 〃 |
+| `deck_arch_wreck_fit` | 부품 성장 콤보 | Fit Growth Combo | 〃 |
+| `hero_warden_bio` | 마지막 저수지를 지키는 수문장. 벽을 세우고 버틴다. | Keeper of the last reservoir. Builds walls and holds. | 호명자 고르기 |
+| `hero_choir_bio` | 바다를 다시 부르려는 선창자. 소금독으로 천천히 잠근다. | A cantor calling the sea back. Drowns foes slowly in Brine. | 〃 |
+| `hero_wreck_bio` | 침몰선을 되살리는 해체공. 부품을 붙여 키운다. | A breaker reviving wrecks. Grows Answerers with Fits. | 〃 |
+| `hero_rider_bio` | 사구를 달리는 씨족 선봉. 먼저 치고 빨리 끝낸다. | Vanguard of the dune clans. Strikes first, ends fast. | 〃 |
+| `hero_archive_bio` | 모든 이름을 기록한 사서장. 빠른 적을 미리 읽고 지운다. | The archivist who recorded every name. Reads and erases fast foes. | 〃 |
+| `hero_nameless_bio` | 이름을 잃은 칼. 숨어서 치고 카드를 벌어들인다. | A blade with no name. Strikes from hiding, earns cards. | 〃 |
+
+대사: 4절 대사표에 `위기` 줄(내 명줄 ≤ 10, 한 판 1회) 6개 추가, 4-8에 맞대결 첫 대사 키 8개 추가.
+
 ### 8-10. 오류·확인
 
 | 키 | ko | en |
@@ -793,7 +874,7 @@ balance 1-1 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상 = 이�
 
 - **balance-designer**: 카드마다 `concept_ko`는 의도이고, 응답자/의식/인장 구분·비용·수치는 당신이 정합니다. `cost_band`는 low(1~3)·mid(4~6)·high(7~10) 감각입니다. 소금독 규칙(턴 시작 N 피해 후 1 감소)은 제안입니다. 8장 미만 키워드 5개(들이켬·인양 6, 급류·익사·봉인문 7)는 6-1절 의견대로 합치지 않고 유지합니다. 1-2에서 근사 11장·의식→응답자 5장 문구를 cards.json에 맞췄습니다(1-2 리뷰 `reviews/1-2/lore-writer.md`).
 - **art-director**: 영웅·세력 색과 실루엣은 4절, 카드마다 `visual_hint`(세력 색 + 모티프). 마나는 세로 막대(심지), 후공 보상은 초 토막, 카드 프레임은 소금유리 판(모서리가 깨진 직사각) 방향을 권합니다(레퍼런스 프레임 모양 금지). 희귀도 색: 모래 베이지·진주 흰 무지개·산호 주홍·심해 검푸름.
-- **game-developer**: 화면 문구는 8절 키만 씁니다. 카드 이름·글은 `lore/cards-lore.json`의 `name_*`·`flavor_*`를 쓰고, 최종 카드 글은 balance 데이터에서 만듭니다.
+- **game-developer**: 화면 문구는 8절 키만 씁니다. 카드 이름·글은 `lore/cards-lore.json`의 `name_*`·`flavor_*`·`concept_ko`·**`concept_en`(round-1부터 200장)**을 씁니다. 영어 모드의 "키워드 이름 + 풍미글" 대체는 지우고 `concept_en`을 보여 주세요. 대사표 `위기` 줄(내 명줄 ≤ 10)과 4-8 맞대결 대사 키, 8-11 키는 round-1에서 추가.
 
 ---
 
