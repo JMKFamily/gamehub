@@ -6,6 +6,8 @@ import { M, save, owned, stageOf, cap, deckCap, thresholds, canRecut, recut, btD
 import { G, tween, setTf, tf, after } from './anim.js';
 import { sfx, setSound, setMusic, unlock } from './audio.js';
 import { toast, show, coach, markScroll } from './ui.js';
+import * as U2mod from './ux2.js';
+const U2q = () => U2mod;
 // 첫 진입 안내(8-12)·대전 밖 튜토리얼 단계(8-7): 한 번만. 본 것은 M.s.guides / M.s.tut.seen에 저장
 function guideOnce(steps, tut) {
   const todo = steps.filter((x) => x.el && (tut ? !(M.s.tut.skipped || M.s.tut.seen.includes(x.key)) : !M.s.guides[x.key]));
@@ -62,10 +64,10 @@ export function dockScreen() {
 function tideBar(k) { const i = h('i'); i.style.transform = `scaleX(${Math.max(0, Math.min(1, k)).toFixed(3)})`; return h('div', { class: 'trackBar' }, i); }
 
 // ---------- 호명자 선택 → 결투 ----------
-export function heroScreen() {
+export function heroScreen(args = {}) {
   const s = screen('heroes', t('choose_caller'));
   const sc = h('div', { class: 'scroll col' });
-  let hero = M.s.lastHero || D.heroIds[0], deckId = null, mode = M.s.mode || 'mode_practice', ai = M.s.ai || 'eval';
+  let hero = M.s.lastHero || D.heroIds[0], deckId = null, mode = M.s.mode || 'mode_practice'; const tier = args.tier || M.s.aiTier || 1, ai = args.ai || (D.balance.ai.difficulty.tiers.find((x) => x.tier === tier) || {}).preset || 'easy';
   const grid = h('div', { class: 'grid heroGrid' }), det = h('div', { class: 'col' });
   const draw = () => {
     grid.innerHTML = '';
@@ -94,11 +96,11 @@ export function heroScreen() {
     const mr = h('div', { class: 'col' });
     for (const m of ['mode_practice', 'mode_sparring', 'mode_accord']) mr.appendChild(btn(h('span', {}, [h('b', { text: t(m) }), h('span', { class: 'small', text: ' · ' + t(m + '_desc') })]), () => { mode = m; draw(); if (m === 'mode_accord') { const b = s.querySelector('[data-mode=mode_accord]'); guideOnce([{ key: 'guide_ranked_1', el: b }, { key: 'guide_ranked_2', el: b && b.querySelector('.small') }]); } }, m === mode ? 'sel' : '', { 'data-mode': m }));
     det.appendChild(mr);
-    det.appendChild(h('div', { class: 'row' }, [h('span', { text: t('ai_level') }), btn(t('ai_easy'), () => { ai = 'greedy'; draw(); }, ai === 'greedy' ? 'sel' : '', { 'data-ai': 'greedy' }), btn(t('ai_hard'), () => { ai = 'eval'; draw(); }, ai === 'eval' ? 'sel' : '', { 'data-ai': 'eval' })]));
+    det.appendChild(h('div', { class: 'small', text: `${t('ai_level')}: ${t(`ai_tier_${tier}_name`)}` })); // 상대 실력은 앞 화면(4단계, 쉬움부터)에서 고름
     det.appendChild(btn(t('menu_play'), () => {
       M.s.lastHero = hero; M.s.mode = mode; M.s.ai = ai; save();
       const deck = allDecks().find((d) => d.id === deckId);
-      go('battle', { hero, deck, mode, ai });
+      go('battle', { hero, deck, mode, ai, tier });
     }, 'primary big', { 'data-nav': 'fight' }));
   };
   draw();
@@ -317,6 +319,9 @@ export function cratesScreen() {
     const n = M.s.crates.faction[hid] || 0;
     if (n) sc.appendChild(row(assetURL(`crate-${HS(hid)}.svg`), t('crate_' + HS(hid)), n, () => { M.s.crates.faction[hid]--; go('open', { kind: 'faction', hero: hid }); }, hid));
   }
+  // 모두 열기(최대 10팩, balance crate_open.open_all_max_per_batch): 결과를 희귀도 높은 순으로 모아 보여 줌
+  { const maxN = D.balance.economy.crate_open.open_all_max_per_batch, q = U2q().crateQueue(maxN);
+    if (q.length > 1) sc.appendChild(btn(t('crate_open_all', { n: q.length }), () => confirmBox(t('crate_open_all_confirm', { n: q.length }), () => { U2q().takeCrates(q); go('openAll', { list: q }); }), 'primary', { 'data-act': 'openAll' })); }
   sc.appendChild(btn(t('crate_odds'), () => {
     const E = D.balance.economy;
     const pct = (o) => Object.entries(o).map(([k, v]) => `${t('rarity_' + k)} ${(v * 100).toFixed(0)}%`).join(' · ');
@@ -383,11 +388,19 @@ export function openScreen({ kind, hero }) {
       setTf(c.el, { x: c.sp.x, y: c.sp.y, s: 1, o: 1 });
       setTf(cb, { s: 0.01 }); tween(cb, { s: 1 }, ms(CO.reveal_flip), { done: ok });
       c.el.onclick = () => cardDetail(c.r.cid);
-      if (chunks.every((q) => q.done)) { hint.classList.add('hidden'); const dup = chunks.find((q) => q.r.res > 0); if (dup) guideOnce([{ key: 'guide_exp_1', el: dup.el.querySelector('.revealTag') }]); }
+      if (chunks.every((q) => q.done)) { hint.classList.add('hidden'); nextPack(); const dup = chunks.find((q) => q.r.res > 0); if (dup) guideOnce([{ key: 'guide_exp_1', el: dup.el.querySelector('.revealTag') }]); }
     } });
   });
   for (const c of chunks) c.el.addEventListener('pointerdown', () => { unlock(); reveal(c); }, { once: true });
   const wait = (m) => new Promise((r) => after(m, r));
+  const nextPack = () => {
+    if (s.querySelector('[data-act=nextPack]')) return;
+    const nNew = res.filter((r) => r.isNew).length, best = [...res].sort((a, b) => ['abyss', 'coral', 'pearl', 'sand'].indexOf(a.rarity) - ['abyss', 'coral', 'pearl', 'sand'].indexOf(b.rarity))[0];
+    const same = kind === 'bare' ? M.s.crates.bare : M.s.crates.faction[hero] || 0;
+    const sum = h('div', { class: 'small', style: 'text-align:center;padding:2px 8px', text: `${t('crate_summary_new', { n: nNew })} · ${t('crate_summary_best')}: ${cardName(cardById(best.cid))}` });
+    btns.parentNode.insertBefore(sum, btns);
+    if (same > 0) btns.insertBefore(btn(t('crate_open_next', { n: same }), () => { if (kind === 'bare') M.s.crates.bare--; else M.s.crates.faction[hero]--; save(); go('open', { kind, hero }); }, 'primary big', { 'data-act': 'nextPack' }), btns.firstChild);
+  };
   const all = btn(t('crate_reveal_all'), async () => {
     const order = chunks.filter((c) => !c.done).sort((a, b) => ['sand', 'pearl', 'coral', 'abyss'].indexOf(a.r.rarity) - ['sand', 'pearl', 'coral', 'abyss'].indexOf(b.r.rarity));
     const st2 = ms({ normal_ms: CO.break_all_stagger.normal_ms, fast_ms: CO.break_all_stagger.fast_ms });
@@ -545,7 +558,7 @@ const storySeq = (c) => (D.story.order[c.owner] || []);
 const factionName = (owner) => { const F = D.story.factions[owner]; return F ? (L.lang === 'en' ? F.en : F.ko) : ''; };
 export function storyToggle(ctx) {
   const SP = D.art.story_panel, P = SP.panel;
-  if (ctx.story) { const el = ctx.story; ctx.story = null; tween(el, { o: 0, y: 12 }, SP.tempo.close_ms * G.scale, { done: () => el.remove() }); ctx.onToggle && ctx.onToggle(false); return; }
+  if (ctx.story) { const el = ctx.story; ctx.story = null; if (ctx.onClose) { ctx.onClose(); ctx.onClose = null; } tween(el, { o: 0, y: 12 }, SP.tempo.close_ms * G.scale, { done: () => el.remove() }); ctx.onToggle && ctx.onToggle(false); return; }
   const c = cardById(ctx.cid), f = fac(c.owner), land = innerWidth > innerHeight;
   const w = ctx.w, k = w / D.art.card.base_w_px, top = (D.art.card.name_band.y_px + D.art.card.name_band.h_px) * k;
   const fs = L.lang === 'en' ? P.font_en_px : P.font_ko_px;
@@ -560,6 +573,14 @@ export function storyToggle(ctx) {
   const panel = h('div', { class: 'storyPanel', role: 'dialog', 'aria-label': t(STORY_KEYS.title, { name: cardName(c) }), 'data-story': ctx.cid, style: `background:${P.bg};color:${P.ink};border:3px solid ${f.primary};border-left-width:6px;padding:${P.pad_px}px` },
     [h('div', { class: 'col', style: 'gap:0' }, [h('span', { style: 'font-size:12px;color:var(--salt_dim)', text: idx >= 0 ? t(STORY_KEYS.faction, { faction: factionName(c.owner), n: idx + 1, total: seq.length }) : owner }), h('b', { style: 'font-size:16px', text: t(STORY_KEYS.title, { name: cardName(c) }) })]), body, nav]);
   if (land) { const pw = Math.max(P.min_w_px, Math.min(innerWidth - ctx.wrap.getBoundingClientRect().right - 16, 320)); Object.assign(panel.style, { position: 'absolute', left: w + 8 + 'px', top: '0px', width: pw + 'px', height: ctx.h + 'px' }); }
+  else if (D.art.ux2 && D.art.ux2.collection) {
+    const CO = D.art.ux2.collection.story_open, vw = innerWidth, kk = (vw * CO.card_w_ratio_portrait) / w;
+    const wr = ctx.wrap.getBoundingClientRect(), dx = 8 - wr.left;
+    ctx.wrap.style.transformOrigin = '0 0'; ctx.wrap._tf = null; setTf(ctx.wrap, { x: 0, y: 0, s: 1 }); tween(ctx.wrap, { x: dx, s: kk }, CO.move_ms * G.scale);
+    // 패널은 줄어드는 카드 밖(오버레이)에 고정 배치: 카드 배율이 글자에 옮지 않게
+    Object.assign(panel.style, { position: 'fixed', zIndex: 5, left: (8 + w * kk + 6) + 'px', top: Math.max(8, wr.top) + 'px', width: (vw * CO.panel_w_ratio_portrait - 8) + 'px', height: Math.min(innerHeight - Math.max(8, wr.top) - 8, Math.max(ctx.h * kk, 320)) + 'px' }); panel._outside = true; Object.assign(nav.style, { flexWrap: 'wrap' }); const cb = nav.querySelector('[data-act=storyClose]'); cb.style.flexBasis = '100%'; cb.style.order = '3';
+    ctx.onClose = () => tween(ctx.wrap, { x: 0, s: 1 }, CO.move_ms * G.scale);
+  }
   else {
     // 세로: 이름 띠 아래부터 버튼 줄 위까지 덮음(30-art 11-8 "아래 = 카드 아래 끝 + 버튼 줄 위")
     const wr = ctx.wrap.getBoundingClientRect(), row = ctx.wrap.parentNode.querySelector('[data-act=story]')?.parentNode;
@@ -567,7 +588,7 @@ export function storyToggle(ctx) {
     Object.assign(panel.style, { position: 'absolute', left: '0px', top: top + 'px', width: Math.max(w, P.min_w_px) + 'px', height: Math.max(ctx.h - top, bottom - wr.top - top) + 'px' });
   }
   panel.addEventListener('click', (e) => e.stopPropagation());
-  ctx.wrap.appendChild(panel);
+  (panel._outside ? (ctx.wrap.closest('.ovl') || document.body) : ctx.wrap).appendChild(panel);
   ctx.story = panel;
   setTf(panel, { o: 0, y: 12 }); tween(panel, { o: 1, y: 0 }, (G.fast ? SP.tempo.fast_open_ms : SP.tempo.open_ms) * G.scale);
   requestAnimationFrame(() => markScroll(panel));

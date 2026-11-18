@@ -4,15 +4,15 @@ export const D = { cards: {}, list: [], tokens: {}, balance: null, art: null, de
 async function j(p) { const r = await fetch(p); if (!r.ok) throw new Error(p + ' ' + r.status); return r.json(); }
 
 export async function loadData() {
-  const [cards, balance, art, decks, strings, starters, portraits, uxIcons, glossary, storyOrder] = await Promise.all([
-    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'), j('data/ux-icons.json'), j('data/glossary.json'), j('data/story-order.json'),
+  const [cards, balance, art, decks, strings, starters, portraits, uxIcons, glossary, storyOrder, worldmap] = await Promise.all([
+    j('data/cards.json'), j('data/balance.json'), j('data/art.json'), j('data/decks.json'), j('data/strings.json'), j('data/starters.json'), j('data/portraits.json'), j('data/ux-icons.json'), j('data/glossary.json'), j('data/story-order.json'), j('data/worldmap.json'),
   ]);
   for (const c of cards.cards) D.cards[c.id] = c;
   D.engineKw = cards.engine_kw;
   D.list = cards.cards;
   for (const t of cards.tokens) D.tokens[t.id] = t;
   D.balance = balance; D.art = art; D.decks = decks; D.starters = starters; D.portraits = portraits;
-  D.strings = strings; D.uxIcons = uxIcons; D.glossary = glossary; D.story = storyOrder;
+  D.strings = strings; D.uxIcons = uxIcons; D.glossary = glossary; D.story = storyOrder; D.worldmap = worldmap;
   D.heroIds = decks.map((d) => d.hero);
   applyPalette(art.palette);
 }
@@ -84,7 +84,7 @@ function idleBake() {
     idleBake();
   }, { timeout: 1000 });
 }
-const BATTLE_ASSETS = () => [...D.art.palette.keywords.map((k) => 'kw-' + k.id + '.svg'), 'icon-ready.svg', 'icon-asleep.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', ...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg')];
+const BATTLE_ASSETS = () => [...D.art.palette.keywords.map((k) => 'kw-' + k.id + '.svg'), 'icon-ready.svg', 'icon-asleep.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'candle-lit.svg', 'candle-spent.svg', 'candle-spare.svg', 'candle-soot.svg', 'candle-empty.svg', ...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg')];
 export function bakeMenuAssets() {
   const names = ['currency-salt.svg', 'currency-ink.svg', 'currency-pearl.svg', 'crate-bare-sea.svg', ...D.heroIds.map((h) => 'crate-' + h.slice(2) + '.svg'), ...Object.keys(D.art.ux.families).map((f) => 'type-' + f + '.svg'), 'kind-minion.svg', 'kind-spell.svg', 'kind-weapon.svg', 'icon-story.svg'];
   const add = names.map((n) => 'a:' + n).filter((k) => !D.png[k] && !bakeQ.includes(k));

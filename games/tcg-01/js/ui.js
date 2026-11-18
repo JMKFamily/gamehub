@@ -49,14 +49,21 @@ export function coach(steps, t, { onSkip, onEach } = {}) {
       box('coachRing');
     }
     const p = document.createElement('div'); p.className = 'coach'; p.setAttribute('role', 'note'); p.dataset.coach = st.key;
-    const low = r && r.top + r.height / 2 > innerHeight / 2;
-    p.style[low ? 'top' : 'bottom'] = '8px';
+    // 가운데 띠(art ux2.tutorial_band 0.35~0.65): 대상이 위쪽이면 띠 아래쪽, 아래쪽이면 띠 위쪽에 두고 대상과 겹치지 않게
+    p.style.visibility = 'hidden';
     const tx = document.createElement('div'); tx.className = 'txt'; tx.textContent = t(st.key);
     const nx = document.createElement('button'); nx.className = 'btn primary'; nx.type = 'button'; nx.textContent = t('tut_next'); nx.dataset.coachNext = '1';
     const sk = document.createElement('button'); sk.className = 'btn'; sk.type = 'button'; sk.textContent = t('tut_skip'); sk.dataset.coachSkip = '1';
     nx.onclick = () => { i++; showOne(); };
     sk.onclick = () => { clear(); i = steps.length; onSkip && onSkip(); };
+    if (st.pic) p.append(st.pic);
     p.append(tx, nx, sk); document.body.appendChild(p); els.push(p);
+    { const H = innerHeight, ph = p.offsetHeight, b0 = 0.35 * H, b1 = 0.65 * H; let top;
+      if (!r) top = (H - ph) / 2;
+      else if (r.top + r.height / 2 < H / 2) top = Math.max(b0, r.bottom + 12, b1 - ph); else top = Math.min(b1 - ph, r.top - 12 - ph);
+      top = Math.max(b0 - ph / 2, Math.min(top, b1 - ph / 2));
+      if (r && top < r.bottom && top + ph > r.top) top = r.top + r.height / 2 < H / 2 ? r.bottom + 8 : r.top - 8 - ph; // 겹치면 띠를 벗어나도 대상 밖
+      p.style.top = Math.max(8, Math.min(H - ph - 8, top)) + 'px'; p.style.visibility = ''; }
   };
   showOne();
   return { close: clear };

@@ -167,6 +167,13 @@ for (const f of readdirSync(join(PROJ, 'assets'))) {
   copyFileSync(join(PROJ, 'assets', f), join(AS_OUT, f)); nAs++;
 }
 copyFileSync(join(PROJ, 'assets', 'app-icon.svg'), join(GAME, 'icon.svg'));
+// 월드맵(lore worldmap.json + art ux2.mjs 지도 그림 900×1100, 노드 상태는 빌드가 저장값으로 DOM에 그림)
+{
+  const wm = readJ(join(PROJ, 'lore', 'worldmap.json'));
+  writeFileSync(join(DATA_OUT, 'worldmap.json'), JSON.stringify(wm));
+  const U2 = await import(pathToFileURL(join(PROJ, 'tools', 'art', 'ux2.mjs')).href);
+  if (U2.worldmapSVG) writeFileSync(join(GAME, 'assets', 'worldmap-bg.svg'), U2.worldmapSVG(wm, 360, 640, true));
+}
 // BGM 합성기(art, 의존성 없는 ES 모듈)를 그대로 복사(30-art 6-2)
 if (existsSync(join(PROJ, 'tools', 'art', 'music-synth.mjs'))) copyFileSync(join(PROJ, 'tools', 'art', 'music-synth.mjs'), join(GAME, 'js', 'music-synth.mjs'));
 

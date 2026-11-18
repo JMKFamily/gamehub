@@ -303,3 +303,78 @@ button { font: inherit; color: inherit; }
 /* 세로 튜토리얼: 버튼을 패널 안 한 줄(오른쪽)에, 맨 위 층·각 48 px 이상(QA r3) */
 .tut.inbtn { flex-direction: row; flex-wrap: nowrap; align-items: center; }
 .tut.inbtn .tutBtn { position: relative; z-index: 2; min-width: 48px; min-height: 48px; height: 48px; flex: none; }
+
+/* ===== UX2 (2026-11-19): 로비·하위 화면 틀·상대 실력·덱 첫 화면·월드맵·모두 열기·촛불·재질 ===== */
+.ux2stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
+.ux2stage > * { position: absolute; }
+.lobbyBg { inset: 0; }
+.lobbyHero { opacity: .32; object-fit: contain; pointer-events: none; filter: drop-shadow(0 0 24px rgba(244,183,64,.25)); }
+.tideWave { left: 0; right: 0; height: 40px; background: radial-gradient(ellipse at 50% 100%, #4DE0FF22, transparent 70%); pointer-events: none; }
+.lvl { border: 0; border-radius: 50%; background: conic-gradient(var(--focus) calc(var(--k) * 360deg), var(--line_soft) 0); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.lvl b { background: var(--bg_panel); border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.hudCur { display: flex; align-items: center; justify-content: space-around; background: var(--bg_panel); border-radius: 6px; }
+.seasonW, .questW { border: 0; background: var(--bg_panel); color: var(--salt_white); padding: 6px 8px; display: flex; flex-direction: column; gap: 4px; text-align: left; cursor: pointer; clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%); }
+.stTicks { flex: 1; display: flex; gap: 3px; align-items: center; }
+.stTicks i { flex: 1; height: 8px; background: var(--wick_spent); border-radius: 2px; }
+.stTicks i.on { background: var(--wick_flame); }
+.stTicks i.cur { height: 14px; background: var(--focus); }
+.qrow { display: flex; align-items: center; gap: 4px; position: relative; }
+.qbar { flex: 1; height: 8px; background: var(--wick_spent); }
+.qbar i { display: block; height: 100%; background: var(--focus); transform-origin: 0 50%; }
+.qrow.done .qbar i { background: var(--heal); }
+.qrow.done::after { content: ''; position: absolute; right: -2px; top: -2px; width: 8px; height: 8px; border-radius: 50%; background: var(--damage); }
+.qrow.claimed { opacity: .5; }
+.btn.tile { flex-direction: column; padding: 2px; font-size: 12px; position: absolute; }
+.badge2 { position: absolute; right: 2px; top: 2px; background: var(--damage); color: #fff; font-style: normal; font-size: 11px; min-width: 18px; border-radius: 9px; padding: 0 4px; }
+.battleBtn { font-size: 22px; animation: battlePulse 1.8s ease-in-out infinite; }
+@keyframes battlePulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+.ux2frame .body { padding-bottom: 76px; }
+.bottomBar { position: absolute; left: 0; right: 0; bottom: 0; height: 68px; display: flex; align-items: center; padding: 8px; gap: 8px; background: linear-gradient(transparent, var(--bg_abyss) 40%); }
+.bottomBar .core { flex: 1; display: flex; gap: 8px; justify-content: center; }
+.backBtn { flex: none; }
+.tierList { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tierCard { border: 3px solid transparent; background: var(--bg_panel); color: var(--salt_white); padding: 10px; display: flex; flex-direction: column; gap: 6px; min-height: 120px; cursor: pointer; text-align: left; }
+.tierCard.sel { border-color: var(--ring); transform: scale(1.03); }
+.tierCard.locked { opacity: .45; }
+.tierArt { height: 46px; border-radius: 6px; background: linear-gradient(#2A3A40, #0B151B); display: flex; flex-direction: column; justify-content: flex-end; gap: 3px; padding: 4px; }
+.tierArt i { height: 4px; border-radius: 2px; background: var(--ring); opacity: .8; }
+.deckPics { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+.deckPic { border: 3px solid transparent; background: var(--bg_panel); color: var(--salt_white); padding: 6px; display: flex; flex-direction: column; align-items: center; gap: 2px; cursor: pointer; border-bottom: 5px solid var(--fac); min-height: 48px; }
+.deckPic img { width: 64px; height: 76px; object-fit: cover; }
+.deckPic.sel { border-color: var(--focus); }
+.tutPic { display: flex; justify-content: center; padding: 4px 0; }
+.coach { flex-wrap: wrap; }
+.coach .tutPic { flex-basis: 100%; }
+.pic30 { display: grid; grid-template-columns: repeat(15, 10px); gap: 2px; }
+.pic30 i { height: 10px; background: var(--wick_spent); }
+.pic30 i.on { background: var(--wick_flame); }
+.pic2 { position: relative; width: 90px; height: 70px; }
+.pic2 img { position: absolute; width: 46px; height: 64px; }
+.pic2 img + img { left: 20px; top: 4px; }
+.pic2 b { position: absolute; right: 0; bottom: 0; color: var(--wick_flame); font-size: 18px; }
+.mapBody { padding: 0; }
+.wprog { padding: 6px 10px; }
+.wscroll { overflow: auto; flex: 1; position: relative; -webkit-overflow-scrolling: touch; }
+.wmap { position: relative; }
+.wbg { position: absolute; left: 0; top: 0; }
+.wpaths { position: absolute; left: 0; top: 0; pointer-events: none; }
+.wpaths path { stroke: #4D585D; stroke-width: 7; stroke-dasharray: 8 8; fill: none; stroke-linecap: round; }
+.wpaths path.on { stroke: var(--salt_white); stroke-dasharray: none; opacity: .85; }
+.wnode { position: absolute; width: 48px; height: 48px; border: 2px solid var(--stat_tab); background: #24343B; color: var(--salt_dim); font-weight: 800; cursor: pointer; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 0 100%); }
+.wnode.read { background: var(--card_plate); color: var(--card_ink); }
+.wnode.open { background: #3A5560; color: var(--salt_white); }
+.wnode.cur { background: var(--button_primary); color: var(--button_primary_ink); outline: 4px solid var(--focus); outline-offset: 3px; clip-path: none; }
+.wfog { position: absolute; width: 180px; height: 120px; border-radius: 50%; background: radial-gradient(#A9BCC6cc, transparent 70%); pointer-events: none; }
+.openCell { transition: none; }
+/* 촛불 심지(art ux2.candle) */
+.wicks i.cand { flex: 1; position: relative; background: none !important; border-radius: 0; opacity: 1 !important; }
+.wicks .cand img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; }
+.wicks .cand.lit .cl { animation: flick 1.4s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes flick { 0%,100% { transform: rotate(-2deg) scaleY(.96); } 50% { transform: rotate(3deg) scaleY(1.04); } }
+/* 카드 비용 = 초(촛농·심지·불꽃) */
+.card .cost { background: linear-gradient(#F3E6C8, #D9C79F); color: var(--wick_ink); border-radius: 6px 6px 3px 3px; overflow: visible; }
+.card .cost::before { content: ''; position: absolute; left: 50%; top: -14px; width: 10px; height: 14px; margin-left: -5px; background: radial-gradient(ellipse at 50% 70%, #FFE08A 0%, var(--wick_flame) 45%, transparent 72%); border-radius: 50% 50% 40% 40%; }
+.card .cost::after { content: ''; position: absolute; left: 6px; top: 0; width: 6px; height: 12px; background: #F3E6C8; border-radius: 0 0 3px 3px; }
+.card.hand .cost::before { top: -20px; width: 16px; height: 20px; margin-left: -8px; }
+/* 재질: 인양 목재 결 + 젖은 소금 껍질 윗선(art ux2 plate) */
+.btn, .panel, .tierCard, .deckPic, .seasonW, .questW { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='48' preserveAspectRatio='none'><path d='M4 34Q48 30 116 36M4 41Q72 37 116 42' fill='none' stroke='%23000' stroke-opacity='.12' stroke-width='1.5'/><path d='M2 3q10 -3 20 0t20 0t20 0t20 0t20 0t20 0' fill='none' stroke='%23F2EEE4' stroke-opacity='.3' stroke-width='2'/></svg>"); background-size: 100% 100%; }

@@ -108,7 +108,7 @@ export class Battle {
       wrap.appendChild(hero);
       const wr = R[side + '_wicks'];
       const wicks = h('div', { class: 'wicks', role: 'meter', 'aria-label': t('hud_aria_wicks'), 'aria-valuemin': 0, 'aria-valuemax': 10, style: `left:${wr.x}px;top:${wr.y}px;width:${wr.w}px;height:${wr.h}px` });
-      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i'); bars.push(b); wicks.appendChild(b); }
+      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand' }, [h('img', { class: 'cb', src: assetURL('candle-empty.svg'), alt: '', draggable: 'false' }), h('img', { class: 'cl', src: assetURL('candle-lit.svg'), alt: '', draggable: 'false', style: `animation-delay:-${(i * 0.37) % 1.4}s;animation-duration:${1.1 + ((i * 0.23) % 0.6)}s` })]); b._st = 'empty'; setTf(b.children[1], { o: 0 }); bars.push(b); wicks.appendChild(b); }
       const wn = h('b'); wicks.appendChild(wn);
       wrap.appendChild(wicks);
       const cr = R[side + '_calling'];
@@ -199,7 +199,7 @@ export class Battle {
       se.wpn.classList.toggle('hidden', !P.weapon); if (P.weapon) se.wpn.textContent = `${P.weapon.atk}/${P.weapon.dur}`;
       se.brn.classList.toggle('hidden', !(P.curse > 0)); se.brn.textContent = P.curse > 0 ? '◆' + P.curse : '';
       se.sec.classList.toggle('hidden', !P.secrets.length);
-      se.bars.forEach((b, i) => { b.className = i < P.mana ? 'on' : i < P.maxMana - P.overloadNow ? '' : i < P.maxMana ? 'soot' : 'none'; });
+      this.renderCandles(se, P, instant, side === 'my' && vm.players[se.p].hand.some((x) => x.system));
       se.wn.textContent = `${P.mana}/${P.maxMana}`;
       const wk = se.bars[0].parentNode; wk.setAttribute('aria-valuenow', P.mana);
       se.deckN.textContent = P.deck;
@@ -276,6 +276,22 @@ export class Battle {
     for (const a of acts) if (a.type === 'attack' && a.target === E1.uid) { const m = E.findChar(this.state, a.attacker); face.set(a.attacker, E.attackOf(this.state, m)); }
     const sum = [...face.values()].reduce((x, y) => x + y, 0);
     this.sideEls.enemy.hero.classList.toggle('lethal', my && sum > 0 && sum >= E1.hp + E1.armor);
+  }
+  // 촛불: 왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리, 여분 심지는 오른쪽 끝. 끌 때 오른쪽부터 40 ms 간격(불꽃 140·연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격. 잠금 0
+  renderCandles(se, P, instant, spare) {
+    const CA = D.art.ux2.candle, ex = CA.extinguish, re = CA.relight_turn_start || { per_candle_stagger_ms: 30, flame_in_ms: 160 };
+    const want = se.bars.map((_, i) => (i < P.overloadNow ? 'soot' : i < P.overloadNow + P.mana ? 'lit' : i < P.maxMana ? 'spent' : spare && i === 9 ? 'spare' : 'empty'));
+    const off = [], on = [];
+    se.bars.forEach((b, i) => {
+      const w = want[i]; if (b._st === w) return;
+      const base = w === 'lit' ? (b._st === 'soot' ? 'soot' : 'spent') : w;
+      b.children[0].src = assetURL(`candle-${base}.svg`);
+      if (w === 'lit' && b._st !== 'lit') on.push(b); else if (b._st === 'lit' && w !== 'lit') off.push(b);
+      b._st = w; b.classList.toggle('lit', w === 'lit');
+    });
+    const sc = G.scale * (G.fast ? 0.5 : 1);
+    off.reverse().forEach((b, k) => { const fl = b.children[1], sm = b.children[0]; if (instant) { setTf(fl, { o: 0 }); return; } const d = Math.min(k * ex.per_candle_stagger_ms, ex.total_max_ms - ex.smoke_in_ms) * sc; after(d, () => { tween(fl, { o: 0 }, ex.flame_out_ms * sc); setTf(sm, { o: 0.4 }); tween(sm, { o: 1 }, ex.smoke_in_ms * sc); }); });
+    on.forEach((b, k) => { const fl = b.children[1]; if (instant) { setTf(fl, { o: 1 }); return; } after(k * re.per_candle_stagger_ms * sc, () => tween(fl, { o: 1 }, re.flame_in_ms * sc)); });
   }
   keyOf(inst) { return inst.cid + '|' + inst.costMod + '|' + inst.atkMod + '|' + inst.hpMod + '|' + inst.dmgMod + '|' + (inst.system ? 1 : 0); }
   posOfUid(uid) {

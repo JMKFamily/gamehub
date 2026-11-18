@@ -186,6 +186,7 @@ export function battleRewards(res) {
   rollDaily();
   const inc = D.balance.economy.income, T = D.balance.economy.tide_calendar, d = M.s.daily, out = [];
   M.s.stats.games++;
+  if (res.win) { const st = M.s.stats; st.heroWins = st.heroWins || {}; st.tierWins = st.tierWins || {}; if (res.hero) st.heroWins[res.hero] = (st.heroWins[res.hero] || 0) + 1; if (res.tier) st.tierWins[res.tier] = (st.tierWins[res.tier] || 0) + 1; } // 상대 실력 단계 열기·월드맵 조건
   if (res.win) {
     M.s.stats.wins++;
     if (res.mode === 'mode_practice') { const n = Math.max(0, Math.min(inc.sand_practice_win_salt_marks, inc.sand_practice_daily_cap - d.practiceSalt)); d.practiceSalt += n; if (n) out.push({ k: 'salt', n }); }

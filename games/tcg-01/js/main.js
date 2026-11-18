@@ -6,6 +6,7 @@ import { initAudio, unlock, setSound, setMusic, sfx, suspendAudio, resumeAudio }
 import { M, load, save, resetSave, seedRng, btFor, battleRewards, allDecks } from './meta.js';
 import { Battle } from './battle.js';
 import * as S from './screens.js';
+import * as U2 from './ux2.js';
 import { show, UI, coach } from './ui.js';
 import { ads } from './ads.js';
 import * as Engine from './engine/engine.mjs';
@@ -27,12 +28,12 @@ function applySettings() {
 }
 
 const ROUTES = {
-  title: () => S.titleScreen(), dock: () => S.dockScreen(), heroes: () => S.heroScreen(), collection: () => S.collectionScreen(), decks: () => S.decksScreen(),
+  title: () => S.titleScreen(), dock: () => U2.lobbyScreen(), heroes: (a) => S.heroScreen(a), difficulty: () => U2.difficultyScreen(), worldmap: () => U2.worldmapScreen(), openAll: (a) => U2.openAllScreen(a), collection: () => S.collectionScreen(), decks: () => U2.decksFirstScreen(),
   builder: (a) => S.builderScreen(a), crates: () => S.cratesScreen(), open: (a) => S.openScreen(a), market: () => S.marketScreen(), commissions: () => S.commissionsScreen(),
   calendar: () => S.calendarScreen(), glossary: () => S.glossaryScreen(), settings: () => S.settingsScreen({ apply: applySettings }),
 };
 // 무거운 화면(수집·영장첩·대전)은 눌림 표시가 먼저 그려지도록 한 프레임 뒤에 만든다(round-2 D1, 첫 반응 ≤ 100 ms)
-const HEAVY = new Set(['collection', 'builder', 'battle', 'glossary', 'market', 'decks', 'heroes', 'crates', 'open', 'commissions', 'calendar']);
+const HEAVY = new Set(['collection', 'builder', 'battle', 'glossary', 'market', 'decks', 'heroes', 'crates', 'open', 'commissions', 'calendar', 'dock', 'difficulty', 'worldmap', 'openAll']);
 function go(name, args) {
   if (HEAVY.has(name) && !go._now) { requestAnimationFrame(() => setTimeout(() => { go._now = true; try { go(name, args); } finally { go._now = false; } }, 0)); return; }
   if (name !== 'battle' && battle) { battle = null; A.finishAll(); A.queue.length = 0; }
@@ -41,9 +42,9 @@ function go(name, args) {
   show(name, el);
   window.scrollTo(0, 0);
 }
-S.setNav(go);
+S.setNav(go); U2.setNav2(go);
 
-async function startBattleFromMenu({ hero, deck, mode, ai }) {
+async function startBattleFromMenu({ hero, deck, mode, ai, tier }) {
   const others = D.heroIds.filter((x) => x !== hero);
   const seed = (TEST ? 12345 : (Math.random() * 2 ** 31) | 0) >>> 0;
   const enemy = others[seed % others.length];
@@ -54,11 +55,11 @@ async function startBattleFromMenu({ hero, deck, mode, ai }) {
   const heroes = [], decks = [], bt = [], face = [], ais = [];
   heroes[pl[0]] = hero; decks[pl[0]] = myDeck.cards; bt[pl[0]] = btFor(myDeck, mode); face[pl[0]] = 1; ais[pl[0]] = ai;
   heroes[pl[1]] = enemy; decks[pl[1]] = eDeck.cards; bt[pl[1]] = {}; face[pl[1]] = (eDeck.ai_style && eDeck.ai_style.face) || 1; ais[pl[1]] = ai;
-  lastBattleArgs = { hero, deck, mode, ai };
+  lastBattleArgs = { hero, deck, mode, ai, tier };
   // 튜토리얼(10-lore 8-7): AI 연습에서, 건너뛰지 않았고 아직 안 본 대전 단계가 있으면(본 단계는 다시 안 뜸)
   const useTut = mode === 'mode_practice' && !M.s.tut.skipped && Q.get('tut') !== '0' && !(TEST && Q.get('tut') !== '1');
   const tutorial = useTut ? { seen: M.s.tut.seen.slice(), onSeen: (k) => { if (!M.s.tut.seen.includes(k)) { M.s.tut.seen.push(k); save(); } }, onSkip: () => { M.s.tut.skipped = true; M.s.tutorialDone = true; save(); }, coach: (steps, onSkip) => coach(steps, t, { onSkip }) } : null;
-  await newBattle({ heroes, decks, bt, aiFace: face, ai: ais, seed, human: pl[0], mode, tutorial });
+  await newBattle({ heroes, decks, bt, aiFace: face, ai: ais, seed, human: pl[0], mode, tutorial, tier: tier || 1 });
 }
 
 async function newBattle(o) {
@@ -86,7 +87,7 @@ function tutDone(res) {
 function onBattleEnd(res) {
   logList.push({ t: 'battle_end', winner: res.winner, len: res.len, reason: res.reason });
   let rew = null;
-  if (res.human != null) { M.s.lastHero = res.heroes[res.human]; rew = battleRewards({ win: res.win, mode: res.mode, hero: res.heroes[res.human], blocks: res.blocks, brine: res.brine }); }
+  if (res.human != null) { M.s.lastHero = res.heroes[res.human]; rew = battleRewards({ win: res.win, mode: res.mode, hero: res.heroes[res.human], blocks: res.blocks, brine: res.brine, tier: battle && battle.o.tier }); }
   if (battle && battle.root && (res.human != null || battle.o.showResult)) {
     S.resultOverlay(battle.root, res, rew, {
       rematch: () => { document.getElementById('result')?.remove(); tutDone(res); if (lastBattleArgs) startBattleFromMenu(lastBattleArgs); else go('dock'); },
