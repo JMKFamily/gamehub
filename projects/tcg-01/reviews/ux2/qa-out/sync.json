@@ -1,0 +1,316 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 279
+ },
+ "hash_check": "엔진 해시 일치: 4개 파일 (engine 2.0.0)",
+ "data": {
+  "balance_equal": false,
+  "cards_n": 200,
+  "card_field_diffs": [],
+  "card_field_diff_n": 0
+ },
+ "games": [
+  {
+   "ai": "easy",
+   "hA": "h_archive",
+   "hB": "h_choir",
+   "seed": 9100,
+   "build": {
+    "n": 116,
+    "winner": 1,
+    "half": 32,
+    "final": [
+     -2,
+     30
+    ]
+   },
+   "sim": {
+    "n": 116,
+    "winner": 1,
+    "half": 32,
+    "final": [
+     -2,
+     30
+    ]
+   },
+   "simPlay": {
+    "winner": 1,
+    "half": 32,
+    "reason": "hero_dead",
+    "winnerHp": 30,
+    "loserHp": -2
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "easy",
+   "hA": "h_archive",
+   "hB": "h_nameless",
+   "seed": 9137,
+   "build": {
+    "n": 119,
+    "winner": 0,
+    "half": 32,
+    "final": [
+     10,
+     -1
+    ]
+   },
+   "sim": {
+    "n": 119,
+    "winner": 0,
+    "half": 32,
+    "final": [
+     10,
+     -1
+    ]
+   },
+   "simPlay": {
+    "winner": 0,
+    "half": 32,
+    "reason": "hero_dead",
+    "winnerHp": 10,
+    "loserHp": -1
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "normal",
+   "hA": "h_archive",
+   "hB": "h_choir",
+   "seed": 9174,
+   "build": {
+    "n": 88,
+    "winner": 0,
+    "half": 23,
+    "final": [
+     35,
+     -2
+    ]
+   },
+   "sim": {
+    "n": 88,
+    "winner": 0,
+    "half": 23,
+    "final": [
+     35,
+     -2
+    ]
+   },
+   "simPlay": {
+    "winner": 0,
+    "half": 23,
+    "reason": "hero_dead",
+    "winnerHp": 35,
+    "loserHp": -2
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "normal",
+   "hA": "h_archive",
+   "hB": "h_nameless",
+   "seed": 9211,
+   "build": {
+    "n": 116,
+    "winner": 0,
+    "half": 28,
+    "final": [
+     29,
+     0
+    ]
+   },
+   "sim": {
+    "n": 116,
+    "winner": 0,
+    "half": 28,
+    "final": [
+     29,
+     0
+    ]
+   },
+   "simPlay": {
+    "winner": 0,
+    "half": 28,
+    "reason": "hero_dead",
+    "winnerHp": 29,
+    "loserHp": 0
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "hard",
+   "hA": "h_archive",
+   "hB": "h_choir",
+   "seed": 9248,
+   "build": {
+    "n": 39,
+    "winner": 0,
+    "half": 13,
+    "final": [
+     31,
+     0
+    ]
+   },
+   "sim": {
+    "n": 39,
+    "winner": 0,
+    "half": 13,
+    "final": [
+     31,
+     0
+    ]
+   },
+   "simPlay": {
+    "winner": 0,
+    "half": 13,
+    "reason": "hero_dead",
+    "winnerHp": 31,
+    "loserHp": 0
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "hard",
+   "hA": "h_archive",
+   "hB": "h_nameless",
+   "seed": 9285,
+   "build": {
+    "n": 117,
+    "winner": 1,
+    "half": 32,
+    "final": [
+     0,
+     17
+    ]
+   },
+   "sim": {
+    "n": 117,
+    "winner": 1,
+    "half": 32,
+    "final": [
+     0,
+     17
+    ]
+   },
+   "simPlay": {
+    "winner": 1,
+    "half": 32,
+    "reason": "hero_dead",
+    "winnerHp": 17,
+    "loserHp": 0
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "expert",
+   "hA": "h_archive",
+   "hB": "h_choir",
+   "seed": 9322,
+   "build": {
+    "n": 60,
+    "winner": 0,
+    "half": 17,
+    "final": [
+     26,
+     0
+    ]
+   },
+   "sim": {
+    "n": 60,
+    "winner": 0,
+    "half": 17,
+    "final": [
+     26,
+     0
+    ]
+   },
+   "simPlay": {
+    "winner": 0,
+    "half": 17,
+    "reason": "hero_dead",
+    "winnerHp": 26,
+    "loserHp": 0
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  },
+  {
+   "ai": "expert",
+   "hA": "h_archive",
+   "hB": "h_nameless",
+   "seed": 9359,
+   "build": {
+    "n": 104,
+    "winner": 1,
+    "half": 26,
+    "final": [
+     -1,
+     20
+    ]
+   },
+   "sim": {
+    "n": 104,
+    "winner": 1,
+    "half": 26,
+    "final": [
+     -1,
+     20
+    ]
+   },
+   "simPlay": {
+    "winner": 1,
+    "half": 26,
+    "reason": "hero_dead",
+    "winnerHp": 20,
+    "loserHp": -1
+   },
+   "mulligan_same": true,
+   "actions_same": true,
+   "first_diff": -1,
+   "winner_same": true,
+   "half_same": true,
+   "final_same": true
+  }
+ ],
+ "mismatches": 0,
+ "actions_total": 759
+}

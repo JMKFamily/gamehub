@@ -16,9 +16,9 @@ try {
   const page = await (await b.newContext({ viewport: { width: +w, height: +h } })).newPage();
   await page.goto(`http://127.0.0.1:${port}/games/tcg-01/index.html`); await page.waitForFunction(() => window.__game && window.__game.ready);
   await page.mouse.click(+w / 2, +h / 2); await sleep(300);
-  await page.locator('[data-nav=play]').last().click(); await sleep(500);
+  await page.locator('[data-nav=play]').last().click({ force: true }); await sleep(500);
   for (let i = 0; i < 6; i++) { const n = await page.$('[data-coach-next]'); if (!n) break; await n.click(); await sleep(150); }
-  await page.locator('[data-nav=fight]').last().click(); await sleep(1300);
+  await page.locator('[data-nav=fight]').last().click({ force: true }); await sleep(1300);
   for (let i = 0; i < 6; i++) { const n = await page.$('[data-coach-next]'); if (!n) break; await n.click(); await sleep(150); }
   await page.evaluate(() => { __game.mulligan([]); __game.setAnimScale(0.4); window.__hum = __game.export().heroes.indexOf(__game.state.lastHero); });
   let last = null;

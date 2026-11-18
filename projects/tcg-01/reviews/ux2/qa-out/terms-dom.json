@@ -1,0 +1,1227 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 3074
+ },
+ "summary": {
+  "dom_checked": 104,
+  "dom_old": [
+   "glossary-ko-360x640: 마나",
+   "glossary-en-360x640: mana",
+   "glossary-ko-412x915: 마나",
+   "glossary-en-412x915: mana",
+   "glossary-ko-640x360: 마나",
+   "glossary-en-640x360: mana",
+   "glossary-ko-1280x720: 마나",
+   "glossary-en-1280x720: mana"
+  ],
+  "dom_ban": [],
+  "dom_textOver": [
+   "dock-ko-360x640: 수녀 나할 영웅으로 승리",
+   "dock-en-360x640: Block with Wall|Win as Sister Nhal",
+   "dock-ko-412x915: 수녀 나할 영웅으로 승리",
+   "dock-en-412x915: Win as Sister Nhal",
+   "dock-ko-640x360: 다음 보상까지 트랙 경험치 340",
+   "dock-en-640x360: 340 Track XP to next"
+  ],
+  "dom_clipped": [],
+  "dom_small": [],
+  "tut_runs": 0,
+  "tut_end_before_learn": 0,
+  "tut_cover_target": [],
+  "tut_cover_tokens": [],
+  "tut_again": [],
+  "tut_done": [],
+  "story_n": 0,
+  "story_err": [],
+  "story_not_open": 0,
+  "story_out_of_view": 0,
+  "story_btn_small": [],
+  "story_close_fail": [],
+  "story_scroll_no_hint": 0,
+  "story_word_over": 0,
+  "story_ban": 0
+ },
+ "dom": [
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "수녀 나할 영웅으로 승리"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "glossary",
+   "old": [
+    "마나"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "ko",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "Block with Wall",
+    "Win as Sister Nhal"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "glossary",
+   "old": [
+    "mana"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "360x640",
+   "lang": "en",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "수녀 나할 영웅으로 승리"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "glossary",
+   "old": [
+    "마나"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "ko",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "Win as Sister Nhal"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "glossary",
+   "old": [
+    "mana"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "412x915",
+   "lang": "en",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "다음 보상까지 트랙 경험치 340"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "glossary",
+   "old": [
+    "마나"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "ko",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [
+    "340 Track XP to next"
+   ],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "glossary",
+   "old": [
+    "mana"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "640x360",
+   "lang": "en",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "glossary",
+   "old": [
+    "마나"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "ko",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "title",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "dock",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "heroes",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "collection",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "decks",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "crates",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 1
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "market",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "commissions",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "calendar",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "settings",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "glossary",
+   "old": [
+    "mana"
+   ],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "difficulty",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  },
+  {
+   "view": "1280x720",
+   "lang": "en",
+   "sc": "worldmap",
+   "old": [],
+   "ban": [],
+   "textOver": [],
+   "clipped": [],
+   "small": [],
+   "coach": 0
+  }
+ ],
+ "tutorial": [],
+ "guides": null,
+ "story": [],
+ "battle_story": null
+}

@@ -42,7 +42,7 @@
 | `wm_choir_3` | choir | 이사 가는 사람들 / Those Who Move House | h_choir 카드 16종 보유 | B027·B023·A023 | 44, 92 | 물웅덩이 옆 뼈 제단 |
 | `wm_choir_4` | choir | 종이 다시 울린 밤 / The Night the Bell Rang Again | h_choir로 3승 | B029·B026·B036 | 50, 96 | 기운 종탑의 종 |
 | `wm_archive_1` | archive | 열람 허가 / Reading Permit | 앞 노드 wm_bare_1 읽음 | D010·D011·B071 | 18, 58 | 첫 번째 등대 정문 |
-| `wm_archive_2` | archive | 봉인과 먹물 올가미 / Seals and Ink Snares | h_archive로 1승 | B065·B067·B068 | 10, 66 | 봉인이 걸린 책장 통로 |
+| `wm_archive_2` | archive | 봉인과 먹물 올가미 / Seals and Ink Snares | h_archive로 1승 | B065·B067·B068 | 10, 66 | 봉인이 걸린 책장 사이 길 |
 | `wm_archive_3` | archive | 번개 증명 / Proof by Lightning | h_archive 카드 16종 보유 | A035·A037·A039 | 20, 70 | 등대 사이 다리 위 결투장 |
 | `wm_archive_4` | archive | 봉쇄령과 대주해서 / Lockdown and the Grand Commentary | h_archive로 3승 | B074·A013·B078 | 12, 56 | 불빛이 모두 켜진 일곱 등대 |
 | `wm_nameless_1` | nameless | 이름을 버린 날 / The Day the Name Was Dropped | 앞 노드 wm_bare_1 읽음 | B079·B084·D014 | 20, 28 | 안개 속 지붕들 |

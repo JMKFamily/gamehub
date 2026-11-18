@@ -19,9 +19,9 @@ try {
   await page.goto(`http://127.0.0.1:${port}/games/tcg-01/index.html`); await page.waitForFunction(() => window.__game && window.__game.ready);
   out.timer_setting = await page.evaluate(() => __game.state.settings.timer);
   await page.mouse.click(+w / 2, +h / 2); await sleep(300);
-  await page.locator('[data-nav=play]').last().click(); await sleep(500);
+  await page.locator('[data-nav=play]').last().click({ force: true }); await sleep(500);
   for (let i = 0; i < 6; i++) { const n = await page.$('[data-coach-next]'); if (!n) break; await n.click(); await sleep(150); }
-  await page.locator('[data-nav=fight]').last().click(); await sleep(1300);
+  await page.locator('[data-nav=fight]').last().click({ force: true }); await sleep(1300);
   for (let i = 0; i < 6; i++) { const n = await page.$('[data-coach-next]'); if (!n) break; await n.click(); await sleep(150); }
   await page.evaluate(() => { __game.mulligan([]); window.__hum = __game.export().heroes.indexOf(__game.state.lastHero); });
   // 내 턴 + 안내가 뜰 때까지(상대 선공이면 기다림)

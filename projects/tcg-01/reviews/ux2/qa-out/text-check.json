@@ -1,0 +1,32 @@
+{
+ "lists": {
+  "BANNED_KO": 41,
+  "BANNED_EN": 44,
+  "OLD_KO": 40,
+  "OLD_EN": 44
+ },
+ "ui_old": [
+  "tut_mana: 마나·mana",
+  "gloss_mana_desc: 마나·mana",
+  "season_band_2: shell"
+ ],
+ "ui_banned": [],
+ "card_old": [],
+ "card_banned": [],
+ "story_banned": [],
+ "story_missing": [],
+ "story_len": [],
+ "glossary_banned": [],
+ "ui_keys": 550,
+ "cards": 200,
+ "summary": {
+  "ui_old": 3,
+  "ui_banned": 0,
+  "card_old": 0,
+  "card_banned": 0,
+  "story_missing": 0,
+  "story_banned": 0,
+  "story_len_out": 0,
+  "glossary_banned": 0
+ }
+}

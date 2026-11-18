@@ -1,6 +1,6 @@
 // 한국어 조사 받침 불일치 검사(용어 일괄 치환 뒤 "필드으로"·"마나을" 같은 오류)
 //   node projects/tcg-01/tools/qa/josa-check.mjs [--out <json>] [--terms 필드,마나,...]
-// 대상: 빌드 data/strings.json(ko)·cards.json(text/story/flavor ko)·glossary.json, 10-lore.md, lore/cards-lore.json, 30-art.md
+// 대상: 빌드 data/strings.json(ko)·cards.json(text/story/flavor ko)·glossary.json, 10-lore.md, lore/cards-lore.json, lore/worldmap.json, 30-art.md
 // 규칙: 용어 바로 뒤 조사(뒤가 한글이 아니면 조사로 봄). 받침 있음 → 은·이·을·과·으로, 없음(또는 ㄹ + 으로/로) → 는·가·를·와·로.
 // 용어 목록 밖 일반 낱말은 "으로/로"만 참고로 셈(동사 어미 "-는" 같은 오탐을 피함).
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
@@ -28,6 +28,7 @@ if (existsSync(join(GAME, 'data', 'glossary.json'))) add('build:glossary', 'all'
 readFileSync(join(PROJ, '10-lore.md'), 'utf8').split('\n').forEach((l, i) => add('10-lore.md', 'L' + (i + 1), l));
 const CL = rj(join(PROJ, 'lore', 'cards-lore.json'));
 for (const c of CL.cards || Object.values(CL)) for (const [k, v] of Object.entries(c)) if (typeof v === 'string' && /[가-힣]/.test(v)) add('cards-lore.json', `${c.id}.${k}`, v);
+(() => { const WM = join(PROJ, 'lore', 'worldmap.json'); if (existsSync(WM)) { const walk = (o, p) => { if (typeof o === 'string') { if (/[가-힣]/.test(o)) add('worldmap.json', p, o); } else if (o && typeof o === 'object') for (const [k, v] of Object.entries(o)) walk(v, p + '.' + k); }; walk(rj(WM), 'wm'); } })();
 readFileSync(join(PROJ, '30-art.md'), 'utf8').split('\n').forEach((l, i) => add('30-art.md', 'L' + (i + 1), l));
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const termRe = new RegExp(`(${TERMS.sort((a, b) => b.length - a.length).map(esc).join('|')})(${P.join('|')})(?![가-힣])`, 'g');

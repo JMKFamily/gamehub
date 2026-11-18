@@ -1,0 +1,389 @@
+{
+ "errors": [],
+ "lobby": [
+  {
+   "nav": "calendar",
+   "screen": "calendar",
+   "expect": "calendar",
+   "ok": true,
+   "h2": "보상 트랙"
+  },
+  {
+   "nav": "market",
+   "screen": "market",
+   "expect": "market",
+   "ok": true,
+   "h2": "상점"
+  },
+  {
+   "nav": "commissions",
+   "screen": "commissions",
+   "expect": "commissions",
+   "ok": true,
+   "h2": "일일 퀘스트"
+  },
+  {
+   "nav": "worldmap",
+   "screen": "worldmap",
+   "expect": "worldmap",
+   "ok": true,
+   "h2": "노해 지도"
+  },
+  {
+   "nav": "crates",
+   "screen": "crates",
+   "expect": "crates",
+   "ok": true,
+   "h2": "카드 팩"
+  },
+  {
+   "nav": "collection",
+   "screen": "collection",
+   "expect": "collection",
+   "ok": true,
+   "h2": "수집 85/200"
+  },
+  {
+   "nav": "decks",
+   "screen": "decks",
+   "expect": "decks",
+   "ok": true,
+   "h2": "덱"
+  },
+  {
+   "nav": "play",
+   "screen": "dock",
+   "expect": "difficulty",
+   "ok": false,
+   "h2": null
+  },
+  {
+   "nav": "breakthrough",
+   "screen": "collection",
+   "expect": "collection",
+   "ok": true,
+   "h2": "돌파 · 0"
+  },
+  {
+   "nav": "craft",
+   "screen": "collection",
+   "expect": "collection",
+   "ok": true,
+   "h2": "제작 · 191"
+  },
+  {
+   "nav": "settings",
+   "screen": "settings",
+   "expect": "settings",
+   "ok": true,
+   "h2": "설정"
+  }
+ ],
+ "quest_rows": {
+  "rows": [
+   "방벽으로 막기0/3",
+   "방벽으로 막기0/4",
+   "수녀 나할 영웅으로 승리0/2",
+   "주간 퀘스트0/7"
+  ],
+  "daily": [
+   "breakwater:3",
+   "breakwater:4",
+   "win_hero:2"
+  ]
+ },
+ "mode_breakthrough": {
+  "screen": "collection",
+  "title": "뒤로\n돌파 · 0\n200\n400\n0\n전체\n이브로 탈\n수녀 나할\n렌\n카드라 순\n오다 벨\n펠 하스크\n공용\n가진 카드\n세력 이야기 순서로 보기"
+ },
+ "mode_craft": {
+  "screen": "collection",
+  "title": "뒤로\n제작 · 191\n200\n400\n0\n전체\n이브로 탈\n수녀 나할\n렌\n카드라 순\n오다 벨\n펠 하스크\n공용\n가진 카드\n세력 이야기 순서로 보기\n1"
+ },
+ "tiers": [
+  {
+   "wins": {},
+   "locked": "1:o 2:L 3:L 4:L"
+  },
+  {
+   "wins": {
+    "1": 1
+   },
+   "locked": "1:o 2:o 3:L 4:L"
+  },
+  {
+   "wins": {
+    "1": 1,
+    "2": 2
+   },
+   "locked": "1:o 2:o 3:o 4:L"
+  },
+  {
+   "wins": {
+    "1": 1,
+    "2": 2,
+    "3": 3
+   },
+   "locked": "1:o 2:o 3:o 4:o"
+  }
+ ],
+ "tier_win_count": {
+  "winner_is_me": false,
+  "tierWins": {},
+  "ai": [
+   "easy",
+   "easy"
+  ]
+ },
+ "packs": {
+  "before": 12,
+  "next_btn": "다음 팩 열기 (11 남음)",
+  "after_two": 10,
+  "openAll_label": "모두 열기 (10팩)",
+  "openAll": {
+   "screen": "openAll",
+   "cells": 50,
+   "summary": "새 카드 24장 · 경험치로 바뀐 카드 26장",
+   "rarity": "전설 1 / 희귀 2 / 고급 19 / 일반 28",
+   "left": 0
+  }
+ },
+ "worldmap": {
+  "nodes": 28,
+  "open": 4,
+  "locked": 24,
+  "read": 0,
+  "small": 0,
+  "fog": true,
+  "panel": {
+   "story": "312년 전 바다가 사라진 자리에 소금 평원만 남았다. 사람들은 웅덩이를 뒤지고 소금을 긁으며 하루를 버틴다",
+   "claim": true
+  },
+  "after": {
+   "read": 1,
+   "cur_before": {
+    "salt": 200,
+    "ink": 400,
+    "pearl": 0
+   },
+   "cur_after": {
+    "salt": 230,
+    "ink": 400,
+    "pearl": 0
+   },
+   "open": 9
+  },
+  "locked_text": "노해 맹약 시장"
+ },
+ "story": {
+  "cid": "D001",
+  "btn": true,
+  "open": true,
+  "closed": true
+ },
+ "deck_tutorial": {
+  "first": [
+   "guide_deck_1",
+   "guide_deck_2",
+   "guide_deck_3",
+   "guide_deck_4",
+   "guide_deck_5"
+  ],
+  "second": null,
+  "buttons": [
+   "newDeck",
+   "playDeck",
+   "more"
+  ]
+ },
+ "band": {
+  "360x640": [
+   {
+    "step": "tut_mana",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_spell",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_keyword",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_creature",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_ability",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_board",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_attack",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_end",
+    "center_y": 0.383,
+    "in_band": true,
+    "layout_bad": []
+   }
+  ],
+  "412x915": [
+   {
+    "step": "tut_mana",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_no_play",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_end",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_keyword",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_creature",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_ability",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_board",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_spell",
+    "center_y": 0.39,
+    "in_band": true,
+    "layout_bad": []
+   }
+  ],
+  "640x360": [
+   {
+    "step": "tut_mana",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_spell",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_keyword",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_creature",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_ability",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_board",
+    "center_y": 0.433,
+    "in_band": true,
+    "layout_bad": "err Cannot read properties of undefined (reading 'system')"
+   }
+  ],
+  "1280x720": [
+   {
+    "step": "tut_mana",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_spell",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_keyword",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_play_creature",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_ability",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_end",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_wall",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   },
+   {
+    "step": "tut_board",
+    "center_y": 0.432,
+    "in_band": true,
+    "layout_bad": []
+   }
+  ]
+ }
+}
