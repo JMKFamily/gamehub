@@ -1,5 +1,5 @@
 // 부팅·화면 전환·게임 시계·테스트 훅(window.__game)
-import { D, loadData, warmAllIdle, bakeForBattle, bakeMenuAssets } from './data.js';
+import { D, loadData, warmAllIdle, bakeForBattle, bakeMenuAssets, bakeLobbyAssets, bakeSVG } from './data.js';
 import { t, setLang, L } from './i18n.js';
 import { G, A, stepAll } from './anim.js';
 import { initAudio, unlock, setSound, setMusic, sfx, suspendAudio, resumeAudio } from './audio.js';
@@ -16,6 +16,9 @@ const TEST = Q.get('test') === '1';
 G.test = TEST;
 if (TEST && Q.has('anim')) G.scale = Math.max(0, +Q.get('anim'));
 const MANUAL = TEST && Q.get('manual') === '1';
+// 성능 원인 가르기(QA A/B): ?off=cand,wicks,btnbg,pulse,music → 해당 요소만 끔
+const OFF = (Q.get('off') || '').split(',').filter(Boolean); for (const k of OFF) document.documentElement.classList.add('off-' + k);
+if (OFF.includes('music')) import('./audio.js').then((m) => m.setMusic && m.setMusic(false));
 let battle = null, lastBattleArgs = null, aiMod = null, aiFresh = 0;
 const logList = [];
 
@@ -28,7 +31,7 @@ function applySettings() {
 }
 
 const ROUTES = {
-  title: () => S.titleScreen(), dock: () => U2.lobbyScreen(), heroes: (a) => S.heroScreen(a), difficulty: () => U2.difficultyScreen(), worldmap: () => U2.worldmapScreen(), openAll: (a) => U2.openAllScreen(a), collection: (a) => S.collectionScreen(a), decks: () => U2.decksFirstScreen(),
+  title: () => S.titleScreen(), dock: () => (OFF.includes('oldlobby') ? S.dockScreen() : U2.lobbyScreen()), heroes: (a) => S.heroScreen(a), difficulty: () => U2.difficultyScreen(), worldmap: () => U2.worldmapScreen(), openAll: (a) => U2.openAllScreen(a), collection: (a) => S.collectionScreen(a), decks: () => U2.decksFirstScreen(),
   builder: (a) => S.builderScreen(a), crates: () => S.cratesScreen(), open: (a) => S.openScreen(a), market: () => S.marketScreen(), commissions: () => S.commissionsScreen(),
   calendar: () => S.calendarScreen(), glossary: () => S.glossaryScreen(), settings: () => S.settingsScreen({ apply: applySettings }),
 };
@@ -87,7 +90,7 @@ function tutDone(res) {
 function onBattleEnd(res) {
   logList.push({ t: 'battle_end', winner: res.winner, len: res.len, reason: res.reason });
   let rew = null;
-  if (res.human != null) { M.s.lastHero = res.heroes[res.human]; rew = battleRewards({ win: res.win, mode: res.mode, hero: res.heroes[res.human], blocks: res.blocks, brine: res.brine, tier: battle && battle.o.tier }); }
+  if (res.human != null) { M.s.lastHero = res.heroes[res.human]; rew = battleRewards({ win: res.win, mode: res.mode, hero: res.heroes[res.human], blocks: res.blocks, brine: res.brine, answerers: res.answerers, rites: res.rites, heroDmg: res.heroDmg, tier: battle && battle.o.tier }); }
   if (battle && battle.root && (res.human != null || battle.o.showResult)) {
     S.resultOverlay(battle.root, res, rew, {
       rematch: () => { document.getElementById('result')?.remove(); tutDone(res); if (lastBattleArgs) startBattleFromMenu(lastBattleArgs); else go('dock'); },
@@ -181,8 +184,10 @@ window.__game = {
     applySettings();
     ads.init();
     document.title = t('game_title');
+    { const hs = [M.s.lastHero || D.heroIds[0], ...((M.s.daily && M.s.daily.comm) || []).map((c) => c.hero).filter(Boolean)]; await bakeLobbyAssets(hs, ['worldmap-bg.svg', ...D.worldmap.regions.flatMap((r) => ['open', 'cleared', 'current', 'locked'].map((x) => `node-${r.id}-${x}.svg`))]); for (let i = 0; i < 4; i++) await bakeSVG('tier' + i, U2.tierSVG(i), 320, 128); } // 로비 그림은 로딩 중에 구움
     go(Q.get('screen') || 'title');
     warmAllIdle();
+    // 그림 굽기는 첫 탭 1.5 s 뒤 쉬는 시간에(r3 성능: 타이틀 → 로비 첫 탭 프레임과 겹치지 않게). 재질 무늬가 먼저
     addEventListener('pointerdown', () => setTimeout(bakeMenuAssets, 1500), { once: true });
     // 첫 탭 3 s 뒤부터 쉬는 시간에 입문·표준 덱 카드 그림을 한 장씩 구워 둠(대전 직전 굽기 부담을 줄임)
     addEventListener('pointerdown', () => setTimeout(() => bakeForBattle([...new Set([...D.starters, ...D.decks].flatMap((d) => d.cards))]), 3000), { once: true });

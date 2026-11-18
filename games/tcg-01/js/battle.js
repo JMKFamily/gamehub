@@ -22,6 +22,7 @@ export function pickScreen(vw, vh) {
 
 export class Battle {
   constructor(root, o) {
+    Battle.candleVars(); setTimeout(() => Battle.candleVars(), 1200); // 촛불 바탕(구운 PNG가 생기면 바꿔 끼움)
     this.root = root; this.o = o;
     this.human = o.human ?? null; // 사람 자리(0|1) 또는 null(AI 대 AI)
     this.auto = this.human == null || !!o.autoplay;
@@ -35,7 +36,7 @@ export class Battle {
     this.sel = null; this.press = null; this.zoom = null; this.aiWait = null; this.aiTurnT = 0; this.aiFirst = true; this.actsThisTurn = 0; this.total = 0;
     this.timer = 0; this.idlePenalty = false; this.turnActed = false; this.lastTick = 0;
     this.lines = {}; this.flags = { bigSeen: [false, false], low: [false, false], minScore: [0, 0], comebacks: 0, bubbleLast: {} };
-    this.shake = null; this.zoomFx = null; this.stats = { blocks: 0, brine: 0 }; this.over = false; this.started = false; this.result = null;
+    this.shake = null; this.zoomFx = null; this.stats = { blocks: 0, brine: 0, answerers: 0, rites: 0, heroDmg: 0 }; this.over = false; this.started = false; this.result = null;
     this.ctxPhase = 'mulligan';
     this.tut = o.tutorial && this.human != null ? { seen: new Set(o.tutorial.seen || []), cur: null } : null;
     warmPortraits([...o.decks[0], ...o.decks[1], ...Object.keys(D.tokens)]); // 첫 그림 미리(insights 구현 절)
@@ -108,7 +109,7 @@ export class Battle {
       wrap.appendChild(hero);
       const wr = R[side + '_wicks'];
       const wicks = h('div', { class: 'wicks', role: 'meter', 'aria-label': t('hud_aria_wicks'), 'aria-valuemin': 0, 'aria-valuemax': 10, style: `left:${wr.x}px;top:${wr.y}px;width:${wr.w}px;height:${wr.h}px` });
-      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand' }, [h('img', { class: 'cb', src: assetURL('candle-empty.svg'), alt: '', draggable: 'false' }), h('img', { class: 'cl', src: assetURL('candle-lit.svg'), alt: '', draggable: 'false', style: `animation-delay:-${(i * 0.37) % 1.4}s;animation-duration:${1.1 + ((i * 0.23) % 0.6)}s` })]); b._st = 'empty'; setTf(b.children[1], { o: 0 }); bars.push(b); wicks.appendChild(b); }
+      const bars = []; for (let i = 0; i < 10; i++) { const b = h('i', { class: 'cand', 'data-st': 'empty' }, [h('img', { class: 'cl', src: assetURL('candle-lit.svg'), alt: '', draggable: 'false', style: `animation-delay:-${(i * 0.37) % 1.4}s;animation-duration:${1.1 + ((i * 0.23) % 0.6)}s` })]); b._st = 'empty'; bars.push(b); wicks.appendChild(b); }
       const wn = h('b', { class: 'wpill' }); wicks.appendChild(wn);
       { // 촛불 2줄 × 5(art ux2.candle.size_px.rule_r2): 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4
         const rows = wr.candle_rows || 2, cw = Math.min((wr.w - 12) / 5, (wr.h / rows) * 20 / 48), ch = Math.min(cw * 2.4, wr.h / rows);
@@ -281,6 +282,7 @@ export class Battle {
     this.sideEls.enemy.hero.classList.toggle('lethal', my && sum > 0 && sum >= E1.hp + E1.armor);
   }
   // 촛불: 왼쪽부터 그을음 → 켜짐 → 씀 → 빈 자리, 여분 심지는 오른쪽 끝. 끌 때 오른쪽부터 40 ms 간격(불꽃 140·연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격. 잠금 0
+  static candleVars() { const r = document.documentElement.style; for (const k of ['spent', 'soot', 'spare', 'empty']) r.setProperty(`--cd-${k}`, `url(${assetURL(`candle-${k}.svg`)})`); }
   renderCandles(se, P, instant, spare) {
     const CA = D.art.ux2.candle, ex = CA.extinguish, re = CA.relight_turn_start || { per_candle_stagger_ms: 30, flame_in_ms: 160 };
     const want = se.bars.map((_, i) => (i < P.overloadNow ? 'soot' : i < P.overloadNow + P.mana ? 'lit' : i < P.maxMana ? 'spent' : spare && i === 9 ? 'spare' : 'empty'));
@@ -288,13 +290,14 @@ export class Battle {
     se.bars.forEach((b, i) => {
       const w = want[i]; if (b._st === w) return;
       const base = w === 'lit' ? (b._st === 'soot' ? 'soot' : 'spent') : w;
-      b.children[0].src = assetURL(`candle-${base}.svg`);
+      b.dataset.st = base; /* 바탕 = CSS 배경(구운 PNG), 상태만 바꿈 — r3 성능: img src 교체·해독 제거 */
       if (w === 'lit' && b._st !== 'lit') on.push(b); else if (b._st === 'lit' && w !== 'lit') off.push(b);
-      b._st = w; b.classList.toggle('lit', w === 'lit');
+      b._st = w;
     });
-    const sc = G.scale * (G.fast ? 0.5 : 1);
-    off.reverse().forEach((b, k) => { const fl = b.children[1], sm = b.children[0]; if (instant) { setTf(fl, { o: 0 }); return; } const d = Math.min(k * ex.per_candle_stagger_ms, ex.total_max_ms - ex.smoke_in_ms) * sc; after(d, () => { tween(fl, { o: 0 }, ex.flame_out_ms * sc); setTf(sm, { o: 0.4 }); tween(sm, { o: 1 }, ex.smoke_in_ms * sc); }); });
-    on.forEach((b, k) => { const fl = b.children[1]; if (instant) { setTf(fl, { o: 1 }); return; } after(k * re.per_candle_stagger_ms * sc, () => tween(fl, { o: 1 }, re.flame_in_ms * sc)); });
+    // r3 성능: JS 트윈 없이 CSS 전환만(클래스 + 지연). 끌 때 오른쪽부터 40 ms 간격(불꽃 140, 연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격
+    const sc = instant ? 0 : G.scale * (G.fast ? 0.5 : 1);
+    off.reverse().forEach((b, k) => { const d = Math.min(k * ex.per_candle_stagger_ms, ex.total_max_ms - ex.smoke_in_ms) * sc; b.style.setProperty('--fd', d + 'ms'); b.style.setProperty('--fo', ex.flame_out_ms * sc + 'ms'); b.classList.remove('lit'); b.classList.add('smoke'); });
+    on.forEach((b, k) => { b.style.setProperty('--fd', k * re.per_candle_stagger_ms * sc + 'ms'); b.style.setProperty('--fo', re.flame_in_ms * sc + 'ms'); b.classList.remove('smoke'); b.classList.add('lit'); });
   }
   keyOf(inst) { return inst.cid + '|' + inst.costMod + '|' + inst.atkMod + '|' + inst.hpMod + '|' + inst.dmgMod + '|' + (inst.system ? 1 : 0); }
   posOfUid(uid) {
@@ -618,6 +621,10 @@ export class Battle {
       const E1 = before.players[1 - this.human], cursed = new Map([[E1.uid, E1.curse], ...E1.board.map((m) => [m.uid, m.curse])]);
       const seenU = new Set(); let tick = false;
       for (const x of ev) { if (x.t === 'turn') tick = true; if (tick && x.t === 'dmg' && cursed.get(x.uid) > 0 && !seenU.has(x.uid)) { seenU.add(x.uid); this.stats.brine += x.n; } }
+    }
+    if (this.human != null) { // 의뢰(balance 1.6.0 daily_commission_types): 낸 응답자·의식 장수, 상대 호명자에게 준 피해
+      if (p === this.human && a.type === 'play' && info.card && !info.system) { if (info.card.kind === 'minion') this.stats.answerers++; else if (info.card.kind === 'spell') this.stats.rites++; }
+      const o = 1 - this.human, dh = heroHp0[o] - (st.players[o].hero.hp + st.players[o].hero.armor); if (dh > 0) this.stats.heroDmg += dh;
     }
     const tl = this.buildTL(a, p, before, after, ev, info, heroHp0);
     { const ar = ev.find((x) => x.t === 'armor'); if (ar && this.flags.armorGain == null) this.flags.armorGain = ar.p; }
@@ -1044,8 +1051,8 @@ export class Battle {
     const st = this.state, me = this.human, P = st.players[me], Q = st.players[1 - me], L = this.legal || [];
     const my = this.myTurn() && !A.busy && !st.pending;
     const se = this.sideEls, seen = (k) => this.tut.seen.has(k);
-    const handEl = (pred) => { for (const [, el] of this.handEls) if (el._hc && pred(cardById(el._hc.cid), el._hc)) return el; return null; };
-    const playEl = (kind) => { const a = L.find((x) => x.type === 'play' && E.cardOf(st, P, P.hand[x.hand]).kind === kind); return a ? this.handEls.get(iid(P.hand[a.hand])) : null; };
+    const handEl = (pred) => { for (const [, el] of this.handEls) if (el._hc && cardById(el._hc.cid) && pred(cardById(el._hc.cid), el._hc)) return el; return null; };
+    const playEl = (kind) => { const a = L.find((x) => x.type === 'play' && P.hand[x.hand] && E.cardOf(st, P, P.hand[x.hand]).kind === kind); return a ? this.handEls.get(iid(P.hand[a.hand])) : null; }; /* 낡은 legal·빈 칸 건너뜀(r3 QA 4) */
     const myBoardC = () => ({ _pos: this.R.my_board });
     const noPlay = () => my && P.maxMana <= 1 && !L.some((a) => a.type === 'play');
     return [
@@ -1171,7 +1178,7 @@ export class Battle {
       seed: this.o.seed >>> 0, heroes: this.o.heroes.slice(), ai: this.ai.slice(), human: this.human, mode: this.o.mode || null,
       mulligan: this.mull, actions: this.actions.map((x) => x.a), winner: st.winner, reason: st.endReason, half: st.half, len: E.turnNumber(st),
       hp: P.map((Q) => Q.hero.hp), armor: P.map((Q) => Q.hero.armor), final: P.map((Q) => Q.hero.hp + Q.hero.armor),
-      win: this.human != null && st.winner === this.human, blocks: this.stats.blocks, brine: this.stats.brine, game_ms: Math.round(G.now - (this.t0 ?? 0)),
+      win: this.human != null && st.winner === this.human, blocks: this.stats.blocks, brine: this.stats.brine, answerers: this.stats.answerers, rites: this.stats.rites, heroDmg: this.stats.heroDmg, game_ms: Math.round(G.now - (this.t0 ?? 0)),
     };
     tension(0);
     setTimeout(() => this.o.onEnd && this.o.onEnd(this.result), 0);

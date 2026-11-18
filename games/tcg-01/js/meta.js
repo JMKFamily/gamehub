@@ -1,6 +1,7 @@
 // 메타: 저장(localStorage), 수집·공명·새김 돌파, 인양 상자, 지정 새김, 부두 시장, 의뢰, 조수 달력, 결투 보상.
 // 수치는 모두 balance.json economy·breakthrough. 실결제 없음(게임 내 재화만).
 import { D, cardById } from './data.js';
+import { makeRng } from './engine/engine.mjs';
 
 const KEY = 'tcg01.save.v1';
 export const M = { s: null, rng: Math.random, noStore: false };
@@ -29,7 +30,7 @@ export function load() {
   let s = null;
   try { const raw = M.noStore ? null : localStorage.getItem(KEY); if (raw) s = JSON.parse(raw); } catch { s = null; }
   M.s = s && s.v === 1 ? s : freshSave();
-  M.s.slots = M.s.slots || {}; M.s.created = M.s.created || today();
+  M.s.slots = M.s.slots || {}; M.s.created = M.s.created || today(); M.s.createdAt = M.s.createdAt || Date.now();
   M.s.tut = M.s.tut || { seen: [], skipped: !!M.s.tutorialDone, doneShown: !!M.s.tutorialDone }; M.s.guides = M.s.guides || {};
   rollDaily();
   return M.s;
@@ -53,7 +54,7 @@ export function addCopy(cid) {
   if (e.stage < B.stages) { const n = B.resonance_per_extra_copy[r]; e.res += n; return { cid, isNew: false, res: n, ink: 0 }; }
   const ink = B.overflow_ink_per_copy_after_max[r]; M.s.cur.ink += ink; return { cid, isNew: false, res: 0, ink };
 }
-export function recut(cid) { if (!canRecut(cid)) return false; ent(cid).stage++; save(); return true; }
+export function recut(cid) { if (!canRecut(cid)) return false; ent(cid).stage++; commAdd('recut_or_craft'); save(); return true; }
 // 새김 단계의 스탯 변화(엔진 cardView와 같은 데이터)
 export function btDelta(cid, stage) { const c = cardById(cid); return (stage && c.breakthrough && c.breakthrough[String(stage)]) || {}; }
 
@@ -67,13 +68,14 @@ export function craft(cid) {
   const c = craftCost(cid);
   if (M.s.cur.ink < c) return null;
   if (owned(cid) >= cap(cid) && stageOf(cid) >= D.balance.breakthrough.stages) return null;
-  M.s.cur.ink -= c; const r = addCopy(cid); save(); return r;
+  M.s.cur.ink -= c; const r = addCopy(cid); commAdd('recut_or_craft'); save(); return r;
 }
 
 // ---------- 인양 상자 ----------
 function roll(probs) { let x = M.rng(), acc = 0; for (const [k, p] of Object.entries(probs)) { acc += p; if (x < acc) return k; } return Object.keys(probs)[0]; }
 export function cratePool(kind, hero) { return D.list.filter((c) => kind === 'bare' || c.owner === hero || c.owner === 'neutral'); }
 export function openCrate(kind, hero) {
+  commAdd('open_crates');
   const E = D.balance.economy, P = M.s.pity, pity = E.pity;
   const pool = cratePool(kind, hero);
   const rar = [];
@@ -119,12 +121,13 @@ export function buy(item) {
 function hashStr(s) { let h = 2166136261; for (const ch of s) { h ^= ch.codePointAt(0); h = Math.imul(h, 16777619); } return h >>> 0; }
 export function rollDaily() {
   const d = today();
-  if (M.s.daily && M.s.daily.date === d) return;
+  if (M.s.daily && M.s.daily.date === d) { if (!M.s.daily.comm.every((c) => commTypes().includes(c.type))) { drawDaily(); save(); } return; } // 예전 종류(breakwater·brine)면 오늘 것을 새 규칙으로
   const inc = D.balance.economy.income;
   const hs = D.heroIds, h0 = hashStr(d);
   M.s.daily = { date: d, winSalt: 0, practiceSalt: 0, firstWin: false, rerolls: inc.daily_commission_rerolls, featuredBought: false,
     featured: D.list[h0 % D.list.length].id,
-    comm: [0, 1, 2].map((i) => makeComm(i, h0 + i * 7919, hs)) };
+    comm: [] };
+  void hs; drawDaily();
   // 첫 주 매일 상자 1(economy.new_player.first_week_daily_bonus_crates)
   const days = Math.floor((new Date(d) - new Date(M.s.created || d)) / 864e5);
   if (days >= 0 && days < 7) { M.s.crates.bare += D.balance.economy.new_player.first_week_daily_bonus_crates; M.s.daily.bonusCrate = true; }
@@ -138,18 +141,38 @@ export function claimWeekly() {
   if (!w || w.claimed || w.prog < w.n) return false;
   w.claimed = true; M.s.cur.salt += A.salt_marks; M.s.crates.bare += A.bare_sea_crate; save(); return true;
 }
-function makeComm(slot, h, hs) {
-  const types = ['win_hero', 'breakwater', 'brine'];
-  const ty = types[(h >>> 3) % 3];
-  const reward = D.balance.economy.income.daily_commission_salt_marks[slot];
-  const G = D.balance.economy.income.daily_commission_goals || { win_hero: [1, 1, 2], breakwater_blocks: [3, 4, 5], brine_ticks: [4, 6, 8] };
-  if (ty === 'win_hero') return { type: ty, hero: hs[h % hs.length], n: G.win_hero[slot], prog: 0, reward, claimed: false };
-  if (ty === 'breakwater') return { type: ty, n: G.breakwater_blocks[slot], prog: 0, reward, claimed: false };
-  return { type: ty, n: G.brine_ticks[slot], prog: 0, reward, claimed: false };
+// 일일 퀘스트(balance 1.6.0 daily_commission_types·draw_rule): 서로 다른 종류 3개를 가중치 비례 비복원 추첨.
+// 시드 = 날짜(YYYYMMDD) × 31 + 저장 생성 시각 해시, engine makeRng(결정적). only_if(열 수 있는 미독 노드)는 훅으로 확인
+const HOOK = { openNode: () => true };
+export function setCommHooks(h) { Object.assign(HOOK, h); }
+const CT = () => D.balance.economy.income.daily_commission_types;
+export const commTypes = () => Object.keys(CT()).filter((k) => CT()[k] && CT()[k].goal);
+function daySeed(d) { const [y, m, dd] = d.split('-').map(Number); return ((y * 10000 + m * 100 + dd) * 31 + hashStr(String(M.s.createdAt || M.s.created))) >>> 0; }
+function drawTypes(n, seed, exclude) {
+  const T = CT(), r = makeRng(seed || 1), out = [];
+  const pool = commTypes().filter((k) => !exclude.includes(k) && (!T[k].only_if || HOOK.openNode()));
+  while (out.length < n && pool.length) {
+    let x = r.next() * pool.reduce((a, k) => a + T[k].weight, 0), i = 0;
+    for (; i < pool.length - 1; i++) { x -= T[pool[i]].weight; if (x < 0) break; }
+    out.push(pool.splice(i, 1)[0]);
+  }
+  return out;
+}
+function makeComm(slot, ty, seed) {
+  const c = { type: ty, n: CT()[ty].goal[slot], prog: 0, reward: D.balance.economy.income.daily_commission_salt_marks[slot], claimed: false };
+  if (ty === 'win_hero') c.hero = D.heroIds[seed % D.heroIds.length];
+  return c;
+}
+function drawDaily() { const d = M.s.daily, seed = daySeed(d.date); d.comm = drawTypes(3, seed, []).map((ty, i) => makeComm(i, ty, seed)); }
+// 진행: 종류마다 측정값(balance unit) 더하기
+export function commAdd(type, n = 1, hero = null) {
+  if (!M.s.daily || !n) return;
+  for (const c of M.s.daily.comm) { if (c.claimed || c.type !== type) continue; if (type === 'win_hero' && hero !== c.hero) continue; c.prog = Math.min(c.n, c.prog + n); }
 }
 export function rerollComm(i) {
   const d = M.s.daily; if (d.rerolls <= 0 || d.comm[i].claimed) return false;
-  d.rerolls--; d.comm[i] = makeComm(i, hashStr(d.date + 'r' + d.rerolls + i), D.heroIds); save(); return true;
+  const seed = (daySeed(d.date) ^ hashStr('r' + d.rerolls + i)) >>> 0, ty = drawTypes(1, seed, d.comm.map((c) => c.type))[0]; if (!ty) return false;
+  d.rerolls--; d.comm[i] = makeComm(i, ty, seed); save(); return true;
 }
 export function claimComm(i) {
   const c = M.s.daily.comm[i]; if (c.claimed || c.prog < c.n) return false;
@@ -199,10 +222,10 @@ export function battleRewards(res) {
   const steps = addTide(tm);
   for (const c of d.comm) {
     if (c.claimed) continue;
-    if (c.type === 'win_hero' && res.win && res.hero === c.hero) c.prog = Math.min(c.n, c.prog + 1);
-    if (c.type === 'breakwater') c.prog = Math.min(c.n, c.prog + (res.blocks || 0));
-    if (c.type === 'brine') c.prog = Math.min(c.n, c.prog + (res.brine || 0));
+    void c;
   }
+  if (res.win) commAdd('win_hero', 1, res.hero);
+  commAdd('breakwater_blocks', res.blocks || 0); commAdd('brine_damage', res.brine || 0); commAdd('play_answerers', res.answerers || 0); commAdd('cast_rites', res.rites || 0); commAdd('hero_damage', res.heroDmg || 0);
   save();
   return { list: out, steps };
 }

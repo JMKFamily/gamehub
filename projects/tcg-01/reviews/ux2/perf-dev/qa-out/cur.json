@@ -1,0 +1,71 @@
+{
+ "log": {
+  "console": [
+   "[360x640] error: Failed to load resource: net::ERR_CONNECTION_REFUSED",
+   "[360x640] error: Failed to load resource: net::ERR_CONNECTION_REFUSED"
+  ],
+  "pageerrors": [],
+  "failed": [
+   "[360x640] http://127.0.0.1:8847/games/tcg-01/assets/rarity-pearl.svg net::ERR_CONNECTION_REFUSED",
+   "[360x640] http://127.0.0.1:8847/games/tcg-01/assets/rarity-coral.svg net::ERR_CONNECTION_REFUSED"
+  ],
+  "external": [],
+  "requests": 631
+ },
+ "rate": 6,
+ "q": "",
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_board",
+    "tut_wall",
+    "tut_keyword",
+    "tut_attack",
+    "tut_play_creature",
+    "tut_play_spell",
+    "tut_end",
+    "tut_ability",
+    "tut_defense"
+   ],
+   "seconds": 130.89,
+   "battle": {
+    "frames": 7691,
+    "avg_fps": 59,
+    "low1_fps": 25.6,
+    "max_ms": 100,
+    "over_33": 31
+   },
+   "big_moments": {
+    "n": 16,
+    "kinds": [
+     "big_entry",
+     "attack",
+     "attack_motion",
+     "play_rite"
+    ],
+    "frames": 466,
+    "avg_fps": 59.1,
+    "low1_fps": 30,
+    "max_ms": 33.4,
+    "over_33": 0
+   },
+   "menu": {
+    "title→dock(첫 탭)": 216.7,
+    "dock→heroes": 566.6,
+    "heroes→dock": 33.3,
+    "dock→collection": 233.4,
+    "collection→dock": 116.8,
+    "dock→crates": 200.1,
+    "crate open": 66.6,
+    "→market": 350,
+    "→decks": 200,
+    "→lobby(dock)": 116.7,
+    "→worldmap(첫)": 416.7,
+    "→lobby 다시": 50.1,
+    "dock→heroes→battle(첫 물때)": 266.7
+   }
+  }
+ ]
+}

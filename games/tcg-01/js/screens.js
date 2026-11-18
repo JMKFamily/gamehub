@@ -442,9 +442,9 @@ export function commissionsScreen() {
   if (w) sc.appendChild(h('div', { class: 'panel col', 'data-comm': 'weekly' }, [h('b', { text: t('commission_weekly') }), h('div', { class: 'small', text: `${t('menu_commissions')} ${w.prog}/${w.n} · ${t('currency_salt')} ${WA.salt_marks} · ${t('crate_bare_sea')} ${WA.bare_sea_crate}` }), tideBar(w.prog / w.n),
     btn(w.claimed ? t('commission_claimed') : t('commission_claim'), () => { if (claimWeekly()) { sfx('chunk_break_coral'); go('commissions'); } else sfx('ui_deny'); }, w.prog >= w.n && !w.claimed ? 'primary' : 'off')]));
   M.s.daily.comm.forEach((c, i) => {
-    const text = c.type === 'win_hero' ? t('commission_example_win', { name: heroName(c.hero), n: c.n }) : c.type === 'breakwater' ? t('commission_example_breakwater', { n: c.n }) : t('commission_example_brine', { n: c.n });
+    const text = `${t(`commission_${c.type}`)} — ${t(`commission_${c.type}_goal`, { n: c.n, hero: c.hero ? heroName(c.hero) : '' })}`;
     const k = Math.min(1, c.prog / c.n);
-    sc.appendChild(h('div', { class: 'panel col', 'data-comm': i }, [h('b', { text }), h('div', { class: 'small', text: `${c.prog}/${c.n} · ${t('currency_salt')} ${c.reward}` }), tideBar(k),
+    sc.appendChild(h('div', { class: 'panel col', 'data-comm': i }, [h('b', { text }), h('div', { class: 'small', text: `${c.prog}/${c.n} · ${t('commission_reward', { n: c.reward, x: D.balance.economy.tide_calendar.tide_marks_daily_commission })}` }), tideBar(k),
       h('div', { class: 'row' }, [
         btn(c.claimed ? t('commission_claimed') : t('commission_claim'), () => { if (claimComm(i)) { sfx('chunk_break_pearl'); go('commissions'); } else sfx('ui_deny'); }, c.prog >= c.n && !c.claimed ? 'primary' : 'off'),
         btn(`${t('commission_reroll')} (${M.s.daily.rerolls})`, () => { if (rerollComm(i)) go('commissions'); else sfx('ui_deny'); }, M.s.daily.rerolls > 0 && !c.claimed ? '' : 'off')])]));
@@ -584,8 +584,8 @@ export function storyToggle(ctx) {
     Object.assign(panel.style, { position: 'fixed', zIndex: 5, left: (8 + w * kk + 6) + 'px', top: Math.max(8, wr.top) + 'px', width: (vw * CO.panel_w_ratio_portrait - 8) + 'px', height: Math.min(innerHeight - Math.max(8, wr.top) - 8, Math.max(ctx.h * kk, 320)) + 'px' }); panel._outside = true; Object.assign(nav.style, { flexWrap: 'wrap' }); const cb = nav.querySelector('[data-act=storyClose]'); cb.style.flexBasis = '100%'; cb.style.order = '3';
     // 이야기에 집중: 상세 패널 등 카드 옆 요소를 숨기고 바탕을 70 % 어둡게(UX2 리뷰 5)
     const ov = ctx.wrap.closest('.ovl'), hid = [...(ctx.wrap.parentNode ? ctx.wrap.parentNode.children : [])].filter((e) => e !== ctx.wrap && e.style.visibility !== 'hidden');
-    hid.forEach((e) => (e.style.visibility = 'hidden')); ov && ov.classList.add('storyDim');
-    ctx.onClose = () => { hid.forEach((e) => (e.style.visibility = '')); ov && ov.classList.remove('storyDim'); tween(ctx.wrap, { x: 0, s: 1 }, CO.move_ms * G.scale); };
+    hid.forEach((e) => (e.style.visibility = 'hidden')); ov && ov.classList.add('storyDim'); ctx.wrap.classList.add('storyCard'); // 줄어든 카드는 그림·비용·유형만(글 < 11 px 방지)
+    ctx.onClose = () => { hid.forEach((e) => (e.style.visibility = '')); ov && ov.classList.remove('storyDim'); ctx.wrap.classList.remove('storyCard'); tween(ctx.wrap, { x: 0, s: 1 }, CO.move_ms * G.scale); };
   }
   else {
     // 세로: 이름 띠 아래부터 버튼 줄 위까지 덮음(30-art 11-8 "아래 = 카드 아래 끝 + 버튼 줄 위")

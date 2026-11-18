@@ -53,11 +53,13 @@ export async function bakeImages(ids, budgetMs = 6) {
 }
 // 대전에서 크기가 바뀌며 움직이는 정적 SVG(키워드·준비 표시·영웅 초상·덱·카드 뒷면)도 PNG로 구움
 const ASSET_PX = { hero: [200, 240], 'card-back': [250, 350] };
+// 굽기 크기는 원래 비율대로(촛불 20×48 → 50×120: 정사각으로 구우면 contain에서 작게 보임 — art r2 major 원인)
+const pxOf = (n, d) => (n.startsWith('hero-') ? ASSET_PX.hero : n === 'card-back.svg' ? ASSET_PX['card-back'] : n.startsWith('candle-') ? [50, 120] : n === 'worldmap-bg.svg' ? [900, 1100] : n.startsWith('crate-') ? [128, 128] : d);
 export async function bakeAssets() {
   const names = [...D.art.palette.keywords.map((k) => 'kw-' + k.id + '.svg'), 'icon-ready.svg', 'icon-asleep.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'icon-story.svg', ...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg'), ...Object.keys(D.art.ux.families).map((f) => 'type-' + f + '.svg'), 'kind-minion.svg', 'kind-spell.svg', 'kind-weapon.svg'];
   for (const n of names) {
     const key = 'a:' + n; if (D.png[key]) continue;
-    const sz = n.startsWith('hero-') ? ASSET_PX.hero : n === 'card-back.svg' ? ASSET_PX['card-back'] : [96, 96];
+    const sz = pxOf(n, [96, 96]);
     await bake(key, 'assets/' + n, sz[0], sz[1]);
     await new Promise((r) => setTimeout(r, 0));
   }
@@ -77,7 +79,7 @@ function idleBake() {
   ric(async (dl) => {
     if (dl.timeRemaining() > 8) {
       const k = bakeQ.shift();
-      if (k.startsWith('a:')) { const n = k.slice(2), sz = n.startsWith('hero-') ? ASSET_PX.hero : n === 'card-back.svg' ? ASSET_PX['card-back'] : n.startsWith('crate-') ? [128, 128] : [64, 64]; await bake(k, 'assets/' + n, sz[0], sz[1]); }
+      if (k.startsWith('a:')) { const n = k.slice(2), sz = pxOf(n, [64, 64]); await bake(k, 'assets/' + n, sz[0], sz[1]); }
       else if (k.startsWith('b:')) { const [f, br] = k.slice(2).split('|'); await bake(k, badgeURL(f, br), BAKE.badge[0], BAKE.badge[1]); }
       else { const u = portraitURL(k); if (u.startsWith('blob:')) await bake(k, u, BAKE.portrait[0], BAKE.portrait[1]); }
     }
@@ -85,8 +87,22 @@ function idleBake() {
   }, { timeout: 1000 });
 }
 const BATTLE_ASSETS = () => [...D.art.palette.keywords.map((k) => 'kw-' + k.id + '.svg'), 'icon-ready.svg', 'icon-asleep.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'candle-lit.svg', 'candle-spent.svg', 'candle-spare.svg', 'candle-soot.svg', 'candle-empty.svg', ...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg')];
+// 버튼·판 재질 무늬를 PNG 한 장으로(요소 크기마다 SVG를 다시 래스터하지 않게)
+export function bakeMaterial() {
+  const svg = "<svg xmlns='http://www.w3.org/2000/svg' width='120' height='48' preserveAspectRatio='none'><path d='M4 34Q48 30 116 36M4 41Q72 37 116 42' fill='none' stroke='#000' stroke-opacity='.12' stroke-width='1.5'/><path d='M2 3q10 -3 20 0t20 0t20 0t20 0t20 0t20 0' fill='none' stroke='#F2EEE4' stroke-opacity='.3' stroke-width='2'/></svg>";
+  return bake('mat', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg.replace("width='120' height='48'", "width='240' height='96' viewBox='0 0 120 48'")), 240, 96).then(() => { if (D.png.mat) document.documentElement.style.setProperty('--mat', `url(${D.png.mat})`); });
+}
+// 로비 첫 화면 그림을 로딩 중에 PNG로(r3 성능: SVG 그림은 처음 그릴 때 메인 스레드에서 래스터되어 첫 탭 직후 프레임들이 길어짐)
+export function bakeSVG(key, svg, w, h) { return D.png[key] ? Promise.resolve() : bake(key, 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg), w, h); }
+export async function bakeLobbyAssets(heroes, extra = []) {
+  const names = [...new Set([...heroes.map((h) => 'hero-' + h.slice(2) + '.svg'), 'currency-salt.svg', 'currency-ink.svg', 'currency-pearl.svg', 'crate-bare-sea.svg', 'icon-story.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'candle-lit.svg', 'salt-chunk-pearl.svg', 'icon-board.svg', 'icon-ability.svg', 'icon-attack.svg', 'icon-breakthrough.svg', 'icon-rank.svg', 'kw-breakwater.svg', 'kw-brine.svg', ...extra])];
+  for (const n of names) { const k = 'a:' + n; if (D.png[k]) continue; const sz = pxOf(n, [64, 64]); await bake(k, 'assets/' + n, sz[0], sz[1]); }
+  await bakeMaterial();
+}
 export function bakeMenuAssets() {
-  const names = ['currency-salt.svg', 'currency-ink.svg', 'currency-pearl.svg', 'crate-bare-sea.svg', ...D.heroIds.map((h) => 'crate-' + h.slice(2) + '.svg'), ...Object.keys(D.art.ux.families).map((f) => 'type-' + f + '.svg'), 'kind-minion.svg', 'kind-spell.svg', 'kind-weapon.svg', 'icon-story.svg'];
+  // 로비 그림이 먼저(r3 성능: 첫 탭에 큰 SVG를 그리지 않게, 타이틀에서 쉬는 시간에 PNG로)
+  const lobby = [...D.heroIds.map((h) => 'hero-' + h.slice(2) + '.svg'), 'icon-story.svg', 'icon-deck.svg', 'card-back.svg', 'icon-log.svg', 'candle-lit.svg', 'salt-chunk-pearl.svg', 'icon-board.svg', 'icon-ability.svg', 'icon-attack.svg', 'icon-breakthrough.svg', 'icon-rank.svg', 'kw-breakwater.svg', 'kw-brine.svg'];
+  const names = [...lobby, 'currency-salt.svg', 'currency-ink.svg', 'currency-pearl.svg', 'crate-bare-sea.svg', ...D.heroIds.map((h) => 'crate-' + h.slice(2) + '.svg'), ...Object.keys(D.art.ux.families).map((f) => 'type-' + f + '.svg'), 'kind-minion.svg', 'kind-spell.svg', 'kind-weapon.svg', 'icon-story.svg'];
   const add = names.map((n) => 'a:' + n).filter((k) => !D.png[k] && !bakeQ.includes(k));
   bakeQ = [...add, ...bakeQ];
   if (!baking) idleBake();

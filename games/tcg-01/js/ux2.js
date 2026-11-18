@@ -3,14 +3,14 @@
 import { D, cardById, fac, assetURL } from './data.js';
 import { t, L, cardName } from './i18n.js';
 import { h, cardBox } from './cards.js';
-import { M, save, owned, allDecks, deckProblems, openCrate, cratesToPity, addTide } from './meta.js';
+import { M, save, owned, allDecks, deckProblems, openCrate, cratesToPity, addTide, commAdd, setCommHooks } from './meta.js';
 import { G, tween, setTf, after } from './anim.js';
 import { sfx, unlock } from './audio.js';
 import { toast, coach } from './ui.js';
 import { pickScreen } from './battle.js';
 
 let NAV = null;
-export function setNav2(fn) { NAV = fn; }
+export function setNav2(fn) { NAV = fn; setCommHooks({ openNode: () => !!(D.worldmap && M.s.story !== undefined ? D.worldmap.nodes.some((n) => !(M.s.story || { read: [] }).read.includes(n.id) && unlockState(n).ok) : true) }); }
 const go = (n, a) => NAV(n, a);
 const HS = (hid) => hid.slice(2);
 const heroName = (hid) => t(`hero_${HS(hid)}_name`);
@@ -24,7 +24,14 @@ function stageFor(sec) {
   return { st, key, W, H, R: D.art.ux2.lobby_rects_px[key] };
 }
 // 넘치는 글(가로 영어 등)은 잘리지 않게 글자 크기를 10 px까지 줄임
-function fitText(root) { for (const el of root.querySelectorAll('.tile')) { const tx = [el, ...el.querySelectorAll('span')]; let fs = parseFloat(getComputedStyle(el.querySelector('.small') || el).fontSize), g = 0; while (el.scrollWidth > el.clientWidth + 1 && fs > 10 && g++ < 8) { fs -= 1; for (const x of tx) x.style.fontSize = fs + 'px'; } } }
+// 한 번 읽고 한 번 쓰기(r3 성능: 반복 측정 강제 배치 제거). 비율로 바로 줄이고, 최소 글자에서도 넘치면 숨길 것만 숨김
+function fitText(root) {
+  const jobs = [];
+  for (const e of root.querySelectorAll('.stHead')) jobs.push({ e, set: [e], min: 10, hide: e.querySelector('.dim') });
+  for (const e of root.querySelectorAll('.tile')) jobs.push({ e, set: [e, ...e.querySelectorAll('span')], min: 9, fsFrom: e.querySelector('.small') || e });
+  for (const j of jobs) { j.sw = j.e.scrollWidth; j.cw = j.e.clientWidth; if (j.sw > j.cw + 1) j.fs = parseFloat(getComputedStyle(j.fsFrom || j.e).fontSize); }
+  for (const j of jobs) { if (!j.fs) continue; const want = Math.floor(j.fs * (j.cw / j.sw) * 2) / 2, fz = Math.max(j.min, want); for (const x of j.set) { x.style.fontSize = fz + 'px'; if (want < j.fs) x.style.letterSpacing = '-0.3px'; } if (want < j.min && j.hide) j.hide.style.display = 'none'; }
+}
 const place = (r, extra = '') => `left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;${extra}`;
 
 // ---------- 진행 값 ----------
@@ -47,7 +54,7 @@ export function lobbyScreen() {
   const hero = M.s.lastHero || D.heroIds[0], F = fac(hero);
   // 배경: 영웅 실루엣 + 등불 빛 + 흑조 물결
   st.appendChild(h('div', { class: 'lobbyBg', style: `background:radial-gradient(ellipse at 50% 38%, ${D.art.palette.ui.wick_flame}33 0%, transparent 55%), linear-gradient(${D.art.palette.ui.bg_abyss}, ${D.art.palette.ui.tide_black})` }));
-  st.appendChild(h('img', { class: 'lobbyHero', src: assetURL(`hero-${HS(hero)}.svg`), alt: '', style: place(R.hero) }));
+  { const hi = h('img', { class: 'lobbyHero', alt: '', style: place(R.hero) }); st.appendChild(hi); setTimeout(() => { hi.decoding = 'async'; hi.src = assetURL(`hero-${HS(hero)}.svg`); }, 350); } // r3 성능: 큰 영웅 그림은 첫 프레임 뒤에
   st.appendChild(h('div', { class: 'tideWave', style: `top:${R.battle.y - 30}px` }));
   // 위 HUD: 레벨 고리 · 재화 · 상점
   const si = seasonInfo();
@@ -65,13 +72,16 @@ export function lobbyScreen() {
     h('div', { class: 'stHead' }, [h('b', { text: `${t('season_name_1')} · ${t('season_widget_level', { n: si.step })}` }), h('span', { class: 'dim', text: t('season_widget_next', { n: si.next }) })]),
     ticks]));
   // 퀘스트 위젯(늘 보임): 의뢰 3 + 주간 맹약
-  const qw = h('button', { class: 'questW', type: 'button', 'data-nav': 'commissions', style: place(R.quests), 'aria-label': t('quest_widget_title'), onclick: () => go('commissions') });
-  const qName = (q) => (q.type === 'win_hero' ? t('quest_name_win_hero', { hero: heroName(q.hero) }) : t(`quest_name_${q.type}`));
-  const rows = [...M.s.daily.comm.map((q) => ({ name: qName(q), cur: q.prog, max: q.n, done: q.prog >= q.n, claimed: q.claimed, icon: 'currency-salt.svg' })), M.s.weekly ? { name: t('quest_name_weekly'), cur: M.s.weekly.prog, max: M.s.weekly.n, done: M.s.weekly.prog >= M.s.weekly.n, claimed: M.s.weekly.claimed, icon: 'crate-bare-sea.svg' } : null].filter(Boolean);
+  const qw = h('button', { class: 'questW' + (R.quests.w < 140 ? ' narrow' : ''), type: 'button', 'data-nav': 'commissions', style: place(R.quests), 'aria-label': t('quest_widget_title'), onclick: () => go('commissions') });
+  const qName = (q) => t(`commission_${q.type}`);
+  // 줄 = 종류 그림(앞) + 짧은 이름 + 보상 숫자 / 막대 + n/m (UX r2: 보상 그림 대신 종류 그림, 보상은 숫자)
+  const QI = { win_hero: (q) => `hero-${HS(q.hero)}.svg`, breakwater_blocks: 'kw-breakwater.svg', brine_damage: 'kw-brine.svg', play_answerers: 'icon-board.svg', cast_rites: 'icon-ability.svg', hero_damage: 'icon-attack.svg', open_crates: 'crate-bare-sea.svg', recut_or_craft: 'icon-breakthrough.svg', worldmap_node: 'icon-story.svg' };
+  const qIcon = (q) => (typeof QI[q.type] === 'function' ? QI[q.type](q) : QI[q.type] || 'icon-rank.svg');
+  const rows = [...M.s.daily.comm.map((q) => ({ name: qName(q), cur: q.prog, max: q.n, done: q.prog >= q.n, claimed: q.claimed, icon: qIcon(q), rw: `+${q.reward}`, rwIcon: 'currency-salt.svg' })), M.s.weekly ? { name: t('quest_name_weekly'), cur: M.s.weekly.prog, max: M.s.weekly.n, done: M.s.weekly.prog >= M.s.weekly.n, claimed: M.s.weekly.claimed, icon: 'icon-rank.svg', rw: '+1', rwIcon: 'crate-bare-sea.svg' } : null].filter(Boolean);
   for (const q of rows.slice(0, Math.max(1, Math.floor((R.quests.h - 8) / 40)))) {
     const k = Math.min(1, q.cur / q.max);
     qw.appendChild(h('div', { class: 'qrow' + (q.done && !q.claimed ? ' done' : '') + (q.claimed ? ' claimed' : '') }, [
-      h('div', { class: 'qtop' }, [h('span', { class: 'qname', text: q.name }), h('img', { src: assetURL(q.icon), alt: '' })]),
+      h('div', { class: 'qtop' }, [h('img', { class: 'qi', src: assetURL(q.icon), alt: '' }), h('span', { class: 'qname', text: q.name }), h('span', { class: 'qrw' }, [h('img', { src: assetURL(q.rwIcon), alt: '' }), q.rw])]),
       h('div', { class: 'qbot' }, [h('div', { class: 'qbar' }, h('i', { style: `transform:scaleX(${k.toFixed(3)})` })), h('span', { class: 'qn', text: t('quest_widget_progress', { cur: q.cur, max: q.max }) })])]));
   }
   st.appendChild(qw);
@@ -87,19 +97,26 @@ export function lobbyScreen() {
   st.appendChild(btn(t('recut_button'), () => go('collection', { mode: 'recut' }), 'tile fit', { style: place(R.breakthrough), 'data-nav': 'breakthrough' }));
   st.appendChild(btn(t('inscribe_button'), () => go('collection', { mode: 'craft' }), 'tile fit', { style: place(R.craft), 'data-nav': 'craft' }));
   st.appendChild(btn(h('img', { src: assetURL('icon-log.svg'), alt: t('menu_settings'), style: 'width:26px;height:26px' }), () => go('settings'), 'tile', { style: place(R.settings), 'data-nav': 'settings', 'aria-label': t('menu_settings') }));
-  requestAnimationFrame(() => fitText(st));
+  for (const im of st.querySelectorAll('img')) im.decoding = 'async'; // 그림 해독이 첫 그리기를 막지 않게
+  // r3 성능: 첫 프레임은 배경·HUD·결투 버튼만, 가장자리 타일 → 위젯 순서로 다음 프레임들에 나눠 붙임(첫 탭 긴 프레임 쪼개기)
+  const g1 = [...st.querySelectorAll(':scope > .tile')], g2 = [...st.querySelectorAll(':scope > .seasonW, :scope > .questW')];
+  for (const e of [...g1, ...g2]) e.remove();
+  const later = (list, next) => requestAnimationFrame(() => setTimeout(() => { if (!sec.isConnected) return; for (const e of list) st.appendChild(e); next && next(); }, 0));
+  later(g1, () => later(g2, () => requestAnimationFrame(() => fitText(st))));
   return sec;
 }
 
 // 단계 그림(art ux2.mjs battleSelectSVG와 같은 구성): 물결 수 = 단계, 2단계 시장 천막, 3단계 사구, 4단계 솟는 흑조(청록). 잠김 안내는 그림 안 가운데
-function tierArt(i, lockText) {
+export function tierSVG(i) { return tierArt(i, null, true); }
+function tierArt(i, lockText, svgOnly) {
   const W = 160, H = 64, wv = [];
   for (let k = 0; k <= i; k++) { const y = H * (0.86 - k * 0.15); wv.push(`<path d="M8 ${y}Q${W * 0.3} ${y - 6 - i * 4} ${W * 0.55} ${y}T${W - 8} ${y}" fill="none" stroke="${i === 3 ? '#4DE0FF' : '#F2EEE4'}" stroke-width="${2 + i * 0.8}" stroke-linecap="round" opacity="${0.6 + k * 0.1}"/>`); }
   const extra = i === 1 ? `<path d="M${W * 0.3} ${H * 0.5}L${W * 0.4} ${H * 0.22}L${W * 0.5} ${H * 0.5}ZM${W * 0.5} ${H * 0.5}L${W * 0.6} ${H * 0.26}L${W * 0.7} ${H * 0.5}Z" fill="#8A5A2E" stroke="#2A1D12"/>`
     : i === 2 ? `<path d="M0 ${H * 0.5}Q${W * 0.25} ${H * 0.18} ${W * 0.5} ${H * 0.45}T${W} ${H * 0.3}V${H * 0.55}H0Z" fill="#6B5A3A" opacity=".8"/>`
     : i === 3 ? `<path d="M${W * 0.6} ${H}Q${W * 0.7} ${H * 0.1} ${W * 0.82} ${H * 0.08}Q${W * 0.78} ${H * 0.4} ${W * 0.95} ${H}Z" fill="#0B2A30" stroke="#4DE0FF" stroke-opacity=".6"/>` : '';
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none"><rect width="${W}" height="${H}" fill="${i === 3 ? '#070D12' : '#1B2A31'}"/><path d="M0 ${H * 0.55}H${W}" stroke="#AEB9BD" stroke-opacity=".4"/>${extra}${wv.join('')}</svg>`;
-  const box = h('div', { class: 'tierArt' }, h('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg), alt: '' }));
+  if (svgOnly) return svg;
+  const box = h('div', { class: 'tierArt' }, h('img', { src: D.png['tier' + i] || 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg), alt: '' }));
   if (lockText) box.appendChild(h('div', { class: 'tierLock' }, [h('img', { src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2" fill="#AEB9BD"/><path d="M8 10V7a4 4 0 0 1 8 0v3" fill="none" stroke="#AEB9BD" stroke-width="2.5"/></svg>'), alt: '' }), h('span', { text: lockText })]));
   return box;
 }
@@ -246,7 +263,7 @@ export function worldmapScreen() {
   const body = s.querySelector('.body'); body.classList.add('mapBody');
   // art 지도 그림(900×1100, assets/worldmap-bg.svg) 위에 노드·길을 저장값 상태로 그림
   const W = 900, MH = 1100; // art 원본 배율(노드 간격·그림 노드와 정확히 겹침), 화면보다 크면 스크롤
-  const map = h('div', { class: 'wmap', style: `width:${W}px;height:${MH}px` }, h('img', { class: 'wbg', src: 'assets/worldmap-bg.svg', alt: '', style: `width:${W}px;height:${MH}px` }));
+  const map = h('div', { class: 'wmap', style: `width:${W}px;height:${MH}px` }, h('img', { class: 'wbg', src: assetURL('worldmap-bg.svg'), alt: '', decoding: 'async', style: `width:${W}px;height:${MH}px` }));
   const X = (x) => (x / 100) * W, Y = (y) => (y / 100) * MH;
   const read = new Set(M.s.story.read);
   const nodes = D.worldmap.nodes, total = nodes.length, byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
@@ -268,10 +285,10 @@ export function worldmapScreen() {
     if (n.region === 'rift' && !riftShown) continue;
     const st = state(n);
     if (st === 'open' && !cur) cur = n;
-    map.appendChild(h('button', { class: `wnode ${st}`, type: 'button', 'data-node': n.id, style: `left:${X(n.x) - 24}px;top:${Y(n.y) - 24}px`, 'aria-label': nodeTitle(n), onclick: () => nodePanel(n, st) }, h('span', { text: st === 'read' ? '✓' : st === 'open' ? String(n.order) : '·' })));
+    map.appendChild(h('button', { class: `wnode ${st}`, type: 'button', 'data-node': n.id, style: `left:${X(n.x) - 24}px;top:${Y(n.y) - 24}px`, 'aria-label': nodeTitle(n), onclick: () => nodePanel(n, st) }, [h('img', { class: 'wni', alt: '', draggable: 'false', 'data-ni': `${n.region}|${st === 'read' ? 'cleared' : st}` }), st === 'open' ? h('span', { class: 'wno', text: String(n.order) }) : null])); // art node-<지역>-<상태>.svg
   }
   if (cur) {
-    map.querySelector(`[data-node="${cur.id}"]`).classList.add('cur');
+    { const el = map.querySelector(`[data-node="${cur.id}"]`); el.classList.add('cur'); const im = el.querySelector('.wni'); if (im) im.dataset.ni = `${cur.region}|current`; }
     // 다음 목적지: 숨쉬는 고리 + 아래로 가리키는 화살표(transform/opacity만)
     map.appendChild(h('div', { class: 'wpulse', style: `left:${X(cur.x) - 34}px;top:${Y(cur.y) - 34}px` }));
     map.appendChild(h('div', { class: 'warrow', style: `left:${X(cur.x) - 12}px;top:${Y(cur.y) - 64}px` }));
@@ -279,10 +296,11 @@ export function worldmapScreen() {
     M.s.story.seenRegions = M.s.story.seenRegions || [];
     if (!M.s.story.seenRegions.includes(cur.region)) {
       const rg = D.worldmap.regions.find((r) => r.id === cur.region);
-      if (rg) { M.s.story.seenRegions.push(cur.region); save(); const bn = h('div', { class: 'wbanner', text: L.lang === 'en' ? rg.name_en : rg.name_ko }); s.appendChild(bn); setTf(bn, { o: 0, y: -8 }); tween(bn, { o: 1, y: 0 }, 240 * G.scale); after(1800 * G.scale, () => tween(bn, { o: 0 }, 300 * G.scale, { done: () => bn.remove() })); }
+      if (rg) { M.s.story.seenRegions.push(cur.region); save(); const bn = h('div', { class: 'wbanner', text: `${t('worldmap_node_new')} · ${nodeTitle(cur)}` }); /* 지역 이름은 지도 그림에 있으므로 배너는 새 장 제목(중복 제거) */ s.appendChild(bn); setTf(bn, { o: 0, y: -8 }); tween(bn, { o: 1, y: 0 }, 240 * G.scale); after(1800 * G.scale, () => tween(bn, { o: 0 }, 300 * G.scale, { done: () => bn.remove() })); }
     }
   }
   body.appendChild(h('div', { class: 'small wprog', text: t('worldmap_progress', { n: read.size, total }) + (riftShown && !read.has(rift[0].id) ? ' · ' + t('worldmap_rift_reveal') : '') }));
+  for (const im of map.querySelectorAll('.wni')) { const [rg, sx] = im.dataset.ni.split('|'); im.src = assetURL(`node-${rg}-${sx}.svg`); }
   const scroller = h('div', { class: 'wscroll' }, map);
   body.appendChild(scroller);
   if (cur) s.querySelector('.core').appendChild(btn(t('worldmap_continue'), () => nodePanel(cur, 'open'), 'primary', { 'data-act': 'continue' }));
@@ -311,7 +329,7 @@ function nodePanel(n, st) {
 }
 function readNode(n) {
   const S = M.s; if (S.story.read.includes(n.id)) return;
-  S.story.read.push(n.id);
+  S.story.read.push(n.id); commAdd('worldmap_node');
   const R = D.balance.worldmap.node_reward, rw = { ...(R.every_node || {}) };
   const extra = R[n.id] || (n.region !== 'bare' && n.region !== 'rift' ? R[`region_${n.order}`] : null);
   if (extra) for (const [k, v] of Object.entries(extra)) rw[k] = (rw[k] || 0) + v;

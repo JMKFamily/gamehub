@@ -308,7 +308,7 @@ button { font: inherit; color: inherit; }
 .ux2stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .ux2stage > * { position: absolute; }
 .lobbyBg { inset: 0; }
-.lobbyHero { opacity: .32; object-fit: contain; pointer-events: none; filter: drop-shadow(0 0 24px rgba(244,183,64,.25)); }
+.lobbyHero { opacity: .32; object-fit: contain; pointer-events: none; } /* r3: 큰 그림 필터 뺌(빛은 배경 그라디언트) */
 .tideWave { left: 0; right: 0; height: 40px; background: radial-gradient(ellipse at 50% 100%, #4DE0FF22, transparent 70%); pointer-events: none; }
 .lvl { border: 0; border-radius: 50%; background: conic-gradient(var(--focus) calc(var(--k) * 360deg), var(--line_soft) 0); display: flex; align-items: center; justify-content: center; cursor: pointer; }
 .lvl b { background: var(--bg_panel); border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
@@ -367,7 +367,7 @@ button { font: inherit; color: inherit; }
 .wfog { position: absolute; width: 180px; height: 120px; border-radius: 50%; background: radial-gradient(#A9BCC6cc, transparent 70%); pointer-events: none; }
 .openCell { transition: none; }
 /* 촛불 심지(art ux2.candle) */
-.wicks i.cand { flex: 1; position: relative; background: none !important; border-radius: 0; opacity: 1 !important; }
+.wicks i.cand { flex: 1; position: relative; border-radius: 0; }
 .wicks .cand img { position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; object-fit: contain; }
 .wicks .cand.lit .cl { animation: flick 1.4s ease-in-out infinite; transform-origin: 50% 100%; }
 @keyframes flick { 0%,100% { transform: rotate(-2deg) scaleY(.96); } 50% { transform: rotate(3deg) scaleY(1.04); } }
@@ -377,7 +377,8 @@ button { font: inherit; color: inherit; }
 .card .cost::after { content: ''; position: absolute; left: 6px; top: 0; width: 6px; height: 12px; background: #F3E6C8; border-radius: 0 0 3px 3px; }
 .card.hand .cost::before { top: -20px; width: 16px; height: 20px; margin-left: -8px; }
 /* 재질: 인양 목재 결 + 젖은 소금 껍질 윗선(art ux2 plate) */
-.btn, .panel, .tierCard, .deckPic, .seasonW, .questW { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='48' preserveAspectRatio='none'><path d='M4 34Q48 30 116 36M4 41Q72 37 116 42' fill='none' stroke='%23000' stroke-opacity='.12' stroke-width='1.5'/><path d='M2 3q10 -3 20 0t20 0t20 0t20 0t20 0t20 0' fill='none' stroke='%23F2EEE4' stroke-opacity='.3' stroke-width='2'/></svg>"); background-size: 100% 100%; }
+/* 재질(나무 결 + 소금 껍질 윗선): SVG를 한 번 PNG로 구워 --mat로 씀(r3 성능: 요소마다 SVG 다시 그리기 제거) */
+.btn, .panel, .tierCard, .deckPic, .seasonW, .questW { background-image: var(--mat, none); background-size: 100% 100%; }
 /* UX2 r2: 촛불 2줄 × 5, 개수 알약은 띠 위 바깥(불꽃을 덮지 않음) */
 .wicks i.cand { flex: none; width: 100%; height: 100%; }
 .wicks b.wpill { position: absolute; right: 0; top: -17px; min-width: 30px; height: 16px; line-height: 16px; padding: 0 4px; border-radius: 8px; background: var(--stat_tab, #142027); font-size: 11px; font-weight: 800; color: #F4B740; text-align: center; }
@@ -401,7 +402,7 @@ button { font: inherit; color: inherit; }
 .qbot { display: flex; align-items: center; gap: 4px; }
 .qbot .qbar { height: 7px; }
 .qn { font-size: 11px; flex: none; }
-.qrow.done .qtop img { filter: drop-shadow(0 0 4px #6EE7A8); }
+.qrow.done .qtop img { outline: 2px solid #6EE7A8; border-radius: 4px; }
 .qrow.done::after { right: 26px; top: 4px; }
 .lvl { background: conic-gradient(var(--focus) calc(var(--k) * 360deg), #3A5560 0); box-shadow: inset 0 0 0 1px #5E7480; }
 .lvl b { box-shadow: 0 0 0 1px #5E7480; }
@@ -433,3 +434,45 @@ button { font: inherit; color: inherit; }
 @keyframes warrow { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
 .wbanner { position: absolute; left: 50%; top: 96px; margin-left: -130px; width: 260px; padding: 10px 12px; text-align: center; font-size: 18px; font-weight: 800; color: var(--salt_white); background: rgba(11,21,27,.88); border-top: 2px solid var(--wick_flame); border-bottom: 2px solid var(--wick_flame); pointer-events: none; z-index: 5; }
 .sortBtn { min-width: 0 !important; padding: 0 2px !important; font-size: 12px; }
+/* 성능 A/B 끄개(?off=…) */
+html.off-cand .wicks .cand .cl { animation: none !important; }
+html.off-wicks .wicks { display: none !important; }
+html.off-btnbg .btn, html.off-btnbg .panel, html.off-btnbg .tierCard, html.off-btnbg .deckPic, html.off-btnbg .seasonW, html.off-btnbg .questW { background-image: none !important; }
+html.off-pulse .battleBtn { animation: none !important; }
+/* r3 퀘스트 줄: 종류 그림 + 짧은 이름 + 보상 숫자, 말줄임 없음(글자 줄여 맞춤) */
+.qtop img.qi { width: 20px; height: 20px; flex: none; }
+.qname { text-overflow: clip; }
+.qrw { display: inline-flex; align-items: center; gap: 1px; font-size: 10px; font-weight: 800; color: #F4B740; flex: none; }
+.qrw img { width: 14px !important; height: 14px !important; }
+.stHead { text-overflow: clip; }
+.stHead .dim { text-overflow: clip; }
+/* r3 월드맵 노드 = art node-<지역>-<상태>.svg(48 px), 열림 노드 번호는 왼쪽 위 */
+.wnode { padding: 0; border: 0; background: none !important; clip-path: none; outline-offset: 2px; }
+.wnode .wni { position: absolute; inset: 0; width: 48px; height: 48px; pointer-events: none; }
+.wnode .wno { position: absolute; left: 4px; top: 2px; font-size: 12px; font-weight: 800; color: #F2EEE4; text-shadow: 0 1px 0 #000; }
+.wnode.cur { outline: none; }
+.storyCard .text, .storyCard .type { visibility: hidden; }
+.storyCard .name { color: transparent !important; }
+html.off-hero .lobbyHero, html.off-hero .lobbyBg, html.off-hero .tideWave { display: none !important; }
+html.off-widgets .seasonW, html.off-widgets .questW { display: none !important; }
+html.off-tiles .ux2stage .tile { display: none !important; }
+html.off-bg .lobbyBg, html.off-bg .tideWave { display: none !important; }
+html.off-lvl .lvl { display: none !important; }
+html.off-stage .ux2stage { display: none !important; }
+/* r3 성능: 촛불 바탕 = CSS 배경(상태 data-st만 바꿈), 불꽃은 opacity만 바꾸는 합성 층 */
+.wicks i.cand { background: center bottom / contain no-repeat !important; }
+.wicks i.cand[data-st=empty] { background-image: var(--cd-empty) !important; }
+.wicks i.cand[data-st=spent] { background-image: var(--cd-spent) !important; }
+.wicks i.cand[data-st=soot] { background-image: var(--cd-soot) !important; }
+.wicks i.cand[data-st=spare] { background-image: var(--cd-spare) !important; }
+.wicks .cand .cl { will-change: opacity, transform; }
+.wicks { will-change: transform; contain: layout style; } /* r3 성능: 촛불 바뀜이 대전 무대 전체를 다시 칠하지 않게 자기 층 */
+/* r3 촛불 전환: 불꽃 opacity만 CSS 전환(지연 --fd, 길이 --fo), 연기는 꺼진 바탕을 살짝 흐리게 했다가 돌아옴 */
+.wicks .cand .cl { opacity: 0; transition: opacity var(--fo, 140ms) linear var(--fd, 0ms); }
+.wicks .cand.lit .cl { opacity: 1; }
+.wicks .cand.smoke { animation: candSmoke 160ms linear var(--fd, 0ms) backwards; }
+@keyframes candSmoke { from { opacity: .4; } to { opacity: 1; } }
+/* r3 퀘스트 이름: 말줄임 대신 두 줄까지(10 px) */
+.qname { white-space: normal; overflow: visible; font-size: 10px; line-height: 11px; word-break: keep-all; }
+.qrow { gap: 2px; }
+.questW.narrow .qrw img { display: none; } .questW.narrow .qtop img.qi { width: 18px; height: 18px; }
