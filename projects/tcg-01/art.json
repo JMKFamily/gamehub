@@ -2277,6 +2277,148 @@
    "motion": "아래에서 12 px 올라오며 투명도 0→1, 글 상자 위에 덮임(카드 뒤집기 연출 없음)"
   }
  },
+ "ux_fan": {
+  "360x640": {
+   "errs": [],
+   "rows": [
+    {
+     "n": 5,
+     "visible_ratio": 0.62,
+     "step_px": 50.8
+    },
+    {
+     "n": 6,
+     "visible_ratio": 0.569,
+     "step_px": 46.7
+    },
+    {
+     "n": 7,
+     "visible_ratio": 0.474,
+     "step_px": 38.9
+    },
+    {
+     "n": 8,
+     "visible_ratio": 0.406,
+     "step_px": 33.3
+    },
+    {
+     "n": 9,
+     "visible_ratio": 0.356,
+     "step_px": 29.2
+    },
+    {
+     "n": 10,
+     "visible_ratio": 0.316,
+     "step_px": 25.9
+    }
+   ]
+  },
+  "412x915": {
+   "errs": [],
+   "rows": [
+    {
+     "n": 5,
+     "visible_ratio": 0.62,
+     "step_px": 58.3
+    },
+    {
+     "n": 6,
+     "visible_ratio": 0.573,
+     "step_px": 53.8
+    },
+    {
+     "n": 7,
+     "visible_ratio": 0.477,
+     "step_px": 44.8
+    },
+    {
+     "n": 8,
+     "visible_ratio": 0.409,
+     "step_px": 38.4
+    },
+    {
+     "n": 9,
+     "visible_ratio": 0.358,
+     "step_px": 33.6
+    },
+    {
+     "n": 10,
+     "visible_ratio": 0.318,
+     "step_px": 29.9
+    }
+   ]
+  },
+  "640x360": {
+   "errs": [],
+   "rows": [
+    {
+     "n": 5,
+     "visible_ratio": 0.62,
+     "step_px": 43.4
+    },
+    {
+     "n": 6,
+     "visible_ratio": 0.62,
+     "step_px": 43.4
+    },
+    {
+     "n": 7,
+     "visible_ratio": 0.62,
+     "step_px": 43.4
+    },
+    {
+     "n": 8,
+     "visible_ratio": 0.542,
+     "step_px": 37.9
+    },
+    {
+     "n": 9,
+     "visible_ratio": 0.474,
+     "step_px": 33.2
+    },
+    {
+     "n": 10,
+     "visible_ratio": 0.421,
+     "step_px": 29.5
+    }
+   ]
+  },
+  "1280x720": {
+   "errs": [],
+   "rows": [
+    {
+     "n": 5,
+     "visible_ratio": 0.62,
+     "step_px": 86.8
+    },
+    {
+     "n": 6,
+     "visible_ratio": 0.62,
+     "step_px": 86.8
+    },
+    {
+     "n": 7,
+     "visible_ratio": 0.62,
+     "step_px": 86.8
+    },
+    {
+     "n": 8,
+     "visible_ratio": 0.574,
+     "step_px": 80.4
+    },
+    {
+     "n": 9,
+     "visible_ratio": 0.503,
+     "step_px": 70.4
+    },
+    {
+     "n": 10,
+     "visible_ratio": 0.447,
+     "step_px": 62.6
+    }
+   ]
+  }
+ },
  "ux": {
   "families": {
    "draw": {
@@ -2440,7 +2582,12 @@
    "full_size_px": 34,
    "hand_scale_ratio": 1.6,
    "token_size_px": 24,
-   "name_band_pattern_opacity_ratio": 0.28
+   "name_band_pattern_opacity_ratio": 0.28,
+   "place_r2": "왼쪽 열: 마나 판 바로 아래(x 8, y = 마나 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %",
+   "type_spine_w_px": 14,
+   "faction_strip_w_px": 6,
+   "fan_visible_min_ratio": 0.29,
+   "fan_rule": "부채꼴 간격 = min(카드 폭 × 0.62, (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)"
   },
   "hierarchy": [
    {

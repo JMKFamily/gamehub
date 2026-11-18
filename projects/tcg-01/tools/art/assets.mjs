@@ -186,7 +186,10 @@ export function cardSVG(c, mode = 'full', opts = {}) {
     p.push(`<path d="${kind === 'rite' ? `M${ch + o * .4} ${o}H${W - ch - o * .4}L${W - o} ${ch + o * .4}V${H - 26 - o}M${o} ${H - 26 - o}V${ch + o * .4}L${ch + o * .4} ${o}` : `M${o} ${o}H${W - ch - o * .4}L${W - o} ${ch + o * .4}V${plateBottom - o}H${o}Z`}" fill="none" stroke="${fac.primary}" stroke-opacity="${i ? .55 : .9}" stroke-width="${i ? 1.2 : 1.8}"/>`);
   }
   // 세력 띠(왼쪽)
-  p.push(`<rect x="1.5" y="${kind === 'rite' ? ch : 1.5}" width="${C.spine_w_px}" height="${(kind === 'rite' ? H - 20 - ch : plateBottom - 3)}" fill="${fac.primary}"/>`);
+  // UX r2(2026-11-18): 왼쪽 기둥 = 유형 색 + 유형 무늬(부채꼴 손패에서 겹쳐도 보이는 자리). 세력은 오른쪽 6 px 띠로 옮김
+  { const sf = familyOf(c), sid = `spat-${sf}`, sy = kind === 'rite' ? ch : 1.5, sh = kind === 'rite' ? H - 20 - ch : plateBottom - 3, sw = C.spine_w_px + 4;
+    p.push(`<defs>${familyPattern(sf, sid)}</defs><rect x="1.5" y="${sy}" width="${sw}" height="${sh}" fill="${FAM[sf].color}"/><rect x="1.5" y="${sy}" width="${sw}" height="${sh}" fill="url(#${sid})"/>`);
+    p.push(`<rect x="${W - 7.5}" y="${ch + 4}" width="6" height="${(kind === 'rite' ? H - 26 - ch : plateBottom - ch - 8)}" fill="${fac.primary}"/>`); }
   // 희귀도 면(깨진 모서리를 따라 띠)
   p.push(`<path d="M${W - ch - 12} 0H${W - ch}L${W} ${ch}V${ch + 12}Z" fill="${rar.facet}" stroke="${c.rarity_hint === "abyss" || c.rarity === "abyss" ? RAR.abyss.glow : ui.stat_tab}" stroke-width="2"/>`);
   if (rar.glow && rc.shimmer) p.push(`<path d="${plate}" fill="none" stroke="${RAR.abyss.glow}" stroke-width="3" opacity=".7"><animate attributeName="opacity" values=".25;.8;.25" dur="${RECUT[3].shimmer_period_ms / 1000}s" repeatCount="indefinite"/></path>`);
@@ -205,11 +208,11 @@ export function cardSVG(c, mode = 'full', opts = {}) {
   const nm = c.name_ko || c.id;
   const nmFont = Math.min(nb.font, Math.floor((W - 70) / Math.max(4, nm.length)));
   if (!hand) p.push(`<text x="${W / 2}" y="${nb.y + nb.h / 2 + nmFont * .36}" text-anchor="middle" font-size="${nmFont}" font-weight="700" fill="${fam.ink}" ${FONT}>${esc(nm)}</text>`);
-  { const bs = BADGE.full_size_px * (hand ? BADGE.hand_scale_ratio : 1); p.push(`<g transform="translate(${W - 14 - bs} ${art.y + 4}) scale(${bs / 48})">${familyBadgeBody(fid, c.branch)}</g>`); }
+  { const bs = BADGE.full_size_px * (hand ? BADGE.hand_scale_ratio : 1), by = C.cost.y_px + 6 + C.cost.h_px * (hand ? 1.6 : 1) + 6; /* 왼쪽 열: 마나 판 바로 아래(겹친 손패에서 보이는 왼쪽 26 % 안) */ p.push(`<g transform="translate(${C.cost.x_px - 2} ${by}) scale(${bs / 48})">${familyBadgeBody(fid, c.branch)}</g>`); }
   p.push(`<g transform="translate(${W - 34} ${nb.y + nb.h / 2 - 11}) scale(.46)">${RARI[c.rarity || c.rarity_hint || 'sand']()}</g>`);
   // 키워드 아이콘 줄(그림 창 아래 가장자리에 걸침)
   const kws = cardKeywords(c); const ks = C.keyword_icons.size_px * (hand ? 1.5 : 1);
-  kws.forEach((k, i) => { const x = C.spine_w_px + 10 + i * (ks + 4); /* 1-2: 왼쪽 정렬(레퍼런스 희귀도 보석 자리 회피) */ p.push(`<g transform="translate(${x} ${art.y + art.h - ks * .6}) scale(${ks / 48})"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}" stroke="${ui.card_plate}" stroke-width="3"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`); });
+  kws.forEach((k, i) => { const x = C.spine_w_px + 10 + (hand ? 70 : 40) + i * (ks + 4); /* 왼쪽 정렬, 유형 표지 오른쪽부터 */ p.push(`<g transform="translate(${x} ${art.y + art.h - ks * .6}) scale(${ks / 48})"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}" stroke="${ui.card_plate}" stroke-width="3"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`); });
   if (!hand) {
     const typeKo = { answerer: '소환수', rite: '주문', brand: '무기' }[kind]; // 2026-11-18 용어 쉽게(10-lore 2-7)
     p.push(`<text x="${W / 2}" y="${C.type_line.y_px + 11}" text-anchor="middle" font-size="${C.type_line.font_px}" fill="${ui.card_ink_dim}" ${FONT}>${typeKo} · ${esc(LINEAGE_KO[c.lineage] || fac.name_ko)}</text>`);
@@ -247,7 +250,7 @@ export function tokenSVG(c, opts = {}) {
   p.push(`<path d="${plate}" fill="${fac.deep}" stroke="${s.selected ? ui.focus : ui.stat_tab}" stroke-width="${s.selected ? 4 : 2.5}"/>`);
   p.push(`<svg x="5" y="5" width="${W - 10}" height="86" viewBox="0 0 120 90" preserveAspectRatio="xMidYMid slice" overflow="hidden">${inner(portraitSVG(c, { title: false }))}</svg>`);
   p.push(`<rect x="0" y="0" width="5" height="${H - 10}" fill="${fac.primary}"/>`);
-  { const tf = familyOf(c); p.push(`<rect x="5" y="0" width="${W - 19}" height="6" fill="${FAM[tf].color}"/><g transform="translate(${W - 30} 2) scale(${BADGE.token_size_px / 48})">${familyBadgeBody(tf, c.branch)}</g>`); }
+  { const tf = familyOf(c); p.push(`<rect x="5" y="0" width="${W - 19}" height="6" fill="${FAM[tf].color}"/><g transform="translate(4 26) scale(${BADGE.token_size_px / 48})">${familyBadgeBody(tf, c.branch)}</g>`); }
   p.push(`<path d="M${W - ch - 8} 0H${W - ch}L${W} ${ch}V${ch + 8}Z" fill="${RAR[c.rarity || c.rarity_hint || 'sand'].fill}"/>`);
   if (kws.includes('seamist')) p.push(`<rect x="3" y="3" width="${W - 6}" height="88" fill="${KW[4].color}" opacity=".45"/><path d="M8 30H50M58 30H92M14 52H70M78 52H88M8 74H40M50 74H92" stroke="#E8F0F3" stroke-width="5" stroke-linecap="round" opacity=".8"/>`);
   if (kws.includes('saltskin')) p.push(`<path d="${plate}" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-dasharray="10 4"/>`);

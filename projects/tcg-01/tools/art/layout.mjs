@@ -186,3 +186,23 @@ export function checkTutorial(w, h, lay) {
   if (panelText(S.main) < 2) errs.push('패널 2줄 안 들어감');
   return { errs, plan, main_lines: panelText(S.main), slots: S };
 }
+
+// ── 부채꼴 손패 겹침 검사 (UX r2, 2026-11-18): 겹친 카드의 보이는 부분에 유형 신호(왼쪽 기둥 + 표지)가 남는지 ──
+export function handFan(lay, n) {
+  const H = lay.E.hand, cw = H.card_w;
+  const step = n > 1 ? Math.min(cw * 0.62, (H.w - cw * 1.35) / (n - 1)) : 0;
+  const span = step * (n - 1), x0 = H.x + (H.w - span - cw) / 2;
+  return Array.from({ length: n }, (_, i) => ({ x: x0 + i * step, visible_w: i === n - 1 ? cw : step }));
+}
+export function checkHandFan(w, h, lay, badgeRightRatio = 0.25, badgeBottomRatio = 0.49, minRatio = 0.29) {
+  const errs = [], rows = [];
+  for (let n = 5; n <= L.hand_limit; n++) {
+    const f = handFan(lay, n), vis = Math.min(...f.map((c) => c.visible_w)) / lay.E.hand.card_w;
+    if (vis < minRatio || vis < badgeRightRatio + 0.02) errs.push(`손패 ${n}장: 보이는 왼쪽 띠 ${(vis * 100).toFixed(0)} % < ${minRatio * 100} %`);
+    if (f[0].x < 0 || f[n - 1].x + lay.E.hand.card_w > w) errs.push(`손패 ${n}장: 화면 밖`);
+    rows.push({ n, visible_ratio: +vis.toFixed(3), step_px: +(f[1].x - f[0].x).toFixed(1) });
+  }
+  // 가로: 손패는 위 절반만 보임 → 표지 아래 끝이 보이는 높이 안
+  if (lay.orientation === 'landscape') { const peek = lay.E.hand.peek_px / lay.E.hand.card_h; if (badgeBottomRatio > peek) errs.push(`가로 손패 보이는 높이 ${(peek * 100).toFixed(0)} % < 표지 아래 끝 ${badgeBottomRatio * 100} %`); }
+  return { errs, rows };
+}

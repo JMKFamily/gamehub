@@ -4,7 +4,7 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as S from './spec.mjs';
-import { RESOLUTIONS, computeLayout, checkLayout, checkTutorial, L as LAYIN } from './layout.mjs';
+import { RESOLUTIONS, computeLayout, checkLayout, checkTutorial, checkHandFan, handFan, L as LAYIN } from './layout.mjs';
 import { minPairDE, CVD_MATRICES, simulate } from './cvd.mjs';
 import { loadCards, SAMPLE_IDS, portraitSVG } from './portrait-gen.mjs';
 import * as A from './assets.mjs';
@@ -45,7 +45,7 @@ const badPairs = pairs.filter((p) => p.ratio < p.min);
 const screens = {};
 let layoutErrs = 0;
 const tutorial = {};
-for (const [w, h] of RESOLUTIONS) { const lay = computeLayout(w, h); const c = checkLayout(w, h, lay); const t = checkTutorial(w, h, lay); layoutErrs += c.errs.length + t.errs.length; screens[`${w}x${h}`] = { ...lay, check: c }; tutorial[`${w}x${h}`] = { main_lines: t.main_lines, plan: t.plan, slots_px: t.slots, errs: t.errs }; }
+for (const [w, h] of RESOLUTIONS) { const lay = computeLayout(w, h); const c = checkLayout(w, h, lay); const t = checkTutorial(w, h, lay); const fan = checkHandFan(w, h, lay); layoutErrs += c.errs.length + t.errs.length + fan.errs.length; screens[`${w}x${h}`] = { ...lay, check: c, fan }; tutorial[`${w}x${h}`] = { main_lines: t.main_lines, plan: t.plan, slots_px: t.slots, errs: t.errs }; }
 
 // ── 에셋 쓰기 ──
 const written = [];
@@ -116,6 +116,31 @@ const uxIds = ['D001', 'B001', 'B004', 'B019', 'B021', 'A001', 'A005', 'A022', '
   const full = ['D001', 'B001', 'B019', 'A001', 'A022'];
   const brs = Object.keys(S.branchGlyph);
   put(SM, 'ux-types-full.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1310 470" width="1310" height="470"><rect width="100%" height="100%" fill="${U.bg_panel}"/>${full.map((id, i) => nest(A.cardSVG(byId(id), 'full'), 10 + i * 260, 10, 250, 350)).join('')}${brs.map((b, i) => { const fid = b.startsWith('d_') ? 'draw' : b.startsWith('ai_') ? 'strike' : b.startsWith('ad_') ? 'atkdraw' : S.DEBUFF_BRANCHES.includes(b) ? 'debuff' : 'buff'; return nest(A.familyBadgeSVG(fid, b), 10 + i * 48, 380, 40, 40) + `<text x="${30 + i * 48}" y="${436 + (i % 2) * 14}" text-anchor="middle" font-size="9" fill="${U.salt_dim}" ${A.FONT}>${b}</text>`; }).join('')}</svg>`);
+}
+
+// ── UX r2: 부채꼴 손패 10장(360x640 실제 배치·회전) 정상 + 색약 3종, 수집·덱 빌더 격자 ──
+{
+  const lay = computeLayout(360, 640), Hd = lay.E.hand, n = 10, fan = handFan(lay, n);
+  const fanIds = ['B099', 'B053', 'B056', 'D009', 'A001', 'A032', 'A030', 'B001', 'A005', 'B019'];
+  const one = (dy) => fanIds.map((id, i) => { const t = i / (n - 1) - 0.5, x = fan[i].x, y = dy + 8 + Math.abs(t) * 18, rot = t * 14 * 2; return `<g transform="rotate(${rot.toFixed(1)} ${x + Hd.card_w / 2} ${y + Hd.card_h})">${nest(A.cardSVG(byId(id), 'hand'), x, y, Hd.card_w, Hd.card_h)}</g>`; }).join('');
+  const kinds = ['normal', 'protan', 'deutan', 'tritan'], KO = { normal: '정상', protan: '적색약 시뮬', deutan: '녹색약 시뮬', tritan: '청색약 시뮬' };
+  const filt = Object.entries(CVD_MATRICES).map(([k, m]) => `<filter id="f-${k}" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="${m.map((q) => q.join(' ') + ' 0 0').join(' ')} 0 0 0 1 0"/></filter>`).join('');
+  const rowH = 170, body = kinds.map((k, i) => `<text x="8" y="${i * rowH + 16}" font-size="13" fill="${U.salt_white}" ${A.FONT}>360x640 부채꼴 손패 10장 · ${KO[k]} · 겹친 카드 보이는 폭 ${Math.round(screens['360x640'].fan.rows.at(-1).visible_ratio * 100)} %</text><g transform="translate(0 ${i * rowH + 4})" ${k === 'normal' ? '' : `filter="url(#f-${k})"`}>${one(14)}</g>`).join('');
+  put(SM, 'ux-hand-fan-cvd.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 ${rowH * 4}" width="360" height="${rowH * 4}"><defs>${filt}</defs><rect width="100%" height="100%" fill="${U.bg_abyss}"/>${body}</svg>`);
+  // 수집·덱 빌더: 필터 띠 + 격자 3열(손패형 카드 + 이름) + 덱 목록 줄 + 유형 비율 막대
+  const W = 360, p = [`<rect width="${W}" height="640" fill="${U.bg_panel}"/>`];
+  const famIds = Object.keys(S.cardFamilies);
+  famIds.forEach((fid, i) => { const x = 8 + i * 52; p.push(`<rect x="${x}" y="8" width="48" height="48" rx="6" fill="${i === 3 ? U.button_idle : U.bg_abyss}" stroke="${i === 3 ? U.focus : U.line_soft}" stroke-width="2"/>${nest(A.familyBadgeSVG(fid, FAM_REP[fid]), x + 8, 16, 32, 32)}`); });
+  ['minion', 'spell', 'weapon'].forEach((k, i) => { const x = 8 + (5 + i) * 52 - 4; if (x + 48 <= W) p.push(`<rect x="${x}" y="8" width="48" height="48" rx="6" fill="${U.bg_abyss}" stroke="${U.line_soft}" stroke-width="2"/><image href="../kind-${k}.svg" x="${x + 8}" y="16" width="32" height="32"/>`); });
+  const gridIds = ['D001', 'B001', 'B019', 'A001', 'A022', 'A020', 'B004', 'B021', 'A019'];
+  gridIds.forEach((id, i) => { const cw = 104, x = 8 + (i % 3) * (cw + 12), y = 68 + Math.floor(i / 3) * 170; p.push(nest(A.cardSVG(byId(id), 'hand'), x, y, cw, cw * 1.4)); p.push(`<text x="${x + cw / 2}" y="${y + cw * 1.4 + 14}" text-anchor="middle" font-size="12" fill="${U.salt_white}" ${A.FONT}>${byId(id).name_ko}</text>`); });
+  put(SM, 'ux-collection-grid.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} 590" width="${W}" height="590">${p.join('')}</svg>`);
+  // 덱 목록 줄 + 유형 비율 막대
+  const deck = ['D001', 'B001', 'B004', 'B019', 'A001', 'A019', 'A020', 'A022'], q = [`<rect width="360" height="300" fill="${U.bg_panel}"/>`];
+  const cnt = Object.fromEntries(famIds.map((f) => [f, 0])); deck.forEach((id) => cnt[S.familyOf(byId(id))]++);
+  let bx = 8; famIds.forEach((f) => { const wv = (344 * cnt[f]) / deck.length; if (wv) { q.push(`<defs>${A.familyPattern(f, 'dp-' + f)}</defs><rect x="${bx}" y="8" width="${wv}" height="20" fill="${S.cardFamilies[f].color}"/><rect x="${bx}" y="8" width="${wv}" height="20" fill="url(#dp-${f})"/>${nest(A.familyBadgeSVG(f, FAM_REP[f]), bx + 2, 9, 18, 18)}<text x="${bx + 24}" y="23" font-size="12" font-weight="800" fill="${S.cardFamilies[f].ink}" ${A.FONT}>${cnt[f]}</text>`); bx += wv; } });
+  deck.forEach((id, i) => { const c = byId(id), f = S.familyOf(c), y = 40 + i * 32; q.push(`<rect x="8" y="${y}" width="344" height="30" fill="${U.bg_abyss}"/><rect x="8" y="${y}" width="8" height="30" fill="${S.cardFamilies[f].color}"/>${nest(A.familyBadgeSVG(f, c.branch), 20, y + 4, 22, 22)}<rect x="48" y="${y + 4}" width="22" height="22" rx="4" fill="${U.wick_lit_bar}"/><text x="59" y="${y + 20}" text-anchor="middle" font-size="14" font-weight="800" fill="${U.wick_ink}" ${A.FONT}>${c.cost}</text>${nest(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="-7 0 48 48">${({ minion: '<path d="M0 0H26L34 8V42H22V48H12V42H0Z"', spell: '<path d="M8 0H26L34 8V40Q25 36 17 41T0 40V8Z"', weapon: '<path d="M0 0H26L34 8V40H24V44H30V48H4V44H10V40H0Z"' })[c.kind]} fill="${U.card_plate}" stroke="${U.stat_tab}" stroke-width="3"/></svg>`, 76, y + 4, 22, 22)}<text x="104" y="${y + 20}" font-size="13" fill="${U.salt_white}" ${A.FONT}>${c.name_ko}</text><text x="344" y="${y + 20}" text-anchor="end" font-size="13" fill="${U.salt_dim}" ${A.FONT}>×2</text>`); });
+  put(SM, 'ux-deck-list.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 300" width="360" height="300">${q.join('')}</svg>`);
 }
 
 // ── 목업 ──
@@ -193,6 +218,7 @@ const art = {
   layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
   story_panel: S.storyPanel,
+  ux_fan: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, v.fan])),
   ux: { families: S.cardFamilies, debuff_branches: S.DEBUFF_BRANCHES, branch_glyph: S.branchGlyph, kinds: S.cardKinds, badge: S.badge, hierarchy: S.hierarchy, deny_feedback: S.denyFeedback, hand_compare: S.handCompare, tutorial_ui: S.tutorialUi, tutorial_layout: tutorial, cvd_min_dE: cvd, cvd_threshold_dE: CVD_MIN, family_rule: 'familyOf(card): drawbuff→draw, attack+instant→strike, attack+draw→atkdraw, buff+debuff 갈래→debuff, 나머지 buff→buff' },
   assets: written.sort(),
   portrait_generator: { module: 'tools/art/portrait-gen.mjs', export: 'portraitSVG(card)', viewbox: '0 0 120 90', cache: '카드마다 한 번 만들어 blob URL로 캐시' },

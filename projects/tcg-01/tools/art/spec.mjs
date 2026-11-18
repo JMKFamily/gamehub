@@ -335,7 +335,9 @@ export const cardKinds = {
   spell:  { ko: '주문',   top: '위 두 모서리 깨짐',          bottom: '스탯 판 없음',                         edge: '아래 가장자리 물결' },
   weapon: { ko: '무기',   top: '오른쪽 위 한 모서리 깨짐',    bottom: '칼자루 판(가로 날밑 + 공격 | 내구도)',  edge: '아래 가장자리 곧음' },
 };
-export const badge = { full_size_px: 34, hand_scale_ratio: 1.6, token_size_px: 24, name_band_pattern_opacity_ratio: 0.28 };
+export const badge = { full_size_px: 34, hand_scale_ratio: 1.6, token_size_px: 24, name_band_pattern_opacity_ratio: 0.28,
+  place_r2: '왼쪽 열: 마나 판 바로 아래(x 8, y = 마나 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %', type_spine_w_px: 14, faction_strip_w_px: 6,
+  fan_visible_min_ratio: 0.29, fan_rule: '부채꼴 간격 = min(카드 폭 × 0.62, (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)' };
 
 // 정보 위계(읽히는 순서 = 크기·대비 순서). 숫자는 확대 보기 250 px 기준 글자/도형 크기
 export const hierarchy = [
