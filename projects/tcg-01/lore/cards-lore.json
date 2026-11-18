@@ -1129,8 +1129,8 @@
     "name_en": "Pell's Surge Engine",
     "flavor_ko": "바다를 다시 부를 수 있다면 기계로 부르겠다.",
     "flavor_en": "If the sea can be called back, a machine will call it.",
-    "concept_ko": "차오름. 이 응답자에게 붙는 부품은 두 번 적용된다.",
-    "concept_en": "Swell. Fits attached to this apply twice.",
+    "concept_ko": "차오름(+1/+0). 이 응답자에게 붙는 부품은 두 번 적용된다.",
+    "concept_en": "Swell (+1/+0). Fits attached to this apply twice.",
     "cost_band": "high",
     "rarity_hint": "abyss",
     "visual_hint": "녹 주황+황동, 육각 톱니; 큰 톱니 셋 맞물림"
