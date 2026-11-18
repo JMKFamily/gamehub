@@ -8,12 +8,15 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { MARKS, MARK_STROKE_UNIT, STAR, FINGER } from './shapes.mjs';
-import { loadLevels } from './tutorial.mjs';
+import { loadLevels, CARD_CELL } from './tutorial.mjs';
+import { mix } from './color.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '..', '..');
 const OUT = resolve(HERE, '../layout.json');
 const PAL = JSON.parse(readFileSync(resolve(HERE, '../palette.json'), 'utf8'));
+const BAL = JSON.parse(readFileSync(join(ROOT, 'balance.json'), 'utf8'));
+const BAL_CARD_CLOSE = (function find(o) { if (o && typeof o === 'object') { if (typeof o.auto_close_ms === 'number') return o.auto_close_ms; for (const v of Object.values(o)) { const r = find(v); if (r != null) return r; } } return null; })(BAL);
 const STR = existsSync(join(ROOT, 'strings.json')) ? JSON.parse(readFileSync(join(ROOT, 'strings.json'), 'utf8')) : {};
 
 export const RES = [[360, 640], [412, 915], [640, 360], [1280, 720]];
@@ -27,7 +30,7 @@ const PARAM = {
   cell_target: 56,
   tile_inset_of_cell: 0.05, tile_r_of_cell: 0.22, board_r_of_cell: 0.30,
   tile_dot_of_cell: 0.07,
-  line_w_of_cell: 0.60, dot_d_of_cell: 0.74, mark_of_dot: 0.46, ring_of_cell: 0.86, ring_w_of_cell: 0.05,
+  line_w_of_cell: 0.48, dot_d_of_cell: 0.74, mark_of_dot: 0.46, ring_of_cell: 0.86, ring_w_of_cell: 0.05, // r2 요청자 지시(2026-11-18) "선을 조금 얇게": 0.60 → 0.48(20 % 얇게). 점 0.74·표지 0.46 은 그대로라 점 > 선 차가 커져 끝점이 더 또렷함
   head_lead_of_cell: 0.5,   // 드래그 중 선 머리가 점유 칸 가운데에서 손가락 쪽으로 더 늘어나 보이는 최대 길이
   btn: 48, btn_gap: 12, edge: 12,
   hud_h: 64,             // 세로: 위 HUD 띠(홈·쌍 점 줄)
@@ -36,7 +39,11 @@ const PARAM = {
   judge_font: [38, 33, 28], // 판정 이름 1단·2단·3단 글자 크기(× k). 1-2: 34/31/28 → 38/33/28(단계 차를 벌림, 주 단서는 튐·조각·음 개수)
   pct_of_name: 0.55, pct_min: 15,
   text_font: 20, text_font_landscape: 18, text_line: 1.3,
-  card_aspect: 1.5, card_w_max: 480,
+  card_aspect: 1.5, card_w_max: 480, card_pad: 10, card_over_board: 6, // r2 S3: 카드 = 그림(3:2) + 아래 글 띠, 판 사각형(가로는 좌우 6 px까지) 안
+  fill_bar_h: 6, fill_pct_font: 13, // r2 H3: 플레이 중 채움 = 판 바로 위 가는 막대 + 오른쪽 끝 작은 %
+  judge_star_of_name: 0.6, // r2 S15: 1단 판정 이름 위 작은 별(이름 글자 크기의 0.6배)
+  result_dot: 28, result_dot_pitch: 36, // r2 H3: 결과 쌍 점 줄
+  pager_dot: 12, pager_pitch: 22, chapters: 5, // r2 50스테이지: 챕터 페이지 점
   map_node: 64, result_board_of_S: 0.46,
   small_font: 14, level_name_font: 16, // 보호자 안내·guardian_hold / 결과 레벨 이름 띠
 };
@@ -59,15 +66,23 @@ function play(W, H, cols, rows) {
   const P = PARAM, k = kOf(W, H), portrait = H >= W;
   const btn = Math.round(P.btn * k), edge = Math.round(P.edge * k);
   const nameMax = Math.round(P.judge_font[0] * k), pct = Math.max(P.pct_min, Math.round(nameMax * P.pct_of_name));
-  const slotH = Math.round(nameMax * 1.15 + pct * 1.25);
-  const nameWidest = Math.max(...[1, 2, 3].flatMap((g) => strs(`judge_${g}_name`).map(([, v]) => textW(v, Math.round(P.judge_font[g - 1] * k)))), textW('100%', pct));
+  // r2 H3: % 는 판정 자리에서 빠지고 판 위 채움 막대 끝으로 감 → 판정 자리 = 이름 한 줄(+ 1단 별)
+  const starPx = Math.round(nameMax * P.judge_star_of_name);
+  const slotH = Math.round(nameMax * 1.3 + starPx * 0.9); // 1단 별은 이름 위 가운데(폭을 늘리지 않음 → 가로 기둥이 넓어지지 않음)
+  const nameWidest = Math.max(...[1, 2, 3].flatMap((g) => strs(`judge_${g}_name`).map(([, v]) => textW(v, Math.round(P.judge_font[g - 1] * k)))));
   const slotW = Math.ceil(nameWidest + 16);
+  const barH = Math.round(P.fill_bar_h * k), fpx = Math.round(P.fill_pct_font * k), barRowH = Math.max(barH, Math.round(fpx * 1.25)), pctW = Math.ceil(textW('100%', fpx) + 4);
+  const fillBar = (bx, by, bw) => { const y = by - 4 - barRowH, cy = y + barRowH / 2, r = Math.round(bw * 0.04);
+    return { row: R(bx + r, y, bw - 2 * r, barRowH), bar: R(bx + r, cy - barH / 2, bw - 2 * r - pctW - 6, barH, { radius: barH / 2, track: 'common.tile', fill: 'mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님' }),
+      pct: R(bx + bw - r - pctW, y, pctW, barRowH, { font_px: fpx, color: 'inkSoft', align: 'right' }),
+      counts: 'connected_pairs_cells_only', anim_ms: 200, ease: 'out',
+      _rule: '판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden.' }; };
   const padN = 2 * P.board_pad_of_cell;
   const o = { W, H, k, portrait, board_size: [cols, rows] };
   if (portrait) {
     const hudH = Math.round(P.hud_h * k), botH = Math.round(P.bottom_h * k);
     const availW = W - 2 * P.side_margin;
-    const topMin = hudH + slotH + 12; // 판 위 판정 띠
+    const topMin = hudH + slotH + 12 + barRowH + 4; // 판 위 판정 띠 + 채움 막대 줄
     const availH = H - botH - 8 - topMin;
     const cell = Math.min(P.cell_max, availW / (cols + padN), availH / (rows + padN));
     const bw = cell * (cols + padN), bh = cell * (rows + padN);
@@ -86,48 +101,50 @@ function play(W, H, cols, rows) {
     const pd = Math.round(P.pair_d * Math.min(k, 1.2)), pp = Math.round(P.pair_pitch * Math.min(k, 1.2));
     const rowX0 = edge + btn + 12, rowX1 = W - edge;
     o.pair_row = { kind: 'row', x0: rowX0, x1: rowX1, cy: Math.round(hudH / 2), d: pd, pitch: pp, align: 'center', _rule: '쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch' };
-    o.judge = { pct_lifetime: 'with_judge_name', pct_counts: 'connected_pairs_cells_only', rule: 'portrait_band', y: Math.round(by - 6 - slotH), h: slotH, w: slotW, x_min: 8, x_max: W - 8, name_px: P.judge_font.map((v) => Math.round(v * k)), pct_px: pct,
-      _rule: '판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴).' };
+    o.fill_bar = fillBar(bx, by, bw);
+    o.judge = { pct: 'fill_bar 로 옮김(r2 H3)', g1_star_px: starPx, rule: 'portrait_band', y: Math.round(by - 4 - barRowH - 6 - slotH), h: slotH, w: slotW, x_min: 8, x_max: W - 8, name_px: P.judge_font.map((v) => Math.round(v * k)),
+      _rule: '판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴).' };
     const txtTop = by + bh + 8, txtBot = H - botH - 4;
     const tf = Math.round(P.text_font * k);
     o.text_slots = {
-      board_text: { ...R(16, txtTop, W - 32, txtBot - txtTop), font_px: tf, max_lines: 2, align: 'center', used_by: ['tut_drag', 'card_fill', 'card_hole', 'gap_left'],
+      board_text: { ...R(16, txtTop, W - 32, txtBot - txtTop), font_px: tf, max_lines: 2, align: 'center', used_by: ['tut_drag', 'gap_left'], coexists_with_card: false,
         _rule: '판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김.' },
     };
     if (o.text_slots.board_text.h < tf * P.text_line * 1) { // 공간이 모자라면 판정 띠를 같이 씀(시간으로 나뉨)
-      o.text_slots.board_text = { ...R(16, o.judge.y, W - 32, slotH), font_px: tf, max_lines: 2, align: 'center', used_by: ['tut_drag', 'card_fill', 'card_hole', 'gap_left'], shared_with: 'judge',
+      o.text_slots.board_text = { ...R(16, o.judge.y, W - 32, slotH), font_px: tf, max_lines: 2, align: 'center', used_by: ['tut_drag', 'gap_left'], shared_with: 'judge', coexists_with_card: false,
         _rule: '판 아래 공간이 한 줄보다 좁아 판정 띠를 같이 씀. 튜토리얼 글은 첫 연결 전, 빈칸 글은 3번째 숨 쉬기에만. 우선순위: 판정 이름 > gap_left — 판정 이름이 오면 그 프레임에 gap_left 글을 숨기고 다시 띄우지 않음(그 숨 쉬기 동안).' };
     }
     o.thumb = { zone: R(0, H * 0.62, W, H * 0.38), _rule: '세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤.' };
   } else {
-    const availH = H - 2 * P.side_margin;
+    const availH = H - 2 * P.side_margin - (barRowH + 4);
     const pillarMin = Math.max(btn + 2 * edge, slotW + 16, 3 * Math.round(P.pair_pitch * Math.min(k, 1.2)) + 16);
     const availW = W - 2 * pillarMin;
     const cell = Math.min(P.cell_max, availH / (rows + padN), availW / (cols + padN));
     const bw = cell * (cols + padN), bh = cell * (rows + padN);
-    const bx = (W - bw) / 2, by = (H - bh) / 2;
+    const bx = (W - bw) / 2, by = (H - bh) / 2 + (barRowH + 4) / 2;
     o.cell = +cell.toFixed(2);
     o.board = R(bx, by, bw, bh);
     o.grid = { x: +(bx + cell * P.board_pad_of_cell).toFixed(2), y: +(by + cell * P.board_pad_of_cell).toFixed(2), cell: o.cell };
     const Lw = bx, Rx = bx + bw;
+    o.fill_bar = fillBar(bx, by, bw);
     o.pillars = { left: R(0, 0, Lw, H), right: R(Rx, 0, W - Rx, H) };
-    o.buttons = {
+    o.buttons = { // r2 S31: 세로와 같은 쪽 — 되돌리기 왼쪽 아래, 처음부터 오른쪽 아래(도움은 그 위)
       map: R(edge, edge, btn, btn, { icon: 'map', key: 'btn_map' }),
-      restart: R(edge, H - edge - btn, btn, btn, { icon: 'restart' }),
+      undo: R(edge, H - edge - btn, btn, btn, { icon: 'undo' }),
       help: R(W - edge - btn, H - edge - btn - btn - Math.round(24 * k), btn, btn, { icon: 'help' }),
-      undo: R(W - edge - btn, H - edge - btn, btn, btn, { icon: 'undo' }),
+      restart: R(W - edge - btn, H - edge - btn, btn, btn, { icon: 'restart' }),
     };
     const pd = Math.round(P.pair_d * Math.min(k, 1.2)), pp = Math.round(P.pair_pitch * Math.min(k, 1.2));
     o.pair_row = { kind: 'grid3', x0: Rx + 8, x1: W - 8, y0: edge + Math.round(pd / 2), d: pd, pitch: pp, cols: 3, _rule: '오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.' };
     const tf = Math.round(P.text_font_landscape * k);
-    const Ltop = o.buttons.map.y + btn + 8, Lbot = o.buttons.restart.y - 8;
+    const Ltop = o.buttons.map.y + btn + 8, Lbot = o.buttons.undo.y - 8;
     const Rtop = o.pair_row.y0 + pp + Math.round(pd / 2) + 8, Rbot = o.buttons.help.y - 8;
-    o.judge = { pct_lifetime: 'with_judge_name', pct_counts: 'connected_pairs_cells_only', rule: 'landscape_pillar', h: slotH, w: slotW, name_px: P.judge_font.map((v) => Math.round(v * k)), pct_px: pct,
+    o.judge = { pct: 'fill_bar 로 옮김(r2 H3)', g1_star_px: starPx, rule: 'landscape_pillar', h: slotH, w: slotW, name_px: P.judge_font.map((v) => Math.round(v * k)),
       left: { cx: Math.round(Lw / 2), y_min: Ltop, y_max: Lbot - slotH },
       right: { cx: Math.round(Rx + (W - Rx) / 2), y_min: Rtop, y_max: Rbot - slotH },
       side_rule: '2x + 1 < cols → left, 아니면 right', _rule: '판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음.' };
     o.text_slots = {
-      board_text: { ...R(8, Ltop, Lw - 16, Lbot - Ltop), font_px: tf, max_lines: 4, align: 'center', used_by: ['tut_drag', 'card_fill', 'card_hole', 'gap_left'], shared_with: 'judge.left',
+      board_text: { ...R(8, Ltop, Lw - 16, Lbot - Ltop), font_px: tf, max_lines: 4, align: 'center', used_by: ['tut_drag', 'gap_left'], shared_with: 'judge.left', coexists_with_card: false,
         _rule: '왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김.' },
     };
     o.thumb = { zones: [R(0, H * 0.55, W * 0.22, H * 0.45), R(W * 0.78, H * 0.55, W * 0.22, H * 0.45)], _rule: '가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽.' };
@@ -138,7 +155,20 @@ function play(W, H, cols, rows) {
     ring_d: +(c * PARAM.ring_of_cell).toFixed(1), ring_w: +(c * PARAM.ring_w_of_cell).toFixed(1), tile_inset: +(c * PARAM.tile_inset_of_cell).toFixed(1), tile_r: +(c * PARAM.tile_r_of_cell).toFixed(1),
     start_hit_extra: +(c * 0.25).toFixed(1), step_hysteresis: +(c * 0.20).toFixed(1),
   };
-  o.card = (() => { const w = Math.min(PARAM.card_w_max * k, W - 32, (H - 24) * PARAM.card_aspect); const h = w / PARAM.card_aspect; const cy = Math.min(Math.max(o.board.y + o.board.h / 2, h / 2 + 12), H - h / 2 - 12); return R((W - w) / 2, cy - h / 2, w, h, { _rule: '그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐.' }); })();
+  o.card = (() => { // r2 S3: 카드 = 판 사각형 안(세로 화면: 폭은 화면 − 24 까지, 가로 화면: 판 폭 + 좌우 6 px 까지) — 판 밖 글 자리·판정 자리·쌍 점 줄·버튼·채움 막대를 덮지 않음
+    const P = PARAM, tfc = Math.round((portrait ? P.text_font : P.text_font_landscape) * k), pad = Math.round(P.card_pad * k), b = o.board;
+    // 가로: 오른쪽 기둥(쌍 점 격자·도움·처음부터)은 늘 보이는 HUD 라 판 오른쪽 + 6 px 까지만, 왼쪽은 왼쪽 버튼 열(지도·되돌리기) 안쪽까지 — 왼쪽 기둥의 글 자리·판정 자리는 카드와 같은 때 보일 수 없어서(아래 coexists_with_card) 덮어도 됨
+    const xL = portrait ? 12 : Math.round(PARAM.edge * k) + Math.round(PARAM.btn * k) + 8, xR = portrait ? W - 12 : b.x + b.w + P.card_over_board;
+    const maxW = Math.min(P.card_w_max * k, xR - xL);
+    const lines = (w) => Math.max(1, ...['card_fill', 'card_hole'].flatMap((key) => strs(key).map(([, v]) => wrap(v, tfc, w - 2 * pad).length)));
+    let w = maxW, band = 0;
+    for (let i = 0; i < 4; i++) { band = Math.ceil(Math.min(2, lines(w)) * tfc * P.text_line + 2 * pad); w = Math.min(maxW, (b.h - band) * P.card_aspect); }
+    const artH = w / P.card_aspect, h = artH + band, x = Math.min(Math.max(xL, b.x + b.w / 2 - w / 2), xR - w), y = b.y + (b.h - h) / 2;
+    return { ...R(x, y, w, h), art: R(x, y, w, artH, { svg: 'tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)' }), text: { ...R(x + pad, y + artH, w - 2 * pad, band - pad), font_px: tfc, max_lines: 2, align: 'center', used_by: ['card_fill', 'card_hole'] },
+      radius: Math.round(20 * k), bg: '그 레벨 바탕 top(= 그림 바탕, 이음매 없음)', edge: 'common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)',
+      auto_close_ms: BAL_CARD_CLOSE ?? 6000, auto_close_source: 'balance.json auto_close_ms(원본)', close_ms: 200, input_through_on_close: true,
+      _rule: '그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능).' };
+  })();
   return o;
 }
 
@@ -146,19 +176,25 @@ function play(W, H, cols, rows) {
 function map(W, H) {
   const k = kOf(W, H), portrait = H >= W, node = Math.round(PARAM.map_node * k), btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k);
   const titleH = Math.round(56 * k), starsH = Math.round(24 * k), barH = btn + 2 * edge; // 아래 띠: 톱니(보호자) + guardian_hold 글
+  const pagerH = btn + 8; // r2 50스테이지: 아래 띠 바로 위 챕터 넘김 줄(◀ 점 5개 ▶)
   const nodes = [];
   if (portrait) {
-    const y0 = titleH + starsH + node / 2 + 12, y1 = H - barH - node / 2 - 8;
+    const y0 = titleH + starsH + node / 2 + 12, y1 = H - barH - pagerH - node / 2 - 8;
     for (let i = 0; i < 10; i++) nodes.push([Math.round(W * (i % 2 ? 0.70 : 0.30)), Math.round(y0 + ((y1 - y0) * i) / 9)]);
   } else {
     const x0 = node / 2 + 40 * k, x1 = W - node / 2 - 40 * k;
-    const top = titleH + starsH, avail = H - barH - 8 - top; for (let i = 0; i < 10; i++) nodes.push([Math.round(x0 + ((x1 - x0) * i) / 9), Math.round(top + avail * (i % 2 ? 0.72 : 0.28))]);
+    const top = titleH + starsH, avail = H - barH - pagerH - 8 - top; for (let i = 0; i < 10; i++) nodes.push([Math.round(x0 + ((x1 - x0) * i) / 9), Math.round(top + avail * (i % 2 ? 0.72 : 0.28))]);
   }
   const fs = Math.round(PARAM.small_font * k);
   const settings = R(W - edge - btn, H - edge - btn, btn, btn, { icon: 'settings', key: 'btn_settings', hold_ms: 1500, _rule: '보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)' });
-  return { W, H, k, node_d: node, nodes, title: R(edge + btn + 8, 8, W - 2 * (edge + btn + 8), titleH - 8, { font_px: Math.round(20 * k), key: 'map_screen' }),
-    stars: R(W / 2 - 95 * k, titleH - 2, 190 * k, starsH, { star_px: Math.round(16 * k), pitch: Math.round(19 * k), _rule: '모은 별 10칸 줄(글·숫자 없음): 받은 별 = star 면, 아직 = star_empty 점선. 대체 글 aria_map_stars.' }),
-    node_states: { locked: 'node-locked.svg: nodeLocked 원 + 가운데 작은 점(자물쇠 그림 없음, 겁주지 않음). 누르면 아무 일 없음(소리도 없음)', next: 'node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼', partial: 'node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)', done: '그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)', star: 'done + 오른쪽 위 작은 별(노드 지름 0.32)' },
+  const pcy = H - barH - pagerH / 2, pd = Math.round(PARAM.pager_dot * k), pp = Math.round(PARAM.pager_pitch * k), dotsW = (PARAM.chapters - 1) * pp + pd;
+  const pager = { cy: Math.round(pcy), dots: R(W / 2 - dotsW / 2, pcy - pd / 2, dotsW, pd, { n: PARAM.chapters, d: pd, pitch: pp, hit: R(W / 2 - dotsW / 2 - 6, pcy - btn / 2, dotsW + 12, btn) }),
+    prev: R(W / 2 - dotsW / 2 - 14 - btn, pcy - btn / 2, btn, btn, { icon: 'page_prev', key: 'btn_page_prev' }), next: R(W / 2 + dotsW / 2 + 14, pcy - btn / 2, btn, btn, { icon: 'page_next', key: 'btn_page_next' }),
+    swipe: { min_px: Math.round(48 * k), max_ms: 600 }, turn_ms: 260, ease: 'out',
+    _rule: '한 페이지 = 한 챕터(10노드, 지금 지도 배치 그대로). 처음 열면 "다음" 노드가 있는 챕터. ◀▶ 또는 좌우 밀기(≥ 48k px, ≤ 600 ms)로 넘김, 260 ms 옆으로 밀려남(동작 줄이기면 겹쳐 흐려짐 150 ms). 점 5개: 지금 = pathDone 면 지름 1.0, 다른 열린 챕터 = pathTodo 면, 다 깬 챕터 = star 면, 잠긴 챕터 = nodeLocked 면 + 지름 0.75. 점을 누르면 그 챕터로. 첫 챕터에서 ◀, 마지막에서 ▶ 는 숨김(자리는 비움). 잠긴 챕터도 넘겨 볼 수 있음(노드 전부 잠김 실루엣, 누르면 아무 일 없음). 글·숫자 없음, 대체 글 aria_chapters·btn_page_prev·btn_page_next(lore). 페이지마다 바탕 = 그 챕터 1번째 레벨 바탕(menu 대신, 챕터 색 가족이 보임).' };
+  return { W, H, k, node_d: node, nodes, pager, title: R(edge + btn + 8, 8, W - 2 * (edge + btn + 8), titleH - 8, { font_px: Math.round(20 * k), key: 'map_screen', chapter_keys: [1, 2, 3, 4, 5].map((c) => `chapter${c}_name`), _rule: '제목 = 지금 페이지 챕터 이름(lore chapterN_name, 없으면 map_screen). 자리만 art, 글은 lore.' }),
+    stars: R(W / 2 - 5 * Math.round(19 * k), titleH - 2, 10 * Math.round(19 * k), starsH, { star_px: Math.round(16 * k), pitch: Math.round(19 * k), css: '#mStars svg { width: star_px; height: star_px }(인라인 SVG 원본 48 px 그대로 그리지 않음, r2 E6/S19). 별 사이 = pitch − star_px', _rule: '지금 챕터에서 모은 별 10칸 줄(글·숫자 없음): 받은 별 = star 면, 아직 = star_empty(옅은 실선 면, r2 — 점선 아님). 대체 글 aria_map_stars.' }),
+    node_states: { locked: 'node-locked.svg: nodeLocked 원 + 그 레벨 판 크기(width x height) 옅은 타일 격자 실루엣(nodeLockedMark 투명도 0.35, 격자 폭 = 노드 지름의 0.53, r2 S10). 자물쇠 그림 없음. 누르면 120 ms 옆으로 2k px 살짝 흔들림(소리 없음, r2 S30 — 아래 motion.map.locked_tap)', next: 'node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼', partial: 'node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)', done: '그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)', star: 'done + 오른쪽 위 작은 별(노드 지름 0.32)' },
     buttons: { settings, sound: R(edge, edge, btn, btn, { icon: 'sound_on', key: 'settings_sound', _rule: '켬/끔, aria-pressed' }) },
     text_slots: { guardian_hold: { ...R(edge, settings.y, settings.x - 8 - edge, btn), font_px: fs, max_lines: 2, align: 'right', used_by: ['guardian_hold'], color: 'inkSoft', _rule: '톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게).' } },
     path: { w: Math.round(10 * k), _rule: '노드 가운데를 잇는 Catmull-Rom 곡선(장력 0.5). 지나온 구간 pathDone, 앞 구간 pathTodo, 끝 둥글게.' } };
@@ -170,20 +206,25 @@ function result(W, H) {
   const k = kOf(W, H), portrait = H >= W, S = Math.min(W, H), btn = Math.round(PARAM.btn * k), big = Math.round(72 * k);
   const bs = Math.round(S * PARAM.result_board_of_S), lnH = Math.round(28 * k), lnF = Math.round(PARAM.level_name_font * k), nb = Math.round(28 * k);
   const band = (x, y, w) => R(x, y, w, lnH, { font_px: lnF, max_lines: 1, used_by: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => `level${i}_name`), color: 'ink', bg: 'themes.levelNN.top', _rule: '그 레벨 이름(지도와 같은 이름). 띠 = 글 폭 + 24k 만큼만, 가운데 정렬, 둥근 끝, 바탕 = 그 레벨 바탕 top 색 + boardEdge 1.5 px = 지도 완료 노드 미니 그림 둘레 띠와 같은 색(글을 못 읽어도 색으로 이어짐, G7).' });
-  const pctRow = (x, y, w, f) => R(x, y, w, 40 * k, { font_px: f, icon: 'one_go', key: 'result_accuracy', _rule: '% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 앞에 icon-one_go. 별도 "한 번에 이은 쌍" 표지·쌍 점 줄은 두지 않음(G2).' });
+  const pctRow = (x, y, w, f) => R(x, y, w, 32 * k, { font_px: f, key: 'result_accuracy', _rule: '% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 쌍 점 줄 바로 아래 작게(r2 H3 — 점 줄이 주 신호, % 는 보조). 앞 아이콘 없음.' });
+  const rd = Math.round(PARAM.result_dot * k), rp = Math.round(PARAM.result_dot_pitch * k);
+  const dotsRow = (cx, y) => R(cx - (5 * rp + rd) / 2, y, 5 * rp + rd, rd, { d: rd, pitch: rp, max: 6, align: 'center',
+    full: 'marks/mark-pN-*-connected.svg(꽉 찬 점 + 고리) + 위 오른쪽 작은 반짝임(지름 0.35, 별 색)', hollow: 'marks/mark-pN-*-hollow.svg(흰 면 + 쌍 색 테두리·표지 = 속 빈 점)',
+    order: '플레이 쌍 점 줄과 같은 순서(color_slot)', anim: '왼쪽부터 80 ms 간격으로 0 → 1.15 → 1.0(180 ms, spring). 꽉 찬 점마다 연결음 사다리 음 하나(작게, connect_g3 −6 dB), 속 빈 점은 소리 없음',
+    _rule: '한 번에 이은 쌍 = 꽉 찬 점, 아닌 쌍(다시 그은 색) = 속 빈 점(r2 H3). "판은 100 % 칠했는데 별이 없는" 이유가 글 없이 보임. 대체 글 result_dots(lore).' });
   const nbOf = (p) => R(p.x + p.w + 4, p.y + (p.h - nb) / 2, nb, nb, { icon: 'new_best', key: 'result_new_best', _rule: '지난 최고 %보다 높을 때만, % 세기가 끝난 뒤 0 → 1.0 (200 ms, 동작 줄이기면 바로). img, alt = result_new_best. 글 없음.' });
   const buttons = (cx, by) => ({ map: R(cx - big / 2 - 24 - btn, by + big / 2 - btn / 2, btn, btn, { icon: 'map', key: 'btn_map' }), next: R(cx - big / 2, by, big, big, { icon: 'next', key: 'btn_next' }), again: R(cx + big / 2 + 24, by + big / 2 - btn / 2, btn, btn, { icon: 'restart', key: 'btn_again' }) });
   const titleKeys = ['clear_title_1', 'clear_title_2', 'clear_title_3', 'clear_star', 'clear_last'];
   if (portrait) {
     const by = Math.round(H * 0.20), titleY = by - Math.round(56 * k);
-    const pct = pctRow(W / 2 - 90 * k, by + bs + 16 + 88 * k, 180 * k, Math.round(26 * k));
+    const dots = dotsRow(W / 2, by + bs + 16 + 80 * k + 8), pct = pctRow(W / 2 - 60 * k, dots.y + dots.h + 6, 120 * k, Math.round(20 * k));
     return { W, H, k, level_name: band(16, titleY - lnH - 4, W - 32), mini_board: R((W - bs) / 2, by, bs, bs), title: R(16, titleY, W - 32, Math.round(44 * k), { font_px: Math.round(24 * k), max_lines: 1, used_by: titleKeys }),
-      star: R(W / 2 - 40 * k, by + bs + 16, 80 * k, 80 * k), pct, new_best: nbOf(pct), buttons: buttons(W / 2, H - 40 - big) };
+      star: R(W / 2 - 40 * k, by + bs + 16, 80 * k, 80 * k, { _rule: '별 칸: 쌍 점이 모두 꽉 찼을 때만 별(점 줄 애니메이션이 끝난 뒤 튐). 아니면 star_empty 옅은 면' }), pair_dots: dots, pct, new_best: nbOf(pct), buttons: buttons(W / 2, H - 40 - big) };
   }
   const bx = Math.round(W * 0.30 - bs / 2), by = Math.round((H - bs) / 2), rx = Math.round(W * 0.66), lnY = Math.round(H * 0.05), tY = lnY + lnH + 6, sY = Math.round(H * 0.28);
-  const pct = pctRow(rx - 90 * k, sY + 88 * k, 180 * k, Math.round(24 * k));
+  const sz = Math.round(64 * k), sY2 = tY + Math.round(40 * k) + 4, dots = dotsRow(rx, sY2 + sz + 6), pct = pctRow(rx - 60 * k, dots.y + dots.h + 4, 120 * k, Math.round(18 * k));
   return { W, H, k, level_name: band(W * 0.48, lnY, W * 0.48), mini_board: R(bx, by, bs, bs), title: R(W * 0.48, tY, W * 0.48, 40 * k, { font_px: Math.round(22 * k), max_lines: 1, used_by: titleKeys }),
-    star: R(rx - 40 * k, sY, 80 * k, 80 * k), pct, new_best: nbOf(pct), buttons: buttons(rx, H - 24 - big) };
+    star: R(rx - sz / 2, sY2, sz, sz, { _rule: '별 칸: 쌍 점이 모두 꽉 찼을 때만 별' }), pair_dots: dots, pct, new_best: nbOf(pct), buttons: buttons(rx, H - 24 - big) };
 }
 
 // ---------- 글이 보이는 다른 화면 (G7: 타이틀·보호자·불러오기/오류) ----------
@@ -193,12 +234,17 @@ function textBlock(x, y, w, key, font, maxLines, extra = {}) {
   return R(x, y, w, Math.ceil(Math.min(lines, maxLines) * lh), { font_px: font, max_lines: maxLines, used_by: [key], ...extra });
 }
 function titleScreen(W, H) {
-  const k = kOf(W, H), col = column(W, H, k), btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k);
-  const logo = R(W / 2 - 80 * k, H * 0.22, 160 * k, 64 * k, { svg: 'logo-mark.svg' });
+  const k = kOf(W, H), portrait = H >= W, btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k);
+  const col = portrait ? column(W, H, k) : { x: Math.round(W * 0.04), w: Math.round(W * 0.52) }; // r2 S10: 가로는 글을 왼쪽 반에, 히어로 판을 오른쪽에
+  const cx = col.x + col.w / 2;
+  const logo = R(cx - 80 * k, H * (portrait ? 0.14 : 0.18), 160 * k, 64 * k, { svg: 'logo-mark.svg' });
   const name = textBlock(col.x, logo.y + logo.h + 12, col.w, 'title', Math.round(40 * k), 1, { align: 'center', weight: 800 });
   const tag = textBlock(col.x, name.y + name.h + 8, col.w, 'tagline', Math.round(20 * k), 2, { align: 'center', color: 'inkSoft' });
   const tap = textBlock(col.x, H - Math.round(64 * k), col.w, 'tap_to_start', Math.round(20 * k), 1, { align: 'center', _rule: '1.6 s 주기로 옅게 숨 쉼(동작 줄이기면 고정). 화면 어디를 눌러도 시작.' });
-  return { W, H, k, bg: 'menu', logo, buttons: { sound: R(edge, edge, btn, btn, { icon: 'sound_on', key: 'settings_sound' }) }, text_slots: { title: name, tagline: tag, tap_to_start: tap } };
+  const heroS = portrait ? Math.round(Math.min(col.w * 0.62, tap.y - (tag.y + tag.h) - 48)) : Math.round(Math.min(W * 0.34, H - 2 * (edge + btn) - 16));
+  const hero = portrait ? R(W / 2 - heroS / 2, (tag.y + tag.h + tap.y) / 2 - heroS / 2, heroS, heroS) : R(W * 0.78 - heroS / 2, H / 2 - heroS / 2, heroS, heroS);
+  Object.assign(hero, { kind: 'self_painting_3x3', loop_ms: 4200, _rule: 'r2 S10: 글 없이도 "이렇게 노는 것"이 보이는 히어로 — 3x3 작은 판(app-icon 과 같은 2쌍 배치)에서 손가락이 한 쌍씩 그어 칠하고(쌍당 1.2 s, 연결 튐·고리) 다 칠하면 0.6 s 쉰 뒤 400 ms 에 비워져 되풀이. 소리 없음. 판 그림은 미리 그린 비트맵, 선만 매 프레임. 동작 줄이기면 다 칠한 그림 고정. 누르면 시작(화면 어디나와 같음).' });
+  return { W, H, k, bg: 'menu', logo, hero, buttons: { sound: R(edge, edge, btn, btn, { icon: 'sound_on', key: 'settings_sound' }) }, text_slots: { title: name, tagline: tag, tap_to_start: tap } };
 }
 function guardianScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k), gap = Math.round(12 * k);
@@ -207,7 +253,7 @@ function guardianScreen(W, H) {
   ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'guardian_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
   const close = R(col.x + col.w - btn, edge, btn, btn, { icon: 'close', key: 'btn_close' });
   let y = edge + btn + gap;
-  ts.guardian_intro = textBlock(col.x, y, col.w, 'guardian_intro', fB, 14, { align: 'left' }); y += ts.guardian_intro.h + gap;
+  ts.guardian_intro = textBlock(col.x, y, col.w, 'guardian_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
   const row = (key, note) => {
     ts[key] = { ...textBlock(col.x, y, col.w - tw - 12, key, fL, 1, { align: 'left', valign: 'middle' }), h: btn }; ctl[key] = R(col.x + col.w - tw, y, tw, btn, { kind: 'toggle', key }); y += btn + 4;
     if (note) { ts[note] = textBlock(col.x, y, col.w, note, fS, 4, { align: 'left', color: 'inkSoft' }); y += ts[note].h + 4; }
@@ -224,7 +270,7 @@ function guardianScreen(W, H) {
   const bw2 = Math.max(btn, Math.ceil(Math.max(...['confirm_yes', 'confirm_no'].flatMap((kk) => strs(kk).map(([, v]) => textW(v, fL)))) + 32));
   const ch = 20 + cText.h + 16 + btn + 20, cy = Math.round((H - ch) / 2); cText.y = cy + 20;
   const confirm = { card: R(cx, cy, cwid, ch), text: cText, no: R(cx + cwid / 2 - 6 - bw2, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_no', font_px: fL, _rule: '먼저 포커스' }), yes: R(cx + cwid / 2 + 6, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_yes', font_px: fL }) };
-  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: '어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.', buttons: { close }, controls: ctl, text_slots: ts, confirm };
+  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: '어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.', scroll_hint: { fade_px: Math.round(24 * k), chevron_px: Math.round(20 * k), _rule: 'r2 S6: 내용이 화면보다 길면 아래 가장자리 24k px 을 바탕색으로 옅게 덮고(미리 그린 띠, 그라디언트 1장) 가운데 아래꺾쇠(inkSoft 20k)를 둠. 끝까지 내리면 둘 다 숨김. 스크롤 막대는 브라우저 기본 그대로 보이게(overflow-y: auto, 숨기지 않음).' }, buttons: { close }, controls: ctl, text_slots: ts, confirm };
 }
 function errorScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), big = Math.round(72 * k);
@@ -260,6 +306,7 @@ function buildLayout() {
     play: play_, map: map_, result: res_, title: title_, guardian: guard_, error: err_,
     hole_rule: HOLE_RULE,
     motion: MOTION,
+    render: RENDER,
   };
 }
 
@@ -277,9 +324,19 @@ export const MOTION = {
     pair_row_ms: 120, pair_row_scale: [1, 1.15, 1],
     judge: { show_ms: 80, show_scale: [1, 1.15, 1], hold_ms: 400, fade_ms: 150, rise_px: 6, _rule: '새 판정이 오면 이전 표시는 그 프레임에 지우고 새로(표시 하나만). 낭독 안 함.' },
     sound: 'connect_g1|g2|g3', haptic: 'connect',
+    line_mark: { size_of_cell: 0.26, at: '연결된 선의 가운데 칸(칸 수 짝수면 시작 점 쪽 가운데)', color: 'common.white', alpha: 0.9, _rule: 'r2 S27: 흑백·protan 에서 선끼리 가까운 색(하트선·세모선)을 모양으로도 구분 — 연결된 선 가운데 칸에 그 쌍의 흰 표지 하나(점 표지와 같은 모양, 0.26칸). 끄는 중인 선에는 없음. 선 캐시에 함께 그림.' },
+    repeat_guard: { same_pair_same_drag_ms: 400, _rule: 'r2 S13: 한 드래그 안에서 같은 쌍이 닿았다 물러났다 다시 닿으면 400 ms 안의 다시 닿음은 tint·고리만(소리·조각·판정 이름·진동 없음). 판정 기록은 손을 뗄 때 확정(balance 규칙 그대로).' },
+    g1_star: { size: 'judge.g1_star_px', ms: 200, scale: [0, 1.2, 1], color: 'common.star + starEdge', _rule: 'r2 S15: 1단 이름 바로 위 가운데에만 작은 별(미리 그린 비트맵, 이름과 함께 튀고 함께 흐려짐). 2·3단 없음.' },
+    juice: {
+      glow: { ms: 260, max_alpha: 0.35, radius_of_cell: 0.9, color: '쌍 색', sprite: '레벨 시작 때 쌍마다 방사형 원 1장 미리 그림(오프스크린), 매 프레임 drawImage + globalAlpha 만', _rule: '연결 순간 두 끝점에서 부드러운 빛 번짐(크기 0.6 → 1.0, 투명도 0.35 → 0). 화면 밝기 급변 없음(판 면적의 3 % 이하, 흰색 아님).' },
+      rise: '연결음은 그 판에서 이은 순서대로 사다리 음이 올라감(sound.json ladder_hz, 이미 있음) — "소리 상승음"',
+    },
   },
+  head: { spring: { stiffness: 0.35, damping: 0.72, max_lag_of_cell: 0.35 }, step_pop: { ms: 90, scale_of_line: [1, 1.12, 1], _rule: '새 칸에 들어간 프레임에 선 머리 둥근 끝만 굵기 1.12배 → 1.0(90 ms)' },
+    _rule: 'r2 주스감: 선 머리(둥근 끝)가 손가락을 스프링으로 따라옴(매 프레임 head += (target − head) × 0.35, 감쇠 0.72, 최대 뒤처짐 0.35칸 — 넘으면 바로 붙음). 칸 점유 판정은 손가락 위치 그대로(머리 그림만 늦음, 입력 지연 0). 동작 줄이기: 스프링·튐 끔(머리 = 손가락).' },
   cut: { ms: 200, _rule: '잘린 부분이 옅어지며(불투명 1 → 0) 굵기 1 → 0.5 로 줄어듦. 같은 드래그 안에서 되돌리면 120 ms 에 되살아남. 그 쌍의 쌍 점 줄 점은 120 ms 에 조용히 비워짐.', sound: 'cut' },
-  blocked: { ms: 250, dot_scale: [1, 1.08, 1], ease: 'inout', sound: null, _rule: '막힌 다른 색 점이 한 번 작게 숨 쉼. 소리·진동 없음.' },
+  blocked: { ms: 220, kind: 'bounce_back', head_push_of_cell: 0.18, head_back_ms: 160, dot_nudge_of_cell: 0.06, dot_nudge_ms: 120, ease: 'spring', dot_scale: null, sound: 'bump', haptic: null, repeat_guard_ms: 250,
+    _rule: 'r2 H4·S4: 막힘 = "튕겨 나옴". 선 머리가 막힌 점 쪽으로 0.18칸 밀려 들어갔다 160 ms 에 스프링으로 되돌아오고, 막힌 다른 색 점은 미는 방향으로 0.06칸 밀렸다 120 ms 에 제자리(크기 변화 없음 — 시작 안내 숨 쉬기(크기)·연결 부풂과 다른 움직임). 짧고 낮은 "툭"(sound bump, 연결음보다 ≥ 6 dB 작게). 진동 없음. 250 ms 안 반복은 움직임·소리 건너뜀. 동작 줄이기: 움직임 없이 막힌 점 고리 120 ms 옅게 + 소리.' },
   disconnect: { ms: 120, _rule: '되돌아가거나 잘려 연결이 풀리면 tint 가 120 ms 에 빠지고 고리가 사라짐. 벌칙 연출 없음.' },
   gap_hint: { start: 'max(pointerup + 150 ms, 마지막 연결 + 630 ms(= 판정 이름 80 + 400 + 150, 이름이 다 사라진 뒤))', text_on_breath: 3, text_hide_on_judge: true, ms: 600, scale: [1, 1.08, 1], glow_w_of_cell: 0.08, color: 'common.gapGlow', repeat_after_ms: 2000, max_times: 3, sound: 'gap_hint', text_key: 'gap_left',
     _rule: '모든 쌍이 이어졌는데 빈칸이 있을 때만. 빈칸 타일만 숨 쉼(크기 ≤ 8 %, 밝기 변화 ≤ 20 %). 판정 표시가 끝난 뒤에 나옴. 글(gap_left)은 그림 신호가 먼저 — 3번째 숨 쉬기 때만 board_text 에 보임(G6), aria-live 는 첫 숨 쉬기에 1번. 그 사이 판정 이름이 오면 글은 그 프레임에 숨김.' },
@@ -292,26 +349,56 @@ export const MOTION = {
       { t: 0, what: '마지막 연결 연출(connect) 그대로' },
       { t: 150, what: '완료 화음(complete), 진동 complete. 마지막 연결의 판정 이름은 이 프레임부터 150 ms 에 흐려짐(lore 6-3)' },
       { t: 150, what: '쌍 연결 순서대로 선마다 밝은 띠 한 번(띠 300 ms, 쌍 사이 80 ms 겹쳐 흐름)' },
+      { t: 180, what: 'r2 주스: 색 물결 — 마지막 연결 점에서 판 전체로 칸마다 퍼짐(칸 사이 맨해튼 거리 × 45 ms 지연, 칸마다 타일 1.0 → 1.06 → 1.0 120 ms + tint 가 쌍 색 쪽으로 15 % 짙어졌다 돌아옴). 6x6 끝까지 ≤ 450 ms. 밝기 변화 ≤ 15 %, 흰 번쩍임 없음. 판 캐시 위 칸 사각형 transform 만(칸 글자·테두리 다시 그리기 없음)' },
       { t: 380, what: '판 카드 1.0 → 1.03 → 1.0 (300 ms, spring)' },
-      { t: 420, what: '판 안쪽에서만 색 조각 12개(쌍 색) 위로 떠올랐다 사라짐(500 ms)' },
+      { t: 420, what: '판 안쪽에서만 색 조각 12개(쌍 색) 위로 떠올랐다 사라짐(500 ms, 미리 그린 원 비트맵)' },
       { t: 1000, what: '결과 카드가 아래에서 올라옴(280 ms, out). 판은 그대로 보이다 미니 그림 자리로 줄어듦' },
       { t: 1280, what: '결과 버튼(▶·지도·↻)이 누름을 받기 시작' },
     ],
     total_ms: 1000,
   },
-  result: { star_ms: 360, star_scale: [0, 1.15, 1], star_delay_ms: 200, pct_count_ms: 400, sound_star: 'star' },
-  map: { node_morph_ms: 300, path_fill_ms: 500, next_breathe_period_ms: 1600, next_breathe_scale: [1, 1.06], sound_open: 'node_open' },
+  result: { star_ms: 360, star_scale: [0, 1.15, 1], star_delay_ms: 200, pct_count_ms: 400, sound_star: 'star',
+    sequence_ms: [
+      { t: 0, what: '결과 카드가 올라오기 시작(complete t 1000 = 여기 0)' },
+      { t: 280, what: '카드 다 올라옴 = 결과 버튼 누름 받기 시작(H1, 1.28 s)' },
+      { t: 300, what: '쌍 점 줄: 왼쪽부터 80 ms 간격으로 점이 튐(6쌍 = 300~700)' },
+      { t: 'dots_end + 120', what: '% 숫자 세기 400 ms(동작 줄이기면 바로)' },
+      { t: 'dots_end + 200', what: '모두 꽉 찬 점이면 별 0 → 1.15 → 1 (360 ms) + star 소리 + 진동 star' },
+      { t: 'pct_end', what: 'new_best 표지 200 ms' },
+    ], _rule: 'r2 주스: 보상은 점 줄 → % → 별 순서, 박자 80 ms. 버튼은 280 ms(H1)부터 받으므로 순서 연출이 조작을 막지 않음(▶ 누르면 남은 연출은 건너뜀).' },
+  map: { node_morph_ms: 300, path_fill_ms: 500, next_breathe_period_ms: 1600, next_breathe_scale: [1, 1.06], sound_open: 'node_open',
+    locked_tap: { ms: 120, shift_px: 2, sound: null }, page_turn_ms: 260, chapter_unlock: '챕터 마지막 레벨 완료 → 지도로 돌아오면 길 채움 끝에서 다음 페이지 점이 pathTodo 면으로 120 ms 튐, ▶ 가 한 번 숨 쉼(1.6 s). 자동으로 넘기지 않음' },
+  level_transition: { ms: 300, kind: '판 카드가 지도 노드 자리에서 커지며(scale 0.2 → 1, transform 만) 바탕은 겹쳐 흐려짐', reverse: '지도로 갈 때 판이 그 노드로 줄어듦', next_level: '결과 ▶: 결과 카드 아래로 200 ms + 새 판 0.96 → 1.0(200 ms, 겹침 100 ms) — 첫 누름은 새 판이 보인 첫 프레임부터 받음', reduced: '겹쳐 흐려짐 150 ms 만', _rule: 'r2 주스: 미리 그린 판 캐시(오프스크린 1장)를 transform 으로만 움직임. 전환 중 매 프레임 판 다시 그리기 금지.' },
   screen: { ms: 220, kind: '겹쳐 흐려짐(crossfade) + 6 px 위로', _rule: '화면 전환에 흰 번쩍임·밀어내기 없음' },
   tutorial: { finger_in_ms: 250, press_ms: 150, cell_ms: 260, hold_end_ms: 400, fade_ms: 250, loop_gap_ms: 1200, loops_before_wait: 2, wait_ms: 3000,
-    ghost: '손가락이 지나간 칸에 그 쌍의 선을 굵기 0.6배, tint 색으로 그렸다 함께 사라짐',
+    ghost_r2: { color: '쌍 색(hex)', alpha: 0.55, width_of_line: 0.6, finger_lag_of_cell: 0.2, _rule: 'r2 S21: tint 색(대비 1.15:1) → 쌍 색 × 0.55. 손가락 끝은 선 머리보다 0.2칸 뒤(머리가 보이게)' },
+    ghost: '(r1, ghost_r2 로 바뀜) 손가락이 지나간 칸에 그 쌍의 선을 굵기 0.6배, tint 색으로 그렸다 함께 사라짐',
     _rule: '레벨 1 시작 0.5 s 뒤 시연 쌍의 실제 정답 길을 따라감(그 점 기준 위치). 아이 손이 판에 닿으면 그 프레임에 250 ms 로 사라지고 다시 안 나옴(그 판을 완료하기 전까지 8 s 동안 판이 안 바뀌면 한 번 더).' },
   help: { idle_ms: 30000, breathe_period_ms: 1600, _rule: '30 s 동안 판이 안 바뀌면 도움 버튼이 숨 쉼. 누르면 아직 답과 다른 쌍 하나(안 이었거나 다른 길로 이은 쌍, balance 10-2)의 정답 길을 튜토리얼 손가락으로 보여 줌(그려 주지 않음).' },
   reduced_motion: {
     query: '(prefers-reduced-motion: reduce) 또는 보호자 설정 settings_motion',
-    off: ['pop 크기 변화', '색 조각', '밝은 띠', '판 카드 크기 변화', '숨 쉬기(빈칸·노드·도움 버튼)', '% 세기 애니메이션', '화면 전환 이동'],
+    off: ['pop 크기 변화', '색 조각', '밝은 띠', '판 카드 크기 변화', '숨 쉬기(빈칸·노드·도움 버튼)', '% 세기 애니메이션', '화면 전환 이동', 'r2: 선 머리 스프링·칸 진입 튐', 'r2: 빛 번짐', 'r2: 판 완료 색 물결(→ 판 전체 tint 150 ms 페이드 한 번)', 'r2: 막힘 튕김(→ 막힌 점 고리 120 ms 옅게)', 'r2: 결과 점 줄 튐(→ 바로 표시)', 'r2: 페이지·레벨 전환 이동(→ 겹쳐 흐려짐 150 ms)'],
     keep: ['tint 페이드 150 ms', '고리 생김(즉시)', '판정 이름(튐 없이 나타남·사라짐)', '빈칸 신호 = gapGlow 테두리 1.2 s 고정 표시(깜빡임 없음)', '소리·진동'],
   },
-  forbidden: ['화면 전체 밝기 변화·흰 번쩍임', '화면·카메라 흔들림', '초당 3회 이상 밝기 변화', '빨간 ✕·경고음·틀림 표시', '판 위 글자 팝업'],
+  forbidden: ['화면 전체 밝기 변화·흰 번쩍임', '화면·카메라 흔들림', '초당 3회 이상 밝기 변화', '빨간 ✕·경고음·틀림 표시', '판 위 글자 팝업', 'r2: 연출이 끝나기를 기다리게 하는 빈 대기(입력 막기는 complete.lock·H1 결과 버튼 1.28 s 만)'],
+};
+
+// ---------- 그리기 규칙(r2 성능 S1·S2, 개발 전달 — 30-art 5-5절) ----------
+export const RENDER = {
+  _why: 'round-1 6배 스로틀 1% low 6~13 fps, LoAF 가 페인트·래스터. 목표: 6배 스로틀 평균 ≥ 55·1% low ≥ 45(3회 모두), 메뉴 전환 최장 프레임 ≤ 100 ms.',
+  layers: [
+    { name: 'bg', what: '레벨 바탕 2색 그라디언트 + decor', how: '레벨 시작 때 한 번: #play 의 CSS background(linear-gradient) 또는 오프스크린 캔버스 1장. 판 캔버스는 투명 바탕. 매 프레임 전체 화면 fillRect·drawDecor 금지' },
+    { name: 'board', what: '판 카드·타일·빈칸 점·구멍 외곽선', how: '레벨 시작·크기 바뀜 때만 오프스크린 1장(판 크기 × DPR). tint 칸 변화는 그 칸만 다시 그림(dirty 칸)' },
+    { name: 'lines', what: '선·점·고리·표지', how: '바뀐 쌍만 다시 그림. 점·표지는 쌍마다 미리 그린 비트맵(지름 × DPR) drawImage' },
+    { name: 'fx', what: '조각·빛 번짐·띠·튐·물결', how: '미리 그린 원·방사형 비트맵 + globalAlpha·transform. 연출이 없으면 이 층을 그리지 않음' },
+    { name: 'dom', what: '판정 이름·채움 %·버튼·카드', how: '판정 이름 3등급 × 쌍 색 글자는 레벨 시작 때 비트맵(흰 테두리 포함)으로 미리 그림 → 매 프레임 strokeText/fillText 금지. % 는 값이 바뀔 때만' },
+  ],
+  idle: '바뀐 것이 없으면 rAF 에서 아무것도 그리지 않음(드래그·연출 중에만 그림)',
+  forbid_per_frame: ['전체 화면 그라디언트 fillRect', 'strokeText·shadowBlur·filter: blur', 'SVG innerHTML 넣기(카드·지도·별)', 'box-shadow 애니메이션', '글자 테두리(stroke) 효과'],
+  svg_raster: '카드 그림(tutorial/*.svg)·지도 완료 노드 미니 그림·잠긴 노드 실루엣·별·아이콘: 부팅(또는 지도 첫 진입 전 유휴 시간)에 <img src=Blob URL> + await img.decode() 로 래스터, 이후 같은 <img> 재사용. 카드는 will-change: opacity, 닫힘은 opacity·transform 만',
+  map_first: '타이틀 첫 탭의 오디오 잠금 해제는 지도 그리기와 다른 프레임(requestAnimationFrame 다음)으로 나눔. 지도 노드 10개 미니 그림은 부팅 유휴 시간에 미리 래스터(챕터 페이지는 지금·양옆 페이지만)',
+  dpr_cap: '캔버스 DPR 최대 2(DPR 3 화면도 2로 그림, CSS 크기는 그대로)',
+  svg_assets: '에셋 SVG 는 그라디언트·필터·mask 없음(tutorial.mjs 검사: 그라디언트 0). app-icon 만 예외(빌드에서 안 씀)',
 };
 
 // ---------- 검사 ----------
@@ -330,6 +417,7 @@ function check(L) {
   const sideOf = (x, cols) => (2 * x + 1 < cols ? 'left' : 'right');
   let center = 0; for (const lv of loadLevels()) for (const p of lv.pairs) for (const [x] of [p.a, p.b]) { const sd = sideOf(x, lv.width); if (2 * x + 1 === lv.width) { center++; if (sd !== 'right') bad(`J1 L${lv.order} 가운데 열 점 ${p.id} 기둥 ${sd}`); } else if ((x < lv.width / 2) !== (sd === 'left')) bad(`J1 L${lv.order} ${p.id} x=${x} 기둥 ${sd}`); }
   out.push(`J1 가로 판정 기둥 규칙: 가운데 열 점 ${center}개 → 오른쪽 기둥`);
+  for (const lv of loadLevels()) if (lv.tutorial?.kind === 'finger_demo' && (lv.fill_card || lv.hole_card)) bad(`L${lv.order} 손가락 시연 레벨에 그림 카드 — board_text(tut_drag)가 카드와 같이 보임(coexists_with_card 전제 깨짐)`);
   const soft = (m) => { warn++; out.push('권장 미달 ' + m); };
   for (const [rk, boards] of Object.entries(L.play)) for (const [bk, o] of Object.entries(boards)) {
     const id = `${rk} ${bk}`;
@@ -374,8 +462,27 @@ function check(L) {
         if (lines.length > s.max_lines || lines.length * lh > s.h + 0.5) bad(`${id} ${key}.${lang} ${lines.length}줄이 글 자리(${s.w}x${s.h})에 안 들어감`);
       }
     }
-    // 카드: 카드 속 칸(카드 폭 480 기준 72) 렌더 px, 표지 ≥ 16
-    const cardCell = (o.card.w / 480) * 72; if (cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot < 16) bad(`${id} 그림 카드 속 표지 ${(cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1)} px < 16`);
+    // r2 채움 막대 줄: 화면 안, 판·판정 자리·버튼·쌍 점 줄·글 자리와 겹침 0
+    { const fb = o.fill_bar.row; if (!inside(fb, o.W, o.H)) bad(`${id} 채움 막대 화면 밖`); if (overlap(fb, o.board, 0)) bad(`${id} 채움 막대가 판과 겹침`);
+      for (const s of slots) if (overlap(fb, s, 2)) bad(`${id} 채움 막대가 판정 자리와 겹침`); for (const [n, b] of btns) if (overlap(fb, b, 2)) bad(`${id} 채움 막대가 버튼 ${n}와 겹침`);
+      for (const pc of pairRects) if (overlap(fb, pc, 2)) bad(`${id} 채움 막대가 쌍 점 줄과 겹침`); for (const [sn, s] of Object.entries(o.text_slots)) if (overlap(fb, s, 2)) bad(`${id} 채움 막대가 글 자리 ${sn}와 겹침`);
+      if (o.fill_bar.bar.w < 3 * o.fill_bar.pct.w) bad(`${id} 채움 막대 ${o.fill_bar.bar.w} 가 % 의 3배보다 짧음(막대가 주 신호)`); }
+    // r2 얇은 선: 선 굵기 ≥ 22 px(가장 작은 칸에서도), 점 지름 − 선 굵기 ≥ 0.2칸(끝점이 선보다 또렷), 손가락이 덮어도 선 머리가 앞으로 보이는 길이(head_lead) ≥ 선 굵기
+    if (o.px.line_w < 22) bad(`${id} 선 굵기 ${o.px.line_w} px < 22`);
+    if ((o.px.dot_d - o.px.line_w) / o.cell < 0.2 - 1e-9) bad(`${id} 점 − 선 ${(o.px.dot_d - o.px.line_w).toFixed(1)} px < 0.2칸`);
+    if (o.cell * PARAM.head_lead_of_cell < o.px.line_w) bad(`${id} 선 머리 앞 보임 ${(o.cell * PARAM.head_lead_of_cell).toFixed(1)} < 선 굵기`);
+    // r2 S3: 카드 상자 ∩ {글 자리, 판정 자리, 쌍 점 줄, 버튼, 채움 막대} = 0, 화면 안, 카드 글 = 카드 안 글 띠에 들어감, 카드 속 표지 ≥ 16
+    const cd = o.card;
+    if (!inside(cd, o.W, o.H)) bad(`${id} 그림 카드 화면 밖`);
+    // 글 자리·판정 자리는 카드와 같은 때 보일 수 있으면 겹침 0. coexists_with_card: false 는 데이터로 증명: tut_drag = 손가락 시연 레벨(카드 없음), gap_left = 모든 쌍 연결 뒤(카드가 떠 있는 동안 입력 없음), 판정 = 연결 뒤
+    for (const [sn, s] of Object.entries(o.text_slots)) if (overlap(cd, s, 0) && s.coexists_with_card !== false) bad(`${id} 그림 카드가 글 자리 ${sn}를 덮음`);
+    if (o.portrait) for (const s of slots) if (overlap(cd, s, 0)) bad(`${id} 그림 카드가 판정 자리를 덮음`);
+    for (const pc of pairRects) if (overlap(cd, pc, 0)) bad(`${id} 그림 카드가 쌍 점 줄을 덮음`);
+    for (const [n, b] of btns) if (overlap(cd, b, 0)) bad(`${id} 그림 카드가 버튼 ${n}를 덮음`);
+    if (overlap(cd, o.fill_bar.row, 0)) bad(`${id} 그림 카드가 채움 막대를 덮음`);
+    if (cd.text.y + cd.text.h > cd.y + cd.h + 1.5 || cd.text.y < cd.art.y + cd.art.h - 1.5) bad(`${id} 카드 글 띠가 카드 밖·그림 위`);
+    fits(`${id} 카드 글`, cd.text);
+    const cardCell = (cd.art.w / 480) * CARD_CELL; if (cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot < 16) bad(`${id} 그림 카드 속 표지 ${(cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1)} px < 16`);
     table.push({ id, cell: o.cell, mark: o.px.mark, line: o.px.line_w, card_mark: +(cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1) });
   }
   for (const [rk, m] of Object.entries(L.map)) {
@@ -392,15 +499,26 @@ function check(L) {
     const gh = m.text_slots.guardian_hold; fits(`지도 ${rk} guardian_hold`, gh);
     for (let i = 0; i < 10; i++) { const [x, y] = m.nodes[i]; if (overlap(R(x - m.node_d / 2, y - m.node_d / 2, m.node_d, m.node_d), gh, 4)) bad(`지도 ${rk} 노드 ${i + 1} 이 guardian_hold 글과 겹침`); }
     for (const [n, b] of Object.entries(m.buttons)) { if (overlap(gh, b, 4)) bad(`지도 ${rk} guardian_hold 글이 ${n} 버튼과 겹침`); if (!inside(b, m.W, m.H)) bad(`지도 ${rk} ${n} 버튼 화면 밖`); }
+    // r2 챕터 넘김 줄: ◀ 점 ▶ 가 48 이상·화면 안·노드·버튼·글과 겹침 0, 점 지름 ≥ 10, 점 누름 자리 높이 ≥ 48
+    { const pg = m.pager, items = [['prev', pg.prev], ['next', pg.next], ['dots', pg.dots]];
+      for (const [n, b] of items) { if (!inside(b, m.W, m.H)) bad(`지도 ${rk} 넘김 ${n} 화면 밖`); if (n !== 'dots' && (b.w < 48 || b.h < 48)) bad(`지도 ${rk} 넘김 ${n} < 48`); if (overlap(b, gh, 4)) bad(`지도 ${rk} 넘김 ${n} 이 guardian_hold 와 겹침`);
+        for (const [bn, bb] of Object.entries(m.buttons)) if (overlap(b, bb, 8)) bad(`지도 ${rk} 넘김 ${n} 이 ${bn} 버튼과 8 px 안`);
+        for (let i = 0; i < 10; i++) { const [x, y] = m.nodes[i]; if (overlap(R(x - m.node_d / 2, y - m.node_d / 2, m.node_d, m.node_d), b, 4)) bad(`지도 ${rk} 노드 ${i + 1} 이 넘김 ${n} 과 겹침`); } }
+      if (overlap(pg.prev, pg.dots.hit, 0) || overlap(pg.next, pg.dots.hit, 0)) bad(`지도 ${rk} 넘김 화살표가 점 누름 자리와 겹침`);
+      if (pg.dots.d < 10) bad(`지도 ${rk} 챕터 점 ${pg.dots.d} < 10`); if (pg.dots.hit.h < 48) bad(`지도 ${rk} 챕터 점 누름 자리 < 48`);
+      if (10 * m.stars.pitch > m.stars.w + 0.5) bad(`지도 ${rk} 별 10칸(${10 * m.stars.pitch}) 이 별 줄(${m.stars.w}) 보다 넓음`);
+      for (const key of m.title.chapter_keys) if (STR[key]) for (const [lang, v] of strs(key)) if (textW(v, m.title.font_px) > m.title.w) bad(`지도 ${rk} ${key}.${lang} 제목 넘침`); }
   }
   for (const [rk, r] of Object.entries(L.result)) {
-    const items = [['mini', r.mini_board], ['star', r.star], ['pct', r.pct], ['new_best', r.new_best], ['title', r.title], ['level_name', r.level_name], ...Object.entries(r.buttons)];
+    const items = [['mini', r.mini_board], ['star', r.star], ['pair_dots', r.pair_dots], ['pct', r.pct], ['new_best', r.new_best], ['title', r.title], ['level_name', r.level_name], ...Object.entries(r.buttons)];
+    if (r.pair_dots.d * PARAM.mark_of_dot < 12) bad(`결과 ${rk} 쌍 점 표지 ${(r.pair_dots.d * PARAM.mark_of_dot).toFixed(1)} px < 12`);
+    if (r.pair_dots.pitch - r.pair_dots.d < 6) bad(`결과 ${rk} 쌍 점 간격 < 6`);
     fits(`결과 ${rk} 제목`, r.title); fits(`결과 ${rk} 레벨 이름`, { ...r.level_name, w: r.level_name.w - Math.round(24 * r.k) });
     for (const [n, b] of items) if (!inside(b, r.W, r.H)) bad(`결과 ${rk} ${n} 화면 밖`);
     for (let i = 0; i < items.length; i++) for (let j = i + 1; j < items.length; j++) if (overlap(items[i][1], items[j][1], 4)) bad(`결과 ${rk} ${items[i][0]}·${items[j][0]} 겹침`);
     for (const [n, b] of Object.entries(r.buttons)) if (b.w < 48) bad(`결과 ${rk} 버튼 ${n} < 48`);
   }
-  for (const [rk, t] of Object.entries(L.title)) { for (const [n, sl] of Object.entries(t.text_slots)) { fits(`타이틀 ${rk} ${n}`, sl); if (!inside(sl, t.W, t.H)) bad(`타이틀 ${rk} ${n} 화면 밖`); } noOverlap(`타이틀 ${rk}`, [['logo', t.logo], ...Object.entries(t.text_slots), ...Object.entries(t.buttons)]); }
+  for (const [rk, t] of Object.entries(L.title)) { for (const [n, sl] of Object.entries(t.text_slots)) { fits(`타이틀 ${rk} ${n}`, sl); if (!inside(sl, t.W, t.H)) bad(`타이틀 ${rk} ${n} 화면 밖`); } noOverlap(`타이틀 ${rk}`, [['logo', t.logo], ['hero', t.hero], ...Object.entries(t.text_slots), ...Object.entries(t.buttons)]); if (t.hero.w < 96) bad(`타이틀 ${rk} 히어로 판 ${t.hero.w} < 96`); if (!inside(t.hero, t.W, t.H)) bad(`타이틀 ${rk} 히어로 화면 밖`); }
   for (const [rk, g] of Object.entries(L.guardian)) {
     for (const [n, sl] of Object.entries(g.text_slots)) fits(`보호자 ${rk} ${n}`, sl);
     fits(`보호자 ${rk} 확인 창`, g.confirm.text);
@@ -485,7 +603,9 @@ function playMockup(o) {
   const sh = PAL.pairs[2].shade, nm = STR.judge_1_name?.ko || '최고야';
   s += `<rect x="${jx - J.w / 2}" y="${jy - J.h / 2}" width="${J.w}" height="${J.h}" fill="none" stroke="#9AA" stroke-dasharray="4 4"/>`;
   s += `<text x="${jx}" y="${jy - J.h / 2 + J.name_px[0]}" text-anchor="middle" font-size="${J.name_px[0]}" font-weight="800" fill="${sh}" stroke="#FFFFFF" stroke-width="3" paint-order="stroke">${nm}</text>`;
-  s += `<text x="${jx}" y="${jy + J.h / 2 - 4}" text-anchor="middle" font-size="${J.pct_px}" font-weight="700" fill="${C.inkSoft}">61%</text>`;
+  s += `<path d="${STAR}" transform="translate(${jx} ${jy - J.h / 2 + J.g1_star_px * 0.5}) scale(${J.g1_star_px / 2})" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.12" stroke-linejoin="round"/>`;
+  { const fb = o.fill_bar; s += `<rect x="${fb.bar.x}" y="${fb.bar.y}" width="${fb.bar.w}" height="${fb.bar.h}" rx="${fb.bar.h / 2}" fill="${C.tile}"/><rect x="${fb.bar.x}" y="${fb.bar.y}" width="${Math.round(fb.bar.w * 0.61)}" height="${fb.bar.h}" rx="${fb.bar.h / 2}" fill="${mix(PAL.themes.level09.top, C.ink, 0.55)}"/><text x="${fb.pct.x + fb.pct.w}" y="${fb.pct.y + fb.pct.h * 0.8}" text-anchor="end" font-size="${fb.pct.font_px}" font-weight="700" fill="${C.inkSoft}">61%</text>`; }
+  { const cd = o.card; s += `<rect x="${cd.x}" y="${cd.y}" width="${cd.w}" height="${cd.h}" rx="${cd.radius}" fill="none" stroke="#3A8" stroke-width="1.5" stroke-dasharray="6 4"/><text x="${cd.x + 6}" y="${cd.y + 14}" font-size="11" fill="#3A8">그림 카드 자리(L2·L6 첫 진입 때만)</text><rect x="${cd.text.x}" y="${cd.text.y}" width="${cd.text.w}" height="${cd.text.h}" fill="none" stroke="#3A8" stroke-dasharray="2 3"/><text x="${cd.text.x + cd.text.w / 2}" y="${cd.text.y + cd.text.font_px + 2}" text-anchor="middle" font-size="${cd.text.font_px}" fill="#3A8">${STR.card_hole?.ko || ''}</text>`; }
   for (const t of Object.values(o.text_slots)) s += `<rect x="${t.x}" y="${t.y}" width="${t.w}" height="${t.h}" fill="none" stroke="#C8A" stroke-dasharray="3 5"/><text x="${t.x + t.w / 2}" y="${t.y + t.font_px + 4}" text-anchor="middle" font-size="${t.font_px}" fill="${C.ink}" opacity="0.35">${STR.tut_drag?.ko || ''}</text>`;
   const zones = o.thumb.zone ? [o.thumb.zone] : o.thumb.zones; for (const z of zones) s += `<rect x="${z.x}" y="${z.y}" width="${z.w}" height="${z.h}" fill="#F29" opacity="0.06"/>`;
   s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">${W}x${H} · 칸 ${o.cell}px · 점선 = 판정 자리 / 글 자리, 분홍 = 엄지 가림</text></svg>`;
@@ -509,14 +629,15 @@ function mapMockup(m) {
     } else if (i === done) {
       const rr = d / 2 + 6, fr = 0.4, ang = -Math.PI / 2 + fr * 2 * Math.PI; s += `<path d="M${x} ${y - rr} A${rr} ${rr} 0 ${fr > 0.5 ? 1 : 0} 1 ${(x + rr * Math.cos(ang)).toFixed(1)} ${(y + rr * Math.sin(ang)).toFixed(1)}" fill="none" stroke="${C.pathDone}" stroke-width="5" stroke-linecap="round"/><circle cx="${x}" cy="${y}" r="${d / 2}" fill="${C.nodeOpen}" stroke="${C.nodeOpenEdge}" stroke-width="4"/>` + markSVG(x, y, d * 0.42, 'circle', C.nodeOpenEdge).replace(MARKS.circle, 'M-0.5 -0.8 L0.85 0 L-0.5 0.8 Z');
     } else {
-      s += `<circle cx="${x}" cy="${y}" r="${d / 2}" fill="${C.nodeLocked}"/><circle cx="${x}" cy="${y}" r="${d * 0.09}" fill="${C.nodeLockedMark}"/>`;
+      { const n = i < 7 ? 5 : 6, gw = d * 0.53, g = gw / n; s += `<circle cx="${x}" cy="${y}" r="${d / 2}" fill="${C.nodeLocked}"/>`; for (let r = 0; r < n; r++) for (let q = 0; q < n; q++) s += `<rect x="${(x - gw / 2 + q * g + 0.6).toFixed(1)}" y="${(y - gw / 2 + r * g + 0.6).toFixed(1)}" width="${(g - 1.2).toFixed(1)}" height="${(g - 1.2).toFixed(1)}" rx="${(g * 0.22).toFixed(1)}" fill="${C.nodeLockedMark}" opacity="0.35"/>`; }
     }
   });
   s += buttonSVG(m.buttons.settings) + buttonSVG(m.buttons.sound);
+  { const pg = m.pager; s += buttonSVG(pg.prev) + buttonSVG(pg.next); const st = ['pathTodo', 'pathDone', 'nodeLocked', 'nodeLocked', 'nodeLocked']; for (let i = 0; i < pg.dots.n; i++) { const r = pg.dots.d / 2 * (i < 2 ? 1 : 0.75); s += `<circle cx="${pg.dots.x + pg.dots.d / 2 + i * pg.dots.pitch}" cy="${pg.cy}" r="${r}" fill="${i === 0 ? C.star : C[st[i]]}"/>`; } }
   { const g = m.text_slots.guardian_hold; s += `<text x="${g.x + g.w}" y="${g.y + g.h / 2 + g.font_px * 0.35}" text-anchor="end" font-size="${g.font_px}" fill="${C.inkSoft}">${STR.guardian_hold?.ko || ''}</text>`; }
-  for (let i = 0; i < 10; i++) { const x = m.stars.x + m.stars.w / 2 - 4.5 * m.stars.pitch + i * m.stars.pitch, y = m.stars.y + m.stars.h / 2; s += i < 2 ? `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.12" stroke-linejoin="round"/>` : `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="none" stroke="${C.inkSoft}" stroke-width="0.12" stroke-dasharray="0.2 0.18"/>`; }
+  for (let i = 0; i < 10; i++) { const x = m.stars.x + m.stars.w / 2 - 4.5 * m.stars.pitch + i * m.stars.pitch, y = m.stars.y + m.stars.h / 2; s += i < 2 ? `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.12" stroke-linejoin="round"/>` : `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="${C.nodeLocked}" stroke="${C.pathTodo}" stroke-width="0.12"/>`; }
   s += `<text x="${W / 2}" y="${m.title.y + m.title.h * 0.7}" text-anchor="middle" font-size="${m.title.font_px}" font-weight="700" fill="${C.ink}">${STR.map_screen?.ko || ''}</text>`;
-  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">지도 ${W}x${H} · 노드 ${m.node_d}px · 1~4 완료(미니 그림, 별 = 1·3), 5 풀다 나감(호 = 칠한 비율 40 %), 6~10 잠김</text></svg>`;
+  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">지도 ${W}x${H} · 챕터 2 페이지(점: 1 = 다 깸 별색, 2 = 지금) · 노드 ${m.node_d}px · 1~4 완료, 5 풀다 나감, 6~10 잠김(판 크기 실루엣)</text></svg>`;
   return s;
 }
 function slotsMockup(o, label) { // 타이틀·보호자·오류: 자리 + 한국어 글
@@ -540,12 +661,12 @@ function resultMockup(r) {
   for (let p = 0; p < 6; p++) { const seq = pathOf(SAMPLE6, p, SAMPLE6_ENDS[p][0]); s += `<polyline points="${seq.map(([i, j]) => `${b.x + (j + 0.5) * cc},${b.y + (i + 0.5) * cc}`).join(' ')}" fill="none" stroke="${PAL.pairs[p].hex}" stroke-width="${cc * 0.6}" stroke-linecap="round" stroke-linejoin="round"/>`; }
   s += `<text x="${r.title.x + r.title.w / 2}" y="${r.title.y + r.title.h * 0.72}" text-anchor="middle" font-size="${r.title.font_px}" font-weight="800" fill="${C.ink}">${STR.clear_title_1?.ko || ''}</text>`;
   s += `<path d="${STAR}" transform="translate(${r.star.x + r.star.w / 2} ${r.star.y + r.star.h / 2}) scale(${r.star.w * 0.48})" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.07" stroke-linejoin="round"/>`;
-  s += `<text x="${r.pct.x + r.pct.w / 2 + 14}" y="${r.pct.y + r.pct.h * 0.75}" text-anchor="middle" font-size="${r.pct.font_px}" font-weight="700" fill="${C.inkSoft}">100%</text>`;
-  s += `<g transform="translate(${r.pct.x + r.pct.w / 2 - 62} ${r.pct.y + r.pct.h / 2 - 14}) scale(${(28 / 48).toFixed(3)})">${ICON('one_go')}</g>`;
+  s += `<text x="${r.pct.x + r.pct.w / 2 + 14}" y="${r.pct.y + r.pct.h * 0.75}" text-anchor="middle" font-size="${r.pct.font_px}" font-weight="700" fill="${C.inkSoft}">83%</text>`;
+  { const pd = r.pair_dots; for (let i = 0; i < 6; i++) { const x = pd.x + pd.d / 2 + i * pd.pitch, y = pd.y + pd.d / 2, full = i !== 3; s += full ? dotSVG(x, y, pd.d, i, 0, 0, true) + `<circle cx="${x + pd.d * 0.42}" cy="${y - pd.d * 0.42}" r="${pd.d * 0.17}" fill="${C.star}"/>` : dotSVG(x, y, pd.d, i, 0, 0, false); } }
   for (const bt of Object.values(r.buttons)) s += buttonSVG(bt);
   { const ln = r.level_name, nm = STR.level9_name?.ko || '', bw = textW(nm, ln.font_px) + 24 * r.k; s += `<rect x="${ln.x + ln.w / 2 - bw / 2}" y="${ln.y}" width="${bw}" height="${ln.h}" rx="${ln.h / 2}" fill="${PAL.themes.level09.top}" stroke="${C.boardEdge}" stroke-width="1.5"/><text x="${ln.x + ln.w / 2}" y="${ln.y + ln.h / 2 + ln.font_px * 0.35}" text-anchor="middle" font-size="${ln.font_px}" font-weight="700" fill="${C.ink}">${nm}</text>`; }
   s += `<g transform="translate(${r.new_best.x} ${r.new_best.y}) scale(${(r.new_best.w / 48).toFixed(3)})">${ICON('new_best')}</g>`;
-  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">결과 ${W}x${H} · 레벨 이름 띠(L9 바탕색) · 별(100 %) + 한 번에 이은 쌍 % + 지난번보다 표지</text></svg>`;
+  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">결과 ${W}x${H} · 레벨 이름 띠(L9 바탕색) · 빈 별 칸(쌍 4 속 빈 점) + 쌍 점 줄(꽉 찬 5·속 빈 1) + 83 % + 지난번보다 표지</text></svg>`;
   return s;
 }
 

@@ -10,7 +10,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const A = resolve(HERE, '..');
 const PAL = JSON.parse(readFileSync(join(A, 'palette.json'), 'utf8'));
 const C = PAL.common, PAIRS = PAL.pairs;
-const LINE = 0.60, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22;
+const LINE = 0.48, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22;
 const svg = (w, h, body, extra = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"${extra}>${body}</svg>\n`;
 const mark = (x, y, size, m, fill = C.white) => `<path d="${MARKS[m]}" transform="translate(${+x.toFixed(2)} ${+y.toFixed(2)}) scale(${+(size / 2).toFixed(3)})" fill="${fill}" stroke="${fill}" stroke-width="${MARK_STROKE_UNIT}" stroke-linejoin="round"/>`;
 const dot = (x, y, cell, p, ring = false) => {
@@ -46,6 +46,8 @@ const files = {};
 PAIRS.forEach((p, i) => {
   files[`marks/mark-${p.key}-${p.mark}.svg`] = svg(100, 100, dot(50, 50, 100, i));
   files[`marks/mark-${p.key}-${p.mark}-connected.svg`] = svg(100, 100, dot(50, 50, 100, i, true));
+  // r2 H3: 결과 쌍 점 줄의 "속 빈" 점(한 번에 잇지 못한 쌍) = 흰 면 + 쌍 색 테두리(지름의 0.12) + 쌍 색 표지. 꽉 찬 점 = connected 점 + 반짝임
+  files[`marks/mark-${p.key}-${p.mark}-hollow.svg`] = svg(100, 100, `<circle cx="50" cy="50" r="${(100 * DOT) / 2 - 4.4}" fill="${C.white}" stroke="${p.hex}" stroke-width="8.8"/>` + mark(50, 50, 100 * DOT * MARK, p.mark, p.hex));
 });
 files['marks/marks-sheet.svg'] = svg(640, 120, `<rect width="640" height="120" fill="${C.board}"/>` + PAIRS.map((p, i) => dot(55 + i * 106, 60, 100, i)).join(''));
 
@@ -61,16 +63,21 @@ const ICONS = {
   map: `<path d="M10 35 C18 35 15 14 24 14 C32 14 30 30 38 30" fill="none" stroke="${C.ink}" stroke-width="4" stroke-linecap="round" stroke-dasharray="0.1 7"/><circle cx="10" cy="35" r="5" fill="${C.ink}"/><circle cx="24" cy="14" r="5" fill="${C.ink}"/><circle cx="38" cy="30" r="5" fill="none" stroke="${C.ink}" stroke-width="3.5"/>`,
   next: `<path d="M17 12 L36 24 L17 36 Z" fill="${C.ink}" stroke="${C.ink}" stroke-width="5" stroke-linejoin="round"/>`,
   star: `<path d="${STAR}" transform="translate(24 24) scale(18)" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.11" stroke-linejoin="round"/>`,
-  star_empty: `<path d="${STAR}" transform="translate(24 24) scale(18)" fill="none" stroke="${C.inkSoft}" stroke-width="0.09" stroke-dasharray="0.18 0.16" stroke-linejoin="round"/>`,
+  star_empty: `<path d="${STAR}" transform="translate(24 24) scale(18)" fill="${C.nodeLocked}" stroke="${C.pathTodo}" stroke-width="0.09" stroke-linejoin="round"/>`, // r2 E6·S10: 점선 → 옅은 실선 면(뭉침·래스터 비용↓)
   settings: `<path d="${gear}" fill="none" stroke="${C.ink}" stroke-width="3.5" stroke-linejoin="round"/><circle cx="24" cy="24" r="5" fill="none" stroke="${C.ink}" stroke-width="3.5"/>`,
   one_go: `<path d="M11 34 C19 34 17 14 25 14 H37" fill="none" stroke="${PAIRS[1].hex}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="34" r="7" fill="${PAIRS[1].hex}"/><circle cx="37" cy="14" r="7" fill="${PAIRS[1].hex}"/>`,
-  filled: `<rect x="8" y="8" width="15" height="15" rx="4" fill="${PAIRS[0].tint}"/><rect x="25" y="8" width="15" height="15" rx="4" fill="${PAIRS[0].tint}"/><rect x="8" y="25" width="15" height="15" rx="4" fill="${PAIRS[1].tint}"/><rect x="25" y="25" width="15" height="15" rx="4" fill="${PAIRS[1].tint}"/><path d="M15.5 15.5 H32.5" stroke="${PAIRS[0].hex}" stroke-width="9" stroke-linecap="round"/><path d="M15.5 32.5 H32.5" stroke="${PAIRS[1].hex}" stroke-width="9" stroke-linecap="round"/>`,
+  filled: [[8, 8, 0], [25, 8, 1], [8, 25, 2], [25, 25, 3]].map(([x, y, p]) => `<rect x="${x}" y="${y}" width="15" height="15" rx="4.5" fill="${PAIRS[p].tint}" stroke="${PAIRS[p].hex}" stroke-width="2"/>`).join(''), // r2 S22: 막대 두 줄(메뉴처럼 읽힘) → 판 타일 언어 2x2 칠한 칸
   close: `<path d="M15 15 L33 33 M33 15 L15 33" ${st}/>`, // 보호자 화면 닫기(btn_close). 빨간색 아님, 버튼 원 안 ink 선
   new_best: `<path d="M13 27 L24 16 L35 27" fill="none" stroke="${C.pathDone}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="17" y="30" width="14" height="11" rx="3.5" fill="${PAIRS[0].tint}" stroke="${C.pathDone}" stroke-width="2"/>`, // 결과 % 옆: 지난번보다 늘었음(위로 둥근 꺾쇠 + 칠한 칸), 글·숫자 없음
 };
 for (const [n, b] of Object.entries(ICONS)) files[`icons/icon-${n}.svg`] = svg(48, 48, b);
 // 지도 노드 3상태 (64x64)
-files['icons/node-locked.svg'] = svg(64, 64, `<circle cx="32" cy="32" r="30" fill="${C.nodeLocked}"/><circle cx="32" cy="32" r="5.5" fill="${C.nodeLockedMark}"/>`);
+// r2 S10: 잠긴 노드 = 옅은 원 + 그 판 크기(w x h) 옅은 타일 격자 실루엣(예: 4x4). 빌드는 레벨 width/height 로 같은 식(layout.json map.node_states.locked)
+{ const n = 4, g = 34 / n; let t = ''; for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) t += `<rect x="${(15 + c * g + 0.9).toFixed(2)}" y="${(15 + r * g + 0.9).toFixed(2)}" width="${(g - 1.8).toFixed(2)}" height="${(g - 1.8).toFixed(2)}" rx="${(g * 0.22).toFixed(2)}" fill="${C.nodeLockedMark}" opacity="0.35"/>`;
+  files['icons/node-locked.svg'] = svg(64, 64, `<circle cx="32" cy="32" r="30" fill="${C.nodeLocked}"/>` + t); }
+// r2 50스테이지: 챕터 넘김 화살표(지도 아래 줄), 48 칸 안 ink 꺾쇠
+files['icons/icon-page_prev.svg'] = svg(48, 48, `<path d="M28 13 L17 24 L28 35" ${st}/>`);
+files['icons/icon-page_next.svg'] = svg(48, 48, `<path d="M20 13 L31 24 L20 35" ${st}/>`);
 files['icons/node-partial.svg'] = svg(72, 72, `<circle cx="36" cy="36" r="28" fill="${C.nodeOpen}" stroke="${C.nodeOpenEdge}" stroke-width="4"/><path d="M30 25 L47 36 L30 47 Z" fill="${C.nodeOpenEdge}" stroke="${C.nodeOpenEdge}" stroke-width="4" stroke-linejoin="round"/><path d="M36 2.5 A33.5 33.5 0 0 1 ${(36 + 33.5 * Math.cos(-Math.PI / 2 + 0.4 * 2 * Math.PI)).toFixed(1)} ${(36 + 33.5 * Math.sin(-Math.PI / 2 + 0.4 * 2 * Math.PI)).toFixed(1)}" fill="none" stroke="${C.pathDone}" stroke-width="5" stroke-linecap="round"/>`);
 files['icons/node-open.svg'] = svg(64, 64, `<circle cx="32" cy="32" r="28" fill="${C.nodeOpen}" stroke="${C.nodeOpenEdge}" stroke-width="4"/><path d="M26 21 L43 32 L26 43 Z" fill="${C.nodeOpenEdge}" stroke="${C.nodeOpenEdge}" stroke-width="4" stroke-linejoin="round"/>`);
 {

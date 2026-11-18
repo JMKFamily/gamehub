@@ -6,6 +6,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadLevels } from './tutorial.mjs';
 import { contrast, mix, de2000, simulate, luminance, lab, hue } from './color.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -28,7 +29,7 @@ const COMMON = {
   boardEdge: '#DCE1EE',  // 판 바깥 1.5 px 테두리(그림자 대신, 투명도 없음)
   tile: '#EDF0F7',       // 빈칸 타일
   tileDot: '#8B93AA',    // 빈칸 가운데 작은 점(빈칸 = 칠할 곳 표지). 구멍 칸에는 없음
-  gapGlow: '#FFD36B',    // 빈칸 남음 신호(숨 쉬는 테두리, 칭찬 쪽 따뜻한 색)
+  gapGlow: '#6F7891',    // 빈칸 남음 신호(숨 쉬는 테두리). r2 S28: 노랑 → 빈칸 점(tileDot) 계열 회청색(별·노랑 쌍 tint 와 안 헷갈림)
   white: '#FFFFFF',      // 점 안 모양 표지, 버튼 면, 손가락 면
   star: '#FFC233',       // 별 면
   starEdge: '#8A5A00',   // 별 테두리
@@ -49,17 +50,36 @@ const THEMES = {
   level01: { lore: '햇살 마당',     top: '#FFF3D2', bottom: '#FFF8EA', decor: { shape: 'arc', count: 1 } },
   level02: { lore: '튤립 화분',     top: '#FDE6EE', bottom: '#FFF7EC', decor: { shape: 'ring', count: 3 } },
   level03: { lore: '물놀이 해변',   top: '#DDF1FA', bottom: '#FBF3E2', decor: { shape: 'wave', count: 1 } },
-  level04: { lore: '구불구불 숲',   top: '#EAF6DD', bottom: '#DDF1E2', decor: { shape: 'triangle', count: 2 } },
+  level04: { lore: '구불구불 숲',   top: '#EAF6DD', bottom: '#DDF1E2', decor: { shape: 'arc', count: 2 } },
   level05: { lore: '과일 가게',     top: '#FFE8D6', bottom: '#FFF6D8', decor: { shape: 'ring', count: 4 } },
   level06: { lore: '징검다리 연못', top: '#D6F0EC', bottom: '#E3F1FB', decor: { shape: 'wave', count: 2 } },
-  level07: { lore: '큰 꽃정원',     top: '#EFE4FA', bottom: '#FCE6F0', decor: { shape: 'square', count: 2 } },
-  level08: { lore: '돌담 길',       top: '#EFE8DF', bottom: '#FBF5EA', decor: { shape: 'square', count: 3 } },
+  level07: { lore: '큰 꽃정원',     top: '#EFE4FA', bottom: '#FCE6F0', decor: { shape: 'wave', count: 3 } },
+  level08: { lore: '돌담 길',       top: '#EFE8DF', bottom: '#FBF5EA', decor: { shape: 'arc', count: 3 } },
   level09: { lore: '무지개 들판',   top: '#E0F0FB', bottom: '#FDF6D9', decor: { shape: 'arc', count: 3 } },
-  level10: { lore: '노을 하늘',     top: '#FFE1CC', bottom: '#ECE3F8', decor: { shape: 'star', count: 3, only_on_complete: true } },
+  level10: { lore: '노을 하늘',     top: '#FFE1CC', bottom: '#ECE3F8', decor: { shape: 'ring', count: 3, only_on_complete: true } },
   menu:    { lore: '지도·결과',     top: '#F3EEFB', bottom: '#E4EEFA' },
 };
+// r2 50스테이지(10개씩 5챕터): 챕터 c(2~5)의 i번째 레벨(전체 번호 (c−1)·10 + i) 바탕 = 1챕터 i번째(아침 → 노을 하루 흐름) 바탕에 챕터 색을 24 % 섞음.
+// 챕터마다 한 색 가족(1 맑은 날 = 지금 그대로 · 2 비 = 하늘 파랑 · 3 가을 = 살구 · 4 눈 = 얼음 청록 · 5 밤 = 옅은 라벤더, 밤도 밝은 바탕 — 대비 규칙 때문) + 챕터 안에서는 하루 흐름 그대로. 장식 도형도 i번째와 같음. 챕터 수가 바뀌면 CHAPTER_TINT 만 늘림.
+export const CHAPTER_TINT = [null, { key: 'rain', hex: '#D3E6F8' }, { key: 'autumn', hex: '#F8E2C8' }, { key: 'snow', hex: '#DDF0F4' }, { key: 'night', hex: '#E2DDF7' }]; // lore 챕터 이름(비 오는 날·가을 나들이·눈 오는 날·반짝반짝 밤)에 맞춘 색 가족
+const CH_MIX = 0.24;
+for (let c = 2; c <= CHAPTER_TINT.length; c++) for (let i = 1; i <= 10; i++) {
+  const base = THEMES[`level${String(i).padStart(2, '0')}`], t = CHAPTER_TINT[c - 1];
+  THEMES[`level${String((c - 1) * 10 + i).padStart(2, '0')}`] = { lore: `챕터 ${c}(${t.key}) ${i}`, chapter: c, top: mix(base.top, t.hex, CH_MIX), bottom: mix(base.bottom, t.hex, CH_MIX), decor: base.decor };
+}
+for (let i = 1; i <= 10; i++) THEMES[`level${String(i).padStart(2, '0')}`].chapter = 1;
 const DERIVE = { tint_t: 0.78, shade_t: 0.32 }; // tint = 쌍 색과 흰색 78 % 섞음(칠한 칸), shade = ink와 32 % 섞음(판정 이름 글자)
 
+// r2 50판(balance 확정): 뒤 챕터에 4쌍 이하 판이 많음 → 11번 이후 3·4쌍 판은 6색 중 쓸 색·모양 슬롯을 레벨마다 돌려 씀(레벨 JSON 은 그대로, 빌드가 매핑).
+// 후보 = 고른 색끼리 protan·deutan·tritan 모두 ΔE00 ≥ 10 인 조합만. 레벨 번호 순으로 후보를 돌리고(보폭 5), 바로 앞 레벨과 같은 색 묶음이면 다음 후보. 묶음 안 순서도 레벨 번호로 돌림.
+function slotRotation(pairs) {
+  const ok = (set) => set.every((a, i) => set.slice(i + 1).every((b) => ['protan', 'deutan', 'tritan'].every((kd) => de2000(simulate(pairs[a].hex, kd), simulate(pairs[b].hex, kd)) >= 10)));
+  const subsets = (k) => { const out = []; const rec = (st, cur) => { if (cur.length === k) { out.push(cur); return; } for (let i = st; i < 6; i++) rec(i + 1, [...cur, i]); }; rec(0, []); return out.filter(ok); };
+  const cand = { 3: subsets(3), 4: subsets(4) }, by = {}, prev = { 3: null, 4: null };
+  for (let n = 11; n <= 50; n++) { by[n] = {}; for (const k of [3, 4]) { const C = cand[k]; let j = ((n - 11) * 5) % C.length; for (let t = 0; t < C.length && prev[k] && C[j].join() === [...prev[k]].sort().join(); t++) j = (j + 1) % C.length;
+    const set = C[j], r = n % k, ord = [...set.slice(r), ...set.slice(0, r)]; by[n][k] = ord; prev[k] = ord; } }
+  return { applies: '레벨 order ≥ 11 이고 쌍 수 3 또는 4', map: 'color_slot i → pairs[by_level[order][쌍 수][i]] (색·모양 표지·tint·shade 모두 그 pairs 항목)', else: 'color_slot i → pairs[i] 그대로(1~10판 = 튜토리얼 색 고정, 5·6쌍 판)', candidates: { 3: cand[3].length, 4: cand[4].length }, by_level: by };
+}
 function build() {
   const pairs = PAIRS.map((p) => ({ ...p, tint: mix(p.hex, COMMON.board, DERIVE.tint_t), shade: mix(p.hex, COMMON.ink, DERIVE.shade_t) }));
   return {
@@ -67,14 +87,15 @@ function build() {
     _source: 'assets/check/palette.mjs --write 가 생성(art-director 원본). 30-art 2절 표는 요약이고 다르면 이 파일이 기준. 빌드는 이 파일만 읽음.',
     _rules: [
       '쌍 색은 레벨 JSON pairs[].color_slot 을 읽음: color_slot n → pairs[n](키 p{n+1}, 0부터 셈). 빌드는 쌍 순서가 아니라 color_slot 을 읽음. 쌍 k개 레벨은 color_slot 0..k−1 = p1..pk. 같은 쌍 = 같은 색 + 같은 모양 표지(mark)가 10레벨 내내 같음.',
-      '점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.60칸 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).',
+      '점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.48칸(r2 요청자 지시로 0.60 → 0.48, 20 % 얇게) 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).',
       '판정 이름 글자 = 그 쌍의 shade + 흰 테두리 3 px(paint-order stroke). 판정 % = inkSoft.',
       '빈칸 = tile + tileDot(가운데 점). 구멍 칸 = 판 카드에서 그 칸(둥근 모서리 tile_r)을 even-odd 로 도려내 바탕 그라디언트가 보이게 하고, 도려낸 둘레에 boardEdge 1.5 px 선. 타일·가운데 점 없음(lore: 칸이 없는 자리, 바탕이 보임).',
       '바탕 = themes.<레벨>.top → bottom 세로 선형 그라디언트 한 장, 움직이지 않음. 판 그림자는 투명도 0.10 이하 흐림 1개만 허용(번쩍임과 무관), 그 밖의 투명도는 연출 중 흐려짐에만.',
       'decor: 판 뒤 바탕 층에만, 색 = mix(theme.top, ink, 0.06), 크기 0.5~0.9칸, 판 카드 모서리 뒤에서 최대 0.4칸 보임. HUD 띠·판정 자리·글 자리·버튼 위에는 없음. level10 별 3개는 판 완료 때만 0.4 s 에 나타남(번쩍임 없음).',
-      '빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(따뜻한 노랑).',
+      '빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(빈칸 점 계열 회청색, r2 S28).',
     ],
     pairs,
+    slot_rotation: slotRotation(pairs),
     common: COMMON,
     themes: THEMES,
     derive: DERIVE,
@@ -143,6 +164,21 @@ function check(P) {
   ok(contrast(C.pathDone, P.themes.menu.bottom) >= 3, `지나온 길 / 지도 바탕 ${contrast(C.pathDone, P.themes.menu.bottom).toFixed(2)} < 3`);
   ok(contrast(C.nodeLockedMark, C.nodeLocked) >= 2.5, `잠긴 노드 표지 / 면 < 2.5`);
   ok(contrast(C.gapGlow, C.tile) < 1.6 ? de2000(C.gapGlow, C.tile) >= 15 : true, `빈칸 신호색 / 타일 ΔE00 < 15`);
+  // r2 S28: 빈칸 신호색은 타일 위 ≥ 3:1, 별 면·쌍 tint 와 정상·tritan 모두 ΔE00 ≥ 20
+  ok(contrast(C.gapGlow, C.tile) >= 3, `빈칸 신호색 / 타일 ${contrast(C.gapGlow, C.tile).toFixed(2)} < 3`);
+  for (const kind of ['normal', 'tritan']) for (const [n, v] of [['star', C.star], ...pairs.map((p) => [p.key + ' tint', p.tint])]) { const d = de2000(simulate(C.gapGlow, kind), simulate(v, kind)); ok(d >= 20, `${kind} 빈칸 신호색 / ${n} ΔE00 ${d.toFixed(1)} < 20`); }
+  // r2 S33: 판 장식 도형은 쌍 표지 모양(하트·동그라미·별·세모·달·네모)과 겹치지 않음
+  for (const [k, t] of Object.entries(P.themes)) if (t.decor && !['arc', 'wave', 'ring'].includes(t.decor.shape)) ok(false, `${k} decor ${t.decor.shape} 가 쌍 표지 모양과 겹침 (arc·wave·ring 만)`);
+  // r2 얇은 선(요청자 2026-11-18): 선(쌍 색) / 칠한 칸(tint)·빈칸 타일 대비를 색약 3종 시뮬레이션에서도 ≥ 2.0, 선끼리 ΔE00 은 위 쌍 색 행렬과 같음(선 = 쌍 색)
+  for (const kind of ['normal', 'protan', 'deutan', 'tritan']) for (const p of pairs) for (const [n, v] of [['tint', p.tint], ['tile', C.tile]]) { const c = contrast(simulate(p.hex, kind), simulate(v, kind)); ok(c >= 2.0, `${kind} ${p.key} 선 / ${n} 대비 ${c.toFixed(2)} < 2.0 (얇은 선)`); }
+  if (Object.keys(P.themes).filter((k) => /^level\d\d$/.test(k)).length < 50) ok(false, `레벨 바탕 ${Object.keys(P.themes).length - 1}개 < 50 (5챕터)`);
+  // r2 슬롯 돌려쓰기: 실제 레벨(levels/*.json)마다 쓰는 색 묶음이 서로 다르고, 색약 3종 ΔE00 ≥ 10, 이웃 레벨(둘 다 돌려쓰기)과 같은 묶음 아님
+  { const SR = P.slot_rotation; if (!SR) ok(false, 'slot_rotation 없음'); else { const lv = loadLevels(); const used = (l) => { const k = l.pairs.length, m = l.order >= 11 && (k === 3 || k === 4) ? SR.by_level[l.order]?.[k] : null; return m ? l.pairs.map((p) => m[p.color_slot]) : null; };
+    let rot = 0, prevSet = null, prevOrder = -1; for (const l of lv) { const u = used(l); if (!u) { prevSet = null; continue; } rot++;
+      if (new Set(u).size !== u.length || u.some((x) => !(x >= 0 && x < 6))) ok(false, `L${l.order} 슬롯 매핑 잘못 ${u}`);
+      for (let i = 0; i < u.length; i++) for (let j = i + 1; j < u.length; j++) for (const kd of ['protan', 'deutan', 'tritan']) { const d = de2000(simulate(pairs[u[i]].hex, kd), simulate(pairs[u[j]].hex, kd)); if (d < 10) ok(false, `L${l.order} ${kd} ${pairs[u[i]].key}-${pairs[u[j]].key} ΔE00 ${d.toFixed(1)} < 10`); }
+      const key = [...u].sort().join(); if (prevSet === key && prevOrder === l.order - 1) ok(false, `L${l.order} 색 묶음이 L${l.order - 1} 와 같음`); prevSet = key; prevOrder = l.order; }
+    lines.push(`슬롯 돌려쓰기: 레벨 ${rot}개(3쌍 후보 ${SR.candidates[3]}·4쌍 후보 ${SR.candidates[4]}), 색약 3종 ΔE00 ≥ 10, 이웃 같은 묶음 0`); } }
   ok(contrast(C.fingerEdge, C.finger) >= 7, `손가락 외곽선 / 면 < 7`);
   // E2. 구멍 칸(바탕이 보임) vs 빈칸 타일: 가운데 점 + 타일 모양이 주 구분. 색 차는 참고로 적고, 너무 같으면(ΔE00 < 2) 실패
   for (const [k, t] of Object.entries(P.themes)) for (const v of [t.top, t.bottom]) { const d = de2000(v, C.tile); ok(d >= 2, `${k} 구멍(바탕 ${v}) / 빈칸 타일 ΔE00 ${d.toFixed(1)} < 2`); }

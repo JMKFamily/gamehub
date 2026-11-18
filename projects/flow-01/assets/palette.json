@@ -3,12 +3,12 @@
  "_source": "assets/check/palette.mjs --write 가 생성(art-director 원본). 30-art 2절 표는 요약이고 다르면 이 파일이 기준. 빌드는 이 파일만 읽음.",
  "_rules": [
   "쌍 색은 레벨 JSON pairs[].color_slot 을 읽음: color_slot n → pairs[n](키 p{n+1}, 0부터 셈). 빌드는 쌍 순서가 아니라 color_slot 을 읽음. 쌍 k개 레벨은 color_slot 0..k−1 = p1..pk. 같은 쌍 = 같은 색 + 같은 모양 표지(mark)가 10레벨 내내 같음.",
-  "점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.60칸 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).",
+  "점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.48칸(r2 요청자 지시로 0.60 → 0.48, 20 % 얇게) 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).",
   "판정 이름 글자 = 그 쌍의 shade + 흰 테두리 3 px(paint-order stroke). 판정 % = inkSoft.",
   "빈칸 = tile + tileDot(가운데 점). 구멍 칸 = 판 카드에서 그 칸(둥근 모서리 tile_r)을 even-odd 로 도려내 바탕 그라디언트가 보이게 하고, 도려낸 둘레에 boardEdge 1.5 px 선. 타일·가운데 점 없음(lore: 칸이 없는 자리, 바탕이 보임).",
   "바탕 = themes.<레벨>.top → bottom 세로 선형 그라디언트 한 장, 움직이지 않음. 판 그림자는 투명도 0.10 이하 흐림 1개만 허용(번쩍임과 무관), 그 밖의 투명도는 연출 중 흐려짐에만.",
   "decor: 판 뒤 바탕 층에만, 색 = mix(theme.top, ink, 0.06), 크기 0.5~0.9칸, 판 카드 모서리 뒤에서 최대 0.4칸 보임. HUD 띠·판정 자리·글 자리·버튼 위에는 없음. level10 별 3개는 판 완료 때만 0.4 s 에 나타남(번쩍임 없음).",
-  "빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(따뜻한 노랑)."
+  "빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(빈칸 점 계열 회청색, r2 S28)."
  ],
  "pairs": [
   {
@@ -66,6 +66,537 @@
    "shade": "#0C6B80"
   }
  ],
+ "slot_rotation": {
+  "applies": "레벨 order ≥ 11 이고 쌍 수 3 또는 4",
+  "map": "color_slot i → pairs[by_level[order][쌍 수][i]] (색·모양 표지·tint·shade 모두 그 pairs 항목)",
+  "else": "color_slot i → pairs[i] 그대로(1~10판 = 튜토리얼 색 고정, 5·6쌍 판)",
+  "candidates": {
+   "3": 20,
+   "4": 15
+  },
+  "by_level": {
+   "11": {
+    "3": [
+     2,
+     0,
+     1
+    ],
+    "4": [
+     3,
+     0,
+     1,
+     2
+    ]
+   },
+   "12": {
+    "3": [
+     0,
+     2,
+     4
+    ],
+    "4": [
+     0,
+     1,
+     4,
+     5
+    ]
+   },
+   "13": {
+    "3": [
+     2,
+     3,
+     1
+    ],
+    "4": [
+     2,
+     3,
+     4,
+     1
+    ]
+   },
+   "14": {
+    "3": [
+     5,
+     1,
+     4
+    ],
+    "4": [
+     2,
+     3,
+     0,
+     1
+    ]
+   },
+   "15": {
+    "3": [
+     0,
+     1,
+     2
+    ],
+    "4": [
+     5,
+     0,
+     1,
+     4
+    ]
+   },
+   "16": {
+    "3": [
+     2,
+     4,
+     0
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "17": {
+    "3": [
+     3,
+     1,
+     2
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     0
+    ]
+   },
+   "18": {
+    "3": [
+     1,
+     4,
+     5
+    ],
+    "4": [
+     4,
+     5,
+     0,
+     1
+    ]
+   },
+   "19": {
+    "3": [
+     1,
+     2,
+     0
+    ],
+    "4": [
+     4,
+     1,
+     2,
+     3
+    ]
+   },
+   "20": {
+    "3": [
+     4,
+     0,
+     2
+    ],
+    "4": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "21": {
+    "3": [
+     1,
+     2,
+     3
+    ],
+    "4": [
+     1,
+     4,
+     5,
+     0
+    ]
+   },
+   "22": {
+    "3": [
+     4,
+     5,
+     1
+    ],
+    "4": [
+     3,
+     4,
+     1,
+     2
+    ]
+   },
+   "23": {
+    "3": [
+     2,
+     0,
+     1
+    ],
+    "4": [
+     3,
+     0,
+     1,
+     2
+    ]
+   },
+   "24": {
+    "3": [
+     0,
+     2,
+     4
+    ],
+    "4": [
+     0,
+     1,
+     4,
+     5
+    ]
+   },
+   "25": {
+    "3": [
+     2,
+     3,
+     1
+    ],
+    "4": [
+     2,
+     3,
+     4,
+     1
+    ]
+   },
+   "26": {
+    "3": [
+     5,
+     1,
+     4
+    ],
+    "4": [
+     2,
+     3,
+     0,
+     1
+    ]
+   },
+   "27": {
+    "3": [
+     0,
+     1,
+     2
+    ],
+    "4": [
+     5,
+     0,
+     1,
+     4
+    ]
+   },
+   "28": {
+    "3": [
+     2,
+     4,
+     0
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "29": {
+    "3": [
+     3,
+     1,
+     2
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     0
+    ]
+   },
+   "30": {
+    "3": [
+     1,
+     4,
+     5
+    ],
+    "4": [
+     4,
+     5,
+     0,
+     1
+    ]
+   },
+   "31": {
+    "3": [
+     1,
+     2,
+     0
+    ],
+    "4": [
+     4,
+     1,
+     2,
+     3
+    ]
+   },
+   "32": {
+    "3": [
+     4,
+     0,
+     2
+    ],
+    "4": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "33": {
+    "3": [
+     1,
+     2,
+     3
+    ],
+    "4": [
+     1,
+     4,
+     5,
+     0
+    ]
+   },
+   "34": {
+    "3": [
+     4,
+     5,
+     1
+    ],
+    "4": [
+     3,
+     4,
+     1,
+     2
+    ]
+   },
+   "35": {
+    "3": [
+     2,
+     0,
+     1
+    ],
+    "4": [
+     3,
+     0,
+     1,
+     2
+    ]
+   },
+   "36": {
+    "3": [
+     0,
+     2,
+     4
+    ],
+    "4": [
+     0,
+     1,
+     4,
+     5
+    ]
+   },
+   "37": {
+    "3": [
+     2,
+     3,
+     1
+    ],
+    "4": [
+     2,
+     3,
+     4,
+     1
+    ]
+   },
+   "38": {
+    "3": [
+     5,
+     1,
+     4
+    ],
+    "4": [
+     2,
+     3,
+     0,
+     1
+    ]
+   },
+   "39": {
+    "3": [
+     0,
+     1,
+     2
+    ],
+    "4": [
+     5,
+     0,
+     1,
+     4
+    ]
+   },
+   "40": {
+    "3": [
+     2,
+     4,
+     0
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     4
+    ]
+   },
+   "41": {
+    "3": [
+     3,
+     1,
+     2
+    ],
+    "4": [
+     1,
+     2,
+     3,
+     0
+    ]
+   },
+   "42": {
+    "3": [
+     1,
+     4,
+     5
+    ],
+    "4": [
+     4,
+     5,
+     0,
+     1
+    ]
+   },
+   "43": {
+    "3": [
+     1,
+     2,
+     0
+    ],
+    "4": [
+     4,
+     1,
+     2,
+     3
+    ]
+   },
+   "44": {
+    "3": [
+     4,
+     0,
+     2
+    ],
+    "4": [
+     0,
+     1,
+     2,
+     3
+    ]
+   },
+   "45": {
+    "3": [
+     1,
+     2,
+     3
+    ],
+    "4": [
+     1,
+     4,
+     5,
+     0
+    ]
+   },
+   "46": {
+    "3": [
+     4,
+     5,
+     1
+    ],
+    "4": [
+     3,
+     4,
+     1,
+     2
+    ]
+   },
+   "47": {
+    "3": [
+     2,
+     0,
+     1
+    ],
+    "4": [
+     3,
+     0,
+     1,
+     2
+    ]
+   },
+   "48": {
+    "3": [
+     0,
+     2,
+     4
+    ],
+    "4": [
+     0,
+     1,
+     4,
+     5
+    ]
+   },
+   "49": {
+    "3": [
+     2,
+     3,
+     1
+    ],
+    "4": [
+     2,
+     3,
+     4,
+     1
+    ]
+   },
+   "50": {
+    "3": [
+     5,
+     1,
+     4
+    ],
+    "4": [
+     2,
+     3,
+     0,
+     1
+    ]
+   }
+  }
+ },
  "common": {
   "ink": "#262B40",
   "inkSoft": "#5B6178",
@@ -73,7 +604,7 @@
   "boardEdge": "#DCE1EE",
   "tile": "#EDF0F7",
   "tileDot": "#8B93AA",
-  "gapGlow": "#FFD36B",
+  "gapGlow": "#6F7891",
   "white": "#FFFFFF",
   "star": "#FFC233",
   "starEdge": "#8A5A00",
@@ -96,7 +627,8 @@
    "decor": {
     "shape": "arc",
     "count": 1
-   }
+   },
+   "chapter": 1
   },
   "level02": {
    "lore": "튤립 화분",
@@ -105,7 +637,8 @@
    "decor": {
     "shape": "ring",
     "count": 3
-   }
+   },
+   "chapter": 1
   },
   "level03": {
    "lore": "물놀이 해변",
@@ -114,16 +647,18 @@
    "decor": {
     "shape": "wave",
     "count": 1
-   }
+   },
+   "chapter": 1
   },
   "level04": {
    "lore": "구불구불 숲",
    "top": "#EAF6DD",
    "bottom": "#DDF1E2",
    "decor": {
-    "shape": "triangle",
+    "shape": "arc",
     "count": 2
-   }
+   },
+   "chapter": 1
   },
   "level05": {
    "lore": "과일 가게",
@@ -132,7 +667,8 @@
    "decor": {
     "shape": "ring",
     "count": 4
-   }
+   },
+   "chapter": 1
   },
   "level06": {
    "lore": "징검다리 연못",
@@ -141,25 +677,28 @@
    "decor": {
     "shape": "wave",
     "count": 2
-   }
+   },
+   "chapter": 1
   },
   "level07": {
    "lore": "큰 꽃정원",
    "top": "#EFE4FA",
    "bottom": "#FCE6F0",
    "decor": {
-    "shape": "square",
-    "count": 2
-   }
+    "shape": "wave",
+    "count": 3
+   },
+   "chapter": 1
   },
   "level08": {
    "lore": "돌담 길",
    "top": "#EFE8DF",
    "bottom": "#FBF5EA",
    "decor": {
-    "shape": "square",
+    "shape": "arc",
     "count": 3
-   }
+   },
+   "chapter": 1
   },
   "level09": {
    "lore": "무지개 들판",
@@ -168,22 +707,428 @@
    "decor": {
     "shape": "arc",
     "count": 3
-   }
+   },
+   "chapter": 1
   },
   "level10": {
    "lore": "노을 하늘",
    "top": "#FFE1CC",
    "bottom": "#ECE3F8",
    "decor": {
-    "shape": "star",
+    "shape": "ring",
     "count": 3,
     "only_on_complete": true
-   }
+   },
+   "chapter": 1
   },
   "menu": {
    "lore": "지도·결과",
    "top": "#F3EEFB",
    "bottom": "#E4EEFA"
+  },
+  "level11": {
+   "lore": "챕터 2(rain) 1",
+   "chapter": 2,
+   "top": "#F4F0DB",
+   "bottom": "#F4F4ED",
+   "decor": {
+    "shape": "arc",
+    "count": 1
+   }
+  },
+  "level12": {
+   "lore": "챕터 2(rain) 2",
+   "chapter": 2,
+   "top": "#F3E6F0",
+   "bottom": "#F4F3EF",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   }
+  },
+  "level13": {
+   "lore": "챕터 2(rain) 3",
+   "chapter": 2,
+   "top": "#DBEEFA",
+   "bottom": "#F1F0E7",
+   "decor": {
+    "shape": "wave",
+    "count": 1
+   }
+  },
+  "level14": {
+   "lore": "챕터 2(rain) 4",
+   "chapter": 2,
+   "top": "#E4F2E3",
+   "bottom": "#DBEEE7",
+   "decor": {
+    "shape": "arc",
+    "count": 2
+   }
+  },
+  "level15": {
+   "lore": "챕터 2(rain) 5",
+   "chapter": 2,
+   "top": "#F4E8DE",
+   "bottom": "#F4F2E0",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   }
+  },
+  "level16": {
+   "lore": "챕터 2(rain) 6",
+   "chapter": 2,
+   "top": "#D5EEEF",
+   "bottom": "#DFEEFA",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   }
+  },
+  "level17": {
+   "lore": "챕터 2(rain) 7",
+   "chapter": 2,
+   "top": "#E8E4FA",
+   "bottom": "#F2E6F2",
+   "decor": {
+    "shape": "wave",
+    "count": 3
+   }
+  },
+  "level18": {
+   "lore": "챕터 2(rain) 8",
+   "chapter": 2,
+   "top": "#E8E8E5",
+   "bottom": "#F1F1ED",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level19": {
+   "lore": "챕터 2(rain) 9",
+   "chapter": 2,
+   "top": "#DDEEFA",
+   "bottom": "#F3F2E0",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level20": {
+   "lore": "챕터 2(rain) 10",
+   "chapter": 2,
+   "top": "#F4E2D7",
+   "bottom": "#E6E4F8",
+   "decor": {
+    "shape": "ring",
+    "count": 3,
+    "only_on_complete": true
+   }
+  },
+  "level21": {
+   "lore": "챕터 3(autumn) 1",
+   "chapter": 3,
+   "top": "#FDEFD0",
+   "bottom": "#FDF3E2",
+   "decor": {
+    "shape": "arc",
+    "count": 1
+   }
+  },
+  "level22": {
+   "lore": "챕터 3(autumn) 2",
+   "chapter": 3,
+   "top": "#FCE5E5",
+   "bottom": "#FDF2E3",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   }
+  },
+  "level23": {
+   "lore": "챕터 3(autumn) 3",
+   "chapter": 3,
+   "top": "#E3EDEE",
+   "bottom": "#FAEFDC",
+   "decor": {
+    "shape": "wave",
+    "count": 1
+   }
+  },
+  "level24": {
+   "lore": "챕터 3(autumn) 4",
+   "chapter": 3,
+   "top": "#EDF1D8",
+   "bottom": "#E3EDDC",
+   "decor": {
+    "shape": "arc",
+    "count": 2
+   }
+  },
+  "level25": {
+   "lore": "챕터 3(autumn) 5",
+   "chapter": 3,
+   "top": "#FDE7D3",
+   "bottom": "#FDF1D4",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   }
+  },
+  "level26": {
+   "lore": "챕터 3(autumn) 6",
+   "chapter": 3,
+   "top": "#DEEDE3",
+   "bottom": "#E8EDEF",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   }
+  },
+  "level27": {
+   "lore": "챕터 3(autumn) 7",
+   "chapter": 3,
+   "top": "#F1E4EE",
+   "bottom": "#FBE5E6",
+   "decor": {
+    "shape": "wave",
+    "count": 3
+   }
+  },
+  "level28": {
+   "lore": "챕터 3(autumn) 8",
+   "chapter": 3,
+   "top": "#F1E7D9",
+   "bottom": "#FAF0E2",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level29": {
+   "lore": "챕터 3(autumn) 9",
+   "chapter": 3,
+   "top": "#E6EDEF",
+   "bottom": "#FCF1D5",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level30": {
+   "lore": "챕터 3(autumn) 10",
+   "chapter": 3,
+   "top": "#FDE1CB",
+   "bottom": "#EFE3EC",
+   "decor": {
+    "shape": "ring",
+    "count": 3,
+    "only_on_complete": true
+   }
+  },
+  "level31": {
+   "lore": "챕터 4(snow) 1",
+   "chapter": 4,
+   "top": "#F7F2DA",
+   "bottom": "#F7F6EC",
+   "decor": {
+    "shape": "arc",
+    "count": 1
+   }
+  },
+  "level32": {
+   "lore": "챕터 4(snow) 2",
+   "chapter": 4,
+   "top": "#F5E8EF",
+   "bottom": "#F7F5EE",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   }
+  },
+  "level33": {
+   "lore": "챕터 4(snow) 3",
+   "chapter": 4,
+   "top": "#DDF1F9",
+   "bottom": "#F4F2E6",
+   "decor": {
+    "shape": "wave",
+    "count": 1
+   }
+  },
+  "level34": {
+   "lore": "챕터 4(snow) 4",
+   "chapter": 4,
+   "top": "#E7F5E3",
+   "bottom": "#DDF1E6",
+   "decor": {
+    "shape": "arc",
+    "count": 2
+   }
+  },
+  "level35": {
+   "lore": "챕터 4(snow) 5",
+   "chapter": 4,
+   "top": "#F7EADD",
+   "bottom": "#F7F5DF",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   }
+  },
+  "level36": {
+   "lore": "챕터 4(snow) 6",
+   "chapter": 4,
+   "top": "#D8F0EE",
+   "bottom": "#E2F1F9",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   }
+  },
+  "level37": {
+   "lore": "챕터 4(snow) 7",
+   "chapter": 4,
+   "top": "#EBE7F9",
+   "bottom": "#F5E8F1",
+   "decor": {
+    "shape": "wave",
+    "count": 3
+   }
+  },
+  "level38": {
+   "lore": "챕터 4(snow) 8",
+   "chapter": 4,
+   "top": "#EBEAE4",
+   "bottom": "#F4F4EC",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level39": {
+   "lore": "챕터 4(snow) 9",
+   "chapter": 4,
+   "top": "#DFF0F9",
+   "bottom": "#F5F5DF",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level40": {
+   "lore": "챕터 4(snow) 10",
+   "chapter": 4,
+   "top": "#F7E5D6",
+   "bottom": "#E8E6F7",
+   "decor": {
+    "shape": "ring",
+    "count": 3,
+    "only_on_complete": true
+   }
+  },
+  "level41": {
+   "lore": "챕터 5(night) 1",
+   "chapter": 5,
+   "top": "#F8EEDB",
+   "bottom": "#F8F2ED",
+   "decor": {
+    "shape": "arc",
+    "count": 1
+   }
+  },
+  "level42": {
+   "lore": "챕터 5(night) 2",
+   "chapter": 5,
+   "top": "#F7E4F0",
+   "bottom": "#F8F1EF",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   }
+  },
+  "level43": {
+   "lore": "챕터 5(night) 3",
+   "chapter": 5,
+   "top": "#DEECF9",
+   "bottom": "#F5EEE7",
+   "decor": {
+    "shape": "wave",
+    "count": 1
+   }
+  },
+  "level44": {
+   "lore": "챕터 5(night) 4",
+   "chapter": 5,
+   "top": "#E8F0E3",
+   "bottom": "#DEECE7",
+   "decor": {
+    "shape": "arc",
+    "count": 2
+   }
+  },
+  "level45": {
+   "lore": "챕터 5(night) 5",
+   "chapter": 5,
+   "top": "#F8E5DE",
+   "bottom": "#F8F0DF",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   }
+  },
+  "level46": {
+   "lore": "챕터 5(night) 6",
+   "chapter": 5,
+   "top": "#D9EBEF",
+   "bottom": "#E3ECFA",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   }
+  },
+  "level47": {
+   "lore": "챕터 5(night) 7",
+   "chapter": 5,
+   "top": "#ECE2F9",
+   "bottom": "#F6E4F2",
+   "decor": {
+    "shape": "wave",
+    "count": 3
+   }
+  },
+  "level48": {
+   "lore": "챕터 5(night) 8",
+   "chapter": 5,
+   "top": "#ECE5E5",
+   "bottom": "#F5EFED",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level49": {
+   "lore": "챕터 5(night) 9",
+   "chapter": 5,
+   "top": "#E0EBFA",
+   "bottom": "#F7F0E0",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   }
+  },
+  "level50": {
+   "lore": "챕터 5(night) 10",
+   "chapter": 5,
+   "top": "#F8E0D6",
+   "bottom": "#EAE2F8",
+   "decor": {
+    "shape": "ring",
+    "count": 3,
+    "only_on_complete": true
+   }
   }
  },
  "derive": {

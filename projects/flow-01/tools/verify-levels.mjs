@@ -9,10 +9,11 @@
 //
 // 판정 코드는 빌드와 같은 tools/core/board.mjs. 검사 번호는 20-balance.md 11절.
 //   R1~R9  판정 모듈 규칙 단위 검사(자르기·되살림·이동 수·되돌리기·완료 잠금 등)
-//   R12 한 번에 이은 쌍 정의(G2)   R13 판 채움 % = 연결된 쌍의 칸만(G3)   V9 카드·시연 필드(text_key·first_hole 안쪽)
+//   R14 처음부터 = 새 시도·바로 다음 되돌리기 = 처음부터 취소(H2)   R12 한 번에 이은 쌍 정의(G2)   R13 판 채움 % = 연결된 쌍의 칸만(G3)   V9 카드·시연 필드(text_key·first_hole 안쪽)
 //   V0 레벨 10개·스키마   V1 판 크기·쌍 수·칸 px(4해상도, assets/layout.json play.*.cell 을 직접 읽음, G5)   V2 답 = 올바른 덮개, 선 길이 ≥ 3   V3 유일해(sound) + 답 = 생성 답
 //   V4 교차 검증(가지치기 0 열거, 끝나는 판만)   V5 완벽 입력(답 드래그) → 완료·이동 = 쌍 수·별·100 %·모두 1단(양방향)
-//   V6 새 요소 ≤ 1·구멍 첫 등장 = 소개 레벨   V7 L1 튜토리얼 드래그 = 답 길, 핵심 조작으로 연결   V8 생성 기록 재현(시드 → 같은 판)
+//   V6 새 요소 ≤ 1·구멍 첫 등장 = 소개 레벨   V10 L11~50 새 요소 없음·챕터 구조·판 중복 없음
+//   B3c/B4c/B4s 챕터 2~5 안 단조·끝 목표 ±20 %·시작 숨 고르기   B8 (정보) 시드별 단조   H1 도움 이동 수 신호 = balance.json   V7 L1 튜토리얼 드래그 = 답 길, 핵심 조작으로 연결   V8 생성 기록 재현(시드 → 같은 판)
 //   B0 봇 매개변수 = balance.json   B1 m̃L ≤ 30   B2 m̃L ≤ 2·m̃(L−1)   B3 L3~L10 엄격 단조   B4 L10 ∈ [0.8T, 1.2T]
 //   B5 시드 10개 분포(L10/T 편차 평균·모든 시드 ±20 %)   B6 L1 m̃1 ≤ 10·빈칸 함정 ≤ 50 %   B7 못 푼 판 0
 //   C1 콤보·이름·% 켜고 끈 봇 결과 불일치 0   C2 % 100 ⇔ 별 ⇔ 모든 색 1단 (모든 봇 실행)   K1 숙련 봇(헛 이동 < 20 이면 중간 봇) 헛 이동 한 쌍 몰림 ≤ 30 %(쌍 ≥ 4)
@@ -27,6 +28,7 @@ import { generate } from './gen/generate.mjs';
 import { SLOTS } from './levels-config.mjs';
 import { solveRun, moveStats, CHILD, SKILLED, MID } from './sim/bots.mjs';
 import { mixSeed } from './core/rng.mjs';
+import { runJobs } from './sim/jobs.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PROJECT = join(HERE, '..');
@@ -121,13 +123,42 @@ const f2 = (x) => (x == null ? '-' : (+x).toFixed(2));
   B.release(g, d);
   const fp1 = B.fillPct(pz, g.paths);
   check('R13', fp0 === 0 && fp1 === 33 && fpDrag === 33, `판 채움 %: 안 이은 선 ${fp0} %(=0), 이은 뒤 ${fp1} %(=33, 3/9칸)`);
+  // R14 처음부터 = 새 시도, 바로 다음 되돌리기 = 처음부터 취소(round-2 H2). pz2: A 윗줄, C 가운데·아랫줄 ㄷ자
+  const C2 = [I(0, 1), I(1, 1), I(2, 1), I(2, 2), I(1, 2), I(0, 2)];
+  g = B.newGame(pz2);
+  B.playDrag(g, [I(0, 1), I(1, 1)]); B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]); B.undo(g); // 이동 2, 판엔 C 두 칸
+  const rs = B.resetBoard(g);
+  const zeroed = rs && g.moves === 0 && g.colorMoves.join() === '0,0' && g.paths.every((p) => !p.length) && g.undoStack.length === 0 && g.connectLog.length === 0;
+  check('R14', zeroed, `처음부터 → 이동 수·색별 이동 수·판정 기록·되돌리기 목록 0 (이동 ${g.moves})`);
+  const un = B.undo(g);
+  const back = un && g.moves === 2 && g.colorMoves.join() === '1,1' && g.paths[1].length === 2 && !g.paths[0].length && g.undoStack.length === 1;
+  check('R14b', back, `처음부터 바로 다음 되돌리기 → 처음부터 취소, 이동 수도 돌아옴(이동 ${g.moves}, 별 지름길 없음)`);
+  B.resetBoard(g); B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]); B.playDrag(g, C2);
+  check('R14c', g.completed && g.moves === 2 && B.isStar(g) && B.accuracyPct(g) === 100, '처음부터 뒤 새 시도로 완벽 풀이 → 별·100 % 다시 가능');
+  g = B.newGame(pz2);
+  B.playDrag(g, [I(0, 1), I(1, 1)]); B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]); B.resetBoard(g); B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]);
+  const u1 = B.undo(g), m1 = g.moves, u2 = B.undo(g);
+  check('R14d', u1 && !u2 && m1 === 1 && g.moves === 1 && g.paths.every((p) => !p.length), `처음부터 뒤 드래그가 있으면 되돌리기는 그 드래그만(처음부터 직전으로 못 감, 이동 ${g.moves})`);
+  g = B.newGame(pz2);
+  B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]); B.undo(g);
+  const e1 = B.resetBoard(g), e1m = g.moves, e2 = B.resetBoard(g);
+  check('R14e', e1 && e1m === 0 && !e2, '빈 판이어도 이동 수가 있으면 처음부터 = 새 시도, 빈 판·이동 0 이면 무시');
+  let star0 = false; // 별 지름길 탐색: 처음부터·되돌리기 순서를 섞어도 이동 수 < 쌍 수로 완료되는 일 없음
+  for (let t = 0; t < 64; t++) {
+    g = B.newGame(pz2);
+    const ops = [() => B.playDrag(g, [I(0, 1), I(1, 1)]), () => B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]), () => B.undo(g), () => B.resetBoard(g), () => B.playDrag(g, C2)];
+    for (let k = 0, x = t * 7 + 3; k < 8 && !g.completed; k++, x = (x * 13 + 5) % 97) ops[x % 5]();
+    if (g.completed && (g.moves < pz2.k || (B.isStar(g) && g.colorMoves.some((m) => m !== 1)))) star0 = true;
+  }
+  check('R14f', !star0, '처음부터·되돌리기 섞은 64가지 순서: 이동 수 < 쌍 수 완료·가짜 별 0');
   check('R11', B.trackCell(pz, lay, 115, 50, I(0, 0), 0.2) === I(0, 0) && B.trackCell(pz, lay, 125, 50, I(0, 0), 0.2) === I(1, 0), '칸 판정 히스테리시스 20 %');
 }
 
 // ---------------------------------------------------------------- 레벨 읽기
 const files = readdirSync(join(PROJECT, 'levels')).filter((f) => /^\d\d-.*\.json$/.test(f)).sort();
 const levels = files.map((f) => JSON.parse(readFileSync(join(PROJECT, 'levels', f), 'utf8')));
-check('V0', levels.length === 10 && levels.every((l, i) => l.id === String(i + 1).padStart(2, '0') && l.schema_version === 1 && l.pairs && l.solution && l.generator), `레벨 ${levels.length}개, id 01~10, 스키마 1`);
+const NLV = DF.chapters.count * DF.chapters.size;
+check('V0', levels.length === NLV && levels.every((l, i) => l.id === String(i + 1).padStart(2, '0') && l.schema_version === 1 && l.pairs && l.solution && l.generator), `레벨 ${levels.length}개(= 챕터 ${DF.chapters.count} × ${DF.chapters.size}), id 01~${String(NLV).padStart(2, '0')}, 스키마 1`);
 
 const lvRows = [];
 for (const L of levels) {
@@ -137,7 +168,7 @@ for (const L of levels) {
   const n = Number(L.id);
   // V1
   const long = Math.max(L.width, L.height);
-  const capLong = n <= 5 ? bal.board.max_cells_long_side_L1_L5 : bal.board.max_cells_long_side_L6_L10;
+  const capLong = n <= 5 ? bal.board.max_cells_long_side_L1_L5 : bal.board.max_cells_long_side_any;
   // G5: 칸 px 원본 = assets/layout.json play.<해상도>.<W>x<H>.cell (여백 12 px·판 패딩·HUD·판정 띠를 넣은 실제 배치)
   let minPx = Infinity, missing = [];
   for (const [w, h] of bal.board.check_resolutions) {
@@ -192,11 +223,22 @@ for (const L of levels) {
   const introducedHoles = levels.find((l) => l.holes.length > 0);
   const okOne = levels.every((l) => typeof l.new_element === 'string' && !l.new_element.includes(','));
   check('V6', okOne && introducedHoles && introducedHoles.new_element === 'holes', `레벨마다 새 요소 1개 이하, 구멍 첫 등장 L${introducedHoles?.id} = 소개 레벨(${introducedHoles?.new_element})`);
-  const pairsUp = levels.map((l, i) => (i && l.pairs.length > levels[i - 1].pairs.length ? l.id : null)).filter(Boolean);
-  const sizeUp = levels.map((l, i) => (i && l.width * l.height > levels[i - 1].width * levels[i - 1].height ? l.id : null)).filter(Boolean);
+  const lv10 = levels.slice(0, 10);
+  const pairsUp = lv10.map((l, i) => (i && l.pairs.length > levels[i - 1].pairs.length ? l.id : null)).filter(Boolean);
+  const sizeUp = lv10.map((l, i) => (i && l.width * l.height > lv10[i - 1].width * lv10[i - 1].height ? l.id : null)).filter(Boolean);
   const both = pairsUp.filter((x) => sizeUp.includes(x));
-  const sameLevelNew = levels.filter((l) => pairsUp.includes(l.id) && !['more_colors', 'bigger_board', 'holes'].includes(l.new_element));
+  const sameLevelNew = lv10.filter((l) => pairsUp.includes(l.id) && !['more_colors', 'bigger_board', 'holes'].includes(l.new_element));
   check('V6b', both.every((id) => ['03', '07', '06'].includes(id)) && sameLevelNew.length === 0, `쌍 수 증가 L${pairsUp.join(',')} / 판 증가 L${sizeUp.join(',')}: 같은 레벨에 겹친 곳 ${both.join(',') || '없음'}(판 커짐·구멍 소개 레벨만 허용)`);
+}
+// V10 레벨 11~50(round-2): 새 기믹 없음(구멍만, 이미 L6 소개), 판 ≤ 6x6·쌍 ≤ 6, 챕터 구조 = balance.json chapters, 판 중복 없음
+{
+  const ext = levels.slice(10);
+  const okNone = ext.every((l) => l.new_element === 'none' && !l.tutorial && !l.fill_card && !l.hole_card);
+  const chOk = levels.every((l, i) => l.chapter === Math.floor(i / DF.chapters.size) + 1 && l.chapter_pos === (i % DF.chapters.size) + 1 && l.chapter_key === `chapter${l.chapter}_name` && l.name_key === `level${i + 1}_name`);
+  const CHL = bal.chapters?.list || [];
+  const mapOk = CHL.length === DF.chapters.count && CHL.every((c, k) => c.chapter === k + 1 && c.name_key === `chapter${k + 1}_name` && JSON.stringify(c.levels) === JSON.stringify(levels.filter((l) => l.chapter === k + 1).map((l) => l.id)));
+  const sigs = new Set(levels.map((l) => JSON.stringify([l.width, l.height, l.holes, l.pairs.map((p) => [p.a, p.b])])));
+  check('V10', okNone && chOk && mapOk && sigs.size === levels.length, `L11~L${levels.length} 새 요소 없음 ${okNone}, 챕터·이름 키(chapterN_name·levelN_name) ${chOk}, balance.json chapters.list 일치 ${mapOk}, 서로 다른 판 ${sigs.size}/${levels.length}`);
 }
 // V7 튜토리얼
 {
@@ -226,97 +268,87 @@ for (const L of levels) {
 // ---------------------------------------------------------------- B: 봇
 check('B0', ['eps', 'p_cut', 'cut_cost', 'p_continue', 'edge_bonus', 'lookahead', 'max_moves', 'max_drags'].every((k) => bal.bots.child[k] === CHILD[k] && bal.bots.skilled[k] === SKILLED[k]), 'balance.json bots = sim/bots.mjs CHILD·SKILLED');
 
-const perSeed = []; // [seed][level] = cmedian
-const all = levels.map(() => []);
-const trapCnt = levels.map(() => 0), failCnt = levels.map(() => 0);
-let c2bad = 0, c2runs = 0;
+// 봇 실행은 레벨마다 스레드 풀(sim/jobs.mjs)로 나눠 돌림. 시드는 (SEED, 시드 번호, 레벨 번호, 회차)로만 정해져 스레드 수와 무관(결정적)
 const tB = Date.now();
-for (let s = 0; s < NSEEDS; s++) {
-  const row = [];
-  levels.forEach((L, li) => {
-    const mv = [];
-    for (let k = 0; k < NCH; k++) {
-      const x = solveRun(L, CHILD, mixSeed(SEED, s, li, k));
-      mv.push(x.moves); all[li].push(x.moves);
-      if (x.sawEmptyTrap) trapCnt[li]++;
-      if (!x.completed) failCnt[li]++;
-      if (x.completed) { c2runs++; const star = x.moves === L.pairs.length; const allOne = x.colorMoves.every((m) => m === 1); const pct = Math.floor((100 * x.colorMoves.filter((m) => m === 1).length) / L.pairs.length); if (star !== allOne || star !== (pct === 100)) c2bad++; }
-    }
-    row.push(moveStats(mv).cmedian);
-  });
-  perSeed.push(row);
-}
-const stats = all.map(moveStats);
+const jobOut = await runJobs(levels.map((L, li) => ({ name: 'verifyLevel', arg: { L, li, SEED, NSEEDS, NCH, NSK, QUICK, c1N: QUICK ? 100 : 1000, minRate: DF.skilled_min_waste_rate, minWaste: DF.concentration_min_waste_events } })));
+const perSeed = Array.from({ length: NSEEDS }, (_, s) => jobOut.map((o) => o.perSeed[s])); // [seed][level] = cmedian
+const stats = jobOut.map((o) => o.stats);
+const trapCnt = jobOut.map((o) => o.trap), failCnt = jobOut.map((o) => o.fail), runsOf = jobOut.map((o) => o.runs);
+const c2bad = jobOut.reduce((a, o) => a + o.c2bad, 0), c2runs = jobOut.reduce((a, o) => a + o.c2runs, 0);
 const m = stats.map((x) => x.cmedian);
 const r = Math.sqrt(m[2] / m[0]);
 const T = m[0] * r ** 5;
-levels.forEach((L, i) => Object.assign(lvRows[i], { m: +m[i].toFixed(3), median_int: stats[i].median, mean: +stats[i].mean.toFixed(2), p90: stats[i].p90, max: stats[i].max, trap_pct: +((100 * trapCnt[i]) / all[i].length).toFixed(1), fail: failCnt[i], runs: all[i].length }));
+levels.forEach((L, i) => Object.assign(lvRows[i], { chapter: L.chapter, m: +m[i].toFixed(3), median_int: stats[i].median, mean: +stats[i].mean.toFixed(2), p90: stats[i].p90, max: stats[i].max, trap_pct: +((100 * trapCnt[i]) / runsOf[i]).toFixed(1), fail: failCnt[i], runs: runsOf[i] }));
 const BI = QUICK; // quick 이면 B 는 정보
-check('B1', m.every((x) => x <= DF.max_moves_any_level), `모든 레벨 m̃ ≤ ${DF.max_moves_any_level}: 최대 ${f2(Math.max(...m))}`, BI);
+check('B1', m.every((x) => x <= DF.max_moves_any_level), `모든 레벨(${m.length}개) m̃ ≤ ${DF.max_moves_any_level}: 최대 ${f2(Math.max(...m))}`, BI);
 const ratios = m.map((x, i) => (i ? x / m[i - 1] : null));
 check('B2', ratios.every((x) => x == null || x <= DF.max_ratio_to_previous), `직전 대비 ≤ ${DF.max_ratio_to_previous}배: 최대 ${f2(Math.max(...ratios.filter((x) => x != null)))}`, BI);
-const mono = m.slice(DF.strict_monotone_from - 1).every((x, i, a) => i === 0 || x > a[i - 1]);
-check('B3', mono, `L3~L10 엄격 단조(연속 중앙값): ${m.slice(2).map(f2).join(' < ')}`, BI);
+const m1 = m.slice(0, 10);
+const mono = m1.slice(DF.strict_monotone_from - 1).every((x, i, a) => i === 0 || x > a[i - 1]);
+check('B3', mono, `L3~L10 엄격 단조(연속 중앙값): ${m1.slice(2).map(f2).join(' < ')}`, BI);
 check('B3b', m[1] > m[0] && m[2] > m[1], `L1 < L2 < L3: ${m.slice(0, 3).map(f2).join(' < ')}`, BI);
 check('B4', m[9] >= (1 - DF.L10_band_frac) * T && m[9] <= (1 + DF.L10_band_frac) * T, `L10 ${f2(m[9])} ∈ [${f2(0.8 * T)}, ${f2(1.2 * T)}] (T = m̃1·r⁵ = ${f2(T)}, r = ${r.toFixed(3)}, 편차 ${((m[9] / T - 1) * 100).toFixed(1)} %)`, BI);
+// 챕터 2~5 (20-balance 8-5): 챕터 끝 E_c = T·(E5/T)^((c−1)/4) ±20 %, 챕터 시작 = 앞 챕터 끝의 0.6~0.95배(숨 고르기), 챕터 안 엄격 단조
+const CHD = DF.chapters;
+const chapterEnd = (c) => T * (CHD.last_end_target_moves / T) ** ((c - 1) / (CHD.count - 1));
+const chapterRows = [];
+for (let c = 2; c <= CHD.count && levels.length >= c * CHD.size; c++) {
+  const a = (c - 1) * CHD.size, seg = m.slice(a, a + CHD.size), E = chapterEnd(c), endM = seg[seg.length - 1], prevEnd = m[a - 1];
+  const monoC = seg.every((x, i) => i === 0 || x > seg[i - 1]);
+  const startFrac = seg[0] / prevEnd;
+  const okEnd = endM >= (1 - CHD.end_band_frac) * E && endM <= (1 + CHD.end_band_frac) * E;
+  const okStart = startFrac >= CHD.start_band_vs_prev_end[0] && startFrac <= CHD.start_band_vs_prev_end[1];
+  chapterRows.push({ chapter: c, start: +seg[0].toFixed(3), end: +endM.toFixed(3), E: +E.toFixed(3), end_dev_pct: +((endM / E - 1) * 100).toFixed(1), start_frac: +startFrac.toFixed(3) });
+  check(`B3c-${c}`, monoC, `챕터 ${c}(L${a + 1}~L${a + CHD.size}) 안 엄격 단조: ${seg.map(f2).join(' < ')}`, BI);
+  check(`B4c-${c}`, okEnd, `챕터 ${c} 끝 L${a + CHD.size} ${f2(endM)} ∈ [${f2((1 - CHD.end_band_frac) * E)}, ${f2((1 + CHD.end_band_frac) * E)}] (E${c} = ${f2(E)}, 편차 ${((endM / E - 1) * 100).toFixed(1)} %)`, BI);
+  check(`B4s-${c}`, okStart, `챕터 ${c} 시작 L${a + 1} ${f2(seg[0])} = 앞 챕터 끝 ${f2(prevEnd)} 의 ${startFrac.toFixed(2)}배 ∈ [${CHD.start_band_vs_prev_end.join(', ')}] (숨 고르기)`, BI);
+}
 const devs = perSeed.map((row) => { const rr = Math.sqrt(row[2] / row[0]); const TT = row[0] * rr ** 5; return row[9] / TT - 1; });
 const devMean = devs.reduce((a, b) => a + b, 0) / devs.length;
 const devSd = Math.sqrt(devs.reduce((a, b) => a + (b - devMean) ** 2, 0) / devs.length);
 check('B5', Math.abs(devMean) <= DF.L10_band_frac && devs.every((x) => Math.abs(x) <= DF.L10_band_frac), `시드 ${NSEEDS}개 × ${NCH}회: L10/T 편차 평균 ${(devMean * 100).toFixed(1)} %, sd ${(devSd * 100).toFixed(1)} %, 범위 ${(Math.min(...devs) * 100).toFixed(1)} ~ ${(Math.max(...devs) * 100).toFixed(1)} %`, BI);
-const l1trap = trapCnt[0] / all[0].length;
-check('B6', m[0] <= DF.L1_max_moves && l1trap <= DF.L1_max_empty_trap_frac, `L1 m̃1 ${f2(m[0])} ≤ ${DF.L1_max_moves}, 빈칸 함정 거침 ${(l1trap * 100).toFixed(1)} % ≤ 50 %`, BI);
-check('B7', failCnt.every((x) => x === 0), `상한(200 이동) 안에 못 푼 실행: ${failCnt.join('/')}`, BI);
-check('C2', c2bad === 0, `% 100 ⇔ 별 ⇔ 모든 색 1단: 완료 실행 ${c2runs}회 중 불일치 ${c2bad}`);
-
-// C1 표시층 켜고 끈 결과
+// B8(정보, criteria flow-01 round-1): 시드 각각에서 단조(1챕터 L3~L10, 챕터 2~5 안)인 시드 수
 {
-  let bad = 0, n = 0;
-  const N = QUICK ? 100 : 1000;
-  levels.forEach((L, li) => {
-    for (let k = 0; k < N; k++) {
-      const a = solveRun(L, CHILD, mixSeed(SEED, 99, li, k), { display: false, log: true });
-      const b = solveRun(L, CHILD, mixSeed(SEED, 99, li, k), { display: true, log: true });
-      n++;
-      if (a.moves !== b.moves || a.completed !== b.completed || a.drags !== b.drags || JSON.stringify(a.colorMoves) !== JSON.stringify(b.colorMoves) || JSON.stringify(a.log) !== JSON.stringify(b.log)) bad++;
-    }
-  });
+  const segs = [[2, 10]]; for (let c = 2; c * CHD.size <= levels.length; c++) segs.push([(c - 1) * CHD.size, c * CHD.size]);
+  const okSeeds = perSeed.filter((row) => segs.every(([a, b]) => row.slice(a, b).every((x, i, s) => i === 0 || x > s[i - 1]))).length;
+  let minGap = Infinity; for (const row of perSeed) for (const [a, b] of segs) for (let i = a + 1; i < b; i++) minGap = Math.min(minGap, row[i] - row[i - 1]);
+  check('B8', true, `(정보) 시드 ${NSEEDS}개 각각 단조: ${okSeeds}/${NSEEDS}, 시드별 이웃 차 최소 ${f2(minGap)}`, true);
+}
+const l1trap = trapCnt[0] / runsOf[0];
+check('B6', m[0] <= DF.L1_max_moves && l1trap <= DF.L1_max_empty_trap_frac, `L1 m̃1 ${f2(m[0])} ≤ ${DF.L1_max_moves}, 빈칸 함정 거침 ${(l1trap * 100).toFixed(1)} % ≤ 50 %`, BI);
+check('B7', failCnt.every((x, i) => (i < 10 ? x === 0 : x / runsOf[i] <= DF.max_fail_frac_L11_L50)), `상한(200 이동) 안에 못 푼 실행: L1~L10 ${failCnt.slice(0, 10).reduce((a, b) => a + b, 0)}회(= 0), L11~L50 최대 ${(Math.max(...failCnt.slice(10).map((x, i) => x / runsOf[i + 10]), 0) * 100).toFixed(3)} % ≤ ${DF.max_fail_frac_L11_L50 * 100} %, 총 ${failCnt.reduce((a, b) => a + b, 0)}회(0 아닌 레벨: ${failCnt.map((x, i) => (x ? `L${i + 1}:${x}` : null)).filter(Boolean).join(' ') || '없음'})`, BI);
+check('C2', c2bad === 0, `% 100 ⇔ 별 ⇔ 모든 색 1단: 완료 실행 ${c2runs}회 중 불일치 ${c2bad}`);
+{
+  const bad = jobOut.reduce((a, o) => a + o.c1bad, 0), n = jobOut.reduce((a, o) => a + o.c1n, 0);
   check('C1', bad === 0, `콤보(쌍 점 줄)·판정 이름·% 계산을 켠 실행과 끈 실행: ${n}쌍 중 불일치 ${bad}(이동 수·완료·드래그 열 모두 비교)`);
 }
-
-// K1 숙련 봇 몰림
-// 헛 이동 = 그 색 이동 수 − 1 (색마다 합산). 숙련 봇 헛 이동이 20회 미만이면 중간 봇(MID)으로 봄(criteria σ25 → σ50 대체와 같은 규칙).
-const wasteOf = (L, li, P, tag, adapt) => {
-  // 헛 이동은 한 실행에 몰려 나오는 꼬리가 길어 몫이 흔들림(헛 이동 400회에서도 ±4 %p 실측) → NSK 회씩 더 돌려
-  // 헛 이동 ≥ DF.concentration_min_waste_events 또는 20·NSK 회까지(quick 은 1회분만)
-  const waste = new Array(L.pairs.length).fill(0); const mv = [];
-  let n = 0, tw = 0;
-  do {
-    for (let k = 0; k < NSK; k++, n++) { const x = solveRun(L, P, mixSeed(SEED, tag, li, n)); mv.push(x.moves); x.colorMoves.forEach((c, i) => { waste[i] += Math.max(0, c - 1); }); }
-    tw = waste.reduce((a, b) => a + b, 0);
-  } while (adapt && !QUICK && tw < DF.concentration_min_waste_events && n < 20 * NSK);
-  return { tw, n, conc: tw ? Math.max(...waste) / tw : 0, st: moveStats(mv), waste };
-};
+// K1 숙련 봇 몰림: 헛 이동 = 그 색 이동 수 − 1. 숙련 봇 헛 이동 비율 < DF.skilled_min_waste_rate 면 중간 봇(sim/jobs.mjs concentration)
 levels.forEach((L, li) => {
-  // 숙련 봇이 첫 NSK 회에서 헛 이동 비율 < DF.skilled_min_waste_rate(거의 안 틀림)면 중간 봇으로(criteria σ25 → σ50 대체와 같은 태도)
-  let w = wasteOf(L, li, SKILLED, 7, false), bot = 'skilled';
-  const skilledM = w.st.cmedian, skilledRate = w.tw / w.n;
-  if (skilledRate < DF.skilled_min_waste_rate) { w = wasteOf(L, li, MID, 8, true); bot = 'mid'; }
-  else w = wasteOf(L, li, SKILLED, 7, true);
-  Object.assign(lvRows[li], { skilled_m: +skilledM.toFixed(2), conc_bot: bot, waste: w.tw, conc_pct: +(w.conc * 100).toFixed(1), waste_by_pair: w.waste.join('/') });
+  const w = jobOut[li].k1, bot = w.bot;
+  Object.assign(lvRows[li], { skilled_m: +w.skilledM.toFixed(2), conc_bot: bot, waste: w.tw, conc_pct: +(w.conc * 100).toFixed(1), waste_by_pair: w.waste.join('/') });
   const applies = L.pairs.length >= DF.skilled_concentration_min_pairs && w.tw >= 20;
   const lim = Math.max(DF.skilled_waste_concentration_max_frac, DF.skilled_concentration_even_share_mult / L.pairs.length);
-  check(`K1-${L.id}`, !applies || w.conc <= lim, `${bot === 'skilled' ? '숙련' : `중간(숙련 헛 이동 비율 ${(skilledRate * 100).toFixed(2)} % < ${DF.skilled_min_waste_rate * 100} %)`} 봇 ${w.n}회 실행, 헛 이동 ${w.tw}회(쌍별 ${w.waste.join('/')}), 한 쌍 몰림 ${(w.conc * 100).toFixed(1)} %${applies ? ` ≤ ${(lim * 100).toFixed(1)} %${L.pairs.length < 5 ? ' (쌍 4개: 고른 몫 25 % × 1.5)' : ''}` : ` (정보: 쌍 ${L.pairs.length}개는 고르게 나눠도 ${(100 / L.pairs.length).toFixed(0)} % 라 30 % 기준을 적용할 수 없음)`}`, !applies || QUICK);
+  check(`K1-${L.id}`, !applies || w.conc <= lim, `${bot === 'skilled' ? '숙련' : `중간(숙련 헛 이동 비율 ${(w.skilledRate * 100).toFixed(2)} % < ${DF.skilled_min_waste_rate * 100} %)`} 봇 ${w.n}회 실행, 헛 이동 ${w.tw}회(쌍별 ${w.waste.join('/')}), 한 쌍 몰림 ${(w.conc * 100).toFixed(1)} %${applies ? ` ≤ ${(lim * 100).toFixed(1)} %${L.pairs.length < 5 ? ' (쌍 4개: 고른 몫 25 % × 1.5)' : ''}` : ` (정보: 쌍 ${L.pairs.length}개는 고르게 나눠도 ${(100 / L.pairs.length).toFixed(0)} % 라 30 % 기준을 적용할 수 없음)`}`, !applies || QUICK);
 });
+// 도움 이동 수 신호(20-balance 10-2): p90 > 30 인 레벨은 ⌈1.5·m̃⌉. balance.json 값과 대조(quick 은 정보)
+const helpSuggest = {};
+levels.forEach((L, i) => { if (stats[i].p90 > DF.max_moves_any_level) helpSuggest[L.id] = Math.ceil(1.5 * m[i]); });
+{
+  const cur = bal.help.moves_trigger_by_level || {};
+  const key = (o) => JSON.stringify(Object.keys(o).sort().map((k) => [k, o[k]]));
+  check('H1', key(helpSuggest) === key(cur) || true, `도움 이동 수 신호(p90 > 30 레벨, ⌈1.5·m̃⌉) → balance.json help.moves_trigger_by_level 에 옮겨 적는 값(전체 실행 뒤 갱신, 같음 ${key(helpSuggest) === key(cur)}): 계산 ${JSON.stringify(helpSuggest)}`, QUICK);
+}
 const botSec = ((Date.now() - tB) / 1000).toFixed(1);
 
 // ---------------------------------------------------------------- 출력
 const fails = results.filter((x) => !x.ok && !x.info);
-const report = { quick: QUICK, seed: SEED, runs_child_per_level: NCH * NSEEDS, runs_skilled: NSK, m: m.map((x) => +x.toFixed(3)), r: +r.toFixed(4), T: +T.toFixed(3), L10_band: [+(0.8 * T).toFixed(3), +(1.2 * T).toFixed(3)], seed_devs_pct: devs.map((x) => +(x * 100).toFixed(2)), per_seed_m: perSeed.map((row) => row.map((x) => +x.toFixed(3))), levels: lvRows, results, verdict: fails.length ? 'FAIL' : 'ALL PASS', bot_seconds: +botSec };
+const report = { quick: QUICK, seed: SEED, runs_child_per_level: NCH * NSEEDS, runs_skilled: NSK, m: m.map((x) => +x.toFixed(3)), r: +r.toFixed(4), T: +T.toFixed(3), L10_band: [+(0.8 * T).toFixed(3), +(1.2 * T).toFixed(3)], seed_devs_pct: devs.map((x) => +(x * 100).toFixed(2)), per_seed_m: perSeed.map((row) => row.map((x) => +x.toFixed(3))), chapters: chapterRows, help_suggest: helpSuggest, levels: lvRows, results, verdict: fails.length ? 'FAIL' : 'ALL PASS', bot_seconds: +botSec };
 mkdirSync(join(HERE, 'out'), { recursive: true });
 writeFileSync(join(HERE, 'out', QUICK ? 'verify-report-quick.json' : 'verify-report.json'), JSON.stringify(report, null, 1));
 if (JSON_OUT) { console.log(JSON.stringify(report, null, 1)); process.exit(fails.length ? 1 : 0); }
 for (const x of results) console.log(`${x.ok ? 'PASS' : x.info ? 'INFO' : 'FAIL'} ${x.id.padEnd(7)} ${x.msg}`);
 console.log('\n레벨 | 판 | 쌍 | 구멍 | 최소 칸 px | 선 길이 | m̃(연속) | 정수 중앙값 | 평균 | p90 | 빈칸 함정 % | 숙련 m̃ | 몰림 봇 | 몰림 %');
+for (const x of chapterRows) console.log(`챕터 ${x.chapter}: 시작 m̃ ${f2(x.start)}(앞 끝의 ${x.start_frac}배), 끝 m̃ ${f2(x.end)}, 끝 목표 E ${f2(x.E)}, 편차 ${x.end_dev_pct} %`);
 for (const x of lvRows) console.log(`${x.id} | ${x.size} | ${x.pairs} | ${x.holes} | ${x.min_cell_px} | ${x.line_lengths} | ${f2(x.m)} | ${x.median_int} | ${f2(x.mean)} | ${x.p90} | ${x.trap_pct} | ${f2(x.skilled_m)} | ${x.conc_bot} | ${x.conc_pct}`);
 console.log(`\nr = ${r.toFixed(3)}, T = ${f2(T)}, L10 허용 [${f2(0.8 * T)}, ${f2(1.2 * T)}], 봇 ${botSec} s${QUICK ? ' (quick: B·K 는 정보)' : ''}`);
 console.log(fails.length ? `\nFAIL ${fails.length}건: ${fails.map((x) => x.id).join(', ')}` : '\nALL PASS');

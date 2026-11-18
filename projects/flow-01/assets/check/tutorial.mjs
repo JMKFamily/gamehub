@@ -6,14 +6,16 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MARKS, MARK_STROKE_UNIT, FINGER } from './shapes.mjs';
+import { MARKS, MARK_STROKE_UNIT, FINGER, STAR } from './shapes.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const A = resolve(HERE, '..'), ROOT = resolve(A, '..');
 const PAL = JSON.parse(readFileSync(join(A, 'palette.json'), 'utf8'));
 const C = PAL.common, PAIRS = PAL.pairs;
-const LINE = 0.60, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22, PAD = 0.06, BOARD_R = 0.30, TILE_DOT = 0.07;
-const CUT_FADE = 0.12; // 잘라 보기: 잘린 쪽으로 판이 이만큼(칸) 더 이어지다 바탕으로 흐려짐(둘레 선 없음)
+const LINE = 0.48, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22, PAD = 0.06, BOARD_R = 0.30, TILE_DOT = 0.07;
+const CUT_FADE = 0.08; // 잘라 보기: 잘린 쪽으로 판이 이만큼(칸) 더 이어지다 옅어짐(둘레 선 없음). r2: 0.12 → 0.08, 그라디언트 → 단색 덮개(그리기 비용↓)
+export const CARD_CELL = 68; // 카드(480x320) 속 칸. r2 S20: 72 → 68(좌우 여백 대칭, 오른쪽 창이 카드 끝에 붙지 않게). layout.mjs 카드 표지 검사가 읽음
+const GHOST_ALPHA = 0.55, FINGER_LAG = 0.2; // r2 S21: 시연 유령 선 = 쌍 색 × 0.55(굵기 0.6배), 손가락 끝은 선 머리보다 0.2칸 뒤
 const f = (n) => +(+n).toFixed(2);
 const key = ([x, y]) => x + ',' + y;
 
@@ -42,6 +44,7 @@ function drawBoard(lv, ox, oy, cell, win, state = {}, uid = 'b') {
   let s = `<clipPath id="${clip}"><rect x="${f(ox - 1)}" y="${f(oy - 1)}" width="${f(bw + 2)}" height="${f(bh + 2)}" rx="${f(cell * BOARD_R + 1)}"/></clipPath>`;
   s += `<rect x="${f(ox)}" y="${f(oy)}" width="${f(bw)}" height="${f(bh)}" rx="${f(cell * BOARD_R)}" fill="${C.board}" stroke="${C.boardEdge}" stroke-width="1.5"/>`;
   s += `<g clip-path="url(#${clip})">`;
+  const inWin = ([x, y]) => x >= win.x0 && x < win.x0 + win.w && y >= win.y0 && y < win.y0 + win.h;
   const T = new Map(); for (const [id, cells] of Object.entries(state.tint || {})) for (const c of cells) T.set(key(c), slotOf(lv, id));
   const G = new Set((state.glow || []).map(key));
   for (let y = vy0; y <= vy1; y++) for (let x = vx0; x <= vx1; x++) {
@@ -59,17 +62,16 @@ function drawBoard(lv, ox, oy, cell, win, state = {}, uid = 'b') {
   }
   const poly = (cells, color, w) => `<polyline points="${cells.map(([x, y]) => `${f(cx(x))},${f(cy(y))}`).join(' ')}" fill="none" stroke="${color}" stroke-width="${f(w)}" stroke-linecap="round" stroke-linejoin="round"/>`;
   for (const [id, cells] of Object.entries(state.lines || {})) s += poly(cells, PAIRS[slotOf(lv, id)].hex, cell * LINE);
-  if (state.ghost && state.ghost.cells.length > 1) s += poly(state.ghost.cells, PAIRS[slotOf(lv, state.ghost.id)].tint, cell * LINE * 0.6);
+  if (state.ghost && state.ghost.cells.length > 1) s += poly(state.ghost.cells, PAIRS[slotOf(lv, state.ghost.id)].hex, cell * LINE * 0.6).replace('/>', ` opacity="${GHOST_ALPHA}"/>`);
   const vis = ([x, y]) => x >= vx0 && x <= vx1 && y >= vy0 && y <= vy1;
-  for (const p of lv.pairs) for (const e of [p.a, p.b]) if (vis(e)) s += dot(cx(e[0]), cy(e[1]), cell, p.color_slot, state.connected?.has(p.id));
+  for (const p of lv.pairs) for (const e of [p.a, p.b]) if (vis(e) && inWin(e)) s += dot(cx(e[0]), cy(e[1]), cell, p.color_slot, state.connected?.has(p.id));
   s += '</g>';
-  // 잘린 쪽 흐려짐(바탕색으로)
+  // 잘린 쪽(창 밖 연장부): 점은 그리지 않고(반쪽 점 없음, r2 S20), 바탕색 단색 덮개 0.55로 옅게 — 그라디언트 없음
   for (const side of ['l', 't', 'r', 'b']) {
     if (real[side]) continue;
-    const gid = `${uid}f${side}`, d = CUT_FADE * cell + 2;
-    const [x1, y1, x2, y2] = { l: [1, 0, 0, 0], r: [0, 0, 1, 0], t: [0, 1, 0, 0], b: [0, 0, 0, 1] }[side];
-    const r = { l: [ox - 2, oy - 2, d, bh + 4], r: [ox + bw - d + 2, oy - 2, d, bh + 4], t: [ox - 2, oy - 2, bw + 4, d], b: [ox - 2, oy + bh - d + 2, bw + 4, d] }[side];
-    s += `<linearGradient id="${gid}" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"><stop offset="0" stop-color="${bgc}" stop-opacity="0"/><stop offset="1" stop-color="${bgc}"/></linearGradient><rect x="${f(r[0])}" y="${f(r[1])}" width="${f(r[2])}" height="${f(r[3])}" fill="url(#${gid})"/>`;
+    const d = CUT_FADE * cell + 1;
+    const r = { l: [ox - 1, oy - 1, d, bh + 2], r: [ox + bw - d + 1, oy - 1, d, bh + 2], t: [ox - 1, oy - 1, bw + 2, d], b: [ox - 1, oy + bh - d + 1, bw + 2, d] }[side];
+    s += `<rect x="${f(r[0])}" y="${f(r[1])}" width="${f(r[2])}" height="${f(r[3])}" fill="${bgc}" opacity="0.55"/>`;
   }
   return { s, cx, cy, w: bw, h: bh };
 }
@@ -81,8 +83,22 @@ function dot(x, y, cell, slot, ring) {
 }
 const finger = (x, y, scale, flip) => `<path d="${FINGER.path}" transform="translate(${f(x)} ${f(y)}) scale(${flip ? -scale : scale} ${scale})" fill="${C.finger}" stroke="${C.fingerEdge}" stroke-width="${FINGER.stroke_unit}" stroke-linejoin="round"/>`;
 const sparkle = (x, y, r) => `<path d="M${x} ${y - r} Q${x} ${y} ${x + r} ${y} Q${x} ${y} ${x} ${y + r} Q${x} ${y} ${x - r} ${y} Q${x} ${y} ${x} ${y - r} Z" fill="${C.star}" stroke="${C.starEdge}" stroke-width="1"/>`;
-const chevron = (x, y, h) => `<path d="M${f(x)} ${f(y - h / 2)} L${f(x + h * 0.5)} ${f(y)} L${f(x)} ${f(y + h / 2)}" fill="none" stroke="${C.inkSoft}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`;
+const chevron = (x, y, h) => `<path d="M${f(x - h * 0.25)} ${f(y - h / 2)} L${f(x + h * 0.25)} ${f(y)} L${f(x - h * 0.25)} ${f(y + h / 2)}" fill="none" stroke="${C.inkSoft}" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
 const svg = (w, h, body) => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">${body}</svg>\n`;
+// r2 S20·S29 카드 그림(480x320): 좌우 여백 대칭·세로 가운데, 왼쪽 = 전(중립), 오른쪽 = 후(테두리 pathDone 3 px + 위 별 표지 + 칠한 칸 위 반짝임 1개), 큰 꺾쇠.
+// 카드 바탕 둥근 모서리·둘레·글 띠는 빌드의 카드 상자가 그림(layout.json play.*.card). 이 SVG 바탕은 모서리·테두리 없는 단색.
+function composeCard(lv, win, stL, stR, uid) {
+  const c = CARD_CELL, probe = drawBoard(lv, 0, 0, c, win, stL, uid + 'p'), gap = 36;
+  const m = (480 - 2 * probe.w - gap) / 2, oy = (320 - probe.h) / 2 + 8;
+  const L = drawBoard(lv, m, oy, c, win, stL, uid + 'l'), rx = 480 - m - probe.w, R2 = drawBoard(lv, rx, oy, c, win, stR, uid + 'r');
+  const Rs = R2.s.replace(`stroke="${C.boardEdge}" stroke-width="1.5"/>`, `stroke="${C.pathDone}" stroke-width="3"/>`);
+  let body = `<rect width="480" height="320" fill="${themeOf(lv).top}"/>` + L.s + Rs + chevron(m + L.w + gap / 2, oy + L.h / 2, 28);
+  body += `<path d="${STAR}" transform="translate(${f(rx + R2.w - 14)} ${f(oy - 14)}) scale(12)" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.11" stroke-linejoin="round"/>`;
+  const ends = new Set(lv.pairs.flatMap((p) => [key(p.a), key(p.b)]));
+  const cand = Object.values(stR.tint || {}).flat().find(([x, y]) => !ends.has(key([x, y])) && x >= win.x0 && x < win.x0 + win.w && y >= win.y0 && y < win.y0 + win.h);
+  if (cand) body += sparkle(f(R2.cx(cand[0])), f(R2.cy(cand[1])), f(c * 0.2));
+  return { body, margin: f(m) };
+}
 const allSolved = (lv) => ({ lines: Object.fromEntries(lv.solution.map((s) => [s.id, s.path])), tint: Object.fromEntries(lv.solution.map((s) => [s.id, s.path])), connected: new Set(lv.pairs.map((p) => p.id)) });
 
 // 3x3(판이 작으면 판 크기) 창: 초점 칸을 모두 담고, 초점 가운데가 창 가운데에 가장 가까운 창
@@ -130,7 +146,8 @@ export function buildAll(levels) {
       const b = drawBoard(demoLv, ox, oy, cell, win, st, `s${fi}`);
       let s = b.s; const at = path[upto - 1];
       if (done) { const col = PAIRS[slotOf(demoLv, t.demo_pair)].hex; for (let k = 0; k < 8; k++) { const a = (k * Math.PI) / 4; s += `<circle cx="${f(b.cx(at[0]) + Math.cos(a) * cell * 0.75)}" cy="${f(b.cy(at[1]) + Math.sin(a) * cell * 0.75)}" r="${f(cell * 0.06)}" fill="${col}"/>`; } }
-      else s += (fi === 0 ? `<circle cx="${f(b.cx(at[0]))}" cy="${f(b.cy(at[1]))}" r="${f(cell * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="2.5" opacity="0.4"/>` : '') + finger(b.cx(at[0]), b.cy(at[1]), cell, flip);
+      else { const pv = path[Math.max(0, upto - 2)], dx = Math.sign(at[0] - pv[0]) * FINGER_LAG * cell, dy = Math.sign(at[1] - pv[1]) * FINGER_LAG * cell;
+        s += (fi === 0 ? `<circle cx="${f(b.cx(at[0]))}" cy="${f(b.cy(at[1]))}" r="${f(cell * 0.5)}" fill="none" stroke="${C.ink}" stroke-width="2.5" opacity="0.4"/>` : '') + finger(b.cx(at[0]) - dx, b.cy(at[1]) - dy, cell, flip); }
       body += s; if (fi < 2) body += chevron(ox + b.w + 14, oy + b.h / 2, 18);
     });
     files['tutorial/tut-l1-demo-storyboard.svg'] = svg(f(fw), f(fh), body);
@@ -144,10 +161,8 @@ export function buildAll(levels) {
       const win = pickWindow(fillLv, [...fillLv.fill_card.empty_cells, pr.a, pr.b]); info.fill.window = win;
       const others = fillLv.solution.filter((s) => s.id !== tr.pair);
       const trapLines = Object.fromEntries([...others.map((s) => [s.id, s.path]), [tr.pair, tr.short]]);
-      const L = drawBoard(fillLv, 2, 46, 72, win, { lines: trapLines, tint: trapLines, connected: new Set(fillLv.pairs.map((p) => p.id)), glow: tr.left }, 'fl');
-      const rx = 478 - L.w, R2 = drawBoard(fillLv, rx, 46, 72, win, allSolved(fillLv), 'fr');
-      let body = `<rect width="480" height="320" rx="28" fill="${themeOf(fillLv).top}"/>` + L.s + R2.s + chevron((2 + L.w + rx) / 2 - 4, 46 + L.h / 2, 16);
-      for (const [x, y, r] of [[rx + R2.w - 4, 34, 11], [rx + 12, 46 + R2.h + 16, 8]]) body += sparkle(f(x), f(y), r);
+      const cc = composeCard(fillLv, win, { lines: trapLines, tint: trapLines, connected: new Set(fillLv.pairs.map((p) => p.id)), glow: tr.left }, allSolved(fillLv), 'f'); info.fill.margin = cc.margin;
+      const body = cc.body;
       files['tutorial/card-fill.svg'] = svg(480, 320, body);
     }
   }
@@ -156,11 +171,8 @@ export function buildAll(levels) {
     const h0 = holeLv.hole_card.first_hole, win = pickWindow(holeLv, [h0]);
     const interior = h0[0] > 0 && h0[1] > 0 && h0[0] < holeLv.width - 1 && h0[1] < holeLv.height - 1;
     info.hole = { level: holeLv.order, first_hole: h0, interior, window: win };
-    const L = drawBoard(holeLv, 2, 46, 72, win, {}, 'hl');
-    const tmp = drawBoard(holeLv, 0, 46, 72, win, allSolved(holeLv), 'hr'), rx = 478 - tmp.w;
-    const R2 = drawBoard(holeLv, rx, 46, 72, win, allSolved(holeLv), 'hr');
-    let body = `<rect width="480" height="320" rx="28" fill="${themeOf(holeLv).top}"/>` + L.s + R2.s + chevron((2 + L.w + rx) / 2 - 4, 46 + L.h / 2, 16);
-    for (const [x, y, r] of [[rx + R2.w - 4, 34, 11], [rx + 12, 46 + R2.h + 16, 8]]) body += sparkle(f(x), f(y), r);
+    const cc = composeCard(holeLv, win, {}, allSolved(holeLv), 'h'); info.hole.margin = cc.margin;
+    const body = cc.body;
     files['tutorial/card-hole.svg'] = svg(480, 320, body);
   }
   // 구멍 있는 레벨 판 그림(외곽선 파내기 규칙 확인용 목업, 정답 상태)
@@ -208,6 +220,8 @@ if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/').replace(/
   if (args.includes('--write')) for (const [p, s] of Object.entries(files)) { mkdirSync(dirname(join(A, p)), { recursive: true }); writeFileSync(join(A, p), s); }
   const out = checkData(levels, info);
   for (const [p, s] of Object.entries(files)) if (!existsSync(join(A, p)) || readFileSync(join(A, p), 'utf8') !== s) out.push(`FAIL ${p} 가 지금 레벨 데이터로 만든 그림과 다름 (node assets/check/tutorial.mjs --write)`);
+  for (const [n, m] of [['card-fill', info.fill?.margin], ['card-hole', info.hole?.margin]]) if (!(m >= 8)) out.push(`FAIL ${n} 좌우 여백 ${m} < 8 (창이 카드 끝에 붙음, r2 S20)`);
+  for (const [p, s] of Object.entries(files)) if (/Gradient/.test(s)) out.push(`FAIL ${p} 그라디언트 사용 (r2 성능: 단색만)`);
   for (const n of ['tutorial/tut-l1-demo-storyboard.svg', 'tutorial/card-fill.svg', 'tutorial/card-hole.svg']) if (!files[n]) out.push(`FAIL ${n} 를 만들 레벨 데이터 없음`);
   console.log(`시연 L${info.demo?.level} ${info.demo?.pair} ${JSON.stringify(info.demo?.path)}${info.demo?.flip ? ' (손 뒤집음)' : ''}`);
   if (info.fill) console.log(`빈칸 카드 L${info.fill.level} 쌍 ${info.fill.pair} 짧은 길 ${JSON.stringify(info.fill.short)} → 남는 칸 ${JSON.stringify(info.fill.left)} 창 x${info.fill.window?.x0}~${info.fill.window?.x0 + info.fill.window?.w - 1} y${info.fill.window?.y0}~${info.fill.window?.y0 + info.fill.window?.h - 1}`);

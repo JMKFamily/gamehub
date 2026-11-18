@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // levels/*.json 만들기: levels-config.mjs 자리 설정 + tools/levels-picks.json 의 고른 후보 번호 → 생성기 재실행(결정적).
-// 사용법: node tools/build-levels.mjs
+// 사용법: node tools/build-levels.mjs   (레벨 1~50: 1~10 = levels-picks.json, 11~50 = levels-ext.json)
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, unlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,8 +17,9 @@ mkdirSync(LV, { recursive: true });
 for (const f of readdirSync(LV)) if (/^\d\d-.*\.json$/.test(f)) unlinkSync(join(LV, f));
 
 for (const slot of SLOTS) {
-  const pick = picks.slots[slot.id];
-  const seed = SEED_BASE(slot.id) + pick.index;
+  const pick = slot.seed != null ? { index: null } : picks.slots[slot.id];
+  const seed = slot.seed != null ? slot.seed : SEED_BASE(slot.id) + pick.index; // 11~50: levels-ext.json 시드(판 가족 후보 풀)
+  const n = Number(slot.id), chapter = slot.chapter || Math.ceil(n / 10), chapter_pos = slot.chapter_pos || ((n - 1) % 10) + 1;
   const g = generate(slot, seed);
   if (!g) throw new Error(`slot ${slot.id}: 생성 실패`);
   const L = g.level;
@@ -43,8 +44,9 @@ for (const slot of SLOTS) {
   const level = {
     schema_version: 1,
     id: slot.id,
-    order: Number(slot.id),
-    name_key: `level${Number(slot.id)}_name`,
+    order: n,
+    chapter, chapter_pos, chapter_key: `chapter${chapter}_name`,
+    name_key: `level${n}_name`,
     width: L.width, height: L.height, holes: L.holes,
     pairs: L.pairs, solution: L.solution,
     new_element: slot.new_element, new_element_ko: slot.new_element_ko,
@@ -52,7 +54,7 @@ for (const slot of SLOTS) {
     fill_card,
     hole_card,
     structure: { ...structureMetrics(L), shortest_trap_combos: shortestTrap(L).trapCombos, solver_nodes: sol.nodes },
-    generator: { version: GEN_VERSION, core_version: CORE_VERSION, seed, candidate_index: pick.index, attempts: g.attempts, params: { width: slot.width, height: slot.height, pairs: slot.pairs, holes: slot.holes, minLen: 3, allowSelfAdjacent: !!slot.allowSelfAdjacent }, independent_note: '원작 판을 보지 않고 시드 생성. 같은 시드·생성기 버전이면 같은 판' },
+    generator: { version: GEN_VERSION, core_version: CORE_VERSION, seed, candidate_index: pick.index, family: slot.family || slot.id, attempts: g.attempts, params: { width: slot.width, height: slot.height, pairs: slot.pairs, holes: slot.holes, minLen: 3, allowSelfAdjacent: !!slot.allowSelfAdjacent }, independent_note: '원작 판을 보지 않고 시드 생성. 같은 시드·생성기 버전이면 같은 판' },
   };
   const file = `${slot.id}-level${Number(slot.id)}.json`;
   writeFileSync(join(LV, file), JSON.stringify(level, null, 1) + '\n');

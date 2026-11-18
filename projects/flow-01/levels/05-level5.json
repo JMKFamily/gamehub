@@ -2,6 +2,9 @@
  "schema_version": 1,
  "id": "05",
  "order": 5,
+ "chapter": 1,
+ "chapter_pos": 5,
+ "chapter_key": "chapter1_name",
  "name_key": "level5_name",
  "width": 5,
  "height": 5,
@@ -217,9 +220,10 @@
  },
  "generator": {
   "version": "gen-1.0.0",
-  "core_version": "1.1.0",
+  "core_version": "1.2.0",
   "seed": 5000194,
   "candidate_index": 194,
+  "family": "05",
   "attempts": 62,
   "params": {
    "width": 5,

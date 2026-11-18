@@ -2,6 +2,7 @@
 
 - 작성: 2026-11-17, lore-writer, 단계 1-1 (balance-designer·art-director와 병렬)
 - 수정: 2026-11-18, 단계 1-2 2차 — 오케스트레이터 F4·F5(1-1)·G1~G7(1-2) 반영, 처리표 `reviews/plan-1-2/lore-writer-response.md`.
+- 수정: 2026-11-18, round-2 기획 수정 — 결정 H2·H3·H4, score.md S5·S9·S14·S25·S26(E4). 처리표 `reviews/round-1/lore-writer-r2-plan.md`.
 - 입력: `00-benchmark.md`(0·10·12·13·16-2절 중심), `Docs/orchestrator/2026-11-17-1-0-kickoff.md`(공통 지시 1~10), `harness/criteria.md`(세계관·텍스트, 대상 연령, 게임 감각 마지막 두 줄), `harness/insights.md`, `harness/benchmarks/djmax-judgement.md` 7-3절. 구조 참고(읽기만): `projects/rhythm-02/10-lore.md`.
 - 원본 보호: 원작(선 잇기 판 채우기 퍼즐 앱)과 참고 모던 게임 4개(00-benchmark 10-1 R1~R4)의 이름·캐릭터·설정·문구를 쓰지 않았습니다. 이 문서의 이름·문구는 모두 새로 만든 것이고, 시스템 UI 문구 몇 개(`tap_to_start`·`loading` 등)만 허브 공통 UX로 일부러 다른 GameHub 게임과 같게 둡니다(10절).
 - 소유권: 판 크기·쌍 수·이동 수 정의·연출 시간 같은 **수치는 `20-balance.md`·`balance.json`·`levels/`**, 색·모양·연출·소리·아이콘은 **`30-art.md`**가 기준입니다. 이 문서는 숫자를 정하지 않습니다.
@@ -64,7 +65,7 @@
 | 등급 (데이터) | 뜻 (1-0 G1) | 키 | KR | EN | 이유 |
 |---|---|---|---|---|---|
 | 1단 | 그 색을 한 번에 이음 | `judge_1_name` | **최고야** | **Wow!** | 가장 큰 칭찬. 별(100 %)로 가는 연결 |
-| 2단 | 두 번째에 이음 | `judge_2_name` | **멋져** | **Nice** | 고쳐 그린 것도 멋진 일 |
+| 2단 | 두 번째에 이음 | `judge_2_name` | **멋져** | **Nice!** | 고쳐 그린 것도 멋진 일 |
 | 3단 | 세 번 이상 만에 이음 | `judge_3_name` | **해냈어** | **Yay!** | 퍼즐에서 3단은 "끈기"의 결과라, 끝까지 해낸 것을 칭찬하는 말. 시험 말투("통과")·아쉬움 말투 없음 |
 
 - 길이: 한국어 2~3자, 영어 2~4자 + 느낌표(djmax 7-3). 리듬 세 게임의 "딱이야/좋아/됐어"와 한국어가 겹치지 않아 이 게임 소리가 따로 납니다(영어 Wow!/Nice는 허브 공통 칭찬으로 같아도 됨, 요청자 "겹침 허용").
@@ -81,7 +82,7 @@
 
 | 상황 | 표시 | 이유 |
 |---|---|---|
-| 잘림(다른 색 선이 끊김)·막힘(다른 색 점)·연결 풀림(되돌아가기·되돌리기·처음부터) | 이름 없음, 글 없음 | 실패처럼 보이는 순간에 말을 붙이지 않음(콤보 끊김 무음 원칙) |
+| 잘림(다른 색 선이 끊김)·막힘(다른 색 점)·연결 풀림(되돌아가기·되돌리기·처음부터) | 이름 없음, 글 없음. 막힘은 round-2 H4로 짧고 낮은 "툭" + 작은 튕겨 나옴(그림·소리만, 대체 글·낭독 없음, 8절 14) | 실패처럼 보이는 순간에 말을 붙이지 않음(콤보 끊김 무음 원칙) |
 | 다 이었는데 빈칸 남음 | 판정 이름 없음. 빈칸 숨 쉬기 그림이 먼저·주 신호, `gap_left`는 대체 글(live, 사건마다 1번) + **3번째 숨 쉬기에서만** 판 밖 글 자리(`board_text`)의 작은 보조 글(G6). 판정 이름이 오면 그 프레임에 보조 글을 숨김 | 이건 판정이 아니라 "아직"이라는 안내. 그림을 두 번 본 뒤에만 글 |
 | 판을 완성한 **마지막** 연결 | 이름은 뜨되 판 완료 연출 시작 뒤 30-art 4-3·`layout.json motion.complete` 시간(완료 +150 ms부터 150 ms)에 흐려짐(겹쳐 쌓지 않음) | 완료 축하가 주인공. 이름이 완료 연출 위에 남으면 화면이 복잡 |
 | 도움 버튼의 손가락 시연(정답 선 하나 보여 주기) | 이름 없음 | 아이가 한 연결이 아님 |
@@ -93,10 +94,11 @@
 ### 6-4. 콤보(쌍 점 줄)와 퍼센트
 
 - 쌍 점 줄(1-0 C1): 화면 글 없음. 대체 글 `aria_pairs` "이은 색 수 / Colors joined", `role="meter"`, `aria-valuenow` = 지금 이어진 쌍 수, max = 그 판 쌍 수, `aria-valuetext` = 숫자만("3"). "콤보·연속" 말은 쓰지 않습니다. 풀릴 때 읽지 않음.
-- **플레이 중 판 채움 %(F4·G3 확정)**: 판정 이름 바로 아래 작은 숫자(예 "62%"), 앞에 칠한 칸 그림표(`icon-filled`). 값 = **연결된 쌍이 칠한 칸만** 센 ⌊100·칸 수/판 칸 수⌋(이어지지 않은 선·끄는 중인 선 밑 칸은 세지 않음 → 화면에 tint로 칠해진 칸과 숫자가 늘 같음). 판정 이름과 같은 시간축으로 나타나고 사라짐(시간은 balance 정함). **대체 글 키 없음, `aria-hidden`**(판정 이름과 같은 순간 표시라 판정마다 읽지 않는 규칙). 이름과 한 줄로 붙이지 않음(8절 10). — 1-1 lore 의견("표시 안 함")은 기록으로만 두고, 1-5 리뷰에서 결과 %와 헷갈리는지 확인합니다(13절 L6).
+- **플레이 중 판 채움 %(F4·G3 확정, round-2 H3로 모양 바뀜)**: round-2부터 **판 위 가는 막대 + 작은 %**(막대 모양이 주 신호, 모양·자리·시간은 30-art), 막대·% 모두 `aria-hidden`·키 없음(8절 15). 아래는 1-2 기록: 판정 이름 바로 아래 작은 숫자(예 "62%"), 앞에 칠한 칸 그림표(`icon-filled`). 값 = **연결된 쌍이 칠한 칸만** 센 ⌊100·칸 수/판 칸 수⌋(이어지지 않은 선·끄는 중인 선 밑 칸은 세지 않음 → 화면에 tint로 칠해진 칸과 숫자가 늘 같음). 판정 이름과 같은 시간축으로 나타나고 사라짐(시간은 balance 정함). **대체 글 키 없음, `aria-hidden`**(판정 이름과 같은 순간 표시라 판정마다 읽지 않는 규칙). 이름과 한 줄로 붙이지 않음(8절 10). — 1-1 lore 의견("표시 안 함")은 기록으로만 두고, 1-5 리뷰에서 결과 %와 헷갈리는지 확인합니다(13절 L6).
 - **결과 화면(G2 확정)**: 완성 미니 판(`result_check`, 늘) + 별(`result_star`, 100 %일 때) + 작은 숫자 "80%"와 한 번에 이은 그림표(`icon-one_go`, `result_accuracy` 대체 글). 결과 % = **한 번에 이은 쌍 수 / 쌍 수 × 100(내림)**, 예: 5쌍 중 4쌍을 한 번에 이으면 80 %. 한 번 이었다가 풀린 뒤 다시 이은 색은 한 번에 이은 것이 아님(정의는 20-balance). 100 % ⇔ 별 ⇔ 모든 연결 1단. 별이 주 신호, %는 작게. `percent.result_hide_pct_below` = null이라 `result_accuracy` meter는 늘 있음. **따로 "한 번에 이은 쌍" 표지·키(`result_one_go` 등)는 두지 않습니다** — %가 바로 그 값입니다(G2). 최고 콤보는 늘 쌍 수와 같아 두지 않습니다(키 없음).
+- **결과 쌍 점 줄(round-2 H3)**: 결과 화면에 쌍 점 줄을 두고 한 번에 이은 쌍은 꽉 찬 점 + 반짝임, 아닌 쌍은 속 빈 점(모양·반짝임은 30-art), 그 아래 %. 별 칸은 모든 점이 꽉 찼을 때. 대체 글은 컨테이너 하나 `result_dots` meter("한 번에 이은 색 수", valuenow = 꽉 찬 점 수, max = 쌍 수, valuetext 숫자만). 위 G2의 "표지·키 없음"은 H3 결정으로 이 줄 하나만 바뀝니다(%와 같은 값의 개수 표현, 글 없이 "100 % 칠했는데 75 %"인 이유를 보이게 함).
 
-## 7. 레벨 테마 (10개) — 하루 여행 (아침 → 노을)
+## 7. 레벨 테마 (50개, round-2) — 색칠책 다섯 장: 맑은 날 → 비 → 가을 → 눈 → 밤
 
 판 크기·쌍 수·새 요소는 00-benchmark 6-2 초안을 따른 것이고 balance가 확정합니다. 시각 힌트는 **색·도형 수준**만입니다(바탕 그라디언트 두 색 + 판 둘레의 아주 작은 기본 도형 장식 하나 이하, 그림·캐릭터 없음).
 
@@ -111,7 +113,69 @@
 | 7 | 큰 꽃정원 / Big Blossom Park | 공원 | 크다, 여유 | 연보라 → 연분홍. 판 둘레 작은 네모 2개 | 6x6·5쌍, 판 커짐(카드 없음) |
 | 8 | 돌담 길 / Stone Wall Lane | 골목 돌담 | 먼 길 돌아가기 | 따뜻한 회베이지 → 크림(회색 단색 금지, 판과 대비). 구멍 칸 여럿 | 6x6·5쌍, 구멍 칸 + 긴 우회(새 규칙 아님) |
 | 9 | 무지개 들판 / Rainbow Meadow | 들판 | 가장 많은 색 | 연하늘 → 연노랑. 판 둘레 옅은 호 3개(쌍 점 줄과 헷갈리지 않게 점 모양은 쓰지 않음, art A3) | 6x6·6쌍, 색 추가(카드 없음) |
-| 10 | 노을 하늘 / Sunset Sky | 저녁 하늘 | 마무리, 다 모음 | 아주 옅은 살구빛 주황 → 연보라. 완료 때만 판 모서리 뒤로 작은 별 3개(번쩍임 없이, 30-art) | 6x6·6쌍, 새 요소 없음(종합). 클리어 문구 `clear_last` |
+| 10 | 노을 하늘 / Sunset Sky | 저녁 하늘 | 마무리, 다 모음 | 아주 옅은 살구빛 주황 → 연보라. 완료 때만 판 모서리 뒤로 작은 별 3개(번쩍임 없이, 30-art) | 6x6·6쌍, 새 요소 없음(종합). round-2: 1장 마지막이라 클리어 문구 `clear_chapter`(`clear_last`는 L50) |
+
+### 7-2. 장(챕터) 다섯 개 (round-2 요청자 지시 "스테이지 50개")
+
+세계관: 판 50개는 **색칠책 한 권**이고, 10판이 한 장(페이지)입니다. 장마다 하루·날씨·계절이 바뀌어 바탕 색만 달라집니다(이야기·캐릭터 없음). 장 구조·잠금·판 크기·쌍 수·기믹은 **balance가 정함** — 아래 기믹 힌트는 제안입니다. 키는 balance 확정 전 가정 `chapterN_name`(1~5)·`levelN_name`(1~50)이고, balance가 다른 키 규칙을 정하면 그 키로 이름만 옮깁니다.
+
+| 장 | 키 | 이름 (KR / EN) | 레벨 | 분위기 | 시각 힌트(색·도형만) | 기믹 힌트(제안) |
+|---|---|---|---|---|---|---|
+| 1 | `chapter1_name` | 맑은 날 / Sunny Days | 1~10 | 처음, 따뜻함 | 연노랑·하늘 바탕, 둥근 도형 | 지금 L1~L10 그대로(빈칸·구멍 소개) |
+| 2 | `chapter2_name` | 비 오는 날 / Rainy Days | 11~20 | 촉촉, 차분 | 회청·연하늘 바탕, 물방울(둥근 세모)·짧은 세로 줄 | 구멍 칸 자주(웅덩이), 판 6x6 근처 |
+| 3 | `chapter3_name` | 가을 나들이 / Autumn Walk | 21~30 | 알록달록, 넉넉 | 주황·갈색·크림 바탕, 타원 잎·원 | 색(쌍) 수 늘림, 긴 우회 |
+| 4 | `chapter4_name` | 눈 오는 날 / Snowy Days | 31~40 | 하얗고 조용 | 흰·연하늘·옅은 청록 바탕, 작은 원·육각형 | 판 커짐(7x7~8x8 근처), 구멍 + 긴 선 |
+| 5 | `chapter5_name` | 반짝반짝 밤 / Twinkly Night | 41~50 | 포근, 마무리 | 남색·연보라 바탕(판·점 대비 유지), 초승달·작은 별(판 밖만) | 가장 큰 판·많은 쌍, 새 규칙 없이 종합 |
+
+- 밤 장(5)은 어두운 바탕이라 판 칸·점 대비를 art가 다시 잽니다(바탕만 어둡게, 판은 밝게). 번쩍임 없음.
+- 새 기믹이 생기면(balance 확정 후) 카드 키를 `card_<기믹>` 형식으로 9-3에 더합니다. 지금은 새 기믹 없음 가정이라 카드 키 추가 없음.
+
+### 7-3. 레벨 11~50 이름·시각 힌트
+
+이름 규칙: 한국어 12자 이내·영어 6단어 이내, 50개 서로 겹침 0, 다른 허브 게임 문자열과 겹침 0(레포 전체 json·md·js·html 대조), 원작·참고 게임 낱말 없음(9-9 금지어). 판 크기·쌍 수는 balance.
+
+| L | 이름 (KR / EN) | 시각 힌트 |
+|---|---|---|
+| 11 | 빗방울 창문 / Raindrop Window | 유리창 회청 → 연하늘. 판 둘레 작은 물방울(둥근 세모) 2개 |
+| 12 | 우산 길 / Umbrella Path | 연회색 → 연하늘. 반원 1개 |
+| 13 | 웅덩이 놀이 / Puddle Jumps | 하늘 회청 → 물빛. 납작한 타원 2개 |
+| 14 | 개구리 연잎 / Frog Lily Pads | 연초록 → 물빛. 한쪽이 파인 원 2개 |
+| 15 | 장화 현관 / Rain Boot Porch | 노랑 → 크림(장화 색은 바탕만). 네모 1개 |
+| 16 | 구름 다리 / Cloud Bridge | 아주 옅은 회백 → 연하늘. 가는 호 1개 |
+| 17 | 빗소리 지붕 / Pitter-Patter Roof | 회보라 → 연하늘. 짧은 세로 줄 3개(비) |
+| 18 | 버섯 숲 / Mushroom Grove | 연갈색 → 크림. 반원 + 짧은 기둥 모양 1개 |
+| 19 | 비 갠 골목 / After-Rain Alley | 연하늘 → 크림(비가 갠 밝음). 가는 곡선 1개 |
+| 20 | 쌍무지개 / Double Rainbow | 연하늘 → 연노랑. 옅은 호 2개 겹침(점 모양 금지, L9와 같은 규칙). 장 마지막 = `clear_chapter` |
+| 21 | 낙엽 마당 / Leafy Yard | 주황 → 크림. 타원 잎 2개 |
+| 22 | 도토리 언덕 / Acorn Hill | 밤갈색 → 연베이지. 원 + 작은 반원(도토리 느낌은 색만) |
+| 23 | 허수아비 논 / Scarecrow Field | 볏짚 노랑 → 연베이지. 십자 1개 |
+| 24 | 사과 과수원 / Apple Orchard | 연빨강 → 크림. 원 3개 |
+| 25 | 단풍 계곡 / Maple Valley | 단풍 주황 → 연분홍. 세모 2개(단풍 모양은 색만) |
+| 26 | 감나무 집 / Persimmon House | 감 주황 → 크림. 원 2개 + 작은 네모 |
+| 27 | 바람개비 길 / Pinwheel Road | 연하늘 → 연주황. 네 갈래 바람개비 대신 세모 4개를 둥글게(작게) |
+| 28 | 다람쥐 굴 / Squirrel Burrow | 갈색 → 연베이지. 반원 굴 1개 |
+| 29 | 호박 밭 / Pumpkin Patch | 호박 주황 → 연노랑. 납작한 원 1개 |
+| 30 | 갈대 강가 / Reed Riverside | 황갈 → 연하늘. 가는 세로 곡선 3개. 장 마지막 = `clear_chapter` |
+| 31 | 첫눈 아침 / First Snow Morning | 아주 옅은 하늘 → 흰 크림. 작은 원 여러 개(눈) |
+| 32 | 눈사람 공원 / Snowman Park | 흰 → 연하늘. 크고 작은 원 2개 겹침 |
+| 33 | 썰매 언덕 / Sled Hill | 연하늘 → 흰. 비스듬한 긴 곡선 1개 |
+| 34 | 얼음 호수 / Icy Lake | 옅은 청록 → 흰. 둥근 네모 1개(얼음판) |
+| 35 | 고드름 지붕 / Icicle Roof | 연보라빛 흰 → 연하늘. 짧은 아래 세모 3개 |
+| 36 | 털장갑 상자 / Mitten Box | 빨강 → 크림(따뜻한 쉼). 둥근 네모 2개 |
+| 37 | 펭귄 빙판 / Penguin Ice | 연하늘 → 흰. 타원 2개 |
+| 38 | 눈꽃 숲 / Snowflake Woods | 연하늘 → 흰. 여섯 갈래 대신 육각형 2개(눈꽃은 도형만) |
+| 39 | 코코아 오두막 / Cocoa Cabin | 코코아 갈색 → 크림. 네모 + 세모 지붕 1개 |
+| 40 | 눈 덮인 마을 / Snowy Village | 연남색 → 연하늘(저녁 눈). 작은 네모 여러 개(창 불빛 노랑). 장 마지막 = `clear_chapter` |
+| 41 | 달맞이 언덕 / Moonrise Hill | 보라 → 연남색. 큰 원 1개(달) |
+| 42 | 반딧불 풀숲 / Firefly Garden | 짙은 초록 → 연남색. 작은 노랑 원 3개(반딧불 = 점 모양이라 쌍 점 줄과 멀리 둘 것, art A3) |
+| 43 | 초롱불 마을 / Paper Lantern Town | 남색 → 연주황. 둥근 네모 2개(초롱) |
+| 44 | 부엉이 나무 / Owl Tree | 남색 → 연보라. 반원 1개 |
+| 45 | 꿈나라 구름 / Dreamy Clouds | 연남색 → 연분홍. 구름 곡선 1개 |
+| 46 | 별자리 지도 / Star Map | 짙은 남색 → 남색. 가는 선으로 이은 작은 별 3개(판 밖, 판의 선과 굵기 다르게) |
+| 47 | 은하수 강 / Milky Way River | 남색 → 연보라. 넓은 옅은 띠 1개 |
+| 48 | 잠옷 다락방 / Pajama Attic | 연보라 → 크림(방 안 불빛). 세모 지붕 1개 |
+| 49 | 꼬마 달 / Little Moon | 남색 → 연노랑. 초승달(원 두 개 빼기) 1개 |
+| 50 | 별빛 하늘 / Starlight Sky | 짙은 남색 → 연보라. 완료 때만 판 모서리 뒤 작은 별 5개(L10과 같은 규칙, 번쩍임 없이). 마지막 = `clear_last` |
 
 - 레벨 이름은 rhythm-01(꽃밭·바닷가·노을 언덕 등)·runner-01(달팽이 정원 등)·rhythm-02 레벨 이름과 글자까지 같은 것이 없습니다(9-9 ⑦).
 - 진행 지도 노드는 완성 판 미니 그림이 주 구분이고(00-benchmark 10-4), 레벨 이름은 대체 글·결과 화면 보조 글입니다. 지도 바탕은 메뉴 바탕 하나(30-art 5-2)이고, 하루 흐름(아침 → 노을)은 **레벨 바탕 색에서만** 보입니다(노드 미니 그림·결과 화면 이름 띠가 그 판 바탕색을 씀).
@@ -125,15 +189,18 @@
    - **개수**(`aria_pairs` 이은 쌍 수, `aria_map_stars` 모은 별 수): `role="meter"`, `aria-valuenow` = 그 수, min 0, max = 쌍 수 / 10, **`aria-valuetext` = 숫자만**("3"). 낱말("개·쌍·번")을 붙이지 않음.
    - **비율**(`aria_best_fill` 풀다 나간 판의 칠한 만큼): `role="progressbar"`, min 0·max 100, `aria-valuetext` 없음.
    - **정확도**(`result_accuracy`): `role="meter"`, min 0·max 100, `aria-valuenow` = 정수, `aria-valuetext` = 화면과 같은 "83%".
-   - 키 두 개를 잇는 곳은 지도 노드 버튼 한 곳뿐: `levelN_name` + 쉼표 + 상태 키 하나(`node_locked`·`node_next`·`node_partial`·`node_done`·`node_star` 중 하나).
+   - 키 두 개를 잇는 곳은 지도 노드 버튼과 잠긴 장 탭(`chapterN_name` + ", " + `node_locked`, round-2)뿐. 노드 버튼: `levelN_name` + 쉼표 + 상태 키 하나(`node_locked`·`node_next`·`node_partial`·`node_done`·`node_star` 중 하나).
 5. **지도 노드의 값 요소는 버튼 밖**: `aria_best_fill` progressbar는 노드 버튼 안에 넣지 않고 같은 목록 칸 안 **버튼의 형제 요소**로 둡니다(버튼 `aria-label`이 자식을 묻음, insights). `aria_map_stars`는 지도 화면에 하나.
 6. **`aria-live`는 두 곳만**: `gap_left`(polite, "다 이었는데 빈칸" 사건마다 한 번, 숨 쉬기 반복 때 다시 읽지 않음)와 결과 화면 진입(제목 `clear_*`). 연결·판정 이름·쌍 점 줄 값 변화·잘림·되돌리기는 읽지 않습니다. `aria-hidden` 요소에 `aria-label`을 붙이지 않습니다.
 7. **튜토리얼 그림 = 바로 뒤 실제 물체.** L1 손가락 시연은 L1 첫 쌍(실제 색·모양 표지)의 점에서 시작해 실제 답 길을 따라 짝 점까지, 화면 고정 위치가 아니라 그 점 기준 위치. L2 `card_fill` 그림의 빈칸 = L2 `fill_card.empty_cells`(맞닿은 노랑 쌍을 곧게 이으면 남는 왼쪽 위 모서리 2칸), L6 `card_hole` 그림의 구멍 = L6 `hole_card.first_hole`(판 안쪽 구멍, G1). 세 그림 모두 art가 레벨 JSON을 읽어 생성(손으로 그리지 않음, G1 2차 순서). 그림 속 점 렌더 ≥ 16 px(실제 화면 px로 잼).
 8. **글을 못 읽어도 진행 가능**: 타이틀(▶·손가락), 지도(미니 그림 노드·숨 쉬는 다음 노드), 플레이(손가락 시연·카드 그림·빈칸 숨 쉬기), 결과(다 칠한 표시·별·그림 버튼), 보호자 화면은 길게 누르기(어른용), **불러오기 오류(↻ 그림 인라인)**. `notext` 화면에서 L1을 시작·완료할 수 있어야 함(QA).
 9. **부트 키**(`title`·`loading`·`load_error`·`load_error_detail`·`btn_reload`)는 빌드 스크립트가 두 언어로 `index.html` 부트 블록에 넣고, 언어를 정한 직후 `document.documentElement.lang`·`document.title`(= 그 언어 `title`)을 바꿉니다. ↻ 그림도 부트 블록에 인라인(criteria 세계관 rhythm-02 줄).
 10. 치환 자리 없음. 숫자 글(결과 %, 플레이 중 판 채움 % — F4 확정)은 따로 그리고 문장 안에 끼우지 않으며 판정 이름과 한 줄로 붙이지 않습니다("최고야 100%" 금지).
-11. **클리어 문구 선택 규칙**: L10 → `clear_last`(별이면 별 표지 함께) / 별(100 %) → `clear_star` / 그 밖 → `clear_title_n`, n = ((레벨 번호 − 1) mod 3) + 1. 무작위가 아니라 레벨로 정해 QA 스크린샷이 재현됩니다.
-12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. 66개 키는 모두 쓰는 키입니다(예비 키 없음). 쓰지 않게 되면 DEV_NOTES에 이유(criteria).
+11. **클리어 문구 선택 규칙**(round-2 50판): L50 → `clear_last` / L10·20·30·40(장 마지막) → `clear_chapter`(둘 다 별이면 별 표지 함께) / 별(100 %) → `clear_star` / 그 밖 → `clear_title_n`, n = ((레벨 번호 − 1) mod 3) + 1. 무작위가 아니라 레벨로 정해 QA 스크린샷이 재현됩니다.
+12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. 117개 키는 모두 쓰는 키입니다(예비 키 없음). 쓰지 않게 되면 DEV_NOTES에 이유(criteria).
+13. **플레이 화면 숨은 제목(round-2, S9)**: `#play` 첫 요소로 화면에 안 보이는 제목(`.sr` 클래스 `h2`, 글 = 그 판 `levelN_name`, 새 키 없음)을 둡니다. 판에 들어갈 때 바뀌고 live로 읽지 않습니다(초점이 제목에 가면 읽힘). 판 캔버스 이름(`aria_board`)에 레벨 이름을 붙이지 않습니다(4항 "키 두 개를 잇는 곳은 지도 노드뿐" 유지).
+14. **막힘(round-2 H4)은 대체 글·낭독 없음**: 막힘 "툭" 소리와 작은 튕겨 나옴은 그림·소리 신호로만 두고 `aria-live`로 읽지 않으며 키도 두지 않습니다(6항 live 두 곳 유지). 이유: 막힘은 자주 나고 실패가 아니라 "이쪽은 안 돼"이므로, 낭독하면 끄는 동안 말이 연타됨(insights 콤보 대체 글 원칙). 스크린 리더 사용자는 판을 직접 끌지 않고 `aria_board`·`aria_pairs`로 상태를 봄.
+15. **플레이 중 채움 막대(round-2 H3)**: 판 위 가는 막대 + 작은 %는 계속 `aria-hidden`(키 없음, 판정마다 읽지 않는 규칙). 값은 판 상태에서 바로 나오고, 대체 글 쪽 진행은 `aria_pairs`가 맡습니다.
 
 ## 9. 텍스트 키 표 (KR / EN)
 
@@ -149,11 +216,16 @@
 | `tagline` | 화면 | 같은 색끼리 이어요 | Join the matching colors | 로고 아래 작은 글. 옆에 같은 색 점 두 개가 선으로 이어지는 짧은 반복 그림(타이틀 장식, 판 아님) |
 | `tap_to_start` | 화면 | 눌러서 시작 | Tap to start | ▶ 버튼 대체 글 + 손가락 그림 옆 글. 오디오 잠금 해제도 첫 탭(공통 UI) |
 
-### 9-2. 진행 지도 (18개)
+### 9-2. 진행 지도·레벨 선택 (67개, round-2 50판·5장)
 
 | 키 | 구분 | KR | EN | 쓰는 곳 |
 |---|---|---|---|---|
 | `map_screen` | aria | 어디를 칠할까요? | Where shall we paint? | 지도 목록(`role="list"`) 이름. 화면 제목 글은 두지 않음 |
+| `chapter1_name` | 화면 | 맑은 날 | Sunny Days | 레벨 선택 한 장(페이지) 제목 글 + 장 고르기 탭 이름(`role="tab"`, 잠긴 장은 이름 + ", " + `node_locked`). 탭 순서·개수는 스크린 리더가 알려 줌(숫자 글 없음). 글을 못 읽어도 장 바탕색·도형으로 구분(7-2). 키 이름은 balance 확정 전 가정 |
+| `chapter2_name` | 화면 | 비 오는 날 | Rainy Days | 같음 |
+| `chapter3_name` | 화면 | 가을 나들이 | Autumn Walk | 같음 |
+| `chapter4_name` | 화면 | 눈 오는 날 | Snowy Days | 같음 |
+| `chapter5_name` | 화면 | 반짝반짝 밤 | Twinkly Night | 같음 |
 | `level1_name` | 화면 | 햇살 마당 | Sunny Yard | 노드 버튼 이름 앞부분 + **결과 화면 제목 위 작은 글**(G7: art layout `result` 글 자리, 지도와 같은 이름, 글을 못 읽어도 노드 그림과 같은 그 판 바탕색 띠 위에 써서 연결). 자리를 못 두면 결과 미니 판 img 이름(aria)으로만 |
 | `level2_name` | 화면 | 튤립 화분 | Tulip Pots | 같음 |
 | `level3_name` | 화면 | 물놀이 해변 | Splash Beach | 같음 |
@@ -164,13 +236,57 @@
 | `level8_name` | 화면 | 돌담 길 | Stone Wall Lane | 같음 |
 | `level9_name` | 화면 | 무지개 들판 | Rainbow Meadow | 같음 |
 | `level10_name` | 화면 | 노을 하늘 | Sunset Sky | 같음 |
+| `level11_name` | 화면 | 빗방울 창문 | Raindrop Window | 같음(2장) |
+| `level12_name` | 화면 | 우산 길 | Umbrella Path | 같음(2장) |
+| `level13_name` | 화면 | 웅덩이 놀이 | Puddle Jumps | 같음(2장) |
+| `level14_name` | 화면 | 개구리 연잎 | Frog Lily Pads | 같음(2장) |
+| `level15_name` | 화면 | 장화 현관 | Rain Boot Porch | 같음(2장) |
+| `level16_name` | 화면 | 구름 다리 | Cloud Bridge | 같음(2장) |
+| `level17_name` | 화면 | 빗소리 지붕 | Pitter-Patter Roof | 같음(2장) |
+| `level18_name` | 화면 | 버섯 숲 | Mushroom Grove | 같음(2장) |
+| `level19_name` | 화면 | 비 갠 골목 | After-Rain Alley | 같음(2장) |
+| `level20_name` | 화면 | 쌍무지개 | Double Rainbow | 같음(2장) |
+| `level21_name` | 화면 | 낙엽 마당 | Leafy Yard | 같음(3장) |
+| `level22_name` | 화면 | 도토리 언덕 | Acorn Hill | 같음(3장) |
+| `level23_name` | 화면 | 허수아비 논 | Scarecrow Field | 같음(3장) |
+| `level24_name` | 화면 | 사과 과수원 | Apple Orchard | 같음(3장) |
+| `level25_name` | 화면 | 단풍 계곡 | Maple Valley | 같음(3장) |
+| `level26_name` | 화면 | 감나무 집 | Persimmon House | 같음(3장) |
+| `level27_name` | 화면 | 바람개비 길 | Pinwheel Road | 같음(3장) |
+| `level28_name` | 화면 | 다람쥐 굴 | Squirrel Burrow | 같음(3장) |
+| `level29_name` | 화면 | 호박 밭 | Pumpkin Patch | 같음(3장) |
+| `level30_name` | 화면 | 갈대 강가 | Reed Riverside | 같음(3장) |
+| `level31_name` | 화면 | 첫눈 아침 | First Snow Morning | 같음(4장) |
+| `level32_name` | 화면 | 눈사람 공원 | Snowman Park | 같음(4장) |
+| `level33_name` | 화면 | 썰매 언덕 | Sled Hill | 같음(4장) |
+| `level34_name` | 화면 | 얼음 호수 | Icy Lake | 같음(4장) |
+| `level35_name` | 화면 | 고드름 지붕 | Icicle Roof | 같음(4장) |
+| `level36_name` | 화면 | 털장갑 상자 | Mitten Box | 같음(4장) |
+| `level37_name` | 화면 | 펭귄 빙판 | Penguin Ice | 같음(4장) |
+| `level38_name` | 화면 | 눈꽃 숲 | Snowflake Woods | 같음(4장) |
+| `level39_name` | 화면 | 코코아 오두막 | Cocoa Cabin | 같음(4장) |
+| `level40_name` | 화면 | 눈 덮인 마을 | Snowy Village | 같음(4장) |
+| `level41_name` | 화면 | 달맞이 언덕 | Moonrise Hill | 같음(5장) |
+| `level42_name` | 화면 | 반딧불 풀숲 | Firefly Garden | 같음(5장) |
+| `level43_name` | 화면 | 초롱불 마을 | Paper Lantern Town | 같음(5장) |
+| `level44_name` | 화면 | 부엉이 나무 | Owl Tree | 같음(5장) |
+| `level45_name` | 화면 | 꿈나라 구름 | Dreamy Clouds | 같음(5장) |
+| `level46_name` | 화면 | 별자리 지도 | Star Map | 같음(5장) |
+| `level47_name` | 화면 | 은하수 강 | Milky Way River | 같음(5장) |
+| `level48_name` | 화면 | 잠옷 다락방 | Pajama Attic | 같음(5장) |
+| `level49_name` | 화면 | 꼬마 달 | Little Moon | 같음(5장) |
+| `level50_name` | 화면 | 별빛 하늘 | Starlight Sky | 같음(5장) |
 | `node_locked` | aria | 아직 잠겨 있어요 | Not open yet | 노드 상태(흐린 원). 이름 = `levelN_name` + ", " + 이 키 |
 | `node_next` | aria | 이번에 할 판 | Up next | 노드 상태(천천히 숨 쉬는 원) |
 | `node_partial` | aria | 칠하다 멈췄어요 | Partly filled | 풀다 나간 판. 그림: 노드 테두리 바깥 호가 칠한 칸 비율만큼 12시부터 늘어남(숫자 없음, `node-partial.svg`). 비율 = 연결된 쌍이 칠한 칸 기준 최고값(G3, 판 채움 %와 같은 셈). criteria 게임 감각 "최고 진행도가 지도에 보임" |
 | `node_done` | aria | 다 칠했어요 | All filled | 완료(완성 미니 그림) |
 | `node_star` | aria | 한 번에 다 칠했어요 | Filled in one go | 완료 + 별(미니 그림 옆 작은 별) |
 | `aria_best_fill` | aria | 칠한 만큼 | How much is filled | `node_partial` 노드의 progressbar(0~100 = 연결된 쌍이 칠한 칸 기준 최고 판 채움 %, valuetext 없음). **버튼 밖 형제 요소**(8절 5) |
-| `aria_map_stars` | aria | 모은 별 | Stars collected | 지도 화면 별 모음 표지 meter(max 10, valuetext 숫자만). 화면 글 없음 |
+| `aria_map_stars` | aria | 모은 별 | Stars collected | 지도 화면 전체 별 모음 표지 meter(round-2: max 50, valuetext 숫자만). 화면 글 없음 |
+| `aria_chapters` | aria | 색칠책 장 고르기 | Pick a page | 장 탭 묶음(`role="tablist"`) 이름. 탭 = `chapterN_name`, 선택 = `aria-selected`. 쓸어 넘기기도 같은 동작 |
+| `btn_page_prev` | aria | 앞 장 | Previous page | ◀ 그림 버튼(첫 장에서는 숨김, `aria-disabled` 대신 없앰) |
+| `btn_page_next` | aria | 다음 장 | Next page | ▶ 그림 버튼(마지막 장에서는 숨김). 잠긴 장으로도 넘어가 볼 수 있음(잠금 그림만) |
+| `aria_page_stars` | aria | 이 장에서 모은 별 | Stars on this page | 지금 장 별 표지 meter(min 0, max = 그 장 판 수 10, valuenow = 그 장 별 수, valuetext 숫자만). 화면은 작은 별 그림 + 채워진 수만큼(숫자 글 없음) |
 
 ### 9-3. 튜토리얼·그림 카드 (3개) — 그림이 주, 글은 보조
 
@@ -190,14 +306,14 @@
 | `aria_pairs` | aria | 이은 색 수 | Colors joined | 쌍 점 줄(1-0 C1) meter. valuenow = 이어진 쌍 수, max = 쌍 수, valuetext 숫자만. 읽지 않음(live 아님) |
 | `gap_left` | ★ | 빈칸이 남았어요 | Some squares are empty | "다 이었는데 빈칸" 신호. 주 신호는 빈칸 숨 쉬기 그림. 이 글은 `aria-live` polite 1회(사건마다, 숨 쉬기 반복 때 다시 읽지 않음) + **3번째 숨 쉬기 때만** 판 밖 글 자리(`layout.json text_slots` `board_text`: 세로 판 아래, 가로 기둥)의 작은 보조 글(G6). 판정 이름이 오면 그 프레임에 숨김. 칭찬 쪽 색, 경고 아이콘 없음 |
 | `judge_1_name` | ★ | 최고야 | Wow! | 판정 이름 1단(그 색 한 번에 이음). 판 밖 띠(세로 = 판 위, 짝 점과 같은 x / 가로 = 짝 점 쪽 기둥, 같은 y, F5), 가장 큰 글자(크기는 30-art 4-3). 아래에 작은 판 채움 %(aria-hidden). 읽지 않음 |
-| `judge_2_name` | ★ | 멋져 | Nice | 판정 이름 2단(두 번째에 이음). 중간 글자 |
+| `judge_2_name` | ★ | 멋져 | Nice! | 판정 이름 2단(두 번째에 이음). 중간 글자. round-2: 영어 느낌표 추가(6-1 규칙, LW5) |
 | `judge_3_name` | ★ | 해냈어 | Yay! | 판정 이름 3단(세 번 이상). 작은 글자, 회색·빨강 금지 |
 | `btn_undo` | aria | 한 번 되돌리기 | Undo | ↶ 그림 버튼 |
-| `btn_restart` | aria | 처음부터 | Start over | ↻ 그림 버튼(판이 부드럽게 비워짐) |
+| `btn_restart` | aria | 처음부터 | Start over | ↻ 그림 버튼(판이 부드럽게 비워짐). round-2 H2: 누르면 **새 시도**(이동 수·판정 기록 0, 별 다시 가능), 바로 다음 되돌리기는 처음부터를 취소. 글은 그대로 — "처음부터 / Start over"가 이미 "새로 시작" 뜻이고 결과 화면 `btn_again`(다시 칠하기)과 같은 새 시도라 맞음. "새로 시작"으로 바꾸면 `tap_to_start`(눌러서 시작)와 헷갈려 바꾸지 않음. live 낭독 없음 |
 | `btn_help` | aria | 도와줘 | Show me | 도움 그림 버튼(30초 변화 없으면 숨 쉼, 누르면 정답 선 하나 시연). 결제·광고 없음 |
 | `btn_map` | aria | 지도로 | Map | 플레이·결과 화면의 지도 그림 버튼 |
 
-### 9-5. 판 완료·결과 (11개)
+### 9-5. 판 완료·결과 (13개)
 
 | 키 | 구분 | KR | EN | 쓰는 곳 |
 |---|---|---|---|---|
@@ -205,8 +321,10 @@
 | `clear_title_2` | 화면 | 판이 꽉 찼어요! | The board is full! | 결과 제목(L2·5·8) |
 | `clear_title_3` | 화면 | 예쁘게 칠했어요! | So pretty! | 결과 제목(L3·6·9) |
 | `clear_star` | 화면 | 한 번에 다 했어요! | All in one go! | 별(100 %)일 때 제목(L10 제외) |
-| `clear_last` | 화면 | 노을까지 다 칠했어요! | You painted the sunset! | L10 완료(레벨 이름 되부름) |
+| `clear_last` | 화면 | 별빛까지 다 칠했어요! | You painted the starlight! | round-2: L50 완료(L50 `별빛 하늘` 되부름, 별이면 별 표지 함께) |
+| `clear_chapter` | 화면 | 한 장을 다 칠했어요! | A whole page painted! | round-2: 장 마지막 판(L10·20·30·40) 완료. 별이면 별 표지 함께 |
 | `result_accuracy` | aria | 한 번에 이은 정도 | Joined in one go | 결과 %(작은 숫자 + 한 번에 이은 그림표 `icon-one_go`, 별이 주)의 meter. valuenow = ⌊100·한 번에 이은 쌍 수/쌍 수⌋(G2, 예 5쌍 중 4쌍 → 80), valuetext "80%". 화면에 "정확도" 글자 없음. 따로 "한 번에 이은 쌍" 표지·키 없음 |
+| `result_dots` | aria | 한 번에 이은 색 수 | Colors joined in one go | round-2 H3: 결과 화면 **쌍 점 줄**(꽉 찬 점 + 반짝임 = 한 번에 이은 쌍, 속 빈 점 = 다시 그은 쌍)의 meter. valuenow = 꽉 찬 점 수, min 0, max = 쌍 수, valuetext 숫자만("4"). 이름이 "꽉 찬 점 = 한 번에 이은 색"을 말하고, max − valuenow가 속 빈 점 수. 점마다 대체 글 없음(점은 그림, 컨테이너 하나만). 읽는 순서: 제목 → 이 meter → `result_accuracy` %. live 아님 |
 | `result_check` | aria | 다 칠한 표시 | Board filled | 늘 보이는 완성 미니 판 img(✓ 표시 아님, 30-art L5) |
 | `result_star` | aria | 별을 받았어요 | You got a star! | 100 %일 때 별 img |
 | `result_new_best` | aria | 지난번보다 잘했어요 | Better than last time! | 그 레벨 이전 최고 %보다 높을 때 % 옆 작은 표지 img(글 없는 위쪽 표지, art가 그림·자리 추가 — G7). 첫 완료·100 % 재달성에는 없음 |
@@ -221,7 +339,7 @@
 | `btn_close` | aria | 닫기 | Close | 보호자 화면 ✕ |
 | `guardian_hold` | 화면 | 어른은 길게 누르세요 | Grown-ups: press and hold | 지도 톱니 버튼 가까이 작은 글(자리는 art layout `map` text_slots, G7) + 길게 누르기 진행 그림 |
 | `guardian_title` | 화면 | 보호자 설정 | For grown-ups | 보호자 화면 제목(dialog 이름) |
-| `guardian_intro` | 어른 | 같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐입니다. 시간 제한과 실패가 없어서 천천히 생각해도 됩니다. 결과 화면의 %는 한 번에 이은 색의 비율입니다. 예를 들어 5쌍 중 4쌍을 한 번에 이으면 80 %이고, 모두 한 번에 이으면 100 %로 별을 받습니다. 이었다가 지우고 다시 이은 색은 한 번에 이은 것으로 세지 않습니다. 놀이 중 칭찬 아래 작은 %는 판을 칠한 만큼입니다. | Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of color pairs joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A pair that was joined, undone and joined again does not count as one go. The small % under each cheer during play shows how much of the board is filled. | 보호자 화면 설명 |
+| `guardian_intro` | 어른 | 같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐입니다. 시간 제한과 실패가 없어서 천천히 생각해도 됩니다. 결과 화면의 숫자(%)는 한 번에 이은 색의 비율입니다. 예: 5쌍 중 4쌍을 한 번에 이으면 80%. 모두 한 번에 이으면 별을 받습니다(100%). 한 색을 그리다가 다른 색을 긋고 돌아와 이어 그리거나, 이었던 선을 지우거나 되돌린 뒤 다시 이은 색은 한 번에 이은 것으로 세지 않습니다. 다른 색을 건드리기 전에 같은 색을 고쳐 그리는 것은 한 번으로 셉니다. 결과 화면 점 줄의 꽉 찬 점은 한 번에 이은 색, 속 빈 점은 다시 그은 색입니다. 처음부터(↻)를 누르면 새로 시작해 별을 다시 받을 수 있습니다. 놀이 중 가는 막대와 작은 숫자는 판을 칠한 만큼입니다. | Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of colors joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A color is not joined in one go if it was drawn in parts with another color in between, or erased or undone and drawn again. Fixing the same color before touching another one still counts as one go. On the result screen, a filled dot is a color joined in one go and a hollow dot is one drawn again. Start over (↻) begins a fresh try, so the star can be earned again. During play, the thin bar and small number show how much of the board is filled. | 보호자 화면 설명. round-2(E4): "한 번에 아님"을 나눠 그은 경우까지 넓힘(BA3), % 붙여 쓰고 % 바로 뒤 조사 없음(LW4), 결과 점 줄 뜻(H3)·처음부터 = 새 시도(H2)·놀이 중 막대(H3) 설명 |
 | `settings_sound` | 화면 | 소리 | Sound | 보호자 화면 스위치 + **지도 소리 켬/끔 그림 버튼 이름**(새 키 없이, 상태는 `aria-pressed`) |
 | `settings_vibrate` | 화면 | 진동 | Vibration | 스위치 |
 | `vibrate_note` | 어른 | 진동은 지원하는 기기(주로 안드로이드)에서만 나요. 진동이 없어도 소리와 그림으로 모두 알 수 있어요. | Vibration works only on supported devices (mostly Android). Sound and pictures show everything without it. | 진동 스위치 아래 작은 글(00-benchmark 10-5) |
@@ -244,7 +362,7 @@
 | `btn_reload` | aria | 다시 불러오기 | Reload | **부트 키**. ↻ 그림 버튼(그림 인라인) |
 | `store_short` | 스토어 | 같은 색 점을 이어 판을 칠해요! 빈칸 없이 다 채우면 완성. 시간 제한 없는 손가락 하나 퍼즐. | Join matching dots and fill every square! No timer, one finger, calm puzzles. | 스토어 짧은 설명(80자 이내) |
 
-**합계: 3 + 18 + 3 + 10 + 11 + 16 + 5 = 66개** (`_meta` 제외, 9-9 검사로 확인).
+**합계: 3 + 67 + 3 + 10 + 13 + 16 + 5 = 117개** (round-2: `result_dots` 1개 추가, 50판 확장으로 장 이름 5·레벨 이름 40·레벨 선택 4·`clear_chapter` 1 추가) (`_meta` 제외, 9-9 검사로 확인).
 
 **키를 두지 않은 것(그림으로 대신)**
 - 실패·틀림·막힘·잘림 문구 없음(실패가 없는 게임).
@@ -256,6 +374,8 @@
 ### 9-8. 1-2에서 정한 것과 아직 바뀔 수 있는 것
 
 - 정함(1-2): 플레이 중 판 채움 % 표시·키 없음·aria-hidden(F4·G3), 결과 % = 한 번에 이은 쌍/쌍 수, 별도 표지·키 없음(G2), K4 숨김 없음(`result_hide_pct_below` null → `result_accuracy` meter 늘 있음), `node_partial`·`aria_best_fill` 유지(art가 호 그림을 그림), 결과 화면 레벨 이름 = 보이는 글(G7), `map_screen` aria 전용 유지(art 1차 #12가 lore 안을 받음), 지도 소리 버튼 = `settings_sound` + aria-pressed(키 66개 그대로).
+- 정함(round-2): `guardian_intro` 고쳐 씀(E4), `judge_2_name.en` = "Nice!", 결과 점 줄 `result_dots` 추가(H3, 키 67개), 플레이 화면 `.sr` 제목 = `levelN_name`(8절 13), 막힘 낭독 없음(H4, 8절 14), 채움 막대 aria-hidden(H3, 8절 15), `btn_restart` 글 유지(H2).
+- 정함(round-2 요청자 추가 지시): 50판·5장 이름(7-2·7-3), 레벨 선택 키 4개, `clear_chapter`, `clear_last` = L50(키 117개). 장·레벨 키 이름(`chapterN_name`·`levelN_name`)은 balance 확정 전 가정 — balance가 다른 키 규칙·장 구조를 정하면 그대로 따름. 새 기믹 카드 키는 balance 확정 후.
 - 아직 바뀔 수 있음: 카드 수(balance가 다른 레벨에도 카드를 두면 키 추가), L6 첫 구멍 자리(G1 재선정 — 문구 `card_hole`은 그대로), art가 결과 레벨 이름 자리를 못 두면 `levelN_name` 결과 쪽 쓰임은 aria로만(G7 대안).
 
 ### 9-9. 문서 표 = `strings.json` 확인 (node)
@@ -265,7 +385,7 @@
 명령(`projects/flow-01/`에서, node만):
 
 ```
-node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.parse(fs.readFileSync("strings.json","utf8"));delete js._meta;const flat=(o,a=[])=>{for(const v of Object.values(o)){if(typeof v==="string")a.push(v);else if(v&&typeof v==="object")flat(v,a)}return a};const other=new Set();for(const g of ["rhythm-01","reverbound","rhythm-02"])flat(JSON.parse(fs.readFileSync("../../games/"+g+"/data/strings.json","utf8"))).forEach(s=>other.add(s));const sec=md.slice(md.indexOf("## 9."),md.indexOf("### 9-8")),rows={},err=[];for(const l of sec.split(/\r?\n/)){const c=l.split("|").map(s=>s.trim()),m=/^`([a-z0-9_]+)`$/.exec(c[1]||"");if(!m)continue;if(rows[m[1]])err.push("dup "+m[1]);rows[m[1]]={kind:c[2],ko:c[3],en:c[4]}}for(const k of Object.keys(js))if(!rows[k])err.push("doc missing "+k);const common=new Set("tap_to_start loading load_error btn_close btn_settings settings_sound settings_lang lang_ko lang_en settings_reset confirm_yes confirm_no btn_next btn_undo btn_map btn_restart guardian_hold guardian_title judge_1_name judge_2_name".split(" "));const ban=/flow|dots?\b|\bzip|loop|energy|link|khan|흐름|플로우|콤보|combo|streak|판정|이동 수|짝꿍/i;let same=0,maxko=0,maxen=0;for(const [k,r] of Object.entries(rows)){const j=js[k];if(!j){err.push("json missing "+k);continue}if(r.kind==="예비")err.push("reserve "+k);if(r.ko!==j.ko)err.push("ko diff "+k);if(r.en!==j.en)err.push("en diff "+k);const free=["어른","스토어"].includes(r.kind);const nk=[...j.ko].length,ne=j.en.split(/\s+/).length;if(!free){maxko=Math.max(maxko,nk);maxen=Math.max(maxen,ne);if(nk>12||ne>6)err.push("len "+k)}if(r.kind==="스토어"&&(nk>80||j.en.length>80))err.push("store>80 "+k);const txt=(k==="title"?"":j.ko+" "+j.en);if(k!=="aria_board"&&k!=="store_short"&&k!=="guardian_intro"&&ban.test(txt))err.push("banned "+k);if((k==="aria_board"||k==="store_short"||k==="guardian_intro")&&/flow|zip|loop|energy|link|khan|흐름|콤보|combo|짝꿍/i.test(txt))err.push("banned "+k);const s=other.has(j.ko)||other.has(j.en);if(s)same++;if(s&&!common.has(k))err.push("same as other game "+k)}const jn=["judge_1_name","judge_2_name","judge_3_name"].map(k=>js[k]);jn.forEach((j,i)=>{const n=[...j.ko].length;if(n<2||n>3)err.push("judge ko "+i);if(!/^[A-Za-z]{2,4}!?$/.test(j.en))err.push("judge en "+i)});if(new Set(jn.flatMap(j=>[j.ko,j.en])).size!==6)err.push("judge dup");for(const k of ["title","loading","load_error","load_error_detail","btn_reload"])if(!js[k])err.push("boot "+k);console.log("doc",Object.keys(rows).length,"json",Object.keys(js).length,"| max ko",maxko,"en",maxen,"| same-as-other",same,"(common만 허용) |",err.length?"FAIL "+err.join(", "):"PASS")'
+node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.parse(fs.readFileSync("strings.json","utf8"));delete js._meta;const flat=(o,a=[])=>{for(const v of Object.values(o)){if(typeof v==="string")a.push(v);else if(v&&typeof v==="object")flat(v,a)}return a};const other=new Set();for(const g of ["rhythm-01","reverbound","rhythm-02"])flat(JSON.parse(fs.readFileSync("../../games/"+g+"/data/strings.json","utf8"))).forEach(s=>other.add(s));const sec=md.slice(md.indexOf("## 9."),md.indexOf("### 9-8")),rows={},err=[];for(const l of sec.split(/\r?\n/)){const c=l.split("|").map(s=>s.trim()),m=/^`([a-z0-9_]+)`$/.exec(c[1]||"");if(!m)continue;if(rows[m[1]])err.push("dup "+m[1]);rows[m[1]]={kind:c[2],ko:c[3],en:c[4]}}for(const k of Object.keys(js))if(!rows[k])err.push("doc missing "+k);const common=new Set("tap_to_start loading load_error btn_close btn_settings settings_sound settings_lang lang_ko lang_en settings_reset confirm_yes confirm_no btn_next btn_undo btn_map btn_restart guardian_hold guardian_title judge_1_name judge_2_name btn_reload".split(" "));const ban=/flow|dots?\b|\bzip|loop|energy|link|khan|흐름|플로우|콤보|combo|streak|판정|이동 수|짝꿍/i;let same=0,maxko=0,maxen=0;for(const [k,r] of Object.entries(rows)){const j=js[k];if(!j){err.push("json missing "+k);continue}if(r.kind==="예비")err.push("reserve "+k);if(r.ko!==j.ko)err.push("ko diff "+k);if(r.en!==j.en)err.push("en diff "+k);const free=["어른","스토어"].includes(r.kind);const nk=[...j.ko].length,ne=j.en.split(/\s+/).length;if(!free){maxko=Math.max(maxko,nk);maxen=Math.max(maxen,ne);if(nk>12||ne>6)err.push("len "+k)}if(r.kind==="스토어"&&(nk>80||j.en.length>80))err.push("store>80 "+k);const txt=(k==="title"?"":j.ko+" "+j.en);if(k!=="aria_board"&&k!=="store_short"&&k!=="guardian_intro"&&ban.test(txt))err.push("banned "+k);if((k==="aria_board"||k==="store_short"||k==="guardian_intro")&&/flow|zip|loop|energy|link|khan|흐름|콤보|combo|짝꿍/i.test(txt))err.push("banned "+k);const s=other.has(j.ko)||other.has(j.en);if(s)same++;if(s&&!common.has(k))err.push("same as other game "+k)}const jn=["judge_1_name","judge_2_name","judge_3_name"].map(k=>js[k]);jn.forEach((j,i)=>{const n=[...j.ko].length;if(n<2||n>3)err.push("judge ko "+i);if(!/^[A-Za-z]{2,4}!?$/.test(j.en))err.push("judge en "+i)});if(new Set(jn.flatMap(j=>[j.ko,j.en])).size!==6)err.push("judge dup");for(const k of ["title","loading","load_error","load_error_detail","btn_reload"])if(!js[k])err.push("boot "+k);console.log("doc",Object.keys(rows).length,"json",Object.keys(js).length,"| max ko",maxko,"en",maxen,"| same-as-other",same,"(common만 허용) |",err.length?"FAIL "+err.join(", "):"PASS")'
 ```
 
 - "dot(s)"는 장르 일반 낱말이지만 참고 게임 이름 낱말이라, 화면 모양 이름이 꼭 필요한 대체 글 `aria_board`·스토어·보호자 글에서만 허용합니다(⑤).
@@ -273,6 +393,10 @@ node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.
 **검사 결과 (2026-11-17, 1-1):** `doc 66 json 66 | max ko 12 en 5 | same-as-other 15 (common만 허용) | PASS`. 공통 UI로 허용한 겹침 15개 중 정체성 문구는 판정 이름 영어 `Wow!`·`Nice`(rhythm-02와 같음, 6-1 허브 공통 칭찬 결정) 2개뿐이고 한국어 판정 이름은 겹침 0. 첫 실행에서 `level7_name` "Big Flower Park"가 금지어 flow(Flower)에 걸려 "Big Blossom Park"로 바꿈. 가장 긴 문구: `tut_drag`·`clear_last`·`node_star` 등 한국어 11~12자, 영어 5단어(`tut_drag`). `store_short` KR 54자 / EN 77자.
 
 **검사 결과 (2026-11-18, 1-2 2차):** `doc 66 json 66 | max ko 12 en 5 | same-as-other 15 (common만 허용) | PASS`. 바뀐 문구는 `guardian_intro` KR·EN(어른 글, G2 결과 % 뜻 + F4 판 채움 % 설명)뿐, 키 수 그대로.
+
+**검사 결과 (2026-11-18, round-2 기획):** `doc 67 json 67 | max ko 12 en 5 | same-as-other 15 (common만 허용) | PASS`. 바뀐 곳: `guardian_intro` KR·EN, `judge_2_name.en` "Nice!", 새 키 `result_dots`(KR 11자 / EN 5단어).
+
+**검사 결과 (2026-11-18, round-2 50판 추가 지시):** `doc 117 json 117 | max ko 12 en 5 | same-as-other 16 (common만 허용) | PASS`. 새 키 50개(장 5·레벨 40·레벨 선택 4·`clear_chapter`), `clear_last` 바뀜. 겹침 16번째는 `btn_reload` "Reload"(reverbound가 17:55에 추가) — 부트 공통 UI라 common에 넣음. 새 이름 100개는 레포 전체(games·projects의 json·md·js·html 624개) 글자 대조 겹침 0(첫 안 L43 "등불 골목 / Lantern Lane"이 다른 게임과 같아 "초롱불 마을 / Paper Lantern Town"으로 바꿈).
 
 ## 10. 다른 게임과의 구분
 
@@ -283,7 +407,7 @@ node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.
 | Tossaloft 높이통통 (rhythm-02) | 공 받기 리듬 | 판정 이름 한국어가 다름(딱이야/좋아/됐어 ↔ 최고야/멋져/해냈어) |
 | Orbit Dodge | 우주 회피 | 겹침 없음 |
 
-- 공통 UI 문구(`tap_to_start`·`loading`·`load_error`·`btn_next`·설정·확인 창 일부)는 허브 안 같은 UX로 일부러 같게 둡니다(rhythm-02 8-3과 같은 결정). 게임 정체성 문구(제목·태그라인·레벨 이름·카드·판정 이름·결과 제목)는 글자까지 같은 것이 없어야 합니다(9-9 ⑦).
+- 공통 UI 문구(`tap_to_start`·`loading`·`load_error`·`btn_reload`(round-2: reverbound가 같은 "Reload"를 씀)·`btn_next`·설정·확인 창 일부)는 허브 안 같은 UX로 일부러 같게 둡니다(rhythm-02 8-3과 같은 결정). 게임 정체성 문구(제목·태그라인·레벨 이름·카드·판정 이름·결과 제목)는 글자까지 같은 것이 없어야 합니다(9-9 ⑦).
 
 ## 11. 스토어 문구 초안
 

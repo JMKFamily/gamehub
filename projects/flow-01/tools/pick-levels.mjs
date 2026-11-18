@@ -6,7 +6,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SLOTS, SEED_BASE } from './levels-config.mjs';
+import { BASE_SLOTS as SLOTS, SEED_BASE } from './levels-config.mjs';
 import { generate } from './gen/generate.mjs';
 import { solveRun, moveStats, CHILD, SKILLED } from './sim/bots.mjs';
 import { mixSeed } from './core/rng.mjs';

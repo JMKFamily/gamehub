@@ -111,13 +111,19 @@ for (let i = 1; i <= 6; i++) {
   let minStep = Infinity;
   for (let i = 1; i <= 6; i++) { const g = [1, 2, 3].map((n) => M[`connect_g${n}@${i}`].rms_db); for (const d of [g[0] - g[1], g[1] - g[2]]) { minStep = Math.min(minStep, d); if (!(d >= 1.5)) bad(`S7 음 ${i} 등급 RMS 계단 ${d.toFixed(2)} dB < 1.5`); } }
   M.grade_rms_step_min_db = +minStep.toFixed(2); }
+// S8 (r2 H4): 막힘 "툭"(bump) 은 가장 작은 연결음보다 최고값·RMS 모두 ≥ 6 dB 작게, 220 Hz 아래에서 시작(낮은 소리), 120 ms 안에 끝남
+if (!S.sounds.bump) bad('S8 bump(막힘 소리) 없음');
+else { const b = M.bump, minConnRms = Math.min(...conn.map(([, v]) => v.rms_db)); M.bump_margin_db = +(minConn - b.peak_db).toFixed(2);
+  if (!(b.peak_db <= minConn - 6)) bad(`S8 bump 최고 ${b.peak_db} > 연결음 ${minConn.toFixed(2)} − 6`);
+  if (!(b.rms_db <= minConnRms - 6)) bad(`S8 bump RMS ${b.rms_db} > 연결음 RMS ${minConnRms.toFixed(2)} − 6`);
+  for (const L of S.sounds.bump.layers) { if (!((L.f ?? 999) <= 220)) bad('S8 bump 시작 음 > 220 Hz'); if ((L.env.a || 0) + L.env.decay > 120) bad('S8 bump 길이 > 120 ms'); } }
 if (!(M.ambient.peak_db <= minConn - 12)) bad(`S5 배경음 ${M.ambient.peak_db} > 연결음 ${minConn.toFixed(2)} − 12`);
 
 for (const [k, v] of rows) console.log(`${k.padEnd(44)} peak ${String(v.peak_db).padStart(7)} dBFS${v.rms_db !== undefined ? `   rms100 ${String(v.rms_db).padStart(7)}` : ''}`);
 console.log(`연결음 최소 ${minConn.toFixed(2)} / 다른 소리 최고 ${maxOther.toFixed(2)} (${maxOtherKey}) / 틱 최고 ${maxTick.toFixed(2)} / 배경 ${M.ambient.peak_db}`);
 for (const l of out) console.log(l);
 if (args.includes('--write')) {
-  S.measured = { _by: 'assets/check/sound-check.mjs (node 합성식, 2026-11-18 G4 반영). 빌드 렌더값 대조는 1-3 뒤 qa.', margins: { s7_grade_rms_step_db: M.grade_rms_step_min_db, s1_db: +(minConn - maxOther).toFixed(2), s2_db: +(minConn - maxTick).toFixed(2), s5_db: +(minConn - M.ambient.peak_db).toFixed(2) }, values: M };
+  S.measured = { _by: 'assets/check/sound-check.mjs (node 합성식, 2026-11-18 G4 반영). 빌드 렌더값 대조는 1-3 뒤 qa.', margins: { s7_grade_rms_step_db: M.grade_rms_step_min_db, s1_db: +(minConn - maxOther).toFixed(2), s2_db: +(minConn - maxTick).toFixed(2), s5_db: +(minConn - M.ambient.peak_db).toFixed(2), s8_bump_db: M.bump_margin_db }, values: M };
   writeFileSync(SPATH, JSON.stringify(S, null, 1) + '\n'); console.log('wrote measured →', SPATH);
 }
 const wi = args.indexOf('--wav');
@@ -127,5 +133,5 @@ if (wi >= 0) {
   for (const [k, b] of Object.entries(bufs)) wav(b, join(dir, k.replace(/[@]/g, '_') + '.wav'));
   wav(amb, join(dir, 'ambient.wav')); console.log('wav →', dir);
 }
-console.log(fail ? `소리 검사 실패 ${fail}건` : `소리 검사 통과 (S1~S7, 등급 RMS 계단 최소 ${M.grade_rms_step_min_db} dB)`);
+console.log(fail ? `소리 검사 실패 ${fail}건` : `소리 검사 통과 (S1~S8, 등급 RMS 계단 최소 ${M.grade_rms_step_min_db} dB, 막힘 툭 −${M.bump_margin_db} dB)`);
 process.exit(fail ? 1 : 0);

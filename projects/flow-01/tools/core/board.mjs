@@ -7,7 +7,7 @@
 // 칸 번호: idx = y * W + x (x 오른쪽, y 아래). 레벨 JSON 의 좌표는 [x, y].
 // 상태는 모두 일반 배열·숫자라 JSON 으로 저장·복원할 수 있습니다(snapshot/restore).
 
-export const CORE_VERSION = '1.1.0'; // 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2)
+export const CORE_VERSION = '1.2.0'; // 1.2.0(round-2 H2): 처음부터 = 새 시도(이동 수·판정 기록 0), 바로 다음 되돌리기 = 처음부터 취소. 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2)
 
 // ---------------------------------------------------------------- 판
 export function makePuzzle(level) {
@@ -85,6 +85,7 @@ export function newGame(pz, rules = {}) {
     completed: false,
     undoStack: [],
     connectLog: [],                   // {color, moves, colorMoves, grade} — 표시층용 기록(판정에 쓰지 않음)
+    resetUndo: null,                  // 처음부터 직전 전체 상태(H2). 처음부터 바로 다음 되돌리기만 씀, 판이 바뀌면 지움
   };
 }
 
@@ -196,6 +197,7 @@ export function release(g, d) {
   const changed = d.started && !samePaths(next, g.paths);
   let counted = false;
   if (changed) {
+    g.resetUndo = null; // 처음부터 뒤 판이 바뀌면 처음부터 취소 기회는 사라짐(H2)
     g.undoStack.push(snapshot(g));
     g.paths = clonePaths(next);
     if (d.c !== g.lastMoveColor) { g.moves++; g.colorMoves[d.c]++; g.lastMoveColor = d.c; counted = true; }
@@ -210,20 +212,37 @@ export function release(g, d) {
   return d.result;
 }
 
-// 되돌리기·처음부터: 이동 수를 줄이지도 늘리지도 않음. 다음 드래그는 같은 색이어도 새 이동으로 셈.
+// 되돌리기: 이동 수를 줄이지도 늘리지도 않음. 다음 드래그는 같은 색이어도 새 이동으로 셈(R9).
+// 단, 처음부터 바로 다음의 되돌리기는 처음부터 자체를 취소(H2): 판·이동 수·색별 이동 수·판정 기록·되돌리기 목록을
+// 처음부터 직전 그대로 되살림. 되돌려도 이동 수가 함께 돌아오므로 별 지름길이 없음.
 export function undo(g) {
-  if (g.completed || !g.undoStack.length) return false;
+  if (g.completed) return false;
+  if (g.resetUndo) {
+    const r = g.resetUndo;
+    g.resetUndo = null;
+    restore(g, r.snap);
+    g.undoStack = r.undoStack;
+    g.connectLog = r.connectLog;
+    return true;
+  }
+  if (!g.undoStack.length) return false;
   const s = g.undoStack.pop();
   g.paths = clonePaths(s.paths);
   g.lastMoveColor = -1;
   return true;
 }
+// 처음부터 = 새 시도(H2): 판을 비우고 이동 수·색별 이동 수·판정 기록·되돌리기 목록을 0 으로(별 다시 가능).
+// 판이 비어 있고 이동 수도 0 이면 할 일 없음.
 export function resetBoard(g) {
   if (g.completed) return false;
-  if (g.paths.every((p) => !p.length)) return false;
-  g.undoStack.push(snapshot(g));
+  if (g.paths.every((p) => !p.length) && g.moves === 0) return false;
+  g.resetUndo = { snap: snapshot(g), undoStack: g.undoStack, connectLog: g.connectLog };
   g.paths = g.pz.pairs.map(() => []);
+  g.moves = 0;
+  g.colorMoves = g.pz.pairs.map(() => 0);
   g.lastMoveColor = -1;
+  g.undoStack = [];
+  g.connectLog = [];
   return true;
 }
 
@@ -247,7 +266,7 @@ export function previewGrade(g, d, bounds) {
 }
 export const fillPct = (pz, paths) => Math.floor((100 * coveredCells(pz, paths)) / pz.cellCount);
 // 한 번에 이은 쌍(G2): 완료 때 그 색 이동 수 = 1 인 쌍. 연결 뒤 풀렸다가 그 색을 다시 그어(다른 색 이동이나
-// 되돌리기·처음부터 뒤라 새 이동으로 세어짐) 이으면 그 색 이동 수 ≥ 2 → 한 번에 아님. 같은 색을 이어서 고쳐 그은 것은
+// 되돌리기 뒤라 새 이동으로 세어짐; 처음부터는 새 시도라 0 부터 다시) 이으면 그 색 이동 수 ≥ 2 → 한 번에 아님. 같은 색을 이어서 고쳐 그은 것은
 // 같은 이동(20-balance 4절)이라 한 번에 유지. 이 정의라서 % 100 ⇔ 이동 수 = 쌍 수 ⇔ 별 ⇔ 모두 1단.
 export const oneShotPairs = (g) => g.colorMoves.filter((m) => m === 1).length;
 // 결과 % = ⌊100 · 한 번에 이은 쌍 / 쌍 수⌋ (G2)

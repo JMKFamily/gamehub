@@ -4,6 +4,10 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | art-director | round-2 기획 | [카드 = 판 안 + 카드 안 글(S3, 겹침 검사), 채움 막대·결과 쌍 점 줄(H3), 막힘 튕김 + 툭 −13 dB(H4), 그리기 규칙(S1·S2), 선 0.48·50바탕·챕터 페이지·주스 표](art-director/2026-11-18-r2-plan.md) |
+| 2026-11-18 | balance-designer | round-2 기획 | [판정 모듈 1.2.0(H2), 스테이지 50개(5챕터, 전체 실행 ALL PASS, 끝 m̃ 25.33), 도움 이동 신호 43레벨, 규칙 카드 6 s, H1 문구 확정](balance-designer/2026-11-18-r2-plan.md) |
+| 2026-11-18 | lore-writer | round-2 기획 | [guardian_intro 고쳐 씀(E4), Nice!, 플레이 .sr 제목, 결과 점 줄 result_dots(H3), 막힘 낭독 없음(H4), 50판·5장 이름·레벨 선택 문구, 키 117·9-9 PASS](lore-writer/2026-11-18-r2-plan.md) |
+| 2026-11-18 | benchmark-analyst | round-2 기획 | [00-benchmark 정정: H1 완료 → 결과·버튼 타이밍(15절), H2 처음부터 = 새 시도(13-2), H4 막힘 "툭"+튕김(9절 바꿀 것)](benchmark-analyst/2026-11-18-r2-plan.md) |
 | 2026-11-18 | orchestrator | 1-7 | [round-1 게이트 미통과(7.765), 결정 H1~H4(완료 시간, 처음부터 = 새 시도, 두 % 모양 구분, 막힘 소리)](orchestrator/2026-11-18-1-7-round1-gate.md) |
 | 2026-11-18 | qa-engineer | 1-6 | [round-1 점수 집계: 가중 7.765·게이트 실패(총점 −0.235, 영역·UX·blocker 통과), 병합 이슈 33건(major 5·minor 28), criteria 13줄 추가, round-2 최우선 성능·가로 카드 가림·UX 막힘/결과 %](qa-engineer/2026-11-18-1-6-round1-score.md) |
 | 2026-11-18 | ux-reviewer | 1-5 | [round-1 UX 리뷰: 5/6·7.0·REVISE(major 2·minor 8), 쌍 점 모양 표지 흑백·색약 구분 통과, 막힘 = 시작 안내와 같은 숨 쉬기·결과 %(한 번에 이은) ≠ 플레이 %(칠한 칸)·별 없는 이유 없음](ux-reviewer/2026-11-18-1-5-round1-review.md) |
