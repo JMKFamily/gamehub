@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | qa-engineer | 1-4 | [QA round-2: 기술 품질 6.0·REVISE(blocker 1·major 1·minor 4), 결과 ▶·↻ 일반 모드 멈춤 blocker, 빌드 판정 = 시뮬 4만 판 불일치 0, 끄는 중 59.5 fps·카드 판 열기 133~267 ms](qa-engineer/2026-11-18-1-4-round2-qa.md) |
 | 2026-11-18 | game-developer | round-2 | [빌드 수정: 성능 render 규칙(6배 스로틀 1% low 59.5·메뉴 전환 ≤ 67 ms), H1~H4, 50스테이지 장 페이지·색 돌려쓰기, 주스 연출, selfcheck 50판 ALL PASS](game-developer/2026-11-18-r2-build.md) |
 | 2026-11-18 | art-director | round-2 기획 | [카드 = 판 안 + 카드 안 글(S3, 겹침 검사), 채움 막대·결과 쌍 점 줄(H3), 막힘 튕김 + 툭 −13 dB(H4), 그리기 규칙(S1·S2), 선 0.48·50바탕·챕터 페이지·주스 표](art-director/2026-11-18-r2-plan.md) |
 | 2026-11-18 | balance-designer | round-2 기획 | [판정 모듈 1.2.0(H2), 스테이지 50개(5챕터, 전체 실행 ALL PASS, 끝 m̃ 25.33), 도움 이동 신호 43레벨, 규칙 카드 6 s, H1 문구 확정](balance-designer/2026-11-18-r2-plan.md) |

@@ -45,13 +45,15 @@ function simRun(lv, drags) {
   const out = [];
   for (const cells of drags) {
     const d = Bm.press(g, cells[0]);
-    const grades = [];
+    const grades = [], raw = [];
     if (d) {
       for (let i = 1; i < cells.length && !d.done; i++) Bm.moveTo(g, d, cells[i]);
       Bm.release(g, d);
-      for (const e of d.events) if (e.type === 'connect') grades.push(e.previewGrade);
+      // 빌드 표시 규칙(r2 S13): 한 드래그 안에서 같은 쌍이 다시 닿으면(훅 경로는 시계가 멈춰 400 ms 안) 마지막 완료 연결이 아니면 소리·이름 없음
+      const conns = d.events.filter((e) => e.type === 'connect'), seen = new Set();
+      conns.forEach((e, j) => { raw.push(e.previewGrade); const last = g.completed && j === conns.length - 1; if (seen.has(e.color) && !last) { seen.add(e.color); return; } seen.add(e.color); grades.push(e.previewGrade); });
     }
-    out.push({ m: g.moves, gr: grades.join(''), f: Bm.fillPct(pz, g.paths), c: g.completed ? 1 : 0 });
+    out.push({ m: g.moves, gr: grades.join(''), raw: raw.join(''), f: Bm.fillPct(pz, g.paths), c: g.completed ? 1 : 0 });
     if (g.completed) break;
   }
   return { steps: out, moves: g.moves, completed: g.completed, pct: g.completed ? Bm.accuracyPct(g) : null, star: Bm.isStar(g), colorMoves: g.colorMoves.slice() };
@@ -66,7 +68,7 @@ async function boot({ needBrowser = true } = {}) {
   for (const name of ['playwright', 'playwright-core']) { try { pw = req(name); break; } catch {} }
   if (!pw && process.env.PLAYWRIGHT_CORE) { try { pw = createRequire(join(process.env.PLAYWRIGHT_CORE, 'index.js'))(process.env.PLAYWRIGHT_CORE); } catch {} }
   if (!pw) { console.error('playwright 없음: PLAYWRIGHT_CORE 지정'); process.exit(2); }
-  for (let p = 8750; p <= 8769 && !server; p++) {
+  for (let p = +opt('--port-from', 8740); p <= +opt('--port-to', 8749) && !server; p++) {
     try { await fetch(`http://127.0.0.1:${p}/`); continue; } catch {}
     const ch = spawn(process.execPath, [join(PROJ, 'tools/serve.mjs'), String(p)], { stdio: ['ignore', 'pipe', 'pipe'] });
     const up = await new Promise((res) => { ch.stdout.once('data', () => res(true)); ch.once('exit', () => res(false)); setTimeout(() => res(false), 4000); });
@@ -105,7 +107,7 @@ const finish = async (name, obj) => { if (browser) await browser.close(); obj.lo
 const PAGE_RUN = ([li, runs]) => {
   const g = window.__game, out = [];
   for (const drags of runs) {
-    g.loadLevel(li); if (g.board.card) { g.step(17); g.closeCard(); }
+    g.loadLevel(li); if (g.board.card) g.closeCard(); // r2: 시계 0 에서도 닫혀야 함(S7 회귀 확인)
     const steps = [];
     let prev = g.sfxLog.length;
     for (const cells of drags) {
@@ -173,7 +175,7 @@ if (PART === 'bots') {
         const got = await G(p, PAGE_RUN, [li, batch]);
         got.forEach((b, j) => {
           const { k, run, sim } = ref[j];
-          agg.n++; agg.drags += b.steps.length; agg.moves.push(b.moves);
+          agg.n++; agg.drags += b.steps.length; agg.moves.push(b.moves); (agg.simMoves ||= []).push(sim.moves);
           if (b.completed) agg.completed++; if (b.star) agg.stars++;
           for (const s of b.steps) for (const ch of s.gr) agg.grade_counts[+ch - 1]++;
           let sm = 0;
@@ -194,7 +196,7 @@ if (PART === 'bots') {
         });
       }
       const st = moveStats(agg.moves);
-      res[bot][lv.id] = { n: agg.n, drags: agg.drags, m: +st.cmedian.toFixed(3), median_int: st.median, mean: +st.mean.toFixed(2), p90: st.p90, completed: agg.completed, stars: agg.stars,
+      res[bot][lv.id] = { n: agg.n, drags: agg.drags, m: +st.cmedian.toFixed(3), sim_m_same_runs: +moveStats(agg.simMoves).cmedian.toFixed(3), median_int: st.median, mean: +st.mean.toFixed(2), p90: st.p90, completed: agg.completed, stars: agg.stars,
         run_mismatch: agg.run_mismatch, steps_mismatch: agg.steps_mismatch, fill_vs_indep_mismatch: agg.fill_vs_indep_mismatch, inv_mismatch: agg.inv_mismatch, grade_counts: agg.grade_counts };
       console.log(`L${lv.id} ${bot} n=${agg.n} m̃=${st.cmedian.toFixed(3)} 드래그 ${agg.drags} 불일치 판 ${agg.run_mismatch} 단계 ${agg.steps_mismatch} 채움 ${agg.fill_vs_indep_mismatch} 불변식 ${agg.inv_mismatch} (${((Date.now() - res.t0) / 1000).toFixed(0)} s)`);
     }
@@ -239,18 +241,20 @@ if (PART === 'mouse') {
     const lv = LEVELS[i];
     console.log('mouse L' + lv.id, await G(p, () => window.__game.state));
     if (i > 0) {
-      // 결과 화면의 ▶(다음)을 실제 마우스로: 완료 + 1100 ms(무시돼야 함), + 1400 ms(받아야 함)
-      const nx = await p.locator('#rNext').boundingBox();
+      // round-2: 결과 ▶/↻ 는 일반 모드에서 rAF 루프가 죽는 blocker(qa.md 이슈 1)라 결과 '지도' 버튼으로 같은 수락 시각(1,100 무시·1,400 받음)을 재고 지도 노드로 다음 판을 엶
       const t = await G(p, () => window.__qa.ev.filter((e) => e.k === 'up' && e.done).slice(-1)[0].t);
       const wait = async (ms) => { const now = await G(p, () => performance.now()); if (t + ms > now) await p.waitForTimeout(t + ms - now); };
-      await wait(1100); { const b = await p.locator('#rNext').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
+      await wait(1100); { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
       const early = await G(p, () => window.__game.state);
-      await wait(1400); { const b = await p.locator('#rNext').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
+      await wait(1400); { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
       const tClick = await G(p, () => performance.now());
+      await p.waitForFunction(() => window.__game.state === 'map'); await p.waitForTimeout(200);
+      for (let k = 0; k < 5 && !(await p.locator(`.node[data-i="${i}"]`).count()); k++) { const nb2 = await p.locator('#mNext').boundingBox(); await p.mouse.click(nb2.x + nb2.width / 2, nb2.y + nb2.height / 2); await p.waitForTimeout(500); }
+      { const b = await p.locator(`.node[data-i="${i}"]`).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
       await p.waitForFunction(() => window.__game.state === 'play');
       // 다음 판 조작 가능: 카드가 있으면 한 번 눌러 닫음, 그다음 첫 쌍 점 누름이 받아지는지
       let card = await G(p, () => window.__game.board.card);
-      if (card) { await p.mouse.click(5, 305); await p.waitForTimeout(300); }
+      let tCardClose = null, cardTaps = 0, cardShownMs = null; if (card) { const t0c = await G(p, () => window.__game.clock); await p.waitForTimeout(450); for (let k = 0; k < 6 && (await G(p, () => window.__game.board.card && !window.__game.board.locked === false)); k++) { const cb = await p.locator('#pCard').boundingBox(); await p.mouse.click(cb.x + cb.width / 2, cb.y + cb.height / 2); cardTaps++; tCardClose = await G(p, () => performance.now()); if (!(await G(p, () => window.__game.board.locked))) break; await p.waitForTimeout(150); } cardShownMs = +((await G(p, () => window.__game.clock)) - t0c).toFixed(0); console.log("card", lv.id, cardTaps, cardShownMs, JSON.stringify(await G(p, () => ({ card: window.__game.board.card, locked: window.__game.board.locked, st: window.__game.state, li: window.__game.levelIndex })))); } // r2 H1·S8: 카드는 뜬 뒤 400 ms 부터 누름으로 닫히고, 닫히는 즉시 판 누름을 받아야 함(기다리지 않음)
       const gr = await G(p, () => window.__game.layout.grid);
       const [x0, y0] = at(gr, solOf(lv)[0][0]);
       await p.mouse.move(x0, y0); await p.mouse.down();
@@ -259,9 +263,9 @@ if (PART === 'mouse') {
       const ev = await G(p, () => window.__qa.ev);
       const up = ev.filter((e) => e.k === 'up' && e.done && e.t <= t).slice(-1)[0];
       const res = ev.filter((e) => e.k === 'state' && e.s === 'result' && e.t > up.t)[0];
-      out.timing.push({ level_completed: LEVELS[i - 1].id, early_click_state: early, done_to_result_ms: res ? +(res.t - up.t).toFixed(0) : null, done_to_result_clock_ms: res ? +(res.clock - up.clock).toFixed(0) : null, next_click_at_ms: +(tClick - up.t).toFixed(0), next_press_accepted: acc.n === 1, card, done_to_next_press_ms: +(acc.t - up.t).toFixed(0) });
+      out.timing.push({ card_taps: cardTaps, card_game_ms_until_closed: cardShownMs, card_close_to_press_ms: tCardClose ? +(acc.t - tCardClose).toFixed(0) : null, level_completed: LEVELS[i - 1].id, early_click_state: early, done_to_result_ms: res ? +(res.t - up.t).toFixed(0) : null, done_to_result_clock_ms: res ? +(res.clock - up.clock).toFixed(0) : null, next_click_at_ms: +(tClick - up.t).toFixed(0), next_press_accepted: acc.n === 1, card, done_to_next_press_ms: +(acc.t - up.t).toFixed(0) });
       await G(p, (i) => { const g = window.__game; if (g.levelIndex !== i) g.loadLevel(i); }, i); // 같은 판이면 그대로
-      if (await G(p, () => window.__game.moves)) { await G(p, (i) => window.__game.loadLevel(i), i); await p.waitForTimeout(250); if (await G(p, () => window.__game.board.card)) await p.mouse.click(5, 305); }
+      if (await G(p, () => window.__game.moves)) { await G(p, (i) => window.__game.loadLevel(i), i); await p.waitForTimeout(450); if (await G(p, () => window.__game.board.card)) { const cb = await p.locator('#pCard').boundingBox(); await p.mouse.click(cb.x + cb.width / 2, cb.y + cb.height / 2); } }
     } else { await p.waitForTimeout(250); }
     await p.waitForTimeout(150);
     for (const path of solOf(lv)) await mouseDrag(path);
@@ -269,7 +273,7 @@ if (PART === 'mouse') {
     const log = await G(p, () => window.__game.dragLog);
     const sim = simRun(lv, log.map((d) => d.map(([x, y]) => y * lv.width + x)));
     out.gen.push({ id: lv.id, star: !!(r && r.star), pct: r && r.accuracyPct, moves: r && r.moves, replay_match: !!r && sim.moves === r.moves && sim.star === r.star && sim.pct === r.accuracyPct });
-    await p.waitForFunction(() => window.__game.state === 'result', null, { timeout: 5000 }).catch(async (e) => { console.log('FAIL', lv.id, JSON.stringify(await G(p, () => ({ st: window.__game.state, b: window.__game.board, log: window.__game.dragLog, m: window.__game.moves })))); throw e; });
+    await p.waitForFunction(() => window.__game.state === 'result', null, { timeout: 5000 }).catch(async (e) => { console.log('LOG', JSON.stringify(LOG.console.slice(0, 5))); console.log('FAIL', lv.id, JSON.stringify(await G(p, () => ({ st: window.__game.state, b: window.__game.board, log: window.__game.dragLog, m: window.__game.moves })))); throw e; });
   }
   // 아이 봇 드래그 열 일부를 실제 마우스로(L1~L3 각 8판): 빌드 결과 = 시뮬레이터
   for (const li of [0, 1, 2]) {
@@ -277,7 +281,7 @@ if (PART === 'mouse') {
     for (let k = 0; k < 8; k++) {
       const run = solveRun(lv, CHILD, mixSeed(SEED, 0, li, k), { log: true });
       await G(p, (li) => window.__game.loadLevel(li), li); await p.waitForTimeout(250);
-      if (await G(p, () => window.__game.board.card)) { await p.mouse.click(5, 305); await p.waitForTimeout(250); }
+      if (await G(p, () => window.__game.board.card)) { await p.waitForTimeout(250); const cb = await p.locator('#pCard').boundingBox(); await p.mouse.click(cb.x + cb.width / 2, cb.y + cb.height / 2); }
       for (const d of run.log) { await mouseDrag(d.map(xy)); if (await G(p, () => window.__game.board.completed)) break; }
       const b = await G(p, () => ({ moves: window.__game.moves, done: window.__game.board.completed, r: window.__game.result, log: window.__game.dragLog }));
       const sim = simRun(lv, run.log);
@@ -311,7 +315,7 @@ if (PART === 'paint') {
   await boot();
   const { c, p } = await open(412, 915, '?test=1', { store: null });
   const out = { cases: 0, mismatch: 0, tainted: false, samples: [] };
-  for (const li of [0, 2, 5, 7, 9]) {
+  for (const li of [0, 2, 5, 7, 9, 11, 29, 49].filter((i) => i < LEVELS.length)) {
     const lv = LEVELS[li], xy = toXY(lv);
     const base = await G(p, ([li]) => { const g = window.__game; g.loadLevel(li); g.closeCard(); g.step(1200); return true; }, [li]);
     void base;
@@ -341,11 +345,11 @@ if (PART === 'paint') {
           if (diff !== conn.has(i)) wrong.push([x, y]);
         }
         const cells = b.W * b.H - holes.size;
-        return { fillPct: b.fillPct, tinted, exp, pctFromPixels: Math.floor((100 * tinted) / cells), wrong };
+        const fp = document.getElementById('pFillPct'); const bar = document.getElementById('pFillBar'), tr = document.getElementById('pFillTrack'); return { fillPct: b.fillPct, shown: fp ? fp.textContent : null, bar: bar && tr ? +(100 * bar.getBoundingClientRect().width / tr.getBoundingClientRect().width).toFixed(1) : null, tinted, exp, pctFromPixels: Math.floor((100 * tinted) / cells), wrong };
       }, [li, drags]).catch((e) => ({ error: String(e) }));
       if (r.error) { out.tainted = r.error; break; }
       out.cases++;
-      if (r.pctFromPixels !== r.fillPct || r.wrong.length) out.mismatch++;
+      if (r.pctFromPixels !== r.fillPct || r.wrong.length) out.mismatch++; if (r.shown != null && parseInt(r.shown) !== r.fillPct) out.shown_mismatch = (out.shown_mismatch || 0) + 1;
       out.samples.push({ level: lv.id, k, ...r });
     }
   }
@@ -356,53 +360,89 @@ if (PART === 'paint') {
   process.exit(0);
 }
 
-// ================================================================= shots (화면·크기·겹침)
+// ================================================================= shots (화면·크기·겹침·카드 단언, round-2: 장 페이지·색 돌려쓰기·막힘·도움 신호·결과 점 줄)
 if (PART === 'shots') {
   await boot();
   const RES = [[360, 640], [412, 915], [640, 360], [1280, 720]];
   const partial = { v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: { '01': { done: true, star: true, bestPct: 100, bestFill: 100 }, '02': { done: true, star: false, bestPct: 66, bestFill: 100 }, '03': { done: true, star: true, bestPct: 100, bestFill: 100 }, '04': { done: false, star: false, bestPct: null, bestFill: 40 } } };
-  const out = { ui: [], cells: [], shots: [], error: [] };
+  const allDone = { v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: Object.fromEntries(LEVELS.slice(0, 12).map((l) => [l.id, { done: true, star: true, bestPct: 100, bestFill: 100 }])) };
+  const out = { ui: [], cells: [], shots: [], error: [], cards: [], asserts: [] };
   const shot = async (p, name) => { await p.screenshot({ path: join(SDIR, name) }); out.shots.push(name); };
+  const assert = (tag, ok, info) => { out.asserts.push({ tag, ok: !!ok, info }); if (!ok) console.log('ASSERT FAIL', tag, JSON.stringify(info)); };
   async function ui(p, tag) {
     const r = await p.evaluate(() => {
-      const vis = (el) => { let e = el; while (e) { const s = getComputedStyle(e); if (e.hidden || s.display === 'none' || s.visibility === 'hidden') return false; e = e.parentElement; } return true; };
-      const els = [...document.querySelectorAll('.screen.show button')].filter(vis);
-      const rs = els.map((b) => ({ id: b.id || b.className + (b.dataset.i ?? b.dataset.k ?? b.dataset.lang ?? ''), r: b.getBoundingClientRect() }));
+      const vis = (el) => { let e = el; while (e) { const s = getComputedStyle(e); if (e.hidden || s.display === 'none' || s.visibility === 'hidden' || +s.opacity === 0) return false; e = e.parentElement; } return true; };
+      const R = (el) => el.getBoundingClientRect();
+      const els = [...document.querySelectorAll('.screen.show button')].filter(vis).filter((b) => !b.closest('#gConfirm[hidden]'));
+      const rs = els.map((b) => ({ id: b.id || b.className + (b.dataset.i ?? b.dataset.k ?? b.dataset.lang ?? b.dataset.p ?? ''), tab: b.getAttribute('role') === 'tab', r: R(b) }));
       const g = window.__game;
       if (g.state === 'play' && g.layout.grid) { const gr = g.layout.grid, b = g.board; rs.push({ id: 'BOARD', r: { left: gr.originX, top: gr.originY, right: gr.originX + gr.cellPx * b.W, bottom: gr.originY + gr.cellPx * b.H, width: gr.cellPx * b.W, height: gr.cellPx * b.H } }); }
-      const small = rs.filter((x) => x.id !== 'BOARD' && (x.r.width < 47.5 || x.r.height < 47.5)).map((x) => `${x.id}:${x.r.width.toFixed(0)}x${x.r.height.toFixed(0)}`);
+      const small = rs.filter((x) => x.id !== 'BOARD' && !x.tab && (x.r.width < 47.5 || x.r.height < 47.5)).map((x) => `${x.id}:${x.r.width.toFixed(0)}x${x.r.height.toFixed(0)}`);
+      const tabs = rs.filter((x) => x.tab).map((x) => `${x.r.width.toFixed(0)}x${x.r.height.toFixed(0)}`);
+      const ov = (a, b) => Math.min(a.right, b.right) - Math.max(a.left, b.left) > 1 && Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) > 1;
       const over = [];
-      for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) { const a = rs[i].r, b = rs[j].r; const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left), oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top); if (ox > 1 && oy > 1) over.push(rs[i].id + '×' + rs[j].id); }
-      const outside = rs.filter((x) => x.r.left < -0.5 || x.r.top < -0.5 || x.r.right > innerWidth + 0.5 || x.r.bottom > innerHeight + 0.5).map((x) => x.id);
-      const minBtn = Math.min(...rs.filter((x) => x.id !== 'BOARD').map((x) => Math.min(x.r.width, x.r.height)));
-      const scroll = { sw: document.scrollingElement.scrollWidth, sh: document.scrollingElement.scrollHeight, iw: innerWidth, ih: innerHeight };
-      const gs = document.getElementById('gScroll'); const gScroll = gs && vis(gs) ? { sh: gs.scrollHeight, ch: gs.clientHeight } : null;
-      const overflow = [...document.querySelectorAll('.screen.show .slot, .screen.show .band b, .screen.show .tb')].filter(vis).filter((e) => e.textContent && (e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 2)).map((e) => (e.id || e.className) + ':' + e.textContent.slice(0, 12));
-      return { n: rs.length, small, over, outside, minBtn: +minBtn.toFixed(1), scroll, gScroll, overflow };
+      for (let i = 0; i < rs.length; i++) for (let j = i + 1; j < rs.length; j++) if (ov(rs[i].r, rs[j].r)) over.push(rs[i].id + '×' + rs[j].id);
+      const inGuard = !!document.querySelector('#guardian.show');
+      const outside = inGuard ? [] : rs.filter((x) => x.r.left < -0.5 || x.r.top < -0.5 || x.r.right > innerWidth + 0.5 || x.r.bottom > innerHeight + 0.5).map((x) => x.id);
+      const minBtn = Math.min(...rs.filter((x) => x.id !== 'BOARD' && !x.tab).map((x) => Math.min(x.r.width, x.r.height)));
+      const gs = document.getElementById('gScroll'); const gScroll = gs && vis(gs) ? { sh: gs.scrollHeight, ch: gs.clientHeight, hint: vis(document.getElementById('gHint')) } : null;
+      const texts = [...document.querySelectorAll('.screen.show .slot, .screen.show .band b, .screen.show .tb, #pFillPct')].filter(vis).filter((e) => e.textContent.trim());
+      const overflow = texts.filter((e) => e.scrollWidth > e.clientWidth + 1 || e.scrollHeight > e.clientHeight + 2).map((e) => (e.id || e.className) + ':' + e.textContent.slice(0, 12));
+      // 가림: 보이는 글 자리 ↔ 버튼·HUD, 카드 ↔ 글 자리·HUD·버튼(카드 안 글은 제외)
+      // HUD 묶음(쌍 점 줄·별 줄·결과 점 줄)은 상자가 넓게 잡혀 가짜 겹침이 나므로 실제로 그려진 자식 요소 사각형을 씀
+      const hud = ['pPairs', 'pFill', 'mStars', 'rDots', 'rPct', 'rStar'].map((id) => document.getElementById(id)).filter((e) => e && vis(e) && e.closest('.screen.show')).flatMap((e) => (['pPairs', 'mStars', 'rDots'].includes(e.id) && e.children.length ? [...e.children].filter(vis) : [e]));
+      const covered = [];
+      for (const t of texts) for (const b of [...els, ...hud]) if (!b.contains(t) && !t.contains(b) && ov(R(t), R(b))) covered.push((t.id || t.className) + '∩' + (b.id || (b.parentElement.id + '>' + b.tagName)));
+      const card = document.getElementById('pCard'); let cardHits = null;
+      if (card && vis(card) && document.querySelector('#play.show')) { cardHits = []; for (const e of [...texts.filter((t) => !card.contains(t)), ...hud, ...els]) if (ov(R(card), R(e))) cardHits.push(e.id || (e.parentElement.id + '>' + e.tagName)); }
+      return { n: rs.length, small, tabs, over, outside, minBtn: +minBtn.toFixed(1), gScroll, overflow, covered, cardHits };
     });
     out.ui.push({ tag, ...r });
+    return r;
   }
+  const blockedCase = (() => { for (let li = 0; li < 12; li++) { const lv = LEVELS[li]; for (let k = 0; k < lv.pairs.length; k++) for (let m = 0; m < lv.pairs.length; m++) if (m !== k) for (const ep of [lv.pairs[m].a, lv.pairs[m].b]) { const a = lv.pairs[k].a; if (Math.abs(a[0] - ep[0]) + Math.abs(a[1] - ep[1]) === 1) return { li, drag: [a, ep] }; } } return null; })();
   for (const [W, H] of RES) {
     for (const lang of ['ko', 'en']) {
       const tag = `${W}x${H}-${lang}`;
       const { c, p } = await open(W, H, `?test=1&lang=${lang}`, { store: partial });
-      await G(p, () => window.__game.step(400)); await ui(p, tag + ' title'); await shot(p, `${tag}-title.png`);
-      await G(p, () => { window.__game.toMap(); window.__game.step(400); }); await ui(p, tag + ' map'); await shot(p, `${tag}-map.png`);
+      await G(p, () => window.__game.step(1500)); await ui(p, tag + ' title'); await shot(p, `${tag}-title.png`);
+      await G(p, () => { window.__game.toMap(0); window.__game.step(600); }); await ui(p, tag + ' map-ch1'); await shot(p, `${tag}-map-ch1.png`);
+      await G(p, () => { window.__game.toMap(2); window.__game.step(600); }); await ui(p, tag + ' map-ch3-locked'); await shot(p, `${tag}-map-ch3-locked.png`);
+      const ns = await G(p, () => [...document.querySelectorAll('#mNodes .node')].map((b) => b.dataset.state));
+      assert(tag + ' ch3 nodes locked', ns.length === 10 && ns.every((s) => s === 'locked'), ns);
       await G(p, () => { const g = window.__game; g.loadLevel(0); g.step(500 + 250 + 150 + 260 * 2 + 100); }); await ui(p, tag + ' play-L1'); await shot(p, `${tag}-play-L1-tutorial.png`);
-      // L2 카드 → 빈칸 신호(곧게 이어 3번째 숨 쉬기 + gap_left 글)
       const l2 = LEVELS[1], s2 = solOf(l2), straight = l2.pairs.map((pr, k) => (k === 2 ? [pr.a, pr.b] : s2[k]));
-      await G(p, () => { const g = window.__game; g.loadLevel(1); g.step(300); }); await shot(p, `${tag}-play-L2-card.png`);
-      await G(p, (paths) => { const g = window.__game; g.closeCard(); g.step(300); for (const c of paths) g.drag(c); g.step(630 + 2 * 2600 + 300); }, straight); await ui(p, tag + ' play-L2'); await shot(p, `${tag}-play-L2-gap.png`);
+      await G(p, (paths) => { const g = window.__game; g.loadLevel(1); g.closeCard(); g.step(300); for (const c of paths) g.drag(c); g.step(630 + 2 * 2600 + 300); }, straight); await ui(p, tag + ' play-L2-gap'); await shot(p, `${tag}-play-L2-gap.png`);
+      // 막힘 튕김 순간(bump)
+      if (blockedCase) { await G(p, (bc) => { const g = window.__game; g.loadLevel(bc.li); g.closeCard(); g.step(300); g.press(bc.drag[0]); g.move(bc.drag[1]); g.step(50); }, blockedCase); await shot(p, `${tag}-play-blocked-bump.png`); await G(p, () => { window.__game.release(); }); }
+      // L6 판정(카드 닫고 일부 이음), L12 색 돌려쓰기
       const s6 = solOf(LEVELS[5]);
-      await G(p, () => { const g = window.__game; g.loadLevel(5); g.step(300); }); await ui(p, tag + ' play-L6-card'); await shot(p, `${tag}-play-L6-card.png`);
-      await G(p, (s6) => { const g = window.__game; g.closeCard(); g.step(300); g.drag(s6[0]); g.drag(s6[2]); g.step(1000); g.drag([s6[4][0], s6[4][1]]); g.drag(s6[1]); g.undo(); g.drag(s6[1]); g.step(90); }, s6); await ui(p, tag + ' play-L6'); await shot(p, `${tag}-play-L6-judge.png`);
-      await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 1300); }, s6); await ui(p, tag + ' result'); await shot(p, `${tag}-result.png`);
-      await G(p, () => { window.__game.toGuardian(); window.__game.step(400); }); await ui(p, tag + ' guardian'); await shot(p, `${tag}-guardian.png`);
-      // 칸 px: 10레벨 실제 렌더 칸
-      if (lang === 'ko') for (let i = 0; i < LEVELS.length; i++) { const cp = await G(p, (i) => { const g = window.__game; g.loadLevel(i); g.closeCard(); g.step(300); return g.layout.grid.cellPx; }, i); out.cells.push({ res: `${W}x${H}`, level: LEVELS[i].id, size: `${LEVELS[i].width}x${LEVELS[i].height}`, cell_px: +cp.toFixed(1) }); }
+      await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); g.drag(s6[0]); g.drag(s6[2]); g.step(1000); g.drag([s6[4][0], s6[4][1]]); g.drag(s6[1]); g.undo(); g.drag(s6[1]); g.step(90); }, s6); await ui(p, tag + ' play-L6'); await shot(p, `${tag}-play-L6-judge.png`);
+      const s12 = solOf(LEVELS[11]);
+      await G(p, (s) => { const g = window.__game; g.loadLevel(11); g.closeCard(); g.step(300); g.drag(s[0]); g.drag(s[1]); g.step(90); }, s12); await ui(p, tag + ' play-L12'); await shot(p, `${tag}-play-L12-colors.png`);
+      // 도움 신호(L8, 이동 수 ≥ moves_trigger)
+      const trig = BAL.help.moves_trigger_by_level['08'], l8 = LEVELS[7], s8 = solOf(l8);
+      const hb = await G(p, ([s, n]) => { const g = window.__game; g.loadLevel(7); g.closeCard(); g.step(300); for (let k = 0; k < n; k++) { const q = k % 4; g.drag(q === 0 ? s[0] : q === 1 ? s[1] : q === 2 ? s[0].slice(0, 2) : s[1].slice(0, 2)); } g.step(800); return { moves: g.moves, help: g.board.helpBreath }; }, [s8, trig + 2]);
+      assert(tag + ' L8 help signal', hb.help && hb.moves >= trig, hb); await shot(p, `${tag}-play-L8-help-signal.png`);
+      // 결과: L6 100 % / L3 한 쌍 다시 그음(속 빈 점)
+      await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 1600); }, s6); await ui(p, tag + ' result'); await shot(p, `${tag}-result.png`);
+      const s3 = solOf(LEVELS[2]);
+      const r3 = await G(p, (s) => { const g = window.__game; g.loadLevel(2); g.step(300); g.drag(s[0]); g.drag(s[1]); g.drag(s[2].slice(0, 2)); g.drag(s[0].slice(0, 2)); g.drag(s[0]); g.drag(s[2]); g.drag(s[3]); g.step(1000 + 1600); return { r: g.result, dots: document.getElementById('rDots').getAttribute('aria-valuenow'), star: !document.getElementById('rStar').hidden }; }, s3);
+      await ui(p, tag + ' result-partial'); await shot(p, `${tag}-result-partial.png`);
+      assert(tag + ' result hollow dots', r3.r && r3.r.accuracyPct === 50 && !r3.r.star && r3.r.oneShot.filter((x) => !x).length === 2 && r3.dots === '2', r3);
+      await G(p, () => { window.__game.toGuardian(); window.__game.step(400); }); const gu = await ui(p, tag + ' guardian'); await shot(p, `${tag}-guardian.png`);
+      if (gu.gScroll && gu.gScroll.sh > gu.gScroll.ch + 2) assert(tag + ' guardian scroll hint', gu.gScroll.hint, gu.gScroll);
+      // 카드: 저장 기록을 지우고 찍음 + 카드가 실제로 떠 있음 단언 + 가림 검사
+      for (const [li, nm] of [[1, 'L2-card'], [5, 'L6-card']]) {
+        const st = await G(p, (li) => { const g = window.__game; g.clearProgress(); g.loadLevel(li); g.step(450); return g.board.card; }, li);
+        assert(`${tag} ${nm} shown`, st === true, st);
+        const u = await ui(p, `${tag} play-${nm}`); out.cards.push({ tag, nm, shown: st, hits: u.cardHits });
+        await shot(p, `${tag}-play-${nm}.png`);
+      }
+      if (lang === 'ko') for (let i = 0; i < LEVELS.length; i++) { const cp = await G(p, (i) => { const g = window.__game; g.loadLevel(i); return g.layout.grid.cellPx; }, i); out.cells.push({ res: `${W}x${H}`, level: LEVELS[i].id, size: `${LEVELS[i].width}x${LEVELS[i].height}`, cell_px: +cp.toFixed(1) }); }
       await c.close();
-      // 오류 화면
       const ec = await browser.newContext({ viewport: { width: W, height: H }, locale: lang === 'ko' ? 'ko-KR' : 'en-US' }); const ep = await ec.newPage();
+      watch(ep, tag + ' error');
       await ep.route('**/data/balance.json', (r) => r.fulfill({ status: 503, body: 'x' }));
       await ep.goto(BASE());
       await ep.waitForFunction(() => !document.getElementById('bootRetry').hidden, null, { timeout: 10000 });
@@ -412,23 +452,22 @@ if (PART === 'shots') {
       await ec.close();
     }
   }
-  // 글 없는 화면(notext): 360x640·640x360, 빈 저장소(첫 실행)
+  // 글 없는 화면(notext), 빈 저장소
   for (const [W, H] of [[360, 640], [640, 360]]) {
     const tag = `${W}x${H}-notext`;
     const { c, p } = await open(W, H, '?test=1&notext=1&lang=ko', { store: null });
-    await G(p, () => window.__game.step(400)); await shot(p, `${tag}-title.png`);
-    await G(p, () => { window.__game.toMap(); window.__game.step(400); }); await shot(p, `${tag}-map-first.png`);
-    for (const [ms, nm] of [[500 + 250 + 150 + 260, 'a'], [500 + 250 + 150 + 260 * 6 + 200, 'b']]) { await G(p, (ms) => { const g = window.__game; g.loadLevel(0); g.step(ms); }, ms); await shot(p, `${tag}-play-L1-demo-${nm}.png`); }
-    await G(p, () => { const g = window.__game; g.loadLevel(1); g.step(300); }); await shot(p, `${tag}-play-L2-card.png`);
-    await G(p, () => { const g = window.__game; g.loadLevel(5); g.step(300); }); await shot(p, `${tag}-play-L6-card.png`);
-    const s1 = solOf(LEVELS[0]);
-    await G(p, (s1) => { const g = window.__game; g.loadLevel(0); g.step(300); for (const c of s1) g.drag(c); g.step(2300); }, s1); await shot(p, `${tag}-result-L1.png`);
+    await G(p, () => window.__game.step(1500)); await shot(p, `${tag}-title.png`);
+    await G(p, () => { window.__game.toMap(); window.__game.step(600); }); await shot(p, `${tag}-map-first.png`);
+    for (const [ms, nm] of [[500 + 250 + 150 + 260, 'a'], [500 + 250 + 150 + 260 * 4, 'b']]) { await G(p, (ms) => { const g = window.__game; g.loadLevel(0); g.step(ms); }, ms); await shot(p, `${tag}-play-L1-demo-${nm}.png`); }
+    for (const [li, nm] of [[1, 'L2-card'], [5, 'L6-card']]) { const st = await G(p, (li) => { const g = window.__game; g.loadLevel(li); g.step(450); return g.board.card; }, li); assert(`${tag} ${nm} shown`, st === true, st); await shot(p, `${tag}-play-${nm}.png`); }
+    const s3 = solOf(LEVELS[2]);
+    await G(p, (s) => { const g = window.__game; g.loadLevel(2); g.step(300); g.drag(s[0]); g.drag(s[1]); g.drag(s[2].slice(0, 2)); g.drag(s[0].slice(0, 2)); g.drag(s[0]); g.drag(s[2]); g.drag(s[3]); g.step(2600); }, s3); await shot(p, `${tag}-result-partial.png`);
     await c.close();
   }
-  // 흑백(색 없이 모양 표지 구분): 6쌍 판 L9·L10 일부 이음 + 쌍 점 줄
+  // 흑백 + 움직임 줄이기
   for (const [W, H] of [[412, 915], [640, 360]]) {
-    const { c, p } = await open(W, H, '?test=1&lang=ko', { store: null });
-    for (const li of [8, 9]) {
+    const { c, p } = await open(W, H, '?test=1&lang=ko', { store: allDone });
+    for (const li of [8, 11, 19]) {
       const s = solOf(LEVELS[li]);
       await G(p, ([li, s]) => { const g = window.__game; g.loadLevel(li); g.closeCard(); g.step(300); g.drag(s[0]); g.drag(s[2]); g.step(1500); }, [li, s]);
       await p.addStyleTag({ content: 'html{filter:grayscale(1)!important}' });
@@ -437,8 +476,15 @@ if (PART === 'shots') {
     }
     await c.close();
   }
-  // 모든 판 크기 × 4해상도 배치 식(칸 px)
+  {
+    const { c, p } = await open(412, 915, '?test=1&lang=ko', { store: null, reducedMotion: 'reduce' });
+    const s = solOf(LEVELS[2]);
+    await G(p, (s) => { const g = window.__game; g.loadLevel(2); g.step(300); g.drag(s[0]); g.step(40); }, s); await shot(p, '412x915-reduced-connect-L3.png');
+    if (blockedCase) { await G(p, (bc) => { const g = window.__game; g.loadLevel(bc.li); g.closeCard(); g.step(300); g.press(bc.drag[0]); g.move(bc.drag[1]); g.step(50); }, blockedCase); await shot(p, '412x915-reduced-blocked.png'); await G(p, () => window.__game.release()); }
+    await c.close();
+  }
   const { c, p } = await open(412, 915, '?test=1', { store: null });
+  out.levelCount = await G(p, () => window.__game.levelCount);
   out.layoutCells = [];
   for (const [W, H] of RES) for (const [cc, rr] of [[4, 4], [5, 5], [5, 6], [6, 6]]) out.layoutCells.push({ res: `${W}x${H}`, board: `${cc}x${rr}`, cell: +(await G(p, ([W, H, cc, rr]) => window.__game.calcLayout(W, H, cc, rr).play.cell, [W, H, cc, rr])).toFixed(1) });
   await c.close();
@@ -446,41 +492,36 @@ if (PART === 'shots') {
   process.exit(0);
 }
 
-// ================================================================= perf
+// ================================================================= perf (round-2: 실제 UI 흐름 — 타이틀 → 지도 → L6(카드) → ▶ L7 → ▶ L8 → 지도 → 장 넘김, DPR 1·2·3)
 if (PART === 'perf') {
   await boot({ needBrowser: false });
-  const RUNS = +opt('--runs', 3);
-  const configs = [{ name: '412x915 dpr1', w: 412, h: 915, dsf: 1 }, { name: '412x915 dpr3', w: 412, h: 915, dsf: 3, mobile: false }, { name: '1280x720 dpr1', w: 1280, h: 720, dsf: 1 }];
-  const out = { runs: [] };
-  const sum = (t) => { const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]); if (!d.length) return { frames: 0 }; const tot = t[t.length - 1] - t[0]; const s = [...d].sort((a, b) => b - a); const n1 = Math.max(1, Math.floor(d.length * 0.01)); const low = 1000 / (s.slice(0, n1).reduce((a, b) => a + b, 0) / n1); return { frames: d.length, s: +(tot / 1000).toFixed(2), avg: +((d.length / tot) * 1000).toFixed(1), low1: +low.toFixed(1), max_ms: +s[0].toFixed(1), over33: d.filter((x) => x > 33.4).length }; };
-  for (const cf of configs) for (let run = 0; run < (cf.dsf === 1 && cf.w === 1280 ? 1 : RUNS); run++) {
+  const RUNS = +opt('--runs', 3), DPRS = String(opt('--dpr', '1,2,3')).split(',').map(Number), WIDE = args.includes('--wide');
+  const configs = WIDE ? [{ name: '1280x720 dpr1', w: 1280, h: 720, dsf: 1 }] : DPRS.map((d) => ({ name: `412x915 dpr${d}`, w: 412, h: 915, dsf: d }));
+  const store = { v: 1, sound: true, vibrate: true, motion: false, lang: 'ko', levels: Object.fromEntries(LEVELS.slice(0, 5).map((l) => [l.id, { done: true, star: true, bestPct: 100, bestFill: 100 }])) };
+  const out = { runs: [], flow: 'title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)' };
+  const fromD = (d) => { if (!d.length) return { frames: 0 }; const tot = d.reduce((a, b) => a + b, 0); const s = [...d].sort((a, b) => b - a); const n1 = Math.max(1, Math.floor(d.length * 0.01)); return { frames: d.length, avg: +((d.length / tot) * 1000).toFixed(1), low1: +(1000 / (s.slice(0, n1).reduce((a, b) => a + b, 0) / n1)).toFixed(1), max_ms: +s[0].toFixed(1), over33: d.filter((x) => x > 33.4).length }; };
+  for (const cf of configs) for (let run = 0; run < (args.includes('--blank-only') ? 0 : RUNS); run++) {
     const br = await newBrowser();
-    const { c, p } = await open(cf.w, cf.h, '', { store: null, dsf: cf.dsf, br });
+    const { c, p } = await open(cf.w, cf.h, '?lang=ko', { store, dsf: cf.dsf, br });
     const cdp = await c.newCDPSession(p);
     await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
     await G(p, () => {
       window.__pf = { t: [], marks: [], inp: [] };
       const g = window.__game;
-      // 입력 → 칸 진행: 캡처 단계에서 칸 수 n0, 버블 단계(게임 처리 뒤)에서 n1. 칸이 늘었으면 그 이벤트 뒤 첫 rAF(게임이 그 rAF 에서 그림)까지 프레임 수·ms
       let pend = [], n0 = 0;
       const cnt = () => g.dragLog.reduce((a, d) => a + d.length, 0);
-      const f = (ts) => { window.__pf.t.push(ts); if (pend.length) { for (const q of pend) window.__pf.inp.push({ frames: 1, ms: +(ts - q.t).toFixed(1), state: q.st }); pend = []; } requestAnimationFrame(f); };
+      const f = (ts) => { window.__pf.t.push(ts); if (pend.length) { for (const q of pend) window.__pf.inp.push({ frames: 1, ms: +(ts - q.t).toFixed(1) }); pend = []; } requestAnimationFrame(f); };
       requestAnimationFrame(f);
       window.addEventListener('pointermove', () => { n0 = cnt(); }, true);
-      window.addEventListener('pointermove', (e) => { if (g.state === 'play' && cnt() !== n0) pend.push({ t: e.timeStamp, st: cnt() }); }, false);
+      window.addEventListener('pointermove', (e) => { if (g.state === 'play' && cnt() !== n0) pend.push({ t: e.timeStamp }); }, false);
     });
+    await p.waitForTimeout(1500);
     const mark = (k) => G(p, (k) => window.__pf.marks.push({ k, t: performance.now() }), k);
-    const longest = async (fn) => { await G(p, () => { window.__lf = []; let l = performance.now(); window.__lfOn = true; const f = (ts) => { window.__lf.push(ts - l); l = ts; if (window.__lfOn) requestAnimationFrame(f); }; requestAnimationFrame(f); }); await fn(); await p.waitForTimeout(900); return G(p, () => { window.__lfOn = false; return +Math.max(...window.__lf.slice(1)).toFixed(1); }); };
-    const menu = {};
-    menu.title_to_map = await longest(async () => { await p.mouse.click(cf.w / 2, cf.h * 0.75); });
-    await p.waitForTimeout(300);
-    const nb = await p.locator('.node').first().boundingBox();
-    menu.map_to_play = await longest(async () => { await p.mouse.click(nb.x + nb.width / 2, nb.y + nb.height / 2); });
     const at = (gr, [x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
-    const levelsToPlay = [0, 5, 9];
-    for (const li of levelsToPlay) {
-      if (li !== 0) { await mark('start'); await G(p, (li) => window.__game.loadLevel(li), li); await p.waitForTimeout(1200); if (await G(p, () => window.__game.board.card)) { await p.mouse.click(4, cf.h - 4); await p.waitForTimeout(400); } }
-      else { await mark('start'); await p.waitForTimeout(1200); }
+    const clickEl = async (sel) => { const b = await p.locator(sel).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); };
+    const menu = {};
+    const longest = async (k, fn, wait = 900) => { const t0 = await G(p, () => performance.now()); await fn(); await p.waitForTimeout(wait); const t1 = await G(p, () => performance.now()); menu[k] = await G(p, ([a, b]) => { const t = window.__pf.t.filter((x) => x >= a && x <= b + 50); let m = 0; for (let i = 1; i < t.length; i++) m = Math.max(m, t[i] - t[i - 1]); return +m.toFixed(1); }, [t0, t1]); };
+    const playSolution = async (li) => {
       await mark('drag');
       for (const path of solOf(LEVELS[li])) {
         const gr = await G(p, () => window.__game.layout.grid);
@@ -488,41 +529,48 @@ if (PART === 'perf') {
         for (const cell of path.slice(1)) { const [x, y] = at(gr, cell); await p.mouse.move(x, y, { steps: 4 }); }
         await p.mouse.up();
       }
-      await mark('done');
-      await p.waitForTimeout(2200);
-      await mark('result');
-    }
-    menu.result_to_map = await longest(async () => { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); });
+      await mark('done'); await p.waitForTimeout(2300); await mark('result');
+    };
+    await longest('title_to_map', () => p.mouse.click(cf.w / 2, cf.h * 0.85));
+    const node6 = p.locator('.node[data-i="5"]');
+    await mark('start'); await longest('map_to_play_L6', async () => { const b = await node6.boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }, 1200);
+    if (await G(p, () => window.__game.board.card)) { await p.waitForTimeout(500); await clickEl("#pCard"); }
+    await playSolution(5);
+    await longest('result_to_map_1', () => clickEl('#rMap'), 1000); await mark('start'); await longest('map_to_play_L7', () => clickEl('.node[data-i="6"]'), 1200);
+    await playSolution(6);
+    await longest('result_to_map_2', () => clickEl('#rMap'), 1000); await mark('start'); await longest('map_to_play_L8', () => clickEl('.node[data-i="7"]'), 1200);
+    await playSolution(7);
+    await mark('menu'); await longest('result_to_map', () => clickEl('#rMap'), 1200);
+    await longest('map_page_turn', () => clickEl('#mNext'), 1000);
     const pf = await G(p, () => window.__pf);
-    const win = (a, b) => pf.t.filter((t) => t >= a && t <= b);
-    const W = { all: sum(pf.t) };
-    const ms = pf.marks;
+    const win = (a, b) => { const t = pf.t.filter((x) => x >= a && x <= b); const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]); return d; };
+    const W = { all: fromD(win(pf.t[0], pf.t[pf.t.length - 1])) };
     const st = [], dr = [], dn = [];
-    for (let i = 0; i < ms.length; i++) {
-      const m = ms[i], nx = ms[i + 1] ? ms[i + 1].t : pf.t[pf.t.length - 1];
-      if (m.k === 'start') st.push(...win(m.t, Math.min(nx, m.t + 1200)).map((t, j, a) => (j ? t - a[j - 1] : null)).filter((x) => x != null));
-      if (m.k === 'drag') dr.push(...win(m.t, nx).map((t, j, a) => (j ? t - a[j - 1] : null)).filter((x) => x != null));
-      if (m.k === 'done') dn.push(...win(m.t, Math.min(nx, m.t + 2000)).map((t, j, a) => (j ? t - a[j - 1] : null)).filter((x) => x != null));
-    }
-    const fromD = (d) => { if (!d.length) return { frames: 0 }; const tot = d.reduce((a, b) => a + b, 0); const s = [...d].sort((a, b) => b - a); const n1 = Math.max(1, Math.floor(d.length * 0.01)); return { frames: d.length, avg: +((d.length / tot) * 1000).toFixed(1), low1: +(1000 / (s.slice(0, n1).reduce((a, b) => a + b, 0) / n1)).toFixed(1), max_ms: +s[0].toFixed(1) }; };
-    W.level_start = fromD(st); W.dragging = fromD(dr); W.complete_fx = fromD(dn);
-    const inp = pf.inp; const lat = inp.map((x) => x.ms).sort((a, b) => a - b); const hist = { n: inp.length, frames_max: Math.max(...inp.map((x) => x.frames)), ms_median: lat[Math.floor(lat.length / 2)], ms_p95: lat[Math.floor(lat.length * 0.95)], ms_max: lat[lat.length - 1] };
-    out.runs.push({ config: cf.name, run, windows: W, menu_longest_frame_ms: menu, input_to_cell: hist });
-    console.log(cf.name, run, JSON.stringify(W.all), 'start', JSON.stringify(W.level_start), 'done', JSON.stringify(W.complete_fx), 'menu', JSON.stringify(menu), 'input', JSON.stringify(hist), 'drag', JSON.stringify(W.dragging));
+    pf.marks.forEach((m, i) => { const nx = pf.marks[i + 1] ? pf.marks[i + 1].t : pf.t[pf.t.length - 1]; if (m.k === 'start') st.push(...win(m.t, Math.min(nx, m.t + 1200))); if (m.k === 'drag') dr.push(...win(m.t, nx)); if (m.k === 'done') dn.push(...win(m.t, Math.min(nx, m.t + 2300))); });
+    W.level_start_transition = fromD(st); W.dragging_juice = fromD(dr); W.complete_fx_result = fromD(dn);
+    const lat = pf.inp.map((x) => x.ms).sort((a, b) => a - b);
+    const inp = { n: lat.length, frames_max: Math.max(...pf.inp.map((x) => x.frames)), ms_median: lat[Math.floor(lat.length / 2)], ms_p95: lat[Math.floor(lat.length * 0.95)], ms_max: lat[lat.length - 1] };
+    const res = await G(p, () => ({ state: window.__game.state, page: window.__game.mapPage }));
+    out.runs.push({ config: cf.name, run, windows: W, menu_longest_frame_ms: menu, input_to_cell: inp, end: res });
+    console.log(cf.name, run, 'all', JSON.stringify(W.all), 'start', JSON.stringify(W.level_start_transition), 'drag', JSON.stringify(W.dragging_juice), 'done', JSON.stringify(W.complete_fx_result), 'menu', JSON.stringify(menu), 'input', JSON.stringify(inp), JSON.stringify(res));
     await c.close(); await br.close();
   }
-  // 대조: 게임 코드 없는 빈 페이지(측정 환경 기준)
-  {
-    const br = await newBrowser(); const c = await br.newContext({ viewport: { width: 412, height: 915 } }); const p = await c.newPage();
-    await p.goto(`http://127.0.0.1:${PORT}/projects/flow-01/tools/serve.mjs`).catch(() => {});
+  // 대조: 게임 코드 없는 빈 페이지(같은 DPR·스로틀)
+  out.blank_control = [];
+  for (const cf of configs) {
+    const br = await newBrowser(); const c = await br.newContext({ viewport: { width: cf.w, height: cf.h }, deviceScaleFactor: cf.dsf }); const p = await c.newPage();
     await p.setContent('<html><body style="background:#eee"></body></html>');
     const cdp = await c.newCDPSession(p); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+    // 스로틀을 건 직후 첫 프레임(약 117 ms)은 측정 환경 튐이라 1.5 s 기다린 뒤 잼(게임 측정도 페이지 로드 1.5 s 뒤부터)
+    await p.waitForTimeout(1500);
     await p.evaluate(() => { window.__t = []; const f = (ts) => { window.__t.push(ts); if (window.__t.length < 400) requestAnimationFrame(f); }; requestAnimationFrame(f); });
     await p.waitForTimeout(7500);
-    out.blank_control = sum(await p.evaluate(() => window.__t));
+    const t = await p.evaluate(() => window.__t); const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]);
+    out.blank_control.push({ config: cf.name, ...fromD(d) });
     await br.close();
   }
-  await finish('perf', out);
+  console.log('blank', JSON.stringify(out.blank_control));
+  await finish('perf-' + (args.includes('--blank-only') ? 'blank-' : '') + (WIDE ? 'wide' : 'dpr' + DPRS.join('')), out);
   process.exit(0);
 }
 
@@ -580,7 +628,7 @@ if (PART === 'func') {
       await G(p, () => window.__game.loadLevel(5)); await adv(300); imgs.card = (await p.screenshot()).toString('base64');
       // 카드 자동 닫힘(3 s)이 게임 시계 기준인지: 테스트 모드에서 실제 3.5 s 를 기다려도 카드가 남고, 게임 시계 3.3 s 뒤에는 닫힘
       let cardT = null;
-      if (T) { const a0 = await G(p, () => window.__game.board.card); await p.waitForTimeout(3500); const a1 = await G(p, () => window.__game.board.card); await G(p, () => window.__game.step(3300)); cardT = { shown: a0, after_real_3500ms: a1, after_game_3300ms: await G(p, () => window.__game.board.card) }; }
+      if (T) { const ac = BAL.rule_card.auto_close_ms; const a0 = await G(p, () => window.__game.board.card); await p.waitForTimeout(ac + 500); const a1 = await G(p, () => window.__game.board.card); await G(p, (ac) => window.__game.step(ac + 300), ac); cardT = { auto_close_ms: ac, shown: a0, after_real_ms: ac + 500, still_after_real: a1, closed_after_game_ms: ac + 300, after_game: await G(p, () => window.__game.board.card) }; }
       await G(p, () => window.__game.closeCard()); await adv(1500);
       await G(p, (s6) => { const g = window.__game; g.drag(s6[0]); g.drag(s6[2]); }, s6); await adv(2500); imgs.partial = (await p.screenshot()).toString('base64');
       await G(p, (s6) => { const g = window.__game; g.drag(s6[1]); g.drag(s6[3]); g.drag(s6[4]); }, s6); await adv(3000); imgs.result = (await p.screenshot()).toString('base64');
@@ -617,6 +665,51 @@ if (PART === 'func') {
       for (let k = 0; k < 5; k++) { g.toMap(); g.step(300); g.toGuardian(); g.step(300); g.setLang(k % 2 ? 'en' : 'ko'); g.loadLevel(0); g.step(300); for (const c of s1) g.drag(c); g.step(2400); rows.push(cnt()); }
       return rows;
     }, s1);
+    await c.close();
+  }
+  // 4c) round-2 새 기능·회귀: S7 시계 0 closeCard, S8 카드 닫힘 즉시 누름·400 ms 무시, H2 처음부터/취소, S13 연결 연타, H4 bump, 도움 신호, 장 잠금, 색 돌려쓰기
+  {
+    const { c, p } = await open(412, 915, '?test=1', { store: null });
+    const L = LEVELS, sol = L.map(solOf);
+    const pal = J('assets/palette.json');
+    const expColors = L.map((lv) => { const k = lv.pairs.length, sr = pal.slot_rotation; const rot = lv.order >= 11 && (k === 3 || k === 4) && sr.by_level[String(lv.order)] ? sr.by_level[String(lv.order)][String(k)] : null; return lv.pairs.map((pp) => pal.pairs[rot ? rot[pp.color_slot] : pp.color_slot].key); });
+    const blocked = (() => { for (let li = 0; li < 12; li++) { const lv = L[li]; for (let k = 0; k < lv.pairs.length; k++) for (let m = 0; m < lv.pairs.length; m++) if (m !== k) for (const ep of [lv.pairs[m].a, lv.pairs[m].b]) { const a = lv.pairs[k].a; if (Math.abs(a[0] - ep[0]) + Math.abs(a[1] - ep[1]) === 1) return { li, drag: [a, ep] }; } } return null; })();
+    out.r2 = await G(p, ({ sol, expColors, blocked, trig8 }) => {
+      const g = window.__game, o = {}, sfxN = (n) => g.sfxLog.filter((x) => x === n).length, conN = () => g.sfxLog.filter((x) => x.startsWith('connect_g')).length;
+      // S7: 시계 0 에서 closeCard → 바로 드래그 받음
+      const c0 = g.clock; g.loadLevel(1); const shown = g.board.card; g.closeCard(); const r7 = g.drag(sol[1][0]); o.S7 = { clock: c0, card_shown: shown, pressed_after_close: !!r7.pressed, moves: g.moves };
+      // S8: 카드 뜬 뒤 400 ms 안 누름은 무시(카드 남음), 그 뒤 누름은 닫힘 + 같은 프레임 드래그 받음
+      g.clearProgress(); g.loadLevel(5); g.step(17); g.press(sol[5][0][0]); const early = g.board.card; g.release();
+      g.step(450); const pre = g.board.card; g.closeCard(); const r8 = g.drag(sol[5][0]); o.S8 = { card_before_400ms_tap_still: early, card_at_450: pre, drag_right_after_close: !!r8.pressed && r8.changed !== false, moves: g.moves };
+      // H2: 처음부터 = 새 시도, 바로 다음 되돌리기 = 처음부터 취소
+      g.loadLevel(2); g.step(300); g.drag(sol[2][0]); g.drag(sol[2][1]); const m0 = g.moves;
+      g.restart(); const a = { moves: g.moves, empty: g.board.paths.every((x) => !x.length) };
+      g.undo(); const b = { moves: g.moves, dots: g.board.pairDots.filter(Boolean).length };
+      g.restart(); g.drag(sol[2][0]); g.undo(); const c2 = { moves: g.moves, empty: g.board.paths.every((x) => !x.length) };
+      g.restart(); for (const s of sol[2]) g.drag(s); const star = g.result && g.result.star;
+      o.H2 = { before: m0, after_restart: a, undo_cancels_restart: b, undo_after_new_drag: c2, star_after_restart: star };
+      // S13: 한 드래그 안에서 같은 연결 5번 왕복 → 연결 소리 1
+      g.loadLevel(0); g.step(300); const s0 = sol[0][0]; const n0 = conN(); g.press(s0[0]); for (const cell of s0.slice(1)) g.move(cell);
+      for (let k = 0; k < 5; k++) { g.move(s0[s0.length - 2]); g.move(s0[s0.length - 1]); } g.release(); o.S13 = { connect_sounds: conN() - n0, path_len: s0.length };
+      // H4: 막힘 → bump 1, 같은 시각 반복은 건너뜀, 300 ms 뒤 다시 1
+      if (blocked) { g.loadLevel(blocked.li); g.closeCard(); g.step(300); const hp0 = g.hapticLog.length; const b0 = sfxN('bump'); g.drag(blocked.drag); const b1 = sfxN('bump'); g.drag(blocked.drag); const b2 = sfxN('bump'); g.step(300); g.drag(blocked.drag); const b3 = sfxN('bump'); o.H4 = { level: blocked.li + 1, first: b1 - b0, repeat_same_time: b2 - b1, after_300ms: b3 - b2, moves: g.moves, haptic_added: g.hapticLog.length - hp0 }; }
+      // 도움 신호: L8 이동 수 ≥ trig 에서 켜짐, 누르면 끔, 처음부터 = 다시 셈
+      g.loadLevel(7); g.step(300); const s8 = sol[7]; let kk = 0; const seq = (n) => { for (let k = 0; k < n; k++) { const q = kk++ % 4; g.drag(q === 0 ? s8[0] : q === 1 ? s8[1] : q === 2 ? s8[0].slice(0, 2) : s8[1].slice(0, 2)); } };
+      seq(trig8 - 2); g.step(100); const h0 = { moves: g.moves, help: g.board.helpBreath }; seq(3); g.step(100); const h1 = { moves: g.moves, help: g.board.helpBreath };
+      g.help(); g.step(100); const h2 = g.board.helpBreath; seq(4); g.step(100); const h3 = g.board.helpBreath; g.restart(); g.step(100); const h4 = g.board.helpBreath;
+      g.loadLevel(0); g.step(300); for (let k = 0; k < 30; k++) { g.drag(sol[0][k % 3]); g.drag(sol[0][k % 3].slice(0, 2)); } g.step(100); const hL1 = { moves: g.moves, help: g.board.helpBreath };
+      o.help = { trigger: trig8, below: h0, at_or_above: h1, after_press: h2, after_more_moves_same_attempt: h3, after_restart: h4, L1_no_trigger: hL1 };
+      // 색 돌려쓰기
+      const bad = []; for (let i = 0; i < sol.length; i++) { g.loadLevel(i); const got = g.board.colors; if (JSON.stringify(got) !== JSON.stringify(expColors[i])) bad.push({ level: i + 1, got, exp: expColors[i] }); } o.colors = { levels: sol.length, mismatch: bad.length, bad: bad.slice(0, 5) };
+      // 장 잠금: 빈 기록 → 2장 노드 모두 잠김, 잠긴 노드 클릭 무반응; 1~10 완료 → 2장 첫 노드 next
+      g.clearProgress(); g.toMap(1); g.step(400); const st1 = [...document.querySelectorAll('#mNodes .node')].map((b) => b.dataset.state);
+      document.querySelector('#mNodes .node').click(); g.step(400); const afterClick = g.state;
+      for (let i = 0; i < 10; i++) { g.loadLevel(i); g.closeCard(); for (const s of sol[i]) g.drag(s); g.step(1100); }
+      g.toMap(1); g.step(400); const st2 = [...document.querySelectorAll('#mNodes .node')].map((b) => b.dataset.state);
+      const tp = g.turnPage(2); g.step(400);
+      o.chapters = { ch2_empty: st1, locked_click_state: afterClick, ch2_after_ch1_done: st2, turnPage: tp, title: document.getElementById('mTitle').textContent };
+      return o;
+    }, { sol, expColors, blocked, trig8: BAL.help.moves_trigger_by_level['08'] });
     await c.close();
   }
   // 5) 접근성 트리(ariaSnapshot): 지도·결과·플레이, ko/en
@@ -699,19 +792,19 @@ if (PART === 'merge') {
   const parts = {};
   for (const f of readdirSync(PDIR).filter((f) => f.endsWith('.json'))) parts[f.replace(/\.json$/, '')] = JSON.parse(readFileSync(join(PDIR, f), 'utf8'));
   const logs = Object.values(parts).map((x) => x.log).filter(Boolean);
-  const qaRead = (x) => /willReadFrequently/.test(x); // paint 부분이 게임 캔버스를 getImageData 로 읽어서 난 경고(검사 도구 유발, 게임 코드 아님)
+  const qaRead = (x) => x.includes('willReadFrequently') || (x.includes(' error] ') && x.includes('503')); // paint 부분이 게임 캔버스를 getImageData 로 읽어서 난 경고(검사 도구 유발, 게임 코드 아님)
   const qaInduced = logs.flatMap((l) => l.console).filter(qaRead);
-  const all = { console: logs.flatMap((l) => l.console).filter((x) => !qaRead(x)), failed: logs.flatMap((l) => l.failed), external: logs.flatMap((l) => l.external), requests: logs.reduce((a, l) => a + l.requests, 0) };
+  const all = { console: logs.flatMap((l) => l.console).filter((x) => !qaRead(x)), failed: logs.flatMap((l) => l.failed).filter((x) => !(x.includes(' error] ') && x.includes('503'))), external: logs.flatMap((l) => l.external), requests: logs.reduce((a, l) => a + l.requests, 0) };
   // 봇: 빌드 표본 합치기
   const bot = { child: {}, skilled: {} };
   for (const [k, v] of Object.entries(parts)) if (k.startsWith('bots-')) for (const b of ['child', 'skilled']) Object.assign(bot[b], v[b]);
-  const sim = parts.sim;
+  const sim = parts.sim; const vr = J('tools/out/verify-report.json');
   const table = LEVELS.map((L, li) => {
     const s = sim && sim.rows[li], bc = bot.child[L.id], bs = bot.skilled[L.id];
-    return { id: L.id, sim_child_full_m: s && s.child_full.m, sim_child_seed0_m: s && s.child_seed0.m, build_child_m: bc && bc.m, build_child_n: bc && bc.n, sim_skilled_full_m: s && s.skilled_full.m, build_skilled_m: bs && bs.m, build_skilled_n: bs && bs.n,
+    return { id: L.id, verify_child_full_m: vr.m[li], verify_child_seed0_m: vr.per_seed_m[0][li], verify_skilled_m: vr.levels[li].skilled_m, build_sim_same_runs_child_m: bc && bc.sim_m_same_runs, build_sim_same_runs_skilled_m: bs && bs.sim_m_same_runs, sim_child_full_m: s && s.child_full.m, sim_child_seed0_m: s && s.child_seed0.m, build_child_m: bc && bc.m, build_child_n: bc && bc.n, sim_skilled_full_m: s && s.skilled_full.m, build_skilled_m: bs && bs.m, build_skilled_n: bs && bs.n,
       run_mismatch: (bc ? bc.run_mismatch : 0) + (bs ? bs.run_mismatch : 0), steps_mismatch: (bc ? bc.steps_mismatch : 0) + (bs ? bs.steps_mismatch : 0), fill_mismatch: (bc ? bc.fill_vs_indep_mismatch : 0) + (bs ? bs.fill_vs_indep_mismatch : 0), inv_mismatch: (bc ? bc.inv_mismatch : 0) + (bs ? bs.inv_mismatch : 0) };
   });
-  const metrics = { project: 'flow-01', round: +ROUND, date: new Date().toISOString().slice(0, 10), core_version: Bm.CORE_VERSION, basic: { console_errors_warnings: all.console.length, qa_tool_induced_warnings: qaInduced.length, qa_tool_induced_note: 'paint 검사가 게임 캔버스 픽셀을 getImageData 로 여러 번 읽어 Chromium 이 낸 willReadFrequently 경고(게임은 getImageData 를 쓰지 않음)', failed_responses: all.failed.length, external_requests: all.external.length, requests: all.requests, console_samples: all.console.slice(0, 10), failed_samples: all.failed.slice(0, 10) },
+  const metrics = { project: 'flow-01', round: +ROUND, date: new Date().toISOString().slice(0, 10), core_version: Bm.CORE_VERSION, basic: { console_errors_warnings: all.console.length, qa_tool_induced_warnings: qaInduced.length, qa_tool_induced_note: '검사 도구 유발: paint 의 getImageData willReadFrequently 경고, 오류 화면 검사가 일부러 낸 balance.json 503(콘솔·실패 응답)', failed_responses: all.failed.length, external_requests: all.external.length, requests: all.requests, console_samples: all.console.slice(0, 10), failed_samples: all.failed.slice(0, 10) },
     bots_table: table, bots_total: { build_runs: table.reduce((a, r) => a + (r.build_child_n || 0) + (r.build_skilled_n || 0), 0), drags: Object.values(bot.child).concat(Object.values(bot.skilled)).reduce((a, r) => a + r.drags, 0), run_mismatch: table.reduce((a, r) => a + r.run_mismatch, 0), steps_mismatch: table.reduce((a, r) => a + r.steps_mismatch, 0), fill_mismatch: table.reduce((a, r) => a + r.fill_mismatch, 0), inv_mismatch: table.reduce((a, r) => a + r.inv_mismatch, 0) },
     parts: Object.fromEntries(Object.entries(parts).map(([k, v]) => { const { log, ...rest } = v; return [k, rest]; })) };
   writeFileSync(join(RDIR, 'metrics.json'), JSON.stringify(metrics, null, 1));

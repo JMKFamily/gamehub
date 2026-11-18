@@ -1,0 +1,186 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr3",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1398,
+     "avg": 58.3,
+     "low1": 15.9,
+     "max_ms": 150.1,
+     "over33": 12
+    },
+    "level_start_transition": {
+     "frames": 198,
+     "avg": 55.8,
+     "low1": 6.7,
+     "max_ms": 150.1,
+     "over33": 4
+    },
+    "dragging_juice": {
+     "frames": 348,
+     "avg": 60,
+     "low1": 59.5,
+     "max_ms": 16.8,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 410,
+     "avg": 59.9,
+     "low1": 47.8,
+     "max_ms": 33.3,
+     "over33": 0
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 83.4,
+    "map_to_play_L6": 150.1,
+    "result_to_map_1": 33.4,
+    "map_to_play_L7": 16.8,
+    "result_to_map_2": 33.4,
+    "map_to_play_L8": 16.8,
+    "result_to_map": 50,
+    "map_page_turn": 133.3
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 9.6,
+    "ms_p95": 11,
+    "ms_max": 11.5
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   }
+  },
+  {
+   "config": "412x915 dpr3",
+   "run": 1,
+   "windows": {
+    "all": {
+     "frames": 1400,
+     "avg": 58,
+     "low1": 14,
+     "max_ms": 266.6,
+     "over33": 9
+    },
+    "level_start_transition": {
+     "frames": 186,
+     "avg": 52.4,
+     "low1": 3.8,
+     "max_ms": 266.6,
+     "over33": 4
+    },
+    "dragging_juice": {
+     "frames": 349,
+     "avg": 60,
+     "low1": 59.5,
+     "max_ms": 16.8,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 410,
+     "avg": 59.9,
+     "low1": 47.8,
+     "max_ms": 33.3,
+     "over33": 0
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 83.3,
+    "map_to_play_L6": 266.6,
+    "result_to_map_1": 33.3,
+    "map_to_play_L7": 16.8,
+    "result_to_map_2": 33.4,
+    "map_to_play_L8": 16.8,
+    "result_to_map": 50,
+    "map_page_turn": 100
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 9.3,
+    "ms_p95": 10.3,
+    "ms_max": 10.7
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   }
+  },
+  {
+   "config": "412x915 dpr3",
+   "run": 2,
+   "windows": {
+    "all": {
+     "frames": 1400,
+     "avg": 58.3,
+     "low1": 16.8,
+     "max_ms": 133.3,
+     "over33": 12
+    },
+    "level_start_transition": {
+     "frames": 198,
+     "avg": 55.8,
+     "low1": 7.5,
+     "max_ms": 133.3,
+     "over33": 5
+    },
+    "dragging_juice": {
+     "frames": 349,
+     "avg": 60,
+     "low1": 59.5,
+     "max_ms": 16.8,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 410,
+     "avg": 59.9,
+     "low1": 47.8,
+     "max_ms": 33.2,
+     "over33": 0
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 83.4,
+    "map_to_play_L6": 133.3,
+    "result_to_map_1": 33.4,
+    "map_to_play_L7": 16.8,
+    "result_to_map_2": 33.4,
+    "map_to_play_L8": 16.8,
+    "result_to_map": 50.1,
+    "map_page_turn": 116.7
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 9.1,
+    "ms_p95": 10.5,
+    "ms_max": 10.9
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   }
+  }
+ ],
+ "flow": "title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)",
+ "blank_control": [
+  {
+   "config": "412x915 dpr3",
+   "frames": 399,
+   "avg": 59.2,
+   "low1": 20,
+   "max_ms": 116.6,
+   "over33": 1
+  }
+ ],
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 798
+ }
+}

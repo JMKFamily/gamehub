@@ -1,0 +1,8 @@
+{"tag":"title->map","dur":111,"block":42,"render":5,"style":2,"scripts":[{"inv":"DIV#title.onpointerdown","d":28,"fn":"","char":67066,"url":"main.js"}]}
+{"tag":"title->map","dur":143,"block":34,"render":2,"style":1,"scripts":[{"inv":"TimerHandler:setTimeout","d":82,"fn":"","char":67243,"url":"main.js"}]}
+{"tag":"map->L6(card)","dur":51,"block":0,"render":1,"style":0,"scripts":[{"inv":"OL#mNodes.onclick","d":36,"fn":"","char":67449,"url":"main.js"}]}
+{"tag":"map->L6(card)","dur":162,"block":0,"render":2,"style":1,"scripts":[]}
+{"tag":"page turn","dur":95,"block":0,"render":1,"style":0,"scripts":[]}
+  title->map 스크립트 28 ms → main.js:987 (wire)
+  title->map 스크립트 82 ms → main.js:991 (wire)
+  map->L6(card) 스크립트 36 ms → main.js:994 (wire)
