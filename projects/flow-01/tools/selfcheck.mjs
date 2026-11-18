@@ -229,12 +229,11 @@ const G = (p, f, a) => p.evaluate(f, a);
   const nb = await p.locator('.node').first().boundingBox();
   await p.mouse.click(nb.x + nb.width / 2, nb.y + nb.height / 2);
   await p.waitForFunction(() => window.__game.state === 'play');
-  let stars = 0;
-  for (let i = 0; i < LEVELS.length; i++) {
-    const lv = LEVELS[i];
-    if (i > 0) { await G(p, (i) => window.__game.loadLevel(i), i); }
-    await p.waitForTimeout(250);
-    if (await G(p, () => window.__game.board.card)) { await p.waitForTimeout(300); await p.mouse.click(5, 5 + 300); await p.waitForTimeout(250); }
+  let stars = 0, again = false;
+  const solveMouse = async (lv) => {
+    await p.waitForFunction(() => window.__game.state === 'play', null, { timeout: 5000 });
+    await p.waitForTimeout(150);
+    if (await G(p, () => window.__game.board.card)) { await p.waitForTimeout(900); await p.mouse.click(5, 5 + 300); await p.waitForTimeout(250); }
     const gr = await G(p, () => window.__game.layout.grid);
     const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
     for (const path of solOf(lv)) {
@@ -242,13 +241,22 @@ const G = (p, f, a) => p.evaluate(f, a);
       for (const cell of path.slice(1)) { const [x, y] = at(cell); await p.mouse.move(x, y, { steps: 3 }); }
       await p.mouse.up();
     }
-    const r = await G(p, () => window.__game.result);
-    if (r && r.star && r.accuracyPct === 100) stars++; else fail(`일반 모드 L${lv.order} 마우스 완료 실패 ${JSON.stringify(r)}`);
     await p.waitForFunction(() => window.__game.state === 'result', null, { timeout: 5000 });
+    await p.waitForTimeout(450); // 결과 버튼은 완료 + 1280 ms 부터
+    return G(p, () => window.__game.result);
+  };
+  const clickSel = async (sel) => { const b = await p.locator(sel).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); };
+  for (let i = 0; i < LEVELS.length; i++) {
+    const lv = LEVELS[i];
+    let r = await solveMouse(lv);
+    if (i === 0) { await clickSel('#rAgain'); r = await solveMouse(lv); again = (await G(p, () => window.__game.levelIndex)) === 0 && r && r.star; } // 결과 ↻ → 같은 판 다시
+    if (r && r.star && r.accuracyPct === 100) stars++; else fail(`일반 모드 L${lv.order} 마우스 완료 실패 ${JSON.stringify(r)}`);
+    if (i + 1 < LEVELS.length) { await clickSel('#rNext'); await p.waitForFunction((n) => window.__game.levelIndex === n && window.__game.state === 'play', i + 1, { timeout: 5000 }).catch(() => fail(`결과 ▶ 뒤 L${i + 2} 로 못 감(멈춤?)`)); }
   }
-  if (stars === LEVELS.length) ok(`일반 모드(rAF·실제 마우스·오디오) ${LEVELS.length}레벨 생성 답 → 완료·별 ${stars}/${LEVELS.length}`);
+  if (!again) fail('결과 ↻ → 같은 판 다시 칠하기 실패'); else ok('일반 모드 결과 ↻ → 같은 판 다시 → 별');
+  if (stars === LEVELS.length) ok(`일반 모드(rAF·실제 마우스·오디오) 결과 ▶ 로 ${LEVELS.length}레벨 이어서 → 완료·별 ${stars}/${LEVELS.length}`);
   const au = await G(p, () => window.__game.audioState);
-  const hid = await G(p, async () => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); const s = window.__game.audioState; Object.defineProperty(document, 'hidden', { value: false, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); return [s, window.__game.audioState]; });
+  const hid = await G(p, async () => { Object.defineProperty(document, 'hidden', { value: true, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 300)); const s = window.__game.audioState; Object.defineProperty(document, 'hidden', { value: false, configurable: true }); document.dispatchEvent(new Event('visibilitychange')); await new Promise((r) => setTimeout(r, 1500)); return [s, window.__game.audioState]; });
   if (au !== 'running' || hid[0] !== 'suspended' || hid[1] !== 'running') fail(`오디오 ${au}, 백그라운드 ${hid}`); else ok('오디오 running → 백그라운드 suspended → 복귀 running');
   await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
   const st = await G(p, () => window.__game.store);
@@ -279,7 +287,7 @@ async function frames(p, ms) {
   const d = []; for (let i = 1; i < fr.length; i++) if (fr[i] - fr[i - 1] > 0.5) d.push(fr[i] - fr[i - 1]);
   d.sort((a, b) => a - b);
   const avg = d.length ? (1000 * d.length) / d.reduce((a, b) => a + b, 0) : 0, p99 = d[Math.min(d.length - 1, Math.floor(d.length * 0.99))] || 0;
-  return { avg: +avg.toFixed(1), low1: +(p99 ? 1000 / p99 : 0).toFixed(1), max: +(d[d.length - 1] || 0).toFixed(1), n: d.length };
+  return { avg: +avg.toFixed(1), low1: +(p99 ? 1000 / p99 : 0).toFixed(1), max: +(d[d.length - 1] || 0).toFixed(1), n: d.length, d };
 }
 const PERF = {};
 for (const dsf of [1, 2]) {
@@ -289,17 +297,23 @@ for (const dsf of [1, 2]) {
   const cdp = await c.newCDPSession(p);
   // 대조 페이지
   await p.goto('data:text/html,<body style="margin:0;background:%23eee">x</body>');
-  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 }); await p.waitForTimeout(1500); // 스로틀 직후 첫 프레임 빼기(QA round-2 인사이트)
   const ctl = await frames(p, 2500);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   await p.goto(BASE); await p.waitForFunction(() => window.__game?.ready === true);
-  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
+  // L1~L5 완료 기록 → 지도 첫 장의 '다음' 노드 = L6(그림 카드 판)
+  await p.evaluate(() => { const lv = {}; for (const id of ['01', '02', '03', '04', '05']) lv[id] = { done: true, star: true, bestPct: 100, bestFill: 100 }; localStorage.setItem('flow01.v1', JSON.stringify({ v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: lv })); });
+  await p.reload(); await p.waitForFunction(() => window.__game?.ready === true);
   await p.waitForTimeout(800);
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
   // 타이틀 → 지도(첫 탭, 오디오 잠금 해제 포함)
   const fA = frames(p, 1500); await p.waitForTimeout(100); await p.mouse.click(206, 600); const menu1 = await fA;
-  // 지도 → 판(노드 누름)
-  const nb = await p.locator('.node').first().boundingBox();
+  await p.waitForTimeout(800); // 유휴 시간(미리 비트맵화)
+  // 장 넘김 ▶ 와 ◀
+  const fP = frames(p, 1500); await p.waitForTimeout(100); await p.locator('#mNext').click(); await p.waitForTimeout(500); await p.locator('#mPrev').click(); const pageTurn = await fP;
+  await p.waitForTimeout(500);
+  // 지도 → 그림 카드 판(L6, '다음' 노드 누름)
+  const nb = await p.locator('.node[data-state="next"]').first().boundingBox();
   const fB = frames(p, 1500); await p.waitForTimeout(100); await p.mouse.click(nb.x + nb.width / 2, nb.y + nb.height / 2); const menu2 = await fB;
   // 레벨 시작 직후 + 끄는 중: L10(6x6) 을 열고 바로 답 선 하나씩 끎
   const lv = LEVELS[9];
@@ -310,10 +324,15 @@ for (const dsf of [1, 2]) {
   for (const path of solOf(lv).slice(0, 4)) { const [x0, y0] = at(path[0]); await p.mouse.move(x0, y0); await p.mouse.down(); for (const cell of path.slice(1)) { const [x, y] = at(cell); await p.mouse.move(x, y, { steps: 4 }); } await p.mouse.up(); }
   const play = await fC;
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
-  PERF['dpr' + dsf] = { control: ctl, title_to_map: menu1, map_to_play: menu2, L10_start_drag: play };
-  console.log(`  perf DPR${dsf}: 대조 평균 ${ctl.avg}/1%low ${ctl.low1} | 타이틀→지도 최장 ${menu1.max} ms | 지도→판 최장 ${menu2.max} ms | L10 시작·끄는 중 평균 ${play.avg} 1%low ${play.low1} 최장 ${play.max} ms`);
+  PERF['dpr' + dsf] = { control: ctl, title_to_map: menu1, map_to_card_level: menu2, page_turn: pageTurn, L10_start_drag: play };
+  console.log(`  perf DPR${dsf}: 대조 평균 ${ctl.avg}/1%low ${ctl.low1} | 타이틀→지도 최장 ${menu1.max} ms | 지도→L6 카드 판 최장 ${menu2.max} ms | 장 넘김 최장 ${pageTurn.max} ms | L10 시작·끄는 중 평균 ${play.avg} 1%low ${play.low1} 최장 ${play.max} ms`);
   if (play.avg < 55 || play.low1 < 45) fail(`성능 DPR${dsf} 판: 평균 ${play.avg} 1% low ${play.low1} (기준 55·45, 대조 ${ctl.avg}/${ctl.low1})`);
-  if (menu1.max > 100 || menu2.max > 100) fail(`성능 DPR${dsf} 메뉴 전환 최장 ${menu1.max}·${menu2.max} ms (기준 ≤ 100)`);
+  if (menu1.max > 100 || menu2.max > 100 || pageTurn.max > 100) fail(`성능 DPR${dsf} 메뉴 전환 최장 ${menu1.max}·${menu2.max}·${pageTurn.max} ms (기준 ≤ 100)`);
+  const all = [menu1, menu2, pageTurn, play].flatMap((x) => x.d).sort((a, b) => a - b), p99 = all[Math.floor(all.length * 0.99)];
+  PERF['dpr' + dsf].overall = { avg: +((1000 * all.length) / all.reduce((a, b) => a + b, 0)).toFixed(1), low1: +(1000 / p99).toFixed(1), n: all.length };
+  for (const x of [ctl, menu1, menu2, pageTurn, play]) delete x.d;
+  console.log(`  perf DPR${dsf} 전체(측정 구간 합): 평균 ${PERF['dpr' + dsf].overall.avg} 1% low ${PERF['dpr' + dsf].overall.low1}`);
+  if (PERF['dpr' + dsf].overall.low1 < 45 || PERF['dpr' + dsf].overall.avg < 55) fail(`성능 DPR${dsf} 전체 평균 ${PERF['dpr' + dsf].overall.avg}·1% low ${PERF['dpr' + dsf].overall.low1} (기준 55·45)`);
   await c.close();
 }
 writeFileSync(join(OUT, 'perf.json'), JSON.stringify(PERF, null, 1));

@@ -8,7 +8,7 @@ import { makeLayout } from './layout.js';
 import { Audio } from './audio.js';
 import { Haptics } from './haptics.js';
 import * as ST from './store.js';
-import { buildBoardCache, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, mix, ease, clamp01, rrect } from './render.js';
+import { buildBoardCache, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, svgBitmap, bitmapEl, idle, setIdleGate, mix, ease, clamp01, rrect } from './render.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
@@ -76,8 +76,9 @@ function colorsOf(lv) {
 // ---------------------------------------------------------------- 화면 전환 (겹쳐 흐려짐 + 6 px 위로, 게임 시계)
 const SCREENS = ['title', 'map', 'play', 'result', 'guardian'];
 let trans = null;
+let lastScreenAt = 0;
 function show(name) {
-  state = name;
+  state = name; lastScreenAt = performance.now();
   for (const s of SCREENS) $(s).classList.toggle('show', s === name);
   $('boot').classList.remove('show');
   cv.style.visibility = name === 'play' || name === 'result' ? 'visible' : 'hidden';
@@ -101,7 +102,9 @@ function iconBtn(el, iconName, key) { el.innerHTML = icon(iconName); if (key) el
 function soundBtns() {
   for (const id of ['tSound', 'mSound']) { const el = $(id); el.innerHTML = icon(S.sound ? 'sound_on' : 'sound_off'); el.setAttribute('aria-label', T('settings_sound')); el.setAttribute('aria-pressed', String(!!S.sound)); }
 }
-function toggleSound() { S.sound = !S.sound; ST.save(S); if (A) { A.unlock(); A.setEnabled(S.sound); } soundBtns(); if (S.sound) sfx('ui_tap'); }
+function toggleSound() { S.sound = !S.sound; ST.save(S); if (A) { wake(); A.setEnabled(S.sound); } soundBtns(); if (S.sound) sfx('ui_tap'); }
+// 오디오 깨우기: 이미 있으면 resume(가벼움), 없으면 유휴 줄에서 만들기(사용자 동작 뒤라 sticky activation 으로 running)
+function wake() { if (!A) return; if (A.ctx) A.unlock(); else if (!A._q) { A._q = true; requestAnimationFrame(() => setTimeout(() => { A.unlock(); A._q = false; }, 0)); } }
 function sfx(name, opt) { if (A) A.play(name, opt); }
 
 function applyLang() {
@@ -221,7 +224,12 @@ function nodeSVG(i, st, size) {
   return s + '</svg>';
 }
 // 부팅 유휴 시간에 지도 노드 그림을 미리 래스터(render.map_first)
-function prewarmPage(p) { if (!mapL) mapL = LY.map(window.innerWidth, window.innerHeight); const ch = D.chapters[p]; if (!ch) return []; return ch.levels.map((id) => { const i = D.levels.findIndex((l) => l.id === id); return svgImg(nodeSVG(i, nodeState(i), mapL.node_d)).ready; }); }
+function prewarmPage(p) { if (!mapL) mapL = LY.map(window.innerWidth, window.innerHeight); const ch = D.chapters[p]; if (!ch) return []; return ch.levels.map((id) => { const i = D.levels.findIndex((l) => l.id === id); idle(() => prewarmCard(i)); return svgBitmap(nodeSVG(i, nodeState(i), mapL.node_d), mapL.node_d, mapL.node_d, dpr); }); }
+// 아직 다 칠하지 않은 카드 판의 카드 그림을 그 판 크기로 미리 비트맵화(전환 프레임에서 첫 래스터 없음)
+function prewarmCard(i) {
+  const lv = D.levels[i]; if (!lv) return; const card = lv.fill_card || lv.hole_card; if (!card || (S.levels[lv.id] || {}).done) return;
+  const a = LY.play(window.innerWidth, window.innerHeight, lv.width, lv.height).card.art; svgBitmap(D.card[card.svg], a.w, a.h, dpr);
+}
 function chapterState(ci) {
   const ids = D.chapters[ci].levels, idx = ids.map((id) => D.levels.findIndex((l) => l.id === id));
   const sts = idx.map(nodeState);
@@ -272,7 +280,7 @@ function buildMap() {
     const stKey = { locked: 'node_locked', next: 'node_next', partial: 'node_partial', done: 'node_done', star: 'node_star' }[s];
     b.setAttribute('aria-label', `${T(lv.name_key)}, ${T(stKey)}`);
     if (s === 'locked') b.setAttribute('aria-disabled', 'true');
-    b.appendChild(svgImgEl(nodeSVG(i, s, d)));
+    b.appendChild(bitmapEl(nodeSVG(i, s, d), d, d, dpr));
     li.appendChild(b);
     if (s === 'partial') {
       const pb = document.createElement('span'); pb.className = 'pbar'; pb.setAttribute('role', 'progressbar'); pb.setAttribute('aria-label', T('aria_best_fill'));
@@ -293,7 +301,7 @@ function buildMap() {
     tabs.appendChild(bt);
   });
   // 이웃 장 그림 미리 래스터
-  setTimeout(() => { prewarmPage(mapPage + 1); prewarmPage(mapPage - 1); }, 0);
+  idle(() => prewarmPage(mapPage + 1)); idle(() => prewarmPage(mapPage - 1));
 }
 function turnPage(p) {
   if (p < 0 || p >= D.chapters.length || p === mapPage) return;
@@ -344,10 +352,17 @@ function startLevel(i, via = null, split = false) {
   const rec = S.levels[lv.id];
   if (lv.tutorial && lv.tutorial.kind === 'finger_demo') { PS.tut = { start: clock + D.bal.tutorial.finger_start_delay_ms, cells: cellsOf(lv.tutorial.demo_drag), stopAt: null }; PS.tutTextOn = true; }
   const card = lv.fill_card || lv.hole_card;
-  if (card && !(rec && rec.done)) PS.card = { t: clock, svg: card.svg, text: card.text_key, closing: null };
+  if (card && !(rec && rec.done)) PS.card = { t: 1e15, svg: card.svg, text: card.text_key, closing: null }; // t = 화면이 바뀌고 전환 연출이 끝난 때(finish)
   setText($('pName'), T(lv.name_key));
-  const finish = () => { if (PS.trans) PS.trans.t0 = clock; show('play'); syncPairs(true); drawPlay(); }; // 첫 프레임 미리 그리기
-  if (split && !TEST) { layoutPlay(); requestAnimationFrame(() => requestAnimationFrame(finish)); } else finish();
+  const me = PS;
+  const finish = () => {
+    if (PS !== me) return;
+    if (PS.trans) PS.trans.t0 = clock;
+    // 카드 "뜬 뒤 400 ms 무시" 시계는 전환 연출이 끝난 때부터(r2 핫픽스, QA 이슈 5)
+    if (PS.card) PS.card.t = clock + (PS.trans && !RM() ? (PS.trans.kind === 'grow' ? D.lay.motion.level_transition.ms : 200) : 0);
+    show('play'); syncPairs(true); drawPlay(); // 첫 프레임 미리 그리기
+  };
+  if (split) { layoutPlay(); requestAnimationFrame(() => requestAnimationFrame(finish)); } else finish();
 }
 const cellsOf = (arr) => arr.map(([x, y]) => y * PS.lv.width + x);
 let PL = null, boardCache = null, grid = null, SP = null;
@@ -371,7 +386,7 @@ function layoutPlay() {
   place(cel, cd); setStyle(cel, 'borderRadius', cd.radius + 'px'); setStyle(cel, 'background', PS.theme.top);
   const rel = (r) => ({ ...r, x: r.x - cd.x, y: r.y - cd.y });
   place($('pCardArt'), rel(cd.art)); slot($('pCardText'), rel(cd.text)); setStyle($('pCardText'), 'color', C.ink);
-  if (PS.card) { const a = $('pCardArt'); a.textContent = ''; a.appendChild(svgImgEl(D.card[PS.card.svg])); setText($('pCardText'), T(PS.card.text)); }
+  if (PS.card) { const a = $('pCardArt'); a.textContent = ''; a.appendChild(bitmapEl(D.card[PS.card.svg], cd.art.w, cd.art.h, dpr)); setText($('pCardText'), T(PS.card.text)); }
   // 쌍 점 줄
   const pr = L.pair_row, n = PS.pz.k, wrap = $('pPairs');
   if (wrap.childElementCount !== n || wrap.dataset.lv !== PS.lv.id) {
@@ -397,14 +412,14 @@ function layoutPlay() {
     lineMarks: PS.cols.map((col) => markSprite(D.marks[col.mark], cell * D.lay.motion.connect.line_mark.size_of_cell, D.lay.marks.stroke_unit, C.white, D.lay.motion.connect.line_mark.alpha, dpr)),
     glows: PS.cols.map((col) => glowSprite(col.hex, cell * D.lay.motion.connect.juice.glow.radius_of_cell, dpr)),
     bits: PS.cols.map((col) => circleSprite(col.hex, cell * 0.08, dpr)),
-    judge: PS.cols.map(() => [null, null, null]), // 판정 이름 비트맵: 첫 프레임 뒤 유휴 시간에 미리 그림(아래)
+    judge: PS.cols.map(() => [null, null, null]),
   };
   PS.dotSvgs = PS.cols.map((col) => ({ full: resultDotSVG(col, true), hollow: resultDotSVG(col, false) }));
   const sp0 = SP;
   // 유휴 시간에 조금씩(한 번에 한 쌍) — 한 프레임을 길게 만들지 않음
   const jobs = PS.cols.map((_, c) => () => { [0, 1, 2].forEach((gi) => judgeSprite(c, gi)); svgImg(PS.dotSvgs[c].full); svgImg(PS.dotSvgs[c].hollow); });
-  const run = () => { if (SP !== sp0 || !jobs.length) return; jobs.shift()(); setTimeout(run, 40); };
-  setTimeout(run, 120);
+  // 판정 이름 비트맵은 유휴 줄에서 미리(못 했으면 첫 연결 때 그 하나만 그림, 글꼴은 부팅 때 데움 → 약 7 ms)
+  for (const j of jobs) idle(() => { if (SP === sp0) j(); });
   dirty = true;
 }
 function judgeSprite(c, gi) {
@@ -466,7 +481,7 @@ function fillNow() { const u = RM() ? 1 : clamp01((clock - PS.fillT) / 200); ret
 // ---- 입력 (첫 손가락만, 이벤트 처리 안에서 판 상태를 바꾸고 다음 프레임에 그림)
 function boardLocked() { return !PS || state !== 'play' || PS.doneAt != null || !!(PS.card && PS.card.closing == null) || !!(PS.trans && clock - PS.trans.t0 < 0); }
 function onDown(px, py, id = 1) {
-  if (A) A.unlock();
+  wake();
   if (!PS || state !== 'play') return false;
   if (PS.card && PS.card.closing == null) { cardTap(); return false; }
   if (PS.drag || boardLocked()) return false;
@@ -659,6 +674,7 @@ function updatePlay(dt) {
     if (PS.card.closing == null && clock - PS.card.t >= rc.auto_close_ms) closeCard();
     const vis = PS.card.closing != null ? 1 - clamp01((clock - PS.card.closing) / 200) : clamp01((clock - PS.card.t) / 200);
     setStyle($('pCard'), 'opacity', vis.toFixed(3)); setHidden($('pCard'), false);
+    if (PS.card.closing == null && clock < PS.card.t) setStyle($('pCard'), 'opacity', '0');
     if (PS.card.closing != null && vis <= 0) { PS.card = null; setHidden($('pCard'), true); $('pCard').classList.remove('closing'); }
   } else setHidden($('pCard'), true);
   if (PS.tut && PS.tut.stopAt != null && PS.doneAt == null && !PS.drag && !PS.help && clock - Math.max(PS.lastChange, PS.lastPress) >= D.bal.tutorial.reshow_if_idle_s * 1000) PS.tut = { start: clock, cells: PS.tut.cells, stopAt: null };
@@ -800,6 +816,11 @@ function drawPlay() {
     if (dragging && pts.length && !B.isConnected(pz, c, p)) {
       let hx = PS.head ? PS.head.x : pts[pts.length - 1][0], hy = PS.head ? PS.head.y : pts[pts.length - 1][1];
       if (bo && !RM()) { const u = (clock - bo.t) / M.blocked.head_back_ms, push = M.blocked.head_push_of_cell * cell * (u < 0.3 ? u / 0.3 : 1 - ease.spring((u - 0.3) / 0.7)); if (u < 1) { hx += bo.dir[0] * push; hy += bo.dir[1] * push; } }
+      // 다른 색 점 칸 쪽으로는 머리(둥근 끝 포함)가 자기 칸 경계를 넘지 않게(r2 핫픽스, QA 이슈 4)
+      { const hc = p[p.length - 1], [cx0, cy0] = pts[pts.length - 1], dx = hx - cx0, dy = hy - cy0, ax = Math.abs(dx) >= Math.abs(dy);
+        const nx = (hc % PS.lv.width) + (ax ? Math.sign(dx) : 0), ny = ((hc / PS.lv.width) | 0) + (ax ? 0 : Math.sign(dy));
+        const ni = nx >= 0 && ny >= 0 && nx < PS.lv.width && ny < PS.lv.height ? ny * PS.lv.width + nx : -1;
+        if (ni >= 0 && pz.epColor[ni] >= 0 && pz.epColor[ni] !== c) { const lim = 0.5 * cell - L.px.line_w / 2; if (ax) hx = cx0 + Math.max(-lim, Math.min(lim, dx)); else hy = cy0 + Math.max(-lim, Math.min(lim, dy)); } }
       pts = pts.concat([[hx, hy]]);
     }
     if (pts.length > 1) strokePoly(ctx, pts, L.px.line_w, colorOf(c).hex, ta);
@@ -909,6 +930,7 @@ function openResult() {
   setAttr($('rPct'), 'aria-valuenow', String(R.accuracyPct)); setAttr($('rPct'), 'aria-valuetext', `${R.accuracyPct}%`);
   $('rBest').textContent = ''; $('rBest').appendChild(svgImgEl(icon('new_best'))); $('rBest').setAttribute('aria-label', T('result_new_best')); setHidden($('rBest'), true);
   setHidden($('rNext'), last);
+  idle(() => prewarmCard(PS.i + 1));
   layoutResult();
   resultFrame();
 }
@@ -988,12 +1010,12 @@ function wire() {
     if (e.target.closest('#tSound') || state !== 'title') return;
     // r2 S2: 지도 그리기와 오디오 잠금 해제를 다른 프레임으로
     show('map');
-    requestAnimationFrame(() => setTimeout(() => { if (A) { A.unlock(); sfx('ui_tap'); } }, 0));
+    wake(); // 오디오 컨텍스트 만들기는 지도를 그린 프레임 다음 작업으로(누른 프레임과 나눔)
   });
   $('tSound').addEventListener('click', toggleSound); $('mSound').addEventListener('click', toggleSound);
   $('mNodes').addEventListener('click', (e) => {
     const b = e.target.closest('.node'); if (!b || state !== 'map') return;
-    if (A) A.unlock();
+    wake();
     const i = +b.dataset.i;
     if (b.dataset.state === 'locked') { b._shake = clock; return; } // r2 S30: 살짝 흔들림, 소리 없음
     sfx('ui_tap');
@@ -1001,7 +1023,12 @@ function wire() {
     startLevel(i, { kind: 'grow', t0: clock, x: r.left + r.width / 2, y: r.top + r.height / 2 }, true);
   });
   $('mPrev').addEventListener('click', () => turnPage(mapPage - 1)); $('mNext').addEventListener('click', () => turnPage(mapPage + 1));
-  $('mTabs').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) turnPage(+b.dataset.page); });
+  // 장 점 줄 = 누름 자리 한 덩어리(112×48 이상): 누른 x 에 가장 가까운 점의 장으로(r2 핫픽스, QA 이슈 3). 점 탭 버튼은 키보드·낭독용
+  $('mTabs').addEventListener('click', (e) => {
+    if (e.detail === 0) { const b = e.target.closest('button'); if (b) turnPage(+b.dataset.page); return; } // 키보드
+    const r = $('mTabs').getBoundingClientRect(), d = mapL.pager.dots, x = e.clientX - (d.x - d.hit.x) - r.left;
+    turnPage(Math.max(0, Math.min(D.chapters.length - 1, Math.round((x - d.d / 2) / d.pitch))));
+  });
   $('mTabs').addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') turnPage(mapPage + 1); if (e.key === 'ArrowLeft') turnPage(mapPage - 1); });
   let sw = null;
   $('map').addEventListener('pointerdown', (e) => { sw = { x: e.clientX, y: e.clientY, t: performance.now() }; });
@@ -1036,7 +1063,7 @@ function wire() {
     const t = e.target.closest('button'); if (!t) return;
     if (t.classList.contains('tog')) {
       const k = t.dataset.k;
-      if (k === 'settings_sound') { S.sound = !S.sound; if (A) { A.unlock(); A.setEnabled(S.sound); } soundBtns(); }
+      if (k === 'settings_sound') { S.sound = !S.sound; if (A) { wake(); A.setEnabled(S.sound); } soundBtns(); }
       if (k === 'settings_vibrate') { S.vibrate = !S.vibrate; H.enabled = S.vibrate; }
       if (k === 'settings_motion') S.motion = !S.motion;
       ST.save(S); t.setAttribute('aria-checked', String(k === 'settings_sound' ? S.sound : k === 'settings_vibrate' ? S.vibrate : S.motion));
@@ -1053,10 +1080,13 @@ function goMapAfter() { mapPage = defaultPage(); mapKey = ''; if (mapAnim && map
 // ---------------------------------------------------------------- 루프 (바뀐 것이 없으면 그리지 않음)
 let last = 0;
 function frame(now) {
+  requestAnimationFrame(frame); // 먼저 다음 프레임을 걸어 둠 — 한 프레임 예외로 루프가 끊기지 않게(r2 핫픽스)
+  try { frameBody(now); } catch (e) { console.error(e); }
+}
+function frameBody(now) {
   const dt = Math.min(100, last ? now - last : 16.7); last = now;
   if (!TEST && !document.hidden) advance(dt);
   render();
-  requestAnimationFrame(frame);
 }
 function advance(dt) {
   clock += dt;
@@ -1072,7 +1102,7 @@ function render() {
     wasActive = act;
     rowFrame();
   }
-  if (state === 'result') resultFrame();
+  if (state === 'result' && PS && PS.result) resultFrame();
 }
 
 // ---------------------------------------------------------------- 테스트 훅
@@ -1086,6 +1116,7 @@ const api = {
   get clock() { return clock; },
   get mapPage() { return mapPage; },
   loadLevel(i) { startLevel(i); return true; },
+  openLevel(i) { startLevel(i, { kind: 'grow', t0: clock, x: VW / 2, y: VH / 2 }, true); return true; }, // 화면 버튼과 같은 두 프레임 경로
   step(dt) { let left = dt; while (left > 0) { const s = Math.min(16.667, left); advance(s); render(); left -= s; } return state; },
   get board() {
     if (!PS) return null;
@@ -1138,11 +1169,11 @@ window.__game = api;
   api.ready = true;
   requestAnimationFrame(frame);
   // 부팅 유휴 시간: 지도 첫 페이지·이웃·아이콘·카드 그림 미리 래스터(render.map_first·svg_raster)
-  setTimeout(() => {
-    prewarmPage(mapPage); prewarmPage(mapPage + 1);
-    for (const n of ['star', 'star_empty', 'new_best', 'filled']) svgImg(icon(n));
-    for (const s of Object.values(D.card)) svgImg(s);
-  }, 0);
-  // 캔버스 글꼴(판정 이름) 첫 사용 비용을 타이틀 유휴 시간에 미리 치름
-  setTimeout(() => { for (const k of D.bal.judge.name_keys) textSprite(T(k), 38, FONT, '#000000', '#FFFFFF', 1, null); }, 400);
+  // 유휴 줄: 전환·드래그·연출 중이 아니고 화면이 바뀐 지 400 ms 넘었을 때만, 한 프레임에 한 일(render.idle)
+  // 플레이 중에는 3 s 동안 누름이 없을 때만(드래그 사이에 긴 프레임을 만들지 않음)
+  setIdleGate(() => !!trans || !!pageTurn || performance.now() - lastScreenAt < 400 || !!(PS && (PS.drag || PS.trans || (PS.doneAt != null && clock - PS.doneAt < 1600))) || (state === 'play' && PS && clock - Math.max(PS.lastPress, PS.t0) < 3000));
+  idle(() => prewarmPage(mapPage)); idle(() => prewarmPage(mapPage + 1));
+  for (const n of ['star', 'star_empty', 'new_best', 'filled']) idle(() => svgImg(icon(n)));
+  // 캔버스 글꼴(판정 이름) 첫 사용 비용을 부팅 때 미리 치름
+  for (const k of D.bal.judge.name_keys) textSprite(T(k), 38, FONT, '#000000', '#FFFFFF', 1, null);
 })();

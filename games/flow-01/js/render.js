@@ -173,3 +173,33 @@ export function svgImg(svg) {
 }
 // 같은 그림을 여러 곳에 쓸 때는 디코드된 img 를 복제(복제본은 이미 디코드된 캐시를 씀)
 export function svgImgEl(svg, cls = '') { const e = svgImg(svg); const im = e.img.cloneNode(); if (cls) im.className = cls; im.setAttribute('aria-hidden', 'true'); return im; }
+
+// SVG → 미리 그린 비트맵(오프스크린 캔버스, 크기 × dpr). 화면에는 <canvas> 에 drawImage 만 → 전환 프레임에서 SVG 첫 래스터 없음(r2 핫픽스).
+// 래스터는 유휴 줄(idle)에서 한 프레임에 하나씩만(한 번에 몰아 긴 프레임을 만들지 않음). 아직 안 됐으면 <img> 로 대신 보임.
+const idleQ = []; let idleBusy = () => false, idleOn = false;
+export function setIdleGate(fn) { idleBusy = fn; }
+export function idle(fn) { idleQ.push(fn); if (!idleOn) { idleOn = true; setTimeout(pump, 50); } }
+function pump() {
+  if (!idleQ.length) { idleOn = false; return; }
+  if (!idleBusy()) { const t0 = performance.now(); do { try { idleQ.shift()(); } catch (e) { console.error(e); } } while (idleQ.length && performance.now() - t0 < 4); }
+  setTimeout(pump, 50);
+}
+const bmpCache = new Map();
+export function svgBitmap(svg, w, h, dpr) {
+  const key = `${w}x${h}@${dpr}|${svg}`;
+  let e = bmpCache.get(key);
+  if (!e) {
+    e = { c: null, wait: [] };
+    bmpCache.set(key, e);
+    svgImg(svg).ready.then(() => idle(() => { const [c, x] = offscreen(w, h, dpr); x.drawImage(svgImg(svg).img, 0, 0, w, h); e.c = c; for (const f of e.wait) f(); e.wait = []; }));
+  }
+  return e;
+}
+// 비트맵이 있으면 <canvas>, 아직이면 디코드된 <img> 복제(합성기 래스터)
+export function bitmapEl(svg, w, h, dpr) {
+  const e = svgBitmap(svg, w, h, dpr);
+  if (!e.c) { const im = svgImgEl(svg); im.style.width = w + 'px'; im.style.height = h + 'px'; return im; }
+  const cv = document.createElement('canvas'); cv.width = e.c.width; cv.height = e.c.height; cv.style.width = w + 'px'; cv.style.height = h + 'px'; cv.setAttribute('aria-hidden', 'true');
+  cv.getContext('2d').drawImage(e.c, 0, 0);
+  return cv;
+}

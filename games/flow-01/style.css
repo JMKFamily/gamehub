@@ -100,3 +100,4 @@ body.notext .slot, body.notext .band, body.notext .tb, body.notext .mlab { color
 .art img { width: 100%; height: 100%; display: block; }
 #map { pointer-events: auto; touch-action: pan-y; }
 #rBoard .chk img { width: 100%; height: 100%; }
+#mTabs button { pointer-events: none; }
