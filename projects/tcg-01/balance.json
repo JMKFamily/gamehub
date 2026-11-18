@@ -1,5 +1,5 @@
 {
-  "version": "1.5.1",
+  "version": "1.6.0",
   "project": "tcg-01",
   "note": "빌드가 그대로 읽는 규칙·경제 수치. 근거와 표는 20-balance.md. 카드 수치는 cards.json, 효과 해석은 tools/sim/engine.mjs.",
   "rules": {
@@ -374,7 +374,100 @@
           6,
           8
         ]
-      }
+      },
+      "daily_commission_types": {
+        "note": "UX 2차 리뷰(하루 78 % 중복) 대응. 종류 8개, 목표 수는 슬롯 1·2·3(보상 20·30·40 소금화 그대로) 순서. 측정 단위는 각 키 설명. 이름 글은 lore가 commission_<type> 키로",
+        "win_hero": {
+          "goal": [
+            1,
+            1,
+            2
+          ],
+          "weight": 3,
+          "unit": "지정 호명자로 결투 승리 수(모드 무관)",
+          "hero": "오늘 날짜로 정하는 6명 중 1명"
+        },
+        "breakwater_blocks": {
+          "goal": [
+            3,
+            4,
+            5
+          ],
+          "weight": 2,
+          "unit": "상대가 내 방파제 응답자를 공격한 횟수"
+        },
+        "brine_damage": {
+          "goal": [
+            4,
+            6,
+            8
+          ],
+          "weight": 2,
+          "unit": "상대 턴 시작 소금독 틱으로 준 피해 합"
+        },
+        "play_answerers": {
+          "goal": [
+            6,
+            9,
+            12
+          ],
+          "weight": 3,
+          "unit": "낸 응답자 장수(토큰 제외)"
+        },
+        "cast_rites": {
+          "goal": [
+            4,
+            6,
+            8
+          ],
+          "weight": 3,
+          "unit": "쓴 의식 장수(여분 심지 제외)"
+        },
+        "hero_damage": {
+          "goal": [
+            25,
+            40,
+            55
+          ],
+          "weight": 3,
+          "unit": "상대 호명자에게 준 피해 합(껍질 포함)"
+        },
+        "open_crates": {
+          "goal": [
+            1,
+            2,
+            3
+          ],
+          "weight": 1,
+          "unit": "인양 상자를 연 개수(모두 열기 포함)"
+        },
+        "recut_or_craft": {
+          "goal": [
+            1,
+            1,
+            2
+          ],
+          "weight": 1,
+          "unit": "돌파(새김) 단계 올리기 또는 지정 새김 횟수"
+        },
+        "worldmap_node": {
+          "goal": [
+            1,
+            1,
+            1
+          ],
+          "weight": 1,
+          "unit": "월드맵 노드 새로 읽기",
+          "only_if": "열 수 있는 미독 노드가 있을 때만 후보"
+        }
+      },
+      "daily_commission_draw_rule": {
+        "distinct_types_per_day": 3,
+        "method": "가중치 비례로 비복원 추첨(같은 날 같은 종류 0). 시드 = 날짜(YYYYMMDD) × 31 + 저장 생성 시각 해시, engine.mjs makeRng 사용(결정적). 후보 조건(only_if)에 안 맞는 종류는 빼고 뽑음",
+        "reroll": "다시 뽑기는 오늘 3개에 없는 종류 중 같은 규칙으로 1개, 하루 1회(daily_commission_rerolls)",
+        "slot_reward_unchanged": true
+      },
+      "daily_commission_goals_legacy_note": "daily_commission_goals(3종)는 옛 키 호환용으로 남김. 새 빌드는 daily_commission_types를 읽음"
     },
     "tide_calendar": {
       "season_days": 42,

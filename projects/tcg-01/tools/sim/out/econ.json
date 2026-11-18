@@ -5,7 +5,7 @@
  "losses_per_day": 5,
  "salt_marks_per_day": 170,
  "tide_marks_per_day": 405,
- "target_deck_complete_day_median": 18,
+ "target_deck_complete_day_median": 19,
  "target_deck_complete_day_p90": 34,
  "by_day": {
   "7": {
@@ -13,7 +13,7 @@
    "playset_ratio_median": 0.555,
    "target_deck_avg_stage_median": 0.17,
    "owned_stage_hist_median": [
-    137,
+    138,
     18,
     0,
     0
@@ -22,10 +22,10 @@
   "30": {
    "crates_median": 104,
    "playset_ratio_median": 0.855,
-   "target_deck_avg_stage_median": 0.73,
+   "target_deck_avg_stage_median": 0.7,
    "owned_stage_hist_median": [
     101,
-    78,
+    77,
     12,
     0
    ]
@@ -48,7 +48,7 @@
    "owned_stage_hist_median": [
     8,
     32,
-    94,
+    93,
     67
    ]
   }
