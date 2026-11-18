@@ -1,0 +1,25 @@
+{
+ "runs": [
+  {
+   "run": 1,
+   "frames": 3592,
+   "avg_fps": 59.9,
+   "low1_fps": 50.9,
+   "max_ms": 116.7
+  },
+  {
+   "run": 2,
+   "frames": 3591,
+   "avg_fps": 59.9,
+   "low1_fps": 50.9,
+   "max_ms": 116.6
+  },
+  {
+   "run": 3,
+   "frames": 3592,
+   "avg_fps": 59.9,
+   "low1_fps": 50.9,
+   "max_ms": 100
+  }
+ ]
+}

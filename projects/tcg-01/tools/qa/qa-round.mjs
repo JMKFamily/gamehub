@@ -960,7 +960,98 @@ async function partPerfCtl() {
   save('perfctl', { runs });
 }
 
-const parts = { perfctl: partPerfCtl, terms: partTerms, uxshots: partUxShots, tut: partTut, resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
+// ================= uxshots2: 블라인드 UX 사진 r2 — 부채꼴 손패 5·8·10장·필드·펼침·확대·수집/덱 빌더 격자·상세, 글 가림 + 색약 3종, 사진마다 화면 카드 검증 =================
+async function partUxShots2() {
+  const C = rj(join(REPO, 'games', 'tcg-01', 'data', 'cards.json')).cards;
+  const meta = Object.fromEntries(C.map((c) => [c.id, { family: c.family, kind: c.kind }]));
+  const pick = ['D009', 'B052', 'B053', 'B056', 'B099', 'A008', 'A006', 'A034', 'A032', 'A030'];
+  const deck = []; for (let i = 0; deck.length < 30; i++) deck.push(pick[i % pick.length]);
+  const UXD = join(PROJ, 'reviews', 'terms', 'ux-shots-r2'); mkdirSync(UXD, { recursive: true });
+  const CVD = { protan: '0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0', deutan: '0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0', tritan: '1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0' };
+  const answer = { note: '검수자에게 숨기는 정답. 사진마다 화면에 실제로 있는 카드(DOM에서 읽음: 손패 _hc.cid, 필드 uid→cid, 격자·상세 data-cid/data-detail, 확대는 누른 자리 elementFromPoint)와 상자(x,y,w,h), 유형(family)·종류(kind). verify: 초상 그림 주소가 그 카드의 초상과 같은지', families: ['draw', 'buff', 'debuff', 'strike', 'atkdraw'], kinds: ['minion', 'spell', 'weapon'], images: {} };
+  const b = await browser();
+  let n = 0; const shots = []; const hashes = {};
+  const { createHash } = await import('node:crypto');
+  const hideCss = 'body *, body *::before, body *::after { color: transparent !important; text-shadow: none !important; } svg text { fill: transparent !important; stroke: none !important; } #toastLayer { display: none !important; } .coach, .tut, .tutBtn, .spot, .spotRing, .coachSpot, .coachRing { display: none !important; }';
+  const prep = async (page) => page.evaluate((css) => { let s = document.getElementById('qaHide'); if (!s) { s = document.createElement('style'); s.id = 'qaHide'; document.head.appendChild(s); } s.textContent = css; let f = document.getElementById('qaCvd'); if (!f) { f = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); f.id = 'qaCvd'; f.setAttribute('style', 'position:absolute;width:0;height:0'); f.innerHTML = '<filter id="qacvd" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/></filter>'; document.body.appendChild(f); } }, hideCss);
+  const cvd = async (page, v) => page.evaluate(({ v, m }) => { const f = document.getElementById('qaCvd'); if (m) f.querySelector('feColorMatrix').setAttribute('values', m); document.body.style.filter = v ? 'url(#qacvd)' : ''; }, { v, m: CVD[v] });
+  // 화면 카드 읽기 + 초상 주소 대조
+  const collect = async (page, extra) => page.evaluate(async ({ meta, extra }) => {
+    const Dm = await import(new URL('js/data.js', location.href).href);
+    const R = (e) => { const r = e.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; };
+    const vis = (e) => { const r = e.getBoundingClientRect(); const cs = getComputedStyle(e); return r.width > 4 && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth && cs.visibility !== 'hidden' && cs.display !== 'none' && +cs.opacity > 0.05; };
+    // 그림을 PNG로 굽는 빌드(c70296c)라 초상 주소 대조는 확대에서만: 확대 그림 = 누른 손패 카드의 그림
+    const imgsOf = (e) => [...e.querySelectorAll('img')].map((i) => i.src).concat([...e.querySelectorAll('*')].map((x) => getComputedStyle(x).backgroundImage).filter((u) => u && u !== 'none'));
+    const portraitOk = () => null; void Dm;
+    const out = [];
+    const bt = window.__game.battle; const uidc = {}; if (bt) for (const P of bt.players) for (const m of P.board) uidc[m.uid] = m.cid;
+    for (const e of document.querySelectorAll('[data-hand]')) { const cid = e._hc && e._hc.cid; if (cid && meta[cid] && vis(e)) out.push({ where: 'hand', box: R(e), cid, ...meta[cid], portrait_ok: portraitOk(e, cid) }); }
+    for (const e of document.querySelectorAll('[data-uid]:not(.hero)')) { const cid = uidc[+e.dataset.uid]; if (cid && meta[cid] && vis(e)) out.push({ where: 'field', box: R(e), cid, side: bt.players[0].board.some((m) => m.uid === +e.dataset.uid) ? (bt.players[0].board.length >= 0 ? 'p0' : '') : 'p1', ...meta[cid], portrait_ok: portraitOk(e, cid) }); }
+    for (const e of document.querySelectorAll('.collGrid [data-cid]')) { const cid = e.dataset.cid; if (meta[cid] && vis(e)) out.push({ where: 'grid', box: R(e), cid, ...meta[cid], portrait_ok: portraitOk(e, cid) }); }
+    for (const e of document.querySelectorAll('[data-detail]')) { const cid = e.dataset.detail; if (meta[cid] && vis(e)) out.push({ where: 'detail', box: R(e), cid, ...meta[cid], portrait_ok: portraitOk(e, cid) }); }
+    const z = document.querySelector('.zoomWrap'); if (z && vis(z) && extra && extra.zcid) { const hs = [...document.querySelectorAll('[data-hand]')].filter((e) => e._hc && e._hc.cid === extra.zcid); const zi = new Set(imgsOf(z)); const same = hs.some((e) => imgsOf(e).some((u) => zi.has(u))); const other = [...document.querySelectorAll('[data-hand]')].filter((e) => e._hc && e._hc.cid !== extra.zcid).some((e) => imgsOf(e).some((u) => zi.has(u))); out.push({ where: 'zoom', box: R(z), cid: extra.zcid, ...meta[extra.zcid], portrait_ok: same && !other }); }
+    return out.sort((a, c) => a.box[1] - c.box[1] || a.box[0] - c.box[0]);
+  }, { meta, extra });
+  const shoot = async (page, view, extra) => {
+    const cards = await collect(page, extra);
+    for (const v of ['', 'protan', 'deutan', 'tritan']) {
+      await cvd(page, v); await sleep(150); n++;
+      const f = `ux-${String(n).padStart(2, '0')}.png`; const buf = await page.screenshot({ path: join(UXD, f) });
+      const hsh = createHash('md5').update(buf).digest('hex'); (hashes[hsh] = hashes[hsh] || []).push(f);
+      shots.push({ file: f, view, cvd: v || 'none' }); answer.images[f] = { view, cvd: v || 'none', cards };
+    }
+    await cvd(page, '');
+    console.log(view, cards.length, cards.map((c) => c.where[0] + ':' + c.cid).join(' '));
+  };
+  // A. 대전: 손패 5·8·10장(내가 안 내고 턴만 넘김), 펼침, 확대 2, 내 필드
+  {
+    const { page, ctx } = await open(b, BASE + '?test=1&manual=1&tut=0', { w: 360, h: 640 });
+    await page.evaluate(async (deck) => { await __game.newBattle({ heroA: 'h_rider', heroB: 'h_choir', seed: 2601, human: 0, deckA: deck, noTimer: true }); __game.mulligan([]); }, deck);
+    await prep(page);
+    const goHand = async (target) => page.evaluate((target) => { for (let g = 0; g < 20000; g++) { const bt = __game.battle; if (bt.over) return -1; if (bt.active === 0 && !__game.busy) { if (bt.players[0].hand.length >= target) break; __game.endTurn(); } __game.step(50); } for (let i = 0; i < 60; i++) __game.step(16); return __game.battle.players[0].hand.length; }, target);
+    for (const t of [5, 8, 10]) { const got = await goHand(t); await sleep(200); await shoot(page, `battle_hand${got}`); }
+    // 펼침(손패 카드 탭)
+    const hb = await page.$('[data-hand]'); if (hb) { const r = await hb.boundingBox(); await page.mouse.click(r.x + r.width / 2, r.y + 15); for (let i = 0; i < 40; i++) await page.evaluate(() => __game.step(16)); await sleep(200); }
+    await shoot(page, (await page.evaluate(() => !!document.querySelector('.spread'))) ? 'hand_spread10' : 'hand_tap10');
+    await page.mouse.click(180, 6); for (let i = 0; i < 40; i++) await page.evaluate(() => __game.step(16));
+    // 확대 2장: 누를 자리의 카드를 elementFromPoint로 확인
+    for (const frac of [0.3, 0.75]) {
+      const pt = await page.evaluate((frac) => { const els = [...document.querySelectorAll('[data-hand]')].map((e) => ({ e, r: e.getBoundingClientRect() })).sort((a, c) => a.r.left - c.r.left); const it = els[Math.min(els.length - 1, Math.floor(els.length * frac))]; const x = it.r.left + Math.min(it.r.width / 2, 14), y = it.r.top + 20; const hit = document.elementFromPoint(x, y)?.closest('[data-hand]'); return { x, y, cid: hit && hit._hc ? hit._hc.cid : null }; }, frac);
+      await page.mouse.move(pt.x, pt.y); await page.mouse.down(); await sleep(600); for (let i = 0; i < 30; i++) await page.evaluate(() => __game.step(16));
+      await shoot(page, 'zoom', { zcid: pt.cid }); await page.mouse.up(); await sleep(100); await page.mouse.click(180, 6); for (let i = 0; i < 30; i++) await page.evaluate(() => __game.step(16));
+    }
+    // 내 필드: 소환수·무기를 내고 상대 턴을 지나 내 차례
+    await page.evaluate(() => { for (let k = 0; k < 4; k++) { const L = __game.legal().filter((a) => a.type === 'play' && a.target == null); if (!L.length) break; __game.act(L[0]); for (let i = 0; i < 200 && __game.busy; i++) __game.step(16); } __game.endTurn(); for (let g = 0; g < 20000; g++) { const bt = __game.battle; if (bt.over || (bt.active === 0 && !__game.busy)) break; __game.step(50); } for (let i = 0; i < 60; i++) __game.step(16); });
+    await shoot(page, 'battle_field');
+    await ctx.close();
+  }
+  // B. 수집 격자·덱 빌더 격자·상세
+  {
+    const { page, ctx } = await open(b, BASE + '?test=1&tut=0', { w: 360, h: 640 });
+    await page.evaluate(() => { const S = __game.state; for (const c of __qa.D.list) S.coll[c.id] = { n: 2, res: 0, stage: 0 }; S.guides = S.guides || {}; for (const k of ['guide_craft_1', 'guide_craft_2', 'guide_exp_2', 'guide_exp_1', 'guide_pack_1', 'guide_pack_2', 'guide_ranked_1', 'guide_ranked_2']) S.guides[k] = true; });
+    await prep(page);
+    await page.evaluate(() => __game.go('collection')); await sleep(2500);
+    await page.evaluate(() => { const sc = document.querySelector('#collection .scroll'); if (sc) sc.scrollTop = Math.round(sc.scrollHeight * 0.62); }); await sleep(1500);
+    await shoot(page, 'collection_grid');
+    await page.evaluate(() => __game.go('decks')); await sleep(800); await page.evaluate(() => document.querySelector('[data-new="h_rider"]')?.click()); await sleep(2500);
+    await page.evaluate(() => { const sc = document.querySelector('#builder .scroll'); if (sc) sc.scrollTop = 300; }); await sleep(1200);
+    await shoot(page, 'builder_grid');
+    const cid = 'A006';
+    await page.evaluate(() => __game.go('collection')); await sleep(2500);
+    await page.evaluate(async (cid) => { for (let i = 0; i < 50 && !document.querySelector(`[data-cid="${cid}"]`); i++) await new Promise((r) => setTimeout(r, 100)); document.querySelector(`[data-cid="${cid}"]`)?.click(); }, cid);
+    await page.waitForSelector(`[data-detail="${cid}"]`, { timeout: 5000 }).catch(() => {}); await sleep(800);
+    await shoot(page, 'detail');
+    await ctx.close();
+  }
+  await b.close();
+  const dupNone = Object.values(hashes).filter((v) => v.length > 1);
+  const verify = { images: Object.keys(answer.images).length, cards_total: Object.values(answer.images).filter((x) => x.cvd === 'none').reduce((a, x) => a + x.cards.length, 0), portrait_mismatch: Object.entries(answer.images).flatMap(([f, x]) => x.cards.filter((c) => c.portrait_ok === false).map((c) => `${f}:${c.where}:${c.cid}`)), empty_images: Object.entries(answer.images).filter(([, x]) => !x.cards.length).map(([f]) => f), duplicate_hash_groups: dupNone,
+    combos: [...new Set(Object.values(answer.images).flatMap((x) => x.cards.map((c) => `${c.family}|${c.kind}`)))], views: [...new Set(shots.map((s) => s.view))] };
+  writeFileSync(join(PROJ, 'reviews', 'terms', 'ux-shots-r2-answer.json'), JSON.stringify({ ...answer, verify, made: new Date().toISOString() }, null, 1));
+  save('uxshots2', { log: LOG, shots, verify });
+}
+
+const parts = { uxshots2: partUxShots2, perfctl: partPerfCtl, terms: partTerms, uxshots: partUxShots, tut: partTut, resp: partResp, info: partInfo, shots: partShots, sync: partSync, human: partHuman, tempo: partTempo, perf: partPerf, func: partFunc };
 try {
   for (const [k, f] of Object.entries(parts)) if (PART === 'all' || PART.split(',').includes(k)) { console.log(`== ${k}`); await f(); }
 } catch (e) { console.error(e); process.exitCode = 1; } finally { stopAll(); }

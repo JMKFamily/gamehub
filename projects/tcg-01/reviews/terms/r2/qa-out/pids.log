@@ -1,0 +1,7 @@
+2026-11-18T11:03:40.400Z part=perf server pid 53364 port 8845
+2026-11-18T11:10:31.165Z part=perf server pid 53604 port 8845
+2026-11-18T11:15:27.054Z part=perfctl server pid 43248 port 8845
+2026-11-18T11:19:04.486Z part=uxshots2 server pid 40988 port 8846
+2026-11-18T11:19:49.709Z part=uxshots2 server pid 43176 port 8846
+2026-11-18T11:20:33.534Z part=terms server pid 38444 port 8834
+2026-11-18T11:38:22.558Z part=resp,sync server pid 48524 port 8848

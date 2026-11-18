@@ -1,0 +1,249 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 649
+ },
+ "shots": [
+  {
+   "file": "ux-01.png",
+   "view": "battle_hand5",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-02.png",
+   "view": "battle_hand5",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-03.png",
+   "view": "battle_hand5",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-04.png",
+   "view": "battle_hand5",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-05.png",
+   "view": "battle_hand8",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-06.png",
+   "view": "battle_hand8",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-07.png",
+   "view": "battle_hand8",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-08.png",
+   "view": "battle_hand8",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-09.png",
+   "view": "battle_hand10",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-10.png",
+   "view": "battle_hand10",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-11.png",
+   "view": "battle_hand10",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-12.png",
+   "view": "battle_hand10",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-13.png",
+   "view": "hand_spread10",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-14.png",
+   "view": "hand_spread10",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-15.png",
+   "view": "hand_spread10",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-16.png",
+   "view": "hand_spread10",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-17.png",
+   "view": "zoom",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-18.png",
+   "view": "zoom",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-19.png",
+   "view": "zoom",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-20.png",
+   "view": "zoom",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-21.png",
+   "view": "zoom",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-22.png",
+   "view": "zoom",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-23.png",
+   "view": "zoom",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-24.png",
+   "view": "zoom",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-25.png",
+   "view": "battle_field",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-26.png",
+   "view": "battle_field",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-27.png",
+   "view": "battle_field",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-28.png",
+   "view": "battle_field",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-29.png",
+   "view": "collection_grid",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-30.png",
+   "view": "collection_grid",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-31.png",
+   "view": "collection_grid",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-32.png",
+   "view": "collection_grid",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-33.png",
+   "view": "builder_grid",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-34.png",
+   "view": "builder_grid",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-35.png",
+   "view": "builder_grid",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-36.png",
+   "view": "builder_grid",
+   "cvd": "tritan"
+  },
+  {
+   "file": "ux-37.png",
+   "view": "detail",
+   "cvd": "none"
+  },
+  {
+   "file": "ux-38.png",
+   "view": "detail",
+   "cvd": "protan"
+  },
+  {
+   "file": "ux-39.png",
+   "view": "detail",
+   "cvd": "deutan"
+  },
+  {
+   "file": "ux-40.png",
+   "view": "detail",
+   "cvd": "tritan"
+  }
+ ],
+ "verify": {
+  "images": 40,
+  "cards_total": 129,
+  "portrait_mismatch": [
+   "ux-17.png:zoom:B056",
+   "ux-18.png:zoom:B056",
+   "ux-19.png:zoom:B056",
+   "ux-20.png:zoom:B056",
+   "ux-21.png:zoom:A032",
+   "ux-22.png:zoom:A032",
+   "ux-23.png:zoom:A032",
+   "ux-24.png:zoom:A032"
+  ],
+  "empty_images": [],
+  "duplicate_hash_groups": [],
+  "combos": [
+   "debuff|minion",
+   "debuff|spell",
+   "buff|spell",
+   "draw|spell",
+   "buff|minion",
+   "strike|spell",
+   "atkdraw|weapon",
+   "atkdraw|minion",
+   "strike|minion"
+  ],
+  "views": [
+   "battle_hand5",
+   "battle_hand8",
+   "battle_hand10",
+   "hand_spread10",
+   "zoom",
+   "battle_field",
+   "collection_grid",
+   "builder_grid",
+   "detail"
+  ]
+ }
+}
