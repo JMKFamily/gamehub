@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | ux-reviewer | 검수 피드백 리뷰 | [UX 검수: 블라인드 유형 67 %(표지 보이면 100 %, 색약 동일)·부채꼴 손패 표지 가림 major·수집 격자 유형 없음 major, 5.5 REVISE](ux-reviewer/2026-11-18-ux-review.md) |
 | 2026-11-18 | lore-writer | 검수 피드백 리뷰 | [용어·튜토리얼·스토리 빌드 리뷰(세계관·텍스트 8.5, PASS)·유닛/익사자 정리](lore-writer/2026-11-18-terms-review.md) |
 | 2026-11-18 | qa-engineer | terms | [용어·튜토리얼·스토리·UX QA: 텍스트·흐름 거의 통과, 6배 대전 1% low 회귀 major, 기술 6.5 REVISE](qa-engineer/2026-11-18-terms-qa.md) |
 | 2026-11-18 | lore-writer | 검수 피드백 | [카드 스토리 200장(세력별 이야기 줄기 7개)](lore-writer/2026-11-18-card-stories.md) |
