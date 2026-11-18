@@ -9,7 +9,7 @@ const cards = JSON.parse(readFileSync(join(here, 'cards-lore.json'), 'utf8'));
 const errors = [];
 const fail = (m) => errors.push(m);
 
-const REQ = ['id', 'type', 'attack_sub', 'branch', 'owner', 'name_ko', 'name_en', 'flavor_ko', 'flavor_en', 'concept_ko', 'concept_en', 'cost_band', 'rarity_hint', 'visual_hint'];
+const REQ = ['id', 'type', 'attack_sub', 'branch', 'owner', 'name_ko', 'name_en', 'flavor_ko', 'flavor_en', 'concept_ko', 'concept_en', 'story_ko', 'story_en', 'cost_band', 'rarity_hint', 'visual_hint'];
 const OWNERS = ['h_warden', 'h_choir', 'h_wreck', 'h_rider', 'h_archive', 'h_nameless', 'neutral'];
 const BRANCH = {
   drawbuff: ['d_draw', 'd_seek', 'd_discount', 'd_etch', 'd_salvage'],
@@ -103,7 +103,7 @@ const lore = readFileSync(join(here, '..', '10-lore.md'), 'utf8');
 const PROTECT = ['썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
 const strip = (t) => PROTECT.reduce((a, w) => a.split(w).join(''), t);
 // 이야기용 키(세계관 고유어 허용): 제목·부제·영웅 이름·칭호·대사·승패 부제
-const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
+const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|faction_|story_arc_|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
 let loreRows = 0;
 const glossStart = lore.indexOf('### 8-13.');
 for (const m of lore.matchAll(/^\| `([a-z0-9_]+)` \| ([^|]*) \| ([^|]*) \|/gm)) {
@@ -147,6 +147,40 @@ let glossRows = 0;
   if (glossRows < 44) fail(`용어 사전 ${glossRows}행 (용어 26 + 키워드 18 = 44 이상)`);
 }
 
+// 11. 카드 스토리(2026-11-18 요청자 지시): story_ko 80~160자·2~4문장, story_en 320자 이하, flavor와 같은 문장 없음, 금지어·옛 기능 용어 없음
+// 스토리는 이야기 문장이라 세계관 고유어(참이름·흑조·맹약·대썰물 등)는 허용, 옛 화면 기능어(호명자·응답자·영장 등)만 막음
+const STORY_OLD_KO = ['호명자', '호명술', '응답자', '영장', '조수원', '명줄', '공허 호명', '첫 숨', '소금막', '봉인문', '소금독', '잉걸', '덧새김'];
+const STORY_OLD_EN = ['caller', 'answerer', 'writ', 'writbook', 'lifeline', 'sealwrit', 'saltskin', 'kindle', 'seamist'];
+const sentences = (t) => t.split(/(?<=[.!?])\s+/).map((x) => x.replace(/[\s"'“”.!?]/g, '')).filter(Boolean);
+let storyN = 0;
+for (const c of cards) {
+  if (!c.story_ko || !c.story_en) { fail(`${c.id}: story 없음`); continue; }
+  storyN++;
+  const n = len(c.story_ko), sc = sentences(c.story_ko).length;
+  if (n < 80 || n > 160) fail(`${c.id}: story_ko ${n}자 (80~160)`);
+  if (sc < 2 || sc > 4) fail(`${c.id}: story_ko ${sc}문장 (2~4)`);
+  if (len(c.story_en) > 320) fail(`${c.id}: story_en ${len(c.story_en)}자 (320 초과)`);
+  const fk = new Set(sentences(c.flavor_ko)), fe = new Set(sentences(c.flavor_en.toLowerCase()));
+  if (sentences(c.story_ko).some((x) => fk.has(x))) fail(`${c.id}: story_ko에 flavor 문장 반복`);
+  if (sentences(c.story_en.toLowerCase()).some((x) => fe.has(x))) fail(`${c.id}: story_en에 flavor 문장 반복`);
+  for (const w of BANNED_KO) if (c.story_ko.includes(w)) fail(`${c.id}: story 금지어 "${w}"`);
+  for (const w of BANNED_EN) if (new RegExp(`\\b${w}\\b`, 'i').test(c.story_en)) fail(`${c.id}: story 금지어 "${w}"`);
+  for (const w of STORY_OLD_KO) if (c.story_ko.includes(w)) fail(`${c.id}: story 옛 용어 "${w}"`);
+  for (const w of STORY_OLD_EN) if (new RegExp(`\\b${w}\\b`, 'i').test(c.story_en)) fail(`${c.id}: story 옛 용어 "${w}"`);
+}
+
+// 12. 5-5 카드 스토리 순서: 세력마다 순서 목록 = 그 세력 카드 전체(빠짐·중복 없음)
+{
+  let arcs = 0;
+  for (const m of lore.matchAll(/^- `(h_[a-z]+|neutral)`: ([A-Z0-9 →]+)$/gm)) {
+    arcs++;
+    const ids = m[2].split('→').map((x) => x.trim());
+    const want = cards.filter((c) => c.owner === m[1]).map((c) => c.id).sort();
+    if (new Set(ids).size !== ids.length || [...ids].sort().join() !== want.join()) fail(`5-5 ${m[1]} 스토리 순서가 세력 카드 목록과 다름`);
+  }
+  if (arcs !== 7) fail(`5-5 스토리 순서 ${arcs}개 (7개여야 함)`);
+}
+
 const branchCount = {};
 for (const c of cards) branchCount[c.branch] = (branchCount[c.branch] || 0) + 1;
 const rar = {};
@@ -158,6 +192,7 @@ console.log('갈래별', JSON.stringify(branchCount));
 console.log('희귀도', JSON.stringify(rar));
 console.log('키워드 등장', JSON.stringify(kw), '평균', kwAvg.toFixed(1));
 console.log('10-lore 키 표', loreRows, '행 / 튜토리얼·안내', tutRows, '단계 / 용어 사전', glossRows, '행');
+console.log('카드 스토리', storyN, '장');
 console.log('concept 56자 초과(경고)', longText.length ? longText.join(', ') : '없음');
 if (errors.length) { console.log('실패', errors.length); for (const e of errors) console.log(' -', e); process.exit(1); }
 console.log('결과: 통과');
