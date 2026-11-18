@@ -1167,7 +1167,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `season_widget_next` | 다음 보상까지 트랙 경험치 {n} | {n} Track XP to next reward | 진행 막대 아래 |
 | `season_widget_claim` | 받을 보상 {n}개 | {n} rewards to claim | 받지 않은 보상 |
 | `season_band_1` | 모래톱 | Sandbar | 1~10단계 구간 이름(그림: 얕은 소금 평원) |
-| `season_band_2` | 조개 둔덕 | Shell Mound | 11~20단계(조개무덤 언덕) |
+| `season_band_2` | 조개 둔덕 | Conch Mound | 11~20단계(조개무덤 언덕) |
 | `season_band_3` | 진주 여울 | Pearl Shoal | 21~30단계(진주 빛 웅덩이) |
 | `season_band_4` | 산호 벼랑 | Coral Cliff | 31~40단계(붉은 산호 절벽) |
 | `season_band_5` | 심해 | The Deep | 41~50단계(검푸른 해구 바닥) |
