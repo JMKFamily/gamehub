@@ -138,6 +138,8 @@
 
 ### 2-8. 공통어와 원작 고유어의 경계 (판단 근거)
 
+이야기 고유어 허용: 세력·부류 이름 **익사자 / Drowned**(익사자 합창회, 부류 `lineage_drowned`)는 옛 키워드 "익사"(현재 "즉사")와 글자가 겹치지만 세계관 이름이라 그대로 씁니다. 검사기 허용 목록(`PROTECT`)에 있습니다.
+
 원칙: **사전에 있는 한 낱말이고 여러 카드게임·RPG가 같은 뜻으로 쓰는 말**은 장르 공통어로 씁니다. **레퍼런스(하스스톤)가 공식 용어로 만든 합성어·번역어**와, 다른 상용 TCG의 **공식 키워드 번역어**는 일반어처럼 보여도 쓰지 않습니다. 검사는 `lore/check-cards.mjs`(카드 글·이름·풍미글과 10-lore 키 표)가 합니다.
 
 | 낱말 (ko / en) | 판정 | 근거 |
@@ -151,7 +153,7 @@
 | 필드 / Board | 허용 | 공통. "전장"은 레퍼런스 한국어판의 **모드 이름**이라 피함 |
 | 무덤 / Graveyard | 허용 | 다수 TCG 공통 |
 | 방어 / Defense | 허용 | 사전어. 레퍼런스 공식 "방어도 / Armor"는 금지 |
-| 소환수 / Creature | 허용 | 사전어·게임 공통. 레퍼런스 "하수인 / Minion" 금지. "유닛 / Unit"은 다른 TCG(LoR) 한국어판 공식 용어라 우리 용어로 쓰지 않음(용어 사전의 "흔히 부르는 말" 칸에서만 설명용으로 씀) |
+| 소환수 / Creature | 허용 | 사전어·게임 공통. 레퍼런스 "하수인 / Minion" 금지. "유닛 / Unit"은 다른 TCG(LoR) 한국어판 공식 용어라 쓰지 않음(용어 사전 "흔히 부르는 말" 칸에서도 뺌, 2026-11-18 리뷰) |
 | 멀리건 / Mulligan | en만 허용 | 카드게임 일반 은어. ko는 "손패 바꾸기"가 더 쉬움 |
 | 덱 고갈 / Deck-out | 허용 | 일반 은어. 레퍼런스 "탈진 / Fatigue" 금지 |
 | 보너스 마나 / Bonus Mana | 허용 | 레퍼런스 "동전 / The Coin" 금지 |
@@ -979,7 +981,7 @@ round-2 추가 키(dev 요청·리뷰):
 
 ### 8-13. 용어 사전 (설정·메뉴 → "용어 사전", 2026-11-18)
 
-용어마다 한 줄 설명. 화면에는 `gloss_<id>`(이름은 이 표의 용어)와 `gloss_<id>_desc`(설명)를 씁니다. 아이콘은 art가 고르며, 후보는 현재 `projects/tcg-01/assets/` 파일 이름입니다(옛 이름 파일은 art가 이름만 바꿔도 됨). "흔히 부르는 말"은 다른 게임 경험자가 바로 알아보게 돕는 설명용 칸이며, 2-8 금지어(레퍼런스 공식어)는 넣지 않았습니다. "유닛"처럼 다른 TCG 한국어판에서도 쓰는 일반어는 **우리 용어로는 쓰지 않고** 이 칸의 설명으로만 씁니다(여러 장르에서 쓰는 일반 통칭이라 특정 게임 고유어로 보지 않음).
+용어마다 한 줄 설명. 화면에는 `gloss_<id>`(이름은 이 표의 용어)와 `gloss_<id>_desc`(설명)를 씁니다. 아이콘은 art가 고르며, 후보는 현재 `projects/tcg-01/assets/` 파일 이름입니다(옛 이름 파일은 art가 이름만 바꿔도 됨). "흔히 부르는 말"은 다른 게임 경험자가 바로 알아보게 돕는 설명용 칸이며, 2-8 금지어(레퍼런스 공식어)는 넣지 않았습니다. 2-8의 다른 TCG 공식어(유닛 등)도 이 칸에 넣지 않습니다(검사기가 이 칸에 금지어 전체를 적용).
 
 | id | 용어 ko | 용어 en | 설명 ko (`gloss_<id>_desc`) | 설명 en | 아이콘 후보 | 다른 카드게임에서 흔히 부르는 말 |
 |---|---|---|---|---|---|---|
@@ -988,7 +990,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `deck` | 덱 | Deck | 카드 30장 묶음. 같은 카드는 2장까지. | 30 cards. Up to 2 copies each. | icon-deck.svg | 덱 |
 | `hand` | 손패 | Hand | 지금 낼 수 있게 들고 있는 카드. | Cards you hold and can play. | card-back.svg | 핸드 |
 | `card` | 카드 | Card | 소환수·주문·무기 세 종류가 있습니다. | Comes as a Creature, Spell or Weapon. | card-back.svg | 카드 |
-| `creature` | 소환수 | Creature | 필드에 남아 공격하고 막는 카드. | Stays on the Board to attack and block. | frame-answerer.svg | 유닛, 크리처, 몬스터 |
+| `creature` | 소환수 | Creature | 필드에 남아 공격하고 막는 카드. | Stays on the Board to attack and block. | frame-answerer.svg | 크리처, 몬스터 |
 | `spell` | 주문 | Spell | 한 번 효과를 내고 사라지는 카드. | Takes effect once, then is gone. | frame-rite.svg | 스펠, 마법 |
 | `weapon` | 무기 | Weapon | 영웅이 직접 공격하게 하는 카드. 내구도만큼 씀. | Lets your Hero attack. Lasts for its Durability. | frame-brand.svg | 웨폰, 장비 |
 | `mana` | 마나 | Mana | 카드 비용. 매 턴 1씩 늘어 최대 10. | Pays for cards. +1 each turn, up to 10. | icon-wick.svg | 코스트, 에너지 |

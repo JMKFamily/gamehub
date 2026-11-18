@@ -100,7 +100,8 @@ for (const c of cards) {
 
 // 10. 10-lore.md 키 표: 금지어·옛 용어(화면 글), 튜토리얼·안내·용어 사전 글 한도
 const lore = readFileSync(join(here, '..', '10-lore.md'), 'utf8');
-const PROTECT = ['썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
+// 이야기 고유어 허용 목록: 세력·부류 이름 '익사자'는 옛 키워드 '익사'(현재 '즉사')와 글자가 겹치지만 세계관 이름이라 허용
+const PROTECT = ['익사자', '썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
 const strip = (t) => PROTECT.reduce((a, w) => a.split(w).join(''), t);
 // 이야기용 키(세계관 고유어 허용): 제목·부제·영웅 이름·칭호·대사·승패 부제
 const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|faction_|story_arc_|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
@@ -141,8 +142,7 @@ let glossRows = 0;
     if (len(dko) > 40) fail(`용어 사전 ${id}: 설명 ${len(dko)}자 (40자 초과)`);
     if (len(den) > 80) fail(`용어 사전 ${id}: en 설명 ${len(den)}자 (80자 초과)`);
     const o = hasOld(`${tko} ${dko}`, `${ten} ${den}`); if (o.length) fail(`용어 사전 ${id}: 옛 용어 ${o.join('·')}`);
-    const REF_ONLY = BANNED_KO.slice(0, 26); // 레퍼런스 공식어(다른 TCG 통칭은 설명 칸 허용)
-    for (const w of REF_ONLY) if (`${tko} ${dko} ${common}`.includes(w)) fail(`용어 사전 ${id}: 금지어 "${w}"`);
+    for (const w of BANNED_KO) if (`${tko} ${dko} ${common}`.includes(w)) fail(`용어 사전 ${id}: 금지어 "${w}"`);
   }
   if (glossRows < 44) fail(`용어 사전 ${glossRows}행 (용어 26 + 키워드 18 = 44 이상)`);
 }
