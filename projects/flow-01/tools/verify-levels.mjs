@@ -9,7 +9,8 @@
 //
 // 판정 코드는 빌드와 같은 tools/core/board.mjs. 검사 번호는 20-balance.md 11절.
 //   R1~R9  판정 모듈 규칙 단위 검사(자르기·되살림·이동 수·되돌리기·완료 잠금 등)
-//   V0 레벨 10개·스키마   V1 판 크기·쌍 수·칸 px(4해상도)   V2 답 = 올바른 덮개, 선 길이 ≥ 3   V3 유일해(sound) + 답 = 생성 답
+//   R12 한 번에 이은 쌍 정의(G2)   R13 판 채움 % = 연결된 쌍의 칸만(G3)   V9 카드·시연 필드(text_key·first_hole 안쪽)
+//   V0 레벨 10개·스키마   V1 판 크기·쌍 수·칸 px(4해상도, assets/layout.json play.*.cell 을 직접 읽음, G5)   V2 답 = 올바른 덮개, 선 길이 ≥ 3   V3 유일해(sound) + 답 = 생성 답
 //   V4 교차 검증(가지치기 0 열거, 끝나는 판만)   V5 완벽 입력(답 드래그) → 완료·이동 = 쌍 수·별·100 %·모두 1단(양방향)
 //   V6 새 요소 ≤ 1·구멍 첫 등장 = 소개 레벨   V7 L1 튜토리얼 드래그 = 답 길, 핵심 조작으로 연결   V8 생성 기록 재현(시드 → 같은 판)
 //   B0 봇 매개변수 = balance.json   B1 m̃L ≤ 30   B2 m̃L ≤ 2·m̃(L−1)   B3 L3~L10 엄격 단조   B4 L10 ∈ [0.8T, 1.2T]
@@ -33,6 +34,7 @@ const args = process.argv.slice(2);
 const QUICK = args.includes('--quick');
 const JSON_OUT = args.includes('--json');
 const bal = JSON.parse(readFileSync(join(PROJECT, 'balance.json'), 'utf8'));
+const LAYOUT = JSON.parse(readFileSync(join(PROJECT, bal.board.cell_px_source.split('#')[0]), 'utf8'));
 const V = bal.verify, DF = bal.difficulty;
 const SEED = +(args.find((a) => a.startsWith('--seed='))?.split('=')[1] ?? V.seed);
 const NCH = QUICK ? V.quick_child_runs_per_seed : V.child_runs_per_seed;
@@ -101,6 +103,24 @@ const f2 = (x) => (x == null ? '-' : (+x).toFixed(2));
   check('R9', g.paths[0].join() === [I(0, 0), I(1, 0), I(2, 0)].join(), `건너뛴 칸 채움: ${g.paths[0].join(',')}(짝 점에 닿으면 멈춤)`);
   const lay = { originX: 0, originY: 0, cellPx: 100 };
   check('R10', B.pressHit(pz, lay, -20, 50, 0.25) === I(0, 0) && B.pressHit(pz, lay, -30, 50, 0.25) === -1, '점 시작 판정 0.25칸 확장');
+  // R12 한 번에 이은 쌍(G2): 같은 색을 이어서 고쳐 그으면 같은 이동이라 한 번에 유지, 다른 색을 그은 뒤 다시 그으면 한 번에 아님
+  g = B.newGame(pz);
+  B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]);
+  B.playDrag(g, [I(0, 0), I(0, 1), I(1, 1), I(2, 1), I(2, 0)]); // 같은 색 고쳐 긋기(이동 수 그대로)
+  B.playDrag(g, [I(0, 2), I(1, 2), I(2, 2)]);
+  const os1 = B.oneShotPairs(g);
+  B.playDrag(g, [I(0, 0), I(1, 0), I(2, 0)]); // 다른 색(B) 뒤 A 를 다시 그음 → A 이동 2
+  const os2 = B.oneShotPairs(g);
+  check('R12', os1 === 2 && os2 === 1 && g.colorMoves.join() === '2,1', `한 번에 이은 쌍: 같은 색 고쳐 긋기 뒤 ${os1}(=2), 다른 색 뒤 다시 그은 뒤 ${os2}(=1)`);
+  // R13 판 채움 %(G3): 이어지지 않은 선·끄는 중인 선의 칸은 세지 않음
+  g = B.newGame(pz);
+  B.playDrag(g, [I(0, 0), I(1, 0)]);
+  const fp0 = B.fillPct(pz, g.paths);
+  d = B.press(g, I(1, 0)); B.moveTo(g, d, I(2, 0));
+  const fpDrag = B.displayLayer(g, d).fillPct; // 짝 점에 닿아 연결 → 자동 아님(완료 아님), d.work 연결됨
+  B.release(g, d);
+  const fp1 = B.fillPct(pz, g.paths);
+  check('R13', fp0 === 0 && fp1 === 33 && fpDrag === 33, `판 채움 %: 안 이은 선 ${fp0} %(=0), 이은 뒤 ${fp1} %(=33, 3/9칸)`);
   check('R11', B.trackCell(pz, lay, 115, 50, I(0, 0), 0.2) === I(0, 0) && B.trackCell(pz, lay, 125, 50, I(0, 0), 0.2) === I(1, 0), '칸 판정 히스테리시스 20 %');
 }
 
@@ -118,16 +138,16 @@ for (const L of levels) {
   // V1
   const long = Math.max(L.width, L.height);
   const capLong = n <= 5 ? bal.board.max_cells_long_side_L1_L5 : bal.board.max_cells_long_side_L6_L10;
-  let minPx = Infinity;
+  // G5: 칸 px 원본 = assets/layout.json play.<해상도>.<W>x<H>.cell (여백 12 px·판 패딩·HUD·판정 띠를 넣은 실제 배치)
+  let minPx = Infinity, missing = [];
   for (const [w, h] of bal.board.check_resolutions) {
-    const m = bal.board.board_side_margin_px * 2;
-    const portrait = h >= w;
-    const aw = w - m - (portrait ? 0 : bal.board.landscape_side_columns_px);
-    const ah = h - m - (portrait ? bal.board.portrait_reserved_height_px : 0);
-    minPx = Math.min(minPx, aw / L.width, ah / L.height);
+    const c = LAYOUT.play?.[`${w}x${h}`]?.[`${L.width}x${L.height}`]?.cell;
+    if (typeof c !== 'number') { missing.push(`${w}x${h}`); continue; }
+    minPx = Math.min(minPx, c);
   }
+  if (missing.length) minPx = NaN;
   row.min_cell_px = +minPx.toFixed(1);
-  check(`V1-${L.id}`, long <= capLong && pz.k >= bal.board.pairs_min && pz.k <= bal.board.pairs_max && minPx >= bal.board.cell_min_px, `판 ${row.size}(긴 변 ≤ ${capLong}), 쌍 ${pz.k}, 최소 칸 ${minPx.toFixed(1)} px ≥ ${bal.board.cell_min_px}`);
+  check(`V1-${L.id}`, long <= capLong && pz.k >= bal.board.pairs_min && pz.k <= bal.board.pairs_max && minPx >= bal.board.cell_min_px, `판 ${row.size}(긴 변 ≤ ${capLong}), 쌍 ${pz.k}, layout.json 최소 칸 ${minPx.toFixed(1)} px ≥ ${bal.board.cell_min_px}${missing.length ? ` (layout 에 없음: ${missing.join(',')})` : ''}`);
   // V2 답 덮개
   const sol = L.solution.map((s) => s.path.map(([x, y]) => y * L.width + x));
   const seen = new Uint8Array(pz.n); let okCover = true;
@@ -193,6 +213,16 @@ for (const L of levels) {
   check('V7', ok, `L1 손가락 시연 드래그 = ${t?.demo_pair} 답 길(${t?.demo_drag?.length}칸), 판정 모듈로 넣으면 연결·이동 1`);
 }
 
+// V9 카드·시연 필드(1-2 2차): 글 키, L6 첫 구멍이 판 안쪽(G1), L2 빈칸 = 곧은 길 빈칸
+{
+  const L1 = levels[0], L2 = levels[1], L6 = levels.find((l) => l.hole_card);
+  const inner = ([x, y], l) => x > 0 && y > 0 && x < l.width - 1 && y < l.height - 1;
+  const fh = L6?.hole_card?.first_hole;
+  const okKeys = L1.tutorial?.text_key === 'tut_drag' && L2.fill_card?.text_key === 'card_fill' && L6?.hole_card?.text_key === 'card_hole';
+  const okHole = fh && L6.holes.some((h) => h[0] === fh[0] && h[1] === fh[1]) && inner(fh, L6);
+  check('V9', okKeys && okHole && levels.every((l) => !('name_placeholder' in l)), `카드 글 키 tut_drag/card_fill/card_hole, L${L6?.id} first_hole [${fh}] = 실제 구멍·판 안쪽 ${!!okHole}, 화면 글 필드(name_placeholder) 없음`);
+}
+
 // ---------------------------------------------------------------- B: 봇
 check('B0', ['eps', 'p_cut', 'cut_cost', 'p_continue', 'edge_bonus', 'lookahead', 'max_moves', 'max_drags'].every((k) => bal.bots.child[k] === CHILD[k] && bal.bots.skilled[k] === SKILLED[k]), 'balance.json bots = sim/bots.mjs CHILD·SKILLED');
 
@@ -210,7 +240,7 @@ for (let s = 0; s < NSEEDS; s++) {
       mv.push(x.moves); all[li].push(x.moves);
       if (x.sawEmptyTrap) trapCnt[li]++;
       if (!x.completed) failCnt[li]++;
-      if (x.completed) { c2runs++; const star = x.moves === L.pairs.length; const allOne = x.colorMoves.every((m) => m === 1); const pct = Math.floor((100 * L.pairs.length) / x.moves); if (star !== allOne || star !== (pct === 100)) c2bad++; }
+      if (x.completed) { c2runs++; const star = x.moves === L.pairs.length; const allOne = x.colorMoves.every((m) => m === 1); const pct = Math.floor((100 * x.colorMoves.filter((m) => m === 1).length) / L.pairs.length); if (star !== allOne || star !== (pct === 100)) c2bad++; }
     }
     row.push(moveStats(mv).cmedian);
   });

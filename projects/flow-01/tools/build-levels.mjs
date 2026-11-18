@@ -30,20 +30,21 @@ for (const slot of SLOTS) {
     // 손가락 시연: 답 길이가 가장 짧은 쌍(같으면 꺾임 적은 쌍)을 점 a → 짝 점 b 로 답 길을 따라감
     const bends = (p) => { let b = 0; for (let i = 1; i < p.length - 1; i++) { const d1 = [p[i][0] - p[i - 1][0], p[i][1] - p[i - 1][1]], d2 = [p[i + 1][0] - p[i][0], p[i + 1][1] - p[i][1]]; if (d1[0] !== d2[0] || d1[1] !== d2[1]) b++; } return b; };
     const s = L.solution.slice().sort((x, y) => x.path.length - y.path.length || bends(x.path) - bends(y.path))[0];
-    tutorial = { kind: 'finger_demo', demo_pair: s.id, demo_drag: s.path, repeat_until: 'first_press', note: '손가락이 점 위에서 눌렀다가 답 길을 따라 짝 점까지 끌고 뗌. 유령 선(옅은 그림)만 그리고 판 상태는 바꾸지 않음. 시간 값은 balance.json tutorial(30-art 6절과 같은 값)' };
+    tutorial = { kind: 'finger_demo', text_key: 'tut_drag', demo_pair: s.id, demo_drag: s.path, repeat_until: 'first_press', note: '손가락이 점 위에서 눌렀다가 답 길을 따라 짝 점까지 끌고 뗌. 유령 선(옅은 그림)만 그리고 판 상태는 바꾸지 않음. 시간 값은 balance.json tutorial(30-art 6절과 같은 값)' };
   }
   let fill_card = null;
   if (slot.new_element === 'fill_all_cells') {
     const t = shortestTrap(L);
-    fill_card = { empty_cells: t.firstEmptyCells, note: '곧은 길로 모두 이으면 남는 빈칸(아이 봇 함정 순간의 빈칸과 같음). card_fill 그림의 빈칸 자리' };
+    fill_card = { text_key: 'card_fill', svg: 'tutorial/card-fill.svg', empty_cells: t.firstEmptyCells, note: '곧은 길로 모두 이으면 남는 빈칸(아이 봇 함정 순간의 빈칸과 같음). card_fill 그림의 빈칸 자리' };
   }
-  const hole_card = slot.new_element === 'holes' ? { first_hole: L.holes[0], note: 'card_hole 그림의 구멍 = 이 판의 실제 첫 구멍' } : null;
+  // G1(1-2 2차): 카드 구멍 = 판 안쪽(둘레 줄·열에 닿지 않는) 구멍 중 첫째. 안쪽 구멍이 없으면 holes[0](art 둘레 구멍 규칙)
+  const inner = ([x, y]) => x > 0 && y > 0 && x < L.width - 1 && y < L.height - 1;
+  const hole_card = slot.new_element === 'holes' ? { text_key: 'card_hole', svg: 'tutorial/card-hole.svg', first_hole: L.holes.find(inner) || L.holes[0], note: 'card_hole 그림의 구멍 = 이 판의 실제 구멍(판 안쪽). 다른 구멍이 둘레에 닿으면 art 외곽선 파내기 규칙으로 그림' } : null;
   const level = {
     schema_version: 1,
     id: slot.id,
     order: Number(slot.id),
     name_key: `level${Number(slot.id)}_name`,
-    name_placeholder: `레벨 ${Number(slot.id)}`,
     width: L.width, height: L.height, holes: L.holes,
     pairs: L.pairs, solution: L.solution,
     new_element: slot.new_element, new_element_ko: slot.new_element_ko,

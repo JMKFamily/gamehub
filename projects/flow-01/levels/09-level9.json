@@ -3,7 +3,6 @@
  "id": "09",
  "order": 9,
  "name_key": "level9_name",
- "name_placeholder": "레벨 9",
  "width": 6,
  "height": 6,
  "holes": [],
@@ -279,7 +278,7 @@
  },
  "generator": {
   "version": "gen-1.0.0",
-  "core_version": "1.0.0",
+  "core_version": "1.1.0",
   "seed": 9000465,
   "candidate_index": 465,
   "attempts": 206,

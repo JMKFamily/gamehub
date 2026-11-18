@@ -4,6 +4,9 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | balance-designer | 1-2 | [교차 리뷰 2차: 30건 처리(수정 28·해당 없음 2), L6 재선정(카드 구멍 [1,3] 판 안쪽), 결과 % = 한 번에 이은 쌍/쌍 수, 채움 % = 연결 칸, V1 = layout.json, core 1.1.0](balance-designer/2026-11-18-1-2-revision.md) |
+| 2026-11-18 | art-director | 1-2 | [교차 리뷰 2차: 36건(수정 35·보류 1), 튜토리얼 그림 3장 레벨 JSON 생성 + 카드 = 첫 등장 검사, 둘레 구멍 외곽선 파내기, 등급 소리 음 개수 3/2/1(S7), 타이틀·보호자·오류 화면 글 자리](art-director/2026-11-18-1-2-revision.md) |
+| 2026-11-18 | lore-writer | 1-2 | [교차 리뷰 2차: 28건 처리(수정 26/보류 2), F4·F5·G1~G7 반영, guardian_intro 결과 % 뜻 고침, 9-9 PASS](lore-writer/2026-11-18-1-2-revision.md) |
 | 2026-11-18 | lore-writer | 1-2 | [교차 리뷰 1차: 이슈 24개(major 9), L6 구멍 모두 가장자리, 카드 그림 2장 ≠ 실제 판, 타이틀·보호자·오류 화면 글 자리 없음, F4·F5 lore 변경 10줄](lore-writer/2026-11-18-1-2-cross-review.md) |
 | 2026-11-18 | art-director | 1-2 | [교차 리뷰 1차: 이슈 24개(major 7), 튜토리얼 그림 3장 ≠ 실제 판, 둘레 구멍 외곽선 규칙, 여백 16↔12 px, 연결음 등급 = 음 개수안](art-director/2026-11-18-1-2-cross-review.md) |
 | 2026-11-18 | balance-designer | 1-2 | [교차 리뷰 1차: lore·art ↔ 밸런스 데이터 이슈 20개(major 8), 카드 그림 3장 좌표 불일치, 칸 px 결론 일치, 채움 % 정의 차](balance-designer/2026-11-18-1-2-cross-review.md) |

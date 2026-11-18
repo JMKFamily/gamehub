@@ -7,7 +7,7 @@
 // 칸 번호: idx = y * W + x (x 오른쪽, y 아래). 레벨 JSON 의 좌표는 [x, y].
 // 상태는 모두 일반 배열·숫자라 JSON 으로 저장·복원할 수 있습니다(snapshot/restore).
 
-export const CORE_VERSION = '1.0.0';
+export const CORE_VERSION = '1.1.0'; // 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2)
 
 // ---------------------------------------------------------------- 판
 export function makePuzzle(level) {
@@ -59,10 +59,11 @@ export function isComplete(pz, paths) {
   return cov === pz.cellCount;
 }
 
-// 덮인 칸 수: 선이 지나는 칸 + 아직 선이 없는 점 칸은 세지 않음(점만 있는 칸은 "칠해지지 않음")
+// 칠한 칸 수(판 채움 %의 분자, G3): **연결된 쌍**의 선이 지나는 칸만 셈(점 칸 포함).
+// 이어지지 않은 선·끄는 중인 선의 칸은 화면에서도 tint 로 칠해지지 않으므로 세지 않음.
 export function coveredCells(pz, paths) {
   let cov = 0;
-  for (const p of paths) cov += p.length;
+  for (let c = 0; c < paths.length; c++) if (isConnected(pz, c, paths[c])) cov += paths[c].length;
   return cov;
 }
 
@@ -245,7 +246,12 @@ export function previewGrade(g, d, bounds) {
   return gradeForColorMoves(cm, bounds);
 }
 export const fillPct = (pz, paths) => Math.floor((100 * coveredCells(pz, paths)) / pz.cellCount);
-export const accuracyPct = (g) => (g.moves > 0 ? Math.floor((100 * g.pz.k) / g.moves) : 0);
+// 한 번에 이은 쌍(G2): 완료 때 그 색 이동 수 = 1 인 쌍. 연결 뒤 풀렸다가 그 색을 다시 그어(다른 색 이동이나
+// 되돌리기·처음부터 뒤라 새 이동으로 세어짐) 이으면 그 색 이동 수 ≥ 2 → 한 번에 아님. 같은 색을 이어서 고쳐 그은 것은
+// 같은 이동(20-balance 4절)이라 한 번에 유지. 이 정의라서 % 100 ⇔ 이동 수 = 쌍 수 ⇔ 별 ⇔ 모두 1단.
+export const oneShotPairs = (g) => g.colorMoves.filter((m) => m === 1).length;
+// 결과 % = ⌊100 · 한 번에 이은 쌍 / 쌍 수⌋ (G2)
+export const accuracyPct = (g) => Math.floor((100 * oneShotPairs(g)) / g.pz.k);
 export const isStar = (g) => g.completed && g.moves === g.pz.k;
 
 export function displayLayer(g, d = null, bounds) {
@@ -257,7 +263,7 @@ export function displayLayer(g, d = null, bounds) {
     grades: g.colorMoves.map((m) => (m ? gradeForColorMoves(m, bounds) : 0)),
     accuracyPct: g.completed ? accuracyPct(g) : null,            // 결과 화면
     star: isStar(g),
-    oneShotPairs: g.completed ? g.colorMoves.filter((m) => m === 1).length : null,
+    oneShotPairs: g.completed ? oneShotPairs(g) : null,       // 결과 % 의 분자(별도 표지는 두지 않음, G2)
   };
 }
 

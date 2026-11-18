@@ -105,13 +105,19 @@ for (let i = 1; i <= 6; i++) {
   M.worst_mix = { peak_db: +lin2db(mp).toFixed(2) }; rows.push(['worst_mix(1단 C6 + 완료 k6 + 배경 최고)', M.worst_mix]);
   if (!(lin2db(mp) <= -1)) bad(`S4 최악 겹침 ${lin2db(mp).toFixed(2)} dBFS > −1`);
 }
+// S7 등급 구분(G4): 첫 소리(음 시작) 개수 1단 3 / 2단 2 / 3단 1, 같은 음끼리 RMS 계단 ≥ 1.5 dB
+{ const onsets = (n) => new Set(S.sounds[n].layers.map((L) => L.delayMs || 0)).size;
+  [3, 2, 1].forEach((want, i) => { const n = `connect_g${i + 1}`; if (onsets(n) !== want) bad(`S7 ${n} 음 개수 ${onsets(n)} ≠ ${want}`); if (S.sounds[n].notes !== want) bad(`S7 ${n}.notes ${S.sounds[n].notes} ≠ ${want}`); });
+  let minStep = Infinity;
+  for (let i = 1; i <= 6; i++) { const g = [1, 2, 3].map((n) => M[`connect_g${n}@${i}`].rms_db); for (const d of [g[0] - g[1], g[1] - g[2]]) { minStep = Math.min(minStep, d); if (!(d >= 1.5)) bad(`S7 음 ${i} 등급 RMS 계단 ${d.toFixed(2)} dB < 1.5`); } }
+  M.grade_rms_step_min_db = +minStep.toFixed(2); }
 if (!(M.ambient.peak_db <= minConn - 12)) bad(`S5 배경음 ${M.ambient.peak_db} > 연결음 ${minConn.toFixed(2)} − 12`);
 
 for (const [k, v] of rows) console.log(`${k.padEnd(44)} peak ${String(v.peak_db).padStart(7)} dBFS${v.rms_db !== undefined ? `   rms100 ${String(v.rms_db).padStart(7)}` : ''}`);
 console.log(`연결음 최소 ${minConn.toFixed(2)} / 다른 소리 최고 ${maxOther.toFixed(2)} (${maxOtherKey}) / 틱 최고 ${maxTick.toFixed(2)} / 배경 ${M.ambient.peak_db}`);
 for (const l of out) console.log(l);
 if (args.includes('--write')) {
-  S.measured = { _by: 'assets/check/sound-check.mjs (node 합성식, 2026-11-17). 빌드 렌더값 대조는 1-3 뒤 qa.', margins: { s1_db: +(minConn - maxOther).toFixed(2), s2_db: +(minConn - maxTick).toFixed(2), s5_db: +(minConn - M.ambient.peak_db).toFixed(2) }, values: M };
+  S.measured = { _by: 'assets/check/sound-check.mjs (node 합성식, 2026-11-18 G4 반영). 빌드 렌더값 대조는 1-3 뒤 qa.', margins: { s7_grade_rms_step_db: M.grade_rms_step_min_db, s1_db: +(minConn - maxOther).toFixed(2), s2_db: +(minConn - maxTick).toFixed(2), s5_db: +(minConn - M.ambient.peak_db).toFixed(2) }, values: M };
   writeFileSync(SPATH, JSON.stringify(S, null, 1) + '\n'); console.log('wrote measured →', SPATH);
 }
 const wi = args.indexOf('--wav');
@@ -121,5 +127,5 @@ if (wi >= 0) {
   for (const [k, b] of Object.entries(bufs)) wav(b, join(dir, k.replace(/[@]/g, '_') + '.wav'));
   wav(amb, join(dir, 'ambient.wav')); console.log('wav →', dir);
 }
-console.log(fail ? `소리 검사 실패 ${fail}건` : '소리 검사 통과 (S1~S6)');
+console.log(fail ? `소리 검사 실패 ${fail}건` : `소리 검사 통과 (S1~S7, 등급 RMS 계단 최소 ${M.grade_rms_step_min_db} dB)`);
 process.exit(fail ? 1 : 0);

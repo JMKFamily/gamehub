@@ -24,3 +24,11 @@ PIPELINE 1-2: 기획 3역할이 서로의 문서 충돌을 지적(1차) → 각�
 
 ## 2차 순서
 - balance·lore·art 병렬 수정. L6이 바뀔 수 있으므로 art의 카드·시연 그림은 **레벨 JSON을 읽어 생성**하는 스크립트로 만들고, balance 수정 뒤 오케스트레이터가 art 생성 스크립트·check-all 재실행을 확인.
+
+## 2차 결과 감시 (2026-11-18, 재개 후)
+- 일시중지(요청자, 썰물 우선) → 재개(마스터 전달)로 멈춘 세 에이전트를 같은 지시로 이어서 실행. 토큰 절약: 수정 중 빠른 실행, 전체 verify는 마지막 한 번, 보고 5줄.
+- balance: 30건(수정 28·해당 없음 2). G1 L6 시드 6001131, 첫 구멍 [1,3] 판 안쪽(둘레 구멍 [4,2]는 art hole_rule). G2 "한 번에" = 완료 때 그 색 이동 수 1. G3 채움 % = 연결 칸. board.mjs 1.1.0. verify 전체 ALL PASS, L6 m̃ 9.34(L5 < L6 < L7 단조), 몰림 23.8 %.
+- lore: 28건(수정 26·보류 2), 9-9 PASS 66키. art: 36건(수정 35·보류 1), 튜토리얼 그림을 레벨 JSON에서 생성(tutorial.mjs).
+- 오케스트레이터 확인: balance 수정 뒤 `tutorial.mjs --write`·`layout.mjs --write`·`check-all.mjs` 재실행 → 5종 통과(새 L6 구멍 카드 [1,3] 반영, 권장 미달 6x6 칸 54.9 < 56 4건은 1-1과 같음). art가 요구한 balance.json 키(result_buttons_after_ms 1280, grade_sound_keys, in_play_lifetime) 있음.
+- 원본 보호 grep(영문·한국어 표기·참고 게임) 0건, 쓰기 경로 flow-01 안, git 없음 → 통과. 루트 `projects/status-board.html`은 다른 세션 것이라 손대지 않음.
+- 남은 minor(1-3 이후): node_partial 뜻 "연결된 칸 기준" 문구 확인, 등급 소리 귀 확인 미실시(1-5 art 리뷰), 6x6 칸 54.9 px(아동 테스트 시 확인).

@@ -25,8 +25,8 @@
   "pair_d": 36,
   "pair_pitch": 44,
   "judge_font": [
-   34,
-   31,
+   38,
+   33,
    28
   ],
   "pct_of_name": 0.55,
@@ -37,7 +37,9 @@
   "card_aspect": 1.5,
   "card_w_max": 480,
   "map_node": 64,
-  "result_board_of_S": 0.46
+  "result_board_of_S": 0.46,
+  "small_font": 14,
+  "level_name_font": 16
  },
  "marks": {
   "stroke_unit": 0.16,
@@ -76,22 +78,23 @@
     "cell": 81.55,
     "board": {
      "x": 12,
-     "y": 178,
+     "y": 181,
      "w": 336,
      "h": 336
     },
     "grid": {
      "x": 16.89,
-     "y": 182.39,
+     "y": 185.89,
      "cell": 81.55
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 8,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 16,
@@ -126,26 +129,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 109,
-     "h": 63,
-     "w": 114,
+     "y": 105,
+     "h": 70,
+     "w": 126,
      "x_min": 8,
      "x_max": 352,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 522,
+      "y": 525,
       "w": 328,
-      "h": 35,
+      "h": 31,
       "font_px": 20,
       "max_lines": 2,
       "align": "center",
@@ -155,7 +160,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -180,7 +185,7 @@
     },
     "card": {
      "x": 16,
-     "y": 237,
+     "y": 240,
      "w": 328,
      "h": 219,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -198,22 +203,23 @@
     "cell": 65.63,
     "board": {
      "x": 12,
-     "y": 178,
+     "y": 181,
      "w": 336,
      "h": 336
     },
     "grid": {
      "x": 15.94,
-     "y": 181.44,
+     "y": 184.94,
      "cell": 65.63
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 8,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 16,
@@ -248,26 +254,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 109,
-     "h": 63,
-     "w": 114,
+     "y": 105,
+     "h": 70,
+     "w": 126,
      "x_min": 8,
      "x_max": 352,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 522,
+      "y": 525,
       "w": 328,
-      "h": 35,
+      "h": 31,
       "font_px": 20,
       "max_lines": 2,
       "align": "center",
@@ -277,7 +285,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -302,7 +310,7 @@
     },
     "card": {
      "x": 16,
-     "y": 237,
+     "y": 240,
      "w": 328,
      "h": 219,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -320,22 +328,23 @@
     "cell": 65.63,
     "board": {
      "x": 12,
-     "y": 145,
+     "y": 148,
      "w": 336,
      "h": 402
     },
     "grid": {
      "x": 15.94,
-     "y": 148.63,
+     "y": 152.13,
      "cell": 65.63
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 8,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 16,
@@ -370,26 +379,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 76,
-     "h": 63,
-     "w": 114,
+     "y": 72,
+     "h": 70,
+     "w": 126,
      "x_min": 8,
      "x_max": 352,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 76,
+      "y": 72,
       "w": 328,
-      "h": 63,
+      "h": 70,
       "font_px": 20,
       "max_lines": 2,
       "align": "center",
@@ -400,7 +411,7 @@
        "gap_left"
       ],
       "shared_with": "judge",
-      "_rule": "판 아래 공간이 2줄보다 좁아 판정 띠를 같이 씀. 튜토리얼 글은 첫 연결 전, 빈칸 글은 마지막 판정 표시가 끝난 뒤라 겹치는 시간 없음."
+      "_rule": "판 아래 공간이 한 줄보다 좁아 판정 띠를 같이 씀. 튜토리얼 글은 첫 연결 전, 빈칸 글은 3번째 숨 쉬기에만. 우선순위: 판정 이름 > gap_left — 판정 이름이 오면 그 프레임에 gap_left 글을 숨기고 다시 띄우지 않음(그 숨 쉬기 동안)."
      }
     },
     "thumb": {
@@ -425,7 +436,7 @@
     },
     "card": {
      "x": 16,
-     "y": 237,
+     "y": 240,
      "w": 328,
      "h": 219,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -443,22 +454,23 @@
     "cell": 54.9,
     "board": {
      "x": 12,
-     "y": 205,
+     "y": 208,
      "w": 336,
      "h": 281
     },
     "grid": {
      "x": 15.29,
-     "y": 208.25,
+     "y": 211.75,
      "cell": 54.9
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 8,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 16,
@@ -493,26 +505,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 136,
-     "h": 63,
-     "w": 114,
+     "y": 132,
+     "h": 70,
+     "w": 126,
      "x_min": 8,
      "x_max": 352,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 494,
+      "y": 498,
       "w": 328,
-      "h": 62,
+      "h": 58,
       "font_px": 20,
       "max_lines": 2,
       "align": "center",
@@ -522,7 +536,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -547,7 +561,7 @@
     },
     "card": {
      "x": 16,
-     "y": 236,
+     "y": 239,
      "w": 328,
      "h": 219,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -565,22 +579,23 @@
     "cell": 54.9,
     "board": {
      "x": 12,
-     "y": 178,
+     "y": 181,
      "w": 336,
      "h": 336
     },
     "grid": {
      "x": 15.29,
-     "y": 180.79,
+     "y": 184.29,
      "cell": 54.9
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 8,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 16,
@@ -615,26 +630,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 109,
-     "h": 63,
-     "w": 114,
+     "y": 105,
+     "h": 70,
+     "w": 126,
      "x_min": 8,
      "x_max": 352,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 522,
+      "y": 525,
       "w": 328,
-      "h": 35,
+      "h": 31,
       "font_px": 20,
       "max_lines": 2,
       "align": "center",
@@ -644,7 +661,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -669,7 +686,7 @@
     },
     "card": {
      "x": 16,
-     "y": 237,
+     "y": 240,
      "w": 328,
      "h": 219,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -689,22 +706,23 @@
     "cell": 94.17,
     "board": {
      "x": 12,
-     "y": 292,
+     "y": 296,
      "w": 388,
      "h": 388
     },
     "grid": {
      "x": 17.65,
-     "y": 297.15,
+     "y": 301.15,
      "cell": 94.17
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 14,
       "y": 9,
       "w": 55,
       "h": 55,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 18,
@@ -739,26 +757,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 215,
-     "h": 71,
-     "w": 129,
+     "y": 211,
+     "h": 79,
+     "w": 140,
      "x_min": 8,
      "x_max": 404,
      "name_px": [
-      39,
-      35,
+      43,
+      38,
       32
      ],
-     "pct_px": 21,
+     "pct_px": 24,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 688,
+      "y": 692,
       "w": 380,
-      "h": 132,
+      "h": 128,
       "font_px": 23,
       "max_lines": 2,
       "align": "center",
@@ -768,7 +788,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -793,7 +813,7 @@
     },
     "card": {
      "x": 16,
-     "y": 359,
+     "y": 363,
      "w": 380,
      "h": 253,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -811,22 +831,23 @@
     "cell": 75.78,
     "board": {
      "x": 12,
-     "y": 292,
+     "y": 296,
      "w": 388,
      "h": 388
     },
     "grid": {
      "x": 16.55,
-     "y": 296.05,
+     "y": 300.05,
      "cell": 75.78
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 14,
       "y": 9,
       "w": 55,
       "h": 55,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 18,
@@ -861,26 +882,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 215,
-     "h": 71,
-     "w": 129,
+     "y": 211,
+     "h": 79,
+     "w": 140,
      "x_min": 8,
      "x_max": 404,
      "name_px": [
-      39,
-      35,
+      43,
+      38,
       32
      ],
-     "pct_px": 21,
+     "pct_px": 24,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 688,
+      "y": 692,
       "w": 380,
-      "h": 132,
+      "h": 128,
       "font_px": 23,
       "max_lines": 2,
       "align": "center",
@@ -890,7 +913,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -915,7 +938,7 @@
     },
     "card": {
      "x": 16,
-     "y": 359,
+     "y": 363,
      "w": 380,
      "h": 253,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -933,22 +956,23 @@
     "cell": 75.78,
     "board": {
      "x": 12,
-     "y": 254,
+     "y": 258,
      "w": 388,
      "h": 464
     },
     "grid": {
      "x": 16.55,
-     "y": 258.16,
+     "y": 262.16,
      "cell": 75.78
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 14,
       "y": 9,
       "w": 55,
       "h": 55,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 18,
@@ -983,26 +1007,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 177,
-     "h": 71,
-     "w": 129,
+     "y": 173,
+     "h": 79,
+     "w": 140,
      "x_min": 8,
      "x_max": 404,
      "name_px": [
-      39,
-      35,
+      43,
+      38,
       32
      ],
-     "pct_px": 21,
+     "pct_px": 24,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 725,
+      "y": 729,
       "w": 380,
-      "h": 94,
+      "h": 90,
       "font_px": 23,
       "max_lines": 2,
       "align": "center",
@@ -1012,7 +1038,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1037,7 +1063,7 @@
     },
     "card": {
      "x": 16,
-     "y": 359,
+     "y": 363,
      "w": 380,
      "h": 253,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -1055,22 +1081,23 @@
     "cell": 63.4,
     "board": {
      "x": 12,
-     "y": 323,
+     "y": 327,
      "w": 388,
      "h": 325
     },
     "grid": {
      "x": 15.8,
-     "y": 327,
+     "y": 331,
      "cell": 63.4
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 14,
       "y": 9,
       "w": 55,
       "h": 55,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 18,
@@ -1105,26 +1132,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 246,
-     "h": 71,
-     "w": 129,
+     "y": 242,
+     "h": 79,
+     "w": 140,
      "x_min": 8,
      "x_max": 404,
      "name_px": [
-      39,
-      35,
+      43,
+      38,
       32
      ],
-     "pct_px": 21,
+     "pct_px": 24,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 656,
+      "y": 660,
       "w": 380,
-      "h": 163,
+      "h": 159,
       "font_px": 23,
       "max_lines": 2,
       "align": "center",
@@ -1134,7 +1163,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1159,7 +1188,7 @@
     },
     "card": {
      "x": 16,
-     "y": 359,
+     "y": 363,
      "w": 380,
      "h": 253,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -1177,22 +1206,23 @@
     "cell": 63.4,
     "board": {
      "x": 12,
-     "y": 292,
+     "y": 296,
      "w": 388,
      "h": 388
     },
     "grid": {
      "x": 15.8,
-     "y": 295.3,
+     "y": 299.3,
      "cell": 63.4
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 14,
       "y": 9,
       "w": 55,
       "h": 55,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "undo": {
       "x": 18,
@@ -1227,26 +1257,28 @@
      "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch"
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "portrait_band",
-     "y": 215,
-     "h": 71,
-     "w": 129,
+     "y": 211,
+     "h": 79,
+     "w": 140,
      "x_min": 8,
      "x_max": 404,
      "name_px": [
-      39,
-      35,
+      43,
+      38,
       32
      ],
-     "pct_px": 21,
+     "pct_px": 24,
      "_rule": "판정 띠 = 판 바로 위(판 윗변 − 6 − h). 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
     },
     "text_slots": {
      "board_text": {
       "x": 16,
-      "y": 688,
+      "y": 692,
       "w": 380,
-      "h": 132,
+      "h": 128,
       "font_px": 23,
       "max_lines": 2,
       "align": "center",
@@ -1256,7 +1288,7 @@
        "card_hole",
        "gap_left"
       ],
-      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(판정 표시가 끝난 뒤 나옴)이 시간으로 나뉨."
+      "_rule": "판 아래 ~ 버튼 줄 위. 튜토리얼 글(첫 연결 프레임에 사라짐)·빈칸 글(3번째 숨 쉬기에만, motion.gap_hint.text_on_breath)이 시간으로 나뉨. 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1281,7 +1313,7 @@
     },
     "card": {
      "x": 16,
-     "y": 359,
+     "y": 363,
      "w": 380,
      "h": 253,
      "_rule": "그림 카드(새 요소 소개)는 판 가운데 위에 뜨는 창. 화면 가운데 가로, 세로는 판 가운데. 뜨는 동안 판 입력 없음, 누르거나 3 s 뒤 사라짐."
@@ -1325,12 +1357,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 12,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 12,
@@ -1365,26 +1398,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 63,
-     "w": 114,
+     "h": 70,
+     "w": 126,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "left": {
       "cx": 76,
       "y_min": 68,
-      "y_max": 229
+      "y_max": 222
      },
      "right": {
       "cx": 564,
       "y_min": 100,
-      "y_max": 157
+      "y_max": 150
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -1402,7 +1438,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1477,12 +1513,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 12,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 12,
@@ -1517,26 +1554,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 63,
-     "w": 114,
+     "h": 70,
+     "w": 126,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "left": {
       "cx": 76,
       "y_min": 68,
-      "y_max": 229
+      "y_max": 222
      },
      "right": {
       "cx": 564,
       "y_min": 100,
-      "y_max": 157
+      "y_max": 150
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -1554,7 +1594,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1629,12 +1669,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 12,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 12,
@@ -1669,26 +1710,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 63,
-     "w": 114,
+     "h": 70,
+     "w": 126,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "left": {
       "cx": 90,
       "y_min": 68,
-      "y_max": 229
+      "y_max": 222
      },
      "right": {
       "cx": 550,
       "y_min": 100,
-      "y_max": 157
+      "y_max": 150
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -1706,7 +1750,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1781,12 +1825,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 12,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 12,
@@ -1821,26 +1866,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 63,
-     "w": 114,
+     "h": 70,
+     "w": 126,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "left": {
       "cx": 74,
       "y_min": 68,
-      "y_max": 229
+      "y_max": 222
      },
      "right": {
       "cx": 566,
       "y_min": 100,
-      "y_max": 157
+      "y_max": 150
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -1858,7 +1906,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -1933,12 +1981,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 12,
       "y": 12,
       "w": 48,
       "h": 48,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 12,
@@ -1973,26 +2022,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 63,
-     "w": 114,
+     "h": 70,
+     "w": 126,
      "name_px": [
-      34,
-      31,
+      38,
+      33,
       28
      ],
-     "pct_px": 19,
+     "pct_px": 21,
      "left": {
       "cx": 76,
       "y_min": 68,
-      "y_max": 229
+      "y_max": 222
      },
      "right": {
       "cx": 564,
       "y_min": 100,
-      "y_max": 157
+      "y_max": 150
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2010,7 +2062,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2087,12 +2139,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 18,
       "y": 18,
       "w": 72,
       "h": 72,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 18,
@@ -2127,26 +2180,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 94,
-     "w": 163,
+     "h": 104,
+     "w": 181,
      "name_px": [
-      51,
-      47,
+      57,
+      50,
       42
      ],
-     "pct_px": 28,
+     "pct_px": 31,
      "left": {
       "cx": 221,
       "y_min": 98,
-      "y_max": 528
+      "y_max": 518
      },
      "right": {
       "cx": 1059,
       "y_min": 123,
-      "y_max": 420
+      "y_max": 410
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2164,7 +2220,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2239,12 +2295,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 18,
       "y": 18,
       "w": 72,
       "h": 72,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 18,
@@ -2279,26 +2336,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 94,
-     "w": 163,
+     "h": 104,
+     "w": 181,
      "name_px": [
-      51,
-      47,
+      57,
+      50,
       42
      ],
-     "pct_px": 28,
+     "pct_px": 31,
      "left": {
       "cx": 197,
       "y_min": 98,
-      "y_max": 528
+      "y_max": 518
      },
      "right": {
       "cx": 1083,
       "y_min": 123,
-      "y_max": 420
+      "y_max": 410
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2316,7 +2376,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2391,12 +2451,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 18,
       "y": 18,
       "w": 72,
       "h": 72,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 18,
@@ -2431,26 +2492,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 94,
-     "w": 163,
+     "h": 104,
+     "w": 181,
      "name_px": [
-      51,
-      47,
+      57,
+      50,
       42
      ],
-     "pct_px": 28,
+     "pct_px": 31,
      "left": {
       "cx": 197,
       "y_min": 98,
-      "y_max": 528
+      "y_max": 518
      },
      "right": {
       "cx": 1083,
       "y_min": 123,
-      "y_max": 420
+      "y_max": 410
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2468,7 +2532,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2543,12 +2607,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 18,
       "y": 18,
       "w": 72,
       "h": 72,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 18,
@@ -2583,26 +2648,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 94,
-     "w": 163,
+     "h": 104,
+     "w": 181,
      "name_px": [
-      51,
-      47,
+      57,
+      50,
       42
      ],
-     "pct_px": 28,
+     "pct_px": 31,
      "left": {
       "cx": 173,
       "y_min": 98,
-      "y_max": 528
+      "y_max": 518
      },
      "right": {
       "cx": 1107,
       "y_min": 123,
-      "y_max": 420
+      "y_max": 410
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2620,7 +2688,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2695,12 +2763,13 @@
      }
     },
     "buttons": {
-     "home": {
+     "map": {
       "x": 18,
       "y": 18,
       "w": 72,
       "h": 72,
-      "icon": "home"
+      "icon": "map",
+      "key": "btn_map"
      },
      "restart": {
       "x": 18,
@@ -2735,26 +2804,29 @@
      "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
     },
     "judge": {
+     "pct_lifetime": "with_judge_name",
+     "pct_counts": "connected_pairs_cells_only",
      "rule": "landscape_pillar",
-     "h": 94,
-     "w": 163,
+     "h": 104,
+     "w": 181,
      "name_px": [
-      51,
-      47,
+      57,
+      50,
       42
      ],
-     "pct_px": 28,
+     "pct_px": 31,
      "left": {
       "cx": 173,
       "y_min": 98,
-      "y_max": 528
+      "y_max": 518
      },
      "right": {
       "cx": 1107,
       "y_min": 123,
-      "y_max": 420
+      "y_max": 410
      },
-     "_rule": "판정 자리 = 연결된 짝 점이 판 왼쪽 반이면 왼쪽 기둥, 오른쪽 반(가운데 열 포함)이면 오른쪽 기둥. 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
     },
     "text_slots": {
      "board_text": {
@@ -2772,7 +2844,7 @@
        "gap_left"
       ],
       "shared_with": "judge.left",
-      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 마지막 판정 표시 끝난 뒤)."
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
      }
     },
     "thumb": {
@@ -2826,39 +2898,39 @@
     ],
     [
      252,
-     175
+     169
     ],
     [
      108,
-     226
+     214
     ],
     [
      252,
-     277
+     259
     ],
     [
      108,
-     328
+     304
     ],
     [
      252,
-     380
+     348
     ],
     [
      108,
-     431
+     393
     ],
     [
      252,
-     482
+     438
     ],
     [
      108,
-     533
+     483
     ],
     [
      252,
-     584
+     528
     ]
    ],
    "title": {
@@ -2881,26 +2953,45 @@
    "node_states": {
     "locked": "node-locked.svg: nodeLocked 원 + 가운데 작은 점(자물쇠 그림 없음, 겁주지 않음). 누르면 아무 일 없음(소리도 없음)",
     "next": "node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼",
-    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 진행도(criteria 게임 감각)",
-    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략)",
+    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)",
+    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)",
     "star": "done + 오른쪽 위 작은 별(노드 지름 0.32)"
    },
    "buttons": {
     "settings": {
      "x": 300,
-     "y": 12,
+     "y": 580,
      "w": 48,
      "h": 48,
      "icon": "settings",
+     "key": "btn_settings",
      "hold_ms": 1500,
-     "_rule": "보호자: 길게 누르기"
+     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
     },
     "sound": {
      "x": 12,
      "y": 12,
      "w": 48,
      "h": 48,
-     "icon": "sound_on"
+     "icon": "sound_on",
+     "key": "settings_sound",
+     "_rule": "켬/끔, aria-pressed"
+    }
+   },
+   "text_slots": {
+    "guardian_hold": {
+     "x": 12,
+     "y": 580,
+     "w": 280,
+     "h": 48,
+     "font_px": 14,
+     "max_lines": 2,
+     "align": "right",
+     "used_by": [
+      "guardian_hold"
+     ],
+     "color": "inkSoft",
+     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
     }
    },
    "path": {
@@ -2920,39 +3011,39 @@
     ],
     [
      288,
-     219
+     212
     ],
     [
      124,
-     298
+     284
     ],
     [
      288,
-     378
+     356
     ],
     [
      124,
-     457
+     428
     ],
     [
      288,
-     537
+     500
     ],
     [
      124,
-     616
+     572
     ],
     [
      288,
-     696
+     644
     ],
     [
      124,
-     775
+     716
     ],
     [
      288,
-     855
+     788
     ]
    ],
    "title": {
@@ -2975,26 +3066,45 @@
    "node_states": {
     "locked": "node-locked.svg: nodeLocked 원 + 가운데 작은 점(자물쇠 그림 없음, 겁주지 않음). 누르면 아무 일 없음(소리도 없음)",
     "next": "node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼",
-    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 진행도(criteria 게임 감각)",
-    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략)",
+    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)",
+    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)",
     "star": "done + 오른쪽 위 작은 별(노드 지름 0.32)"
    },
    "buttons": {
     "settings": {
      "x": 343,
-     "y": 14,
+     "y": 846,
      "w": 55,
      "h": 55,
      "icon": "settings",
+     "key": "btn_settings",
      "hold_ms": 1500,
-     "_rule": "보호자: 길게 누르기"
+     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
     },
     "sound": {
      "x": 14,
      "y": 14,
      "w": 55,
      "h": 55,
-     "icon": "sound_on"
+     "icon": "sound_on",
+     "key": "settings_sound",
+     "_rule": "켬/끔, aria-pressed"
+    }
+   },
+   "text_slots": {
+    "guardian_hold": {
+     "x": 14,
+     "y": 846,
+     "w": 321,
+     "h": 55,
+     "font_px": 16,
+     "max_lines": 2,
+     "align": "right",
+     "used_by": [
+      "guardian_hold"
+     ],
+     "color": "inkSoft",
+     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
     }
    },
    "path": {
@@ -3010,43 +3120,43 @@
    "nodes": [
     [
      72,
-     164
+     136
     ],
     [
      127,
-     270
+     224
     ],
     [
      182,
-     164
+     136
     ],
     [
      237,
-     270
+     224
     ],
     [
      292,
-     164
+     136
     ],
     [
      348,
-     270
+     224
     ],
     [
      403,
-     164
+     136
     ],
     [
      458,
-     270
+     224
     ],
     [
      513,
-     164
+     136
     ],
     [
      568,
-     270
+     224
     ]
    ],
    "title": {
@@ -3069,26 +3179,45 @@
    "node_states": {
     "locked": "node-locked.svg: nodeLocked 원 + 가운데 작은 점(자물쇠 그림 없음, 겁주지 않음). 누르면 아무 일 없음(소리도 없음)",
     "next": "node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼",
-    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 진행도(criteria 게임 감각)",
-    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략)",
+    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)",
+    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)",
     "star": "done + 오른쪽 위 작은 별(노드 지름 0.32)"
    },
    "buttons": {
     "settings": {
      "x": 580,
-     "y": 12,
+     "y": 300,
      "w": 48,
      "h": 48,
      "icon": "settings",
+     "key": "btn_settings",
      "hold_ms": 1500,
-     "_rule": "보호자: 길게 누르기"
+     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
     },
     "sound": {
      "x": 12,
      "y": 12,
      "w": 48,
      "h": 48,
-     "icon": "sound_on"
+     "icon": "sound_on",
+     "key": "settings_sound",
+     "_rule": "켬/끔, aria-pressed"
+    }
+   },
+   "text_slots": {
+    "guardian_hold": {
+     "x": 12,
+     "y": 300,
+     "w": 560,
+     "h": 48,
+     "font_px": 14,
+     "max_lines": 2,
+     "align": "right",
+     "used_by": [
+      "guardian_hold"
+     ],
+     "color": "inkSoft",
+     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
     }
    },
    "path": {
@@ -3104,43 +3233,43 @@
    "nodes": [
     [
      108,
-     300
+     256
     ],
     [
      226,
-     528
+     468
     ],
     [
      344,
-     300
+     256
     ],
     [
      463,
-     528
+     468
     ],
     [
      581,
-     300
+     256
     ],
     [
      699,
-     528
+     468
     ],
     [
      817,
-     300
+     256
     ],
     [
      936,
-     528
+     468
     ],
     [
      1054,
-     300
+     256
     ],
     [
      1172,
-     528
+     468
     ]
    ],
    "title": {
@@ -3163,26 +3292,45 @@
    "node_states": {
     "locked": "node-locked.svg: nodeLocked 원 + 가운데 작은 점(자물쇠 그림 없음, 겁주지 않음). 누르면 아무 일 없음(소리도 없음)",
     "next": "node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼",
-    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 진행도(criteria 게임 감각)",
-    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략)",
+    "partial": "node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)",
+    "done": "그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)",
     "star": "done + 오른쪽 위 작은 별(노드 지름 0.32)"
    },
    "buttons": {
     "settings": {
      "x": 1190,
-     "y": 18,
+     "y": 630,
      "w": 72,
      "h": 72,
      "icon": "settings",
+     "key": "btn_settings",
      "hold_ms": 1500,
-     "_rule": "보호자: 길게 누르기"
+     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
     },
     "sound": {
      "x": 18,
      "y": 18,
      "w": 72,
      "h": 72,
-     "icon": "sound_on"
+     "icon": "sound_on",
+     "key": "settings_sound",
+     "_rule": "켬/끔, aria-pressed"
+    }
+   },
+   "text_slots": {
+    "guardian_hold": {
+     "x": 18,
+     "y": 630,
+     "w": 1164,
+     "h": 72,
+     "font_px": 21,
+     "max_lines": 2,
+     "align": "right",
+     "used_by": [
+      "guardian_hold"
+     ],
+     "color": "inkSoft",
+     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
     }
    },
    "path": {
@@ -3196,6 +3344,29 @@
    "W": 360,
    "H": 640,
    "k": 1,
+   "level_name": {
+    "x": 16,
+    "y": 40,
+    "w": 328,
+    "h": 28,
+    "font_px": 16,
+    "max_lines": 1,
+    "used_by": [
+     "level1_name",
+     "level2_name",
+     "level3_name",
+     "level4_name",
+     "level5_name",
+     "level6_name",
+     "level7_name",
+     "level8_name",
+     "level9_name",
+     "level10_name"
+    ],
+    "color": "ink",
+    "bg": "themes.levelNN.top",
+    "_rule": "그 레벨 이름(지도와 같은 이름). 띠 = 글 폭 + 24k 만큼만, 가운데 정렬, 둥근 끝, 바탕 = 그 레벨 바탕 top 색 + boardEdge 1.5 px = 지도 완료 노드 미니 그림 둘레 띠와 같은 색(글을 못 읽어도 색으로 이어짐, G7)."
+   },
    "mini_board": {
     "x": 97,
     "y": 128,
@@ -3207,7 +3378,15 @@
     "y": 72,
     "w": 328,
     "h": 44,
-    "font_px": 24
+    "font_px": 24,
+    "max_lines": 1,
+    "used_by": [
+     "clear_title_1",
+     "clear_title_2",
+     "clear_title_3",
+     "clear_star",
+     "clear_last"
+    ]
    },
    "star": {
     "x": 140,
@@ -3221,7 +3400,18 @@
     "w": 180,
     "h": 40,
     "font_px": 26,
-    "icon": "one_go"
+    "icon": "one_go",
+    "key": "result_accuracy",
+    "_rule": "% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 앞에 icon-one_go. 별도 \"한 번에 이은 쌍\" 표지·쌍 점 줄은 두지 않음(G2)."
+   },
+   "new_best": {
+    "x": 274,
+    "y": 404,
+    "w": 28,
+    "h": 28,
+    "icon": "new_best",
+    "key": "result_new_best",
+    "_rule": "지난 최고 %보다 높을 때만, % 세기가 끝난 뒤 0 → 1.0 (200 ms, 동작 줄이기면 바로). img, alt = result_new_best. 글 없음."
    },
    "buttons": {
     "map": {
@@ -3229,21 +3419,24 @@
      "y": 540,
      "w": 48,
      "h": 48,
-     "icon": "map"
+     "icon": "map",
+     "key": "btn_map"
     },
     "next": {
      "x": 144,
      "y": 528,
      "w": 72,
      "h": 72,
-     "icon": "next"
+     "icon": "next",
+     "key": "btn_next"
     },
     "again": {
      "x": 240,
      "y": 540,
      "w": 48,
      "h": 48,
-     "icon": "restart"
+     "icon": "restart",
+     "key": "btn_again"
     }
    }
   },
@@ -3251,6 +3444,29 @@
    "W": 412,
    "H": 915,
    "k": 1.1444444444444444,
+   "level_name": {
+    "x": 16,
+    "y": 83,
+    "w": 380,
+    "h": 32,
+    "font_px": 18,
+    "max_lines": 1,
+    "used_by": [
+     "level1_name",
+     "level2_name",
+     "level3_name",
+     "level4_name",
+     "level5_name",
+     "level6_name",
+     "level7_name",
+     "level8_name",
+     "level9_name",
+     "level10_name"
+    ],
+    "color": "ink",
+    "bg": "themes.levelNN.top",
+    "_rule": "그 레벨 이름(지도와 같은 이름). 띠 = 글 폭 + 24k 만큼만, 가운데 정렬, 둥근 끝, 바탕 = 그 레벨 바탕 top 색 + boardEdge 1.5 px = 지도 완료 노드 미니 그림 둘레 띠와 같은 색(글을 못 읽어도 색으로 이어짐, G7)."
+   },
    "mini_board": {
     "x": 111,
     "y": 183,
@@ -3262,7 +3478,15 @@
     "y": 119,
     "w": 380,
     "h": 50,
-    "font_px": 27
+    "font_px": 27,
+    "max_lines": 1,
+    "used_by": [
+     "clear_title_1",
+     "clear_title_2",
+     "clear_title_3",
+     "clear_star",
+     "clear_last"
+    ]
    },
    "star": {
     "x": 160,
@@ -3276,7 +3500,18 @@
     "w": 206,
     "h": 46,
     "font_px": 30,
-    "icon": "one_go"
+    "icon": "one_go",
+    "key": "result_accuracy",
+    "_rule": "% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 앞에 icon-one_go. 별도 \"한 번에 이은 쌍\" 표지·쌍 점 줄은 두지 않음(G2)."
+   },
+   "new_best": {
+    "x": 313,
+    "y": 497,
+    "w": 32,
+    "h": 32,
+    "icon": "new_best",
+    "key": "result_new_best",
+    "_rule": "지난 최고 %보다 높을 때만, % 세기가 끝난 뒤 0 → 1.0 (200 ms, 동작 줄이기면 바로). img, alt = result_new_best. 글 없음."
    },
    "buttons": {
     "map": {
@@ -3284,21 +3519,24 @@
      "y": 807,
      "w": 55,
      "h": 55,
-     "icon": "map"
+     "icon": "map",
+     "key": "btn_map"
     },
     "next": {
      "x": 165,
      "y": 793,
      "w": 82,
      "h": 82,
-     "icon": "next"
+     "icon": "next",
+     "key": "btn_next"
     },
     "again": {
      "x": 271,
      "y": 807,
      "w": 55,
      "h": 55,
-     "icon": "restart"
+     "icon": "restart",
+     "key": "btn_again"
     }
    }
   },
@@ -3306,6 +3544,29 @@
    "W": 640,
    "H": 360,
    "k": 1,
+   "level_name": {
+    "x": 307,
+    "y": 18,
+    "w": 307,
+    "h": 28,
+    "font_px": 16,
+    "max_lines": 1,
+    "used_by": [
+     "level1_name",
+     "level2_name",
+     "level3_name",
+     "level4_name",
+     "level5_name",
+     "level6_name",
+     "level7_name",
+     "level8_name",
+     "level9_name",
+     "level10_name"
+    ],
+    "color": "ink",
+    "bg": "themes.levelNN.top",
+    "_rule": "그 레벨 이름(지도와 같은 이름). 띠 = 글 폭 + 24k 만큼만, 가운데 정렬, 둥근 끝, 바탕 = 그 레벨 바탕 top 색 + boardEdge 1.5 px = 지도 완료 노드 미니 그림 둘레 띠와 같은 색(글을 못 읽어도 색으로 이어짐, G7)."
+   },
    "mini_board": {
     "x": 109,
     "y": 97,
@@ -3314,24 +3575,43 @@
    },
    "title": {
     "x": 307,
-    "y": 36,
+    "y": 52,
     "w": 307,
     "h": 40,
-    "font_px": 22
+    "font_px": 22,
+    "max_lines": 1,
+    "used_by": [
+     "clear_title_1",
+     "clear_title_2",
+     "clear_title_3",
+     "clear_star",
+     "clear_last"
+    ]
    },
    "star": {
     "x": 382,
-    "y": 86,
+    "y": 101,
     "w": 80,
     "h": 80
    },
    "pct": {
     "x": 332,
-    "y": 174,
+    "y": 189,
     "w": 180,
     "h": 40,
     "font_px": 24,
-    "icon": "one_go"
+    "icon": "one_go",
+    "key": "result_accuracy",
+    "_rule": "% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 앞에 icon-one_go. 별도 \"한 번에 이은 쌍\" 표지·쌍 점 줄은 두지 않음(G2)."
+   },
+   "new_best": {
+    "x": 516,
+    "y": 195,
+    "w": 28,
+    "h": 28,
+    "icon": "new_best",
+    "key": "result_new_best",
+    "_rule": "지난 최고 %보다 높을 때만, % 세기가 끝난 뒤 0 → 1.0 (200 ms, 동작 줄이기면 바로). img, alt = result_new_best. 글 없음."
    },
    "buttons": {
     "map": {
@@ -3339,21 +3619,24 @@
      "y": 276,
      "w": 48,
      "h": 48,
-     "icon": "map"
+     "icon": "map",
+     "key": "btn_map"
     },
     "next": {
      "x": 386,
      "y": 264,
      "w": 72,
      "h": 72,
-     "icon": "next"
+     "icon": "next",
+     "key": "btn_next"
     },
     "again": {
      "x": 482,
      "y": 276,
      "w": 48,
      "h": 48,
-     "icon": "restart"
+     "icon": "restart",
+     "key": "btn_again"
     }
    }
   },
@@ -3361,6 +3644,29 @@
    "W": 1280,
    "H": 720,
    "k": 1.5,
+   "level_name": {
+    "x": 614,
+    "y": 36,
+    "w": 614,
+    "h": 42,
+    "font_px": 24,
+    "max_lines": 1,
+    "used_by": [
+     "level1_name",
+     "level2_name",
+     "level3_name",
+     "level4_name",
+     "level5_name",
+     "level6_name",
+     "level7_name",
+     "level8_name",
+     "level9_name",
+     "level10_name"
+    ],
+    "color": "ink",
+    "bg": "themes.levelNN.top",
+    "_rule": "그 레벨 이름(지도와 같은 이름). 띠 = 글 폭 + 24k 만큼만, 가운데 정렬, 둥근 끝, 바탕 = 그 레벨 바탕 top 색 + boardEdge 1.5 px = 지도 완료 노드 미니 그림 둘레 띠와 같은 색(글을 못 읽어도 색으로 이어짐, G7)."
+   },
    "mini_board": {
     "x": 219,
     "y": 195,
@@ -3369,24 +3675,43 @@
    },
    "title": {
     "x": 614,
-    "y": 72,
+    "y": 84,
     "w": 614,
     "h": 60,
-    "font_px": 33
+    "font_px": 33,
+    "max_lines": 1,
+    "used_by": [
+     "clear_title_1",
+     "clear_title_2",
+     "clear_title_3",
+     "clear_star",
+     "clear_last"
+    ]
    },
    "star": {
     "x": 785,
-    "y": 173,
+    "y": 202,
     "w": 120,
     "h": 120
    },
    "pct": {
     "x": 710,
-    "y": 305,
+    "y": 334,
     "w": 270,
     "h": 60,
     "font_px": 36,
-    "icon": "one_go"
+    "icon": "one_go",
+    "key": "result_accuracy",
+    "_rule": "% = 한 번에 이은 쌍 수 / 쌍 수 × 100(내림, G2). 앞에 icon-one_go. 별도 \"한 번에 이은 쌍\" 표지·쌍 점 줄은 두지 않음(G2)."
+   },
+   "new_best": {
+    "x": 984,
+    "y": 343,
+    "w": 42,
+    "h": 42,
+    "icon": "new_best",
+    "key": "result_new_best",
+    "_rule": "지난 최고 %보다 높을 때만, % 세기가 끝난 뒤 0 → 1.0 (200 ms, 동작 줄이기면 바로). img, alt = result_new_best. 글 없음."
    },
    "buttons": {
     "map": {
@@ -3394,24 +3719,1302 @@
      "y": 606,
      "w": 72,
      "h": 72,
-     "icon": "map"
+     "icon": "map",
+     "key": "btn_map"
     },
     "next": {
      "x": 791,
      "y": 588,
      "w": 108,
      "h": 108,
-     "icon": "next"
+     "icon": "next",
+     "key": "btn_next"
     },
     "again": {
      "x": 923,
      "y": 606,
      "w": 72,
      "h": 72,
-     "icon": "restart"
+     "icon": "restart",
+     "key": "btn_again"
     }
    }
   }
+ },
+ "title": {
+  "360x640": {
+   "W": 360,
+   "H": 640,
+   "k": 1,
+   "bg": "menu",
+   "logo": {
+    "x": 100,
+    "y": 141,
+    "w": 160,
+    "h": 64,
+    "svg": "logo-mark.svg"
+   },
+   "buttons": {
+    "sound": {
+     "x": 12,
+     "y": 12,
+     "w": 48,
+     "h": 48,
+     "icon": "sound_on",
+     "key": "settings_sound"
+    }
+   },
+   "text_slots": {
+    "title": {
+     "x": 16,
+     "y": 217,
+     "w": 328,
+     "h": 52,
+     "font_px": 40,
+     "max_lines": 1,
+     "used_by": [
+      "title"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "tagline": {
+     "x": 16,
+     "y": 277,
+     "w": 328,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 2,
+     "used_by": [
+      "tagline"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    },
+    "tap_to_start": {
+     "x": 16,
+     "y": 576,
+     "w": 328,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 1,
+     "used_by": [
+      "tap_to_start"
+     ],
+     "align": "center",
+     "_rule": "1.6 s 주기로 옅게 숨 쉼(동작 줄이기면 고정). 화면 어디를 눌러도 시작."
+    }
+   }
+  },
+  "412x915": {
+   "W": 412,
+   "H": 915,
+   "k": 1.1444444444444444,
+   "bg": "menu",
+   "logo": {
+    "x": 114,
+    "y": 201,
+    "w": 183,
+    "h": 73,
+    "svg": "logo-mark.svg"
+   },
+   "buttons": {
+    "sound": {
+     "x": 14,
+     "y": 14,
+     "w": 55,
+     "h": 55,
+     "icon": "sound_on",
+     "key": "settings_sound"
+    }
+   },
+   "text_slots": {
+    "title": {
+     "x": 16,
+     "y": 286,
+     "w": 380,
+     "h": 60,
+     "font_px": 46,
+     "max_lines": 1,
+     "used_by": [
+      "title"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "tagline": {
+     "x": 16,
+     "y": 354,
+     "w": 380,
+     "h": 30,
+     "font_px": 23,
+     "max_lines": 2,
+     "used_by": [
+      "tagline"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    },
+    "tap_to_start": {
+     "x": 16,
+     "y": 842,
+     "w": 380,
+     "h": 30,
+     "font_px": 23,
+     "max_lines": 1,
+     "used_by": [
+      "tap_to_start"
+     ],
+     "align": "center",
+     "_rule": "1.6 s 주기로 옅게 숨 쉼(동작 줄이기면 고정). 화면 어디를 눌러도 시작."
+    }
+   }
+  },
+  "640x360": {
+   "W": 640,
+   "H": 360,
+   "k": 1,
+   "bg": "menu",
+   "logo": {
+    "x": 240,
+    "y": 79,
+    "w": 160,
+    "h": 64,
+    "svg": "logo-mark.svg"
+   },
+   "buttons": {
+    "sound": {
+     "x": 12,
+     "y": 12,
+     "w": 48,
+     "h": 48,
+     "icon": "sound_on",
+     "key": "settings_sound"
+    }
+   },
+   "text_slots": {
+    "title": {
+     "x": 40,
+     "y": 155,
+     "w": 560,
+     "h": 52,
+     "font_px": 40,
+     "max_lines": 1,
+     "used_by": [
+      "title"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "tagline": {
+     "x": 40,
+     "y": 215,
+     "w": 560,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 2,
+     "used_by": [
+      "tagline"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    },
+    "tap_to_start": {
+     "x": 40,
+     "y": 296,
+     "w": 560,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 1,
+     "used_by": [
+      "tap_to_start"
+     ],
+     "align": "center",
+     "_rule": "1.6 s 주기로 옅게 숨 쉼(동작 줄이기면 고정). 화면 어디를 눌러도 시작."
+    }
+   }
+  },
+  "1280x720": {
+   "W": 1280,
+   "H": 720,
+   "k": 1.5,
+   "bg": "menu",
+   "logo": {
+    "x": 520,
+    "y": 158,
+    "w": 240,
+    "h": 96,
+    "svg": "logo-mark.svg"
+   },
+   "buttons": {
+    "sound": {
+     "x": 18,
+     "y": 18,
+     "w": 72,
+     "h": 72,
+     "icon": "sound_on",
+     "key": "settings_sound"
+    }
+   },
+   "text_slots": {
+    "title": {
+     "x": 220,
+     "y": 266,
+     "w": 840,
+     "h": 78,
+     "font_px": 60,
+     "max_lines": 1,
+     "used_by": [
+      "title"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "tagline": {
+     "x": 220,
+     "y": 352,
+     "w": 840,
+     "h": 39,
+     "font_px": 30,
+     "max_lines": 2,
+     "used_by": [
+      "tagline"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    },
+    "tap_to_start": {
+     "x": 220,
+     "y": 624,
+     "w": 840,
+     "h": 39,
+     "font_px": 30,
+     "max_lines": 1,
+     "used_by": [
+      "tap_to_start"
+     ],
+     "align": "center",
+     "_rule": "1.6 s 주기로 옅게 숨 쉼(동작 줄이기면 고정). 화면 어디를 눌러도 시작."
+    }
+   }
+  }
+ },
+ "guardian": {
+  "360x640": {
+   "W": 360,
+   "H": 640,
+   "k": 1,
+   "bg": "menu",
+   "column": {
+    "x": 16,
+    "w": 328
+   },
+   "content_h": 735,
+   "scroll": true,
+   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "buttons": {
+    "close": {
+     "x": 296,
+     "y": 12,
+     "w": 48,
+     "h": 48,
+     "icon": "close",
+     "key": "btn_close"
+    }
+   },
+   "controls": {
+    "settings_sound": {
+     "x": 280,
+     "y": 334,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_sound"
+    },
+    "settings_vibrate": {
+     "x": 280,
+     "y": 394,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_vibrate"
+    },
+    "settings_motion": {
+     "x": 280,
+     "y": 513,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_motion"
+    },
+    "lang_ko": {
+     "x": 16,
+     "y": 603,
+     "w": 105,
+     "h": 48,
+     "kind": "text_button",
+     "key": "lang_ko",
+     "font_px": 18
+    },
+    "lang_en": {
+     "x": 133,
+     "y": 603,
+     "w": 105,
+     "h": 48,
+     "kind": "text_button",
+     "key": "lang_en",
+     "font_px": 18
+    },
+    "settings_reset": {
+     "x": 16,
+     "y": 675,
+     "w": 171,
+     "h": 48,
+     "kind": "text_button",
+     "key": "settings_reset",
+     "font_px": 18,
+     "_rule": "누르면 confirm 창. 빨간색·경고 그림 없음"
+    }
+   },
+   "text_slots": {
+    "guardian_title": {
+     "x": 16,
+     "y": 12,
+     "w": 272,
+     "h": 48,
+     "font_px": 22,
+     "max_lines": 1,
+     "used_by": [
+      "guardian_title"
+     ],
+     "align": "left",
+     "weight": 800,
+     "valign": "middle"
+    },
+    "guardian_intro": {
+     "x": 16,
+     "y": 72,
+     "w": 328,
+     "h": 250,
+     "font_px": 16,
+     "max_lines": 14,
+     "used_by": [
+      "guardian_intro"
+     ],
+     "align": "left"
+    },
+    "settings_sound": {
+     "x": 16,
+     "y": 334,
+     "w": 252,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_sound"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_vibrate": {
+     "x": 16,
+     "y": 394,
+     "w": 252,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_vibrate"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "vibrate_note": {
+     "x": 16,
+     "y": 446,
+     "w": 328,
+     "h": 55,
+     "font_px": 14,
+     "max_lines": 4,
+     "used_by": [
+      "vibrate_note"
+     ],
+     "align": "left",
+     "color": "inkSoft"
+    },
+    "settings_motion": {
+     "x": 16,
+     "y": 513,
+     "w": 252,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_motion"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_lang": {
+     "x": 16,
+     "y": 573,
+     "w": 328,
+     "h": 24,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_lang"
+     ],
+     "align": "left"
+    }
+   },
+   "confirm": {
+    "card": {
+     "x": 20,
+     "y": 255,
+     "w": 320,
+     "h": 130
+    },
+    "text": {
+     "x": 36,
+     "y": 275,
+     "w": 288,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 3,
+     "used_by": [
+      "confirm_reset"
+     ],
+     "align": "center"
+    },
+    "no": {
+     "x": 50,
+     "y": 317,
+     "w": 124,
+     "h": 48,
+     "key": "confirm_no",
+     "font_px": 18,
+     "_rule": "먼저 포커스"
+    },
+    "yes": {
+     "x": 186,
+     "y": 317,
+     "w": 124,
+     "h": 48,
+     "key": "confirm_yes",
+     "font_px": 18
+    }
+   }
+  },
+  "412x915": {
+   "W": 412,
+   "H": 915,
+   "k": 1.1444444444444444,
+   "bg": "menu",
+   "column": {
+    "x": 16,
+    "w": 380
+   },
+   "content_h": 838,
+   "scroll": false,
+   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "buttons": {
+    "close": {
+     "x": 341,
+     "y": 14,
+     "w": 55,
+     "h": 55,
+     "icon": "close",
+     "key": "btn_close"
+    }
+   },
+   "controls": {
+    "settings_sound": {
+     "x": 323,
+     "y": 378,
+     "w": 73,
+     "h": 55,
+     "kind": "toggle",
+     "key": "settings_sound"
+    },
+    "settings_vibrate": {
+     "x": 323,
+     "y": 447,
+     "w": 73,
+     "h": 55,
+     "kind": "toggle",
+     "key": "settings_vibrate"
+    },
+    "settings_motion": {
+     "x": 323,
+     "y": 583,
+     "w": 73,
+     "h": 55,
+     "kind": "toggle",
+     "key": "settings_motion"
+    },
+    "lang_ko": {
+     "x": 16,
+     "y": 686,
+     "w": 117,
+     "h": 55,
+     "kind": "text_button",
+     "key": "lang_ko",
+     "font_px": 21
+    },
+    "lang_en": {
+     "x": 145,
+     "y": 686,
+     "w": 117,
+     "h": 55,
+     "kind": "text_button",
+     "key": "lang_en",
+     "font_px": 21
+    },
+    "settings_reset": {
+     "x": 16,
+     "y": 769,
+     "w": 194,
+     "h": 55,
+     "kind": "text_button",
+     "key": "settings_reset",
+     "font_px": 21,
+     "_rule": "누르면 confirm 창. 빨간색·경고 그림 없음"
+    }
+   },
+   "text_slots": {
+    "guardian_title": {
+     "x": 16,
+     "y": 14,
+     "w": 317,
+     "h": 55,
+     "font_px": 25,
+     "max_lines": 1,
+     "used_by": [
+      "guardian_title"
+     ],
+     "align": "left",
+     "weight": 800,
+     "valign": "middle"
+    },
+    "guardian_intro": {
+     "x": 16,
+     "y": 83,
+     "w": 380,
+     "h": 281,
+     "font_px": 18,
+     "max_lines": 14,
+     "used_by": [
+      "guardian_intro"
+     ],
+     "align": "left"
+    },
+    "settings_sound": {
+     "x": 16,
+     "y": 378,
+     "w": 295,
+     "h": 55,
+     "font_px": 21,
+     "max_lines": 1,
+     "used_by": [
+      "settings_sound"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_vibrate": {
+     "x": 16,
+     "y": 447,
+     "w": 295,
+     "h": 55,
+     "font_px": 21,
+     "max_lines": 1,
+     "used_by": [
+      "settings_vibrate"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "vibrate_note": {
+     "x": 16,
+     "y": 506,
+     "w": 380,
+     "h": 63,
+     "font_px": 16,
+     "max_lines": 4,
+     "used_by": [
+      "vibrate_note"
+     ],
+     "align": "left",
+     "color": "inkSoft"
+    },
+    "settings_motion": {
+     "x": 16,
+     "y": 583,
+     "w": 295,
+     "h": 55,
+     "font_px": 21,
+     "max_lines": 1,
+     "used_by": [
+      "settings_motion"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_lang": {
+     "x": 16,
+     "y": 652,
+     "w": 380,
+     "h": 28,
+     "font_px": 21,
+     "max_lines": 1,
+     "used_by": [
+      "settings_lang"
+     ],
+     "align": "left"
+    }
+   },
+   "confirm": {
+    "card": {
+     "x": 23,
+     "y": 387,
+     "w": 366,
+     "h": 141
+    },
+    "text": {
+     "x": 39,
+     "y": 407,
+     "w": 334,
+     "h": 30,
+     "font_px": 23,
+     "max_lines": 3,
+     "used_by": [
+      "confirm_reset"
+     ],
+     "align": "center"
+    },
+    "no": {
+     "x": 60,
+     "y": 453,
+     "w": 140,
+     "h": 55,
+     "key": "confirm_no",
+     "font_px": 21,
+     "_rule": "먼저 포커스"
+    },
+    "yes": {
+     "x": 212,
+     "y": 453,
+     "w": 140,
+     "h": 55,
+     "key": "confirm_yes",
+     "font_px": 21
+    }
+   }
+  },
+  "640x360": {
+   "W": 640,
+   "H": 360,
+   "k": 1,
+   "bg": "menu",
+   "column": {
+    "x": 40,
+    "w": 560
+   },
+   "content_h": 613,
+   "scroll": true,
+   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "buttons": {
+    "close": {
+     "x": 552,
+     "y": 12,
+     "w": 48,
+     "h": 48,
+     "icon": "close",
+     "key": "btn_close"
+    }
+   },
+   "controls": {
+    "settings_sound": {
+     "x": 536,
+     "y": 230,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_sound"
+    },
+    "settings_vibrate": {
+     "x": 536,
+     "y": 290,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_vibrate"
+    },
+    "settings_motion": {
+     "x": 536,
+     "y": 391,
+     "w": 64,
+     "h": 48,
+     "kind": "toggle",
+     "key": "settings_motion"
+    },
+    "lang_ko": {
+     "x": 40,
+     "y": 481,
+     "w": 105,
+     "h": 48,
+     "kind": "text_button",
+     "key": "lang_ko",
+     "font_px": 18
+    },
+    "lang_en": {
+     "x": 157,
+     "y": 481,
+     "w": 105,
+     "h": 48,
+     "kind": "text_button",
+     "key": "lang_en",
+     "font_px": 18
+    },
+    "settings_reset": {
+     "x": 40,
+     "y": 553,
+     "w": 171,
+     "h": 48,
+     "kind": "text_button",
+     "key": "settings_reset",
+     "font_px": 18,
+     "_rule": "누르면 confirm 창. 빨간색·경고 그림 없음"
+    }
+   },
+   "text_slots": {
+    "guardian_title": {
+     "x": 40,
+     "y": 12,
+     "w": 504,
+     "h": 48,
+     "font_px": 22,
+     "max_lines": 1,
+     "used_by": [
+      "guardian_title"
+     ],
+     "align": "left",
+     "weight": 800,
+     "valign": "middle"
+    },
+    "guardian_intro": {
+     "x": 40,
+     "y": 72,
+     "w": 560,
+     "h": 146,
+     "font_px": 16,
+     "max_lines": 14,
+     "used_by": [
+      "guardian_intro"
+     ],
+     "align": "left"
+    },
+    "settings_sound": {
+     "x": 40,
+     "y": 230,
+     "w": 484,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_sound"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_vibrate": {
+     "x": 40,
+     "y": 290,
+     "w": 484,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_vibrate"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "vibrate_note": {
+     "x": 40,
+     "y": 342,
+     "w": 560,
+     "h": 37,
+     "font_px": 14,
+     "max_lines": 4,
+     "used_by": [
+      "vibrate_note"
+     ],
+     "align": "left",
+     "color": "inkSoft"
+    },
+    "settings_motion": {
+     "x": 40,
+     "y": 391,
+     "w": 484,
+     "h": 48,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_motion"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_lang": {
+     "x": 40,
+     "y": 451,
+     "w": 560,
+     "h": 24,
+     "font_px": 18,
+     "max_lines": 1,
+     "used_by": [
+      "settings_lang"
+     ],
+     "align": "left"
+    }
+   },
+   "confirm": {
+    "card": {
+     "x": 160,
+     "y": 115,
+     "w": 320,
+     "h": 130
+    },
+    "text": {
+     "x": 176,
+     "y": 135,
+     "w": 288,
+     "h": 26,
+     "font_px": 20,
+     "max_lines": 3,
+     "used_by": [
+      "confirm_reset"
+     ],
+     "align": "center"
+    },
+    "no": {
+     "x": 190,
+     "y": 177,
+     "w": 124,
+     "h": 48,
+     "key": "confirm_no",
+     "font_px": 18,
+     "_rule": "먼저 포커스"
+    },
+    "yes": {
+     "x": 326,
+     "y": 177,
+     "w": 124,
+     "h": 48,
+     "key": "confirm_yes",
+     "font_px": 18
+    }
+   }
+  },
+  "1280x720": {
+   "W": 1280,
+   "H": 720,
+   "k": 1.5,
+   "bg": "menu",
+   "column": {
+    "x": 220,
+    "w": 840
+   },
+   "content_h": 914,
+   "scroll": true,
+   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "buttons": {
+    "close": {
+     "x": 988,
+     "y": 18,
+     "w": 72,
+     "h": 72,
+     "icon": "close",
+     "key": "btn_close"
+    }
+   },
+   "controls": {
+    "settings_sound": {
+     "x": 964,
+     "y": 345,
+     "w": 96,
+     "h": 72,
+     "kind": "toggle",
+     "key": "settings_sound"
+    },
+    "settings_vibrate": {
+     "x": 964,
+     "y": 435,
+     "w": 96,
+     "h": 72,
+     "kind": "toggle",
+     "key": "settings_vibrate"
+    },
+    "settings_motion": {
+     "x": 964,
+     "y": 584,
+     "w": 96,
+     "h": 72,
+     "kind": "toggle",
+     "key": "settings_motion"
+    },
+    "lang_ko": {
+     "x": 220,
+     "y": 716,
+     "w": 141,
+     "h": 72,
+     "kind": "text_button",
+     "key": "lang_ko",
+     "font_px": 27
+    },
+    "lang_en": {
+     "x": 373,
+     "y": 716,
+     "w": 141,
+     "h": 72,
+     "kind": "text_button",
+     "key": "lang_en",
+     "font_px": 27
+    },
+    "settings_reset": {
+     "x": 220,
+     "y": 824,
+     "w": 240,
+     "h": 72,
+     "kind": "text_button",
+     "key": "settings_reset",
+     "font_px": 27,
+     "_rule": "누르면 confirm 창. 빨간색·경고 그림 없음"
+    }
+   },
+   "text_slots": {
+    "guardian_title": {
+     "x": 220,
+     "y": 18,
+     "w": 760,
+     "h": 72,
+     "font_px": 33,
+     "max_lines": 1,
+     "used_by": [
+      "guardian_title"
+     ],
+     "align": "left",
+     "weight": 800,
+     "valign": "middle"
+    },
+    "guardian_intro": {
+     "x": 220,
+     "y": 108,
+     "w": 840,
+     "h": 219,
+     "font_px": 24,
+     "max_lines": 14,
+     "used_by": [
+      "guardian_intro"
+     ],
+     "align": "left"
+    },
+    "settings_sound": {
+     "x": 220,
+     "y": 345,
+     "w": 732,
+     "h": 72,
+     "font_px": 27,
+     "max_lines": 1,
+     "used_by": [
+      "settings_sound"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_vibrate": {
+     "x": 220,
+     "y": 435,
+     "w": 732,
+     "h": 72,
+     "font_px": 27,
+     "max_lines": 1,
+     "used_by": [
+      "settings_vibrate"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "vibrate_note": {
+     "x": 220,
+     "y": 511,
+     "w": 840,
+     "h": 55,
+     "font_px": 21,
+     "max_lines": 4,
+     "used_by": [
+      "vibrate_note"
+     ],
+     "align": "left",
+     "color": "inkSoft"
+    },
+    "settings_motion": {
+     "x": 220,
+     "y": 584,
+     "w": 732,
+     "h": 72,
+     "font_px": 27,
+     "max_lines": 1,
+     "used_by": [
+      "settings_motion"
+     ],
+     "align": "left",
+     "valign": "middle"
+    },
+    "settings_lang": {
+     "x": 220,
+     "y": 674,
+     "w": 840,
+     "h": 36,
+     "font_px": 27,
+     "max_lines": 1,
+     "used_by": [
+      "settings_lang"
+     ],
+     "align": "left"
+    }
+   },
+   "confirm": {
+    "card": {
+     "x": 400,
+     "y": 277,
+     "w": 480,
+     "h": 167
+    },
+    "text": {
+     "x": 416,
+     "y": 297,
+     "w": 448,
+     "h": 39,
+     "font_px": 30,
+     "max_lines": 3,
+     "used_by": [
+      "confirm_reset"
+     ],
+     "align": "center"
+    },
+    "no": {
+     "x": 464,
+     "y": 352,
+     "w": 170,
+     "h": 72,
+     "key": "confirm_no",
+     "font_px": 27,
+     "_rule": "먼저 포커스"
+    },
+    "yes": {
+     "x": 646,
+     "y": 352,
+     "w": 170,
+     "h": 72,
+     "key": "confirm_yes",
+     "font_px": 27
+    }
+   }
+  }
+ },
+ "error": {
+  "360x640": {
+   "W": 360,
+   "H": 640,
+   "k": 1,
+   "bg": "menu",
+   "_rule": "불러오는 중 = head 자리에 loading 글만. 실패 = load_error + load_error_detail + ↻ 버튼(btn_reload, 부트 블록 인라인 그림 = icon-restart 경로).",
+   "text_slots": {
+    "head": {
+     "x": 16,
+     "y": 229,
+     "w": 328,
+     "h": 32,
+     "font_px": 24,
+     "max_lines": 2,
+     "used_by": [
+      "load_error",
+      "loading"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "detail": {
+     "x": 16,
+     "y": 273,
+     "w": 328,
+     "h": 42,
+     "font_px": 16,
+     "max_lines": 3,
+     "used_by": [
+      "load_error_detail"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    }
+   },
+   "buttons": {
+    "reload": {
+     "x": 144,
+     "y": 339,
+     "w": 72,
+     "h": 72,
+     "icon": "restart",
+     "key": "btn_reload"
+    }
+   }
+  },
+  "412x915": {
+   "W": 412,
+   "H": 915,
+   "k": 1.1444444444444444,
+   "bg": "menu",
+   "_rule": "불러오는 중 = head 자리에 loading 글만. 실패 = load_error + load_error_detail + ↻ 버튼(btn_reload, 부트 블록 인라인 그림 = icon-restart 경로).",
+   "text_slots": {
+    "head": {
+     "x": 16,
+     "y": 357,
+     "w": 380,
+     "h": 36,
+     "font_px": 27,
+     "max_lines": 2,
+     "used_by": [
+      "load_error",
+      "loading"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "detail": {
+     "x": 16,
+     "y": 405,
+     "w": 380,
+     "h": 47,
+     "font_px": 18,
+     "max_lines": 3,
+     "used_by": [
+      "load_error_detail"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    }
+   },
+   "buttons": {
+    "reload": {
+     "x": 165,
+     "y": 476,
+     "w": 82,
+     "h": 82,
+     "icon": "restart",
+     "key": "btn_reload"
+    }
+   }
+  },
+  "640x360": {
+   "W": 640,
+   "H": 360,
+   "k": 1,
+   "bg": "menu",
+   "_rule": "불러오는 중 = head 자리에 loading 글만. 실패 = load_error + load_error_detail + ↻ 버튼(btn_reload, 부트 블록 인라인 그림 = icon-restart 경로).",
+   "text_slots": {
+    "head": {
+     "x": 40,
+     "y": 100,
+     "w": 560,
+     "h": 32,
+     "font_px": 24,
+     "max_lines": 2,
+     "used_by": [
+      "load_error",
+      "loading"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "detail": {
+     "x": 40,
+     "y": 144,
+     "w": 560,
+     "h": 21,
+     "font_px": 16,
+     "max_lines": 3,
+     "used_by": [
+      "load_error_detail"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    }
+   },
+   "buttons": {
+    "reload": {
+     "x": 284,
+     "y": 189,
+     "w": 72,
+     "h": 72,
+     "icon": "restart",
+     "key": "btn_reload"
+    }
+   }
+  },
+  "1280x720": {
+   "W": 1280,
+   "H": 720,
+   "k": 1.5,
+   "bg": "menu",
+   "_rule": "불러오는 중 = head 자리에 loading 글만. 실패 = load_error + load_error_detail + ↻ 버튼(btn_reload, 부트 블록 인라인 그림 = icon-restart 경로).",
+   "text_slots": {
+    "head": {
+     "x": 220,
+     "y": 249,
+     "w": 840,
+     "h": 47,
+     "font_px": 36,
+     "max_lines": 2,
+     "used_by": [
+      "load_error",
+      "loading"
+     ],
+     "align": "center",
+     "weight": 800
+    },
+    "detail": {
+     "x": 220,
+     "y": 308,
+     "w": 840,
+     "h": 32,
+     "font_px": 24,
+     "max_lines": 3,
+     "used_by": [
+      "load_error_detail"
+     ],
+     "align": "center",
+     "color": "inkSoft"
+    }
+   },
+   "buttons": {
+    "reload": {
+     "x": 586,
+     "y": 364,
+     "w": 108,
+     "h": 108,
+     "icon": "restart",
+     "key": "btn_reload"
+    }
+   }
+  }
+ },
+ "hole_rule": {
+  "interior": "판 안 구멍(상하좌우 칸이 모두 판 안): 판 카드 경로에서 even-odd 로 도려냄(둥근 네모, 반경 tile_r, 칸 가장자리에서 0.02칸 안쪽) + boardEdge 1.5 px 둘레. 구멍으로 레벨 바탕이 보임, 가운데 점 없음.",
+  "perimeter": "판 둘레 줄·열에 닿는 구멍: 그 칸을 판 카드 외곽선에서 오목하게 파냄 — 닿은 쪽은 판 여백(board_pad_of_cell)까지 함께 빼서 구멍 바탕이 판 밖 바탕과 이어짐. 파낸 안쪽 모서리 반경 = tile_r(0.22칸), boardEdge 둘레 선은 파낸 선을 따라감(판 바깥에 끊긴 여백 띠를 남기지 않음). 모서리 칸이면 두 변을 함께 파냄.",
+  "draw": "빌드: 판 경로 = 둥근 판 사각형 − Σ(구멍 칸 사각형, 둘레 쪽으로 board_pad + tile_r 만큼 늘림). 같은 경로에 fill board + stroke boardEdge. 목업: mockups/board-l06.svg·board-l08.svg(tutorial.mjs 가 레벨 JSON 으로 생성)."
  },
  "motion": {
   "_clock": "모든 연출 시계 = 게임 시간(테스트 훅 화면 = 일반 화면, insights). ease: out = cubic-bezier(.2,.8,.2,1), spring = 끝이 살짝 넘치는 감속 cubic-bezier(.34,1.56,.64,1), inout = cubic-bezier(.65,0,.35,1).",
@@ -3503,7 +5106,9 @@
    "_rule": "되돌아가거나 잘려 연결이 풀리면 tint 가 120 ms 에 빠지고 고리가 사라짐. 벌칙 연출 없음."
   },
   "gap_hint": {
-   "start": "max(pointerup + 150 ms, 마지막 연결 + 600 ms)",
+   "start": "max(pointerup + 150 ms, 마지막 연결 + 630 ms(= 판정 이름 80 + 400 + 150, 이름이 다 사라진 뒤))",
+   "text_on_breath": 3,
+   "text_hide_on_judge": true,
    "ms": 600,
    "scale": [
     1,
@@ -3516,7 +5121,7 @@
    "max_times": 3,
    "sound": "gap_hint",
    "text_key": "gap_left",
-   "_rule": "모든 쌍이 이어졌는데 빈칸이 있을 때만. 빈칸 타일만 숨 쉼(크기 ≤ 8 %, 밝기 변화 ≤ 20 %). 판정 표시가 끝난 뒤에 나와 같은 자리를 다투지 않음."
+   "_rule": "모든 쌍이 이어졌는데 빈칸이 있을 때만. 빈칸 타일만 숨 쉼(크기 ≤ 8 %, 밝기 변화 ≤ 20 %). 판정 표시가 끝난 뒤에 나옴. 글(gap_left)은 그림 신호가 먼저 — 3번째 숨 쉬기 때만 board_text 에 보임(G6), aria-live 는 첫 숨 쉬기에 1번. 그 사이 판정 이름이 오면 글은 그 프레임에 숨김."
   },
   "undo": {
    "ms": 120,
@@ -3530,7 +5135,8 @@
    "sound": "restart"
   },
   "complete": {
-   "lock": "마지막 연결 프레임부터 결과 화면이 뜰 때까지 판 입력 무시",
+   "lock": "마지막 연결 프레임부터 판 입력 무시. 결과 카드가 다 올라온 뒤(result_buttons_accept_after_ms)부터 결과 버튼이 누름을 받음 — 그 전 누름은 버림(계속 두드리던 손이 ▶·↻ 를 누르지 않게)",
+   "result_buttons_accept_after_ms": 1280,
    "timeline_ms": [
     {
      "t": 0,
@@ -3555,6 +5161,10 @@
     {
      "t": 1000,
      "what": "결과 카드가 아래에서 올라옴(280 ms, out). 판은 그대로 보이다 미니 그림 자리로 줄어듦"
+    },
+    {
+     "t": 1280,
+     "what": "결과 버튼(▶·지도·↻)이 누름을 받기 시작"
     }
    ],
    "total_ms": 1000
@@ -3600,7 +5210,7 @@
   "help": {
    "idle_ms": 30000,
    "breathe_period_ms": 1600,
-   "_rule": "30 s 동안 판이 안 바뀌면 도움 버튼이 숨 쉼. 누르면 아직 안 이은 쌍 하나의 정답 길을 튜토리얼 손가락으로 보여 줌(그려 주지 않음)."
+   "_rule": "30 s 동안 판이 안 바뀌면 도움 버튼이 숨 쉼. 누르면 아직 답과 다른 쌍 하나(안 이었거나 다른 길로 이은 쌍, balance 10-2)의 정답 길을 튜토리얼 손가락으로 보여 줌(그려 주지 않음)."
   },
   "reduced_motion": {
    "query": "(prefers-reduced-motion: reduce) 또는 보호자 설정 settings_motion",

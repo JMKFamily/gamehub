@@ -3,7 +3,6 @@
  "id": "01",
  "order": 1,
  "name_key": "level1_name",
- "name_placeholder": "레벨 1",
  "width": 4,
  "height": 4,
  "holes": [],
@@ -130,6 +129,7 @@
  "new_element_ko": "드래그로 같은 색 잇기(손가락 시연)",
  "tutorial": {
   "kind": "finger_demo",
+  "text_key": "tut_drag",
   "demo_pair": "c1",
   "demo_drag": [
    [
@@ -167,7 +167,7 @@
  },
  "generator": {
   "version": "gen-1.0.0",
-  "core_version": "1.0.0",
+  "core_version": "1.1.0",
   "seed": 1000124,
   "candidate_index": 124,
   "attempts": 11,

@@ -2,7 +2,7 @@
  "schema_version": 1,
  "_source": "assets/check/palette.mjs --write 가 생성(art-director 원본). 30-art 2절 표는 요약이고 다르면 이 파일이 기준. 빌드는 이 파일만 읽음.",
  "_rules": [
-  "쌍 색은 pairs 순서대로 씀: 레벨 쌍 수 k면 p1..pk. 같은 쌍 = 같은 색 + 같은 모양 표지(mark)가 10레벨 내내 같음.",
+  "쌍 색은 레벨 JSON pairs[].color_slot 을 읽음: color_slot n → pairs[n](키 p{n+1}, 0부터 셈). 빌드는 쌍 순서가 아니라 color_slot 을 읽음. 쌍 k개 레벨은 color_slot 0..k−1 = p1..pk. 같은 쌍 = 같은 색 + 같은 모양 표지(mark)가 10레벨 내내 같음.",
   "점 = 쌍 색 원(지름 0.74칸) + 흰 모양 표지(점 지름의 0.46). 선 = 쌍 색, 굵기 0.60칸 둥근 끝·둥근 꺾임. 연결된 쌍의 칸은 tint로 칠함, 연결 전 선 밑 칸은 tile 그대로. 연결된 점은 바깥 고리(지름 0.86칸, 굵기 0.05칸, 쌍 색).",
   "판정 이름 글자 = 그 쌍의 shade + 흰 테두리 3 px(paint-order stroke). 판정 % = inkSoft.",
   "빈칸 = tile + tileDot(가운데 점). 구멍 칸 = 판 카드에서 그 칸(둥근 모서리 tile_r)을 even-odd 로 도려내 바탕 그라디언트가 보이게 하고, 도려낸 둘레에 boardEdge 1.5 px 선. 타일·가운데 점 없음(lore: 칸이 없는 자리, 바탕이 보임).",

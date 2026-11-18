@@ -3,7 +3,6 @@
  "id": "02",
  "order": 2,
  "name_key": "level2_name",
- "name_placeholder": "레벨 2",
  "width": 4,
  "height": 4,
  "holes": [],
@@ -130,6 +129,8 @@
  "new_element_ko": "빈칸 채우기(다 이어도 빈칸이 남을 수 있는 판)",
  "tutorial": null,
  "fill_card": {
+  "text_key": "card_fill",
+  "svg": "tutorial/card-fill.svg",
   "empty_cells": [
    [
     0,
@@ -160,7 +161,7 @@
  },
  "generator": {
   "version": "gen-1.0.0",
-  "core_version": "1.0.0",
+  "core_version": "1.1.0",
   "seed": 2000322,
   "candidate_index": 322,
   "attempts": 1,

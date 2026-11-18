@@ -3,7 +3,6 @@
  "id": "07",
  "order": 7,
  "name_key": "level7_name",
- "name_placeholder": "레벨 7",
  "width": 6,
  "height": 6,
  "holes": [],
@@ -262,7 +261,7 @@
  },
  "generator": {
   "version": "gen-1.0.0",
-  "core_version": "1.0.0",
+  "core_version": "1.1.0",
   "seed": 7000403,
   "candidate_index": 403,
   "attempts": 558,
