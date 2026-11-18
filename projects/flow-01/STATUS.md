@@ -4,7 +4,7 @@
 - 게임 이름: **Pairpaint / 짝꿍색칠** — **확정** (2026-11-17 요청자 "이름도 다 알아서 결정하세요", 근거: lore-writer 추천 + 웹 검색 충돌 없음 Docs/benchmark-analyst/2026-11-17-1-1-name-check.md) · slug: flow-01
 - 웹 빌드 폴더: games/flow-01/ (첫 빌드부터 허브에 "(개발 중)"·`wip` 게시 예정)
 - 로컬 포트 대역: 8740~8799
-- 현재 단계: **1-2 교차 리뷰** (2026-11-17 착수). 1-1 완료(10-lore·20-balance·30-art, verify ALL PASS 118/0, 결정 F1~F5 — Docs/orchestrator/2026-11-17-1-1-planning-supervision.md)
+- 현재 단계: **1-2 교차 리뷰 2차(각자 1회 수정)** (2026-11-18). 1차 이슈 68건(blocker 0, major 24), 결정 G1~G7
 - 라운드: 0
 
 ## 요청자 지시 (2026-11-17)
