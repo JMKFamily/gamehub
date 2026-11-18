@@ -34,4 +34,5 @@
   - `reviews/round-2/parts/`: a11y, balance, chord, combo, combo-check-node, grep-origin, indep(검증기 독립성), levels와 로그. `reviews/round-2/shots/`
   - 수정 중인 도구: `tools/qa-round.mjs`(balance 파트에 novice_sd50 대표 봇 추가 중이었음), 새 `tools/qa-r2-extra.mjs`
   - 포트 8150~8169에 남은 서버 없음 확인.
+- 보완 지시("깨우는 비용이 손해면 맡은 산출물까지") 반영: **지금 멈춤 유지**를 골랐습니다. 이미 중지된 뒤였고, 남은 QA(성능 새 브라우저 3회+대조 페이지, firstrun, novice_sd50 표, qa.md·점수)가 길어 끝이 멀며, 부분 결과(parts/)가 디스크에 있어 재개 때 같은 범위를 다시 돌릴 부분이 적기 때문입니다.
 - 재개 시 남은 일: (1) QA 이어서 — novice_sd50 표, 성능 새 브라우저 3회+대조 페이지 판정과 파티클 프레임 여유 한 줄, firstrun 이중 보정, 나머지 기본 검사, qa.md·metrics.json·기술 점수, 보고서. (2) 1-5 4역할 리뷰(콤보 연출 강화 기준 알림). (3) 1-6 점수 → 1-7 게이트. (4) 미통과 시 round-3: 12세 σ50 재보정, judge_pct.hud 0.45 s, 30-art 연습 결과 줄, 결정 13, D22·D23·고리 판정 글 생략, 콤보 연출 강화.
