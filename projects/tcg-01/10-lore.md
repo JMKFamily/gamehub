@@ -201,7 +201,7 @@
 | 성격 | 말수가 적고 원칙적. 공평함에 집착해 자기 몫의 물도 남과 똑같이 나눔. 융통성이 없다는 평 |
 | 동기 | 제7수조가 마르기 전에 바다가 돌아오는지 확인하는 것. 수조를 지키는 마지막 세대가 되고 싶지 않다 |
 | 라이벌 | **카드라 순**(수조 약탈을 막다가 서로 동생·부하를 잃음). 무명단 렌이 수조 장부를 훔쳐간 일로 렌을 쫓음 |
-| 고유 능력 | **자리 지켜 / Hold the Line**: 내 소환수 하나 +0/+1, 내 다음 턴까지 방벽 |
+| 고유 능력 | **자리 지켜 / Hold the Line**: 내 소환수 하나에 내 다음 턴까지 방벽(balance 1.5.1에서 +0/+1 뺌) |
 | 플레이 정체성 | **미드레인지·방어**. 앞을 막고 넓게 깐 뒤 전체 강화로 교환에서 이김 |
 | 아키타입 | ① 방벽 성벽(방벽 + 방어로 버티다 B003·B013으로 굳힘) ② 대열 군단(넓게 깔고 B005·B008·B018 전체 강화) ③ 배급 버팀(B007·B014·B017 회복·생명 훔치기) |
 | 시각 힌트 | 청회색 + 소금 흰색. 실루엣 = 아래가 넓은 **사각형**(방패), 머리 위 수평선 한 줄. 정면으로 꼿꼿이 선 자세 |
@@ -651,7 +651,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `hero_warden_name` | 오다 벨 | Oda Vell |
 | `hero_warden_title` | 제7수조의 수문장 | Gatekeeper of the Seventh Cistern |
 | `hero_warden_power` | 자리 지켜 | Hold the Line |
-| `hero_warden_power_desc` | 소환수 하나 +0/+1, 다음 턴까지 방벽. | A Creature gets +0/+1 and Wall until your next turn. |
+| `hero_warden_power_desc` | 소환수 하나에 다음 턴까지 방벽. | A Creature gets Wall until your next turn. |
 | `hero_choir_name` | 수녀 나할 | Sister Nhal |
 | `hero_choir_title` | 잠긴 성가대의 선창자 | Cantor of the Drowned Loft |
 | `hero_choir_power` | 짠 숨 | Salt Breath |
@@ -1124,6 +1124,14 @@ round-2 추가 키(dev 요청·리뷰):
 | `quest_widget_done` | 완료! 보상 받기 | Done! Claim reward | 완료된 퀘스트 |
 | `quest_widget_all_done` | 오늘 퀘스트를 모두 마쳤습니다 | All of today's quests are done | 모두 완료 |
 | `quest_widget_refresh` | 새 퀘스트까지 {h}시간 | New quests in {h}h | 다음 갱신 |
+| `quest_name_win_hero` | {hero} 영웅으로 승리 | Win as {hero} | 위젯 퀘스트 이름(일일, 의뢰 win_hero). {hero}는 영웅 이름. ko 10자 안팎 |
+| `quest_name_breakwater` | 방벽으로 막기 | Block with Wall | 위젯 퀘스트 이름(일일, breakwater_blocks) |
+| `quest_name_brine` | 중독 피해 주기 | Deal Venom damage | 위젯 퀘스트 이름(일일, brine_damage) |
+| `quest_name_weekly` | 주간 퀘스트 | Weekly Quest | 위젯 주간 칸 이름(일일 퀘스트 n개 완료) |
+| `quest_goal_weekly` | 일일 퀘스트 {n}개 완료 | Complete {n} daily quests | 주간 칸 목표 줄 |
+| `quest_reward_gold` | 골드 {n} | {n} Gold | 보상 줄(일일: 20·30·40) |
+| `quest_reward_weekly` | 골드 {n} + 기본 카드 팩 {p} | {n} Gold + {p} Standard Pack | 주간 보상 줄(150 + 1) |
+| `quest_reward_track` | 트랙 경험치 +{n} | Track XP +{n} | 보상 줄 옆 시즌 트랙 경험치 |
 
 **시즌 보상 트랙(로비 위젯, 이미지화) — 세계관 포장: 마른 바다 바닥에서 깊은 곳으로 내려가는 길**
 
