@@ -8,7 +8,7 @@ import { makeLayout } from './layout.js';
 import { Audio } from './audio.js';
 import { Haptics } from './haptics.js';
 import * as ST from './store.js';
-import { buildBoardCache, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, svgBitmap, bitmapEl, idle, setIdleGate, mix, ease, clamp01, rrect } from './render.js';
+import { buildBoardCache, offscreen, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, svgBitmap, bitmapEl, prebakeBitmap, idle, idleLate, setIdleGate, mix, ease, clamp01, rrect } from './render.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
@@ -104,7 +104,7 @@ function soundBtns() {
 }
 function toggleSound() { S.sound = !S.sound; ST.save(S); if (A) { wake(); A.setEnabled(S.sound); } soundBtns(); if (S.sound) sfx('ui_tap'); }
 // 오디오 깨우기: 이미 있으면 resume(가벼움), 없으면 유휴 줄에서 만들기(사용자 동작 뒤라 sticky activation 으로 running)
-function wake() { if (!A) return; if (A.ctx) A.unlock(); else if (!A._q) { A._q = true; requestAnimationFrame(() => setTimeout(() => { A.unlock(); A._q = false; }, 0)); } }
+function wake() { if (!A) return; if (A.ctx) A.unlock(); else if (!A._q) { A._q = true; setTimeout(() => (window.requestIdleCallback || ((f) => setTimeout(f, 0)))(() => { A.unlock(); A._q = false; }, { timeout: 1500 }), 600); } } // 첫 화면 전환과 떨어진 유휴 시간에
 function sfx(name, opt) { if (A) A.play(name, opt); }
 
 function applyLang() {
@@ -224,7 +224,38 @@ function nodeSVG(i, st, size) {
   return s + '</svg>';
 }
 // 부팅 유휴 시간에 지도 노드 그림을 미리 래스터(render.map_first)
-function prewarmPage(p) { if (!mapL) mapL = LY.map(window.innerWidth, window.innerHeight); const ch = D.chapters[p]; if (!ch) return []; return ch.levels.map((id) => { const i = D.levels.findIndex((l) => l.id === id); idle(() => prewarmCard(i)); return svgBitmap(nodeSVG(i, nodeState(i), mapL.node_d), mapL.node_d, mapL.node_d, dpr); }); }
+// 지도 노드를 SVG 대신 캔버스로 직접 그림(SVG <img> 는 주 스레드 래스터라 장 넘김·지도 복귀가 길었음, r2 성능 수정). (레벨, 상태, 크기, dpr) 로 캐시
+const nodeCache = new Map();
+function nodeBitmap(i, st, size) {
+  const lv = D.levels[i], fill = st === 'partial' ? (S.levels[lv.id] || {}).bestFill || 0 : 0;
+  const key = [i, st, size, dpr, fill].join('|'); let c = nodeCache.get(key); if (c) return c;
+  const C = D.pal.common, [cv2, x] = offscreen(size, size, dpr); const h = size / 2;
+  if (st === 'locked') {
+    x.fillStyle = C.nodeLocked; x.beginPath(); x.arc(h, h, size * 0.47, 0, 7); x.fill();
+    const gw = size * 0.53, n = Math.max(lv.width, lv.height), cc2 = gw / n, x0 = h - (lv.width * cc2) / 2, y0 = h - (lv.height * cc2) / 2, hole = new Set((lv.holes || []).map(([a, b]) => b * lv.width + a));
+    x.globalAlpha = 0.35; x.fillStyle = C.nodeLockedMark;
+    for (let yy = 0; yy < lv.height; yy++) for (let xx = 0; xx < lv.width; xx++) if (!hole.has(yy * lv.width + xx)) { x.beginPath(); rrect(x, x0 + xx * cc2 + cc2 * 0.1, y0 + yy * cc2 + cc2 * 0.1, cc2 * 0.8, cc2 * 0.8, cc2 * 0.22); x.fill(); }
+    x.globalAlpha = 1;
+  } else if (st === 'next' || st === 'partial') {
+    const k = size / 72; x.save(); x.scale(k, k);
+    x.fillStyle = C.nodeOpen; x.strokeStyle = C.nodeOpenEdge; x.lineWidth = 4; x.beginPath(); x.arc(36, 36, 28, 0, 7); x.fill(); x.stroke();
+    x.fillStyle = C.nodeOpenEdge; x.lineJoin = 'round'; x.beginPath(); x.moveTo(30, 25); x.lineTo(47, 36); x.lineTo(30, 47); x.closePath(); x.fill(); x.stroke();
+    if (fill > 0) { x.strokeStyle = C.pathDone; x.lineWidth = 5; x.lineCap = 'round'; x.beginPath(); x.arc(36, 36, 33.5, -Math.PI / 2, -Math.PI / 2 + (fill / 100) * Math.PI * 2); x.stroke(); }
+    x.restore();
+  } else {
+    const k = size / D.lay.param.map_node, band = Math.round(4 * k), th = themeOf(lv), cols = colorsOf(lv), sol = solutionPaths(lv);
+    x.fillStyle = th.top; x.strokeStyle = C.boardEdge; x.lineWidth = 1.5; x.beginPath(); rrect(x, 0.75, 0.75, size - 1.5, size - 1.5, size * 0.2); x.fill(); x.stroke();
+    const inner = size - 2 * band, n = Math.max(lv.width, lv.height), pad = inner * 0.06, cell = (inner - 2 * pad) / n, ox = band + pad + ((n - lv.width) * cell) / 2, oy = band + pad + ((n - lv.height) * cell) / 2, bp = pad * 0.5;
+    x.fillStyle = C.board; x.beginPath(); rrect(x, ox - bp, oy - bp, lv.width * cell + 2 * bp, lv.height * cell + 2 * bp, cell * 0.3); x.fill(); x.stroke();
+    const own = new Map(); sol.forEach((p, c2) => p.forEach((q) => own.set(q, c2))); const hole = new Set((lv.holes || []).map(([a, b]) => b * lv.width + a));
+    for (let yy = 0; yy < lv.height; yy++) for (let xx = 0; xx < lv.width; xx++) { const q = yy * lv.width + xx; x.fillStyle = hole.has(q) ? th.top : own.has(q) ? cols[own.get(q)].tint : C.tile; x.beginPath(); rrect(x, ox + xx * cell + cell * 0.05, oy + yy * cell + cell * 0.05, cell * 0.9, cell * 0.9, cell * 0.22); x.fill(); }
+    sol.forEach((p, c2) => strokePoly(x, p.map((q) => [ox + ((q % lv.width) + 0.5) * cell, oy + (((q / lv.width) | 0) + 0.5) * cell]), cell * D.lay.param.line_w_of_cell, cols[c2].hex));
+    if (st === 'star') { const sr = size * 0.16; x.save(); x.translate(size - sr * 0.9, sr * 0.9); x.scale(sr, sr); x.fillStyle = C.star; x.strokeStyle = C.starEdge; x.lineWidth = 0.12; x.lineJoin = 'round'; x.fill(D.starPath); x.stroke(D.starPath); x.restore(); }
+  }
+  nodeCache.set(key, cv2); return cv2;
+}
+function nodeEl(i, st, size) { const src = nodeBitmap(i, st, size), c = document.createElement('canvas'); c.width = src.width; c.height = src.height; c.style.width = c.style.height = size + 'px'; c.setAttribute('aria-hidden', 'true'); c.getContext('2d').drawImage(src, 0, 0); return c; }
+function prewarmPage(p) { if (!mapL) mapL = LY.map(window.innerWidth, window.innerHeight); const ch = D.chapters[p]; if (!ch) return []; return ch.levels.map((id) => { const i = D.levels.findIndex((l) => l.id === id); idle(() => nodeBitmap(i, nodeState(i), mapL.node_d)); }); } // 노드 하나씩 유휴 시간에
 // 아직 다 칠하지 않은 카드 판의 카드 그림을 그 판 크기로 미리 비트맵화(전환 프레임에서 첫 래스터 없음)
 function prewarmCard(i) {
   const lv = D.levels[i]; if (!lv) return; const card = lv.fill_card || lv.hole_card; if (!card || (S.levels[lv.id] || {}).done) return;
@@ -280,7 +311,7 @@ function buildMap() {
     const stKey = { locked: 'node_locked', next: 'node_next', partial: 'node_partial', done: 'node_done', star: 'node_star' }[s];
     b.setAttribute('aria-label', `${T(lv.name_key)}, ${T(stKey)}`);
     if (s === 'locked') b.setAttribute('aria-disabled', 'true');
-    b.appendChild(bitmapEl(nodeSVG(i, s, d), d, d, dpr));
+    b.appendChild(nodeEl(i, s, d));
     li.appendChild(b);
     if (s === 'partial') {
       const pb = document.createElement('span'); pb.className = 'pbar'; pb.setAttribute('role', 'progressbar'); pb.setAttribute('aria-label', T('aria_best_fill'));
@@ -302,6 +333,8 @@ function buildMap() {
   });
   // 이웃 장 그림 미리 래스터
   idle(() => prewarmPage(mapPage + 1)); idle(() => prewarmPage(mapPage - 1));
+  // 미리 비트맵화는 '다음에 할 판' 하나의 카드만
+  { const ni = D.levels.findIndex((_, j) => { const s = nodeState(j); return s === 'next' || s === 'partial'; }); if (ni >= 0) idleLate(() => prewarmCard(ni), 1500); }
 }
 function turnPage(p) {
   if (p < 0 || p >= D.chapters.length || p === mapPage) return;
@@ -419,7 +452,9 @@ function layoutPlay() {
   // 유휴 시간에 조금씩(한 번에 한 쌍) — 한 프레임을 길게 만들지 않음
   const jobs = PS.cols.map((_, c) => () => { [0, 1, 2].forEach((gi) => judgeSprite(c, gi)); svgImg(PS.dotSvgs[c].full); svgImg(PS.dotSvgs[c].hollow); });
   // 판정 이름 비트맵은 유휴 줄에서 미리(못 했으면 첫 연결 때 그 하나만 그림, 글꼴은 부팅 때 데움 → 약 7 ms)
-  for (const j of jobs) idle(() => { if (SP === sp0) j(); });
+  // 판 시작 120 ms 뒤부터 40 ms 마다 한 쌍(드래그 중이면 미룸) — 연결 순간 처음 그리는 비용(6배에서 수십 ms)을 없앰
+  const run = () => { if (SP !== sp0 || !jobs.length) return; if (PS && PS.drag) { setTimeout(run, 60); return; } jobs.shift()(); setTimeout(run, 40); };
+  setTimeout(run, 120);
   dirty = true;
 }
 function judgeSprite(c, gi) {
@@ -930,7 +965,7 @@ function openResult() {
   setAttr($('rPct'), 'aria-valuenow', String(R.accuracyPct)); setAttr($('rPct'), 'aria-valuetext', `${R.accuracyPct}%`);
   $('rBest').textContent = ''; $('rBest').appendChild(svgImgEl(icon('new_best'))); $('rBest').setAttribute('aria-label', T('result_new_best')); setHidden($('rBest'), true);
   setHidden($('rNext'), last);
-  idle(() => prewarmCard(PS.i + 1));
+  idleLate(() => prewarmCard(PS.i + 1), 2500);
   layoutResult();
   resultFrame();
 }
@@ -1165,6 +1200,12 @@ window.__game = api;
   applyLang();
   wire();
   mapPage = defaultPage();
+  // 카드 그림(2장)은 불러오기 화면에서 지금 화면 크기 비트맵까지 끝냄 — 카드 판 열기 프레임에서 SVG 첫 래스터 없음(r2 성능 수정)
+  VW = window.innerWidth; VH = window.innerHeight; dpr = Math.min(window.devicePixelRatio || 1, 2);
+  await Promise.all(D.levels.filter((lv) => lv.fill_card || lv.hole_card).map(async (lv) => {
+    await svgImg(D.card[(lv.fill_card || lv.hole_card).svg]).ready;
+  }));
+  for (const lv of D.levels.filter((l) => l.fill_card || l.hole_card)) { const a = LY.play(VW, VH, lv.width, lv.height).card.art; prebakeBitmap(D.card[(lv.fill_card || lv.hole_card).svg], a.w, a.h, dpr); }
   show('title');
   api.ready = true;
   requestAnimationFrame(frame);

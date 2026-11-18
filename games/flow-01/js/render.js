@@ -178,11 +178,14 @@ export function svgImgEl(svg, cls = '') { const e = svgImg(svg); const im = e.im
 // 래스터는 유휴 줄(idle)에서 한 프레임에 하나씩만(한 번에 몰아 긴 프레임을 만들지 않음). 아직 안 됐으면 <img> 로 대신 보임.
 const idleQ = []; let idleBusy = () => false, idleOn = false;
 export function setIdleGate(fn) { idleBusy = fn; }
-export function idle(fn) { idleQ.push(fn); if (!idleOn) { idleOn = true; setTimeout(pump, 50); } }
-function pump() {
+// 진짜 유휴일 때만: requestIdleCallback 의 남은 시간이 넉넉할 때(≥ 12 ms) 한 번에 일 하나, 드래그·전환·연출 중이면 쉼(r2 성능 수정)
+const ric = window.requestIdleCallback ? (f) => window.requestIdleCallback(f, { timeout: 4000 }) : (f) => setTimeout(() => f({ timeRemaining: () => 0, didTimeout: true }), 200);
+export function idleLate(fn, ms) { setTimeout(() => idle(fn), ms); }
+export function idle(fn) { idleQ.push(fn); if (!idleOn) { idleOn = true; ric(pump); } }
+function pump(dl) {
   if (!idleQ.length) { idleOn = false; return; }
-  if (!idleBusy()) { const t0 = performance.now(); do { try { idleQ.shift()(); } catch (e) { console.error(e); } } while (idleQ.length && performance.now() - t0 < 4); }
-  setTimeout(pump, 50);
+  if (!idleBusy() && dl.timeRemaining() >= 12) { try { idleQ.shift()(); } catch (e) { console.error(e); } }
+  ric(pump);
 }
 const bmpCache = new Map();
 export function svgBitmap(svg, w, h, dpr) {
@@ -194,6 +197,11 @@ export function svgBitmap(svg, w, h, dpr) {
     svgImg(svg).ready.then(() => idle(() => { const [c, x] = offscreen(w, h, dpr); x.drawImage(svgImg(svg).img, 0, 0, w, h); e.c = c; for (const f of e.wait) f(); e.wait = []; }));
   }
   return e;
+}
+// 디코드가 끝난 SVG 를 지금 바로 비트맵으로(불러오기 화면에서만 씀)
+export function prebakeBitmap(svg, w, h, dpr) {
+  const e = svgBitmap(svg, w, h, dpr); if (e.c) return e;
+  const [c, x] = offscreen(w, h, dpr); x.drawImage(svgImg(svg).img, 0, 0, w, h); e.c = c; return e;
 }
 // 비트맵이 있으면 <canvas>, 아직이면 디코드된 <img> 복제(합성기 래스터)
 export function bitmapEl(svg, w, h, dpr) {

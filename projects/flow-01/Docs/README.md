@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | game-developer | round-2 성능 | [유휴 그리기 requestIdleCallback·지도 노드 캔버스화·카드 불러오기 때 비트맵: 메뉴 전환 ≤ 100 ms(DPR2)·끄는 중 59.5, 전체 1% low 16 미달](game-developer/2026-11-19-r2-perf.md) |
 | 2026-11-18 | game-developer | round-2 핫픽스 | [결과 ▶·↻ 멈춤 blocker 수정(rAF 보호), 테스트도 같은 경로·selfcheck 일반 모드 50판 흐름, 카드·지도 그림 유휴 비트맵, minor 3건 — 성능 기준은 부하로 미확인](game-developer/2026-11-18-r2-hotfix.md) |
 | 2026-11-18 | qa-engineer | 1-4 | [QA round-2: 기술 품질 6.0·REVISE(blocker 1·major 1·minor 4), 결과 ▶·↻ 일반 모드 멈춤 blocker, 빌드 판정 = 시뮬 4만 판 불일치 0, 끄는 중 59.5 fps·카드 판 열기 133~267 ms](qa-engineer/2026-11-18-1-4-round2-qa.md) |
 | 2026-11-18 | game-developer | round-2 | [빌드 수정: 성능 render 규칙(6배 스로틀 1% low 59.5·메뉴 전환 ≤ 67 ms), H1~H4, 50스테이지 장 페이지·색 돌려쓰기, 주스 연출, selfcheck 50판 ALL PASS](game-developer/2026-11-18-r2-build.md) |

@@ -326,13 +326,14 @@ for (const dsf of [1, 2]) {
   await cdp.send('Emulation.setCPUThrottlingRate', { rate: 1 });
   PERF['dpr' + dsf] = { control: ctl, title_to_map: menu1, map_to_card_level: menu2, page_turn: pageTurn, L10_start_drag: play };
   console.log(`  perf DPR${dsf}: 대조 평균 ${ctl.avg}/1%low ${ctl.low1} | 타이틀→지도 최장 ${menu1.max} ms | 지도→L6 카드 판 최장 ${menu2.max} ms | 장 넘김 최장 ${pageTurn.max} ms | L10 시작·끄는 중 평균 ${play.avg} 1%low ${play.low1} 최장 ${play.max} ms`);
-  if (play.avg < 55 || play.low1 < 45) fail(`성능 DPR${dsf} 판: 평균 ${play.avg} 1% low ${play.low1} (기준 55·45, 대조 ${ctl.avg}/${ctl.low1})`);
-  if (menu1.max > 100 || menu2.max > 100 || pageTurn.max > 100) fail(`성능 DPR${dsf} 메뉴 전환 최장 ${menu1.max}·${menu2.max}·${pageTurn.max} ms (기준 ≤ 100)`);
+  const pfail = (msg) => console.log('  INFO(성능, 판정은 qa-round.mjs --blank-pair) ' + msg);
+  if (play.avg < 55 || play.low1 < 45) pfail(`성능 DPR${dsf} 판: 평균 ${play.avg} 1% low ${play.low1} (기준 55·45, 대조 ${ctl.avg}/${ctl.low1})`);
+  if (menu1.max > 100 || menu2.max > 100 || pageTurn.max > 100) pfail(`성능 DPR${dsf} 메뉴 전환 최장 ${menu1.max}·${menu2.max}·${pageTurn.max} ms (기준 ≤ 100)`);
   const all = [menu1, menu2, pageTurn, play].flatMap((x) => x.d).sort((a, b) => a - b), p99 = all[Math.floor(all.length * 0.99)];
   PERF['dpr' + dsf].overall = { avg: +((1000 * all.length) / all.reduce((a, b) => a + b, 0)).toFixed(1), low1: +(1000 / p99).toFixed(1), n: all.length };
   for (const x of [ctl, menu1, menu2, pageTurn, play]) delete x.d;
   console.log(`  perf DPR${dsf} 전체(측정 구간 합): 평균 ${PERF['dpr' + dsf].overall.avg} 1% low ${PERF['dpr' + dsf].overall.low1}`);
-  if (PERF['dpr' + dsf].overall.low1 < 45 || PERF['dpr' + dsf].overall.avg < 55) fail(`성능 DPR${dsf} 전체 평균 ${PERF['dpr' + dsf].overall.avg}·1% low ${PERF['dpr' + dsf].overall.low1} (기준 55·45)`);
+  if (PERF['dpr' + dsf].overall.low1 < 45 || PERF['dpr' + dsf].overall.avg < 55) pfail(`성능 DPR${dsf} 전체 평균 ${PERF['dpr' + dsf].overall.avg}·1% low ${PERF['dpr' + dsf].overall.low1} (기준 55·45)`);
   await c.close();
 }
 writeFileSync(join(OUT, 'perf.json'), JSON.stringify(PERF, null, 1));

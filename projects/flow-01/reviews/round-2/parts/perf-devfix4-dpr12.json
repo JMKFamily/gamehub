@@ -1,0 +1,175 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr1",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1555,
+     "avg": 58.1,
+     "low1": 16.1,
+     "max_ms": 149.9,
+     "over33": 17
+    },
+    "level_start_transition": {
+     "frames": 264,
+     "avg": 55.8,
+     "low1": 15,
+     "max_ms": 83.5,
+     "over33": 8
+    },
+    "dragging_juice": {
+     "frames": 410,
+     "avg": 59.9,
+     "low1": 47.7,
+     "max_ms": 33.3,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 406,
+     "avg": 59.3,
+     "low1": 26.6,
+     "max_ms": 66.6,
+     "over33": 2
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 149.9,
+    "map_to_play_L6": 83.5,
+    "result_to_map_1": 50,
+    "map_to_play_L7": 33.4,
+    "result_to_map_2": 50.1,
+    "map_to_play_L8": 33.4,
+    "result_next_L9": 33.4,
+    "play_to_map": 66.8,
+    "map_page_turn": 33.4
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 5,
+    "ms_p95": 9.5,
+    "ms_max": 14.4
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   },
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 105.1
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 59.8,
+    "low1": 44.4,
+    "max_ms": 33.9,
+    "over33": 1,
+    "audio_ctx_ms": 96.8
+   },
+   "valid": false
+  },
+  {
+   "config": "412x915 dpr2",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1545,
+     "avg": 58,
+     "low1": 15.8,
+     "max_ms": 99.9,
+     "over33": 17
+    },
+    "level_start_transition": {
+     "frames": 254,
+     "avg": 53.7,
+     "low1": 13.3,
+     "max_ms": 83.4,
+     "over33": 10
+    },
+    "dragging_juice": {
+     "frames": 409,
+     "avg": 60,
+     "low1": 59.5,
+     "max_ms": 16.8,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 408,
+     "avg": 59.6,
+     "low1": 34.2,
+     "max_ms": 50,
+     "over33": 2
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 99.9,
+    "map_to_play_L6": 83.4,
+    "result_to_map_1": 66.7,
+    "map_to_play_L7": 33.3,
+    "result_to_map_2": 33.2,
+    "map_to_play_L8": 33.3,
+    "result_next_L9": 33.4,
+    "play_to_map": 50,
+    "map_page_turn": 33.4
+   },
+   "input_to_cell": {
+    "n": 82,
+    "frames_max": 1,
+    "ms_median": 5.6,
+    "ms_p95": 8,
+    "ms_max": 16
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   },
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 95
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 101.2
+   },
+   "valid": true
+  }
+ ],
+ "flow": "title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)",
+ "blank_control": [
+  {
+   "config": "412x915 dpr1",
+   "frames": 399,
+   "avg": 60,
+   "low1": 59.5,
+   "max_ms": 16.8,
+   "over33": 0
+  },
+  {
+   "config": "412x915 dpr2",
+   "frames": 399,
+   "avg": 60,
+   "low1": 59.5,
+   "max_ms": 16.8,
+   "over33": 0
+  }
+ ],
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 406
+ }
+}
