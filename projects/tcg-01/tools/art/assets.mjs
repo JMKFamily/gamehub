@@ -141,7 +141,7 @@ function boldKeywords(line) {
 }
 // cards.json(엔진) 키워드 id → 우리 키워드 id
 export const ENGINE_KW = { guard: 'breakwater', lifesteal: 'draught', rush: 'spur', stealth: 'seamist', shield: 'saltskin', charge: 'rapids', deadly: 'drown' };
-export const LINEAGE_KO = { warden: '파수병', drowned: '즉사자', contraption: '태엽물', rider: '기수', scribe: '필경사', nameless: '무명', shoreling: '갯것' }; // 10-lore 5-3
+export const LINEAGE_KO = { warden: '파수병', drowned: '익사자', contraption: '태엽물', rider: '기수', scribe: '필경사', nameless: '무명', shoreling: '갯것' }; // 10-lore 5-3
 export const ENGINE_KIND = { minion: 'answerer', spell: 'rite', weapon: 'brand' };
 export function cardKeywords(cardData) {
   const fromEngine = (cardData.keywords || []).map((k) => ENGINE_KW[k]).filter(Boolean);
