@@ -104,7 +104,7 @@ function soundBtns() {
 }
 function toggleSound() { S.sound = !S.sound; ST.save(S); if (A) { wake(); A.setEnabled(S.sound); } soundBtns(); if (S.sound) sfx('ui_tap'); }
 // 오디오 깨우기: 이미 있으면 resume(가벼움), 없으면 유휴 줄에서 만들기(사용자 동작 뒤라 sticky activation 으로 running)
-function wake() { if (!A) return; if (A.ctx) A.unlock(); else if (!A._q) { A._q = true; setTimeout(() => (window.requestIdleCallback || ((f) => setTimeout(f, 0)))(() => { A.unlock(); A._q = false; }, { timeout: 1500 }), 600); } } // 첫 화면 전환과 떨어진 유휴 시간에
+function wake() { if (!A) return; if (A.ctx) A.unlock(); else if (!A._q) { A._q = true; const go = () => { if (trans || pageTurn || (PS && (PS.drag || PS.trans)) || performance.now() - lastScreenAt < 1200) { setTimeout(go, 300); return; } A.unlock(); A._q = false; }; setTimeout(go, 300); } } // 화면 전환이 끝나고 1.2 s 조용할 때(전환 프레임과 겹치지 않게)
 function sfx(name, opt) { if (A) A.play(name, opt); }
 
 function applyLang() {
@@ -334,7 +334,7 @@ function buildMap() {
   // 이웃 장 그림 미리 래스터
   idle(() => prewarmPage(mapPage + 1)); idle(() => prewarmPage(mapPage - 1));
   // 미리 비트맵화는 '다음에 할 판' 하나의 카드만
-  { const ni = D.levels.findIndex((_, j) => { const s = nodeState(j); return s === 'next' || s === 'partial'; }); if (ni >= 0) idleLate(() => prewarmCard(ni), 1500); }
+  { const ni = D.levels.findIndex((_, j) => { const s = nodeState(j); return s === 'next' || s === 'partial'; }); if (ni >= 0) { idleLate(() => prewarmCard(ni), 1500); prewarmLevel(ni); } }
 }
 function turnPage(p) {
   if (p < 0 || p >= D.chapters.length || p === mapPage) return;
@@ -438,13 +438,11 @@ function layoutPlay() {
   });
   $('pPairs').setAttribute('aria-valuemax', String(n));
   // 판·장식 캐시 + 비트맵(점·표지·빛·조각·판정 이름)
-  boardCache = buildBoardCache({ L, lv: PS.lv, P, C, pz: PS.pz }, dpr, (o) => drawDecor(o, L));
+  boardCache = levelBoard(PS.lv, L);
   const cell = L.cell;
   SP = {
-    dots: PS.cols.map((col) => dotSprite(col, D.marks[col.mark], L.px.dot_d, L.px.mark / 2, D.lay.marks.stroke_unit, C.white, dpr)),
-    lineMarks: PS.cols.map((col) => markSprite(D.marks[col.mark], cell * D.lay.motion.connect.line_mark.size_of_cell, D.lay.marks.stroke_unit, C.white, D.lay.motion.connect.line_mark.alpha, dpr)),
-    glows: PS.cols.map((col) => glowSprite(col.hex, cell * D.lay.motion.connect.juice.glow.radius_of_cell, dpr)),
-    bits: PS.cols.map((col) => circleSprite(col.hex, cell * 0.08, dpr)),
+    dots: PS.cols.map((col) => colSprites(col, L).dot), lineMarks: PS.cols.map((col) => colSprites(col, L).mark),
+    glows: PS.cols.map((col) => colSprites(col, L).glow), bits: PS.cols.map((col) => colSprites(col, L).bit),
     judge: PS.cols.map(() => [null, null, null]),
   };
   PS.dotSvgs = PS.cols.map((col) => ({ full: resultDotSVG(col, true), hollow: resultDotSVG(col, false) }));
@@ -459,7 +457,30 @@ function layoutPlay() {
 }
 function judgeSprite(c, gi) {
   const C = D.pal.common, L = PL;
-  return (SP.judge[c][gi] ||= textSprite(T(D.bal.judge.name_keys[gi]), L.judge.name_px[gi], FONT, PS.cols[c].shade, C.white, dpr, gi === 0 ? { px: L.judge.g1_star_px, path: D.starPath, fill: C.star, edge: C.starEdge } : null));
+  return (SP.judge[c][gi] ||= nameSprite(PS.cols[c], gi, L));
+}
+// 판 시작 비용 줄이기(r2 성능 2차): 판 캐시·쌍 색 비트맵·판정 이름 비트맵을 (레벨·화면·dpr)/(색·크기) 로 전역 캐시하고, 다음 판 것을 지도·결과 유휴 시간에 미리 만듦
+const SPC = new Map(), BDC = new Map();
+function levelBoard(lv, L) {
+  const k = [lv.id, VW, VH, dpr].join('|'); let b = BDC.get(k);
+  if (!b) { const pz = B.makePuzzle(lv), th = themeOf(lv), save = PS; PS = { theme: th }; try { b = buildBoardCache({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => drawDecor(o, L)); } finally { PS = save; } BDC.set(k, b); }
+  return b;
+}
+function colSprites(col, L) {
+  const C = D.pal.common, cell = L.cell, k = ['c', col.key, cell, dpr].join('|'); let s = SPC.get(k);
+  if (!s) { s = { dot: dotSprite(col, D.marks[col.mark], L.px.dot_d, L.px.mark / 2, D.lay.marks.stroke_unit, C.white, dpr), mark: markSprite(D.marks[col.mark], cell * D.lay.motion.connect.line_mark.size_of_cell, D.lay.marks.stroke_unit, C.white, D.lay.motion.connect.line_mark.alpha, dpr), glow: glowSprite(col.hex, cell * D.lay.motion.connect.juice.glow.radius_of_cell, dpr), bit: circleSprite(col.hex, cell * 0.08, dpr) }; SPC.set(k, s); }
+  return s;
+}
+function nameSprite(col, gi, L) {
+  const C = D.pal.common, k = ['n', col.key, gi, L.judge.name_px[gi], dpr, lang].join('|'); let s = SPC.get(k);
+  if (!s) { s = textSprite(T(D.bal.judge.name_keys[gi]), L.judge.name_px[gi], FONT, col.shade, C.white, dpr, gi === 0 ? { px: L.judge.g1_star_px, path: D.starPath, fill: C.star, edge: C.starEdge } : null); SPC.set(k, s); }
+  return s;
+}
+function prewarmLevel(i) {
+  const lv = D.levels[i]; if (!lv) return;
+  const L = LY.play(window.innerWidth, window.innerHeight, lv.width, lv.height), cols = colorsOf(lv);
+  idle(() => levelBoard(lv, L));
+  for (const col of cols) { idle(() => colSprites(col, L)); for (const gi of [0, 1, 2]) idle(() => nameSprite(col, gi, L)); }
 }
 function drawDecor(o, L) {
   const d = PS.theme.decor; if (!d || d.only_on_complete) return;
@@ -965,7 +986,7 @@ function openResult() {
   setAttr($('rPct'), 'aria-valuenow', String(R.accuracyPct)); setAttr($('rPct'), 'aria-valuetext', `${R.accuracyPct}%`);
   $('rBest').textContent = ''; $('rBest').appendChild(svgImgEl(icon('new_best'))); $('rBest').setAttribute('aria-label', T('result_new_best')); setHidden($('rBest'), true);
   setHidden($('rNext'), last);
-  idleLate(() => prewarmCard(PS.i + 1), 2500);
+  idleLate(() => prewarmCard(PS.i + 1), 2500); prewarmLevel(PS.i + 1);
   layoutResult();
   resultFrame();
 }
