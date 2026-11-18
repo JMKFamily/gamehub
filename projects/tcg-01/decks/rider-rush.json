@@ -1,0 +1,60 @@
+{
+ "name": "rider-rush",
+ "hero": "h_rider",
+ "archetype": "급류 어그로",
+ "ai_style": {
+  "face": 1.5
+ },
+ "cards": [
+  "A006",
+  "A006",
+  "A030",
+  "A030",
+  "B055",
+  "B055",
+  "A008",
+  "A008",
+  "D009",
+  "B053",
+  "B057",
+  "B057",
+  "B063",
+  "B063",
+  "B058",
+  "A011",
+  "A011",
+  "A034",
+  "A034",
+  "B060",
+  "A009",
+  "A009",
+  "A007",
+  "B054",
+  "A031",
+  "A010",
+  "A016",
+  "A016",
+  "B097",
+  "B097"
+ ],
+ "avg_cost": 2.03,
+ "type_counts": {
+  "attack_instant": 12,
+  "attack_draw": 5,
+  "buff": 12,
+  "drawbuff": 1
+ },
+ "branches": [
+  "ai_rapids",
+  "ad_onhit",
+  "b_single",
+  "ai_bolt",
+  "d_draw",
+  "b_aura",
+  "b_swell",
+  "ad_wake",
+  "ai_sweep",
+  "ad_raid",
+  "b_guard"
+ ]
+}

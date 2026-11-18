@@ -1,0 +1,62 @@
+{
+ "name": "wreck-fit",
+ "hero": "h_wreck",
+ "archetype": "부품 성장 콤보",
+ "ai_style": {
+  "face": 1
+ },
+ "cards": [
+  "B037",
+  "B037",
+  "B038",
+  "B038",
+  "D005",
+  "A004",
+  "A004",
+  "A029",
+  "B043",
+  "B043",
+  "B039",
+  "B039",
+  "B040",
+  "B040",
+  "B046",
+  "B046",
+  "B044",
+  "B044",
+  "D008",
+  "B041",
+  "B041",
+  "B050",
+  "B049",
+  "A005",
+  "B042",
+  "B051",
+  "B092",
+  "B092",
+  "B096",
+  "B112"
+ ],
+ "avg_cost": 2.43,
+ "type_counts": {
+  "buff": 24,
+  "drawbuff": 2,
+  "attack_instant": 3,
+  "attack_draw": 1
+ },
+ "branches": [
+  "b_fit",
+  "d_salvage",
+  "ai_bolt",
+  "ad_onhit",
+  "b_single",
+  "b_swell",
+  "b_aura",
+  "d_etch",
+  "b_anchor",
+  "b_unname",
+  "ai_rapids",
+  "b_guard",
+  "b_ebb"
+ ]
+}

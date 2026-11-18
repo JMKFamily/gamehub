@@ -1,0 +1,11 @@
+start 0.4450 worst 0.252 {"archive-kindle":0.505,"choir-brine":0.505,"nameless-wake":0.47,"rider-rush":0.444,"warden-bulwark":0.54,"wreck-fit":0.536}
+accept B071.health -1 0.3901 worst 0.207 {"archive-kindle":0.502,"choir-brine":0.511,"nameless-wake":0.473,"rider-rush":0.437,"warden-bulwark":0.543,"wreck-fit":0.533}
+accept B046.health -1 0.3672 worst 0.227 {"archive-kindle":0.513,"choir-brine":0.509,"nameless-wake":0.501,"rider-rush":0.436,"warden-bulwark":0.539,"wreck-fit":0.501}
+accept A006.health 1 0.3092 worst 0.240 {"archive-kindle":0.497,"choir-brine":0.501,"nameless-wake":0.469,"rider-rush":0.495,"warden-bulwark":0.533,"wreck-fit":0.505}
+accept B001.health -1 0.2349 worst 0.220 {"archive-kindle":0.495,"choir-brine":0.504,"nameless-wake":0.479,"rider-rush":0.505,"warden-bulwark":0.512,"wreck-fit":0.505}
+accept B015.health -1 0.2008 worst 0.213 {"archive-kindle":0.506,"choir-brine":0.505,"nameless-wake":0.472,"rider-rush":0.507,"warden-bulwark":0.493,"wreck-fit":0.517}
+accept B017.health -1 0.1916 worst 0.233 {"archive-kindle":0.505,"choir-brine":0.511,"nameless-wake":0.488,"rider-rush":0.507,"warden-bulwark":0.482,"wreck-fit":0.508}
+accept A015.health 1 0.1632 worst 0.227 {"archive-kindle":0.502,"choir-brine":0.504,"nameless-wake":0.504,"rider-rush":0.5,"warden-bulwark":0.479,"wreck-fit":0.511}
+accept B044.health -1 0.1443 worst 0.200 {"archive-kindle":0.502,"choir-brine":0.5,"nameless-wake":0.519,"rider-rush":0.504,"warden-bulwark":0.475,"wreck-fit":0.5}
+accept B042.health 1 0.1227 worst 0.207 {"archive-kindle":0.502,"choir-brine":0.503,"nameless-wake":0.504,"rider-rush":0.508,"warden-bulwark":0.478,"wreck-fit":0.505}
+final knobs {"B071.health":-1,"B044.health":-1,"B042.health":1,"B046.health":-1,"A006.health":1,"B001.health":-1,"B015.health":-1,"B017.health":-1,"A015.health":1}

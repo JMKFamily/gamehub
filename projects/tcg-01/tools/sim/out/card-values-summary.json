@@ -1,0 +1,164 @@
+{
+ "n": 200,
+ "mean_delta": 0.23,
+ "within_pm2": 138,
+ "outliers": [
+  "B005:-3.04",
+  "B013:-4.82",
+  "B026:-4.01",
+  "B027:-3.68",
+  "B029:-4",
+  "B036:-4.2",
+  "B041:4.84",
+  "B045:-3.38",
+  "B046:4.86",
+  "B072:-3.28",
+  "B074:-4.25",
+  "B089:-3.49",
+  "B090:-6.5",
+  "B119:3.3",
+  "A002:-4.9",
+  "A013:-6.95",
+  "A022:3.2",
+  "A026:3.6",
+  "A030:4.16",
+  "A031:4.9",
+  "A033:-5.16",
+  "A038:-10.05",
+  "A039:4.6",
+  "A041:4.16",
+  "A043:3.9",
+  "A047:-5",
+  "A053:3.16",
+  "A060:5.26"
+ ],
+ "band_out": [
+  "D003(mid→1)",
+  "D006(mid→1)",
+  "D012(high→3)",
+  "D013(mid→2)",
+  "D015(mid→2)",
+  "D017(mid→2)",
+  "D018(mid→2)",
+  "D019(high→3)",
+  "B010(mid→2)",
+  "B013(high→4)",
+  "B018(high→5)",
+  "B026(high→5)",
+  "B027(mid→2)",
+  "B031(high→5)",
+  "B033(mid→2)",
+  "B034(mid→2)",
+  "B036(high→4)",
+  "B039(mid→2)",
+  "B042(high→5)",
+  "B045(mid→2)",
+  "B047(mid→2)",
+  "B060(mid→0)",
+  "B062(mid→2)",
+  "B063(mid→2)",
+  "B066(mid→2)",
+  "B074(high→5)",
+  "B078(high→3)",
+  "B082(mid→2)",
+  "B089(high→4)",
+  "B090(high→4)",
+  "B110(mid→2)",
+  "B115(mid→2)",
+  "A002(high→5)",
+  "A011(mid→2)",
+  "A021(mid→2)",
+  "A023(mid→2)"
+ ],
+ "kinds": {
+  "spell": 108,
+  "minion": 86,
+  "weapon": 6
+ },
+ "rarity": {
+  "sand": 118,
+  "pearl": 50,
+  "coral": 23,
+  "abyss": 9
+ },
+ "decks": [
+  {
+   "name": "warden-bulwark",
+   "hero": "h_warden",
+   "avg": 3.13,
+   "types": {
+    "buff": 25,
+    "attack_instant": 2,
+    "drawbuff": 1,
+    "attack_draw": 2
+   },
+   "nBranches": 9,
+   "unique": 21
+  },
+  {
+   "name": "choir-brine",
+   "hero": "h_choir",
+   "avg": 2.7,
+   "types": {
+    "buff": 21,
+    "attack_instant": 3,
+    "attack_draw": 5,
+    "drawbuff": 1
+   },
+   "nBranches": 12,
+   "unique": 21
+  },
+  {
+   "name": "wreck-fit",
+   "hero": "h_wreck",
+   "avg": 2.43,
+   "types": {
+    "buff": 24,
+    "drawbuff": 2,
+    "attack_instant": 3,
+    "attack_draw": 1
+   },
+   "nBranches": 13,
+   "unique": 20
+  },
+  {
+   "name": "rider-rush",
+   "hero": "h_rider",
+   "avg": 2.03,
+   "types": {
+    "attack_instant": 12,
+    "attack_draw": 5,
+    "buff": 12,
+    "drawbuff": 1
+   },
+   "nBranches": 11,
+   "unique": 19
+  },
+  {
+   "name": "archive-kindle",
+   "hero": "h_archive",
+   "avg": 2.8,
+   "types": {
+    "attack_instant": 3,
+    "buff": 17,
+    "drawbuff": 3,
+    "attack_draw": 7
+   },
+   "nBranches": 14,
+   "unique": 21
+  },
+  {
+   "name": "nameless-wake",
+   "hero": "h_nameless",
+   "avg": 2.17,
+   "types": {
+    "buff": 12,
+    "drawbuff": 3,
+    "attack_draw": 11,
+    "attack_instant": 4
+   },
+   "nBranches": 16,
+   "unique": 20
+  }
+ ]
+}

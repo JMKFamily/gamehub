@@ -1,0 +1,58 @@
+{
+ "name": "warden-bulwark",
+ "hero": "h_warden",
+ "archetype": "방파제 미드레인지",
+ "ai_style": {
+  "face": 1
+ },
+ "cards": [
+  "B001",
+  "B001",
+  "B015",
+  "B015",
+  "B007",
+  "B007",
+  "B009",
+  "B004",
+  "B002",
+  "B002",
+  "B006",
+  "B006",
+  "B005",
+  "B005",
+  "A001",
+  "D002",
+  "B012",
+  "B012",
+  "A022",
+  "A022",
+  "B017",
+  "B008",
+  "B018",
+  "B003",
+  "B092",
+  "B092",
+  "B093",
+  "B096",
+  "A017",
+  "B095"
+ ],
+ "avg_cost": 3.13,
+ "type_counts": {
+  "buff": 25,
+  "attack_instant": 2,
+  "drawbuff": 1,
+  "attack_draw": 2
+ },
+ "branches": [
+  "b_guard",
+  "b_single",
+  "b_mend",
+  "b_aura",
+  "ai_sweep",
+  "d_draw",
+  "b_swell",
+  "ad_onkill",
+  "ai_bolt"
+ ]
+}

@@ -1,0 +1,9246 @@
+{
+ "version": "1.1.0",
+ "schema": "20-balance.md 8절. 이름·글은 lore_ref(id)로 lore/cards-lore.json을 참조. kind: minion|spell|weapon. 돌파 breakthrough는 단계별 누적 변화.",
+ "tokens": [
+  {
+   "id": "T01",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 1,
+   "health": 1,
+   "keywords": [],
+   "effects": [],
+   "note": "고철 인부 1/1 (B045·펠 계열 소환물)"
+  },
+  {
+   "id": "T02",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "effects": [],
+   "note": "예비 2/2"
+  }
+ ],
+ "cards": [
+  {
+   "id": "D001",
+   "owner": "h_warden",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_seek",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "tutor",
+     "filter": {
+      "kind": "minion",
+      "keyword": "guard"
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D001",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 3,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "D002",
+   "owner": "h_warden",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "my_board_gte",
+     "cond_n": 3
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D002",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 8.64,
+    "budget": 7,
+    "delta": 1.64
+   }
+  },
+  {
+   "id": "D003",
+   "owner": "h_choir",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sacrifice",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D003",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.4,
+    "budget": 3,
+    "delta": 0.4
+   }
+  },
+  {
+   "id": "D004",
+   "owner": "h_choir",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_seek",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "tutor",
+     "filter": {
+      "tag": "curse"
+     },
+     "cost_mod_if": "curse_burst_game",
+     "cost_mod_if_n": -1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D004",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 3,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "D005",
+   "owner": "h_wreck",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_salvage",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "discover",
+     "pool": "parts"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D005",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 3,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "D006",
+   "owner": "h_wreck",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_discount",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "turn_discount",
+     "kind": "minion",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D006",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2,
+    "budget": 3,
+    "delta": -1
+   }
+  },
+  {
+   "id": "D007",
+   "owner": "h_wreck",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sacrifice",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n_ref": "sac_cost3"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D007",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.4,
+    "budget": 3,
+    "delta": 0.4
+   }
+  },
+  {
+   "id": "D008",
+   "owner": "h_wreck",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_etch",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "hand_buff",
+     "target": "hand_random_minions",
+     "count": 2,
+     "atk": 1,
+     "hp": 1
+    },
+    {
+     "on": "cast",
+     "do": "hand_buff",
+     "target": "hand_random_minions",
+     "count": 1,
+     "atk": 1,
+     "hp": 1,
+     "cond": "has_part_minion"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D008",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.86,
+    "budget": 7,
+    "delta": -2.14
+   }
+  },
+  {
+   "id": "D009",
+   "owner": "h_rider",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "last_drawn_cost_lte",
+     "cond_n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D009",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.44,
+    "budget": 3,
+    "delta": 2.44
+   }
+  },
+  {
+   "id": "D010",
+   "owner": "h_archive",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D010",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.4,
+    "budget": 7,
+    "delta": -0.6
+   }
+  },
+  {
+   "id": "D011",
+   "owner": "h_archive",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_etch",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 0,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "hand_buff",
+     "target": "hand_random_spell",
+     "count": 1,
+     "dmg": 1
+    },
+    {
+     "on": "cast",
+     "do": "cost_reduce",
+     "target": "hand_random_spell",
+     "count": 1,
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D011",
+   "approx": "피해 +1 또는 비용 −1 중 고르기 → 무작위 의식 1장에 둘 다 1/2씩이 아니라 피해 +1·비용 −1 각각 무작위(근사)",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.55,
+    "budget": 1,
+    "delta": 1.55
+   }
+  },
+  {
+   "id": "D012",
+   "owner": "h_archive",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_discount",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "turn_discount",
+     "kind": "spell",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#D012",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.4,
+    "budget": 7,
+    "delta": -0.6
+   }
+  },
+  {
+   "id": "D013",
+   "owner": "h_archive",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_salvage",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "discover",
+     "pool": "enemy_hero"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D013",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 5,
+    "delta": -1.4
+   }
+  },
+  {
+   "id": "D014",
+   "owner": "h_nameless",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D014",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.6,
+    "budget": 3,
+    "delta": 2.6
+   }
+  },
+  {
+   "id": "D015",
+   "owner": "h_nameless",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_seek",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "tutor",
+     "filter": {
+      "kind": "minion",
+      "keyword": "stealth"
+     },
+     "cost_mod": -1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D015",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.4,
+    "budget": 5,
+    "delta": -0.6
+   }
+  },
+  {
+   "id": "D016",
+   "owner": "neutral",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_draw",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "next_discount",
+     "n": 1,
+     "this_turn": true
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D016",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.2,
+    "budget": 3,
+    "delta": 1.2
+   }
+  },
+  {
+   "id": "D017",
+   "owner": "neutral",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_salvage",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "discover",
+     "pool": "neutral_minion"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D017",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 5,
+    "delta": -1.4
+   }
+  },
+  {
+   "id": "D018",
+   "owner": "neutral",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_etch",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "hand_buff",
+     "target": "hand_random_minions",
+     "count": 3,
+     "atk": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#D018",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.7,
+    "budget": 5,
+    "delta": -2.3
+   }
+  },
+  {
+   "id": "D019",
+   "owner": "neutral",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_seek",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "tutor",
+     "filter": {
+      "highest_cost": true
+     },
+     "cost_mod": -2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#D019",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.2,
+    "budget": 7,
+    "delta": -1.8
+   }
+  },
+  {
+   "id": "D020",
+   "owner": "neutral",
+   "type": "drawbuff",
+   "attack_sub": null,
+   "branch": "d_discount",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 0,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "next_discount",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#D020",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 0.4,
+    "budget": 1,
+    "delta": -0.6
+   }
+  },
+  {
+   "id": "B001",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 1,
+   "health": 2,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "adjacent",
+     "hp": 1
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B001",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 5.17,
+    "budget": 5,
+    "delta": 0.17
+   }
+  },
+  {
+   "id": "B002",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 4,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1,
+     "cond": "my_armor"
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B002",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8.26,
+    "budget": 7,
+    "delta": 1.26
+   }
+  },
+  {
+   "id": "B003",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 7,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "armor",
+     "n": 3
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B003",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 14.8,
+    "budget": 15,
+    "delta": -0.2
+   }
+  },
+  {
+   "id": "B004",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "shield"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B004",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.9,
+    "budget": 3,
+    "delta": -0.1
+   }
+  },
+  {
+   "id": "B005",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B005",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.96,
+    "budget": 7,
+    "delta": -3.04
+   }
+  },
+  {
+   "id": "B006",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "adjacent",
+     "atk": 1
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B006",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.6,
+    "budget": 7,
+    "delta": -0.4
+   }
+  },
+  {
+   "id": "B007",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_friendly",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "heal",
+     "target": "chosen",
+     "n": 3
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B007",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 5.2,
+    "budget": 5,
+    "delta": 0.2
+   }
+  },
+  {
+   "id": "B008",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 6,
+   "attack": 4,
+   "health": 5,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "hp": 1
+    },
+    {
+     "on": "death",
+     "do": "give_kw",
+     "target": "random_friendly_minion",
+     "kw": [
+      "shield"
+     ]
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B008",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 15.09,
+    "budget": 13,
+    "delta": 2.09
+   }
+  },
+  {
+   "id": "B009",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 2
+    },
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "shield"
+     ],
+     "cond": "target_guard"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B009",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.73,
+    "budget": 3,
+    "delta": 1.73
+   }
+  },
+  {
+   "id": "B010",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 3,
+     "kw": [
+      "guard"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B010",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.7,
+    "budget": 5,
+    "delta": -1.3
+   }
+  },
+  {
+   "id": "B011",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "armor",
+     "n": 4
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "random_friendly_guard",
+     "atk": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B011",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.12,
+    "budget": 5,
+    "delta": -1.88
+   }
+  },
+  {
+   "id": "B012",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "friendly_guard_minions",
+     "hp": 1
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B012",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.7,
+    "budget": 9,
+    "delta": 0.7
+   }
+  },
+  {
+   "id": "B013",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "all_friendly_minions",
+     "kw": [
+      "guard"
+     ]
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "hp": 2,
+     "dur": "turn"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B013",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.18,
+    "budget": 9,
+    "delta": -4.82
+   }
+  },
+  {
+   "id": "B014",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "lifesteal"
+     ]
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "my_hero",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B014",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.3,
+    "budget": 3,
+    "delta": -0.7
+   }
+  },
+  {
+   "id": "B015",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 1,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B015",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 4.8,
+    "budget": 5,
+    "delta": -0.2
+   }
+  },
+  {
+   "id": "B016",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "dur": "turn"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "dur": "turn",
+     "cond": "my_guard_exists"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B016",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.68,
+    "budget": 3,
+    "delta": -1.32
+   }
+  },
+  {
+   "id": "B017",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [
+    "lifesteal"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_end",
+     "do": "heal",
+     "target": "random_damaged_friendly_minion",
+     "n": 2
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B017",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 6.96,
+    "budget": 9,
+    "delta": -2.04
+   }
+  },
+  {
+   "id": "B018",
+   "owner": "h_warden",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "abyss",
+   "kind": "spell",
+   "cost": 5,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "persist_buff",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B018",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 12,
+    "budget": 11,
+    "delta": 1
+   }
+  },
+  {
+   "id": "B019",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "chosen",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B019",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3,
+    "budget": 3,
+    "delta": 0
+   }
+  },
+  {
+   "id": "B020",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "random_enemy_minion",
+     "cond": "target_cursed"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B020",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.44,
+    "budget": 3,
+    "delta": -0.56
+   }
+  },
+  {
+   "id": "B021",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 1,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "curse",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B021",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 4,
+    "budget": 3,
+    "delta": 1
+   }
+  },
+  {
+   "id": "B022",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -2
+    },
+    {
+     "on": "play",
+     "do": "curse",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B022",
+   "kind_note": "첫 숨 응답자로",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 7.4,
+    "budget": 7,
+    "delta": 0.4
+   }
+  },
+  {
+   "id": "B023",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_offering",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": "choose_enemy_minion",
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sacrifice",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "chosen2",
+     "n_ref": "sac_atk"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B023",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 0,
+    "budget": 3,
+    "delta": -3
+   }
+  },
+  {
+   "id": "B024",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "enemy_curse_tick",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B024",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 9.6,
+    "budget": 7,
+    "delta": 2.6
+   }
+  },
+  {
+   "id": "B025",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "silence",
+     "target": "chosen"
+    },
+    {
+     "on": "play",
+     "do": "curse",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B025",
+   "kind_note": "첫 숨 응답자로",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.5,
+    "budget": 9,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B026",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 5,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_minions"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "cursed_enemy_minions",
+     "atk": -1,
+     "hp": -1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B026",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.99,
+    "budget": 11,
+    "delta": -4.01
+   }
+  },
+  {
+   "id": "B027",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_offering",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sacrifice",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "random_friendly_minion",
+     "atk": 1,
+     "hp": 1,
+     "times_ref": "sac_hp"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B027",
+   "approx": "체력만큼 +1/+1 나눔 → 무작위 아군에 1씩 반복",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.32,
+    "budget": 5,
+    "delta": -3.68
+   }
+  },
+  {
+   "id": "B028",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -1,
+     "hp": -1
+    },
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B028",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.7,
+    "budget": 3,
+    "delta": 0.7
+   }
+  },
+  {
+   "id": "B029",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "all_enemies",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B029",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3,
+    "budget": 7,
+    "delta": -4
+   }
+  },
+  {
+   "id": "B030",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 3
+    },
+    {
+     "on": "cast",
+     "do": "give_fx",
+     "target": "chosen",
+     "fx": {
+      "on": "death",
+      "do": "curse",
+      "target": "random_enemy",
+      "n": 2
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B030",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.72,
+    "budget": 5,
+    "delta": -0.28
+   }
+  },
+  {
+   "id": "B031",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 5,
+   "attack": 4,
+   "health": 6,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura_curse_bonus",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B031",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 13,
+    "budget": 11,
+    "delta": 2
+   }
+  },
+  {
+   "id": "B032",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "curse",
+     "target": "random_enemy",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B032",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.5,
+    "budget": 9,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B033",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "set_attack",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B033",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.5,
+    "budget": 5,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B034",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": {
+    "cursed": true
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "debuff_by_curse",
+     "target": "chosen"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B034",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.4,
+    "budget": 5,
+    "delta": 0.4
+   }
+  },
+  {
+   "id": "B035",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "deadly"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B035",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2,
+    "budget": 3,
+    "delta": -1
+   }
+  },
+  {
+   "id": "B036",
+   "owner": "h_choir",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "abyss",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "curse_double"
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "my_hero",
+     "n_ref": "cursed_enemies"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B036",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.8,
+    "budget": 9,
+    "delta": -4.2
+   }
+  },
+  {
+   "id": "B037",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_fit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "attach",
+     "target": "chosen",
+     "hp": 2,
+     "kw": [
+      "guard"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B037",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.8,
+    "budget": 3,
+    "delta": -0.2
+   }
+  },
+  {
+   "id": "B038",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_fit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "attach",
+     "target": "chosen",
+     "atk": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B038",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.8,
+    "budget": 3,
+    "delta": -1.2
+   }
+  },
+  {
+   "id": "B039",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_fit",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "attach",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 1,
+     "fx": {
+      "on": "turn_start",
+      "do": "buff",
+      "target": "self",
+      "atk": 1,
+      "hp": 1
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B039",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.4,
+    "budget": 5,
+    "delta": 0.4
+   }
+  },
+  {
+   "id": "B040",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": {
+    "has_part": true
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B040",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.8,
+    "budget": 5,
+    "delta": 1.8
+   }
+  },
+  {
+   "id": "B041",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    },
+    {
+     "on": "death",
+     "do": "discover",
+     "pool": "parts"
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B041",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 11.84,
+    "budget": 7,
+    "delta": 4.84
+   }
+  },
+  {
+   "id": "B042",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 5,
+   "attack": 4,
+   "health": 7,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "part_attached",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B042",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 12.8,
+    "budget": 11,
+    "delta": 1.8
+   }
+  },
+  {
+   "id": "B043",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 2
+    },
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "shield"
+     ],
+     "cond": "target_has_part"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B043",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.73,
+    "budget": 3,
+    "delta": 1.73
+   }
+  },
+  {
+   "id": "B044",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura_part_bonus",
+     "n": 1
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B044",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 7,
+    "budget": 7,
+    "delta": 0
+   }
+  },
+  {
+   "id": "B045",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_ebb",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_fx",
+     "target": "chosen",
+     "fx": {
+      "on": "death",
+      "do": "summon",
+      "token": "T01"
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B045",
+   "approx": "붙어 있던 부품 옮기기는 생략",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.62,
+    "budget": 5,
+    "delta": -3.38
+   }
+  },
+  {
+   "id": "B046",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 1,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "atk": 1
+    },
+    {
+     "on": "turn_start",
+     "do": "give_kw",
+     "target": "self",
+     "kw": [
+      "shield"
+     ],
+     "cond": "self_atk_gte",
+     "cond_n": 5
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B046",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 9.86,
+    "budget": 5,
+    "delta": 4.86
+   }
+  },
+  {
+   "id": "B047",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": {
+    "kw": "guard"
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 4
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B047",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 5,
+    "delta": -1.4
+   }
+  },
+  {
+   "id": "B048",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_ebb",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_fx",
+     "target": "all_friendly_minions",
+     "fx": {
+      "on": "death",
+      "do": "give_card",
+      "pool": "parts"
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B048",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.94,
+    "budget": 7,
+    "delta": -1.06
+   }
+  },
+  {
+   "id": "B049",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "silence",
+     "target": "chosen"
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B049",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.5,
+    "budget": 9,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B050",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 4,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "freeze",
+     "target": "chosen"
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B050",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.5,
+    "budget": 9,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B051",
+   "owner": "h_wreck",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "abyss",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 4,
+   "health": 6,
+   "keywords": [
+    "double_part"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B051",
+   "approx": "차오름 +2/+2 → +1/+1(수치)",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 14.6,
+    "budget": 15,
+    "delta": -0.4
+   }
+  },
+  {
+   "id": "B052",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 2,
+   "health": 1,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": {
+    "kw": "rush"
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B052",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 3.9,
+    "budget": 3,
+    "delta": 0.9
+   }
+  },
+  {
+   "id": "B053",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 2,
+     "dur": "turn"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B053",
+   "approx": "+1 → +2(수치)",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.98,
+    "budget": 3,
+    "delta": -1.02
+   }
+  },
+  {
+   "id": "B054",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "tf": {
+      "kw_any": [
+       "rush",
+       "charge"
+      ]
+     }
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B054",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.2,
+    "budget": 7,
+    "delta": -0.8
+   }
+  },
+  {
+   "id": "B055",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 2,
+     "hp": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B055",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 3,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "B056",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -2,
+     "dur": "opp_turn"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B056",
+   "approx": "뒷물결 1장 추가는 수치 보강(1-2 lore 협의)",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.84,
+    "budget": 3,
+    "delta": 0.84
+   }
+  },
+  {
+   "id": "B057",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 3,
+   "health": 3,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "buff",
+     "target": "self",
+     "atk": 1
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B057",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8.67,
+    "budget": 7,
+    "delta": 1.67
+   }
+  },
+  {
+   "id": "B058",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 2,
+     "dur": "turn"
+    },
+    {
+     "on": "play",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "charge"
+     ],
+     "dur": "turn"
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B058",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8.4,
+    "budget": 7,
+    "delta": 1.4
+   }
+  },
+  {
+   "id": "B059",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "stealth"
+     ],
+     "dur": "my_next_turn"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B059",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.5,
+    "budget": 3,
+    "delta": -1.5
+   }
+  },
+  {
+   "id": "B060",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 0,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 3,
+     "hp": 1
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B060",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2,
+    "budget": 1,
+    "delta": 1
+   }
+  },
+  {
+   "id": "B061",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 2,
+     "hp": 2,
+     "kw": [
+      "rush"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B061",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.1,
+    "budget": 7,
+    "delta": -1.9
+   }
+  },
+  {
+   "id": "B062",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_enemy_minions",
+     "atk": -1,
+     "dur": "opp_turn"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B062",
+   "approx": "1장 뽑기 보강",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5,
+    "budget": 5,
+    "delta": 0
+   }
+  },
+  {
+   "id": "B063",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "friendly_rush_minions",
+     "atk": 1
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B063",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 7.7,
+    "budget": 5,
+    "delta": 2.7
+   }
+  },
+  {
+   "id": "B064",
+   "owner": "h_rider",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "abyss",
+   "kind": "minion",
+   "cost": 6,
+   "attack": 4,
+   "health": 5,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "kw": [
+      "charge"
+     ]
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B064",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 15.5,
+    "budget": 13,
+    "delta": 2.5
+   }
+  },
+  {
+   "id": "B065",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "secret"
+    }
+   ],
+   "secret": [
+    {
+     "on": "enemy_attack",
+     "do": "freeze",
+     "target": "trigger_source"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B065",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.15,
+    "budget": 3,
+    "delta": -0.85
+   }
+  },
+  {
+   "id": "B066",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "secret"
+    }
+   ],
+   "secret": [
+    {
+     "on": "enemy_spell",
+     "do": "enemy_overload",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B066",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.02,
+    "budget": 5,
+    "delta": -0.98
+   }
+  },
+  {
+   "id": "B067",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "secret"
+    }
+   ],
+   "secret": [
+    {
+     "on": "enemy_summon",
+     "do": "buff",
+     "target": "trigger_source",
+     "atk": -2,
+     "hp": -2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B067",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.44,
+    "budget": 5,
+    "delta": 1.44
+   }
+  },
+  {
+   "id": "B068",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "silence",
+     "target": "chosen"
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B068",
+   "kind_note": "첫 숨 응답자로",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.5,
+    "budget": 5,
+    "delta": 1.5
+   }
+  },
+  {
+   "id": "B069",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "freeze",
+     "target": "chosen"
+    },
+    {
+     "on": "play",
+     "do": "damage",
+     "target": "chosen",
+     "n": 1
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B069",
+   "kind_note": "첫 숨 응답자로",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 7,
+    "budget": 5,
+    "delta": 2
+   }
+  },
+  {
+   "id": "B070",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 5,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura_spell",
+     "n": 1
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B070",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.8,
+    "budget": 9,
+    "delta": 0.8
+   }
+  },
+  {
+   "id": "B071",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 1,
+   "health": 2,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura_spell",
+     "n": 1
+    },
+    {
+     "on": "play",
+     "do": "hand_buff",
+     "target": "hand_random_spell",
+     "count": 1,
+     "dmg": 1
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B071",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.15,
+    "budget": 5,
+    "delta": 1.15
+   }
+  },
+  {
+   "id": "B072",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "armor",
+     "n": 5
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "random_damaged_friendly_minion",
+     "n": 3
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B072",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.72,
+    "budget": 7,
+    "delta": -3.28
+   }
+  },
+  {
+   "id": "B073",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 2,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "friendly_spell",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B073",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8.7,
+    "budget": 7,
+    "delta": 1.7
+   }
+  },
+  {
+   "id": "B074",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 5,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_minions"
+    },
+    {
+     "on": "cast",
+     "do": "install_secret"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B074",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.75,
+    "budget": 11,
+    "delta": -4.25
+   }
+  },
+  {
+   "id": "B075",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "armor",
+     "n_ref": "lost_stats"
+    },
+    {
+     "on": "cast",
+     "do": "armor",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B075",
+   "approx": "잃은 수치가 0인 경우가 많아 껍질 +2 보강",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4,
+    "budget": 7,
+    "delta": -3
+   }
+  },
+  {
+   "id": "B076",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "install_secret"
+    },
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1,
+     "cond": "my_secret_exists"
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B076",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10.26,
+    "budget": 9,
+    "delta": 1.26
+   }
+  },
+  {
+   "id": "B077",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 1,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "armor",
+     "n": 3
+    },
+    {
+     "on": "play",
+     "do": "armor",
+     "n": 2,
+     "cond": "spell_power_exists"
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B077",
+   "kind_note": "첫 숨 응답자로",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.64,
+    "budget": 5,
+    "delta": 1.64
+   }
+  },
+  {
+   "id": "B078",
+   "owner": "h_archive",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "abyss",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "secret_rearm"
+    },
+    {
+     "on": "cast",
+     "do": "install_secret"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B078",
+   "approx": "발동이 없는 설치 카드라 영장첩 봉인문 1장 설치를 더함",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5,
+    "budget": 7,
+    "delta": -2
+   }
+  },
+  {
+   "id": "B079",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 1,
+   "health": 2,
+   "keywords": [
+    "stealth"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "random_friendly_stealth",
+     "atk": 1
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B079",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 4.54,
+    "budget": 3,
+    "delta": 1.54
+   }
+  },
+  {
+   "id": "B080",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "stealth"
+     ]
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B080",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 1.9,
+    "budget": 3,
+    "delta": -1.1
+   }
+  },
+  {
+   "id": "B081",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "deadly"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B081",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2,
+    "budget": 3,
+    "delta": -1
+   }
+  },
+  {
+   "id": "B082",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "random_friendly_stealth",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B082",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.58,
+    "budget": 5,
+    "delta": -1.42
+   }
+  },
+  {
+   "id": "B083",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B083",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.9,
+    "budget": 3,
+    "delta": 0.9
+   }
+  },
+  {
+   "id": "B084",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 3,
+   "health": 3,
+   "keywords": [
+    "stealth"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "cond": "self_stealth"
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B084",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8.26,
+    "budget": 7,
+    "delta": 1.26
+   }
+  },
+  {
+   "id": "B085",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "hp": 1,
+     "tf": {
+      "kw": "stealth"
+     }
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B085",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.4,
+    "budget": 9,
+    "delta": -0.6
+   }
+  },
+  {
+   "id": "B086",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -2,
+     "hp": -2,
+     "cond": "target_silenced",
+     "else": {
+      "do": "buff",
+      "target": "chosen",
+      "atk": -2,
+      "hp": -2
+     }
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -1,
+     "hp": -1,
+     "cond": "target_silenced"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B086",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 7.29,
+    "budget": 7,
+    "delta": 0.29
+   }
+  },
+  {
+   "id": "B087",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 2,
+     "hp": 2,
+     "kw": [
+      "stealth"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B087",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 7.1,
+    "budget": 7,
+    "delta": 0.1
+   }
+  },
+  {
+   "id": "B088",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -2,
+     "hp": -2,
+     "cond": "combo",
+     "else": {
+      "do": "buff",
+      "target": "chosen",
+      "atk": -1,
+      "hp": -1
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B088",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.05,
+    "budget": 3,
+    "delta": 1.05
+   }
+  },
+  {
+   "id": "B089",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "all_friendly_minions",
+     "kw": [
+      "stealth"
+     ],
+     "dur": "my_next_turn"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "dur": "turn"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B089",
+   "approx": "1장 뽑기 보강",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.51,
+    "budget": 9,
+    "delta": -3.49
+   }
+  },
+  {
+   "id": "B090",
+   "owner": "h_nameless",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "abyss",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": "choose_friendly_minion",
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "chosen",
+     "transfer_to": true
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B090",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.5,
+    "budget": 9,
+    "delta": -6.5
+   }
+  },
+  {
+   "id": "B091",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B091",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 5.8,
+    "budget": 5,
+    "delta": 0.8
+   }
+  },
+  {
+   "id": "B092",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 3,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B092",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6,
+    "budget": 5,
+    "delta": 1
+   }
+  },
+  {
+   "id": "B093",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "heal",
+     "target": "my_hero",
+     "n": 3
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B093",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.2,
+    "budget": 5,
+    "delta": 1.2
+   }
+  },
+  {
+   "id": "B094",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "heal",
+     "target": "chosen",
+     "n": 99
+    },
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B094",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 11.9,
+    "budget": 9,
+    "delta": 2.9
+   }
+  },
+  {
+   "id": "B095",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "adjacent",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B095",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10.2,
+    "budget": 9,
+    "delta": 1.2
+   }
+  },
+  {
+   "id": "B096",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [
+    "guard",
+    "shield"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B096",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.9,
+    "budget": 9,
+    "delta": 0.9
+   }
+  },
+  {
+   "id": "B097",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 2,
+   "health": 1,
+   "keywords": [
+    "stealth"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B097",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 4,
+    "budget": 3,
+    "delta": 1
+   }
+  },
+  {
+   "id": "B098",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 1,
+   "attack": 1,
+   "health": 2,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B098",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 4.8,
+    "budget": 3,
+    "delta": 1.8
+   }
+  },
+  {
+   "id": "B099",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_unname",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "silence",
+     "target": "chosen"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B099",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.5,
+    "budget": 9,
+    "delta": 0.5
+   }
+  },
+  {
+   "id": "B100",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 4,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "freeze",
+     "target": "chosen"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B100",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.5,
+    "budget": 9,
+    "delta": 0.5
+   }
+  },
+  {
+   "id": "B101",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_anchor",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2,
+     "cond": "target_frozen"
+    },
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "chosen"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B101",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.6,
+    "budget": 3,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "B102",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "chosen",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B102",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3,
+    "budget": 3,
+    "delta": 0
+   }
+  },
+  {
+   "id": "B103",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": -2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B103",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.8,
+    "budget": 3,
+    "delta": 1.8
+   }
+  },
+  {
+   "id": "B104",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_weaken",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_enemy_minions",
+     "atk": -1,
+     "hp": -1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B104",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.75,
+    "budget": 9,
+    "delta": -2.25
+   }
+  },
+  {
+   "id": "B105",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 2,
+     "kw": [
+      "rush"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B105",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.3,
+    "budget": 3,
+    "delta": 0.3
+   }
+  },
+  {
+   "id": "B106",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "guard"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B106",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8,
+    "budget": 9,
+    "delta": -1
+   }
+  },
+  {
+   "id": "B107",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 7,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "hp": 2,
+     "tf": {
+      "kw": "guard"
+     }
+    },
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "tf_not": {
+      "kw": "guard"
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B107",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 15.6,
+    "budget": 15,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "B108",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "give_kw",
+     "target": "chosen",
+     "kw": [
+      "lifesteal"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B108",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.5,
+    "budget": 9,
+    "delta": -0.5
+   }
+  },
+  {
+   "id": "B109",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1
+    },
+    {
+     "on": "death",
+     "do": "buff",
+     "target": "random_friendly_minion",
+     "atk": 2,
+     "hp": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B109",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 11.19,
+    "budget": 9,
+    "delta": 2.19
+   }
+  },
+  {
+   "id": "B110",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "dur": "turn"
+    },
+    {
+     "on": "cast",
+     "do": "give_kw",
+     "target": "all_friendly_minions",
+     "kw": [
+      "rush"
+     ],
+     "dur": "turn"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B110",
+   "approx": "1장 뽑기 보강",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.84,
+    "budget": 5,
+    "delta": 0.84
+   }
+  },
+  {
+   "id": "B111",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 7,
+   "keywords": [
+    "guard",
+    "shield"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B111",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 17.5,
+    "budget": 15,
+    "delta": 2.5
+   }
+  },
+  {
+   "id": "B112",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_ebb",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "death",
+     "do": "buff",
+     "target": "all_friendly_minions",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B112",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.56,
+    "budget": 9,
+    "delta": 0.56
+   }
+  },
+  {
+   "id": "B113",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_mend",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 5,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_end",
+     "do": "heal",
+     "target": "other_friendly_minions",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B113",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.6,
+    "budget": 9,
+    "delta": 0.6
+   }
+  },
+  {
+   "id": "B114",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_sealwrit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "secret"
+    }
+   ],
+   "secret": [
+    {
+     "on": "enemy_target_my_minion",
+     "do": "give_kw",
+     "target": "trigger_source",
+     "kw": [
+      "shield"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B114",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.41,
+    "budget": 3,
+    "delta": -0.59
+   }
+  },
+  {
+   "id": "B115",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_brine",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "my_hero",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B115",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 7,
+    "budget": 5,
+    "delta": 2
+   }
+  },
+  {
+   "id": "B116",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_swell",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 6,
+   "attack": 4,
+   "health": 6,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "random_friendly_minion",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B116",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 12.88,
+    "budget": 13,
+    "delta": -0.12
+   }
+  },
+  {
+   "id": "B117",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_guard",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "chosen",
+     "hp": 2,
+     "kw": [
+      "guard"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#B117",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.8,
+    "budget": 3,
+    "delta": -0.2
+   }
+  },
+  {
+   "id": "B118",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_ebb",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "friendly_death",
+     "do": "buff",
+     "target": "self",
+     "atk": 1,
+     "hp": 1,
+     "cond": "dead_had_ebb"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#B118",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 8.51,
+    "budget": 9,
+    "delta": -0.49
+   }
+  },
+  {
+   "id": "B119",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_single",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 5,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "buff",
+     "target": "chosen",
+     "atk": 3,
+     "hp": 3,
+     "kw": [
+      "shield"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B119",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 18.3,
+    "budget": 15,
+    "delta": 3.3
+   }
+  },
+  {
+   "id": "B120",
+   "owner": "neutral",
+   "type": "buff",
+   "attack_sub": null,
+   "branch": "b_aura",
+   "rarity": "abyss",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 6,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura",
+     "scope": "others",
+     "atk": 1,
+     "hp": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#B120",
+   "approx": "매 턴 첫 피해 1 감소는 미구현(1-2)",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 15,
+    "budget": 15,
+    "delta": 0
+   }
+  },
+  {
+   "id": "A001",
+   "owner": "h_warden",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_sweep",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_minions",
+     "n": 1,
+     "n_ref": "plus_guard2"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A001",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.38,
+    "budget": 7,
+    "delta": -0.63
+   }
+  },
+  {
+   "id": "A002",
+   "owner": "h_choir",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_sweep",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 5,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_minions",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "curse",
+     "target": "all_enemy_minions",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A002",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 6.1,
+    "budget": 11,
+    "delta": -4.9
+   }
+  },
+  {
+   "id": "A003",
+   "owner": "h_choir",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n_ref": "target_curse_min1"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A003",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3,
+    "budget": 3,
+    "delta": 0
+   }
+  },
+  {
+   "id": "A004",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3,
+     "cond": "has_part_minion",
+     "else": {
+      "do": "damage",
+      "target": "chosen",
+      "n": 2
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A004",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.75,
+    "budget": 3,
+    "delta": 0.75
+   }
+  },
+  {
+   "id": "A005",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 2,
+   "keywords": [
+    "charge"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "damage",
+     "target": "random_enemy",
+     "n": 2
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A005",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10.25,
+    "budget": 9,
+    "delta": 1.25
+   }
+  },
+  {
+   "id": "A006",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 3,
+   "health": 2,
+   "keywords": [
+    "charge"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": "rider",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A006",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 8,
+    "budget": 5,
+    "delta": 3
+   }
+  },
+  {
+   "id": "A007",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 4,
+   "health": 3,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "attack_target_adjacent",
+     "n": 1
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A007",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10.95,
+    "budget": 9,
+    "delta": 1.95
+   }
+  },
+  {
+   "id": "A008",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A008",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 2.9,
+    "budget": 3,
+    "delta": -0.1
+   }
+  },
+  {
+   "id": "A009",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_sweep",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_minions",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "enemy_hero",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A009",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.16,
+    "budget": 7,
+    "delta": -2.84
+   }
+  },
+  {
+   "id": "A010",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 6,
+   "attack": 5,
+   "health": 4,
+   "keywords": [
+    "charge"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "self_atk_per_missing",
+     "n": 5
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A010",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 16,
+    "budget": 13,
+    "delta": 3
+   }
+  },
+  {
+   "id": "A011",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "enemy_hero",
+     "n": 5
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A011",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.43,
+    "budget": 5,
+    "delta": -1.57
+   }
+  },
+  {
+   "id": "A012",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A012",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3,
+    "budget": 3,
+    "delta": 0
+   }
+  },
+  {
+   "id": "A013",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_sweep",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 7,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_minions",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "overload",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A013",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 8.05,
+    "budget": 15,
+    "delta": -6.95
+   }
+  },
+  {
+   "id": "A014",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "chosen",
+     "cond": "target_damaged",
+     "else": {
+      "do": "damage",
+      "target": "chosen",
+      "n": 2
+     }
+    },
+    {
+     "on": "cast",
+     "do": "next_minion_kw",
+     "kw": [
+      "deadly"
+     ]
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A014",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.2,
+    "budget": 5,
+    "delta": 1.2
+   }
+  },
+  {
+   "id": "A015",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "give_kw",
+     "target": "self",
+     "kw": [
+      "deadly",
+      "stealth"
+     ],
+     "cond": "combo"
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A015",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10.75,
+    "budget": 9,
+    "delta": 1.75
+   }
+  },
+  {
+   "id": "A016",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_rapids",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 3,
+   "health": 2,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A016",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.5,
+    "budget": 5,
+    "delta": 1.5
+   }
+  },
+  {
+   "id": "A017",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_bolt",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A017",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9,
+    "budget": 9,
+    "delta": 0
+   }
+  },
+  {
+   "id": "A018",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "instant",
+   "branch": "ai_sweep",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 5,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "damage",
+     "target": "all_other_minions",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A018",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 13.6,
+    "budget": 15,
+    "delta": -1.4
+   }
+  },
+  {
+   "id": "A019",
+   "owner": "h_warden",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": "choose_enemy_minion",
+   "tf": {
+    "kw": "guard"
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen2",
+     "n_ref": "chosen_atk"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A019",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.42,
+    "budget": 5,
+    "delta": 1.42
+   }
+  },
+  {
+   "id": "A020",
+   "owner": "h_warden",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "pearl",
+   "kind": "weapon",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [
+    "lifesteal"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A020",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 11.94,
+    "budget": 9,
+    "delta": 2.94
+   }
+  },
+  {
+   "id": "A021",
+   "owner": "h_warden",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_friendly_minion",
+   "target2": "choose_enemy_minion",
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "fight"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A021",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.92,
+    "budget": 5,
+    "delta": 0.92
+   }
+  },
+  {
+   "id": "A022",
+   "owner": "h_warden",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 4,
+   "health": 3,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": "warden",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A022",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 12.2,
+    "budget": 9,
+    "delta": 3.2
+   }
+  },
+  {
+   "id": "A023",
+   "owner": "h_choir",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": {
+    "cursed": true
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A023",
+   "cost_band_ok": false,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.42,
+    "budget": 5,
+    "delta": 1.42
+   }
+  },
+  {
+   "id": "A024",
+   "owner": "h_choir",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_cursed"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A024",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.24,
+    "budget": 3,
+    "delta": 2.24
+   }
+  },
+  {
+   "id": "A025",
+   "owner": "h_choir",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_ebb",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [
+    "lifesteal"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": "drowned",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A025",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 11.38,
+    "budget": 9,
+    "delta": 2.38
+   }
+  },
+  {
+   "id": "A026",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "sand",
+   "kind": "weapon",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_attack",
+     "do": "give_card",
+     "pool": "parts"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A026",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 12.6,
+    "budget": 9,
+    "delta": 3.6
+   }
+  },
+  {
+   "id": "A027",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "discover",
+     "pool": "parts",
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A027",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 6.66,
+    "budget": 9,
+    "delta": -2.34
+   }
+  },
+  {
+   "id": "A028",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 5,
+   "health": 6,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "enemy_minion_died",
+     "do": "draw",
+     "n": 1,
+     "cap_per_turn": 2
+    }
+   ],
+   "lineage": "contraption",
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A028",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 17.4,
+    "budget": 15,
+    "delta": 2.4
+   }
+  },
+  {
+   "id": "A029",
+   "owner": "h_wreck",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "random_enemy",
+     "n": 1,
+     "times": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "has_part_minion"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A029",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.49,
+    "budget": 3,
+    "delta": 1.49
+   }
+  },
+  {
+   "id": "A030",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hit_hero",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A030",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 9.16,
+    "budget": 5,
+    "delta": 4.16
+   }
+  },
+  {
+   "id": "A031",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_raid",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 3,
+   "attack": 3,
+   "health": 2,
+   "keywords": [
+    "charge"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hit_hero",
+     "do": "copy",
+     "source": "enemy_deck_top"
+    }
+   ],
+   "lineage": "rider",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A031",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 11.9,
+    "budget": 7,
+    "delta": 4.9
+   }
+  },
+  {
+   "id": "A032",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "pearl",
+   "kind": "weapon",
+   "cost": 4,
+   "attack": 3,
+   "health": 2,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_after_attack",
+     "do": "draw",
+     "n": 1
+    },
+    {
+     "on": "play",
+     "do": "overload",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A032",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 11.4,
+    "budget": 9,
+    "delta": 2.4
+   }
+  },
+  {
+   "id": "A033",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "n_ref": "kills_turn3"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A033",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 3.84,
+    "budget": 9,
+    "delta": -5.16
+   }
+  },
+  {
+   "id": "A034",
+   "owner": "h_rider",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_wake",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A034",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 5.4,
+    "budget": 3,
+    "delta": 2.4
+   }
+  },
+  {
+   "id": "A035",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 2,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A035",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.92,
+    "budget": 5,
+    "delta": -0.08
+   }
+  },
+  {
+   "id": "A036",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "spell_power_exists"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A036",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.74,
+    "budget": 7,
+    "delta": -0.26
+   }
+  },
+  {
+   "id": "A037",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_wake",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 4,
+     "cond": "combo",
+     "else": {
+      "do": "damage",
+      "target": "chosen",
+      "n": 2
+     }
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A037",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 6.9,
+    "budget": 9,
+    "delta": -2.1
+   }
+  },
+  {
+   "id": "A038",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 8,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_minions",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n_ref": "kills_by_effect"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A038",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 6.95,
+    "budget": 17,
+    "delta": -10.05
+   }
+  },
+  {
+   "id": "A039",
+   "owner": "h_archive",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "aura",
+     "do": "aura_spell",
+     "n": 1
+    },
+    {
+     "on": "my_spell_hit_hero",
+     "do": "draw",
+     "n": 1,
+     "cap_per_turn": 1
+    }
+   ],
+   "lineage": "scribe",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A039",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 13.6,
+    "budget": 9,
+    "delta": 4.6
+   }
+  },
+  {
+   "id": "A040",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "sand",
+   "kind": "weapon",
+   "cost": 2,
+   "attack": 1,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_attack",
+     "do": "draw",
+     "n": 1,
+     "cond": "my_stealth_exists"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A040",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 7.78,
+    "budget": 5,
+    "delta": 2.78
+   }
+  },
+  {
+   "id": "A041",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [
+    "stealth"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hit_hero",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A041",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 9.16,
+    "budget": 5,
+    "delta": 4.16
+   }
+  },
+  {
+   "id": "A042",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_wake",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 1,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    },
+    {
+     "on": "cast",
+     "do": "next_minion_kw",
+     "kw": [
+      "deadly"
+     ],
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A042",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 4.8,
+    "budget": 3,
+    "delta": 1.8
+   }
+  },
+  {
+   "id": "A043",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_raid",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 4,
+   "health": 3,
+   "keywords": [
+    "rush"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "copy",
+     "source": "enemy_hand_random"
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A043",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 12.9,
+    "budget": 9,
+    "delta": 3.9
+   }
+  },
+  {
+   "id": "A044",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 1,
+   "health": 3,
+   "keywords": [
+    "deadly"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": "nameless",
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A044",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 9.2,
+    "budget": 9,
+    "delta": 0.2
+   }
+  },
+  {
+   "id": "A045",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "pearl",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": {
+    "hp_lte": 3
+   },
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 2,
+     "cond": "target_silenced",
+     "else": {
+      "do": "draw",
+      "n": 1
+     }
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A045",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 11.8,
+    "budget": 9,
+    "delta": 2.8
+   }
+  },
+  {
+   "id": "A046",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_wake",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 3,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "random_enemy_minion",
+     "n": 2,
+     "times": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n_ref": "kills_by_effect",
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A046",
+   "approx": "나눠 주기 → 무작위 적 응답자 2회",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 7.8,
+    "budget": 7,
+    "delta": 0.8
+   }
+  },
+  {
+   "id": "A047",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_raid",
+   "rarity": "coral",
+   "kind": "spell",
+   "cost": 7,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "chosen"
+    },
+    {
+     "on": "cast",
+     "do": "copy",
+     "source": "chosen"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A047",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {},
+    "3": {}
+   },
+   "value": {
+    "score": 10,
+    "budget": 15,
+    "delta": -5
+   }
+  },
+  {
+   "id": "A048",
+   "owner": "h_nameless",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "abyss",
+   "kind": "weapon",
+   "cost": 7,
+   "attack": 3,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_attack",
+     "do": "draw",
+     "n": 1,
+     "discount_if_combo": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A048",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 16.3,
+    "budget": 15,
+    "delta": 1.3
+   }
+  },
+  {
+   "id": "A049",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A049",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 7.2,
+    "budget": 5,
+    "delta": 2.2
+   }
+  },
+  {
+   "id": "A050",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 1,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "damage",
+     "target": "chosen",
+     "n": 1
+    },
+    {
+     "on": "play",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_died"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A050",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 6.42,
+    "budget": 5,
+    "delta": 1.42
+   }
+  },
+  {
+   "id": "A051",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [
+    "rush",
+    "deadly"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A051",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 11.2,
+    "budget": 9,
+    "delta": 2.2
+   }
+  },
+  {
+   "id": "A052",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "mark",
+     "target": "chosen",
+     "n": 2
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A052",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 10,
+    "budget": 9,
+    "delta": 1
+   }
+  },
+  {
+   "id": "A053",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 2,
+   "health": 5,
+   "keywords": [
+    "lifesteal"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "after_attack_survive",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A053",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 12.16,
+    "budget": 9,
+    "delta": 3.16
+   }
+  },
+  {
+   "id": "A054",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_ebb",
+   "rarity": "sand",
+   "kind": "minion",
+   "cost": 2,
+   "attack": 2,
+   "health": 1,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "low",
+   "lore_ref": "lore/cards-lore.json#A054",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 5.88,
+    "budget": 5,
+    "delta": 0.88
+   }
+  },
+  {
+   "id": "A055",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_raid",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 2
+    },
+    {
+     "on": "cast",
+     "do": "discover",
+     "pool": "enemy_hero"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A055",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 6.6,
+    "budget": 9,
+    "delta": -2.4
+   }
+  },
+  {
+   "id": "A056",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_brand",
+   "rarity": "pearl",
+   "kind": "weapon",
+   "cost": 4,
+   "attack": 2,
+   "health": 3,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hero_kill",
+     "do": "draw",
+     "n": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A056",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "health": 1
+    },
+    "3": {
+     "health": 1
+    }
+   },
+   "value": {
+    "score": 10.44,
+    "budget": 9,
+    "delta": 1.44
+   }
+  },
+  {
+   "id": "A057",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_wake",
+   "rarity": "sand",
+   "kind": "spell",
+   "cost": 4,
+   "attack": null,
+   "health": null,
+   "keywords": [],
+   "target": "choose_enemy",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "chosen",
+     "n": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "n": 1,
+     "cond": "combo"
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A057",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {},
+    "2": {
+     "effect_n": {
+      "0": 1
+     }
+    },
+    "3": {
+     "effect_n": {
+      "0": 1
+     }
+    }
+   },
+   "value": {
+    "score": 6.9,
+    "budget": 9,
+    "delta": -2.1
+   }
+  },
+  {
+   "id": "A058",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onhit",
+   "rarity": "pearl",
+   "kind": "minion",
+   "cost": 4,
+   "attack": 3,
+   "health": 4,
+   "keywords": [],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "hit_hero",
+     "do": "draw",
+     "n": 1,
+     "cap_per_turn": 1
+    }
+   ],
+   "lineage": null,
+   "cost_band": "mid",
+   "lore_ref": "lore/cards-lore.json#A058",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 11.16,
+    "budget": 9,
+    "delta": 2.16
+   }
+  },
+  {
+   "id": "A059",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_onkill",
+   "rarity": "coral",
+   "kind": "minion",
+   "cost": 7,
+   "attack": 4,
+   "health": 4,
+   "keywords": [],
+   "target": "choose_enemy_minion",
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "play",
+     "do": "destroy",
+     "target": "chosen"
+    },
+    {
+     "on": "play",
+     "do": "draw",
+     "n": 1,
+     "cond": "target_cost_gte",
+     "cond_n": 5
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A059",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 17.24,
+    "budget": 15,
+    "delta": 2.24
+   }
+  },
+  {
+   "id": "A060",
+   "owner": "neutral",
+   "type": "attack",
+   "attack_sub": "draw",
+   "branch": "ad_ebb",
+   "rarity": "abyss",
+   "kind": "minion",
+   "cost": 8,
+   "attack": 3,
+   "health": 6,
+   "keywords": [
+    "guard"
+   ],
+   "target": null,
+   "target2": null,
+   "tf": null,
+   "tf2": null,
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "n": 3
+    },
+    {
+     "on": "death",
+     "do": "curse",
+     "target": "enemy_hero",
+     "n": 3
+    }
+   ],
+   "lineage": null,
+   "cost_band": "high",
+   "lore_ref": "lore/cards-lore.json#A060",
+   "cost_band_ok": true,
+   "breakthrough": {
+    "1": {
+     "health": 1
+    },
+    "2": {
+     "health": 1,
+     "attack": 1
+    },
+    "3": {
+     "health": 1,
+     "attack": 1
+    }
+   },
+   "value": {
+    "score": 22.26,
+    "budget": 17,
+    "delta": 5.26
+   }
+  }
+ ]
+}

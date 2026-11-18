@@ -1,0 +1,63 @@
+{
+ "name": "archive-kindle",
+ "hero": "h_archive",
+ "archetype": "잉걸 의식 컨트롤",
+ "ai_style": {
+  "face": 1
+ },
+ "cards": [
+  "A012",
+  "A012",
+  "B068",
+  "B069",
+  "B069",
+  "B077",
+  "B077",
+  "D011",
+  "B065",
+  "B067",
+  "B071",
+  "B071",
+  "A035",
+  "A035",
+  "D010",
+  "B073",
+  "B073",
+  "B072",
+  "B070",
+  "B070",
+  "A036",
+  "A036",
+  "A039",
+  "A037",
+  "B074",
+  "A038",
+  "A013",
+  "B092",
+  "B092",
+  "D012"
+ ],
+ "avg_cost": 2.8,
+ "type_counts": {
+  "attack_instant": 3,
+  "buff": 17,
+  "drawbuff": 3,
+  "attack_draw": 7
+ },
+ "branches": [
+  "ai_bolt",
+  "b_unname",
+  "b_anchor",
+  "b_mend",
+  "d_etch",
+  "b_sealwrit",
+  "b_single",
+  "ad_onkill",
+  "d_draw",
+  "b_guard",
+  "ad_onhit",
+  "ad_wake",
+  "ai_sweep",
+  "d_discount"
+ ]
+}
