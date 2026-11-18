@@ -1,6 +1,6 @@
 // flow-01 6배 스로틀 long-animation-frame 원인 보기 (qa-engineer 1-4, round-2 흐름).
 //   PLAYWRIGHT_CORE=<playwright-core> node projects/flow-01/tools/qa-loaf.mjs [포트=8749] [dpr=1]
-// 흐름(실제 마우스): 타이틀 → 지도 → L6 노드(카드 판) → 카드 닫기 → 지도 → 장 넘김 ▶. 50 ms 넘는 프레임의 스크립트(호출자·함수·시간)·스타일·렌더 시간을 출력.
+// 흐름(실제 마우스): 타이틀 → 지도 → L6 노드(카드 판) → 카드 닫기 → L6 풀기(끄는 중) → 완료·결과 → 지도 → 장 넘김 ▶. 50 ms 넘는 프레임의 스크립트(호출자·함수·시간)·스타일·렌더 시간을 출력.
 // 서버는 serve.mjs 를 그 포트에 띄우고 자기 PID 만 종료.
 import { createRequire } from 'node:module';
 import { spawn } from 'node:child_process';
@@ -28,7 +28,12 @@ const click = async (sel) => { const b = await p.locator(sel).boundingBox(); awa
 await tag('title->map'); await p.mouse.click(206, 800); await p.waitForTimeout(1500);
 await tag('map->L6(card)'); await click('.node[data-i="5"]'); await p.waitForTimeout(1500);
 await tag('card close'); await click('#pCard'); await p.waitForTimeout(800);
-await tag('play->map'); await click('#pMap'); await p.waitForTimeout(1200);
+// 끄는 중(주스 연출) 긴 프레임: L6 생성 답을 실제 마우스로
+const L6 = JSON.parse(readFileSync(P + 'levels/06-level6.json', 'utf8')); const sol = L6.pairs.map((pp) => L6.solution.find((x) => x.id === pp.id).path);
+await tag('drag L6');
+for (const path of sol) { const gr = await p.evaluate(() => window.__game.layout.grid); const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx]; await p.mouse.move(...at(path[0])); await p.mouse.down(); for (const cc of path.slice(1)) await p.mouse.move(...at(cc), { steps: 4 }); await p.mouse.up(); }
+await tag('complete->result'); await p.waitForTimeout(2500);
+await tag('result->map'); await click('#rMap'); await p.waitForTimeout(1200);
 await tag('page turn'); await click('#mNext'); await p.waitForTimeout(1200);
 const lo = await p.evaluate(() => window.__lo.filter((e) => e.dur > 50));
 for (const e of lo) console.log(JSON.stringify(e));

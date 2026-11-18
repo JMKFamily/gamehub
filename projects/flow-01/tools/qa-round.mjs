@@ -244,13 +244,14 @@ if (PART === 'mouse') {
       // round-2: 결과 ▶/↻ 는 일반 모드에서 rAF 루프가 죽는 blocker(qa.md 이슈 1)라 결과 '지도' 버튼으로 같은 수락 시각(1,100 무시·1,400 받음)을 재고 지도 노드로 다음 판을 엶
       const t = await G(p, () => window.__qa.ev.filter((e) => e.k === 'up' && e.done).slice(-1)[0].t);
       const wait = async (ms) => { const now = await G(p, () => performance.now()); if (t + ms > now) await p.waitForTimeout(t + ms - now); };
-      await wait(1100); { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
+      const VIA = args.includes('--via-next') ? '#rNext' : '#rMap';
+      await wait(1100); { const b = await p.locator(VIA).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
       const early = await G(p, () => window.__game.state);
-      await wait(1400); { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
+      await wait(1400); { const b = await p.locator(VIA).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
       const tClick = await G(p, () => performance.now());
-      await p.waitForFunction(() => window.__game.state === 'map'); await p.waitForTimeout(200);
+      if (VIA === '#rMap') { await p.waitForFunction(() => window.__game.state === 'map'); await p.waitForTimeout(200);
       for (let k = 0; k < 5 && !(await p.locator(`.node[data-i="${i}"]`).count()); k++) { const nb2 = await p.locator('#mNext').boundingBox(); await p.mouse.click(nb2.x + nb2.width / 2, nb2.y + nb2.height / 2); await p.waitForTimeout(500); }
-      { const b = await p.locator(`.node[data-i="${i}"]`).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); }
+      { const b = await p.locator(`.node[data-i="${i}"]`).boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); } }
       await p.waitForFunction(() => window.__game.state === 'play');
       // 다음 판 조작 가능: 카드가 있으면 한 번 눌러 닫음, 그다음 첫 쌍 점 누름이 받아지는지
       let card = await G(p, () => window.__game.board.card);
@@ -306,7 +307,8 @@ if (PART === 'mouse') {
   }
   await c.close();
   out.balance = { input_lock_s: BAL.complete.input_lock_s, result_buttons_after_ms: BAL.complete.result_buttons_after_ms };
-  await finish('mouse', out);
+  out.via = args.includes('--via-next') ? 'result ▶' : 'result 지도 → 노드';
+  await finish(args.includes('--via-next') ? 'mouse-next' : 'mouse', out);
   process.exit(0);
 }
 
@@ -500,7 +502,22 @@ if (PART === 'perf') {
   const store = { v: 1, sound: true, vibrate: true, motion: false, lang: 'ko', levels: Object.fromEntries(LEVELS.slice(0, 5).map((l) => [l.id, { done: true, star: true, bestPct: 100, bestFill: 100 }])) };
   const out = { runs: [], flow: 'title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)' };
   const fromD = (d) => { if (!d.length) return { frames: 0 }; const tot = d.reduce((a, b) => a + b, 0); const s = [...d].sort((a, b) => b - a); const n1 = Math.max(1, Math.floor(d.length * 0.01)); return { frames: d.length, avg: +((d.length / tot) * 1000).toFixed(1), low1: +(1000 / (s.slice(0, n1).reduce((a, b) => a + b, 0) / n1)).toFixed(1), max_ms: +s[0].toFixed(1), over33: d.filter((x) => x > 33.4).length }; };
+  // 대조 페이지(게임 코드 없음, 같은 DPR·6배 스로틀, 1.5 s 워밍업 뒤 400프레임) + 빈 페이지 new AudioContext() 시간. 회차 직전·직후에 재서 환경 부하를 가름
+  const blankRun = async (cf) => {
+    const br = await newBrowser(); const c = await br.newContext({ viewport: { width: cf.w, height: cf.h }, deviceScaleFactor: cf.dsf }); const p = await c.newPage();
+    await p.setContent('<html><body style="background:#eee"></body></html>');
+    const cdp = await c.newCDPSession(p); await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+    await p.waitForTimeout(1500);
+    await p.evaluate(() => { window.__t = []; const f = (ts) => { window.__t.push(ts); if (window.__t.length < 400) requestAnimationFrame(f); }; requestAnimationFrame(f); });
+    await p.waitForTimeout(7500);
+    const t = await p.evaluate(() => window.__t); const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]);
+    const ac = await p.evaluate(() => { const t0 = performance.now(); const a = new AudioContext(); const ms = performance.now() - t0; a.close(); return +ms.toFixed(1); });
+    await br.close();
+    return { ...fromD(d), audio_ctx_ms: ac };
+  };
+  const okBlank = (b) => b.avg >= 55 && b.low1 >= 45;
   for (const cf of configs) for (let run = 0; run < (args.includes('--blank-only') ? 0 : RUNS); run++) {
+    const blankPre = args.includes('--blank-pair') ? await blankRun(cf) : null;
     const br = await newBrowser();
     const { c, p } = await open(cf.w, cf.h, '?lang=ko', { store, dsf: cf.dsf, br });
     const cdp = await c.newCDPSession(p);
@@ -540,7 +557,8 @@ if (PART === 'perf') {
     await playSolution(6);
     await longest('result_to_map_2', () => clickEl('#rMap'), 1000); await mark('start'); await longest('map_to_play_L8', () => clickEl('.node[data-i="7"]'), 1200);
     await playSolution(7);
-    await mark('menu'); await longest('result_to_map', () => clickEl('#rMap'), 1200);
+    if (args.includes('--with-next')) { await mark('start'); await longest('result_next_L9', () => clickEl('#rNext'), 1200); await mark('menu'); await longest('play_to_map', () => clickEl('#pMap'), 1200); }
+    else { await mark('menu'); await longest('result_to_map', () => clickEl('#rMap'), 1200); }
     await longest('map_page_turn', () => clickEl('#mNext'), 1000);
     const pf = await G(p, () => window.__pf);
     const win = (a, b) => { const t = pf.t.filter((x) => x >= a && x <= b); const d = []; for (let i = 1; i < t.length; i++) d.push(t[i] - t[i - 1]); return d; };
@@ -551,9 +569,12 @@ if (PART === 'perf') {
     const lat = pf.inp.map((x) => x.ms).sort((a, b) => a - b);
     const inp = { n: lat.length, frames_max: Math.max(...pf.inp.map((x) => x.frames)), ms_median: lat[Math.floor(lat.length / 2)], ms_p95: lat[Math.floor(lat.length * 0.95)], ms_max: lat[lat.length - 1] };
     const res = await G(p, () => ({ state: window.__game.state, page: window.__game.mapPage }));
-    out.runs.push({ config: cf.name, run, windows: W, menu_longest_frame_ms: menu, input_to_cell: inp, end: res });
-    console.log(cf.name, run, 'all', JSON.stringify(W.all), 'start', JSON.stringify(W.level_start_transition), 'drag', JSON.stringify(W.dragging_juice), 'done', JSON.stringify(W.complete_fx_result), 'menu', JSON.stringify(menu), 'input', JSON.stringify(inp), JSON.stringify(res));
     await c.close(); await br.close();
+    const blankPost = args.includes('--blank-pair') ? await blankRun(cf) : null;
+    const valid = blankPre ? okBlank(blankPre) && okBlank(blankPost) : null;
+    out.runs.push({ config: cf.name, run, windows: W, menu_longest_frame_ms: menu, input_to_cell: inp, end: res, blank_pre: blankPre, blank_post: blankPost, valid });
+    console.log('  blank pre', JSON.stringify(blankPre), 'post', JSON.stringify(blankPost), 'valid', valid);
+    console.log(cf.name, run, 'all', JSON.stringify(W.all), 'start', JSON.stringify(W.level_start_transition), 'drag', JSON.stringify(W.dragging_juice), 'done', JSON.stringify(W.complete_fx_result), 'menu', JSON.stringify(menu), 'input', JSON.stringify(inp), JSON.stringify(res));
   }
   // 대조: 게임 코드 없는 빈 페이지(같은 DPR·스로틀)
   out.blank_control = [];
@@ -570,7 +591,7 @@ if (PART === 'perf') {
     await br.close();
   }
   console.log('blank', JSON.stringify(out.blank_control));
-  await finish('perf-' + (args.includes('--blank-only') ? 'blank-' : '') + (WIDE ? 'wide' : 'dpr' + DPRS.join('')), out);
+  await finish('perf-' + (opt('--tag', '') ? opt('--tag', '') + '-' : '') + (args.includes('--blank-only') ? 'blank-' : '') + (WIDE ? 'wide' : 'dpr' + DPRS.join('')), out);
   process.exit(0);
 }
 

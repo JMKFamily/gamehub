@@ -1,0 +1,21 @@
+{"tag":"title->map","dur":73,"block":0,"render":4,"style":1,"scripts":[]}
+{"tag":"title->map","dur":184,"block":124,"render":3,"style":2,"scripts":[{"inv":"DIV#title.onpointerdown","d":64,"fn":"","char":68885,"url":"main.js"}]}
+{"tag":"title->map","dur":106,"block":0,"render":0,"style":0,"scripts":[]}
+{"tag":"title->map","dur":157,"block":96,"render":11,"style":10,"scripts":[{"inv":"TimerHandler:setTimeout","d":135,"fn":"","char":6720,"url":"main.js"}]}
+{"tag":"map->L6(card)","dur":84,"block":0,"render":2,"style":1,"scripts":[]}
+{"tag":"map->L6(card)","dur":94,"block":0,"render":37,"style":19,"scripts":[{"inv":"FrameRequestCallback","d":18,"fn":"frame","char":74514,"url":"main.js"}]}
+{"tag":"map->L6(card)","dur":51,"block":0,"render":44,"style":40,"scripts":[]}
+{"tag":"map->L6(card)","dur":69,"block":0,"render":2,"style":1,"scripts":[]}
+{"tag":"complete->result","dur":101,"block":41,"render":89,"style":49,"scripts":[{"inv":"FrameRequestCallback","d":39,"fn":"frame","char":74514,"url":"main.js"}]}
+{"tag":"complete->result","dur":65,"block":0,"render":7,"style":1,"scripts":[]}
+{"tag":"result->map","dur":88,"block":19,"render":6,"style":3,"scripts":[{"inv":"BUTTON#rMap.onclick","d":47,"fn":"","char":72495,"url":"main.js"}]}
+{"tag":"result->map","dur":102,"block":0,"render":3,"style":2,"scripts":[]}
+{"tag":"page turn","dur":100,"block":26,"render":3,"style":1,"scripts":[{"inv":"BUTTON#mNext.onclick","d":35,"fn":"","char":69725,"url":"main.js"}]}
+{"tag":"page turn","dur":193,"block":0,"render":2,"style":0,"scripts":[{"inv":"TimerHandler:setTimeout","d":39,"fn":"pump","char":11427,"url":"render.js"}]}
+{"tag":"page turn","dur":219,"block":0,"render":1,"style":0,"scripts":[{"inv":"TimerHandler:setTimeout","d":23,"fn":"pump","char":11427,"url":"render.js"}]}
+  title->map 스크립트 64 ms → main.js:1009 (wire)
+  title->map 스크립트 135 ms → main.js:107 (wake)
+  map->L6(card) 스크립트 18 ms → main.js:1082 (frame)
+  complete->result 스크립트 39 ms → main.js:1082 (frame)
+  result->map 스크립트 47 ms → main.js:1056 (wire)
+  page turn 스크립트 35 ms → main.js:1025 (wire)
