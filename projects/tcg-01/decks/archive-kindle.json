@@ -32,15 +32,15 @@
   "A037",
   "B074",
   "A038",
-  "B099",
+  "A013",
   "B092",
   "B092",
   "D012"
  ],
- "avg_cost": 2.7,
+ "avg_cost": 2.8,
  "type_counts": {
-  "attack_instant": 2,
-  "buff": 18,
+  "attack_instant": 3,
+  "buff": 17,
   "drawbuff": 3,
   "attack_draw": 7
  },
@@ -57,6 +57,7 @@
   "b_guard",
   "ad_onhit",
   "ad_wake",
+  "ai_sweep",
   "d_discount"
  ]
 }

@@ -1,9 +1,9 @@
 {
  "n": 200,
- "mean_delta": 0.23,
- "within_pm2": 137,
+ "mean_delta": 0.18,
+ "within_pm2": 136,
  "outliers": [
-  "B005:-3.04",
+  "B005:-5.04",
   "B013:-4.82",
   "B026:-4.01",
   "B027:-3.68",
@@ -14,6 +14,7 @@
   "B046:5.86",
   "B072:-3.28",
   "B074:-4.25",
+  "B082:-3.42",
   "B089:-3.49",
   "B090:-6.5",
   "B119:3.3",
@@ -59,7 +60,6 @@
   "B066(mid→2)",
   "B074(high→5)",
   "B078(high→3)",
-  "B082(mid→2)",
   "B089(high→4)",
   "B090(high→4)",
   "B110(mid→2)",
@@ -84,7 +84,7 @@
   {
    "name": "warden-bulwark",
    "hero": "h_warden",
-   "avg": 3.13,
+   "avg": 3.2,
    "types": {
     "buff": 25,
     "attack_instant": 2,
@@ -136,20 +136,20 @@
   {
    "name": "archive-kindle",
    "hero": "h_archive",
-   "avg": 2.7,
+   "avg": 2.8,
    "types": {
-    "attack_instant": 2,
-    "buff": 18,
+    "attack_instant": 3,
+    "buff": 17,
     "drawbuff": 3,
     "attack_draw": 7
    },
-   "nBranches": 13,
+   "nBranches": 14,
    "unique": 21
   },
   {
    "name": "nameless-wake",
    "hero": "h_nameless",
-   "avg": 2.17,
+   "avg": 2.2,
    "types": {
     "buff": 12,
     "drawbuff": 3,

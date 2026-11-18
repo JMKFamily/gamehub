@@ -1063,7 +1063,7 @@
    "branch": "b_aura",
    "rarity": "pearl",
    "kind": "spell",
-   "cost": 3,
+   "cost": 4,
    "attack": null,
    "health": null,
    "keywords": [],
@@ -1091,8 +1091,8 @@
    },
    "value": {
     "score": 3.96,
-    "budget": 7,
-    "delta": -3.04
+    "budget": 9,
+    "delta": -5.04
    }
   },
   {
@@ -1104,7 +1104,7 @@
    "rarity": "pearl",
    "kind": "minion",
    "cost": 3,
-   "attack": 2,
+   "attack": 1,
    "health": 3,
    "keywords": [],
    "target": null,
@@ -1135,9 +1135,9 @@
     }
    },
    "value": {
-    "score": 6.6,
+    "score": 5.6,
     "budget": 7,
-    "delta": -0.4
+    "delta": -1.4
    }
   },
   {
@@ -1194,8 +1194,8 @@
    "rarity": "coral",
    "kind": "minion",
    "cost": 6,
-   "attack": 4,
-   "health": 5,
+   "attack": 3,
+   "health": 4,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -1236,9 +1236,9 @@
     }
    },
    "value": {
-    "score": 15.09,
+    "score": 13.09,
     "budget": 13,
-    "delta": 2.09
+    "delta": 0.09
    }
   },
   {
@@ -1385,7 +1385,7 @@
    "rarity": "coral",
    "kind": "minion",
    "cost": 4,
-   "attack": 3,
+   "attack": 2,
    "health": 4,
    "keywords": [],
    "target": null,
@@ -1418,9 +1418,9 @@
     }
    },
    "value": {
-    "score": 9.7,
+    "score": 8.7,
     "budget": 9,
-    "delta": 0.7
+    "delta": -0.3
    }
   },
   {
@@ -4193,7 +4193,7 @@
    "rarity": "pearl",
    "kind": "minion",
    "cost": 3,
-   "attack": 2,
+   "attack": 3,
    "health": 4,
    "keywords": [],
    "target": null,
@@ -4225,9 +4225,9 @@
     }
    },
    "value": {
-    "score": 8.7,
+    "score": 9.7,
     "budget": 7,
-    "delta": 1.7
+    "delta": 2.7
    }
   },
   {
@@ -4610,7 +4610,7 @@
    "branch": "b_unname",
    "rarity": "sand",
    "kind": "spell",
-   "cost": 2,
+   "cost": 3,
    "attack": null,
    "health": null,
    "keywords": [],
@@ -4635,7 +4635,7 @@
    "lineage": null,
    "cost_band": "mid",
    "lore_ref": "lore/cards-lore.json#B082",
-   "cost_band_ok": false,
+   "cost_band_ok": true,
    "breakthrough": {
     "1": {},
     "2": {},
@@ -4643,8 +4643,8 @@
    },
    "value": {
     "score": 3.58,
-    "budget": 5,
-    "delta": -1.42
+    "budget": 7,
+    "delta": -3.42
    }
   },
   {
@@ -5227,8 +5227,8 @@
    "rarity": "pearl",
    "kind": "minion",
    "cost": 4,
-   "attack": 3,
-   "health": 4,
+   "attack": 2,
+   "health": 3,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -5261,9 +5261,9 @@
     }
    },
    "value": {
-    "score": 10.2,
+    "score": 8.2,
     "budget": 9,
-    "delta": 1.2
+    "delta": -0.8
    }
   },
   {

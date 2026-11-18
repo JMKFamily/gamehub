@@ -28,14 +28,14 @@
 | B002 | warden | b_guard | minion | 3 | 2/4 | sand | 8.26 | 7 | +1.26 | mid |
 | B003 | warden | b_guard | minion | 7 | 5/7 | coral | 14.8 | 15 | -0.2 | high |
 | B004 | warden | b_guard | spell | 1 | - | sand | 2.9 | 3 | -0.1 | low |
-| B005 | warden | b_aura | spell | 3 | - | pearl | 3.96 | 7 | -3.04 | mid |
-| B006 | warden | b_aura | minion | 3 | 2/3 | pearl | 6.6 | 7 | -0.4 | mid |
+| B005 | warden | b_aura | spell | 4 | - | pearl | 3.96 | 9 | -5.04 | mid |
+| B006 | warden | b_aura | minion | 3 | 1/3 | pearl | 5.6 | 7 | -1.4 | mid |
 | B007 | warden | b_mend | minion | 2 | 2/2 | sand | 5.2 | 5 | +0.2 | low |
-| B008 | warden | b_aura | minion | 6 | 4/5 | coral | 15.09 | 13 | +2.09 | high |
+| B008 | warden | b_aura | minion | 6 | 3/4 | coral | 13.09 | 13 | +0.09 | high |
 | B009 | warden | b_single | spell | 1 | - | sand | 4.73 | 3 | +1.73 | low |
 | B010 | warden | b_guard | spell | 2 | - | pearl | 3.7 | 5 | -1.3 | mid (벗어남) |
 | B011 | warden | b_mend | spell | 2 | - | sand | 3.12 | 5 | -1.88 | low |
-| B012 | warden | b_swell | minion | 4 | 3/4 | coral | 9.7 | 9 | +0.7 | mid |
+| B012 | warden | b_swell | minion | 4 | 2/4 | coral | 8.7 | 9 | -0.3 | mid |
 | B013 | warden | b_guard | spell | 4 | - | pearl | 4.18 | 9 | -4.82 | high (벗어남) |
 | B014 | warden | b_mend | spell | 1 | - | sand | 2.3 | 3 | -0.7 | low |
 | B015 | warden | b_single | minion | 2 | 2/2 | sand | 5.8 | 5 | +0.8 | low |
@@ -96,7 +96,7 @@
 | B070 | archive | b_guard | minion | 4 | 3/5 | sand | 10.8 | 9 | +1.8 | mid |
 | B071 | archive | b_single | minion | 2 | 1/2 | sand | 6.15 | 5 | +1.15 | low |
 | B072 | archive | b_mend | spell | 3 | - | sand | 3.72 | 7 | -3.28 | mid |
-| B073 | archive | b_single | minion | 3 | 2/4 | pearl | 8.7 | 7 | +1.7 | mid |
+| B073 | archive | b_single | minion | 3 | 3/4 | pearl | 9.7 | 7 | +2.7 | mid |
 | B074 | archive | b_anchor | spell | 5 | - | coral | 6.75 | 11 | -4.25 | high (벗어남) |
 | B075 | archive | b_unname | spell | 3 | - | pearl | 4 | 7 | -3 | mid |
 | B076 | archive | b_sealwrit | minion | 4 | 3/3 | pearl | 10.26 | 9 | +1.26 | mid |
@@ -105,7 +105,7 @@
 | B079 | nameless | b_single | minion | 1 | 1/2 | sand | 4.54 | 3 | +1.54 | low |
 | B080 | nameless | b_guard | spell | 1 | - | sand | 1.9 | 3 | -1.1 | low |
 | B081 | nameless | b_single | spell | 1 | - | pearl | 2 | 3 | -1 | low |
-| B082 | nameless | b_unname | spell | 2 | - | sand | 3.58 | 5 | -1.42 | mid (벗어남) |
+| B082 | nameless | b_unname | spell | 3 | - | sand | 3.58 | 7 | -3.42 | mid |
 | B083 | nameless | b_anchor | spell | 1 | - | sand | 3.9 | 3 | +0.9 | low |
 | B084 | nameless | b_swell | minion | 3 | 3/3 | sand | 8.26 | 7 | +1.26 | mid |
 | B085 | nameless | b_aura | minion | 4 | 3/3 | pearl | 8.4 | 9 | -0.6 | mid |
@@ -118,7 +118,7 @@
 | B092 | neutral | b_guard | minion | 2 | 2/3 | sand | 6 | 5 | +1 | low |
 | B093 | neutral | b_mend | minion | 2 | 2/3 | sand | 6.2 | 5 | +1.2 | low |
 | B094 | neutral | b_mend | minion | 4 | 3/4 | sand | 11.9 | 9 | +2.9 | mid |
-| B095 | neutral | b_aura | minion | 4 | 3/4 | pearl | 10.2 | 9 | +1.2 | mid |
+| B095 | neutral | b_aura | minion | 4 | 2/3 | pearl | 8.2 | 9 | -0.8 | mid |
 | B096 | neutral | b_guard | minion | 4 | 3/3 | sand | 9.9 | 9 | +0.9 | mid |
 | B097 | neutral | b_guard | minion | 1 | 2/1 | sand | 4 | 3 | +1 | low |
 | B098 | neutral | b_swell | minion | 1 | 1/2 | sand | 4.8 | 3 | +1.8 | low |

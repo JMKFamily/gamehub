@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.5.1",
   "project": "tcg-01",
   "note": "빌드가 그대로 읽는 규칙·경제 수치. 근거와 표는 20-balance.md. 카드 수치는 cards.json, 효과 해석은 tools/sim/engine.mjs.",
   "rules": {
@@ -90,12 +90,6 @@
       "power_effects": [
         {
           "on": "power",
-          "do": "buff",
-          "target": "chosen",
-          "hp": 1
-        },
-        {
-          "on": "power",
           "do": "give_kw",
           "target": "chosen",
           "kw": [
@@ -104,7 +98,7 @@
           "dur": "my_next_turn"
         }
       ],
-      "lore_key": "자리 지켜 / Hold the Line"
+      "lore_key": "자리 지켜 / Hold the Line — 2026-11-19: +0/+1 제거, 내 다음 턴까지 방파제만(문구 수정 필요)"
     },
     "h_choir": {
       "power_cost_mana": 2,
@@ -463,7 +457,7 @@
     "greedy": "탐욕형: 비싼 카드부터, 방어 하수인이 없으면 모두 영웅 공격",
     "eval": "교환 평가형: 행동마다 상태 복제 → 형세 평가(ai.mjs EVAL_W), 손패 카드 보유 가치로 아껴두기",
     "difficulty": {
-      "note": "요청자 지시 2026-11-19 \"상대 실력을 쉬움부터\". 매개변수 원본은 tools/sim/ai.mjs AI_PRESETS(빌드는 ai.mjs를 sync). 승률 = 사람 대리(교환 평가형 eval AI)가 이 상대를 이기는 비율, 덱 6×6, 쌍당 300판(CI ±0.9 %p).",
+      "note": "요청자 지시 2026-11-19 \"상대 실력을 쉬움부터\". 매개변수 원본은 tools/sim/ai.mjs AI_PRESETS(빌드는 ai.mjs를 sync). 승률 = 사람 대리(교환 평가형 eval AI)가 이 상대를 이기는 비율, 덱 6×6, 쌍당 300판(CI ±0.9 %p). 2026-11-19 오라 NaN 수정 뒤 재측정(시드 907).",
       "default_tier": 1,
       "tiers": [
         {
@@ -474,7 +468,7 @@
             0.7,
             0.8
           ],
-          "measured_proxy_wr": 0.755,
+          "measured_proxy_wr": 0.763,
           "unlock": "처음부터"
         },
         {
@@ -485,7 +479,7 @@
             0.55,
             0.65
           ],
-          "measured_proxy_wr": 0.606,
+          "measured_proxy_wr": 0.616,
           "unlock": {
             "type": "win_tier",
             "tier": 1,
@@ -500,7 +494,7 @@
             0.4,
             0.5
           ],
-          "measured_proxy_wr": 0.426,
+          "measured_proxy_wr": 0.414,
           "unlock": {
             "type": "win_tier",
             "tier": 2,
@@ -515,7 +509,7 @@
             0.28,
             0.38
           ],
-          "measured_proxy_wr": 0.331,
+          "measured_proxy_wr": 0.343,
           "unlock": {
             "type": "win_tier",
             "tier": 3,

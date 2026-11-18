@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | balance-designer | UX 2차 | [AI 오라 평가 NaN 수정과 재조정](balance-designer/2026-11-19-ai-aura-nan-fix.md) |
+| 2026-11-19 | ux-reviewer | ux2 | [UX를 흥미롭게 검수: 12항목 통과 7·부분 5, 퀘스트 이름 없음·시즌 트랙 그림 약함 major 2, 7.0 REVISE](ux-reviewer/2026-11-19-ux2-review.md) |
 | 2026-11-19 | art-director | UX2 리뷰 | [UX2 빌드 아트 리뷰 6.5 REVISE + 촛불 2줄×5(≥28 px)·정렬 버튼 자리 수정](art-director/2026-11-19-ux2-art-review.md) |
 | 2026-11-19 | game-developer | UX2 | [로비·상대 실력 4단계·덱 첫 화면·월드맵·팩 모두 열기·촛불 심지 구현](game-developer/2026-11-19-ux2.md) |
 | 2026-11-19 | balance-designer | UX 2차 | [상대 실력 4단계·메타 데이터(시즌 트랙·퀘스트·모두 열기·월드맵 조건)](balance-designer/2026-11-19-ux2-ai-tiers-meta.md) |

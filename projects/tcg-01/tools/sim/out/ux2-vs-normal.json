@@ -5,130 +5,130 @@
   "mode": "vs",
   "ai": "eval",
   "games_per_pair": 300,
-  "seed": 801,
+  "seed": 907,
   "workers": 10,
   "total_games": 10800,
-  "seconds": 24.9,
-  "ms_per_game": 2.3
+  "seconds": 25.1,
+  "ms_per_game": 2.32
  },
  "metrics": {
-  "close_ratio": 0.1815319070112068,
-  "late_close_ratio": 0.2798925627489117,
-  "lopsided_ratio": 0.03380568676484209,
-  "comeback_ratio": 0.19653607483560248,
-  "lead_changes_mean": 0.9242592592592592,
-  "first_player_wr": 0.48569046957488193,
-  "first_minus_second_pp": -2.8619060850236133,
+  "close_ratio": 0.18017600741083836,
+  "late_close_ratio": 0.28188976377952757,
+  "lopsided_ratio": 0.04085224641037517,
+  "comeback_ratio": 0.19277443260768876,
+  "lead_changes_mean": 0.9375,
+  "first_player_wr": 0.49921259842519683,
+  "first_minus_second_pp": -0.15748031496063408,
   "len_median": 10,
-  "len_mean": 10.737037037037037,
+  "len_mean": 10.57925925925926,
   "len_p10": 7,
   "len_p90": 15,
   "len_hist": {
-   "4": 7,
-   "5": 105,
-   "6": 350,
-   "7": 797,
-   "8": 1234,
-   "9": 1521,
-   "10": 1697,
-   "11": 1528,
-   "12": 1115,
-   "13": 784,
-   "14": 496,
-   "15": 339,
-   "16": 238,
-   "17": 151,
-   "18": 127,
-   "19": 93,
-   "20": 218
+   "4": 14,
+   "5": 117,
+   "6": 396,
+   "7": 909,
+   "8": 1305,
+   "9": 1561,
+   "10": 1710,
+   "11": 1452,
+   "12": 1070,
+   "13": 680,
+   "14": 457,
+   "15": 335,
+   "16": 204,
+   "17": 175,
+   "18": 121,
+   "19": 85,
+   "20": 209
   },
-  "draw_ratio": 0.0002777777777777778,
+  "draw_ratio": 0.000462962962962963,
   "turn_limit_ratio": 0.012592592592592593,
-  "acts_per_turn_mean": 2.7598410898719155,
+  "acts_per_turn_mean": 2.7362675929592166,
   "acts_per_turn_p90": 5,
   "acts_per_turn_hist": {
-   "0": 12755,
-   "1": 42636,
-   "2": 57772,
-   "3": 45299,
-   "4": 31588,
-   "5": 19635,
-   "6": 10303,
-   "7": 4164,
-   "8+": 1636
+   "0": 11852,
+   "1": 43427,
+   "2": 57788,
+   "3": 44697,
+   "4": 30271,
+   "5": 18935,
+   "6": 9800,
+   "7": 3845,
+   "8+": 1633
   },
-  "acts_per_turn_ge8_ratio": 0.007245734937197725,
-  "est_minutes_median": 2.589,
-  "est_minutes_slow_median": 4.6285,
-  "est_minutes_p90": 3.76225,
-  "big_moment_game_ratio": 0.8786111111111111,
+  "acts_per_turn_ge8_ratio": 0.007347647672869947,
+  "est_minutes_median": 2.5301666666666667,
+  "est_minutes_slow_median": 4.52275,
+  "est_minutes_p90": 3.7099166666666665,
+  "big_moment_game_ratio": 0.8991666666666667,
   "big_per_game": {
-   "burst10": 1.0966666666666667,
-   "wipe3": 0.08203703703703703,
-   "bigcard": 0.6603703703703704,
-   "lethal_from_15": 0.0875
+   "burst10": 1.130925925925926,
+   "wipe3": 0.1511111111111111,
+   "bigcard": 0.8003703703703704,
+   "lethal_from_15": 0.0850925925925926
   },
-  "proxy_wr": 0.6064647587292766,
-  "proxy_ci95": 0.009215080219550297,
+  "proxy_wr": 0.6155627605372858,
+  "proxy_ci95": 0.009176850197254628,
   "card_played_top": [
-   "archive-kindle|B068 45% (NaN, n2269)",
-   "archive-kindle|A012 47% (NaN, n3129)",
-   "archive-kindle|B070 49% (NaN, n3041)",
-   "archive-kindle|A036 49% (NaN, n3040)",
-   "archive-kindle|B071 44% (NaN, n2908)",
-   "archive-kindle|A037 51% (NaN, n2299)",
-   "archive-kindle|B077 45% (NaN, n3004)",
-   "archive-kindle|A035 49% (NaN, n2905)",
-   "archive-kindle|B092 46% (NaN, n3019)",
-   "archive-kindle|D010 50% (NaN, n2175)",
-   "archive-kindle|B069 46% (NaN, n3029)",
-   "archive-kindle|B073 49% (NaN, n3133)"
+   "archive-kindle|B092 47% (NaN, n3025)",
+   "archive-kindle|B073 51% (NaN, n3176)",
+   "archive-kindle|B065 49% (NaN, n879)",
+   "archive-kindle|B069 47% (NaN, n3001)",
+   "archive-kindle|B077 46% (NaN, n3000)",
+   "archive-kindle|A035 49% (NaN, n2901)",
+   "archive-kindle|D012 51% (NaN, n1595)",
+   "archive-kindle|A013 48% (NaN, n1847)",
+   "archive-kindle|B068 47% (NaN, n2254)",
+   "archive-kindle|B070 49% (NaN, n2978)",
+   "archive-kindle|B071 45% (NaN, n2888)",
+   "archive-kindle|A036 49% (NaN, n3028)"
   ],
   "card_played_bottom": [
-   "wreck-fit|B104 37% (NaN, n973)",
-   "wreck-fit|B051 56% (NaN, n1066)",
-   "archive-kindle|B039 48% (NaN, n309)",
-   "wreck-fit|B049 55% (NaN, n1416)",
-   "wreck-fit|D005 49% (NaN, n1319)",
-   "wreck-fit|B042 57% (NaN, n1150)",
-   "wreck-fit|D008 53% (NaN, n113)",
-   "choir-brine|B039 55% (NaN, n169)",
-   "nameless-wake|B005 84% (NaN, n68)",
-   "nameless-wake|B039 76% (NaN, n330)",
-   "rider-rush|B039 47% (NaN, n155)",
-   "warden-bulwark|B039 41% (NaN, n259)"
+   "wreck-fit|A029 50% (NaN, n1342)",
+   "wreck-fit|B096 57% (NaN, n1375)",
+   "wreck-fit|B050 48% (NaN, n1457)",
+   "wreck-fit|B104 35% (NaN, n1008)",
+   "wreck-fit|B044 53% (NaN, n2265)",
+   "wreck-fit|D008 56% (NaN, n123)",
+   "wreck-fit|B051 52% (NaN, n978)",
+   "choir-brine|B039 59% (NaN, n179)",
+   "nameless-wake|B005 82% (NaN, n120)",
+   "nameless-wake|B039 77% (NaN, n351)",
+   "rider-rush|B039 47% (NaN, n132)",
+   "warden-bulwark|B039 50% (NaN, n221)"
   ]
  },
  "archetypes": {
   "archive-kindle": {
-   "proxy_wr": 0.5819899944413564,
-   "n": 1799,
-   "ci95": 0.022792480266992102
+   "proxy_wr": 0.5876460767946577,
+   "n": 1797,
+   "ci95": 0.022760144698804174
   },
   "choir-brine": {
-   "proxy_wr": 0.6366666666666667,
+   "proxy_wr": 0.6161111111111112,
    "n": 1800,
-   "ci95": 0.022219204017257094
+   "ci95": 0.022467363429622488
   },
   "nameless-wake": {
-   "proxy_wr": 0.6268075639599555,
+   "proxy_wr": 0.6323692992213571,
    "n": 1798,
-   "ci95": 0.02235603384199051
+   "ci95": 0.02228704563581159
   },
   "rider-rush": {
-   "proxy_wr": 0.5905555555555555,
+   "proxy_wr": 0.6266666666666667,
    "n": 1800,
-   "ci95": 0.02271682800530855
+   "ci95": 0.022345315967312086
   },
   "warden-bulwark": {
-   "proxy_wr": 0.5905555555555555,
+   "proxy_wr": 0.6233333333333333,
    "n": 1800,
-   "ci95": 0.02271682800530855
+   "ci95": 0.022385076819111675
   },
   "wreck-fit": {
-   "proxy_wr": 0.6122222222222222,
+   "proxy_wr": 0.6072222222222222,
    "n": 1800,
-   "ci95": 0.02250949865649619
+   "ci95": 0.022561454869227438
   }
  },
  "cells": {
@@ -136,44 +136,44 @@
    "a": "archive-kindle",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.6086956521739131,
-   "ci95": 0.05531945766082667,
-   "draws": 1,
-   "a_wr_first": 0.5436241610738255,
-   "a_wr_second": 0.6733333333333333,
+   "a_wr": 0.5925925925925926,
+   "ci95": 0.05588180383267489,
+   "draws": 3,
+   "a_wr_first": 0.5608108108108109,
+   "a_wr_second": 0.6241610738255033,
    "len_median": 14
   },
   "archive-kindle|choir-brine": {
    "a": "archive-kindle",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.4533333333333333,
-   "ci95": 0.05633334858645421,
+   "a_wr": 0.4633333333333333,
+   "ci95": 0.0564279830764318,
    "draws": 0,
-   "a_wr_first": 0.4533333333333333,
-   "a_wr_second": 0.4533333333333333,
+   "a_wr_first": 0.46,
+   "a_wr_second": 0.4666666666666667,
    "len_median": 12
   },
   "archive-kindle|nameless-wake": {
    "a": "archive-kindle",
    "b": "nameless-wake",
    "n": 300,
-   "a_wr": 0.66,
-   "ci95": 0.05360519377821518,
+   "a_wr": 0.76,
+   "ci95": 0.04832900578327678,
    "draws": 0,
-   "a_wr_first": 0.5733333333333334,
-   "a_wr_second": 0.7466666666666667,
+   "a_wr_first": 0.74,
+   "a_wr_second": 0.78,
    "len_median": 13
   },
   "archive-kindle|rider-rush": {
    "a": "archive-kindle",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.7366666666666667,
-   "ci95": 0.04984066999133523,
+   "a_wr": 0.71,
+   "ci95": 0.051348010023109306,
    "draws": 0,
-   "a_wr_first": 0.7466666666666667,
-   "a_wr_second": 0.7266666666666667,
+   "a_wr_first": 0.6466666666666666,
+   "a_wr_second": 0.7733333333333333,
    "len_median": 10
   },
   "archive-kindle|warden-bulwark": {
@@ -183,41 +183,41 @@
    "a_wr": 0.5066666666666667,
    "ci95": 0.056575296794691296,
    "draws": 0,
-   "a_wr_first": 0.44,
-   "a_wr_second": 0.5733333333333334,
-   "len_median": 13
+   "a_wr_first": 0.49333333333333335,
+   "a_wr_second": 0.52,
+   "len_median": 12
   },
   "archive-kindle|wreck-fit": {
    "a": "archive-kindle",
    "b": "wreck-fit",
    "n": 300,
-   "a_wr": 0.5266666666666666,
-   "ci95": 0.0564997992785684,
+   "a_wr": 0.49333333333333335,
+   "ci95": 0.056575296794691296,
    "draws": 0,
-   "a_wr_first": 0.62,
-   "a_wr_second": 0.43333333333333335,
+   "a_wr_first": 0.54,
+   "a_wr_second": 0.44666666666666666,
    "len_median": 10
   },
   "choir-brine|archive-kindle": {
    "a": "choir-brine",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.74,
-   "ci95": 0.04963613737322168,
+   "a_wr": 0.6966666666666667,
+   "ci95": 0.05201972218588154,
    "draws": 0,
-   "a_wr_first": 0.7666666666666667,
-   "a_wr_second": 0.7133333333333334,
+   "a_wr_first": 0.7066666666666667,
+   "a_wr_second": 0.6866666666666666,
    "len_median": 12
   },
   "choir-brine|choir-brine": {
    "a": "choir-brine",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.62,
-   "ci95": 0.05492664684225074,
+   "a_wr": 0.6266666666666667,
+   "ci95": 0.054734622261180116,
    "draws": 0,
-   "a_wr_first": 0.5933333333333334,
-   "a_wr_second": 0.6466666666666666,
+   "a_wr_first": 0.6933333333333334,
+   "a_wr_second": 0.56,
    "len_median": 11
   },
   "choir-brine|nameless-wake": {
@@ -235,175 +235,175 @@
    "a": "choir-brine",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.5666666666666667,
-   "ci95": 0.05607513478129804,
+   "a_wr": 0.55,
+   "ci95": 0.05629671393607268,
    "draws": 0,
-   "a_wr_first": 0.5666666666666667,
-   "a_wr_second": 0.5666666666666667,
+   "a_wr_first": 0.58,
+   "a_wr_second": 0.52,
    "len_median": 9
   },
   "choir-brine|warden-bulwark": {
    "a": "choir-brine",
    "b": "warden-bulwark",
    "n": 300,
-   "a_wr": 0.7566666666666667,
-   "ci95": 0.04855663116021981,
+   "a_wr": 0.62,
+   "ci95": 0.05492664684225074,
    "draws": 0,
-   "a_wr_first": 0.7133333333333334,
-   "a_wr_second": 0.8,
-   "len_median": 11
+   "a_wr_first": 0.58,
+   "a_wr_second": 0.66,
+   "len_median": 12
   },
   "choir-brine|wreck-fit": {
    "a": "choir-brine",
    "b": "wreck-fit",
    "n": 300,
-   "a_wr": 0.45666666666666667,
-   "ci95": 0.056367435305883506,
+   "a_wr": 0.5233333333333333,
+   "ci95": 0.0565186831122306,
    "draws": 0,
-   "a_wr_first": 0.5133333333333333,
-   "a_wr_second": 0.4,
+   "a_wr_first": 0.5533333333333333,
+   "a_wr_second": 0.49333333333333335,
    "len_median": 9
   },
   "nameless-wake|archive-kindle": {
    "a": "nameless-wake",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.6073825503355704,
-   "ci95": 0.0554451922333084,
+   "a_wr": 0.47651006711409394,
+   "ci95": 0.056707192519921956,
    "draws": 2,
-   "a_wr_first": 0.6066666666666667,
-   "a_wr_second": 0.6081081081081081,
-   "len_median": 13
+   "a_wr_first": 0.5033557046979866,
+   "a_wr_second": 0.44966442953020136,
+   "len_median": 14
   },
   "nameless-wake|choir-brine": {
    "a": "nameless-wake",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.45,
-   "ci95": 0.05629671393607268,
+   "a_wr": 0.5166666666666667,
+   "ci95": 0.05654888412954137,
    "draws": 0,
-   "a_wr_first": 0.4,
-   "a_wr_second": 0.5,
+   "a_wr_first": 0.54,
+   "a_wr_second": 0.49333333333333335,
    "len_median": 12
   },
   "nameless-wake|nameless-wake": {
    "a": "nameless-wake",
    "b": "nameless-wake",
    "n": 300,
-   "a_wr": 0.63,
-   "ci95": 0.05463445066988411,
+   "a_wr": 0.62,
+   "ci95": 0.05492664684225074,
    "draws": 0,
-   "a_wr_first": 0.5933333333333334,
-   "a_wr_second": 0.6666666666666666,
+   "a_wr_first": 0.6133333333333333,
+   "a_wr_second": 0.6266666666666667,
    "len_median": 12
   },
   "nameless-wake|rider-rush": {
    "a": "nameless-wake",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.6033333333333334,
-   "ci95": 0.05535883696059401,
+   "a_wr": 0.6333333333333333,
+   "ci95": 0.05453148597794638,
    "draws": 0,
-   "a_wr_first": 0.48,
-   "a_wr_second": 0.7266666666666667,
-   "len_median": 9
+   "a_wr_first": 0.62,
+   "a_wr_second": 0.6466666666666666,
+   "len_median": 10
   },
   "nameless-wake|warden-bulwark": {
    "a": "nameless-wake",
    "b": "warden-bulwark",
    "n": 300,
-   "a_wr": 0.7066666666666667,
-   "ci95": 0.0515209017634447,
+   "a_wr": 0.7233333333333334,
+   "ci95": 0.05062244327334431,
    "draws": 0,
-   "a_wr_first": 0.66,
-   "a_wr_second": 0.7533333333333333,
+   "a_wr_first": 0.6866666666666666,
+   "a_wr_second": 0.76,
    "len_median": 11
   },
   "nameless-wake|wreck-fit": {
    "a": "nameless-wake",
    "b": "wreck-fit",
    "n": 300,
-   "a_wr": 0.7633333333333333,
-   "ci95": 0.04809734511807702,
+   "a_wr": 0.8233333333333334,
+   "ci95": 0.043157929446094534,
    "draws": 0,
-   "a_wr_first": 0.7733333333333333,
-   "a_wr_second": 0.7533333333333333,
+   "a_wr_first": 0.8066666666666666,
+   "a_wr_second": 0.84,
    "len_median": 9
   },
   "rider-rush|archive-kindle": {
    "a": "rider-rush",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.5666666666666667,
-   "ci95": 0.05607513478129804,
+   "a_wr": 0.58,
+   "ci95": 0.05585140284719803,
    "draws": 0,
-   "a_wr_first": 0.5333333333333333,
-   "a_wr_second": 0.6,
+   "a_wr_first": 0.5133333333333333,
+   "a_wr_second": 0.6466666666666666,
    "len_median": 10
   },
   "rider-rush|choir-brine": {
    "a": "rider-rush",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.6133333333333333,
-   "ci95": 0.05510767587859917,
+   "a_wr": 0.6166666666666667,
+   "ci95": 0.05501852886545148,
    "draws": 0,
-   "a_wr_first": 0.6,
-   "a_wr_second": 0.6266666666666667,
-   "len_median": 9
+   "a_wr_first": 0.6466666666666666,
+   "a_wr_second": 0.5866666666666667,
+   "len_median": 8.5
   },
   "rider-rush|nameless-wake": {
    "a": "rider-rush",
    "b": "nameless-wake",
    "n": 300,
-   "a_wr": 0.6566666666666666,
-   "ci95": 0.053731122645453266,
+   "a_wr": 0.6866666666666666,
+   "ci95": 0.052489414241420215,
    "draws": 0,
-   "a_wr_first": 0.6333333333333333,
-   "a_wr_second": 0.68,
-   "len_median": 9
+   "a_wr_first": 0.6266666666666667,
+   "a_wr_second": 0.7466666666666667,
+   "len_median": 8
   },
   "rider-rush|rider-rush": {
    "a": "rider-rush",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.5966666666666667,
-   "ci95": 0.055512832817353204,
+   "a_wr": 0.6,
+   "ci95": 0.055437171645025325,
    "draws": 0,
-   "a_wr_first": 0.5533333333333333,
-   "a_wr_second": 0.64,
+   "a_wr_first": 0.5666666666666667,
+   "a_wr_second": 0.6333333333333333,
    "len_median": 7
   },
   "rider-rush|warden-bulwark": {
    "a": "rider-rush",
    "b": "warden-bulwark",
    "n": 300,
-   "a_wr": 0.45,
-   "ci95": 0.05629671393607268,
+   "a_wr": 0.5633333333333334,
+   "ci95": 0.056124591032082526,
    "draws": 0,
-   "a_wr_first": 0.4266666666666667,
-   "a_wr_second": 0.47333333333333333,
-   "len_median": 10
+   "a_wr_first": 0.58,
+   "a_wr_second": 0.5466666666666666,
+   "len_median": 9
   },
   "rider-rush|wreck-fit": {
    "a": "rider-rush",
    "b": "wreck-fit",
    "n": 300,
-   "a_wr": 0.66,
-   "ci95": 0.05360519377821518,
+   "a_wr": 0.7133333333333334,
+   "ci95": 0.0511717537825819,
    "draws": 0,
-   "a_wr_first": 0.6866666666666666,
-   "a_wr_second": 0.6333333333333333,
+   "a_wr_first": 0.72,
+   "a_wr_second": 0.7066666666666667,
    "len_median": 8
   },
   "warden-bulwark|archive-kindle": {
    "a": "warden-bulwark",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.75,
-   "ci95": 0.049,
+   "a_wr": 0.76,
+   "ci95": 0.04832900578327678,
    "draws": 0,
-   "a_wr_first": 0.7133333333333334,
+   "a_wr_first": 0.7333333333333333,
    "a_wr_second": 0.7866666666666666,
    "len_median": 12
   },
@@ -411,110 +411,110 @@
    "a": "warden-bulwark",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.47333333333333333,
-   "ci95": 0.0564997992785684,
+   "a_wr": 0.59,
+   "ci95": 0.055656177854155,
    "draws": 0,
-   "a_wr_first": 0.48,
-   "a_wr_second": 0.4666666666666667,
-   "len_median": 12
+   "a_wr_first": 0.6,
+   "a_wr_second": 0.58,
+   "len_median": 11
   },
   "warden-bulwark|nameless-wake": {
    "a": "warden-bulwark",
    "b": "nameless-wake",
    "n": 300,
-   "a_wr": 0.5633333333333334,
-   "ci95": 0.056124591032082526,
+   "a_wr": 0.5833333333333334,
+   "ci95": 0.055788954170224475,
    "draws": 0,
-   "a_wr_first": 0.5533333333333333,
-   "a_wr_second": 0.5733333333333334,
+   "a_wr_first": 0.5733333333333334,
+   "a_wr_second": 0.5933333333333334,
    "len_median": 11
   },
   "warden-bulwark|rider-rush": {
    "a": "warden-bulwark",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.74,
-   "ci95": 0.04963613737322168,
+   "a_wr": 0.7066666666666667,
+   "ci95": 0.0515209017634447,
    "draws": 0,
-   "a_wr_first": 0.6866666666666666,
-   "a_wr_second": 0.7933333333333333,
+   "a_wr_first": 0.6533333333333333,
+   "a_wr_second": 0.76,
    "len_median": 10
   },
   "warden-bulwark|warden-bulwark": {
    "a": "warden-bulwark",
    "b": "warden-bulwark",
    "n": 300,
-   "a_wr": 0.6833333333333333,
-   "ci95": 0.052639641448739484,
+   "a_wr": 0.6733333333333333,
+   "ci95": 0.053071689321213505,
    "draws": 0,
-   "a_wr_first": 0.6066666666666667,
-   "a_wr_second": 0.76,
-   "len_median": 12
+   "a_wr_first": 0.58,
+   "a_wr_second": 0.7666666666666667,
+   "len_median": 11
   },
   "warden-bulwark|wreck-fit": {
    "a": "warden-bulwark",
    "b": "wreck-fit",
    "n": 300,
-   "a_wr": 0.3333333333333333,
-   "ci95": 0.0533444432872781,
+   "a_wr": 0.4266666666666667,
+   "ci95": 0.055968465195110506,
    "draws": 0,
-   "a_wr_first": 0.30666666666666664,
-   "a_wr_second": 0.36,
-   "len_median": 10
+   "a_wr_first": 0.38666666666666666,
+   "a_wr_second": 0.4666666666666667,
+   "len_median": 9
   },
   "wreck-fit|archive-kindle": {
    "a": "wreck-fit",
    "b": "archive-kindle",
    "n": 300,
-   "a_wr": 0.7066666666666667,
-   "ci95": 0.0515209017634447,
+   "a_wr": 0.7333333333333333,
+   "ci95": 0.050041523498731276,
    "draws": 0,
-   "a_wr_first": 0.7533333333333333,
-   "a_wr_second": 0.66,
+   "a_wr_first": 0.7666666666666667,
+   "a_wr_second": 0.7,
    "len_median": 10
   },
   "wreck-fit|choir-brine": {
    "a": "wreck-fit",
    "b": "choir-brine",
    "n": 300,
-   "a_wr": 0.7033333333333334,
-   "ci95": 0.051690462763847846,
+   "a_wr": 0.6733333333333333,
+   "ci95": 0.053071689321213505,
    "draws": 0,
    "a_wr_first": 0.76,
-   "a_wr_second": 0.6466666666666666,
+   "a_wr_second": 0.5866666666666667,
    "len_median": 10
   },
   "wreck-fit|nameless-wake": {
    "a": "wreck-fit",
    "b": "nameless-wake",
    "n": 300,
-   "a_wr": 0.36333333333333334,
-   "ci95": 0.05442571233307804,
+   "a_wr": 0.4266666666666667,
+   "ci95": 0.055968465195110506,
    "draws": 0,
-   "a_wr_first": 0.31333333333333335,
-   "a_wr_second": 0.41333333333333333,
+   "a_wr_first": 0.48,
+   "a_wr_second": 0.37333333333333335,
    "len_median": 10
   },
   "wreck-fit|rider-rush": {
    "a": "wreck-fit",
    "b": "rider-rush",
    "n": 300,
-   "a_wr": 0.54,
-   "ci95": 0.05639897871415758,
+   "a_wr": 0.5766666666666667,
+   "ci95": 0.05591123706044814,
    "draws": 0,
-   "a_wr_first": 0.5733333333333334,
-   "a_wr_second": 0.5066666666666667,
+   "a_wr_first": 0.5533333333333333,
+   "a_wr_second": 0.6,
    "len_median": 8
   },
   "wreck-fit|warden-bulwark": {
    "a": "wreck-fit",
    "b": "warden-bulwark",
    "n": 300,
-   "a_wr": 0.82,
-   "ci95": 0.043474903105124925,
+   "a_wr": 0.6933333333333334,
+   "ci95": 0.05217948284172266,
    "draws": 0,
-   "a_wr_first": 0.8333333333333334,
-   "a_wr_second": 0.8066666666666666,
+   "a_wr_first": 0.76,
+   "a_wr_second": 0.6266666666666667,
    "len_median": 10
   },
   "wreck-fit|wreck-fit": {
@@ -524,748 +524,772 @@
    "a_wr": 0.54,
    "ci95": 0.05639897871415758,
    "draws": 0,
-   "a_wr_first": 0.5533333333333333,
-   "a_wr_second": 0.5266666666666666,
+   "a_wr_first": 0.6,
+   "a_wr_second": 0.48,
    "len_median": 9
   }
  },
  "card_played": [
   {
-   "k": "archive-kindle|B068",
-   "n": 2269,
-   "wr": 0.4517408550022036,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A012",
-   "n": 3129,
-   "wr": 0.46628315755832533,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B070",
-   "n": 3041,
-   "wr": 0.48635317329825717,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A036",
-   "n": 3040,
-   "wr": 0.49046052631578946,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B071",
-   "n": 2908,
-   "wr": 0.44463548830811556,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A037",
-   "n": 2299,
-   "wr": 0.507177033492823,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B077",
-   "n": 3004,
-   "wr": 0.44607190412782954,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A035",
-   "n": 2905,
-   "wr": 0.4867469879518072,
-   "d": null
-  },
-  {
    "k": "archive-kindle|B092",
-   "n": 3019,
-   "wr": 0.4607485922490891,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|D010",
-   "n": 2175,
-   "wr": 0.49701149425287355,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B069",
-   "n": 3029,
-   "wr": 0.46021789369428856,
+   "n": 3025,
+   "wr": 0.4700826446280992,
    "d": null
   },
   {
    "k": "archive-kindle|B073",
-   "n": 3133,
-   "wr": 0.4877114586658155,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B072",
-   "n": 2178,
-   "wr": 0.4380165289256198,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|D012",
-   "n": 1555,
-   "wr": 0.5054662379421222,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A039",
-   "n": 2306,
-   "wr": 0.4761491760624458,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B099",
-   "n": 2315,
-   "wr": 0.47473002159827216,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|D011",
-   "n": 1896,
-   "wr": 0.48523206751054854,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B074",
-   "n": 1385,
-   "wr": 0.2490974729241877,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|A038",
-   "n": 1330,
-   "wr": 0.5383458646616541,
+   "n": 3176,
+   "wr": 0.5100755667506297,
    "d": null
   },
   {
    "k": "archive-kindle|B065",
-   "n": 850,
-   "wr": 0.4823529411764706,
+   "n": 879,
+   "wr": 0.49146757679180886,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B069",
+   "n": 3001,
+   "wr": 0.47184271909363545,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B077",
+   "n": 3000,
+   "wr": 0.462,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A035",
+   "n": 2901,
+   "wr": 0.49396759738021373,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D012",
+   "n": 1595,
+   "wr": 0.5141065830721003,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A013",
+   "n": 1847,
+   "wr": 0.4780725500812128,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B068",
+   "n": 2254,
+   "wr": 0.46850044365572313,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B070",
+   "n": 2978,
+   "wr": 0.4949630624580255,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B071",
+   "n": 2888,
+   "wr": 0.45429362880886426,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A036",
+   "n": 3028,
+   "wr": 0.4947159841479524,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A037",
+   "n": 2276,
+   "wr": 0.5153778558875219,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A012",
+   "n": 3064,
+   "wr": 0.4813968668407311,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A039",
+   "n": 2196,
+   "wr": 0.48770491803278687,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B072",
+   "n": 2147,
+   "wr": 0.46110852352119236,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D010",
+   "n": 2100,
+   "wr": 0.5019047619047619,
    "d": null
   },
   {
    "k": "archive-kindle|B067",
-   "n": 439,
-   "wr": 0.6287015945330297,
+   "n": 438,
+   "wr": 0.5981735159817352,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D011",
+   "n": 1899,
+   "wr": 0.48709847288046343,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B074",
+   "n": 1284,
+   "wr": 0.24065420560747663,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A038",
+   "n": 1206,
+   "wr": 0.5207296849087893,
    "d": null
   },
   {
    "k": "choir-brine|B021",
-   "n": 2871,
-   "wr": 0.5694879832810867,
-   "d": null
-  },
-  {
-   "k": "choir-brine|A054",
-   "n": 1714,
-   "wr": 0.6190198366394399,
+   "n": 2889,
+   "wr": 0.5340948425060574,
    "d": null
   },
   {
    "k": "choir-brine|B028",
-   "n": 2615,
-   "wr": 0.5590822179732313,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B099",
-   "n": 1872,
-   "wr": 0.6116452991452992,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B019",
-   "n": 1178,
-   "wr": 0.466893039049236,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B031",
-   "n": 1681,
-   "wr": 0.6174895895300416,
-   "d": null
-  },
-  {
-   "k": "choir-brine|A003",
-   "n": 2665,
-   "wr": 0.5707317073170731,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B025",
-   "n": 1836,
-   "wr": 0.5893246187363834,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B022",
-   "n": 2766,
-   "wr": 0.5751988430947216,
-   "d": null
-  },
-  {
-   "k": "choir-brine|A025",
-   "n": 2648,
-   "wr": 0.5913897280966768,
+   "n": 2633,
+   "wr": 0.5358906190657046,
    "d": null
   },
   {
    "k": "choir-brine|B092",
-   "n": 2725,
-   "wr": 0.5768807339449541,
+   "n": 2706,
+   "wr": 0.5628233555062824,
    "d": null
   },
   {
-   "k": "choir-brine|A002",
-   "n": 1026,
-   "wr": 0.5653021442495126,
-   "d": null
-  },
-  {
-   "k": "choir-brine|B034",
-   "n": 733,
-   "wr": 0.4870395634379263,
-   "d": null
-  },
-  {
-   "k": "choir-brine|A060",
-   "n": 1568,
-   "wr": 0.7315051020408163,
+   "k": "choir-brine|B025",
+   "n": 1914,
+   "wr": 0.567398119122257,
    "d": null
   },
   {
    "k": "choir-brine|A024",
-   "n": 1767,
-   "wr": 0.5823429541595926,
+   "n": 1754,
+   "wr": 0.54903078677309,
    "d": null
   },
   {
-   "k": "choir-brine|B024",
-   "n": 2639,
-   "wr": 0.5907540735126942,
+   "k": "choir-brine|B031",
+   "n": 1684,
+   "wr": 0.5890736342042755,
    "d": null
   },
   {
-   "k": "choir-brine|D004",
-   "n": 1911,
-   "wr": 0.5803244374672946,
+   "k": "choir-brine|B099",
+   "n": 1889,
+   "wr": 0.5796717840127051,
    "d": null
   },
   {
-   "k": "choir-brine|B036",
-   "n": 1384,
-   "wr": 0.6871387283236994,
+   "k": "choir-brine|B022",
+   "n": 2744,
+   "wr": 0.5451895043731778,
    "d": null
   },
   {
-   "k": "choir-brine|B029",
-   "n": 1450,
-   "wr": 0.6082758620689656,
+   "k": "choir-brine|A025",
+   "n": 2617,
+   "wr": 0.5735575085976309,
    "d": null
   },
   {
-   "k": "choir-brine|B032",
-   "n": 2851,
-   "wr": 0.573482988425114,
+   "k": "choir-brine|A060",
+   "n": 1505,
+   "wr": 0.7096345514950166,
    "d": null
   },
   {
    "k": "choir-brine|B027",
-   "n": 803,
-   "wr": 0.7310087173100872,
+   "n": 804,
+   "wr": 0.7027363184079602,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B036",
+   "n": 1399,
+   "wr": 0.6683345246604717,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A054",
+   "n": 1774,
+   "wr": 0.5817361894024803,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B032",
+   "n": 2765,
+   "wr": 0.5518987341772152,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B019",
+   "n": 1195,
+   "wr": 0.4426778242677824,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B024",
+   "n": 2624,
+   "wr": 0.5815548780487805,
+   "d": null
+  },
+  {
+   "k": "choir-brine|D004",
+   "n": 1827,
+   "wr": 0.5446086480569239,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B029",
+   "n": 1471,
+   "wr": 0.5914343983684568,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B034",
+   "n": 717,
+   "wr": 0.47419804741980476,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A003",
+   "n": 2631,
+   "wr": 0.5511212466742683,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A002",
+   "n": 1145,
+   "wr": 0.548471615720524,
    "d": null
   },
   {
    "k": "nameless-wake|D014",
-   "n": 3011,
-   "wr": 0.536698771172368,
+   "n": 3030,
+   "wr": 0.5191419141914192,
    "d": null
   },
   {
-   "k": "nameless-wake|B097",
-   "n": 3140,
-   "wr": 0.5229299363057325,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|B088",
-   "n": 3010,
-   "wr": 0.5119601328903655,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|B079",
-   "n": 3211,
-   "wr": 0.5172843350981002,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|B082",
-   "n": 2030,
-   "wr": 0.49064039408866994,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A045",
-   "n": 2273,
-   "wr": 0.5323361196656401,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A015",
-   "n": 3118,
-   "wr": 0.5384862091084028,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|B083",
-   "n": 2187,
-   "wr": 0.4819387288523091,
+   "k": "nameless-wake|D015",
+   "n": 2379,
+   "wr": 0.5304749894913829,
    "d": null
   },
   {
    "k": "nameless-wake|B084",
    "n": 3362,
-   "wr": 0.5324211778703153,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A043",
-   "n": 2443,
-   "wr": 0.5489152681129759,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A049",
-   "n": 3112,
-   "wr": 0.5202442159383034,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|D015",
-   "n": 2464,
-   "wr": 0.5523538961038961,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A041",
-   "n": 3194,
-   "wr": 0.5356919223544145,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A014",
-   "n": 2726,
-   "wr": 0.49192956713132796,
-   "d": null
-  },
-  {
-   "k": "nameless-wake|A044",
-   "n": 2466,
-   "wr": 0.5125709651257097,
+   "wr": 0.5175490779298036,
    "d": null
   },
   {
    "k": "nameless-wake|A046",
-   "n": 2387,
-   "wr": 0.5282781734394638,
+   "n": 2366,
+   "wr": 0.5249366018596788,
    "d": null
   },
   {
-   "k": "nameless-wake|A042",
-   "n": 3104,
-   "wr": 0.5393041237113402,
+   "k": "nameless-wake|B088",
+   "n": 2946,
+   "wr": 0.49660556687033264,
    "d": null
   },
   {
-   "k": "nameless-wake|A040",
-   "n": 452,
-   "wr": 0.5132743362831859,
+   "k": "nameless-wake|A041",
+   "n": 3221,
+   "wr": 0.5178515988823347,
    "d": null
   },
   {
    "k": "nameless-wake|B086",
-   "n": 1948,
-   "wr": 0.4260780287474333,
+   "n": 1877,
+   "wr": 0.4187533297815663,
    "d": null
   },
   {
-   "k": "rider-rush|A034",
-   "n": 2500,
-   "wr": 0.466,
+   "k": "nameless-wake|A015",
+   "n": 3017,
+   "wr": 0.5283394100099437,
    "d": null
   },
   {
-   "k": "rider-rush|A011",
-   "n": 2654,
-   "wr": 0.4547852298417483,
+   "k": "nameless-wake|A049",
+   "n": 3070,
+   "wr": 0.5052117263843648,
    "d": null
   },
   {
-   "k": "rider-rush|A030",
-   "n": 2388,
-   "wr": 0.4463986599664992,
+   "k": "nameless-wake|B083",
+   "n": 2201,
+   "wr": 0.4825079509313948,
    "d": null
   },
   {
-   "k": "rider-rush|B057",
-   "n": 2432,
-   "wr": 0.47738486842105265,
+   "k": "nameless-wake|B085",
+   "n": 2555,
+   "wr": 0.5025440313111545,
    "d": null
   },
   {
-   "k": "rider-rush|A007",
-   "n": 1589,
-   "wr": 0.44808055380742606,
+   "k": "nameless-wake|B097",
+   "n": 3136,
+   "wr": 0.5060586734693877,
    "d": null
   },
   {
-   "k": "rider-rush|A031",
-   "n": 1511,
-   "wr": 0.4831237590999338,
+   "k": "nameless-wake|A014",
+   "n": 2661,
+   "wr": 0.4829011649755731,
    "d": null
   },
   {
-   "k": "rider-rush|A009",
-   "n": 2375,
-   "wr": 0.4282105263157895,
+   "k": "nameless-wake|A043",
+   "n": 2451,
+   "wr": 0.5344757241942064,
    "d": null
   },
   {
-   "k": "rider-rush|A016",
-   "n": 2301,
-   "wr": 0.4315514993481095,
+   "k": "nameless-wake|A044",
+   "n": 2357,
+   "wr": 0.5091217649554518,
    "d": null
   },
   {
-   "k": "rider-rush|B055",
-   "n": 2273,
-   "wr": 0.46282446106467223,
+   "k": "nameless-wake|B079",
+   "n": 3171,
+   "wr": 0.5086723431094292,
    "d": null
   },
   {
-   "k": "rider-rush|B063",
-   "n": 2515,
-   "wr": 0.4628230616302187,
+   "k": "nameless-wake|A042",
+   "n": 3095,
+   "wr": 0.5305331179321486,
    "d": null
   },
   {
-   "k": "rider-rush|A008",
-   "n": 2569,
-   "wr": 0.4585441806150253,
+   "k": "nameless-wake|A040",
+   "n": 393,
+   "wr": 0.43765903307888043,
    "d": null
   },
   {
-   "k": "rider-rush|A010",
-   "n": 1313,
-   "wr": 0.5125666412795126,
+   "k": "nameless-wake|B082",
+   "n": 1842,
+   "wr": 0.47122692725298587,
    "d": null
   },
   {
-   "k": "rider-rush|D009",
-   "n": 1530,
-   "wr": 0.4562091503267974,
-   "d": null
-  },
-  {
-   "k": "rider-rush|B060",
-   "n": 1632,
-   "wr": 0.4479166666666667,
-   "d": null
-  },
-  {
-   "k": "rider-rush|B053",
-   "n": 1474,
-   "wr": 0.41451831750339213,
-   "d": null
-  },
-  {
-   "k": "rider-rush|A006",
-   "n": 2375,
-   "wr": 0.46021052631578946,
+   "k": "nameless-wake|A045",
+   "n": 2227,
+   "wr": 0.5217781769196228,
    "d": null
   },
   {
    "k": "rider-rush|B097",
-   "n": 2319,
-   "wr": 0.4165588615782665,
+   "n": 2303,
+   "wr": 0.4537559704732957,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B055",
+   "n": 2246,
+   "wr": 0.45814781834372215,
+   "d": null
+  },
+  {
+   "k": "rider-rush|D009",
+   "n": 1424,
+   "wr": 0.4782303370786517,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A034",
+   "n": 2428,
+   "wr": 0.4868204283360791,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B063",
+   "n": 2422,
+   "wr": 0.47027250206440957,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A008",
+   "n": 2482,
+   "wr": 0.4701853344077357,
    "d": null
   },
   {
    "k": "rider-rush|B058",
-   "n": 1571,
-   "wr": 0.4449395289624443,
+   "n": 1580,
+   "wr": 0.4550632911392405,
    "d": null
   },
   {
-   "k": "rider-rush|B092",
-   "n": 60,
-   "wr": 0.5166666666666667,
+   "k": "rider-rush|A030",
+   "n": 2287,
+   "wr": 0.4770441626585046,
    "d": null
   },
   {
-   "k": "warden-bulwark|B007",
-   "n": 2807,
-   "wr": 0.46099038118988245,
+   "k": "rider-rush|A007",
+   "n": 1480,
+   "wr": 0.4614864864864865,
    "d": null
   },
   {
-   "k": "warden-bulwark|B093",
-   "n": 1929,
-   "wr": 0.45775012960082945,
+   "k": "rider-rush|B053",
+   "n": 1367,
+   "wr": 0.4074615947329919,
    "d": null
   },
   {
-   "k": "warden-bulwark|B002",
-   "n": 2795,
-   "wr": 0.4926654740608229,
+   "k": "rider-rush|A009",
+   "n": 2276,
+   "wr": 0.43629173989455183,
    "d": null
   },
   {
-   "k": "warden-bulwark|B012",
-   "n": 2804,
-   "wr": 0.4739657631954351,
+   "k": "rider-rush|A010",
+   "n": 1342,
+   "wr": 0.5163934426229508,
    "d": null
   },
   {
-   "k": "warden-bulwark|B001",
-   "n": 2810,
-   "wr": 0.46725978647686833,
+   "k": "rider-rush|A006",
+   "n": 2308,
+   "wr": 0.4809358752166378,
    "d": null
   },
   {
-   "k": "warden-bulwark|B004",
-   "n": 1864,
-   "wr": 0.49839055793991416,
+   "k": "rider-rush|A016",
+   "n": 2260,
+   "wr": 0.4504424778761062,
    "d": null
   },
   {
-   "k": "warden-bulwark|B017",
-   "n": 1874,
-   "wr": 0.47491995731056563,
+   "k": "rider-rush|A011",
+   "n": 2593,
+   "wr": 0.46355572695719244,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A031",
+   "n": 1444,
+   "wr": 0.49653739612188363,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B060",
+   "n": 1578,
+   "wr": 0.49302915082382764,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B057",
+   "n": 2414,
+   "wr": 0.4908864954432477,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B054",
+   "n": 1530,
+   "wr": 0.4470588235294118,
    "d": null
   },
   {
    "k": "warden-bulwark|B092",
-   "n": 2790,
-   "wr": 0.47885304659498207,
-   "d": null
-  },
-  {
-   "k": "warden-bulwark|B009",
-   "n": 1924,
-   "wr": 0.5244282744282744,
-   "d": null
-  },
-  {
-   "k": "warden-bulwark|D002",
-   "n": 1853,
-   "wr": 0.4819212088505127,
+   "n": 2612,
+   "wr": 0.5149310872894334,
    "d": null
   },
   {
    "k": "warden-bulwark|B015",
-   "n": 2798,
-   "wr": 0.48177269478198714,
+   "n": 2619,
+   "wr": 0.5032455135547919,
    "d": null
   },
   {
-   "k": "warden-bulwark|B005",
-   "n": 2351,
-   "wr": 0.5814547001276053,
-   "d": null
-  },
-  {
-   "k": "warden-bulwark|A017",
-   "n": 1909,
-   "wr": 0.50130958617077,
-   "d": null
-  },
-  {
-   "k": "warden-bulwark|A022",
-   "n": 2635,
-   "wr": 0.4986717267552182,
-   "d": null
-  },
-  {
-   "k": "warden-bulwark|B003",
-   "n": 1719,
-   "wr": 0.5538103548574753,
+   "k": "warden-bulwark|B002",
+   "n": 2726,
+   "wr": 0.5253118121790169,
    "d": null
   },
   {
    "k": "warden-bulwark|B096",
-   "n": 1881,
-   "wr": 0.5124933545986178,
+   "n": 1816,
+   "wr": 0.5699339207048458,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B001",
+   "n": 2610,
+   "wr": 0.4854406130268199,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B008",
+   "n": 1696,
+   "wr": 0.5430424528301887,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|A022",
+   "n": 2530,
+   "wr": 0.5292490118577076,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B093",
+   "n": 1766,
+   "wr": 0.47565118912797283,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B007",
+   "n": 2649,
+   "wr": 0.47074367685919216,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B003",
+   "n": 1615,
+   "wr": 0.573374613003096,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|A017",
+   "n": 1798,
+   "wr": 0.5161290322580645,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B006",
+   "n": 2542,
+   "wr": 0.4854445318646735,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B004",
+   "n": 1810,
+   "wr": 0.5143646408839779,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B009",
+   "n": 1882,
+   "wr": 0.5637619553666312,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B012",
+   "n": 2474,
+   "wr": 0.45270816491511723,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B095",
+   "n": 1800,
+   "wr": 0.525,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|D002",
+   "n": 1766,
+   "wr": 0.5164212910532276,
    "d": null
   },
   {
    "k": "warden-bulwark|A001",
-   "n": 1759,
-   "wr": 0.4872086412734508,
+   "n": 1598,
+   "wr": 0.5106382978723404,
    "d": null
   },
   {
-   "k": "wreck-fit|B046",
-   "n": 2385,
-   "wr": 0.5765199161425576,
+   "k": "warden-bulwark|B017",
+   "n": 1741,
+   "wr": 0.49684089603676046,
    "d": null
   },
   {
-   "k": "wreck-fit|B044",
-   "n": 2258,
-   "wr": 0.5527015057573074,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B039",
-   "n": 3265,
-   "wr": 0.5690658499234303,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B043",
-   "n": 2261,
-   "wr": 0.5846970367094206,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B037",
-   "n": 2292,
-   "wr": 0.5824607329842932,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B041",
-   "n": 2386,
-   "wr": 0.5234702430846605,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B096",
-   "n": 1478,
-   "wr": 0.6089309878213802,
+   "k": "warden-bulwark|B005",
+   "n": 1989,
+   "wr": 0.6339869281045751,
    "d": null
   },
   {
    "k": "wreck-fit|B040",
-   "n": 2278,
-   "wr": 0.5381913959613697,
+   "n": 2247,
+   "wr": 0.5064530485091233,
    "d": null
   },
   {
-   "k": "wreck-fit|A005",
-   "n": 1310,
-   "wr": 0.533587786259542,
+   "k": "wreck-fit|B046",
+   "n": 2410,
+   "wr": 0.558091286307054,
    "d": null
   },
   {
-   "k": "wreck-fit|A029",
-   "n": 1399,
-   "wr": 0.5439599714081487,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B092",
-   "n": 2349,
-   "wr": 0.5627926777352065,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|A004",
-   "n": 2342,
-   "wr": 0.5465414175918019,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B050",
-   "n": 1479,
-   "wr": 0.5165652467883706,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B038",
-   "n": 2032,
-   "wr": 0.5718503937007874,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B104",
-   "n": 973,
-   "wr": 0.37410071942446044,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|B051",
-   "n": 1066,
-   "wr": 0.5647279549718575,
-   "d": null
-  },
-  {
-   "k": "archive-kindle|B039",
-   "n": 309,
-   "wr": 0.47572815533980584,
+   "k": "wreck-fit|B043",
+   "n": 2211,
+   "wr": 0.5694255992763455,
    "d": null
   },
   {
    "k": "wreck-fit|B049",
-   "n": 1416,
-   "wr": 0.5451977401129944,
-   "d": null
-  },
-  {
-   "k": "wreck-fit|D005",
-   "n": 1319,
-   "wr": 0.4852160727824109,
+   "n": 1410,
+   "wr": 0.500709219858156,
    "d": null
   },
   {
    "k": "wreck-fit|B042",
-   "n": 1150,
-   "wr": 0.5739130434782609,
+   "n": 1055,
+   "wr": 0.5421800947867299,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A005",
+   "n": 1361,
+   "wr": 0.4886113152094049,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B039",
+   "n": 3211,
+   "wr": 0.5493615696044846,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B037",
+   "n": 2225,
+   "wr": 0.5478651685393259,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A004",
+   "n": 2323,
+   "wr": 0.530779164873009,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B038",
+   "n": 1980,
+   "wr": 0.5348484848484848,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B041",
+   "n": 2362,
+   "wr": 0.5101608806096528,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B039",
+   "n": 298,
+   "wr": 0.4697986577181208,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|D005",
+   "n": 1269,
+   "wr": 0.44602048857368004,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B092",
+   "n": 2326,
+   "wr": 0.5382631126397248,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A029",
+   "n": 1342,
+   "wr": 0.5022354694485842,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B096",
+   "n": 1375,
+   "wr": 0.5687272727272727,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B050",
+   "n": 1457,
+   "wr": 0.48455730954015097,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B104",
+   "n": 1008,
+   "wr": 0.3541666666666667,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B044",
+   "n": 2265,
+   "wr": 0.5262693156732892,
    "d": null
   },
   {
    "k": "wreck-fit|D008",
-   "n": 113,
-   "wr": 0.5309734513274337,
+   "n": 123,
+   "wr": 0.5609756097560976,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B051",
+   "n": 978,
+   "wr": 0.5184049079754601,
    "d": null
   },
   {
    "k": "choir-brine|B039",
-   "n": 169,
-   "wr": 0.5502958579881657,
+   "n": 179,
+   "wr": 0.5921787709497207,
    "d": null
   },
   {
    "k": "nameless-wake|B005",
-   "n": 68,
-   "wr": 0.8382352941176471,
+   "n": 120,
+   "wr": 0.8166666666666667,
    "d": null
   },
   {
    "k": "nameless-wake|B039",
-   "n": 330,
-   "wr": 0.7575757575757576,
+   "n": 351,
+   "wr": 0.7720797720797721,
    "d": null
   },
   {
    "k": "rider-rush|B039",
-   "n": 155,
-   "wr": 0.47096774193548385,
+   "n": 132,
+   "wr": 0.4696969696969697,
    "d": null
   },
   {
    "k": "warden-bulwark|B039",
-   "n": 259,
-   "wr": 0.41312741312741313,
+   "n": 221,
+   "wr": 0.502262443438914,
    "d": null
   }
  ]
