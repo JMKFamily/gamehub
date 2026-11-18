@@ -13,7 +13,7 @@
   "length_beats": 96,
   "length_tiles": 499.68,
   "duration_s": 48,
-  "difficulty": {"stars":1,"bot_first_clear_median":{"skilled_sd25":1,"novice_sd50":2,"child_sd70":5},"expected_attempts_sd50":[1,2],"expected_attempts_sd70":[1,8]},
+  "difficulty": {"stars":1,"definition":"σ50(novice_sd50) 연속 중앙값 ln0.5/ln(1−p), p = 1 − 사망 수/시도 수(반올림 없음), tools/sim/bots.mjs 한 원천 (round-3 결정 17). L2·L3 목표는 안 B(결정 16), L10 목표 = L3 × g³ (g = √(L3/L1), 측정값), L4~L9 = L3와 L10 목표 사이 등비. σ70·σ25는 참고","target_sd50_median":null,"target_sd50_first_try_clear":null,"measured_sd50":{"first_try_clear":0.78,"median":0.46,"attempts":50000},"ref_sd70_median":1.98,"ref_sd25_first_try_clear":1},
   "design_intent": "탭 한 번으로 장애물 하나 넘기. 바닥 장애물과 낮은 장애물만, 탭 15회, 모든 탭 사이 2박 이상. 5~6세가 몇 번 만에 깨는 첫 레벨.",
   "speed_changes": [],
   "sections": [

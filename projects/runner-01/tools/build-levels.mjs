@@ -28,6 +28,21 @@ const NAMES = {
   '10': ['해돋이 무대', 'Sunrise Stage'],
 };
 
+// 레벨 difficulty (round-3 결정 17). 정의는 DIFFICULTY_DEF 하나. 값은 20-balance 16장 표와 같음
+const DIFFICULTY_DEF = "σ50(novice_sd50) 연속 중앙값 ln0.5/ln(1−p), p = 1 − 사망 수/시도 수(반올림 없음), tools/sim/bots.mjs 한 원천 (round-3 결정 17). L2·L3 목표는 안 B(결정 16), L10 목표 = L3 × g³ (g = √(L3/L1), 측정값), L4~L9 = L3와 L10 목표 사이 등비. σ70·σ25는 참고";
+const DIFFICULTY = {
+  '01': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":null,"target_sd50_first_try_clear":null,"measured_sd50":{"first_try_clear":0.78,"median":0.46,"attempts":50000},"ref_sd70_median":1.98,"ref_sd25_first_try_clear":1} },
+  '02': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":0.78,"target_sd50_first_try_clear":0.5888,"measured_sd50":{"first_try_clear":0.5902,"median":0.78,"attempts":50000},"ref_sd70_median":5.54,"ref_sd25_first_try_clear":0.9998} },
+  '03': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":1.32,"target_sd50_first_try_clear":0.4085,"measured_sd50":{"first_try_clear":0.4137,"median":1.3,"attempts":50000},"ref_sd70_median":9.72,"ref_sd25_first_try_clear":0.9957} },
+  '04': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":1.62,"target_sd50_first_try_clear":0.3476,"measured_sd50":{"first_try_clear":0.336,"median":1.69,"attempts":50000},"ref_sd70_median":18.14,"ref_sd25_first_try_clear":0.9955} },
+  '05': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":2.03,"target_sd50_first_try_clear":0.2893,"measured_sd50":{"first_try_clear":0.2871,"median":2.05,"attempts":50000},"ref_sd70_median":19.2,"ref_sd25_first_try_clear":0.9794} },
+  '06': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":2.54,"target_sd50_first_try_clear":0.239,"measured_sd50":{"first_try_clear":0.2242,"median":2.73,"attempts":50000},"ref_sd70_median":41.28,"ref_sd25_first_try_clear":0.9777} },
+  '07': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":3.17,"target_sd50_first_try_clear":0.1963,"measured_sd50":{"first_try_clear":0.1835,"median":3.42,"attempts":50000},"ref_sd70_median":71.48,"ref_sd25_first_try_clear":0.9751} },
+  '08': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":3.97,"target_sd50_first_try_clear":0.1603,"measured_sd50":{"first_try_clear":0.1549,"median":4.12,"attempts":50000},"ref_sd70_median":101.59,"ref_sd25_first_try_clear":0.9727} },
+  '09': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":4.96,"target_sd50_first_try_clear":0.1304,"measured_sd50":{"first_try_clear":0.1308,"median":4.94,"attempts":50000},"ref_sd70_median":172.94,"ref_sd25_first_try_clear":0.9689} },
+  '10': { definition: DIFFICULTY_DEF, ...{"target_sd50_median":6.2,"target_sd50_band":[4.96,7.44],"target_sd50_first_try_clear":0.1058,"measured_sd50":{"first_try_clear":0.1015,"median":6.48,"attempts":50000},"ref_sd70_median":266.25,"ref_sd25_first_try_clear":0.9636} },
+};
+
 class LevelBuilder {
   constructor({ id, file, bpm, startSpeed = 'normal', lengthBeats, intent, target }) {
     Object.assign(this, { id, file, bpm, startSpeed, lengthBeats, intent, target });
@@ -190,7 +205,7 @@ class LevelBuilder {
       length_beats: this.lengthBeats,
       length_tiles: length,
       duration_s: r2(this.lengthBeats * this.beatS),
-      difficulty: this.target,
+      difficulty: { stars: this.target.stars, ...DIFFICULTY[this.id] },
       design_intent: this.intent,
       speed_changes: this.portals.map((p) => ({ x: r2(this.X(p.beat) + 0.5), speed: p.speed, beat: p.beat })),
       sections: this.sections,
@@ -217,7 +232,7 @@ function level1() {
   const L = new LevelBuilder({
     id: '01', file: 'levels/01-level1.json', bpm: 120, lengthBeats: 96,
     intent: '탭 한 번으로 장애물 하나 넘기. 바닥 장애물과 낮은 장애물만, 탭 15회, 모든 탭 사이 2박 이상. 5~6세가 몇 번 만에 깨는 첫 레벨.',
-    target: { stars: 1, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 2, child_sd70: 5 }, expected_attempts_sd50: [1, 2], expected_attempts_sd70: [1, 8] },
+    target: { stars: 1 },
   });
   L.section(0, 'intro', 0);
   L.cue('tut_tap', 0); L.cue('tut_shard', 4);
@@ -242,19 +257,19 @@ function level1() {
 function level2() {
   const L = new LevelBuilder({
     id: '02', file: 'levels/02-level2.json', bpm: 128, lengthBeats: 128,
-    intent: '새 기믹: 공명 상자(블록) 올라타기·계단·내려오기. 가시는 1개씩, 낮은 장애물 2연속 1곳. 모든 탭 2박 이상 간격, 모든 창 200 ms 이상. σ70 첫 클리어 중앙값 4회 이하.',
-    target: { stars: 2, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 1, child_sd70: 4 }, expected_attempts_sd50: [1, 3], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 공명 상자(블록) 올라타기·계단·내려오기. 가시 2연속 2곳, 낮은 장애물 2연속 1곳, 나머지 1개씩. 모든 탭 2박 이상 간격. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 2 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
-  L.hazard(8, 1); L.hazard(12, 1); L.hazard(16, 1, { type: 'spike_low' });
+  L.hazard(8, 1); L.hazard(12, 2, { type: 'spike_low' }); L.hazard(16, 1, { type: 'spike_low' });
   L.section(18, 'breath', 0);
   L.cue('tut_crate', 20);
   L.section(24, 'learn_block', 2);
   L.blockUp(24, 27, 1);                                        // 안전한 첫 등장: 올라타고 걸어 내려오기만
   L.blockUp(30, 34, 1); L.hazard(32, 1, { y: 1 });             // 블록 위 장애물
   L.hazard(37, 1);
-  L.hazard(40, 1, { type: 'spike_low' });
+  L.hazard(40, 2, { type: 'spike_low' });
   L.section(42, 'breath', 0);
   L.section(44, 'learn_stairs', 2);
   { const b1 = L.blockUp(44, null, 1); const b2 = L.blockUp(46, 50, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
@@ -265,12 +280,12 @@ function level2() {
   L.hazard(64, 1); L.hazard(66, 1, { type: 'spike_low' });
   L.blockUp(70, 74, 1); L.hazard(72, 1, { y: 1 });
   L.hazard(76, 2, { type: 'spike_low' });                      // 유일한 2연속 (낮은 장애물, 창 204 ms)
-  L.hazard(80, 1);
+  L.hazard(80, 2, { type: 'spike_low' });
   { const b1 = L.blockUp(84, null, 1); const b2 = L.blockUp(86, 90, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
   L.section(92, 'build', 1);
   L.hazard(94, 1);
   L.section(96, 'drop', 3);
-  L.hazard(98, 1, { type: 'spike_low' }); L.hazard(102, 1);
+  L.hazard(98, 2, { type: 'spike_low' }); L.hazard(102, 1);
   L.section(110, 'outro', 0);
   return L;
 }
@@ -281,12 +296,12 @@ function level2() {
 function level3() {
   const L = new LevelBuilder({
     id: '03', file: 'levels/03-level3.json', bpm: 140, lengthBeats: 160,
-    intent: '새 기믹: 북 발판(자동 높이 점프). 발판으로 3연속 장애물 넘기·높이 3 상자 오르기. 가시 2연속 5곳(같은 창 171 ms, 숙련 사망이 한 곳에 몰리지 않게), 나머지는 1개씩. 속도 변경 없음.',
-    target: { stars: 3, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 2, child_sd70: 8 }, expected_attempts_sd50: [1, 4], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 북 발판(자동 높이 점프). 발판으로 3연속 장애물 넘기·높이 3 상자 오르기. 가시 2연속 7곳·낮은 장애물 2연속 2곳(같은 세기의 좁은 탭을 흩어 숙련 사망이 한 곳에 몰리지 않게). 속도 변경 없음. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 3 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
-  L.hazard(8, 1);
+  L.hazard(8, 2);
   L.blockUp(12, 16, 1); L.hazard(14, 1, { y: 1 });
   L.hazard(18, 1, { type: 'spike_low' });
   L.cue('tut_drum', 21);
@@ -299,12 +314,12 @@ function level3() {
   L.section(44, 'build', 2);
 
   { const t = L.pad(46); L.blockUp(46, 50, 3, { traj: t }); }
-  L.hazard(52, 1, { type: 'spike_low' });
+  L.hazard(52, 2, { type: 'spike_low' });
   { const t = L.pad(56); L.hazard(56, 3, { traj: t }); }
-  L.hazard(60, 2);                                             // 첫 가시 2연속 (앞뒤 4박 비움)
+  L.hazard(60, 2);
   L.section(62, 'breath', 0);
   L.section(64, 'drop', 3);
-  L.hazard(66, 1);
+  L.hazard(66, 2);
   L.blockUp(68, 72, 1); L.hazard(70, 1, { y: 1 });
   { const t = L.pad(74); L.hazard(74, 3, { traj: t }); }
   { const b1 = L.blockUp(78, null, 1); const b2 = L.blockUp(80, 84, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
@@ -331,14 +346,14 @@ function level3() {
 function level4() {
   const L = new LevelBuilder({
     id: '04', file: 'levels/04-level4.json', bpm: 144, lengthBeats: 168,
-    intent: '새 기믹: 현 발판(떠 있는 얇은 발판). 발판에 올라 가시밭 위 건너기, 발판 위 가시, 공중 계단(높이 2 → 3). 가시 2연속 5곳, 발판(북) 조합. 속도 변경 없음.',
-    target: { stars: 3, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 2, child_sd70: 12 }, expected_attempts_sd50: [1, 5], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 현 발판(떠 있는 얇은 발판). 발판에 올라 가시밭 위 건너기, 발판·상자 위 가시 2연속, 공중 계단(높이 2 → 3). 가시 2연속 9곳·낮은 장애물 2연속 2곳. 속도 변경 없음. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 3 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
   L.hazard(8, 2);
   { const t = L.pad(12); L.hazard(12, 3, { traj: t }); }
-  L.blockUp(16, 20, 1); L.hazard(18, 1, { y: 1 });
+  L.blockUp(16, 20, 1); L.hazard(18, 2, { y: 1 });
   L.cue('tut_string', 22);
   L.section(24, 'learn_ledge', 2);
   L.ledge(26, 30, 1);                                           // 안전한 첫 등장: 올라가서 걸어 내려오기만 (아래 가시 없음)
@@ -354,18 +369,18 @@ function level4() {
   L.section(68, 'drop', 3);
   L.hazard(68, 2);
   { const t = L.pad(72); L.blockUp(72, 76, 3, { traj: t }); }
-  L.hazard(78, 1, { type: 'spike_low' });
-  { const p1 = L.platformUp(82, 84, 1, { ext: 1.6 }); const p2 = L.platformUp(84, 88, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); L.hazard(86, 1, { y: 3 }); }
+  L.hazard(78, 2, { type: 'spike_low' });
+  { const p1 = L.platformUp(82, 84, 1, { ext: 1.6 }); const p2 = L.platformUp(84, 88, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); L.hazard(86, 2, { y: 3 }); }
 
   L.section(97, 'breath', 0);
   L.section(100, 'build', 2);
-  L.blockUp(100, 104, 1); L.hazard(102, 1, { y: 1 });
+  L.blockUp(100, 104, 1); L.hazard(102, 2, { y: 1 });
   L.ledge(106, 110, 1, { under: true });
   L.hazard(113, 2);
   L.section(116, 'drop', 3);
   { const t = L.pad(116); L.hazard(116, 3, { traj: t }); }
-  L.ledge(120, 124, 1, { under: true }); L.hazard(122, 1, { y: 2 });
-  L.hazard(127, 1, { type: 'spike_low' });
+  L.ledge(120, 124, 1, { under: true }); L.hazard(122, 2, { y: 2 });
+  L.hazard(127, 2, { type: 'spike_low' });
   { const b1 = L.blockUp(130, null, 1); const b2 = L.blockUp(132, 136, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
   L.section(138, 'finale', 3);
   { const p1 = L.platformUp(140, 142, 1, { ext: 1.6 }); const p2 = L.platformUp(142, 146, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); }
@@ -380,8 +395,8 @@ function level4() {
 function level5() {
   const L = new LevelBuilder({
     id: '05', file: 'levels/05-level5.json', bpm: 148, lengthBeats: 176,
-    intent: '새 기믹: 템포 문(빨라짐 → 보통). 빠른 구간에서는 점프가 길어져 가시 2연속을 넓게 넘음. 문은 언제나 땅 위, 문 뒤 첫 4박은 비움. 앞 레벨 어휘(발판·블록·현 발판) 조합.',
-    target: { stars: 3, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 3, child_sd70: 16 }, expected_attempts_sd50: [1, 6], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 템포 문(빨라짐 → 보통). 빠른 구간 첫 장애물은 가시 1개, 그 뒤 빠른 가시 3연속(창 약 138 ms) 4곳. 문은 언제나 땅 위, 문 뒤 첫 4박은 비움. 앞 레벨 어휘(발판·블록·현 발판) 조합. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 3 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
@@ -397,17 +412,17 @@ function level5() {
   L.section(44, 'breath', 0);
   L.section(48, 'build', 2);
   { const t = L.pad(48); L.hazard(48, 3, { traj: t }); }
-  L.blockUp(51, 55, 1); L.hazard(53, 2, { y: 1 });
+  L.blockUp(51, 55, 1); L.hazard(53, 1, { y: 1 });
   L.speed(57, 'fast');
-  L.hazard(60, 1);
+  L.hazard(60, 3);
   L.blockUp(63, 67, 1);
   L.section(68, 'drop', 3);
-  L.hazard(70, 1);
+  L.hazard(70, 3);
   { const t = L.pad(74); L.blockUp(74, 78, 3, { traj: t }); }
 
-  L.hazard(81, 1);
+  L.hazard(81, 3);
   L.ledge(84, 88, 1, { under: true });
-  L.hazard(91, 1);
+  L.hazard(91, 3);
   L.speed(94, 'normal');
   L.section(96, 'breath', 0);
   L.section(100, 'build', 2);
@@ -422,7 +437,7 @@ function level5() {
   L.speed(134, 'normal');
   L.section(136, 'finale', 3);
 
-  L.blockUp(141, 145, 1); L.hazard(143, 2, { y: 1 });
+  L.blockUp(141, 145, 1); L.hazard(143, 1, { y: 1 });
   L.hazard(152, 2);
   L.section(156, 'outro', 0);
   return L;
@@ -435,15 +450,15 @@ function level5() {
 function level6() {
   const L = new LevelBuilder({
     id: '06', file: 'levels/06-level6.json', bpm: 152, lengthBeats: 184,
-    intent: '새 기믹: 울림 고리(공중에서 한 번 더 톡). 지면 탭 → 반 박 뒤 꼭대기 고리 탭으로 가시 4개 줄 넘기. 첫 고리는 안 눌러도 안전. 템포 문(빠름) 구간과 조합.',
-    target: { stars: 4, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 3, child_sd70: 18 }, expected_attempts_sd50: [1, 8], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 울림 고리(공중에서 한 번 더 톡). 지면 탭 → 반 박 뒤 꼭대기 고리 탭으로 가시 4개(빠름 5개) 줄 넘기. 첫 고리는 안 눌러도 안전. 빠른 가시 3연속 3곳. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 4 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
   L.hazard(8, 2);
   L.ledge(12, 16, 1, { under: true });
   L.speed(18, 'fast');
-
+  L.hazard(20, 3);
   L.speed(23, 'normal');
   L.cue('tut_ring', 24);
   L.section(26, 'learn_ring', 2);
@@ -455,20 +470,21 @@ function level6() {
   { const t = L.pad(44); L.hazard(44, 3, { traj: t }); }
 
   L.blockUp(53, 57, 1); L.hazard(55, 2, { y: 1 });
-
+  L.speed(58, 'fast');
+  L.hazard(60, 3);
+  L.speed(63, 'normal');
   L.section(64, 'breath', 0);
   L.section(68, 'drop', 3);
 
   L.orbJump(72, 72.5, 4);
   L.ledge(77, 81, 1, { under: true });
   { const t = L.pad(84); L.blockUp(84, 88, 3, { traj: t }); }
-
   L.section(96, 'breath', 0);
   L.section(100, 'build', 2);
   L.speed(100, 'fast');
-
+  L.hazard(102, 3);
   L.orbJump(107, 107.5, 5);
-
+  L.hazard(112, 3);
   L.speed(114, 'normal');
   L.section(116, 'drop', 3);
 
@@ -479,7 +495,7 @@ function level6() {
   L.section(138, 'finale', 3);
   { const t = L.pad(138); L.hazard(138, 3, { traj: t }); }
 
-  L.hazard(151, 2);
+  L.hazard(151, 1);
   L.section(156, 'outro', 0);
   return L;
 }
@@ -491,8 +507,8 @@ function level6() {
 function level7() {
   const L = new LevelBuilder({
     id: '07', file: 'levels/07-level7.json', bpm: 156, lengthBeats: 192,
-    intent: '새 기믹: 매달린 잡음(천장 가시). 위에 가시가 있으면 누르지 않고 기다리기. 천장은 두 탭 사이 쉬는 박에만, 땅·상자·현 발판 위. 앞 레벨 어휘(고리·템포 문) 조합.',
-    target: { stars: 4, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 3, child_sd70: 21 }, expected_attempts_sd50: [1, 8], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 매달린 잡음(천장 가시). 위에 가시가 있으면 누르지 않고 기다리기. 천장은 두 탭 사이 쉬는 박에만, 땅·상자·현 발판 위. 앞 레벨 어휘(고리·템포 문) 조합, 빠른 가시 3연속 3곳. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 4 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
@@ -500,41 +516,42 @@ function level7() {
 
   L.orbJump(12, 12.5, 4);
   L.speed(17, 'fast');
-  L.hazard(20, 2);
+  L.hazard(20, 3);
 
   L.speed(22, 'normal');
   L.cue('tut_hanging', 23);
   L.section(26, 'learn_hanging', 2);
   L.hazard(26, 1); L.tunnel(26, 34);                             // 안전한 첫 등장: 긴 쉬는 구간 위 천장 (누르지만 않으면 됨)
   L.hazard(34, 1); L.tunnel(34, 38);
-  L.hazard(38, 1, { type: 'spike_low' });
+  L.hazard(38, 2, { type: 'spike_low' });
   L.blockUp(41, 49, 1); L.tunnel(41, 47, { y0: 1, y0Prev: 0 }); L.hazard(47, 1, { y: 1 });   // 상자 위 천장
   L.section(50, 'breath', 0);
   L.section(52, 'build', 2);
   L.hazard(52, 2); L.tunnel(52, 56);
-  L.hazard(56, 1);
-  L.hazard(60, 1); L.tunnel(60, 66);
+  L.hazard(56, 2);
+  L.hazard(60, 2); L.tunnel(60, 66);
   L.ledge(66, 72, 1, { under: true }); L.tunnel(66, 70, { y0: 2, y0Prev: 0 });   // 현 발판 위 천장
   L.section(74, 'drop', 3);
 
   { const t = L.pad(79); L.hazard(79, 3, { traj: t }); }
-
-
+  L.speed(83, 'fast');
+  L.hazard(86, 3);
+  L.speed(89, 'normal');
   { const t = L.pad(92); L.blockUp(92, 98, 3, { traj: t }); L.tunnel(92, 96, { y0: 3, y0Prev: 0 }); L.hazard(96, 1, { y: 3 }); }
   L.hazard(101, 2); L.tunnel(101, 105);
   L.hazard(105, 1, { type: 'spike_low' });
   L.section(108, 'breath', 0);
   L.section(110, 'build', 2);
   L.speed(110, 'fast');
-
-
+  L.hazard(112, 3);
+  L.hazard(116, 3);
   L.orbJump(120, 120.5, 5); L.tunnel(120, 125, { prevOrbs: [120.5] });
 
   L.speed(127, 'normal');
   L.section(128, 'drop', 3);
 
   { const b1 = L.blockUp(134, null, 1); const b2 = L.blockUp(136, 142, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); L.tunnel(136, 141, { y0: 2, y0Prev: 1 }); }
-  L.hazard(145, 2); L.tunnel(145, 149);
+  L.hazard(145, 1); L.tunnel(145, 149);
 
   L.section(154, 'finale', 3);
 
@@ -551,8 +568,8 @@ function level7() {
 function level8() {
   const L = new LevelBuilder({
     id: '08', file: 'levels/08-level8.json', bpm: 160, lengthBeats: 198,
-    intent: '새 기믹: 느린 템포 문(느려짐 → 보통). 느린 구간은 점프가 짧아 장애물을 하나씩만. 빠름 ↔ 느림 대비. 앞 레벨 어휘(고리·천장) 조합.',
-    target: { stars: 4, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 3, child_sd70: 24 }, expected_attempts_sd50: [1, 8], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹: 느린 템포 문(느려짐 → 보통). 느린 구간은 점프가 짧아 장애물을 하나씩만. 빠름 ↔ 느림 대비, 빠른 가시 3연속 5곳. 앞 레벨 어휘(고리·천장) 조합. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 4 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
@@ -560,17 +577,17 @@ function level8() {
 
   L.orbJump(12, 12.5, 4);
   L.hazard(17, 2); L.tunnel(17, 21);
-  L.hazard(21, 1, { type: 'spike_low' });
+  L.hazard(21, 2);
 
   L.speed(24, 'fast');
-  L.hazard(27, 1);
+  L.hazard(27, 3);
   L.speed(30, 'normal');
   L.cue('tut_tempo_slow', 30);
   L.section(32, 'learn_slow', 2);
   L.speed(33, 'slow');                                          // 안전한 첫 등장: 문 뒤 4박 비움
   L.hazard(37, 1, { type: 'spike_low' });
   L.speed(44, 'normal');
-
+  L.hazard(47, 2);
   L.blockUp(51, 55, 1); L.hazard(53, 2, { y: 1 });
   L.section(58, 'build', 2);
   L.speed(58, 'slow');
@@ -579,10 +596,10 @@ function level8() {
   L.ledge(72, 76, 1, { under: true });
   L.speed(80, 'fast');
   L.section(82, 'drop', 3);
-  L.hazard(83, 1);
+  L.hazard(83, 3);
   L.hazard(86, 2);
-  L.hazard(90, 1); L.tunnel(90, 94);
-  L.hazard(94, 1);
+  L.hazard(90, 3); L.tunnel(90, 94);
+  L.hazard(94, 2);
   L.speed(97, 'normal');
   { const p1 = L.platformUp(99, 101, 1, { ext: 1.6 }); const p2 = L.platformUp(101, 105, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); }
   L.section(108, 'breath', 0);
@@ -598,14 +615,11 @@ function level8() {
   L.hazard(139, 2); L.tunnel(139, 143);
   { const t = L.pad(143); L.hazard(143, 3, { traj: t }); }
   L.speed(146, 'fast');
-  L.hazard(149, 2); L.hazard(153, 1);
+  L.hazard(149, 3); L.hazard(153, 3);
   L.speed(156, 'slow');
   L.hazard(160, 1, { type: 'spike_low' });
   L.speed(167, 'normal');
   L.section(168, 'finale', 3);
-
-
-
   L.section(182, 'outro', 0);
   return L;
 }
@@ -615,8 +629,8 @@ function level8() {
 function level9() {
   const L = new LevelBuilder({
     id: '09', file: 'levels/09-level9.json', bpm: 164, lengthBeats: 204,
-    intent: '새 기믹 없음(복습·조합). 2박 간격 탭 사이 천장, 빠름·느림 문 연속, 고리 줄과 상자·현 발판 조합. 기믹 바꿈이 잦아져 어려워짐.',
-    target: { stars: 5, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 3, child_sd70: 26 }, expected_attempts_sd50: [1, 8], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹 없음(복습·조합). 2박 간격 탭 사이 천장, 빠름·느림 문 연속, 고리 줄과 상자·현 발판 조합, 빠른 가시 3연속 6곳. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 5 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
@@ -627,7 +641,7 @@ function level9() {
   L.speed(20, 'slow');
   L.hazard(24, 1, { type: 'spike_low' });
   L.speed(27, 'fast');
-  L.hazard(30, 2);
+  L.hazard(30, 3);
 
   L.speed(33, 'normal');
   L.section(34, 'build', 2);
@@ -639,7 +653,7 @@ function level9() {
   L.speed(57, 'fast');
 
   L.orbJump(63, 63.5, 5);
-  L.hazard(67, 1); L.tunnel(67, 69); L.hazard(69, 1);
+  L.hazard(67, 3); L.tunnel(67, 69); L.hazard(69, 3);
   { const t = L.pad(72); L.blockUp(72, 76, 3, { traj: t }); }
   L.speed(79, 'normal');
   L.section(82, 'breath', 0);
@@ -652,19 +666,19 @@ function level9() {
   L.hazard(103, 2); L.tunnel(103, 105); L.hazard(105, 1);
 
   { const b1 = L.blockUp(113, null, 1); const b2 = L.blockUp(115, 119, 2, { y0: 1 }); b1.w = r2(b2.x - b1.x); }
-  L.hazard(122, 2); L.tunnel(122, 124); L.hazard(124, 1, { type: 'spike_low' });
+  L.hazard(122, 2); L.tunnel(122, 124); L.hazard(124, 2, { type: 'spike_low' });
   { const t = L.pad(127); L.hazard(127, 3, { traj: t }); }
   L.speed(130, 'fast');
-  L.hazard(136, 1);
+  L.hazard(136, 3);
 
 
-  L.hazard(140, 1); L.tunnel(140, 142); L.hazard(142, 1);
+  L.hazard(140, 3); L.tunnel(140, 142); L.hazard(142, 3);
 
 
   L.speed(146, 'normal');
   L.section(154, 'finale', 3);
 
-  L.hazard(158, 1);
+  L.hazard(158, 2);
 
   { const p1 = L.platformUp(167, 169, 1, { ext: 1.6 }); const p2 = L.platformUp(169, 173, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); }
 
@@ -677,20 +691,21 @@ function level9() {
 function level10() {
   const L = new LevelBuilder({
     id: '10', file: 'levels/10-level10.json', bpm: 168, lengthBeats: 210,
-    intent: '새 기믹 없음(종합). 레벨 1~9의 모든 기믹(가시·낮은 장애물·상자·발판·현 발판·템포 문 빠름/느림·고리·천장)이 나오는 마지막 레벨. 기믹이 가장 자주 바뀜.',
-    target: { stars: 5, bot_first_clear_median: { skilled_sd25: 1, novice_sd50: 4, child_sd70: 28 }, expected_attempts_sd50: [1, 8], skilled_clear_rate_min: 0.9 },
+    intent: '새 기믹 없음(종합). 레벨 1~9의 모든 기믹(가시·낮은 장애물·상자·발판·현 발판·템포 문 빠름/느림·고리·천장)이 나오는 마지막 레벨. 빠른 가시 3연속 7곳. (round-3 결정 16: 12세 σ50 곡선 안 B)',
+    target: { stars: 5 },
   });
   L.section(0, 'intro', 0);
   L.section(8, 'review', 1);
   L.hazard(8, 2);
   L.orbJump(12, 12.5, 4);
-  L.hazard(17, 1);
+  L.hazard(17, 2);
   L.ledge(22, 26, 1, { under: true }); L.hazard(24, 2, { y: 2 });
   L.speed(27, 'fast');
   L.section(28, 'drop', 3);
-  L.hazard(30, 2);
-  L.hazard(33, 2);
-
+  L.hazard(30, 3);
+  L.hazard(33, 3);
+  L.hazard(36, 3);
+  L.hazard(39, 3);
   { const t = L.pad(42); L.blockUp(42, 46, 3, { traj: t }); L.hazard(44, 1, { y: 3 }); }
   L.speed(49, 'slow');
 
@@ -707,9 +722,9 @@ function level10() {
   L.section(97, 'breath', 0);
   L.section(100, 'drop', 3);
   L.speed(100, 'fast');
-
-  L.hazard(106, 1);
-
+  L.hazard(103, 3);
+  L.hazard(106, 3);
+  L.hazard(110, 3);
   { const p1 = L.platformUp(115, 117, 1, { ext: 1.6 }); const p2 = L.platformUp(117, 121, 2, { y0: 2 }); L.fill('spike', p1.x + 1.5, p2.x + p2.w - 0.5, 0); }
   L.speed(124, 'slow');
   L.hazard(128, 1, { type: 'spike_low' });
@@ -725,7 +740,7 @@ function level10() {
 
 
 
-  L.hazard(171, 1);
+  L.hazard(171, 2);
   L.section(180, 'outro', 0);
   return L;
 }

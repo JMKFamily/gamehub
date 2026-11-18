@@ -96,15 +96,20 @@
     "grade_ms": [50, 100],
     "judge_pad_ms": 0,
     "judge_max_ms": 250,
+    "orb_window": "contact",
+    "_orb_window_note": "round-3 결정 21(20-balance 15-10-6 ②안·15-11). 고리 탭(judge_taps kind orb, basis contact)의 판정 창 = 앞 지면 탭을 ±judge_max_ms 안에서 옮겼을 때 살아남는 고리 점프 틱 전체(고리에 닿은 구간). judge_max_ms 상한은 지면 탭에만. 짝짓기·등급·%·Δ 계산식은 그대로(박 기준). tools/build-judge-taps.mjs가 만든다",
     "judged_events": ["ground_jump", "orb_jump"],
     "one_judgement_per_press": true,
     "break_on": "death",
     "practice_respawn_resets": true,
     "best_record_modes": ["normal"],
     "show_from": 2,
+    "mark_at": [5, 10, 15, 20],
+    "_mark_at_note": "round-3 결정 18: 콤보 단계(큰 숫자·파티클 단계, 30-art 5-8) = 5·10·15·20. 레벨당 판정 탭 15~31개 안에서 닿는 값만 둠(20-balance 15-11). 단계 튐 배율·길이는 연출 값이라 30-art에만 둠(오케스트레이터 결정)",
     "dots_per_mark": 10,
     "small_pop_every": 5,
-    "mark_at": [10, 20],
+    "_deprecated": ["dots_per_mark", "small_pop_every"],
+    "_deprecated_note": "round-3 결정 20: 점 10칸 줄이 위쪽 가운데 큰 숫자로 바뀌어 더 쓰지 않음(폐기). 지금 빌드 main.js가 읽고 있어 값만 남겨 두고, game-developer가 큰 숫자 구현 때 읽는 곳과 함께 지운다",
     "hud": {
       "_note": "연출 길이는 벤치마크 권장값. 모양·소리·위치는 30-art(art-director) 확정 대상이고, 아래 길이를 바꾸면 balance가 다음 판정과의 겹침만 다시 본다",
       "pop_scale": 1.15,
@@ -138,10 +143,10 @@
       "best_accuracy_modes": ["normal"],
       "best_accuracy_keep": "max",
       "hud": {
-        "_note": "판정 이름 + % 표시 시간(벤치마크 7-3 권장값, 게임 시계). 모양·크기·색·자리는 30-art(art-director). 새 판정이 오면 이전 표시를 그 프레임에 지우고 다시 그림",
+        "_note": "판정 이름 + % 표시 시간(게임 시계). round-3 결정 15: 빌드·30-art와 같은 0.45 s = 나타나며 커짐 pop_ms 60 → 유지 hold_ms 240(0.30 s까지) → 흐려짐 fade_ms 150. 모양·크기·색·자리는 30-art(art-director). 새 판정이 오면 이전 표시를 그 프레임에 지우고 다시 그림(가장 가까운 두 판정 약 179 ms < 0.45 s)",
         "pop_scale": 1.15,
-        "pop_ms": 80,
-        "hold_ms": 400,
+        "pop_ms": 60,
+        "hold_ms": 240,
         "fade_ms": 150,
         "replace_on_new": true,
         "hide_on_death_s": 0.3
@@ -151,14 +156,14 @@
 
   "verify_min_window_ms": {
     "01": 250,
-    "02": 190,
-    "03": 160,
-    "04": 160,
-    "05": 160,
-    "06": 160,
-    "07": 160,
-    "08": 160,
-    "09": 160,
-    "10": 160
+    "02": 160,
+    "03": 140,
+    "04": 140,
+    "05": 140,
+    "06": 140,
+    "07": 140,
+    "08": 140,
+    "09": 140,
+    "10": 140
   }
 }
