@@ -537,7 +537,37 @@
    "applies_to": "all_profiles",
    "_note": "R20 \"처음 보는 무늬 비용\"(보여 주기 없음, 00-benchmark 8-4 제안 3 %p). 그 세션에서 그 마디 내용에 도달한 횟수 e(앞 시도 + 같은 시도 앞쪽)마다 별 놓침 +3 × (1 − e/3) %p. 레벨이 바뀌면 0부터(앞 레벨에서 본 모양도 새 마디 내용이면 다시 비용, 보수적). tools/sim/bots.mjs runNoveltySessions."
   },
-  "_note_r3": "round-3: 보여 주기 마디가 없어 along(따라 치기) 변형은 해당 없음. B1·B4·B5·B6·B7 은 처음 보는 무늬 비용을 넣은 세션 시뮬레이션(runNoveltySessions), B2·B3 은 비용 없는 독립 시도(runProfile)."
+  "_note_r3": "round-3: 보여 주기 마디가 없어 along(따라 치기) 변형은 해당 없음. B1·B4·B5·B6·B7 은 처음 보는 무늬 비용을 넣은 세션 시뮬레이션(runNoveltySessions), B2·B3 은 비용 없는 독립 시도(runProfile).",
+  "representative": {
+   "profile": "novice_sd50",
+   "target_age": 12,
+   "sd_ms": 50,
+   "miss": 0.01,
+   "extra": 0.01,
+   "press_ms": 100,
+   "novelty": "included (bots.novelty)",
+   "info_profiles": [
+    "skilled_sd25",
+    "child_sd70",
+    "child_sd90"
+   ],
+   "judged_checks": [
+    "B1",
+    "B4",
+    "B5",
+    "B6",
+    "B6s",
+    "B7",
+    "N8 덩어리 비용"
+   ],
+   "_note": "criteria 대상 연령 절 결정 14: 12세 프로젝트 대표 봇 = σ50·놓침 1 %·헛탭 1 %. 레벨당 첫 클리어 30회 한도·직전 2배·L7까지 20회·L1 5회·레벨 10 = L1~L3 곡선의 L6 을 이 봇의 처음 보는 무늬 비용 포함 세션 연속 중앙값으로 잰다. σ70(5~6세 대리)은 참고(INFO). tools/sim/bots.mjs representativeProfile·runRepresentativeSessions, 검증기 B0 가 값 대조.",
+   "judged_profile_r3b_deprecated": {
+    "value": "child_sd70",
+    "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)",
+    "_note": "round-1~round-3 1-2 판정 봇(5~6세 대리 σ70·놓침 3 %·헛탭 2 %)."
+   }
+  },
+  "_note_r3b": "round-3 12세: 판정 원천 = bots.representative.profile(novice_sd50). child_sd70 은 정보 표·연습 모드·K1·A2 재판정 탭에만 씀."
  },
  "verify": {
   "max_gap_in_pattern_ms": 1000,
@@ -554,8 +584,8 @@
   "max_new_gimmicks_per_level": 1,
   "l1_first_star_min_progress": 0.1,
   "l1_star_count_range": [
-   16,
-   20
+   24,
+   36
   ],
   "bias_sweep_ms": [
    -80,
@@ -615,7 +645,7 @@
    "apply_to_level": "10",
    "tolerance_ratio": 0.2,
    "estimator": "continuous_median_novelty",
-   "estimator_formula": "m~ = (k−1) + ln(0.5/S(k−1)) / ln(S(k)/S(k−1)), S(k) = 처음 보는 무늬 비용을 넣은 σ70 세션(20000개, 시드 고정)에서 k번째 시도까지 못 깬 비율. 비용 0 이면 ln0.5/ln(1−p) 와 같음",
+   "estimator_formula": "m~ = (k−1) + ln(0.5/S(k−1)) / ln(S(k)/S(k−1)), S(k) = 처음 보는 무늬 비용을 넣은 대표 봇(novice_sd50) 세션(20000개, 시드 고정)에서 k번째 시도까지 못 깬 비율. 비용 0 이면 ln0.5/ln(1−p) 와 같음",
    "formula": "r = (m~03 / m~01)^(1/2) (L1~L3 기하 평균 배율), T = m~03 × r^3 (L6 외삽), L10 m~ ∈ [0.8 T, 1.2 T]",
    "monotone_levels": [
     "03",
@@ -629,7 +659,7 @@
    ],
    "monotone": "strict_increase",
    "monotone_estimator": "continuous_median",
-   "measured_by": "child_sd70 continuous median (ln0.5/ln(1-p)), 전체 실행(--quick 아님). 정수 중앙값(세션 2000)은 참고로 함께 출력",
+   "measured_by": "대표 봇 novice_sd50 연속 중앙값(처음 보는 무늬 비용 포함 세션 20000, 전체 실행, --quick 아님). 정수 중앙값은 참고로 함께 출력. σ70 같은 계산은 정보 줄.",
    "integer_median_note": "round-1 까지는 정수 세션 중앙값으로 판정했으나 L1 클리어율 0.306 이 2/3회 경계(51.9 %)라 T 가 19.8 ↔ 10.8 로 뒤집힐 수 있어(round-1 balance 리뷰 이슈 1, 오케스트레이터 R3) 연속 중앙값으로 바꿈.",
    "_note": "요청자 지시(criteria 밸런스 마지막 항목): 레벨 10 = 기존 3레벨 곡선을 이어 간 레벨 6 수준. 검증 B6(L10 범위)·B7(L3~L10 단조 증가, L3~L9 < 1.2 T) 모두 연속 중앙값. 빌드 봇 값은 일치 확인용이며 B6 판정에 섞지 않음. --quick 은 참고용.",
    "seed_spread": {
@@ -643,6 +673,15 @@
     "sessions": 20000,
     "rule": "mean_and_all_within_tolerance",
     "_note": "criteria 밸런스 rhythm-02 줄: 서로 다른 시드 10개로 L1~L3·L10 을 돌려 T 대비 L10 편차 평균과 모든 시드가 ±20 % 안 (B6s)"
+   },
+   "profile": "novice_sd50",
+   "estimator_formula_r3b_deprecated": {
+    "value": "m~ = (k−1) + ln(0.5/S(k−1)) / ln(S(k)/S(k−1)), S(k) = 처음 보는 무늬 비용을 넣은 σ70 세션(20000개, 시드 고정)에서 k번째 시도까지 못 깬 비율. 비용 0 이면 ln0.5/ln(1−p) 와 같음",
+    "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)"
+   },
+   "measured_by_r3b_deprecated": {
+    "value": "child_sd70 continuous median (ln0.5/ln(1-p)), 전체 실행(--quick 아님). 정수 중앙값(세션 2000)은 참고로 함께 출력",
+    "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)"
    }
   },
   "bias_sweep_levels": [
@@ -734,7 +773,50 @@
    ],
    "_note": "정보 R23: 보호자 보정(어른 σ40, 2회 × 8탭, 12개 사용) 측정 잡음을 넣고 기기 남은 오차 d 를 고정했을 때, 무시 구간 30(옛)·10(새)에서 남은 오차 평균 |r|, |r| > |d|(보정이 오차를 키움) 비율, L7~L10 σ70 첫 클리어(처음 보는 무늬 비용 포함 세션). 판정 안 함."
   },
-  "_child_sd70_median_max_by_level_note_r3": "round-3: 한도 = 설계 정수 중앙값(처음 보는 무늬 비용 포함 세션 20000, 20-balance 17-5) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 상한(1.2 T = 27.3)의 정수 이하. v2 한도는 child_sd70_median_max_by_level_r2_deprecated."
+  "_child_sd70_median_max_by_level_note_r3": "round-3: 한도 = 설계 정수 중앙값(처음 보는 무늬 비용 포함 세션 20000, 20-balance 17-5) × 약 1.25 올림, L7까지 20·전 레벨 30 이하, L10 은 B6 목표 상한(1.2 T = 27.3)의 정수 이하. v2 한도는 child_sd70_median_max_by_level_r2_deprecated.",
+  "rep_limits": {
+   "profile": "novice_sd50",
+   "all_max": 30,
+   "through_level": {
+    "level": "07",
+    "max": 20
+   },
+   "l1_max": 5,
+   "growth_vs_prev": 2,
+   "by_level": {
+    "10": 12,
+    "01": 3,
+    "02": 4,
+    "03": 5,
+    "04": 7,
+    "05": 8,
+    "06": 8,
+    "07": 9,
+    "08": 12,
+    "09": 13
+   },
+   "_note": "round-3 12세(결정 14). 대표 봇 첫 클리어 정수 중앙값·연속 중앙값 모두 ≤ min(레벨 한도, 30, L7까지 20, L1 5) (B1), 직전 레벨 2배 이하(B5, 정수·연속). 레벨 한도 = 설계 정수 중앙값 × 약 1.25 올림, L10 은 B6 목표 상한(1.2 T = 12.97)의 정수 이하. L1 5회 이하 권장 유지: 12세도 첫 레벨은 핵심 조작(탭 1가지)을 배우는 자리라 \"몇 번 안에 깸\"을 지키고, 설계값 1.76회(정수 2)로 여유를 둠(20-balance.md 18-2)."
+  },
+  "_child_sd70_limits_status": {
+   "keys": [
+    "l1_child_sd70_median_max",
+    "child_sd70_median_max_all",
+    "child_sd70_median_max_through_level",
+    "child_sd70_median_max_by_level",
+    "child_sd70_median_max_growth_vs_prev"
+   ],
+   "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)",
+   "_note": "5~6세 대리 σ70 한도. 값은 기록으로 남기고 검증기는 rep_limits 를 읽음. σ70 값은 정보 줄에만 나옴."
+  },
+  "l1_star_count_range_r3b_deprecated": {
+   "value": [
+    16,
+    20
+   ],
+   "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)",
+   "_note": "5~6세 L1 별 수 16~20(runner-01 인사이트 \"레벨 1 탭 수 상한\"). 12세 대표 봇에서 L1 18별은 1.1회로 곡선 뿌리가 평평해짐."
+  },
+  "_l1_star_count_range_note": "round-3 12세: L1 판정 별 24~36(S11). 정박만·별 사이 ≥ 1박·연속 쌍 없음·첫 별 10 % 이후는 그대로."
  },
  "pattern_library": {
   "A": {
@@ -1301,7 +1383,13 @@
    "n9_max_screen_chunks_early": 2,
    "n9_max_screen_chunks_late": 3,
    "n11_after_run4_min_empty_beats": 2,
-   "_note": "00-benchmark 8-3 N1~N11 수치(R20). 마디 내용 = 그 마디 8칸 별 배열. 덩어리 비용 = σ70 별 위험률 합. 검사 구현 tools/sim/path.mjs nChecks."
+   "_note": "00-benchmark 8-3 N1~N11 수치(R20). 마디 내용 = 그 마디 8칸 별 배열. 덩어리 비용 = σ70 별 위험률 합. 검사 구현 tools/sim/path.mjs nChecks.",
+   "n8_cost_profile": "novice_sd50",
+   "_n8_cost_profile_r3a_deprecated": {
+    "value": "child_sd70",
+    "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)",
+    "_note": "덩어리 비용 = σ70 별 위험률 합(옛). 지금은 대표 봇 별 위험률 합(tools/sim/bots.mjs representativeHazards)."
+   }
   },
   "chunk_library": {
    "A": {
@@ -1483,8 +1571,8 @@
   },
   "continuous_budget": {
    "10": {
-    "pair": 5,
-    "run3": 3,
+    "pair": 10,
+    "run3": 5,
     "run4": 3
    },
    "01": {
@@ -1493,46 +1581,103 @@
     "run4": 0
    },
    "02": {
-    "pair": 5,
+    "pair": 6,
     "run3": 0,
     "run4": 0
    },
    "03": {
-    "pair": 4,
+    "pair": 6,
     "run3": 0,
     "run4": 0
    },
    "04": {
-    "pair": 5,
+    "pair": 7,
     "run3": 0,
     "run4": 0
    },
    "05": {
-    "pair": 6,
+    "pair": 11,
     "run3": 0,
     "run4": 0
    },
    "06": {
     "pair": 4,
-    "run3": 4,
+    "run3": 7,
     "run4": 0
    },
    "07": {
-    "pair": 4,
-    "run3": 3,
+    "pair": 7,
+    "run3": 2,
     "run4": 3
    },
    "08": {
-    "pair": 5,
-    "run3": 3,
-    "run4": 2
+    "pair": 6,
+    "run3": 4,
+    "run4": 4
    },
    "09": {
-    "pair": 5,
-    "run3": 3,
+    "pair": 7,
+    "run3": 6,
     "run4": 3
    },
-   "_note": "N11: 붙은 별 덩어리 수 상한(반박 쌍 포함 E·V·W / 3연속 Q·Y·Z / 4연속 R). 4연속 뒤 빈 ≥ 2박."
+   "_note": "N11: 붙은 별 덩어리 수 상한(반박 쌍 포함 E·V·W / 3연속 Q·Y·Z / 4연속 R). 4연속 뒤 빈 ≥ 2박.",
+   "_note_r3b": "round-3 12세: 레벨 덩어리 수가 늘어 예산 = 설계 덩어리 수(상한). 붙은 별 덩어리는 여전히 새 기믹만큼 비싼 요소로 보고, 기믹 도입 순서(쌍 L2 → 3연속 L6 → 4연속 L7)와 4연속 뒤 빈 ≥ 2박은 그대로."
+  },
+  "continuous_budget_r3b_deprecated": {
+   "value": {
+    "10": {
+     "pair": 5,
+     "run3": 3,
+     "run4": 3
+    },
+    "01": {
+     "pair": 0,
+     "run3": 0,
+     "run4": 0
+    },
+    "02": {
+     "pair": 5,
+     "run3": 0,
+     "run4": 0
+    },
+    "03": {
+     "pair": 4,
+     "run3": 0,
+     "run4": 0
+    },
+    "04": {
+     "pair": 5,
+     "run3": 0,
+     "run4": 0
+    },
+    "05": {
+     "pair": 6,
+     "run3": 0,
+     "run4": 0
+    },
+    "06": {
+     "pair": 4,
+     "run3": 4,
+     "run4": 0
+    },
+    "07": {
+     "pair": 4,
+     "run3": 3,
+     "run4": 3
+    },
+    "08": {
+     "pair": 5,
+     "run3": 3,
+     "run4": 2
+    },
+    "09": {
+     "pair": 5,
+     "run3": 3,
+     "run4": 3
+    }
+   },
+   "_status": "deprecated (round-3 12세 재조정, 2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 대상 연령 절 결정 14)",
+   "_note": "5~6세 σ70 기준 예산."
   }
  },
  "combo": {
@@ -1666,7 +1811,8 @@
    "ours": "L1·L2 good 100, L3~L10 good 90, perfect 50 all, pass = 레벨 judge",
    "diff": "L3 좋아 ±90 (공통 문서 권장 ±100). 판정 창은 바꾸지 않음(오케스트레이터 지시), 차이만 보고"
   },
-  "verify": "K0 키·불변 규칙, K1 콤보 = grades.length 이고 judgeAttempt 결과 불변(봇 탭 재판정), K2 정보(σ70 클리어 시도의 통과 수 = R22 였다면 끊김 수, 단계 5·10·20 도달 비율)"
+  "verify": "K0 키·불변 규칙, K1 콤보 = grades.length 이고 judgeAttempt 결과 불변(봇 탭 재판정), K2 정보(σ70 클리어 시도의 통과 수 = R22 였다면 끊김 수, 단계 5·10·20 도달 비율)",
+  "_note_r3b": "round-3 12세: 레벨 판정 별이 30~69개로 늘어 단계 30(자리만이던 것)이 L2~L10 클리어에서 실제로 나옴. 단계 정의·끊김·등급 반영 없음은 그대로. 30 넘는 표지(40·50·60)를 더할지는 art 판단(점 10칸 + 10마다 큰 표지 규칙이면 큰 표지가 최대 6개)."
  },
  "accuracy": {
   "_status": "round-3 (2026-11-17 요청자 지시 \"판정 이름과 퍼센트까지 해주세요\", 공통 문서 harness/benchmarks/djmax-judgement.md 7-2 공통안 3383f7b 채택). 20-balance.md 17-14",

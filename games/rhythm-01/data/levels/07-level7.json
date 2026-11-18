@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 16,
-  "duration_s": 31.385,
+  "length_bars": 23,
+  "duration_s": 44.308,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -32,7 +32,7 @@
     "Y",
     "Z"
   ],
-  "design_intent": "새 기믹 = 반박 4연속(둥두둥두, R). 첫 등장 R 단독 앞뒤 4박 비움 → 4박 뒤 다른 시작 박의 R → 후반 빈 1박으로 앞 덩어리와 붙인 R. 4연속 뒤는 늘 2박 이상 비움(N11).",
+  "design_intent": "(round-3 12세) 새 기믹 반박 4연속(R): 첫 등장 앞뒤 4박 → 4박 뒤 다른 시작 박 → 후반 R 을 W 와 빈 2박으로 조합. 12세 기준으로 숨 고르기 4박 위주(1-2 R25)를 걷어 내고 빈 1~2박 구절을 늘림(빈 4박은 도입부 2곳 + 1곳). 4연속 뒤 늘 2박 이상 비움(N11). 별 26 → 58",
   "new_gimmicks": [
     {
       "id": "eighth_run4",
@@ -45,8 +45,10 @@
     "_note": "레벨을 처음 할 때 1회. 붙어 있는 별 넷을 차례로 톡. aria-label 키 card_run4"
   },
   "difficulty": {
-    "target_child_sd70_median_max": 15,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+    "target_rep_sd50_median_max": 9,
+    "_note": "= balance.json verify.rep_limits.by_level (12세 대표 봇 novice_sd50 정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 18장",
+    "target_child_sd70_median_max_r3b_deprecated": 15,
+    "_status_child_sd70": "deprecated (round-3 12세, 결정 14: σ70 은 참고값)"
   },
   "path": {
     "preview_lead_beats": 3,
@@ -56,13 +58,21 @@
       {"shape":"B","empty_before":2},
       {"shape":"R","empty_before":4},
       {"shape":"R","empty_before":4},
-      {"shape":"A","empty_before":4},
-      {"shape":"B","empty_before":4},
-      {"shape":"R","empty_before":1},
-      {"shape":"B","empty_before":4},
+      {"shape":"W","empty_before":2},
+      {"shape":"Z","empty_before":2},
+      {"shape":"E","empty_before":2},
+      {"shape":"Q","empty_before":1},
       {"shape":"E","empty_before":4},
-      {"shape":"Y","empty_before":4},
-      {"shape":"A","empty_before":4}
+      {"shape":"W","empty_before":1},
+      {"shape":"B","empty_before":2},
+      {"shape":"D","empty_before":1},
+      {"shape":"W","empty_before":2},
+      {"shape":"R","empty_before":2},
+      {"shape":"W","empty_before":2},
+      {"shape":"A","empty_before":2},
+      {"shape":"D","empty_before":1},
+      {"shape":"E","empty_before":2},
+      {"shape":"D","empty_before":2}
     ],
     "chunks_r3a_deprecated": [
       {"shape":"B","empty_before":2},
@@ -76,7 +86,20 @@
       {"shape":"Y","empty_before":4}
     ],
     "_chunks_r3a_note": "round-3 R25(1-2 교차 리뷰): 길이 30 s 이상으로. 숨 고르기만으로는 최대 29.5 s라 빈 3박 셋을 4박으로 + 끝에 별 하나(A)를 빈 4박 뒤에 더함(판정 별 25 → 26). N1~N11·B6·B7 유지. 옛 열 = chunks_r3a_deprecated",
-    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키.",
+    "chunks_r3b_deprecated": [
+      {"shape":"B","empty_before":2},
+      {"shape":"R","empty_before":4},
+      {"shape":"R","empty_before":4},
+      {"shape":"A","empty_before":4},
+      {"shape":"B","empty_before":4},
+      {"shape":"R","empty_before":1},
+      {"shape":"B","empty_before":4},
+      {"shape":"E","empty_before":4},
+      {"shape":"Y","empty_before":4},
+      {"shape":"A","empty_before":4}
+    ],
+    "_chunks_r3b_note": "round-3 12세 재조정(2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 결정 14, 20-balance.md 18장): 대표 봇 σ50 기준 곡선 상향. 판정 창·BPM·미리 보기 박·새 기믹·카드 그대로, 덩어리 수·빈 1~2박 구절(밀도)로 올림. 옛 열(5~6세 σ70 기준, 1-2 R25 뒤) = chunks_r3b_deprecated"
   },
   "patterns": {
     "c46": {
@@ -88,17 +111,47 @@
     "c4567": {
       "slots": [4,5,6,7]
     },
+    "c016": {
+      "slots": [0,1,6]
+    },
+    "c012": {
+      "slots": [0,1,2]
+    },
+    "c01456": {
+      "slots": [0,1,4,5,6]
+    },
+    "c0146": {
+      "slots": [0,1,4,6]
+    },
+    "c046": {
+      "slots": [0,4,6]
+    },
+    "c02": {
+      "slots": [0,2]
+    },
+    "c0245": {
+      "slots": [0,2,4,5]
+    },
+    "c2345": {
+      "slots": [2,3,4,5]
+    },
+    "c2467": {
+      "slots": [2,4,6,7]
+    },
+    "c4": {
+      "slots": [4]
+    },
+    "c0246": {
+      "slots": [0,2,4,6]
+    },
+    "c45": {
+      "slots": [4,5]
+    },
+    "c246": {
+      "slots": [2,4,6]
+    },
     "c0": {
       "slots": [0]
-    },
-    "c24": {
-      "slots": [2,4]
-    },
-    "c01": {
-      "slots": [0,1]
-    },
-    "c2346": {
-      "slots": [2,3,4,6]
     }
   },
   "bars": [
@@ -106,15 +159,22 @@
     {"mode":"rest"},
     {"mode":"play","pattern":"c0123"},
     {"mode":"play","pattern":"c4567"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"c0"},
-    {"mode":"play","pattern":"c24"},
-    {"mode":"play","pattern":"c0123"},
     {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c016"},
+    {"mode":"play","pattern":"c012"},
+    {"mode":"play","pattern":"c01456"},
     {"mode":"rest"},
-    {"mode":"play","pattern":"c01"},
-    {"mode":"play","pattern":"c2346"},
-    {"mode":"rest"},
+    {"mode":"play","pattern":"c0146"},
+    {"mode":"play","pattern":"c016"},
+    {"mode":"play","pattern":"c046"},
+    {"mode":"play","pattern":"c02"},
+    {"mode":"play","pattern":"c0245"},
+    {"mode":"play","pattern":"c2345"},
+    {"mode":"play","pattern":"c2467"},
+    {"mode":"play","pattern":"c4"},
+    {"mode":"play","pattern":"c0246"},
+    {"mode":"play","pattern":"c45"},
+    {"mode":"play","pattern":"c246"},
     {"mode":"play","pattern":"c0"},
     {"mode":"rest"},
     {"mode":"rest"}
@@ -127,17 +187,17 @@
     },
     {
       "name": "part2",
-      "start_bar": 3,
+      "start_bar": 7,
       "stage": 2
     },
     {
       "name": "part3",
-      "start_bar": 8,
+      "start_bar": 13,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 14,
+      "start_bar": 21,
       "stage": 3
     }
   ],
@@ -164,49 +224,89 @@
         "beat": 16,
         "bar": 4,
         "slot": 0,
-        "empty_beats": 4,
+        "empty_beats": 2,
         "next_chunk": 3,
-        "next_star_beat": 20
+        "next_star_beat": 18
       },
       {
         "beat": 21,
         "bar": 5,
         "slot": 2,
-        "empty_beats": 4,
+        "empty_beats": 2,
         "next_chunk": 4,
-        "next_star_beat": 25
+        "next_star_beat": 23
       },
       {
-        "beat": 30,
-        "bar": 7,
+        "beat": 26,
+        "bar": 6,
         "slot": 4,
-        "empty_beats": 4,
-        "next_chunk": 6,
-        "next_star_beat": 34
+        "empty_beats": 2,
+        "next_chunk": 5,
+        "next_star_beat": 28
       },
       {
-        "beat": 36,
-        "bar": 9,
+        "beat": 32,
+        "bar": 8,
         "slot": 0,
         "empty_beats": 4,
         "next_chunk": 7,
-        "next_star_beat": 40
+        "next_star_beat": 36
       },
       {
         "beat": 41,
         "bar": 10,
         "slot": 2,
-        "empty_beats": 4,
-        "next_chunk": 8,
-        "next_star_beat": 45
+        "empty_beats": 2,
+        "next_chunk": 9,
+        "next_star_beat": 43
       },
       {
-        "beat": 48,
+        "beat": 50,
         "bar": 12,
-        "slot": 0,
-        "empty_beats": 4,
-        "next_chunk": 9,
+        "slot": 4,
+        "empty_beats": 2,
+        "next_chunk": 11,
         "next_star_beat": 52
+      },
+      {
+        "beat": 55,
+        "bar": 13,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 12,
+        "next_star_beat": 57
+      },
+      {
+        "beat": 59,
+        "bar": 14,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 13,
+        "next_star_beat": 61
+      },
+      {
+        "beat": 64,
+        "bar": 16,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 14,
+        "next_star_beat": 66
+      },
+      {
+        "beat": 72,
+        "bar": 18,
+        "slot": 0,
+        "empty_beats": 2,
+        "next_chunk": 16,
+        "next_star_beat": 74
+      },
+      {
+        "beat": 75,
+        "bar": 18,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 17,
+        "next_star_beat": 77
       }
     ]
   },
@@ -335,5 +435,6 @@
       "timing": "pre_level_first_play",
       "_note": "레벨을 처음 할 때 카운트인 앞 1회. 붙어 있는 별 4개를 차례로 톡. aria-label 키 card_run4"
     }
-  }
+  },
+  "design_intent_r3b_deprecated": "새 기믹 = 반박 4연속(둥두둥두, R). 첫 등장 R 단독 앞뒤 4박 비움 → 4박 뒤 다른 시작 박의 R → 후반 빈 1박으로 앞 덩어리와 붙인 R. 4연속 뒤는 늘 2박 이상 비움(N11)."
 }

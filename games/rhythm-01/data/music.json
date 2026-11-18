@@ -553,13 +553,15 @@
   "steps": {
    "10": "combo_10",
    "20": "combo_20",
-   "30": "combo_20"
+   "30": "combo_20",
+   "50": "combo_50"
   },
   "min_after_beats": 0.5,
   "max_wait_beats": 2,
   "slot_grid": "even_eighths",
   "avoid_star": true,
   "break_sound": null,
-  "fallback_any_eighth": true
+  "fallback_any_eighth": true,
+  "_rule_r3_spectacle": "(2026-11-17 요청자 지시 \"콤보 파격 연출\", 30-art 16-14) 단계 = 화면 전체 파티클 단계 10·20·30·50(layout.json combo_fx.tiers 와 같아야 함, road-layout --check 확인). 50 = combo_50(한 옥타브 높은 화음). 예약 규칙·끊김 무음은 그대로. 단계 사이 갱신(콤보 수 튐)·5는 소리 없음"
  }
 }

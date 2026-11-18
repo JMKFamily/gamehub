@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 16,
-  "duration_s": 34,
+  "length_bars": 21,
+  "duration_s": 44,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -29,7 +29,7 @@
     "V",
     "W"
   ],
-  "design_intent": "새 기믹 = 짧은 쉼(덩어리 둘 사이 빈 1박). 첫 등장: 하나 _ 하나(A1) 앞뒤 4박 비움 → 4박 뒤 다른 시작 박에서 둘 _ 둘 → 후반에 빈 1박 구절이 2박 사이로 이웃 덩어리와 이어짐. 빈 1박 뒤에는 비싼 덩어리를 두지 않음(N8).",
+  "design_intent": "(round-3 12세) 새 기믹 짧은 쉼(빈 1박): A-A 첫 등장(앞뒤 4박) → B-B 다른 시작 박 → 후반 짧은 쉼이 반박 덩어리(E·W·V)와 이어지는 구절. 빈 1박 5곳으로 짧은 판단이 이어짐. 별 25 → 44",
   "new_gimmicks": [
     {
       "id": "rest_beat",
@@ -42,14 +42,36 @@
     "_note": "레벨을 처음 할 때 1회. 별 _ 별: 빈 칸에서는 기다림. aria-label 키 card_rest_beat"
   },
   "difficulty": {
-    "target_child_sd70_median_max": 9,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+    "target_rep_sd50_median_max": 5,
+    "_note": "= balance.json verify.rep_limits.by_level (12세 대표 봇 novice_sd50 정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 18장",
+    "target_child_sd70_median_max_r3b_deprecated": 9,
+    "_status_child_sd70": "deprecated (round-3 12세, 결정 14: σ70 은 참고값)"
   },
   "path": {
     "preview_lead_beats": 4,
     "preview_lead_beats_portrait": 3.5,
     "screen_chunks_max": 2,
     "chunks": [
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":4},
+      {"shape":"A","empty_before":1},
+      {"shape":"B","empty_before":4},
+      {"shape":"B","empty_before":1},
+      {"shape":"A","empty_before":2},
+      {"shape":"V","empty_before":1},
+      {"shape":"D","empty_before":2},
+      {"shape":"W","empty_before":2},
+      {"shape":"D","empty_before":2},
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":1},
+      {"shape":"E","empty_before":3},
+      {"shape":"W","empty_before":1},
+      {"shape":"V","empty_before":4},
+      {"shape":"W","empty_before":1},
+      {"shape":"D","empty_before":2}
+    ],
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키.",
+    "chunks_r3b_deprecated": [
       {"shape":"B","empty_before":2},
       {"shape":"A","empty_before":4},
       {"shape":"A","empty_before":1},
@@ -64,7 +86,7 @@
       {"shape":"E","empty_before":2},
       {"shape":"B","empty_before":3}
     ],
-    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
+    "_chunks_r3b_note": "round-3 12세 재조정(2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 결정 14, 20-balance.md 18장): 대표 봇 σ50 기준 곡선 상향. 판정 창·BPM·미리 보기 박·새 기믹·카드 그대로, 덩어리 수·빈 1~2박 구절(밀도)로 올림. 옛 열(5~6세 σ70 기준, 1-2 R25 뒤) = chunks_r3b_deprecated"
   },
   "patterns": {
     "c46": {
@@ -79,23 +101,41 @@
     "c046": {
       "slots": [0,4,6]
     },
-    "c024": {
-      "slots": [0,2,4]
-    },
     "c4": {
       "slots": [4]
     },
     "c023": {
       "slots": [0,2,3]
     },
-    "c0": {
-      "slots": [0]
+    "c0246": {
+      "slots": [0,2,4,6]
     },
-    "c23": {
-      "slots": [2,3]
+    "c016": {
+      "slots": [0,1,6]
+    },
+    "c024": {
+      "slots": [0,2,4]
     },
     "c24": {
       "slots": [2,4]
+    },
+    "c0": {
+      "slots": [0]
+    },
+    "c0146": {
+      "slots": [0,1,4,6]
+    },
+    "c01": {
+      "slots": [0,1]
+    },
+    "c245": {
+      "slots": [2,4,5]
+    },
+    "c0245": {
+      "slots": [0,2,4,5]
+    },
+    "c246": {
+      "slots": [2,4,6]
     }
   },
   "bars": [
@@ -104,15 +144,20 @@
     {"mode":"play","pattern":"c04"},
     {"mode":"play","pattern":"c6"},
     {"mode":"play","pattern":"c046"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"c024"},
-    {"mode":"play","pattern":"c46"},
     {"mode":"play","pattern":"c4"},
     {"mode":"play","pattern":"c023"},
-    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c0246"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c016"},
     {"mode":"play","pattern":"c024"},
-    {"mode":"play","pattern":"c23"},
     {"mode":"play","pattern":"c24"},
+    {"mode":"play","pattern":"c0"},
+    {"mode":"play","pattern":"c0146"},
+    {"mode":"play","pattern":"c01"},
+    {"mode":"play","pattern":"c245"},
+    {"mode":"play","pattern":"c0245"},
+    {"mode":"play","pattern":"c246"},
+    {"mode":"play","pattern":"c0"},
     {"mode":"rest"},
     {"mode":"rest"}
   ],
@@ -124,17 +169,17 @@
     },
     {
       "name": "part2",
-      "start_bar": 6,
+      "start_bar": 7,
       "stage": 2
     },
     {
       "name": "part3",
-      "start_bar": 9,
+      "start_bar": 13,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 14,
+      "start_bar": 19,
       "stage": 3
     }
   ],
@@ -161,57 +206,65 @@
         "beat": 20,
         "bar": 5,
         "slot": 0,
-        "empty_beats": 4,
+        "empty_beats": 2,
         "next_chunk": 5,
-        "next_star_beat": 24
+        "next_star_beat": 22
       },
       {
-        "beat": 27,
+        "beat": 26,
         "bar": 6,
-        "slot": 6,
-        "empty_beats": 3,
-        "next_chunk": 6,
-        "next_star_beat": 30
+        "slot": 4,
+        "empty_beats": 2,
+        "next_chunk": 7,
+        "next_star_beat": 28
       },
       {
         "beat": 32,
         "bar": 8,
         "slot": 0,
         "empty_beats": 2,
-        "next_chunk": 7,
+        "next_chunk": 8,
         "next_star_beat": 34
       },
       {
-        "beat": 38,
+        "beat": 37,
         "bar": 9,
-        "slot": 4,
+        "slot": 2,
         "empty_beats": 2,
         "next_chunk": 9,
-        "next_star_beat": 40
+        "next_star_beat": 39
       },
       {
-        "beat": 41,
+        "beat": 43,
         "bar": 10,
-        "slot": 2,
-        "empty_beats": 3,
-        "next_chunk": 10,
-        "next_star_beat": 44
-      },
-      {
-        "beat": 47,
-        "bar": 11,
         "slot": 6,
         "empty_beats": 2,
-        "next_chunk": 11,
-        "next_star_beat": 49
+        "next_chunk": 10,
+        "next_star_beat": 45
       },
       {
-        "beat": 50,
+        "beat": 49,
         "bar": 12,
-        "slot": 4,
+        "slot": 2,
         "empty_beats": 3,
         "next_chunk": 12,
-        "next_star_beat": 53
+        "next_star_beat": 52
+      },
+      {
+        "beat": 57,
+        "bar": 14,
+        "slot": 2,
+        "empty_beats": 4,
+        "next_chunk": 14,
+        "next_star_beat": 61
+      },
+      {
+        "beat": 67,
+        "bar": 16,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 16,
+        "next_star_beat": 69
       }
     ]
   },
@@ -344,5 +397,6 @@
       "timing": "pre_level_first_play",
       "_note": "레벨을 처음 할 때 카운트인 앞 1회. 빈 자리에서 손가락이 멈춰 기다림. aria-label 키 card_rest_beat"
     }
-  }
+  },
+  "design_intent_r3b_deprecated": "새 기믹 = 짧은 쉼(덩어리 둘 사이 빈 1박). 첫 등장: 하나 _ 하나(A1) 앞뒤 4박 비움 → 4박 뒤 다른 시작 박에서 둘 _ 둘 → 후반에 빈 1박 구절이 2박 사이로 이웃 덩어리와 이어짐. 빈 1박 뒤에는 비싼 덩어리를 두지 않음(N8)."
 }

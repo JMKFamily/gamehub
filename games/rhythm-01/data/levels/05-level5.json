@@ -10,8 +10,8 @@
   "slot_unit": "eighth",
   "count_in_bars": 1,
   "audio_first_beat_s": 0,
-  "length_bars": 15,
-  "duration_s": 30.476,
+  "length_bars": 21,
+  "duration_s": 41.905,
   "judge": {
     "perfect_ms": 50,
     "good_ms": 90,
@@ -29,17 +29,41 @@
     "V",
     "W"
   ],
-  "design_intent": "새 기믹 없음. 반박 쌍 덩어리(E·V)가 빈 1박으로 이어지는 구절을 늘림. 마디 내용 대부분이 서로 다름.",
+  "design_intent": "(round-3 12세) 새 기믹 없음. 반박 쌍(E·V·W)과 정박 덩어리가 번갈아, 빈 1박 구절이 레벨 곳곳에. 별 27 → 54",
   "new_gimmicks": [],
   "difficulty": {
-    "target_child_sd70_median_max": 13,
-    "_note": "= balance.json verify.child_sd70_median_max_by_level (정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 17-5"
+    "target_rep_sd50_median_max": 8,
+    "_note": "= balance.json verify.rep_limits.by_level (12세 대표 봇 novice_sd50 정수 중앙값, 처음 보는 무늬 비용 포함 세션). 설계값은 20-balance.md 18장",
+    "target_child_sd70_median_max_r3b_deprecated": 13,
+    "_status_child_sd70": "deprecated (round-3 12세, 결정 14: σ70 은 참고값)"
   },
   "path": {
     "preview_lead_beats": 3.5,
     "preview_lead_beats_portrait": 3.5,
     "screen_chunks_max": 3,
     "chunks": [
+      {"shape":"E","empty_before":2},
+      {"shape":"A","empty_before":1},
+      {"shape":"W","empty_before":1},
+      {"shape":"B","empty_before":2},
+      {"shape":"A","empty_before":2},
+      {"shape":"D","empty_before":1},
+      {"shape":"E","empty_before":2},
+      {"shape":"W","empty_before":3},
+      {"shape":"C","empty_before":2},
+      {"shape":"V","empty_before":1},
+      {"shape":"C","empty_before":1},
+      {"shape":"W","empty_before":1},
+      {"shape":"V","empty_before":2},
+      {"shape":"E","empty_before":1},
+      {"shape":"V","empty_before":1},
+      {"shape":"C","empty_before":2},
+      {"shape":"D","empty_before":2},
+      {"shape":"W","empty_before":2},
+      {"shape":"E","empty_before":4}
+    ],
+    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키.",
+    "chunks_r3b_deprecated": [
       {"shape":"E","empty_before":2},
       {"shape":"B","empty_before":1},
       {"shape":"V","empty_before":1},
@@ -52,17 +76,44 @@
       {"shape":"E","empty_before":3},
       {"shape":"V","empty_before":3}
     ],
-    "_note": "레벨 원본(N10 고정 배치). chunk = {shape: path_v3.chunk_library id, empty_before: 앞 덩어리 마지막 별 뒤 빈 박(첫 덩어리는 레벨 박 0부터 박 수)}. 아래 bars·patterns·sections·practice·cues·length 는 node tools/sim/path.mjs --write 로 만든 파생 키."
+    "_chunks_r3b_note": "round-3 12세 재조정(2026-11-17 요청자 지시 \"러너와 리듬의 연령 기준은 12세 정도\", criteria 결정 14, 20-balance.md 18장): 대표 봇 σ50 기준 곡선 상향. 판정 창·BPM·미리 보기 박·새 기믹·카드 그대로, 덩어리 수·빈 1~2박 구절(밀도)로 올림. 옛 열(5~6세 σ70 기준, 1-2 R25 뒤) = chunks_r3b_deprecated"
   },
   "patterns": {
     "c45": {
       "slots": [4,5]
     },
+    "c046": {
+      "slots": [0,4,6]
+    },
+    "c016": {
+      "slots": [0,1,6]
+    },
+    "c06": {
+      "slots": [0,6]
+    },
+    "c246": {
+      "slots": [2,4,6]
+    },
+    "c067": {
+      "slots": [0,6,7]
+    },
+    "c6": {
+      "slots": [6]
+    },
+    "c023": {
+      "slots": [0,2,3]
+    },
+    "c024": {
+      "slots": [0,2,4]
+    },
+    "c0236": {
+      "slots": [0,2,3,6]
+    },
     "c026": {
       "slots": [0,2,6]
     },
-    "c01": {
-      "slots": [0,1]
+    "c02367": {
+      "slots": [0,2,3,6,7]
     },
     "c245": {
       "slots": [2,4,5]
@@ -70,36 +121,36 @@
     "c46": {
       "slots": [4,6]
     },
-    "c06": {
-      "slots": [0,6]
+    "c02": {
+      "slots": [0,2]
     },
-    "c024": {
-      "slots": [0,2,4]
-    },
-    "c467": {
-      "slots": [4,6,7]
+    "c0245": {
+      "slots": [0,2,4,5]
     },
     "c67": {
       "slots": [6,7]
-    },
-    "c6": {
-      "slots": [6]
     }
   },
   "bars": [
     {"mode":"play","pattern":"c45"},
-    {"mode":"play","pattern":"c026"},
-    {"mode":"play","pattern":"c01"},
-    {"mode":"play","pattern":"c245"},
-    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c046"},
+    {"mode":"play","pattern":"c016"},
     {"mode":"play","pattern":"c06"},
-    {"mode":"rest"},
-    {"mode":"play","pattern":"c024"},
-    {"mode":"play","pattern":"c46"},
-    {"mode":"play","pattern":"c467"},
-    {"mode":"play","pattern":"c67"},
+    {"mode":"play","pattern":"c246"},
+    {"mode":"play","pattern":"c067"},
     {"mode":"play","pattern":"c6"},
-    {"mode":"play","pattern":"c01"},
+    {"mode":"play","pattern":"c023"},
+    {"mode":"play","pattern":"c024"},
+    {"mode":"play","pattern":"c0236"},
+    {"mode":"play","pattern":"c026"},
+    {"mode":"play","pattern":"c023"},
+    {"mode":"play","pattern":"c02367"},
+    {"mode":"play","pattern":"c245"},
+    {"mode":"play","pattern":"c246"},
+    {"mode":"play","pattern":"c46"},
+    {"mode":"play","pattern":"c02"},
+    {"mode":"play","pattern":"c0245"},
+    {"mode":"play","pattern":"c67"},
     {"mode":"rest"},
     {"mode":"rest"}
   ],
@@ -111,17 +162,17 @@
     },
     {
       "name": "part2",
-      "start_bar": 3,
+      "start_bar": 7,
       "stage": 2
     },
     {
       "name": "part3",
-      "start_bar": 8,
+      "start_bar": 12,
       "stage": 3
     },
     {
       "name": "outro",
-      "start_bar": 13,
+      "start_bar": 19,
       "stage": 3
     }
   ],
@@ -132,65 +183,81 @@
         "beat": 9,
         "bar": 2,
         "slot": 2,
-        "empty_beats": 4,
+        "empty_beats": 2,
         "next_chunk": 3,
-        "next_star_beat": 13
+        "next_star_beat": 11
       },
       {
-        "beat": 15,
+        "beat": 13,
         "bar": 3,
-        "slot": 6,
-        "empty_beats": 3,
+        "slot": 2,
+        "empty_beats": 2,
         "next_chunk": 4,
-        "next_star_beat": 18
+        "next_star_beat": 15
       },
       {
         "beat": 21,
         "bar": 5,
         "slot": 2,
         "empty_beats": 2,
-        "next_chunk": 5,
+        "next_chunk": 6,
         "next_star_beat": 23
       },
       {
         "beat": 24,
         "bar": 6,
         "slot": 0,
-        "empty_beats": 4,
-        "next_chunk": 6,
-        "next_star_beat": 28
-      },
-      {
-        "beat": 31,
-        "bar": 7,
-        "slot": 6,
         "empty_beats": 3,
         "next_chunk": 7,
-        "next_star_beat": 34
+        "next_star_beat": 27
       },
       {
-        "beat": 36,
-        "bar": 9,
-        "slot": 0,
+        "beat": 30,
+        "bar": 7,
+        "slot": 4,
         "empty_beats": 2,
         "next_chunk": 8,
-        "next_star_beat": 38
+        "next_star_beat": 32
       },
       {
-        "beat": 40,
-        "bar": 10,
-        "slot": 0,
-        "empty_beats": 3,
-        "next_chunk": 9,
-        "next_star_beat": 43
-      },
-      {
-        "beat": 44,
+        "beat": 46,
         "bar": 11,
+        "slot": 4,
+        "empty_beats": 2,
+        "next_chunk": 12,
+        "next_star_beat": 48
+      },
+      {
+        "beat": 55,
+        "bar": 13,
+        "slot": 6,
+        "empty_beats": 2,
+        "next_chunk": 15,
+        "next_star_beat": 57
+      },
+      {
+        "beat": 60,
+        "bar": 15,
         "slot": 0,
-        "empty_beats": 3,
-        "next_chunk": 10,
-        "next_star_beat": 47
+        "empty_beats": 2,
+        "next_chunk": 16,
+        "next_star_beat": 62
+      },
+      {
+        "beat": 66,
+        "bar": 16,
+        "slot": 4,
+        "empty_beats": 2,
+        "next_chunk": 17,
+        "next_star_beat": 68
+      },
+      {
+        "beat": 71,
+        "bar": 17,
+        "slot": 6,
+        "empty_beats": 4,
+        "next_chunk": 18,
+        "next_star_beat": 75
       }
     ]
   },
@@ -325,5 +392,6 @@
       "target_child_sd70_median_max": 8,
       "_note": "= balance.json verify.child_sd70_median_max_by_level. 설계값은 20-balance.md 11-2"
     }
-  }
+  },
+  "design_intent_r3b_deprecated": "새 기믹 없음. 반박 쌍 덩어리(E·V)가 빈 1박으로 이어지는 구절을 늘림. 마디 내용 대부분이 서로 다름."
 }
