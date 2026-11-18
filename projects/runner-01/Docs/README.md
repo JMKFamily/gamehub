@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | orchestrator | 1-7 | [round-2 게이트 판정(7.320 실패)과 round-3 결정 16~23](orchestrator/2026-11-18-1-7-round2-gate-and-round3-decisions.md) |
+| 2026-11-18 | qa-engineer | round-2 1-6 | [round-2 점수 집계 (가중 7.320, 게이트 실패: 총점만, UX 7.5·blocker 0, major 5·minor 28, 충돌 8건, criteria 14줄 추가)](qa-engineer/2026-11-18-1-6-round2-score.md) |
 | 2026-11-18 | ux-reviewer | round-2 1-5 | [round-2 UX 리뷰 (7.5 PASS, 구분 불가 쌍 0·blocker/major 0, 고리 탭 판정 글 생략 75 %, round-3 콤보 연출 조건 R3-1~8)](ux-reviewer/2026-11-18-1-5-round2-ux-review.md) |
 | 2026-11-18 | art-director | round-2 1-5 | [round-2 시각·사운드 리뷰 (7.6 REVISE, 콤보 연출 강화 차이·30-art 설계 방향, 판정 글 테 → 단순 채움, D22·D23·고리 생략·결정 15)](art-director/2026-11-18-1-5-round2-review.md) |
 | 2026-11-18 | balance-designer | round-2 1-5 | [round-2 밸런스 리뷰 (6.5 REVISE, L10 정의 = 결정 10 연속 중앙값, σ50 12세 재보정 안 A·L10 3.18)](balance-designer/2026-11-18-1-5-round2-review.md) |
