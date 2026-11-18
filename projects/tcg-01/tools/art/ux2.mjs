@@ -283,17 +283,8 @@ export function worldmapSVG(wm, w = 360, h = 640, fullMap = false) {
   const byId = Object.fromEntries(nodes.map((n) => [n.id, n]));
   const link = (a, b) => { const done = a.state !== 'locked' && b.state !== 'locked'; p.push(`<path d="M${X(a.x)} ${Y(a.y)}L${X(b.x)} ${Y(b.y)}" stroke="${done ? ui.salt_white : UX2.worldmap.locked}" stroke-width="${UX2.worldmap.path_px}" stroke-dasharray="${done ? '0' : '8 8'}" stroke-linecap="round" opacity="${done ? 0.85 : 0.65}"/>`); };
   for (const n of nodes) { const prev = n.order > 1 ? nodes.find((q) => q.region === n.region && q.order === n.order - 1) : n.unlock && n.unlock.prev ? byId[n.unlock.prev] : n.region === 'rift' ? byId[wm.start_node] || nodes[0] : null; if (prev) link(prev, n); }
-  const R = 22;
-  for (const n of nodes) {
-    const x = X(n.x), y = Y(n.y);
-    if (n.state === 'current') p.push(`<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${ui.focus}" stroke-width="4"/>`);
-    const fill = n.state === 'cleared' ? ui.card_plate : n.state === 'current' ? ui.button_primary : n.state === 'open' ? '#3A5560' : '#24343B';
-    p.push(`<path d="M${x - R} ${y - R}H${x + R - 8}L${x + R} ${y - R + 8}V${y + R}H${x - R}Z" fill="${fill}" stroke="${n.final ? '#4DE0FF' : ui.stat_tab}" stroke-width="${n.final ? 3 : 2}"/>`);
-    if (n.state === 'cleared') p.push(`<path d="M${x - 9} ${y}L${x - 2} ${y + 7}L${x + 10} ${y - 7}" fill="none" stroke="${ui.card_ink}" stroke-width="4" stroke-linecap="round"/>`);
-    else if (n.state === 'locked') p.push(`<rect x="${x - 8}" y="${y - 2}" width="16" height="12" rx="2" fill="${UX2.worldmap.locked}"/><path d="M${x - 5} ${y - 2}V${y - 7}A5 5 0 0 1 ${x + 5} ${y - 7}V${y - 2}" fill="none" stroke="${UX2.worldmap.locked}" stroke-width="3"/>`);
-    else if (n.state === 'open') p.push(T(x, y + 6, String(n.order), 16, ui.salt_white, 'middle', 800));
-    else p.push(nest(A.heroSVG('h_warden'), x - 15, y - 20, 30, 36));
-  }
+  const R = 24;
+  for (const n of nodes) { const x = X(n.x), y = Y(n.y); if (n.state === 'current') p.push(`<circle cx="${x}" cy="${y}" r="${R + 10}" fill="none" stroke="${ui.focus}" stroke-width="4"/>`); p.push(`<g transform="translate(${x - R} ${y - R})">${nodeBody(n.region, n.state, n.order)}</g>`); if (n.state === 'current') p.push(nest(A.heroSVG('h_warden'), x - 13, y - R - 40, 26, 32)); }
   if (fullMap) return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MAP_W} ${MAP_H}" width="${MAP_W}" height="${MAP_H}"><title>이야기 지도 전체</title>${p.join('')}</svg>\n`;
   const cur = nodes.find((q) => q.state === 'current') || nodes[0];
   const vx = Math.max(0, Math.min(MAP_W - w, X(cur.x) - w / 2)), vy = Math.max(0, Math.min(MAP_H - h, Y(cur.y) - h * 0.45));
@@ -301,3 +292,30 @@ export function worldmapSVG(wm, w = 360, h = 640, fullMap = false) {
   const curCard = `<g>${plate(r(84, h - 140, w - 92, 76), ui.bg_panel, ui.focus, 12)}${T(100, h - 112, cur.title_ko || cur.id, 15, ui.salt_white, 'start', 800)}${T(100, h - 92, '파수단 영웅으로 1번 이기기', 11, ui.salt_dim)}${coreBtn(r(w - 120, h - 128, 104, 52), '들어가기', true)}</g>`;
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><title>이야기 지도</title><g transform="translate(${-vx} ${-vy})">${p.join('')}</g><rect width="${w}" height="56" fill="#0E1C23" opacity=".92"/>${T(16, 34, '이야기 지도', 16, ui.salt_white, 'start', 800)}${T(w - 16, 34, `${done} / ${nodes.length}`, 13, ui.salt_dim, 'end', 700)}${curCard}${plate(r(8, h - 56, 64, 48), ui.button_idle)}${T(40, h - 26, '뒤로', 14, ui.salt_white, 'middle', 700)}</svg>\n`;
 }
+
+// ───────── 월드맵 노드 = 지역 상징 그림 (UX2 재리뷰, dev 요청) ─────────
+export const REGION_NODE = {
+  bare:     { glyph: 'arch', fac: 'neutral' },
+  warden:   { glyph: 'shield', fac: 'h_warden' },
+  rider:    { glyph: 'triangle_lean', fac: 'h_rider' },
+  wreck:    { glyph: 'gear', fac: 'h_wreck' },
+  choir:    { glyph: 'bell', fac: 'h_choir' },
+  archive:  { glyph: 'lamp', fac: 'h_archive' },
+  nameless: { glyph: 'crescent_blank', fac: 'h_nameless' },
+  rift:     { glyph: 'bolt_zig', fac: null },
+};
+/** 노드 그림(48 좌표). state: cleared(밝은 판 + ✓ 배지) / current(주황 테두리) / open / locked(어둡게 + 자물쇠) */
+export function nodeBody(region, state = 'open', order = null) {
+  const R = REGION_NODE[region] || REGION_NODE.bare, f = R.fac ? factions[R.fac] : { primary: '#4DE0FF', secondary: '#0A1016', deep: '#05090D' };
+  const bg = state === 'cleared' ? ui.card_plate : f.deep, stroke = state === 'current' ? ui.button_primary : region === 'rift' ? '#4DE0FF' : ui.stat_tab;
+  const p = [`<path d="M2 2H38L46 10V46H2Z" fill="${bg}" stroke="${stroke}" stroke-width="${state === 'current' ? 4 : 2.5}"/>`];
+  p.push(A.glyph ? '' : '');
+  p.push(`<g opacity="${state === 'locked' ? 0.35 : 1}">${glyphStr(R.glyph, f, state === 'cleared' ? ui.card_plate : f.deep)}</g>`);
+  if (state === 'cleared') p.push(`<circle cx="38" cy="38" r="9" fill="#6EE7A8" stroke="${ui.stat_tab}" stroke-width="2"/><path d="M34 38L37 41L42 35" fill="none" stroke="${ui.stat_tab}" stroke-width="2.6" stroke-linecap="round"/>`);
+  if (state === 'locked') p.push(`<path d="M2 2H38L46 10V46H2Z" fill="#000" opacity=".45"/><rect x="17" y="24" width="14" height="11" rx="2" fill="${ui.salt_dim}"/><path d="M20 24V20A4 4 0 0 1 28 20V24" fill="none" stroke="${ui.salt_dim}" stroke-width="2.6"/>`);
+  if (order != null && state !== 'locked') p.push(`<circle cx="9" cy="9" r="7" fill="${ui.stat_tab}"/><text x="9" y="13" text-anchor="middle" font-size="10" font-weight="800" fill="${ui.salt_white}" ${A.FONT}>${order}</text>`);
+  return p.join('');
+}
+import { glyph as G2 } from './portrait-gen.mjs';
+function glyphStr(name, f, bg) { return G2(name, 24, 25, 13, f.primary, f.secondary === ui.salt_white ? ui.salt_white : f.secondary, bg); }
+export function nodeSVG(region, state, order) { return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48"><title>${region} ${state}</title>${nodeBody(region, state, order)}</svg>\n`; }

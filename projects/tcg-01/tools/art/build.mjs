@@ -240,6 +240,7 @@ put(SM, 'ux2-worldmap-full.svg', X.worldmapSVG(WM, 360, 640, true));
   q.push(nest(A.cardSVG(byId('B003'), 'hand'), 270, 160, 82, 115), `<text x="311" y="292" text-anchor="middle" font-size="11" fill="${U.salt_dim}" ${A.FONT}>비용 = 같은 촛불</text>`);
   put(SM, 'ux2-candle-hud.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 400" width="360" height="400">${q.join('')}</svg>`);
 }
+for (const rg of Object.keys(X.REGION_NODE)) for (const st of ['open', 'cleared', 'current', 'locked']) W(`node-${rg}-${st}.svg`, X.nodeSVG(rg, st));
 W('candle-lit.svg', A.candleSVG('lit')); W('candle-spent.svg', A.candleSVG('spent')); W('candle-spare.svg', A.candleSVG('spare')); W('candle-soot.svg', A.candleSVG('soot')); W('candle-empty.svg', A.candleSVG('empty'));
 
 // ── art.json ──
