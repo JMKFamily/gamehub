@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-18 | benchmark-analyst | terms | [게이트 뒤 지시 반영 재리뷰(용어·튜토리얼·한눈 구분·스토리)](benchmark-analyst/2026-11-18-terms-review.md) |
 | 2026-11-18 | ux-reviewer | 검수 피드백 r2 | [UX 재검수: 블라인드 유형 100 %·종류 93 %(색약 동일), 이전 major 2건 해소, 8.0 PASS](ux-reviewer/2026-11-18-ux-review-r2.md) |
 | 2026-11-18 | qa-engineer | terms 재측정 | [terms 재측정: 1% low 41~51 회복, 가로 튜토리얼 다음/건너뛰기 겹침 major, UX 블라인드 사진 r2 40장, 기술 7.0 REVISE](qa-engineer/2026-11-18-terms-qa-r2.md) |
 | 2026-11-18 | ux-reviewer | 검수 피드백 리뷰 | [UX 검수: 블라인드 유형 67 %(표지 보이면 100 %, 색약 동일)·부채꼴 손패 표지 가림 major·수집 격자 유형 없음 major, 5.5 REVISE](ux-reviewer/2026-11-18-ux-review.md) |
