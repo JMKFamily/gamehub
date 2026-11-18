@@ -31,7 +31,7 @@
 
 - 요청자: "토큰이 너무 빨리 소비되네요. 썰물팀 빼고 나머지는 일시중지" (마스터 전달). qa-engineer round-2 1-4 QA 에이전트를 중지했습니다. 새 에이전트·예약 작업 없음.
 - 멈춘 지점: QA 부분 결과가 디스크에 있고 커밋하지 않았습니다(qa.md·metrics.json·점수 미작성이라 미완성). 지우거나 되돌리지 않습니다.
-  - : a11y, balance, chord, combo, combo-check-node, grep-origin, indep(검증기 독립성), levels와 로그. 
-  - 수정 중인 도구: (balance 파트에 novice_sd50 대표 봇 추가 중이었음), 새 
+  - `reviews/round-2/parts/`: a11y, balance, chord, combo, combo-check-node, grep-origin, indep(검증기 독립성), levels와 로그. `reviews/round-2/shots/`
+  - 수정 중인 도구: `tools/qa-round.mjs`(balance 파트에 novice_sd50 대표 봇 추가 중이었음), 새 `tools/qa-r2-extra.mjs`
   - 포트 8150~8169에 남은 서버 없음 확인.
 - 재개 시 남은 일: (1) QA 이어서 — novice_sd50 표, 성능 새 브라우저 3회+대조 페이지 판정과 파티클 프레임 여유 한 줄, firstrun 이중 보정, 나머지 기본 검사, qa.md·metrics.json·기술 점수, 보고서. (2) 1-5 4역할 리뷰(콤보 연출 강화 기준 알림). (3) 1-6 점수 → 1-7 게이트. (4) 미통과 시 round-3: 12세 σ50 재보정, judge_pct.hud 0.45 s, 30-art 연습 결과 줄, 결정 13, D22·D23·고리 판정 글 생략, 콤보 연출 강화.
