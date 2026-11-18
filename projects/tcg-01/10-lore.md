@@ -891,6 +891,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `pause_hint` | 결투가 멈춰 있었습니다. 누르면 이어 갑니다. | The duel was paused. Tap to continue. | 같은 화면 설명 |
 | `deck_starter` | 입문 덱 | Starter Deck | 입문 덱 이름(목록: "{영웅} · 입문 덱") |
 | `deck_starter_desc` | 일반 카드만으로 짠 첫 덱 | A first Deck of Common cards only | 덱 고르기 보조 줄 |
+| `toast_no_target` | 고를 대상이 없습니다 | No valid target | 안 되는 이유 칩(30-art 11절): 대상이 필요한 카드·고유 능력을 쓸 대상이 없을 때 |
 
 튜토리얼 키·순서 규칙은 8-7(2026-11-18 개정)이 최신입니다. round-2의 `tut_3_no_play`는 `tut_no_play`로 바뀌었습니다.
 
