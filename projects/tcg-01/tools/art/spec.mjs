@@ -115,7 +115,7 @@ export const recut = [
 // ───────────────────────── 화면 구성 입력 ─────────────────────────
 // 실제 좌표는 layout.mjs가 해상도마다 계산해 art.json layout.screens에 넣음.
 export const layoutInput = {
-  board_slots: 5,              // balance 미정 → 5칸 가정(00-benchmark 10절 추천). 1-2에서 balance.json rules.board_limit로 맞춤
+  board_slots: 5,              // 기본값. 실제는 layout.mjs가 balance.json rules.board_limit(1-2 확정 5)를 읽음
   hand_limit: 10,
   touch_min_px: 48,
   gutter_px: 8,
@@ -218,7 +218,8 @@ export const tempo = {
       { at_or_below: 5,  vignette_ratio: 0.3,  pulse_period_ms: 1200, music_lowpass_hz: 600, drone_up_semitones: 2, thump_every_ms: 1200 },
     ],
     lethal_on_board: { enemy_glow_ms: 600, note: '내 공격만으로 상대를 쓰러뜨릴 수 있으면 상대 명줄 실이 가늘게 떨림(정보 노출 범위는 내 화면만)' },
-    turn_timer: { warn_from_s: 15, burn_line_px: 3, tick_sfx_every_ms: 1000 },
+    // 턴 시간(balance.json rules 확정: 50 s, 경고 15 s, 아무것도 안 하면 다음 턴 15 s, 첫 물때 30 s)
+    turn_timer: { turn_s: 50, warn_from_s: 15, critical_from_s: 5, idle_penalty_turn_s: 15, mulligan_s: 30, burn_line_px: 3, dim_line_opacity_ratio: 0.35, tick_sfx_every_ms: 1000, critical_tick_every_ms: 500, critical_color: '#FF6F5E', note: '50 s 중 앞 35 s는 가운데 띠에 흐린 선만(시간 압박 없음). 15 s부터 심지 선이 켜져 타들어 가고 매초 타는 소리, 5 s부터 끝 불꽃이 붉어지고 0.5 s마다. 벌칙 턴(15 s)은 처음부터 타는 상태 + 짧은 초 아이콘' },
     tide_wetness: { note: '판이 길어질수록(턴 8부터) 조수원 바닥이 조금씩 젖어 어두워짐 — 세계관 "젖은 소금"', per_turn_darken_ratio: 0.015, max_darken_ratio: 0.15 },
   },
   crate_open: {
@@ -235,6 +236,17 @@ export const tempo = {
 };
 // 이전 이름 호환(빌드가 fx를 찾을 때)
 export const fx = tempo;
+// balance 판 시간 식(20-balance 9-4)이 쓰는 요약값. 위 actions 표에서 계산(build.mjs가 다시 확인)
+// 한 행동 평균 = 내기 50 %(응답자 440·의식 520 평균 480) + 공격 40 %(530) + 호명술 10 %(360) = 488, 사망·첫 숨이 겹쳐 늘어나는 몫 +60 → 550
+tempo.summary_for_balance = {
+  action_avg_normal_ms: 550, action_avg_fast_ms: 280,
+  big_entry_normal_ms: 1800, big_entry_fast_ms: 900,
+  lethal_blow_normal_ms: 1500, lethal_blow_fast_ms: 800,
+  turn_transition_normal_ms: 900, turn_transition_fast_ms: 450,
+  ai_ms_per_action_normal: 825, ai_first_and_end_ms_normal: 1400,
+  max_ms_per_action_except_tier3: 900,
+  note: 'balance.json tempo의 action_anim_ms 600(보수적, 허용)·big_card_anim_ms 2000(→1800)·lethal_slowmo_ms 800(→ 마지막 일격 전체 1500, 그중 느린 동작 400)을 이 값으로 맞춤 요청',
+};
 
 // ───────────────────────── 사운드 ─────────────────────────
 // Web Audio 합성 사양. gain_db는 마스터 앞 기준 목표값(오프라인 렌더로 1-2에서 확인).

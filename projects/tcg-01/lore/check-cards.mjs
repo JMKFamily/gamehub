@@ -71,8 +71,24 @@ const kw = {};
 for (const k of KEYWORDS) kw[k] = cnt((c) => c.concept_ko.includes(k));
 const kwAvg = Object.values(kw).reduce((a, b) => a + b, 0) / KEYWORDS.length;
 if (kwAvg < 8) fail(`키워드 평균 ${kwAvg.toFixed(1)}장 (8 이상이어야 함)`);
-// 8. 길이 (카드 글 3줄 권장: concept 70자 이하 경고)
-const longText = cards.filter((c) => c.concept_ko.length > 70).map((c) => `${c.id}(${c.concept_ko.length})`);
+// 8. 길이: 30-art 글 상자 15자 × 4줄 = 60자(줄바꿈 keep-all 여유로 56자 권장),
+//    이름 띠 17 px·약 200 px = 한국어 10자·영문 21자 이내
+const len = (s) => [...s].length;
+for (const c of cards) {
+  if (len(c.concept_ko) > 60) fail(`${c.id}: concept ${len(c.concept_ko)}자 (60자 초과, 글 상자 4줄 넘침)`);
+  if (len(c.name_ko) > 10) fail(`${c.id}: name_ko ${len(c.name_ko)}자 (10자 초과)`);
+  if (len(c.name_en) > 21) fail(`${c.id}: name_en ${len(c.name_en)}자 (21자 초과)`);
+}
+const longText = cards.filter((c) => len(c.concept_ko) > 56).map((c) => `${c.id}(${len(c.concept_ko)})`);
+// 9. 원본 보호: 레퍼런스 키워드·기본 용어(영문·공식 한국어 번역어)가 카드 글·이름·플레이버에 없음
+const BANNED_KO = ['돌격', '돌진', '속공', '도발', '은신', '질풍', '침묵', '빙결', '발견', '과부하', '연계', '비밀', '독성', '생명력 흡수', '주문 공격력', '천상의 보호막', '전투의 함성', '죽음의 메아리', '환생', '하수인', '방어도', '마나', '영웅 능력'];
+const BANNED_EN = ['charge', 'rush', 'taunt', 'stealth', 'windfury', 'silence', 'freeze', 'discover', 'overload', 'combo', 'secret', 'poisonous', 'lifesteal', 'spell damage', 'divine shield', 'battlecry', 'deathrattle', 'reborn', 'minion', 'armor', 'mana', 'hero power', 'forge', 'echo', 'invoke', 'tidecaller'];
+for (const c of cards) {
+  const ko = `${c.name_ko} ${c.flavor_ko} ${c.concept_ko}`;
+  const en = `${c.name_en} ${c.flavor_en}`.toLowerCase();
+  for (const w of BANNED_KO) if (ko.includes(w)) fail(`${c.id}: 금지어 "${w}"`);
+  for (const w of BANNED_EN) if (new RegExp(`\\b${w}\\b`).test(en)) fail(`${c.id}: 금지어 "${w}"`);
+}
 
 const branchCount = {};
 for (const c of cards) branchCount[c.branch] = (branchCount[c.branch] || 0) + 1;
@@ -84,6 +100,6 @@ console.log('영웅별', JSON.stringify(ownerTable));
 console.log('갈래별', JSON.stringify(branchCount));
 console.log('희귀도', JSON.stringify(rar));
 console.log('키워드 등장', JSON.stringify(kw), '평균', kwAvg.toFixed(1));
-console.log('concept 70자 초과(경고)', longText.length ? longText.join(', ') : '없음');
+console.log('concept 56자 초과(경고)', longText.length ? longText.join(', ') : '없음');
 if (errors.length) { console.log('실패', errors.length); for (const e of errors) console.log(' -', e); process.exit(1); }
 console.log('결과: 통과');

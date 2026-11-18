@@ -4,7 +4,7 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as S from './spec.mjs';
-import { RESOLUTIONS, computeLayout, checkLayout } from './layout.mjs';
+import { RESOLUTIONS, computeLayout, checkLayout, L as LAYIN } from './layout.mjs';
 import { loadCards, SAMPLE_IDS, portraitSVG } from './portrait-gen.mjs';
 import * as A from './assets.mjs';
 
@@ -60,18 +60,32 @@ for (const r of Object.keys(S.rarity)) W(`salt-chunk-${r}.svg`, A.saltChunkSVG(r
 W('app-icon.svg', A.appIconSVG());
 
 // ── 샘플: 카드(확대·손패·보드), 돌파 단계 ──
-const cards = loadCards();
+// 1-2: 실제 수치(cards.json, balance) + 이름·글(lore) 합치기
+const lore = loadCards();
+const engine = existsSync(join(PROJ, 'cards.json')) ? JSON.parse(readFileSync(join(PROJ, 'cards.json'), 'utf8')).cards : [];
+const cards = lore.map((l) => ({ ...l, ...(engine.find((e) => e.id === l.id) || {}), name_ko: l.name_ko, concept_ko: l.concept_ko, visual_hint: l.visual_hint }));
 const byId = (id) => cards.find((c) => c.id === id);
-const sampleCards = ['B003', 'B036', 'B051', 'B064', 'D012', 'A048', 'A002', 'B097'];
+// 가장 긴 이름(B051 12자)·가장 긴 글(D004 60자, A045 55자)을 포함
+const sampleCards = ['B051', 'D004', 'A045', 'B036', 'B003', 'B064', 'D012', 'A048', 'A002', 'B097'];
+// 글·이름 맞춤 검사(200장 전체)
+const textFail = [];
+for (const c of cards) {
+  const kind = A.ENGINE_KIND[c.kind] || 'answerer';
+  const ft = A.fitText(c.concept_ko || '', kind);
+  if (!ft.ok) textFail.push(c.id + ' 글');
+  const nmFont = Math.min(S.card.name_band.font_px, Math.floor((S.card.base_w_px - 70) / Math.max(4, c.name_ko.length)));
+  if (nmFont < 12) textFail.push(c.id + ' 이름 ' + nmFont + 'px');
+}
+const textStats = { cards: cards.length, fail: textFail.length, small_font_cards: cards.filter((c) => A.fitText(c.concept_ko || '', A.ENGINE_KIND[c.kind] || 'answerer').font < 13).length, min_name_font_px: Math.min(...cards.map((c) => Math.min(S.card.name_band.font_px, Math.floor((S.card.base_w_px - 70) / Math.max(4, c.name_ko.length))))) };
 for (const id of sampleCards) {
   const c = byId(id);
   put(SM, `card-${id}-full.svg`, A.cardSVG(c, 'full'));
   put(SM, `card-${id}-hand.svg`, A.cardSVG(c, 'hand'));
-  put(SM, `card-${id}-token.svg`, A.tokenSVG(c, { state: { ready: true } }));
+  if (c.kind === 'minion') put(SM, `card-${id}-token.svg`, A.tokenSVG(c, { state: { ready: true } })); // 보드 토큰은 응답자만
 }
 {
   const c = byId('B042'); const cell = 260;
-  put(SM, 'recut-stages-B042.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cell * 4} 400" width="${cell * 4}" height="400"><rect width="100%" height="100%" fill="${U.bg_panel}"/>${S.recut.map((r, i) => `${nest(A.cardSVG(c, 'full', { recut: r.level, kind: 'answerer' }), i * cell + 5, 10, 250, 350)}<text x="${i * cell + 130}" y="388" text-anchor="middle" font-size="16" fill="${U.salt_white}" ${A.FONT}>${r.level} ${r.ko}</text>`).join('')}</svg>`);
+  put(SM, 'recut-stages-B042.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${cell * 4} 400" width="${cell * 4}" height="400"><rect width="100%" height="100%" fill="${U.bg_panel}"/>${S.recut.map((r, i) => `${nest(A.cardSVG(c, 'full', { recut: r.level, kind: 'answerer', stats: { cost: c.cost, atk: c.attack + (c.breakthrough?.[r.level]?.attack || 0), hp: c.health + (c.breakthrough?.[r.level]?.health || 0), base_atk: c.attack, base_hp: c.health } }), i * cell + 5, 10, 250, 350)}<text x="${i * cell + 130}" y="388" text-anchor="middle" font-size="16" fill="${U.salt_white}" ${A.FONT}>${r.level} ${r.ko}</text>`).join('')}</svg>`);
 }
 
 // ── 목업 ──
@@ -79,8 +93,7 @@ function heroPlate(id, x, y, w, h, life, shell = 0, enemy = false, k = 1) {
   const f = S.factions[id];
   const ch = Math.round(w * 0.16);
   return `<g transform="translate(${x} ${y})"><path d="M0 0H${w - ch}L${w} ${ch}V${h}H0Z" fill="${f.deep}" stroke="${f.primary}" stroke-width="2.5"/>${nest(A.heroSVG(id), 3, 3, w - 6, h - 6)}
-<rect x="${w - 22 * k}" y="${h - 30 * k}" width="${26 * k}" height="${30 * k}" rx="4" fill="${U.stat_tab}" stroke="${S.state.damage}" stroke-width="1.5"/><text x="${w - 9 * k}" y="${h - 9 * k}" text-anchor="middle" font-size="${16 * k}" font-weight="800" fill="${life < 30 ? S.state.damage : U.salt_white}" ${A.FONT}>${life}</text>
-${shell ? `<g transform="translate(${w - 22} ${h - 56}) scale(.55)">${inner(A.statIcons['icon-shell']())}</g><text x="${w - 9}" y="${h - 36}" text-anchor="middle" font-size="12" font-weight="800" fill="${U.stat_tab}" ${A.FONT}>${shell}</text>` : ''}</g>`;
+${(() => { const tw = (shell ? 52 : 30) * k, th = 22 * k, tx = (w - tw) / 2, ty = h - th + 6 * k; return `<path d="M${tx + 5 * k} ${ty}H${tx + tw - 5 * k}L${tx + tw} ${ty + th / 2}L${tx + tw - 5 * k} ${ty + th}H${tx + 5 * k}L${tx} ${ty + th / 2}Z" fill="${U.stat_tab}" stroke="${f.primary}" stroke-width="1.5"/>${shell ? `<text x="${tx + 12 * k}" y="${ty + th * .74}" text-anchor="middle" font-size="${13 * k}" font-weight="800" fill="${S.state.shell}" ${A.FONT}>${shell}</text><path d="M${tx + 24 * k} ${ty + 3 * k}L${tx + 20 * k} ${ty + th - 3 * k}" stroke="${f.primary}"/>` : ''}<text x="${tx + tw - 15 * k}" y="${ty + th * .76}" text-anchor="middle" font-size="${16 * k}" font-weight="800" fill="${life < 30 ? S.state.damage : U.salt_white}" ${A.FONT}>${life}</text>`; })()}</g>`;
 }
 function wickBar(r, lit, max, soot = 0) {
   const n = 10, bw = Math.min(8, (r.w - 34) / n - 2), out = [];
@@ -95,8 +108,8 @@ function battleMock(w, h) {
   p.push(`<rect x="${E.enemy_board.x - 4}" y="${bTop}" width="${E.enemy_board.w + 8}" height="${bBot - bTop}" rx="14" fill="${U.board_wet_salt}"/>`);
   p.push(`<ellipse cx="${cx}" cy="${(bTop + bBot) / 2}" rx="${E.enemy_board.w * .48}" ry="${(bBot - bTop) * .46}" fill="none" stroke="${U.board_ring}" stroke-width="2" stroke-dasharray="2 6"/>`);
   for (const s of [...E.enemy_slots, ...E.my_slots]) p.push(`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="6" fill="${U.board_slot}" opacity=".6"/>`);
-  const enemyT = [['B036', { keywords: ['brine'], brine: 2 }], ['B024', { damaged: true }], ['B020', { keywords: ['breakwater'] }]];
-  const myT = [['B003', { ready: true, keywords: ['breakwater'] }], ['B005', { ready: true, atkBuff: true }], ['B096', { ready: false }], ['B097', { ready: true, keywords: ['seamist'] }]];
+  const enemyT = [['B031', { brine: 2 }], ['B024', { damaged: true }], ['A025', {}]];
+  const myT = [['B003', { ready: true }], ['B012', { ready: true, atkBuff: true }], ['B096', { ready: false }], ['B097', { ready: true }]];
   enemyT.forEach(([id, st], i) => { const s = E.enemy_slots[i + 1]; p.push(nest(A.tokenSVG(byId(id), { state: st }), s.x, s.y, s.w, s.h)); });
   myT.forEach(([id, st], i) => { const s = E.my_slots[i]; p.push(nest(A.tokenSVG(byId(id), { state: { ...st, selected: i === 1 } }), s.x, s.y, s.w, s.h)); });
   // 공격 화살표(대상 지정 예)
@@ -146,7 +159,8 @@ const art = {
   note: '단위는 키 끝(_px·_ms·_s·_hz·_db·_ratio·_deg·_bpm). layout은 board_slots=5 가정(balance.json rules.board_limit 확정 후 1-2에서 다시 생성)',
   palette: { ui: S.ui, factions: S.factions, rarity: S.rarity, state: S.state, keywords: S.keywords },
   card: S.card, recut: S.recut,
-  layout: { input: S.layoutInput, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
+  text_fit: textStats,
+  layout: { input: LAYIN, screens: Object.fromEntries(Object.entries(screens).map(([k, v]) => [k, { orientation: v.orientation, scale: v.scale, slot_w_px: v.slot_w, slot_h_px: v.slot_h, board_stat_font_px: v.check.stat_font_px, hand_spread_card_w_px: v.check.hand_spread_card_w_px, rects_px: v.E }])) },
   tempo: S.tempo, sound: S.sound, text_keys: S.textKeys,
   assets: written.sort(),
   portrait_generator: { module: 'tools/art/portrait-gen.mjs', export: 'portraitSVG(card)', viewbox: '0 0 120 90', cache: '카드마다 한 번 만들어 blob URL로 캐시' },
@@ -157,16 +171,17 @@ writeFileSync(join(PROJ, 'art.json'), JSON.stringify(art, null, 1) + '\n');
 // ── 검수 시트(HTML, Edge 헤드리스 스크린샷용, 파일 안 이미지만) ──
 const sheet = `<!doctype html><meta charset="utf-8"><title>tcg-01 art sheet</title><style>body{background:${U.bg_abyss};color:${U.salt_white};font-family:sans-serif;margin:8px}img{margin:4px;vertical-align:top}.d img{background:${U.bg_panel}}</style>
 <div>${['frame-answerer', 'frame-rite', 'frame-brand', 'card-back'].map((n) => `<img src="../${n}.svg" width="160">`).join('')}${sampleCards.map((id) => `<img src="card-${id}-full.svg" width="160">`).join('')}</div>
-<div>${sampleCards.map((id) => `<img src="card-${id}-hand.svg" width="82">`).join('')}${sampleCards.map((id) => `<img src="card-${id}-token.svg" width="64">`).join('')}</div>
+<div>${sampleCards.map((id) => `<img src="card-${id}-hand.svg" width="82">`).join('')}${sampleCards.filter((id) => byId(id).kind === 'minion').map((id) => `<img src="card-${id}-token.svg" width="64">`).join('')}</div>
 <div class="d">${Object.keys(S.factions).filter((x) => x !== 'neutral').map((id) => `<img src="../hero-${id.slice(2)}.svg" width="100">`).join('')}${['bare-sea', 'warden', 'rider'].map((n) => `<img src="../crate-${n}.svg" width="100">`).join('')}${Object.keys(S.rarity).map((r) => `<img src="../salt-chunk-${r}.svg" width="64">`).join('')}<img src="../app-icon.svg" width="100"></div>
 <div class="d">${A.keywordIds.map((k) => `<img src="../kw-${k}.svg" width="40" title="${k}">`).join('')}${Object.keys(S.rarity).map((r) => `<img src="../rarity-${r}.svg" width="40">`).join('')}${[...Object.keys(A.statIcons), ...Object.keys(A.currencyIcons)].map((n) => `<img src="../${n}.svg" width="40">`).join('')}</div>`;
 put(SM, 'sheet.html', sheet);
 put(SM, 'mockups.html', `<!doctype html><meta charset="utf-8"><style>body{background:#000;margin:8px}img{margin:4px;vertical-align:top}</style><img src="../mockup-battle-360x640.svg"><img src="../mockup-battle-412x915.svg" width="360"><img src="../mockup-crate-360x640.svg"><br><img src="../mockup-battle-640x360.svg"><img src="../mockup-battle-1280x720.svg" width="640"><br><img src="recut-stages-B042.svg" width="900">`);
 
 // ── 결과 ──
+console.log(`글 맞춤 ${textStats.cards}장: 실패 ${textStats.fail} ${textFail.join(' ')}, 12 px로 줄인 카드 ${textStats.small_font_cards}, 이름 최소 ${textStats.min_name_font_px}px, 필드 ${LAYIN.board_slots}칸·손패 ${LAYIN.hand_limit} (${LAYIN.source})`);
 console.log(`에셋 ${written.length}개, 샘플 카드 ${sampleCards.length}장 × 3형태 + 돌파 시트`);
 console.log(`대비 ${pairs.length}쌍 검사, 실패 ${badPairs.length}, 글자·숫자 최소 ${art.contrast.min_ratio}:1`);
 for (const b of badPairs) console.log(`  FAIL ${b.what}: ${b.ratio} < ${b.min}`);
 for (const [k, v] of Object.entries(screens)) console.log(`  ${k}: slot ${v.slot_w}x${v.slot_h}, 보드 숫자 ${v.check.stat_font_px}px, ${v.check.errs.length ? 'FAIL ' + v.check.errs.join('; ') : '배치 OK'}`);
 writeFileSync(join(SM, 'contrast-report.json'), JSON.stringify(pairs, null, 1));
-process.exit(badPairs.length || layoutErrs ? 1 : 0);
+process.exit(badPairs.length || layoutErrs || textFail.length ? 1 : 0);

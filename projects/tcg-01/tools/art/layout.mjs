@@ -1,6 +1,13 @@
 // 대전 화면 배치 계산기 (art-director 1-1). 해상도마다 사각형(x,y,w,h px)을 계산하고 겹침·터치 크기를 검사.
 // 사용: node tools/art/layout.mjs --check   (build.mjs가 art.json layout.screens에 결과를 넣음)
-import { layoutInput as L } from './spec.mjs';
+import { layoutInput as L0 } from './spec.mjs';
+import { readFileSync, existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+// 1-2: 필드 칸·손패 상한은 balance.json rules가 원본(board_limit 5, hand_limit 10 확정)
+const BAL = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'balance.json');
+const rules = existsSync(BAL) ? JSON.parse(readFileSync(BAL, 'utf8')).rules : {};
+export const L = { ...L0, board_slots: rules.board_limit ?? L0.board_slots, hand_limit: rules.hand_limit ?? L0.hand_limit, source: existsSync(BAL) ? 'balance.json rules' : 'spec 가정' };
 
 export const RESOLUTIONS = [[360, 640], [412, 915], [640, 360], [1280, 720]];
 const r = (x, y, w, h, extra = {}) => ({ x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h), ...extra });
@@ -87,8 +94,10 @@ function landscape(w, h, n) {
   const rx = w - g - Rc;
   E.enemy_hand = r(rx, L.safe_top_px, Rc, 40 * s, { kind: 'display' });
   E.enemy_deck = r(rx, L.safe_top_px + 44 * s, Rc, 30 * s, { kind: 'display' });
-  E.end_breath = r(rx, h / 2 + 6 * s, Rc, Math.max(48, Math.round(52 * s)), { kind: 'button' });
-  E.my_deck = r(rx, h - L.safe_bottom_px - 30 * s, Rc, 30 * s, { kind: 'display' });
+  // 1-2: 숨 고르기를 오른쪽 가운데(레퍼런스 자리)에서 오른쪽 아래 엄지 자리로 옮김
+  const endH = Math.max(48, Math.round(52 * s));
+  E.end_breath = r(rx, h - L.safe_bottom_px - endH, Rc, endH, { kind: 'button' });
+  E.my_deck = r(rx, h - L.safe_bottom_px - endH - 8 * s - 30 * s, Rc, 30 * s, { kind: 'display' });
   const zh = Math.min(h * 0.86, 420);
   E.zoom_card = r((w - zh / 1.4) / 2, (h - zh) / 2, zh / 1.4, zh, { kind: 'overlay' });
   return { orientation: 'landscape', scale: +s.toFixed(3), slot_w: slotW, slot_h: slotH, E };
@@ -115,7 +124,8 @@ export function checkLayout(w, h, lay) {
   if (statFont < L.min_stat_font_px) errs.push(`보드 숫자 ${statFont}px < ${L.min_stat_font_px}`);
   if (nameFont < L.min_name_font_px) errs.push(`보드 이름 ${nameFont}px < ${L.min_name_font_px}`);
   // 손패 10장 펼침 상태 카드 폭 ≥ 48
-  const spreadW = lay.orientation === 'portrait' ? Math.floor((E.hand.w - 4 * 4) / 5) : Math.floor((w - 2 * L.gutter_px - 9 * 4) / 10); // 가로: 펼치면 화면 전체 폭 한 줄
+  const perRow = Math.ceil(L.hand_limit / 2);
+  const spreadW = lay.orientation === 'portrait' ? Math.floor((E.hand.w - (perRow - 1) * 4) / perRow) : Math.floor((w - 2 * L.gutter_px - (L.hand_limit - 1) * 4) / L.hand_limit); // 가로: 펼치면 화면 전체 폭 한 줄
   if (spreadW < 48) errs.push(`손패 펼침 카드 폭 ${spreadW} < 48`);
   return { errs, stat_font_px: statFont, name_font_px: nameFont, hand_spread_card_w_px: spreadW };
 }

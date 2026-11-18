@@ -24,7 +24,7 @@
 | D018 | neutral | d_etch | spell | 2 | - | pearl | 2.7 | 5 | -2.3 | mid (벗어남) |
 | D019 | neutral | d_seek | spell | 3 | - | coral | 5.2 | 7 | -1.8 | high (벗어남) |
 | D020 | neutral | d_discount | spell | 0 | - | sand | 0.4 | 1 | -0.6 | low |
-| B001 | warden | b_guard | minion | 2 | 1/2 | sand | 5.17 | 5 | +0.17 | low |
+| B001 | warden | b_guard | minion | 2 | 1/3 | sand | 6.17 | 5 | +1.17 | low |
 | B002 | warden | b_guard | minion | 3 | 2/4 | sand | 8.26 | 7 | +1.26 | mid |
 | B003 | warden | b_guard | minion | 7 | 5/7 | coral | 14.8 | 15 | -0.2 | high |
 | B004 | warden | b_guard | spell | 1 | - | sand | 2.9 | 3 | -0.1 | low |
@@ -38,7 +38,7 @@
 | B012 | warden | b_swell | minion | 4 | 3/4 | coral | 9.7 | 9 | +0.7 | mid |
 | B013 | warden | b_guard | spell | 4 | - | pearl | 4.18 | 9 | -4.82 | high (벗어남) |
 | B014 | warden | b_mend | spell | 1 | - | sand | 2.3 | 3 | -0.7 | low |
-| B015 | warden | b_single | minion | 2 | 2/1 | sand | 4.8 | 5 | -0.2 | low |
+| B015 | warden | b_single | minion | 2 | 2/2 | sand | 5.8 | 5 | +0.8 | low |
 | B016 | warden | b_aura | spell | 1 | - | sand | 1.68 | 3 | -1.32 | low |
 | B017 | warden | b_mend | minion | 4 | 2/3 | sand | 6.96 | 9 | -2.04 | mid |
 | B018 | warden | b_aura | spell | 5 | - | abyss | 12 | 11 | +1 | high (벗어남) |
@@ -65,11 +65,11 @@
 | B039 | wreck | b_fit | spell | 2 | - | pearl | 5.4 | 5 | +0.4 | mid (벗어남) |
 | B040 | wreck | b_single | minion | 2 | 2/3 | sand | 6.8 | 5 | +1.8 | low |
 | B041 | wreck | b_swell | minion | 3 | 2/3 | sand | 11.84 | 7 | +4.84 | mid |
-| B042 | wreck | b_swell | minion | 5 | 4/7 | coral | 12.8 | 11 | +1.8 | high (벗어남) |
+| B042 | wreck | b_swell | minion | 5 | 4/6 | coral | 11.8 | 11 | +0.8 | high (벗어남) |
 | B043 | wreck | b_single | spell | 1 | - | sand | 4.73 | 3 | +1.73 | low |
-| B044 | wreck | b_aura | minion | 3 | 2/3 | pearl | 7 | 7 | +0 | mid |
+| B044 | wreck | b_aura | minion | 3 | 2/4 | pearl | 8 | 7 | +1 | mid |
 | B045 | wreck | b_ebb | spell | 2 | - | pearl | 1.62 | 5 | -3.38 | mid (벗어남) |
-| B046 | wreck | b_swell | minion | 2 | 1/3 | sand | 9.86 | 5 | +4.86 | low |
+| B046 | wreck | b_swell | minion | 2 | 1/4 | sand | 10.86 | 5 | +5.86 | low |
 | B047 | wreck | b_guard | spell | 2 | - | sand | 3.6 | 5 | -1.4 | mid (벗어남) |
 | B048 | wreck | b_ebb | spell | 3 | - | sand | 5.94 | 7 | -1.06 | mid |
 | B049 | wreck | b_unname | minion | 4 | 3/3 | sand | 8.5 | 9 | -0.5 | mid |
@@ -93,7 +93,7 @@
 | B067 | archive | b_sealwrit | spell | 2 | - | sand | 6.44 | 5 | +1.44 | low |
 | B068 | archive | b_unname | minion | 2 | 2/2 | sand | 6.5 | 5 | +1.5 | low |
 | B069 | archive | b_anchor | minion | 2 | 2/2 | sand | 7 | 5 | +2 | low |
-| B070 | archive | b_guard | minion | 4 | 2/5 | sand | 9.8 | 9 | +0.8 | mid |
+| B070 | archive | b_guard | minion | 4 | 3/5 | sand | 10.8 | 9 | +1.8 | mid |
 | B071 | archive | b_single | minion | 2 | 1/2 | sand | 6.15 | 5 | +1.15 | low |
 | B072 | archive | b_mend | spell | 3 | - | sand | 3.72 | 7 | -3.28 | mid |
 | B073 | archive | b_single | minion | 3 | 2/4 | pearl | 8.7 | 7 | +1.7 | mid |

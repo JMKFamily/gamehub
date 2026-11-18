@@ -34,8 +34,8 @@
   "B051",
   "B092",
   "B092",
-  "B096",
-  "B112"
+  "B104",
+  "B096"
  ],
  "avg_cost": 2.43,
  "type_counts": {
@@ -57,6 +57,6 @@
   "b_unname",
   "ai_rapids",
   "b_guard",
-  "b_ebb"
+  "b_weaken"
  ]
 }

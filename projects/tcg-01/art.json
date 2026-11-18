@@ -382,6 +382,12 @@
    "shimmer_period_ms": 4200
   }
  ],
+ "text_fit": {
+  "cards": 200,
+  "fail": 0,
+  "small_font_cards": 0,
+  "min_name_font_px": 17
+ },
  "layout": {
   "input": {
    "board_slots": 5,
@@ -393,7 +399,8 @@
    "slot_gap_px": 6,
    "slot_aspect_h_w_ratio": 1.3,
    "min_stat_font_px": 12,
-   "min_name_font_px": 10
+   "min_name_font_px": 10,
+   "source": "balance.json rules"
   },
   "screens": {
    "360x640": {
@@ -995,14 +1002,14 @@
      },
      "end_breath": {
       "x": 520,
-      "y": 186,
+      "y": 300,
       "w": 112,
       "h": 52,
       "kind": "button"
      },
      "my_deck": {
       "x": 520,
-      "y": 322,
+      "y": 262,
       "w": 112,
       "h": 30,
       "kind": "display"
@@ -1193,14 +1200,14 @@
      },
      "end_breath": {
       "x": 1048,
-      "y": 372,
+      "y": 608,
       "w": 224,
       "h": 104,
       "kind": "button"
      },
      "my_deck": {
       "x": 1048,
-      "y": 652,
+      "y": 532,
       "w": 224,
       "h": 60,
       "kind": "display"
@@ -1629,9 +1636,17 @@
     "note": "내 공격만으로 상대를 쓰러뜨릴 수 있으면 상대 명줄 실이 가늘게 떨림(정보 노출 범위는 내 화면만)"
    },
    "turn_timer": {
+    "turn_s": 50,
     "warn_from_s": 15,
+    "critical_from_s": 5,
+    "idle_penalty_turn_s": 15,
+    "mulligan_s": 30,
     "burn_line_px": 3,
-    "tick_sfx_every_ms": 1000
+    "dim_line_opacity_ratio": 0.35,
+    "tick_sfx_every_ms": 1000,
+    "critical_tick_every_ms": 500,
+    "critical_color": "#FF6F5E",
+    "note": "50 s 중 앞 35 s는 가운데 띠에 흐린 선만(시간 압박 없음). 15 s부터 심지 선이 켜져 타들어 가고 매초 타는 소리, 5 s부터 끝 불꽃이 붉어지고 0.5 s마다. 벌칙 턴(15 s)은 처음부터 타는 상태 + 짧은 초 아이콘"
    },
    "tide_wetness": {
     "note": "판이 길어질수록(턴 8부터) 조수원 바닥이 조금씩 젖어 어두워짐 — 세계관 \"젖은 소금\"",
@@ -1696,6 +1711,20 @@
     "normal_ms": 400,
     "fast_ms": 250
    }
+  },
+  "summary_for_balance": {
+   "action_avg_normal_ms": 550,
+   "action_avg_fast_ms": 280,
+   "big_entry_normal_ms": 1800,
+   "big_entry_fast_ms": 900,
+   "lethal_blow_normal_ms": 1500,
+   "lethal_blow_fast_ms": 800,
+   "turn_transition_normal_ms": 900,
+   "turn_transition_fast_ms": 450,
+   "ai_ms_per_action_normal": 825,
+   "ai_first_and_end_ms_normal": 1400,
+   "max_ms_per_action_except_tier3": 900,
+   "note": "balance.json tempo의 action_anim_ms 600(보수적, 허용)·big_card_anim_ms 2000(→1800)·lethal_slowmo_ms 800(→ 마지막 일격 전체 1500, 그중 느린 동작 400)을 이 값으로 맞춤 요청"
   }
  },
  "sound": {

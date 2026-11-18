@@ -27,7 +27,7 @@ function readAll(sets) {
   return { data: loadData(cardsJson, balanceJson), decks, balanceJson };
 }
 
-function btLimit(deck, stage, k) { const all = btAll(deck, stage); if (!k) return all; const ids = [...new Set(deck.cards)].filter((id) => deck.cards.filter((x) => x === id).length === 2 || true).slice(0, k); const o = {}; for (const id of ids) o[id] = stage; return o; }
+function btLimit(deck, stage, k, minCost, cards) { const all = btAll(deck, stage); if (!k) return all; const ids = [...new Set(deck.cards)].filter((id) => !minCost || cards[id].cost >= minCost).slice(0, k); const o = {}; for (const id of ids) o[id] = stage; return o; }
 if (!isMainThread) {
   const { data, decks } = readAll(workerData.sets);
   const out = [];
@@ -36,7 +36,7 @@ if (!isMainThread) {
     for (let g = 0; g < job.n; g++) {
       const seed = (job.seed + g * 7919) >>> 0;
       const aFirst = (g % 2) === 0;
-      const sa = { deck: A, ai: job.ai, bt: job.btA ? btLimit(A, job.btA, job.btK) : {} };
+      const sa = { deck: A, ai: job.ai, bt: job.btA ? btLimit(A, job.btA, job.btK, job.btMin, data.cards) : {} };
       const sb = { deck: B, ai: job.ai2 || job.ai, bt: job.btB ? btAll(B, job.btB) : {} };
       const r = aFirst ? playGame(data, sa, sb, seed) : playGame(data, sb, sa, seed);
       const aWin = r.winner == null ? null : (aFirst ? r.winner === 0 : r.winner === 1);
@@ -61,7 +61,7 @@ if (!isMainThread) {
   if (mode === 'matrix') {
     for (let i = 0; i < names.length; i++) for (let j = i + (args.mirror ? 0 : 1); j < names.length; j++) jobs.push({ key: `${names[i]}|${names[j]}`, a: names[i], b: names[j], n: games, ai, seed: seed * 100003 + (ji++) * 1000003 });
   } else if (mode === 'bt') {
-    for (const n of names) jobs.push({ key: `${n}|bt`, a: n, b: n, n: games, ai, btA: Number(args['bt-stage'] || 3), btK: Number(args['bt-cards'] || 0), btB: 0, seed: seed * 100003 + (ji++) * 1000003 });
+    for (const n of names) jobs.push({ key: `${n}|bt`, a: n, b: n, n: games, ai, btA: Number(args['bt-stage'] || 3), btK: Number(args['bt-cards'] || 0), btMin: Number(args['bt-mincost'] || 0), btB: 0, seed: seed * 100003 + (ji++) * 1000003 });
   } else {
     for (const n of names) for (const m of names) if (n !== m) jobs.push({ key: `${n}|${m}`, a: n, b: m, n: games, ai, btA: 3, btB: 0, seed: seed * 100003 + (ji++) * 1000003 });
   }
@@ -117,7 +117,7 @@ if (!isMainThread) {
   const TP = balanceJson.tempo;
   const apt = results.flatMap((r) => r.apt);
   const aptHist = {}; for (const a of apt) { const k = a >= 8 ? '8+' : String(a); aptHist[k] = (aptHist[k] || 0) + 1; }
-  const minutes = results.map((r) => (r.acts * TP.action_anim_ms + r.half * TP.turn_transition_ms + (r.half / 2) * (TP.human_think_ms_per_turn + TP.ai_think_ms_per_turn) + (r.acts / 2) * (TP.human_think_ms_per_action + TP.ai_ms_per_action)) / 60000);
+  const minutes = results.map((r) => (r.acts * TP.action_anim_ms + r.half * TP.turn_transition_ms + (r.half / 2) * (TP.human_think_ms_per_turn + TP.ai_think_ms_per_turn) + (r.acts / 2) * (TP.human_think_ms_per_action + TP.ai_ms_per_action) + r.big.bigcard * (TP.big_card_anim_ms - TP.action_anim_ms) + TP.lethal_blow_ms + TP.result_screen_ms) / 60000);
   const bigAny = results.filter((r) => r.big.burst10 + r.big.wipe3 + r.big.bigcard + r.big.lethal_from_15 > 0 || r.minW <= T.comeback_deficit).length / n;
   Object.assign(metrics, {
     acts_per_turn_mean: apt.reduce((a, b) => a + b, 0) / apt.length, acts_per_turn_p90: [...apt].sort((a, b) => a - b)[Math.floor(apt.length * 0.9)],

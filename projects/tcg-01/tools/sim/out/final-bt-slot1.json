@@ -1,0 +1,881 @@
+{
+ "summary": {
+  "tag": "final-bt-slot1",
+  "sets": [],
+  "mode": "bt",
+  "ai": "eval",
+  "games_per_pair": 1500,
+  "seed": 304,
+  "workers": 10,
+  "total_games": 9000,
+  "seconds": 9.9,
+  "ms_per_game": 1.1
+ },
+ "metrics": {
+  "close_ratio": 0.23125695216907674,
+  "late_close_ratio": 0.2883203559510567,
+  "lopsided_ratio": 0.015906562847608455,
+  "comeback_ratio": 0.16017797552836485,
+  "lead_changes_mean": 0.9485555555555556,
+  "first_player_wr": 0.48053392658509453,
+  "first_minus_second_pp": -3.8932146829810943,
+  "len_median": 10,
+  "len_mean": 11.101444444444445,
+  "len_p10": 7,
+  "len_p90": 17,
+  "len_hist": {
+   "4": 14,
+   "5": 114,
+   "6": 378,
+   "7": 747,
+   "8": 1032,
+   "9": 1110,
+   "10": 1269,
+   "11": 1098,
+   "12": 795,
+   "13": 550,
+   "14": 397,
+   "15": 286,
+   "16": 252,
+   "17": 178,
+   "18": 156,
+   "19": 108,
+   "20": 516
+  },
+  "draw_ratio": 0.0011111111111111111,
+  "turn_limit_ratio": 0.04544444444444445,
+  "acts_per_turn_mean": 2.716264271969211,
+  "acts_per_turn_p90": 5,
+  "acts_per_turn_hist": {
+   "0": 10234,
+   "1": 36352,
+   "2": 53022,
+   "3": 39939,
+   "4": 27018,
+   "5": 15850,
+   "6": 8517,
+   "7": 3011,
+   "8+": 932
+  },
+  "acts_per_turn_ge8_ratio": 0.004782552918537524,
+  "est_minutes_median": 4.5735,
+  "est_minutes_p90": 7.38675,
+  "big_moment_game_ratio": 0.845,
+  "big_per_game": {
+   "burst10": 1.0825555555555555,
+   "wipe3": 0.13,
+   "bigcard": 0.8918888888888888,
+   "lethal_from_15": 0.0811111111111111
+  },
+  "bt_wr_max": 0.552,
+  "bt_wr_mean": 0.511210829426936,
+  "card_played_top": [
+   "archive-kindle|B077 49% (NaN, n2751)",
+   "archive-kindle|A012 51% (NaN, n2771)",
+   "archive-kindle|B071 50% (NaN, n2701)",
+   "archive-kindle|B070 52% (NaN, n2730)",
+   "archive-kindle|B072 50% (NaN, n2258)",
+   "archive-kindle|B092 50% (NaN, n2764)",
+   "archive-kindle|B074 18% (NaN, n1067)",
+   "archive-kindle|D010 54% (NaN, n2146)",
+   "archive-kindle|A013 51% (NaN, n1985)",
+   "archive-kindle|B069 49% (NaN, n2728)",
+   "archive-kindle|B073 52% (NaN, n2807)",
+   "archive-kindle|D011 60% (NaN, n1651)"
+  ],
+  "card_played_bottom": [
+   "wreck-fit|B039 55% (NaN, n2624)",
+   "wreck-fit|B050 45% (NaN, n1070)",
+   "wreck-fit|D005 44% (NaN, n956)",
+   "wreck-fit|B092 52% (NaN, n1839)",
+   "wreck-fit|B037 52% (NaN, n1859)",
+   "wreck-fit|A004 50% (NaN, n1846)",
+   "wreck-fit|A005 45% (NaN, n962)",
+   "wreck-fit|B049 52% (NaN, n1134)",
+   "wreck-fit|A029 51% (NaN, n1004)",
+   "wreck-fit|B104 23% (NaN, n582)",
+   "wreck-fit|B040 48% (NaN, n1734)",
+   "wreck-fit|B042 53% (NaN, n904)"
+  ]
+ },
+ "archetypes": {
+  "archive-kindle": {
+   "bt3_vs_bt0_wr": 0.4902749832327297,
+   "ci95": 0.025374943901788016,
+   "n": 1500
+  },
+  "choir-brine": {
+   "bt3_vs_bt0_wr": 0.502,
+   "ci95": 0.025303288766482506,
+   "n": 1500
+  },
+  "nameless-wake": {
+   "bt3_vs_bt0_wr": 0.5333333333333333,
+   "ci95": 0.0252471985978056,
+   "n": 1500
+  },
+  "rider-rush": {
+   "bt3_vs_bt0_wr": 0.552,
+   "ci95": 0.02516627788132365,
+   "n": 1500
+  },
+  "warden-bulwark": {
+   "bt3_vs_bt0_wr": 0.4849899933288859,
+   "ci95": 0.025300521770223638,
+   "n": 1500
+  },
+  "wreck-fit": {
+   "bt3_vs_bt0_wr": 0.5046666666666667,
+   "ci95": 0.025302389063602788,
+   "n": 1500
+  }
+ },
+ "cells": {
+  "archive-kindle|bt": {
+   "a": "archive-kindle",
+   "b": "archive-kindle",
+   "n": 1500,
+   "a_wr": 0.4902749832327297,
+   "ci95": 0.025374943901788016,
+   "draws": 9,
+   "a_wr_first": 0.4563758389261745,
+   "a_wr_second": 0.5241286863270778,
+   "len_median": 15
+  },
+  "choir-brine|bt": {
+   "a": "choir-brine",
+   "b": "choir-brine",
+   "n": 1500,
+   "a_wr": 0.502,
+   "ci95": 0.025303288766482506,
+   "draws": 0,
+   "a_wr_first": 0.564,
+   "a_wr_second": 0.44,
+   "len_median": 10
+  },
+  "nameless-wake|bt": {
+   "a": "nameless-wake",
+   "b": "nameless-wake",
+   "n": 1500,
+   "a_wr": 0.5333333333333333,
+   "ci95": 0.0252471985978056,
+   "draws": 0,
+   "a_wr_first": 0.4613333333333333,
+   "a_wr_second": 0.6053333333333333,
+   "len_median": 12
+  },
+  "rider-rush|bt": {
+   "a": "rider-rush",
+   "b": "rider-rush",
+   "n": 1500,
+   "a_wr": 0.552,
+   "ci95": 0.02516627788132365,
+   "draws": 0,
+   "a_wr_first": 0.5093333333333333,
+   "a_wr_second": 0.5946666666666667,
+   "len_median": 7
+  },
+  "warden-bulwark|bt": {
+   "a": "warden-bulwark",
+   "b": "warden-bulwark",
+   "n": 1500,
+   "a_wr": 0.4849899933288859,
+   "ci95": 0.025300521770223638,
+   "draws": 1,
+   "a_wr_first": 0.35113484646194926,
+   "a_wr_second": 0.6186666666666667,
+   "len_median": 12
+  },
+  "wreck-fit|bt": {
+   "a": "wreck-fit",
+   "b": "wreck-fit",
+   "n": 1500,
+   "a_wr": 0.5046666666666667,
+   "ci95": 0.025302389063602788,
+   "draws": 0,
+   "a_wr_first": 0.608,
+   "a_wr_second": 0.4013333333333333,
+   "len_median": 9
+  }
+ },
+ "card_played": [
+  {
+   "k": "archive-kindle|B077",
+   "n": 2751,
+   "wr": 0.4925481643038895,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A012",
+   "n": 2771,
+   "wr": 0.5135330205701912,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B071",
+   "n": 2701,
+   "wr": 0.4972232506479082,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B070",
+   "n": 2730,
+   "wr": 0.5186813186813187,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B072",
+   "n": 2258,
+   "wr": 0.5008857395925598,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B092",
+   "n": 2764,
+   "wr": 0.5021707670043415,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B074",
+   "n": 1067,
+   "wr": 0.17619493908153702,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D010",
+   "n": 2146,
+   "wr": 0.5358807082945014,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A013",
+   "n": 1985,
+   "wr": 0.5128463476070529,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B069",
+   "n": 2728,
+   "wr": 0.49486803519061584,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B073",
+   "n": 2807,
+   "wr": 0.5219095119344496,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D011",
+   "n": 1651,
+   "wr": 0.5996365838885523,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A036",
+   "n": 2738,
+   "wr": 0.5160701241782323,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A035",
+   "n": 2681,
+   "wr": 0.5214472211861246,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A039",
+   "n": 2330,
+   "wr": 0.5210300429184549,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|D012",
+   "n": 1668,
+   "wr": 0.5779376498800959,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B065",
+   "n": 250,
+   "wr": 0.868,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B068",
+   "n": 2290,
+   "wr": 0.5013100436681223,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A038",
+   "n": 1202,
+   "wr": 0.5973377703826955,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|A037",
+   "n": 2277,
+   "wr": 0.546772068511199,
+   "d": null
+  },
+  {
+   "k": "archive-kindle|B067",
+   "n": 198,
+   "wr": 0.8939393939393939,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B022",
+   "n": 2237,
+   "wr": 0.5225748770675012,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A025",
+   "n": 2167,
+   "wr": 0.5205353022611906,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B032",
+   "n": 2341,
+   "wr": 0.5138829560017086,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B028",
+   "n": 2192,
+   "wr": 0.5031934306569343,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B021",
+   "n": 2418,
+   "wr": 0.5177832919768404,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B036",
+   "n": 1170,
+   "wr": 0.5965811965811966,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A003",
+   "n": 1968,
+   "wr": 0.568089430894309,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A060",
+   "n": 1316,
+   "wr": 0.6329787234042553,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A002",
+   "n": 736,
+   "wr": 0.39266304347826086,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B031",
+   "n": 1349,
+   "wr": 0.535952557449963,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B024",
+   "n": 2228,
+   "wr": 0.5345601436265709,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A024",
+   "n": 1409,
+   "wr": 0.5209368346344926,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B092",
+   "n": 2258,
+   "wr": 0.5186005314437555,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B034",
+   "n": 183,
+   "wr": 0.39344262295081966,
+   "d": null
+  },
+  {
+   "k": "choir-brine|A054",
+   "n": 1473,
+   "wr": 0.5044127630685675,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B025",
+   "n": 1479,
+   "wr": 0.5172413793103449,
+   "d": null
+  },
+  {
+   "k": "choir-brine|D004",
+   "n": 1477,
+   "wr": 0.5057549085985105,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B029",
+   "n": 1174,
+   "wr": 0.5229982964224872,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B027",
+   "n": 478,
+   "wr": 0.6694560669456067,
+   "d": null
+  },
+  {
+   "k": "choir-brine|B104",
+   "n": 1013,
+   "wr": 0.3830207305034551,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B079",
+   "n": 2871,
+   "wr": 0.5053988157436433,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B097",
+   "n": 2796,
+   "wr": 0.5114449213161659,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A049",
+   "n": 2779,
+   "wr": 0.4987405541561713,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A046",
+   "n": 2242,
+   "wr": 0.5133809099018734,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A044",
+   "n": 2336,
+   "wr": 0.5196917808219178,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A014",
+   "n": 2641,
+   "wr": 0.4842862552063612,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A015",
+   "n": 2817,
+   "wr": 0.5122470713525027,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A041",
+   "n": 2803,
+   "wr": 0.5176596503745986,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A045",
+   "n": 2137,
+   "wr": 0.5489003275620028,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A042",
+   "n": 2716,
+   "wr": 0.5173048600883653,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|A043",
+   "n": 2321,
+   "wr": 0.5415769065058165,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B083",
+   "n": 2026,
+   "wr": 0.4886475814412636,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B086",
+   "n": 1878,
+   "wr": 0.4329073482428115,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B082",
+   "n": 1831,
+   "wr": 0.4396504642271983,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B088",
+   "n": 2673,
+   "wr": 0.49382716049382713,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|D015",
+   "n": 2249,
+   "wr": 0.509115162294353,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|B084",
+   "n": 2918,
+   "wr": 0.5099383139136395,
+   "d": null
+  },
+  {
+   "k": "nameless-wake|D014",
+   "n": 2630,
+   "wr": 0.5250950570342205,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B063",
+   "n": 1870,
+   "wr": 0.5010695187165776,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B057",
+   "n": 1829,
+   "wr": 0.5183160196828869,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B055",
+   "n": 1533,
+   "wr": 0.50293542074364,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A034",
+   "n": 1892,
+   "wr": 0.5158562367864693,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A010",
+   "n": 790,
+   "wr": 0.6215189873417721,
+   "d": null
+  },
+  {
+   "k": "rider-rush|D009",
+   "n": 1087,
+   "wr": 0.5170193192272309,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B097",
+   "n": 1596,
+   "wr": 0.49874686716791977,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A006",
+   "n": 1816,
+   "wr": 0.5622246696035242,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A011",
+   "n": 1954,
+   "wr": 0.5071647901740021,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A007",
+   "n": 1075,
+   "wr": 0.5330232558139535,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A030",
+   "n": 1702,
+   "wr": 0.49236192714453586,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B058",
+   "n": 1189,
+   "wr": 0.4802354920100925,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A008",
+   "n": 1929,
+   "wr": 0.5064800414722654,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A031",
+   "n": 1060,
+   "wr": 0.569811320754717,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A016",
+   "n": 1560,
+   "wr": 0.5089743589743589,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B053",
+   "n": 971,
+   "wr": 0.4788877445932029,
+   "d": null
+  },
+  {
+   "k": "rider-rush|B060",
+   "n": 1185,
+   "wr": 0.5088607594936709,
+   "d": null
+  },
+  {
+   "k": "rider-rush|A009",
+   "n": 1578,
+   "wr": 0.49809885931558934,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B092",
+   "n": 2423,
+   "wr": 0.4931902600082542,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B093",
+   "n": 1642,
+   "wr": 0.464068209500609,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B007",
+   "n": 2379,
+   "wr": 0.48675914249684743,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B005",
+   "n": 2119,
+   "wr": 0.6314299197734781,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|A017",
+   "n": 1684,
+   "wr": 0.5077197149643705,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B001",
+   "n": 2392,
+   "wr": 0.4782608695652174,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|A001",
+   "n": 1660,
+   "wr": 0.5006024096385542,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B015",
+   "n": 2350,
+   "wr": 0.49106382978723406,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B002",
+   "n": 2445,
+   "wr": 0.518200408997955,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B009",
+   "n": 1768,
+   "wr": 0.5820135746606335,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B096",
+   "n": 1687,
+   "wr": 0.5512744516893895,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B012",
+   "n": 2448,
+   "wr": 0.49959150326797386,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|A022",
+   "n": 2299,
+   "wr": 0.5193562418442801,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B003",
+   "n": 1527,
+   "wr": 0.5939751146037983,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B004",
+   "n": 1744,
+   "wr": 0.5475917431192661,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|D002",
+   "n": 1706,
+   "wr": 0.5216881594372802,
+   "d": null
+  },
+  {
+   "k": "warden-bulwark|B017",
+   "n": 1673,
+   "wr": 0.4781829049611476,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B046",
+   "n": 1966,
+   "wr": 0.5457782299084435,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B041",
+   "n": 1884,
+   "wr": 0.5010615711252654,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B096",
+   "n": 1188,
+   "wr": 0.5353535353535354,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B044",
+   "n": 1798,
+   "wr": 0.5255839822024472,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B038",
+   "n": 1488,
+   "wr": 0.5221774193548387,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B043",
+   "n": 1780,
+   "wr": 0.5516853932584269,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B051",
+   "n": 800,
+   "wr": 0.48375,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B039",
+   "n": 2624,
+   "wr": 0.5510670731707317,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B050",
+   "n": 1070,
+   "wr": 0.4523364485981308,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|D005",
+   "n": 956,
+   "wr": 0.4424686192468619,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B092",
+   "n": 1839,
+   "wr": 0.519847743338771,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B037",
+   "n": 1859,
+   "wr": 0.516406670252824,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A004",
+   "n": 1846,
+   "wr": 0.504875406283857,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A005",
+   "n": 962,
+   "wr": 0.45322245322245325,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B049",
+   "n": 1134,
+   "wr": 0.5211640211640212,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|A029",
+   "n": 1004,
+   "wr": 0.5109561752988048,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B104",
+   "n": 582,
+   "wr": 0.2268041237113402,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B040",
+   "n": 1734,
+   "wr": 0.4844290657439446,
+   "d": null
+  },
+  {
+   "k": "wreck-fit|B042",
+   "n": 904,
+   "wr": 0.5320796460176991,
+   "d": null
+  }
+ ]
+}

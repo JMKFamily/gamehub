@@ -46,7 +46,7 @@ export function rarityIcon(r, size = 48) { return svg(size, size, `<g transform=
 
 // ───────── 기본 수치 아이콘 ─────────
 export const statIcons = {
-  'icon-wick': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 16V11" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q31 9 28 13A4 4 0 0 1 20 13Q18 8 24 2Z" fill="${ui.wick_flame}"/>`, '심지(마나)'),
+  'icon-wick': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_lit_bar}" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 16V11" stroke="${ui.wick_ink}" stroke-width="2"/><path d="M24 2Q31 9 28 13A4 4 0 0 1 20 13Q18 8 24 2Z" fill="${ui.wick_flame}"/>`, '심지'),
   'icon-wick-spent': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_spent}"/><path d="M24 16V11" stroke="${ui.wick_spent}" stroke-width="2"/><path d="M22 8Q26 5 24 2" fill="none" stroke="${ui.salt_dim}" stroke-width="1.5" opacity=".6"/>`, '쓴 심지'),
   'icon-wick-soot': () => svg(48, 48, `<rect x="17" y="16" width="14" height="28" rx="3" fill="${ui.wick_soot}"/><path d="M14 18L34 42M34 18L14 42" stroke="#1A0F0A" stroke-width="3"/>`, '그을린 심지'),
   'icon-lifeline': () => svg(48, 48, `<rect x="14" y="4" width="20" height="6" rx="2" fill="${ui.salt_white}"/><rect x="14" y="38" width="20" height="6" rx="2" fill="${ui.salt_white}"/><path d="M20 10V38M24 10V38M28 10V38" stroke="${ST.damage}" stroke-width="2.6"/>`, '명줄(체력)'),
@@ -121,7 +121,22 @@ function boldKeywords(line) {
   for (const k of KW_NAMES) out = out.split(k).join(`\u0001${k}\u0002`);
   return out.replace(/\u0001/g, '<tspan font-weight="800">').replace(/\u0002/g, '</tspan>');
 }
-export function cardKeywords(cardData) { const t = cardData.concept_ko || ''; return KW.filter((k) => t.includes(k.ko)).map((k) => k.id).slice(0, C.keyword_icons.max); }
+// cards.json(엔진) 키워드 id → 우리 키워드 id
+export const ENGINE_KW = { guard: 'breakwater', lifesteal: 'draught', rush: 'spur', stealth: 'seamist', shield: 'saltskin', charge: 'rapids', deadly: 'drown' };
+export const LINEAGE_KO = { warden: '파수병', drowned: '익사자', contraption: '태엽물', rider: '기수', scribe: '필경사', nameless: '무명', shoreling: '갯것' }; // 10-lore 5-3
+export const ENGINE_KIND = { minion: 'answerer', spell: 'rite', weapon: 'brand' };
+export function cardKeywords(cardData) {
+  const fromEngine = (cardData.keywords || []).map((k) => ENGINE_KW[k]).filter(Boolean);
+  const t = cardData.concept_ko || '';
+  const fromText = KW.filter((k) => t.includes(k.ko)).map((k) => k.id);
+  return [...new Set([...fromEngine, ...fromText])].slice(0, C.keyword_icons.max);
+}
+// 글 상자 맞춤: 13 px·15자·4줄 → 안 되면 12 px·16자·5줄(줄 간격 15). 의식은 상자가 커서 6줄까지
+export function fitText(text, kind) {
+  const tries = kind === 'rite' ? [[13, 15, 5, 18], [12, 16, 6, 16]] : [[13, 15, 4, 18], [12, 16, 5, 15]];
+  for (const [font, chars, maxL, lh] of tries) { const lines = wrapKo(text, chars); if (lines.length <= maxL && lines.every((l) => l.length <= chars + 2)) return { font, lines, lh, ok: true }; }
+  const [font, chars, maxL, lh] = tries[tries.length - 1]; return { font, lines: wrapKo(text, chars).slice(0, maxL), lh, ok: false };
+}
 
 // 임시 수치: balance 미정이라 cost_band로 자리만 채움(샘플·목업 전용)
 export function placeholderStats(c) {
@@ -135,8 +150,8 @@ export function placeholderStats(c) {
  *  opts: { stats:{cost,atk,hp,base_atk,base_hp,damaged}, recut:0..3, kind } */
 export function cardSVG(c, mode = 'full', opts = {}) {
   const fac = factions[c.owner] || factions.neutral, rar = RAR[c.rarity || c.rarity_hint || 'sand'];
-  const kind = opts.kind || guessKind(c);
-  const st = opts.stats || placeholderStats(c);
+  const kind = opts.kind || ENGINE_KIND[c.kind] || guessKind(c);
+  const st = opts.stats || (c.cost != null ? { cost: c.cost, atk: c.attack, hp: c.health } : placeholderStats(c));
   const rc = RECUT[opts.recut || 0];
   const W = C.base_w_px, H = C.base_h_px, ch = C.chip_corner_px;
   const hand = mode === 'hand';
@@ -173,12 +188,12 @@ export function cardSVG(c, mode = 'full', opts = {}) {
   p.push(`<g transform="translate(${W - 34} ${nb.y + nb.h / 2 - 11}) scale(.46)">${RARI[c.rarity || c.rarity_hint || 'sand']()}</g>`);
   // 키워드 아이콘 줄(그림 창 아래 가장자리에 걸침)
   const kws = cardKeywords(c); const ks = C.keyword_icons.size_px * (hand ? 1.5 : 1);
-  kws.forEach((k, i) => { const x = W / 2 - (kws.length * (ks + 4)) / 2 + i * (ks + 4); p.push(`<g transform="translate(${x} ${art.y + art.h - ks * .6}) scale(${ks / 48})"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}" stroke="${ui.card_plate}" stroke-width="3"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`); });
+  kws.forEach((k, i) => { const x = C.spine_w_px + 10 + i * (ks + 4); /* 1-2: 왼쪽 정렬(레퍼런스 희귀도 보석 자리 회피) */ p.push(`<g transform="translate(${x} ${art.y + art.h - ks * .6}) scale(${ks / 48})"><circle cx="24" cy="24" r="23" fill="${ui.stat_tab}" stroke="${ui.card_plate}" stroke-width="3"/>${KWI[k](KW.find((q) => q.id === k).color)}</g>`); });
   if (!hand) {
     const typeKo = { answerer: '응답자', rite: '의식', brand: '인장' }[kind];
-    p.push(`<text x="${W / 2}" y="${C.type_line.y_px + 11}" text-anchor="middle" font-size="${C.type_line.font_px}" fill="${ui.card_ink_dim}" ${FONT}>${typeKo} · ${esc(fac.name_ko)}</text>`);
-    const lines = wrapKo(c.concept_ko || '', 15).slice(0, kind === 'rite' ? 5 : C.text_box.max_lines + 1);
-    lines.forEach((ln, i) => p.push(`<text x="${W / 2}" y="${C.text_box.y_px + 16 + i * 18}" text-anchor="middle" font-size="${C.text_box.font_px}" fill="${ui.card_ink}" ${FONT}>${boldKeywords(ln)}</text>`));
+    p.push(`<text x="${W / 2}" y="${C.type_line.y_px + 11}" text-anchor="middle" font-size="${C.type_line.font_px}" fill="${ui.card_ink_dim}" ${FONT}>${typeKo} · ${esc(LINEAGE_KO[c.lineage] || fac.name_ko)}</text>`);
+    const ft = fitText(c.concept_ko || '', kind);
+    ft.lines.forEach((ln, i) => p.push(`<text x="${W / 2}" y="${C.text_box.y_px + 15 + i * ft.lh}" text-anchor="middle" font-size="${ft.font}" fill="${ui.card_ink}" ${FONT}>${boldKeywords(ln)}</text>`));
   }
   // 비용: 왼쪽 위 세로 심지 판(초 모양, 보석 아님)
   const cs = hand ? 1.6 : 1, cw = C.cost.w_px * cs, chh = C.cost.h_px * cs;
@@ -202,7 +217,7 @@ ${Array.from({ length: rc.tab_notches }, (_, i) => `<rect x="${tw / 2 - 14 + i *
 /** 보드 위 응답자(축소): 이름·글 없음. 그림 + 공격/명줄 + 키워드 상태. 100x130 좌표, 칸 크기로 그대로 줄임 */
 export function tokenSVG(c, opts = {}) {
   const fac = factions[c.owner] || factions.neutral;
-  const st = opts.stats || placeholderStats(c), rc = RECUT[opts.recut || 0], s = opts.state || {};
+  const st = opts.stats || (c.cost != null ? { cost: c.cost, atk: c.attack, hp: c.health } : placeholderStats(c)), rc = RECUT[opts.recut || 0], s = opts.state || {};
   const W = 100, H = 130, ch = 14, p = [];
   const kws = s.keywords || cardKeywords(c);
   const plate = `M0 0H${W - ch}L${W} ${ch}V${H - 10}H0Z`;

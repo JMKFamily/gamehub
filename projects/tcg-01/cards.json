@@ -880,7 +880,7 @@
    "kind": "minion",
    "cost": 2,
    "attack": 1,
-   "health": 2,
+   "health": 3,
    "keywords": [
     "guard"
    ],
@@ -912,9 +912,9 @@
     }
    },
    "value": {
-    "score": 5.17,
+    "score": 6.17,
     "budget": 5,
-    "delta": 0.17
+    "delta": 1.17
    }
   },
   {
@@ -1528,7 +1528,7 @@
    "kind": "minion",
    "cost": 2,
    "attack": 2,
-   "health": 1,
+   "health": 2,
    "keywords": [],
    "target": "choose_friendly_minion",
    "target2": null,
@@ -1559,9 +1559,9 @@
     }
    },
    "value": {
-    "score": 4.8,
+    "score": 5.8,
     "budget": 5,
-    "delta": -0.2
+    "delta": 0.8
    }
   },
   {
@@ -2748,7 +2748,7 @@
    "kind": "minion",
    "cost": 5,
    "attack": 4,
-   "health": 7,
+   "health": 6,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -2781,9 +2781,9 @@
     }
    },
    "value": {
-    "score": 12.8,
+    "score": 11.8,
     "budget": 11,
-    "delta": 1.8
+    "delta": 0.8
    }
   },
   {
@@ -2845,7 +2845,7 @@
    "kind": "minion",
    "cost": 3,
    "attack": 2,
-   "health": 3,
+   "health": 4,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -2874,9 +2874,9 @@
     }
    },
    "value": {
-    "score": 7,
+    "score": 8,
     "budget": 7,
-    "delta": 0
+    "delta": 1
    }
   },
   {
@@ -2933,7 +2933,7 @@
    "kind": "minion",
    "cost": 2,
    "attack": 1,
-   "health": 3,
+   "health": 4,
    "keywords": [],
    "target": null,
    "target2": null,
@@ -2973,9 +2973,9 @@
     }
    },
    "value": {
-    "score": 9.86,
+    "score": 10.86,
     "budget": 5,
-    "delta": 4.86
+    "delta": 5.86
    }
   },
   {
@@ -4051,7 +4051,7 @@
    "rarity": "sand",
    "kind": "minion",
    "cost": 4,
-   "attack": 2,
+   "attack": 3,
    "health": 5,
    "keywords": [
     "guard"
@@ -4085,9 +4085,9 @@
     }
    },
    "value": {
-    "score": 9.8,
+    "score": 10.8,
     "budget": 9,
-    "delta": 0.8
+    "delta": 1.8
    }
   },
   {
