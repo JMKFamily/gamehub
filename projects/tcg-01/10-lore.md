@@ -101,7 +101,7 @@
 | 영웅 체력 | 체력 / Health | 명줄 / Lifeline | 이름이 몸에 묶인 정도 |
 | 추가 보호 | 방어 / Defense | 껍질 / Shell | 몸에 굳은 소금 결정 |
 | 영웅 고유 기술 | 고유 능력 / Ability | 호명술 / Calling | 영웅마다 다른 부름 |
-| 자원 | 마나 / Mana | 심지 / Wick | 등에 진 등잔 심지(화면 모양은 세로 막대 그대로) |
+| 자원 | **심지 / Wick** (2026-11-18 요청자 지시로 되돌림) | 마나 / Mana (11-18 잠시 사용) | 등에 진 등잔 심지. 화면 모양은 세로 막대. 처음 보는 사람에게는 "카드를 내는 데 쓰는 자원(다른 카드게임의 마나)"이라고 튜토리얼·용어 사전에서 한 줄로 알림 |
 | 필드에 남는 카드 | 소환수 / Creature | 응답자 / Answerer | 이름에 응답해 나타난 존재 |
 | 한 번 쓰는 카드 | 주문 / Spell | 의식 / Rite | 물마루 공식 |
 | 무기 | 무기 / Weapon | 인장 / Brand | 영장을 박은 무기 |
@@ -112,7 +112,7 @@
 | 필드 | 필드 / Board (한쪽 5칸) | 조수원 / Tide Circle | 소금 고리 결투장 |
 | 무덤 | 무덤 / Graveyard | 가라앉은 자리 / The Sunk | |
 | 덱이 빈 뒤 뽑기 피해 | 덱 고갈 / Deck-out | 공허 호명 / Hollow Call | 빈 덱에서 부르면 흑조가 대답함 |
-| 후공 보상 | 보너스 마나 / Bonus Mana | 여분 심지 / Spare Wick | 짧은 초 토막(모양 유지, 동전 금지) |
+| 후공 보상 | **여분 심지 / Spare Wick** (되돌림) | 보너스 마나 / Bonus Mana (11-18 잠시 사용) | 짧은 초 토막(모양 유지, 동전 금지) |
 | 시작 손패 교체 | 손패 바꾸기 / Mulligan | 첫 물때 고르기 / First Tide | |
 | 턴 넘기기 | 턴 종료 / End Turn | 숨 고르기 / End Breath | |
 | 태그(같은 무리 시너지) | 부류 / Kin | 혈통 / Lineage | |
@@ -145,7 +145,7 @@
 | 낱말 (ko / en) | 판정 | 근거 |
 |---|---|---|
 | 카드·덱·손패·턴 / Card·Deck·Hand·Turn | 허용 | 모든 카드게임 공통 |
-| 마나 / Mana | 허용 | 다수 TCG·RPG 공통 자원 이름(MTG 등). 레퍼런스 고유는 "마나 수정 / Mana Crystal"(금지)과 보석 모양 표시(금지) |
+| 마나 / Mana | 허용(설명용) | 2026-11-18 요청자 지시로 화면 자원 이름은 **심지 / Wick**로 되돌림. "마나"는 튜토리얼·용어 사전의 "다른 카드게임의 마나" 설명에만 씀. 다수 TCG·RPG 공통 자원 이름(MTG 등). 레퍼런스 고유는 "마나 수정 / Mana Crystal"(금지)과 보석 모양 표시(금지) |
 | 주문 / Spell | 허용 | MTG 한국어판 등 공통 번역 |
 | 체력·공격력 / Health·Attack | 허용 | RPG·카드게임 공통 |
 | 영웅 / Hero | 허용 | 사전어, 다수 게임 공통. 레퍼런스 고유 합성어 "영웅 능력 / Hero Power"는 금지 → "고유 능력 / Ability" |
@@ -156,7 +156,7 @@
 | 소환수 / Creature | 허용 | 사전어·게임 공통. 레퍼런스 "하수인 / Minion" 금지. "유닛 / Unit"은 다른 TCG(LoR) 한국어판 공식 용어라 쓰지 않음(용어 사전 "흔히 부르는 말" 칸에서도 뺌, 2026-11-18 리뷰) |
 | 멀리건 / Mulligan | en만 허용 | 카드게임 일반 은어. ko는 "손패 바꾸기"가 더 쉬움 |
 | 덱 고갈 / Deck-out | 허용 | 일반 은어. 레퍼런스 "탈진 / Fatigue" 금지 |
-| 보너스 마나 / Bonus Mana | 허용 | 레퍼런스 "동전 / The Coin" 금지 |
+| 여분 심지 / Spare Wick | 허용 | 레퍼런스 "동전 / The Coin" 금지 |
 | 부류 / Kin | 허용 | 레퍼런스 "종족 / Tribe" 금지 |
 | 하수인·영웅 능력·방어도·마나 수정·동전·탈진·종족·전장·전투의 함성·죽음의 메아리·도발·돌진·돌격·속공·은신·질풍·침묵·빙결·발견·과부하·연계·비밀·천상의 보호막·생명력 흡수·독성·주문 공격력 | **금지** | 레퍼런스 공식 한국어 용어·키워드 |
 | Minion·Hero Power·Armor·Mana Crystal·The Coin·Fatigue·Tribe·Battlecry·Deathrattle·Taunt·Charge·Rush·Stealth·Windfury·Silence·Freeze·Discover·Overload·Combo·Secret·Divine Shield·Lifesteal·Poisonous·Spell Damage | **금지** | 레퍼런스 공식 영어 용어·키워드 |
@@ -181,7 +181,7 @@
 - **분위기**: 마른 바다의 쓸쓸함 + 법정 같은 긴장. 웅장한 영웅담보다 **살아남은 자들의 냉정한 거래**. 유머는 건조하고 짧게(노동자·도둑 대사).
 - **성인 톤(18세)**: 죽음·희생·익사·이름 박탈을 직접 다루지만 잔혹 묘사(신체 훼손·고어)는 하지 않습니다. 피는 "소금이 굳힌다" 수준. 종교 세력은 광신이지만 조롱하지 않고 나름의 논리를 줍니다.
 - **세력 말투**: 파수단 = 군대식 짧은 명령, 합창회 = 기도문·2인칭 유혹, 조합 = 현장 은어·숫자, 씨족 = 짧은 함성·자연 비유, 서고회 = 학자 말투·인용·각주, 무명단 = 냉소·반문.
-- **문장 규칙**: 카드 글(concept)은 키워드 + 조건 + 효과 2문장까지, 30-art 글 상자(13 px, 한 줄 15자 × 최대 4줄 = 60자) 안에 들어가게 **60자 이하**(줄바꿈 여유로 56자 권장). 카드 이름은 이름 띠(17 px, 약 200 px)에 맞게 **한국어 10자·영문 21자 이하**(`check-cards.mjs`가 넘으면 실패, 56자 초과는 경고). 영어 카드 글 `concept_en`은 120자 이하(글 상자 영어 약 30자 × 4줄). 카드 글·화면 글은 2-7 화면 용어(영웅·소환수·마나·필드 등)만 쓰고, 옛 세계관 기능 용어(호명자·응답자·영장·심지 등)가 남으면 검사기가 실패 처리(2026-11-18 "용어 쉽게"). 튜토리얼·안내는 한 단계 60자·한 문장 35자·영어 110자, 용어 사전 설명은 40자·영어 80자. 숫자는 엔진(cards.json) 값과 같게. 플레이버는 한 문장 위주(25자 안팎). 대전 중 토스트는 한 문장 12자 이내(영어 6단어)로 짧게(insights 텍스트 항목을 성인 화면에도 그대로 적용: 글 읽는 시간보다 수 읽는 시간을 남김).
+- **문장 규칙**: 카드 글(concept)은 키워드 + 조건 + 효과 2문장까지, 30-art 글 상자(13 px, 한 줄 15자 × 최대 4줄 = 60자) 안에 들어가게 **60자 이하**(줄바꿈 여유로 56자 권장). 카드 이름은 이름 띠(17 px, 약 200 px)에 맞게 **한국어 10자·영문 21자 이하**(`check-cards.mjs`가 넘으면 실패, 56자 초과는 경고). 영어 카드 글 `concept_en`은 120자 이하(글 상자 영어 약 30자 × 4줄). 카드 글·화면 글은 2-7 화면 용어(영웅·소환수·심지·필드 등)만 쓰고, 옛 세계관 기능 용어(호명자·응답자·영장 등, 그리고 11-18 되돌린 "마나")가 남으면 검사기가 실패 처리(2026-11-18 "용어 쉽게"). 튜토리얼·안내는 한 단계 60자·한 문장 35자·영어 110자, 용어 사전 설명은 40자·영어 80자. 숫자는 엔진(cards.json) 값과 같게. 플레이버는 한 문장 위주(25자 안팎). 대전 중 토스트는 한 문장 12자 이내(영어 6단어)로 짧게(insights 텍스트 항목을 성인 화면에도 그대로 적용: 글 읽는 시간보다 수 읽는 시간을 남김).
 - **금지**: 레퍼런스의 대사 패턴(인사·감사·위협 이모트 문구), "빛·성기사·악마·마법사" 같은 레퍼런스 직업 연상어를 세력 이름에 쓰지 않음. 엘프·드워프·오크·드래곤 같은 종족을 쓰지 않음. 이 세계의 생물은 **마른 바다의 갯것**(게·거북·물개·해파리·갈매기·갈기 도마뱀)과 기계, 사람, 망자뿐.
 
 ---
@@ -190,7 +190,7 @@
 
 6명인 근거: (1) 00-benchmark 6절 아키타입 5종(어그로·미드레인지·컨트롤·콤보·템포)을 모두 덮고 컨트롤을 "디버프형"과 "주문형" 둘로 나누면 6 (2) 200장에서 공용 50장을 빼면 영웅당 25장으로 아키타입 2~3개가 섬(00-benchmark 10절 추정 20~30장) (3) 레퍼런스의 영웅 9인 구조를 피함(12절 blocker 목록).
 
-모든 영웅의 체력은 30. 고유 능력은 기본 2마나·턴당 1회 기준으로 제안하며 최종 비용·수치는 balance-designer가 정합니다.
+모든 영웅의 체력은 30. 고유 능력은 기본 2심지·턴당 1회 기준으로 제안하며 최종 비용·수치는 balance-designer가 정합니다.
 
 ### 4-1. 오다 벨 (Oda Vell) — 제7수조의 수문장
 
@@ -216,7 +216,7 @@
 | 위기 | 벽이 갈라진다. 그래도 물러서지 않는다. | The wall cracks. I still won't step back. |
 | 감사 | 고맙다. 장부에 적어 두지. | Thank you. I'll note it in the ledger. |
 | 경의 | 좋은 수였다. 다음엔 막는다. | Good move. Next time, I'll stop it. |
-| 마나 부족 | 마나가 모자란다. | Not enough mana. |
+| 심지 부족 | 심지가 모자란다. | Not enough wicks. |
 
 ### 4-2. 수녀 나할 (Sister Nhal) — 잠긴 성가대의 선창자
 
@@ -242,7 +242,7 @@
 | 위기 | 아, 물이 저를 먼저 부르네요. | Ah, the water calls me first. |
 | 감사 | 바다가 당신을 기억할 거예요. | The sea will remember you. |
 | 경의 | 아름다운 수였어요. 슬플 만큼. | A beautiful move. Almost sad. |
-| 마나 부족 | 아직 숨이 모자라요. | Not enough breath yet. |
+| 심지 부족 | 아직 숨이 모자라요. | Not enough breath yet. |
 
 ### 4-3. 펠 하스크 (Pell Hask) — 녹슨 갈비뼈의 수석 해체공
 
@@ -268,7 +268,7 @@
 | 위기 | 어디 보자, 예비 부품을 어디 뒀더라... | Let's see, where'd I put the spare parts... |
 | 감사 | 좋아, 외상으로 달아 두지. | Fine. I'll put it on your tab. |
 | 경의 | 이야, 그거 설계 좀 빌려 줘. | Huh. Lend me that blueprint. |
-| 마나 부족 | 압력이 안 올라와. | Pressure's too low. |
+| 심지 부족 | 압력이 안 올라와. | Pressure's too low. |
 
 ### 4-4. 카드라 순 (Kadra Sund) — 붉은 사구의 선봉 기수
 
@@ -280,8 +280,8 @@
 | 동기 | 씨족이 정착민의 저수지에서 정당한 몫을 받는 것. 맹약이 정착민 편이라고 믿고, 결투로 그 판결을 뒤집으려 함 |
 | 라이벌 | **오다 벨**(오랜 원수이자 유일하게 인정하는 적), **펠 하스크**(사구 아래 난파선 소유권) |
 | 고유 능력 | **채찍질 / Lash On**: 내 소환수 하나 이번 턴 +2 공격력과 기습(balance 1-1 수치) |
-| 플레이 정체성 | **어그로**. 싼 소환수로 빠르게 깔고 즉시 공격·직접 피해로 5~7턴 안에 끝냄. 마나 빚으로 미래 마나를 당겨 씀 |
-| 아키타입 | ① 즉시 공격 덮침(A006·A010·B064, 바로 체력을 침) ② 마나 빚 버스트(A008·A011·B060, 마나를 당겨 마무리) ③ 기습 템포(B052·B057·B061·B063, 필드 교환하며 밀어붙임) |
+| 플레이 정체성 | **어그로**. 싼 소환수로 빠르게 깔고 즉시 공격·직접 피해로 5~7턴 안에 끝냄. 그을음으로 미래 심지를 당겨 씀 |
+| 아키타입 | ① 즉시 공격 덮침(A006·A010·B064, 바로 체력을 침) ② 그을음 버스트(A008·A011·B060, 심지를 당겨 마무리) ③ 기습 템포(B052·B057·B061·B063, 필드 교환하며 밀어붙임) |
 | 시각 힌트 | 황토 + 붉은 천. 실루엣 = 앞으로 기운 **삼각형**(창끝), 아래에 넓적한 게 등딱지 반원 |
 
 대사:
@@ -294,7 +294,7 @@
 | 위기 | 피 좀 났다고 멈출 줄 알아? | Think a little blood will stop me? |
 | 감사 | 빚졌다. 씨족은 갚는다. | I owe you. Clans repay. |
 | 경의 | 빠르네. 마음에 들어. | Fast. I like it. |
-| 마나 부족 | 마나가 안 남았어! | Out of mana! |
+| 심지 부족 | 심지가 안 남았어! | Out of wicks! |
 
 ### 4-5. 이브로 탈 (Ivro Tal) — 등불 서고의 사서장
 
@@ -320,7 +320,7 @@
 | 위기 | 기록상 이런 위기는... 처음이군. | On record, a crisis like this is... a first. |
 | 감사 | 기록해 두겠소. | Noted. |
 | 경의 | 훌륭한 반론이오. | An excellent rebuttal. |
-| 마나 부족 | 등잔이 아직 어둡소. | My lamps are still dim. |
+| 심지 부족 | 등잔이 아직 어둡소. | My lamps are still dim. |
 
 ### 4-6. 렌 (Wren) — 이름 없는 칼
 
@@ -346,7 +346,7 @@
 | 위기 | 이름도 없는데 목숨까지 잃긴 아깝지. | No name already. Shame to lose my life too. |
 | 감사 | 오, 공짜는 좋지. | Oh, free is nice. |
 | 경의 | 제법인데? 누구더라, 너. | Not bad. Who were you again? |
-| 마나 부족 | 마나가 없네. 훔칠까? | No mana. Should I steal some? |
+| 심지 부족 | 심지가 없네. 훔칠까? | No wicks. Should I steal some? |
 
 ### 4-7. 상성과 라이벌 고리 (balance 1-2 최종 측정 반영, round-1 갱신)
 
@@ -503,7 +503,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | 11 | 행동 봉쇄 | **속박 / Bind** | 닻 / Anchor | 속박 | do `freeze` | 9 |
 | 12 | 주문 피해 증가 | **주문 위력 +N / Empower +N** | 잉걸 / Kindle | 주문 위력 +N / 주문 위력 적용 | spell power | 9 |
 | 13 | 숨겨진 함정 | **덫 / Snare** | 봉인문 / Sealwrit | 덫: (조건이면 효과) | `secret` | 7 |
-| 14 | 다음 턴 마나 빚 | **마나 빚 N / Mana Debt N** | 그을음 / Soot | 마나 빚 N | do `overload` | 8 |
+| 14 | 다음 턴 마나 빚 | **그을음 N / Soot N** (11-18 심지 복귀로 되돌림) | 마나 빚 / Mana Debt (11-18 잠시 사용) | 그을음 N | do `overload` | 8 |
 | 15 | 앞선 카드 조건 | **후속 / Follow-up** | 뒷물결 / Wake | 후속: (효과) | cond `combo` | 10 |
 | 16 | 셋 중 하나 고르기 | **골라잡기 / Pick** | 인양 / Salvage | 골라잡기: (후보) 3장 중 1장 | do `discover` | 6 (+펠 고유 능력) |
 | 17 | 턴마다 쌓임 | **성장 / Grow** | 차오름 / Swell | 성장 / 성장(+X/+Y) | trigger `turn_start` | 11 |
@@ -653,11 +653,11 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `deck_delete` | 덱 삭제 | Delete Deck |
 | `deck_delete_confirm` | 이 덱을 삭제할까요? 되돌릴 수 없습니다. | Delete this Deck? This can't be undone. |
 | `deck_auto_fill` | 나머지 채우기 | Auto-fill |
-| `deck_filter_cost` | 마나 | Mana |
+| `deck_filter_cost` | 심지 | Wicks |
 | `deck_filter_type` | 종류 | Type |
 | `deck_filter_keyword` | 키워드 | Keyword |
 | `deck_filter_owner` | 전용/공용 | Hero / Common |
-| `deck_curve` | 마나 곡선 | Mana curve |
+| `deck_curve` | 심지 곡선 | Wick curve |
 | `deck_incomplete` | 30장이 되어야 결투할 수 있습니다. | A Deck needs 30 cards to duel. |
 | `deck_limit_two` | 같은 카드는 2장까지입니다. | No more than 2 copies. |
 | `deck_limit_one` | 전설 카드는 1장만 넣을 수 있습니다. | Only 1 copy of a Legendary card. |
@@ -715,7 +715,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 |---|---|---|
 | `hud_lifeline` | 체력 | Health |
 | `hud_shell` | 방어 | Defense |
-| `hud_wicks` | 마나 | Mana |
+| `hud_wicks` | 심지 | Wicks |
 | `hud_deck_left` | 남은 카드 | Cards left |
 | `hud_hand` | 손패 | Hand |
 | `hud_sunk` | 무덤 | Graveyard |
@@ -728,14 +728,14 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `mulligan_desc` | 바꿀 카드를 누르세요. | Tap cards to replace. |
 | `mulligan_confirm` | 확정 | Confirm |
 | `coin_first` | 선공입니다 | You go first |
-| `coin_second` | 후공입니다 · 보너스 마나 | You go second · Bonus Mana |
-| `spare_wick_name` | 보너스 마나 | Bonus Mana |
-| `spare_wick_desc` | 이번 턴 마나 +1. | Gain 1 Mana this turn. |
+| `coin_second` | 후공입니다 · 여분 심지 | You go second · Spare Wick |
+| `spare_wick_name` | 여분 심지 | Spare Wick |
+| `spare_wick_desc` | 이번 턴 심지 +1. | Gain 1 Wick this turn. |
 | `turn_yours` | 당신의 차례 | Your turn |
 | `turn_enemy` | 상대의 차례 | Enemy turn |
 | `turn_timer_low` | 시간이 얼마 없습니다 | Time's almost up |
 | `turn_auto_end` | 차례가 끝났습니다 | Turn ended |
-| `toast_no_wicks` | 마나가 모자랍니다 | Not enough Mana |
+| `toast_no_wicks` | 심지가 모자랍니다 | Not enough Wicks |
 | `toast_circle_full` | 필드가 가득 찼습니다 | Board is full |
 | `toast_hand_full` | 손패가 넘쳤습니다 | Hand full. Card lost |
 | `toast_cant_attack_yet` | 아직 못 칩니다 | Can't attack yet |
@@ -744,11 +744,11 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `toast_seamist_untargetable` | 위장이라 못 고릅니다 | Hidden by Camouflage |
 | `toast_hollow_call` | 덱 고갈 피해 {n} | Deck-out! {n} damage |
 | `toast_sealwrit_opened` | 덫이 발동했습니다 | A Snare triggers |
-| `toast_soot` | 마나 빚 {n} | Mana Debt {n} |
+| `toast_soot` | 심지 {n}개 그을림 | {n} Wicks sooted |
 | `toast_brine_burst` | 중독 피해 | Venom damage |
 | `toast_salvage` | 하나를 고르세요 | Pick one |
 | `hud_aria_lifeline` | 체력 | Health |
-| `hud_aria_wicks` | 사용 가능한 마나 | Available Mana |
+| `hud_aria_wicks` | 사용 가능한 심지 | Available Wicks |
 | `draw_turn_limit` | 턴 제한입니다. 무승부 판정 | Turn limit reached. Judging the draw |
 
 ### 8-6. 승리·패배
@@ -793,14 +793,14 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | 1 | `tut_hero` | 영웅 고르기 화면 첫 진입 | 영웅 카드 6개 | 영웅을 고르세요. 영웅마다 고유 능력과 전용 카드가 다릅니다. | Pick a Hero. Each has its own Ability and cards. |
 | 2 | `tut_deck` | 덱 목록 첫 표시 | 덱 목록 | 덱은 카드 30장 묶음입니다. 처음엔 입문 덱을 쓰세요. | A Deck is 30 cards. Start with the Starter Deck. |
 | 3 | `tut_mulligan` | 첫 판 손패 바꾸기 화면 | 시작 손패 | 시작 손패입니다. 바꾸고 싶은 카드를 누르세요. | Your starting hand. Tap cards to replace them. |
-| 4 | `tut_mana` | 첫 내 턴 시작(마나가 찬 직후) | 마나 막대 | 마나는 카드를 내는 비용입니다. 매 턴 1씩 늘고 다시 찹니다. | Mana pays for cards. You get 1 more each turn, and it refills. |
-| 5 | `tut_no_play` | 1턴에 낼 수 있는 카드가 없을 때(tut_play_* 대신) | 마나 막대와 손패 비용 | 마나가 모자라 낼 카드가 없습니다. 다음 턴에 내 보세요. | Not enough Mana to play a card. Try next turn. |
-| 6 | `tut_play_creature` | 마나 이하 비용의 소환수가 손패에 처음 있을 때 | 그 카드 | 소환수는 필드에 남아 싸웁니다. 끌거나 눌러서 내세요. | Creatures stay on the Board and fight. Drag or tap to play. |
+| 4 | `tut_mana` | 첫 내 턴 시작(심지가 켜진 직후) | 심지 막대 | 심지는 카드를 내는 자원(다른 카드게임의 마나)입니다. 매 턴 1개씩 늘고 다시 켜집니다. | Wicks are the resource you spend to play cards (mana in other card games). You light 1 more each turn. |
+| 5 | `tut_no_play` | 1턴에 낼 수 있는 카드가 없을 때(tut_play_* 대신) | 심지 막대와 손패 비용 | 심지가 모자라 낼 카드가 없습니다. 다음 턴에 내 보세요. | Not enough Wicks to play a card. Try next turn. |
+| 6 | `tut_play_creature` | 심지 이하 비용의 소환수가 손패에 처음 있을 때 | 그 카드 | 소환수는 필드에 남아 싸웁니다. 끌거나 눌러서 내세요. | Creatures stay on the Board and fight. Drag or tap to play. |
 | 7 | `tut_play_spell` | 낼 수 있는 주문이 손패에 처음 있을 때 | 그 카드 | 주문은 한 번 효과를 내고 사라지는 카드입니다. | A Spell takes effect once, then is gone. |
 | 8 | `tut_play_weapon` | 무기 카드가 손패에 처음 들어왔을 때(없으면 생략) | 그 카드 | 무기를 들면 영웅이 직접 공격할 수 있습니다. | Equip a Weapon so your Hero can attack. |
 | 9 | `tut_board` | 첫 소환수가 필드에 놓인 직후 | 내 필드 줄 | 여기가 필드입니다. 막 나온 소환수는 다음 턴부터 공격합니다. | This is the Board. New Creatures attack from next turn. |
 | 10 | `tut_attack` | 내 소환수가 처음 공격 가능해질 때 | 그 소환수 | 내 소환수를 상대 쪽으로 끌어 공격하세요. | Drag your Creature to an enemy to attack. |
-| 11 | `tut_ability` | 마나가 고유 능력 비용 이상이고 아직 안 썼을 때 | 고유 능력 버튼 | 고유 능력은 영웅의 기술입니다. 턴마다 한 번 씁니다. | Your Ability is your Hero's skill. Use it once per turn. |
+| 11 | `tut_ability` | 심지가 고유 능력 비용 이상이고 아직 안 썼을 때 | 고유 능력 버튼 | 고유 능력은 영웅의 기술입니다. 턴마다 한 번 씁니다. | Your Ability is your Hero's skill. Use it once per turn. |
 | 12 | `tut_defense` | 어느 영웅이든 처음 방어를 얻었을 때 | 방어 수치 | 방어는 체력보다 먼저 깎이는 보호 수치입니다. | Defense absorbs damage before Health does. |
 | 13 | `tut_end` | tut_play_* 또는 tut_no_play를 본 뒤, 할 수 있는 행동이 없을 때 | 턴 종료 버튼 | 할 일이 끝나면 턴 종료를 누르세요. | When you're done, press End Turn. |
 | 14 | `tut_wall` | 상대 방벽 소환수 첫 등장 | 그 소환수 | 방벽이 있으면 그것부터 공격해야 합니다. | Enemies with Wall must be attacked first. |
@@ -835,7 +835,7 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | `kw_anchor` | 속박: 다음 공격 기회를 잃습니다. | Bind: Loses its next attack. |
 | `kw_kindle` | 주문 위력 +N: 내 주문 피해가 N 늘어납니다. | Empower +N: Your Spells deal N more damage. |
 | `kw_sealwrit` | 덫: 숨겨 두었다가 조건이 맞으면 상대 턴에 발동합니다. | Snare: Hidden; triggers on the enemy's turn when its condition is met. |
-| `kw_soot` | 마나 빚 N: 다음 턴 마나 N을 쓸 수 없습니다. | Mana Debt N: N Mana can't be used next turn. |
+| `kw_soot` | 그을음 N: 다음 턴 심지 N개가 그을려 쓸 수 없습니다. | Soot N: N Wicks are sooted and can't be lit next turn. |
 | `kw_wake` | 후속: 이번 턴 다른 카드를 먼저 냈으면 추가 효과. | Follow-up: Bonus if you played another card first this turn. |
 | `kw_salvage` | 골라잡기: 후보 3장 중 1장을 골라 손패로. | Pick: Choose 1 of 3 cards to add to your hand. |
 | `kw_swell` | 성장: 내 턴 시작마다 +1/+1. | Grow: Gains +1/+1 at the start of your turn. |
@@ -1005,8 +1005,8 @@ round-2 추가 키(dev 요청·리뷰):
 | `creature` | 소환수 | Creature | 필드에 남아 공격하고 막는 카드. | Stays on the Board to attack and block. | frame-answerer.svg | 크리처, 몬스터 |
 | `spell` | 주문 | Spell | 한 번 효과를 내고 사라지는 카드. | Takes effect once, then is gone. | frame-rite.svg | 스펠, 마법 |
 | `weapon` | 무기 | Weapon | 영웅이 직접 공격하게 하는 카드. 내구도만큼 씀. | Lets your Hero attack. Lasts for its Durability. | frame-brand.svg | 웨폰, 장비 |
-| `mana` | 마나 | Mana | 카드 비용. 매 턴 1씩 늘어 최대 10. | Pays for cards. +1 each turn, up to 10. | icon-wick.svg | 코스트, 에너지 |
-| `bonus_mana` | 보너스 마나 | Bonus Mana | 후공이 받는 1회용 마나 +1 카드. | A one-time +1 Mana card for going second. | icon-spare-wick.svg | 후공 보상 |
+| `mana` | 심지 | Wick | 카드를 내는 자원(다른 카드게임의 마나). | Wick — the resource you spend to play cards (mana in other card games). | icon-wick.svg | 마나, 코스트, 에너지 |
+| `bonus_mana` | 여분 심지 | Spare Wick | 후공이 받는 1회용 심지 +1 카드. | A one-time +1 Wick card for going second. | icon-spare-wick.svg | 후공 보상 |
 | `health` | 체력 | Health | 0이 되면 죽습니다(영웅이면 패배). | At 0 you die (a Hero loses). | icon-lifeline.svg | HP, 라이프 |
 | `defense` | 방어 | Defense | 체력보다 먼저 깎이는 보호 수치. | Absorbs damage before Health. | icon-shell.svg | 실드 |
 | `attack` | 공격력 | Attack | 공격할 때 주는 피해. | Damage dealt when attacking. | icon-attack.svg | 파워, ATK |
@@ -1037,7 +1037,7 @@ round-2 추가 키(dev 요청·리뷰):
 | `bind` | 속박 | Bind | 다음 공격을 못 함. | Skips its next attack. | kw-anchor.svg | 스턴, 묶기 |
 | `empower` | 주문 위력 | Empower | 내 주문 피해 +N. | Your Spells deal +N. | kw-kindle.svg | 주문 피해 증가 |
 | `snare` | 덫 | Snare | 숨겨 두었다 상대 턴에 발동. | Hidden; triggers on the enemy's turn. | kw-sealwrit.svg | 트랩, 함정 카드 |
-| `debt` | 마나 빚 | Mana Debt | 다음 턴 마나 N을 못 씀. | Locks N Mana next turn. | kw-soot.svg | 다음 턴 코스트 잠금 |
+| `debt` | 그을음 | Soot | 다음 턴 심지 N개를 못 씀. | Locks N Wicks next turn. | kw-soot.svg | 다음 턴 코스트 잠금 |
 | `followup` | 후속 | Follow-up | 먼저 다른 카드를 냈으면 추가 효과. | Bonus if another card came first. | kw-wake.svg | 연속 사용 보너스 |
 | `pick` | 골라잡기 | Pick | 3장 중 1장을 골라 손패로. | Choose 1 of 3 cards. | kw-salvage.svg | 3장 중 선택 |
 | `grow` | 성장 | Grow | 내 턴 시작마다 강해짐. | Gets stronger each turn. | kw-swell.svg | 레벨업, 성장 |
@@ -1062,7 +1062,7 @@ round-2 추가 키(dev 요청·리뷰):
 >
 > ■ 여섯 영웅, 여섯 가지 싸움 방식 — 수조를 지키는 수문장, 바다를 다시 부르려는 수녀, 침몰선을 되살리는 해체공, 사구를 달리는 기수, 모든 이름을 기록하는 사서장, 이름을 잃은 칼.
 > ■ 카드 200장 — 뽑기·강화·약화·즉시 타격·처치 드로우까지 여러 갈래로 뻗는 덱 빌딩.
-> ■ 마나로 굴리는 턴 운영 — 매 턴 1씩 늘어나는 마나로 소환수와 주문을 내고, 덱의 흐름을 읽어라.
+> ■ 심지로 굴리는 턴 운영 — 매 턴 1씩 늘어나는 심지로 소환수와 주문을 내고, 덱의 흐름을 읽어라.
 > ■ 겹친 카드는 성장한다 — 같은 카드를 또 얻으면 카드 경험치가 쌓이고, 돌파하면 능력치가 오른다. 랭크전에서는 돌파 효과를 맞춰 실력으로만 겨룬다.
 > ■ 카드 팩 확률 공개, 실결제 없음 — 모든 팩과 카드는 결투와 퀘스트로 얻는 게임 안 재화로만 얻는다.
 
@@ -1072,7 +1072,7 @@ round-2 추가 키(dev 요청·리뷰):
 >
 > ■ Six Heroes, six ways to fight: a cistern gatekeeper, a drowned-choir cantor, a wreck breaker, a dune rider, a head archivist, and a blade with no name.
 > ■ 200 cards branching into draw, buffs, curses, instant strikes, and kill-to-draw tactics.
-> ■ Gain 1 more Mana each turn, play Creatures and Spells, and read the flow of your Deck.
+> ■ Light 1 more Wick each turn, play Creatures and Spells, and read the flow of your Deck.
 > ■ Duplicates become Card EXP; Breakthrough raises stats. Ranked equalizes Breakthrough so skill decides.
 > ■ Pack odds shown. No real-money purchases: everything is earned through duels and quests.
 
@@ -1081,7 +1081,7 @@ round-2 추가 키(dev 요청·리뷰):
 ## 10. 다른 역할에 넘기는 메모
 
 - **balance-designer**: 카드마다 `concept_ko`는 의도이고, 소환수/주문/무기 구분·비용·수치는 당신이 정합니다. `cost_band`는 low(1~3)·mid(4~6)·high(7~10) 감각입니다. 중독 규칙(턴 시작 N 피해 후 1 감소)은 제안입니다. 8장 미만 키워드 5개(생명 훔치기·골라잡기 6, 즉시 공격·즉사·덫 7)는 6-1절 의견대로 합치지 않고 유지합니다. 1-2에서 근사 11장·주문→소환수 5장 문구를 cards.json에 맞췄습니다(1-2 리뷰 `reviews/1-2/lore-writer.md`).
-- **art-director**: 영웅·세력 색과 실루엣은 4절, 카드마다 `visual_hint`(세력 색 + 모티프). 마나는 세로 막대(마나), 후공 보상은 초 토막, 카드 프레임은 소금유리 판(모서리가 깨진 직사각) 방향을 권합니다(레퍼런스 프레임 모양 금지). 희귀도 색: 모래 베이지·진주 흰 무지개·산호 주홍·심해 검푸름.
+- **art-director**: 영웅·세력 색과 실루엣은 4절, 카드마다 `visual_hint`(세력 색 + 모티프). 심지는 세로 막대(심지), 후공 보상은 초 토막, 카드 프레임은 소금유리 판(모서리가 깨진 직사각) 방향을 권합니다(레퍼런스 프레임 모양 금지). 희귀도 색: 모래 베이지·진주 흰 무지개·산호 주홍·심해 검푸름.
 - **game-developer**: 화면 문구는 8절 키만 씁니다. 카드 이름·글은 `lore/cards-lore.json`의 `name_*`·`flavor_*`·`concept_ko`·**`concept_en`(round-1부터 200장)**을 씁니다. 영어 모드의 "키워드 이름 + 풍미글" 대체는 지우고 `concept_en`을 보여 주세요. 대사표 `위기` 줄(내 체력 ≤ 10)과 4-8 맞대결 대사 키, 8-11 키는 round-1에서 추가.
 
 ---

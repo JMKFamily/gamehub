@@ -23,7 +23,7 @@ const PLAN = {
   h_archive: [4, 14, 2, 5], h_nameless: [2, 12, 2, 9], neutral: [5, 30, 3, 12],
 };
 // 2026-11-18 "용어 쉽게" 개정 키워드(10-lore 6절)
-const KEYWORDS = ['등장', '사망 시', '방벽', '튕겨내기', '위장', '기습', '즉시 공격', '즉사', '생명 훔치기', '효과 지우기', '속박', '주문 위력', '덫', '마나 빚', '후속', '골라잡기', '성장', '중독'];
+const KEYWORDS = ['등장', '사망 시', '방벽', '튕겨내기', '위장', '기습', '즉시 공격', '즉사', '생명 훔치기', '효과 지우기', '속박', '주문 위력', '덫', '그을음', '후속', '골라잡기', '성장', '중독'];
 
 // 1. 개수·필드
 if (cards.length !== 200) fail(`총 ${cards.length}장 (200장이어야 함)`);
@@ -87,8 +87,8 @@ const longText = cards.filter((c) => len(c.concept_ko) > 56).map((c) => `${c.id}
 const BANNED_KO = ['돌격', '돌진', '속공', '도발', '은신', '질풍', '침묵', '빙결', '발견', '과부하', '연계', '비밀', '독성', '생명력 흡수', '주문 공격력', '천상의 보호막', '전투의 함성', '죽음의 메아리', '환생', '하수인', '방어도', '마나 수정', '영웅 능력', '탈진', '종족', '전장', '유닛', '팔로워', '보호막', '수호', '잠복', '유언', '선제공격', '신속', '죽음의 손길', '생명연결', '흡혈', '체력 흡수', '주문 증폭', '질주', '필살'];
 const BANNED_EN = ['charge', 'rush', 'taunt', 'stealth', 'windfury', 'silence', 'freeze', 'discover', 'overload', 'combo', 'secret', 'poisonous', 'lifesteal', 'spell damage', 'divine shield', 'battlecry', 'deathrattle', 'reborn', 'minion', 'armor', 'mana crystal', 'hero power', 'forge', 'echo', 'invoke', 'tidecaller', 'fatigue', 'tribe', 'unit', 'follower', 'barrier', 'elusive', 'ward', 'ambush', 'last words', 'haste', 'deathtouch', 'lifelink', 'trap', 'first strike', 'drain', 'toxic', 'bane', 'spellboost'];
 // 옛 세계관 기능 용어(2026-11-18 요청자 "용어 쉽게"): 카드 글·UI 키 표에 남으면 실패. 이야기 문장·카드 이름·풍미글·대사는 검사 안 함
-const OLD_KO = ['호명자', '호명술', '응답자', '영장', '조수원', '심지', '명줄', '껍질', '숨 고르기', '공허 호명', '가라앉은 자리', '첫 숨', '썰물', '방파제', '소금막', '물안개', '박차', '급류', '익사', '들이켬', '이름 지우기', '닻', '잉걸', '봉인문', '그을음', '뒷물결', '인양', '차오름', '소금독', '덧새김', '혈통', '공명', '새김', '소금화', '각인 먹', '의뢰', '물때', '의식', '인장', '부두'];
-const OLD_EN = ['caller', 'calling', 'answerer', 'writ', 'writbook', 'circle', 'wick', 'wicks', 'lifeline', 'shell', 'end breath', 'hollow call', 'the sunk', 'first breath', 'ebb', 'breakwater', 'saltskin', 'seamist', 'spur', 'rapids', 'drown', 'draught', 'unname', 'unnamed', 'anchor', 'kindle', 'sealwrit', 'soot', 'wake', 'salvage', 'swell', 'brine', 'etch', 'fit', 'resonance', 'recut', 'salt marks', 'carving ink', 'commission', 'commissions', 'crate', 'crates', 'rite', 'rites', 'brand', 'dock'];
+const OLD_KO = ['호명자', '호명술', '응답자', '영장', '조수원', '마나', '명줄', '껍질', '숨 고르기', '공허 호명', '가라앉은 자리', '첫 숨', '썰물', '방파제', '소금막', '물안개', '박차', '급류', '익사', '들이켬', '이름 지우기', '닻', '잉걸', '봉인문', '뒷물결', '인양', '차오름', '소금독', '덧새김', '혈통', '공명', '새김', '소금화', '각인 먹', '의뢰', '물때', '의식', '인장', '부두', '보너스 마나'];
+const OLD_EN = ['caller', 'calling', 'answerer', 'writ', 'writbook', 'circle', 'mana', 'lifeline', 'shell', 'end breath', 'hollow call', 'the sunk', 'first breath', 'ebb', 'breakwater', 'saltskin', 'seamist', 'spur', 'rapids', 'drown', 'draught', 'unname', 'unnamed', 'anchor', 'kindle', 'sealwrit', 'wake', 'salvage', 'swell', 'brine', 'etch', 'fit', 'resonance', 'recut', 'salt marks', 'carving ink', 'commission', 'commissions', 'crate', 'crates', 'rite', 'rites', 'brand', 'dock'];
 const hasOld = (ko, en) => [...OLD_KO.filter((w) => ko.includes(w)), ...OLD_EN.filter((w) => new RegExp(`\\b${w}\\b`, 'i').test(en))];
 for (const c of cards) { const o = hasOld(c.concept_ko, c.concept_en); if (o.length) fail(`${c.id}: 카드 글에 옛 용어 ${o.join('·')}`); }
 for (const c of cards) {
@@ -101,7 +101,8 @@ for (const c of cards) {
 // 10. 10-lore.md 키 표: 금지어·옛 용어(화면 글), 튜토리얼·안내·용어 사전 글 한도
 const lore = readFileSync(join(here, '..', '10-lore.md'), 'utf8');
 // 이야기 고유어 허용 목록: 세력·부류 이름 '익사자'는 옛 키워드 '익사'(현재 '즉사')와 글자가 겹치지만 세계관 이름이라 허용
-const PROTECT = ['익사자', '썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
+// 심지 설명(11-18): "다른 카드게임의 마나" 설명 문구는 허용
+const PROTECT = ['다른 카드게임의 마나', 'mana in other card games', '익사자', '썰물 영장', '썰물 연대기', 'Ebbwrit', 'Ebb Chronicle', '노해의 호명자들', 'Callers of the Bare Sea'];
 const strip = (t) => PROTECT.reduce((a, w) => a.split(w).join(''), t);
 // 이야기용 키(세계관 고유어 허용): 제목·부제·영웅 이름·칭호·대사·승패 부제
 const STORY_KEY = /^(game_title|game_subtitle|chronicle_title|faction_|story_arc_|hero_[a-z]+_(name|title|power)|line_|result_(victory|defeat)_sub_)/;
@@ -127,7 +128,7 @@ for (const line of lore.split('\n')) {
   if (len(ko) > TUTMAX.ko) fail(`10-lore ${key}: ko ${len(ko)}자 (60자 초과)`);
   for (const sen of ko.split(/(?<=[.!?])\s+/)) if (len(sen) > TUTMAX.sentence) fail(`10-lore ${key}: 한 문장 ${len(sen)}자 (35자 초과)`);
   if (len(en) > TUTMAX.en) fail(`10-lore ${key}: en ${len(en)}자 (110자 초과)`);
-  const o = hasOld(ko, en); if (o.length) fail(`10-lore ${key}: 옛 용어 ${o.join('·')}`);
+  const o = hasOld(strip(ko), strip(en)); if (o.length) fail(`10-lore ${key}: 옛 용어 ${o.join('·')}`);
   for (const w of BANNED_KO) if (ko.includes(w)) fail(`10-lore ${key}: 금지어 "${w}"`);
 }
 // 용어 사전(8-13): 설명 ko 40자·en 80자, 용어·설명에 금지어·옛 용어 없음("흔히 부르는 말" 칸은 설명용이라 레퍼런스 금지어만 검사)
@@ -141,7 +142,7 @@ let glossRows = 0;
     const [, id, tko, ten, dko, den, , common] = c;
     if (len(dko) > 40) fail(`용어 사전 ${id}: 설명 ${len(dko)}자 (40자 초과)`);
     if (len(den) > 80) fail(`용어 사전 ${id}: en 설명 ${len(den)}자 (80자 초과)`);
-    const o = hasOld(`${tko} ${dko}`, `${ten} ${den}`); if (o.length) fail(`용어 사전 ${id}: 옛 용어 ${o.join('·')}`);
+    const o = hasOld(strip(`${tko} ${dko}`), strip(`${ten} ${den}`)); if (o.length) fail(`용어 사전 ${id}: 옛 용어 ${o.join('·')}`);
     for (const w of BANNED_KO) if (`${tko} ${dko} ${common}`.includes(w)) fail(`용어 사전 ${id}: 금지어 "${w}"`);
   }
   if (glossRows < 44) fail(`용어 사전 ${glossRows}행 (용어 26 + 키워드 18 = 44 이상)`);

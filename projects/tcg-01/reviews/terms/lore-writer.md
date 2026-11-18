@@ -164,3 +164,33 @@
   - 대전 중 확대에서는 효과를 먼저 보여 주고 `card_story_battle_hint` 한 줄만 둡니다(판 템포 유지).
   - 이전/다음 이야기는 10-lore 5-5 순서 목록을 sync로 읽습니다. 미보유 카드는 `card_story_locked`를 보여 줍니다.
 - **art**: 이야기 패널은 카드 그림 창 아래 텍스트 판입니다(ko 160자 = 13 px 기준 약 11줄). 세력 색 띠와 순서 표시 자리를 정해 주세요.
+
+## 8. 심지 복귀 (2026-11-18 요청자 검수 피드백)
+
+요청자: "표현 중에 마나도 원래 표현이 좋습니다." 그래서 자원 이름을 **마나 / Mana에서 심지 / Wick로** 되돌렸습니다. 파생어도 원래 이름으로 돌렸습니다.
+- 보너스 마나 → **여분 심지 / Spare Wick**
+- 마나 빚 N → **그을음 N / Soot N** ("심지가 그을려 다음 턴 못 씀"이라 심지와 함께 쓰면 뜻이 이어짐)
+- 마나 곡선 → **심지 곡선**, 마나 막대 → **심지 막대**, "2마나" → "2심지"
+
+다른 쉬운 용어(영웅·소환수·주문·체력·방어·필드·턴 종료 등)는 그대로입니다.
+
+**처음 보는 사람용 설명**은 두 곳에 넣었습니다.
+- 첫 튜토리얼 `tut_mana`: "심지는 카드를 내는 자원(다른 카드게임의 마나)입니다. 매 턴 1개씩 늘고 다시 켜집니다." / "Wicks are the resource you spend to play cards (mana in other card games). You light 1 more each turn."
+- 용어 사전 `mana` 항목: "카드를 내는 자원(다른 카드게임의 마나)." / "Wick — the resource you spend to play cards (mana in other card games)." 흔히 부르는 말 칸은 "마나, 코스트, 에너지"입니다.
+
+**바뀐 키 값(키 이름은 그대로)**:
+- 화면: `deck_filter_cost`, `deck_curve`, `hud_wicks`, `hud_aria_wicks`, `toast_no_wicks`, `toast_soot`, `coin_second`, `spare_wick_name`, `spare_wick_desc`
+- 키워드: `kw_soot` 도움말, 6절 키워드 표시 이름 "그을음 / Soot"(`kwname_*` 출처)
+- 튜토리얼: `tut_mana`, `tut_no_play`, `tut_play_creature`, `tut_ability`(조건 칸)
+- 용어 사전: `mana`(id 그대로, 용어 "심지"), `bonus_mana`(여분 심지), `debt`(그을음)
+- 대사표 줄 이름: "마나 부족" → **"심지 부족"**(오다·카드라·렌 대사 글도 심지로). dev는 대사 파서가 줄 이름으로 찾으면 맞춰 주세요(round-1 이전 이름과 같음).
+- 스토어 문구(9절): "심지로 굴리는 턴 운영" / "Light 1 more Wick each turn"
+- 카드 글: cards-lore 8장 concept의 "마나 빚 N" → "그을음 N"(D020·B060·B066·A008·A009·A011·A013·A032). 스토리에는 "마나"가 원래 없었습니다.
+
+**검사**
+- `check-cards.mjs` 통과.
+  - 옛 용어 목록에서 심지·그을음·wick·soot를 빼고, 마나·보너스 마나·mana를 넣었습니다.
+  - "다른 카드게임의 마나 / mana in other card games" 설명 문구는 허용 목록에 있습니다.
+  - 키워드 목록은 그을음으로 바꿨습니다. "마나 수정"은 계속 금지어입니다.
+- `node tools/qa/josa-check.mjs --terms 심지,여분 심지,그을음,…` → 불일치 0. 심지는 마나와 같이 받침이 없어 조사가 바뀌지 않습니다.
+- balance 검사 통과.
