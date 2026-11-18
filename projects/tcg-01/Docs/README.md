@@ -5,7 +5,7 @@
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
 | 2026-11-19 | ux-reviewer | ux2 r3 | [UX2 짧은 재판정: 12항목 모두 통과, 퀘스트 중복 해소, 8.5 PASS](ux-reviewer/2026-11-19-ux2-review-r3.md) |
-| 2026-11-19 | art-director | UX2 리뷰 r3 | [UX2 r3 아트 재판정 8.4 PASS: 촛불 실제 크기 ≥ 28 px 확인, 노드 상징 그림 반영](../reviews/ux2/art-review-r3.md) |
+| 2026-11-19 | art-director | UX2 리뷰 r3 | [UX2 r3 아트 재판정 8.4 PASS: 촛불 실제 크기 ≥ 28 px 확인, 노드 상징 그림 반영](art-director/2026-11-19-ux2-art-review-r3.md) |
 | 2026-11-19 | qa-engineer | UX2 | [UX2 QA(884ec30): 기능 흐름 통과, 퀘스트 종류 중복, A/B 성능 회귀 major, 기술 7.0 REVISE](qa-engineer/2026-11-19-ux2-qa.md) |
 | 2026-11-19 | balance-designer | UX 2차 | [오늘의 의뢰 종류 확장 (9종·서로 다른 3개)](balance-designer/2026-11-19-quest-types.md) |
 | 2026-11-19 | art-director | UX2 리뷰 r2 | [UX2 r2 아트 재리뷰 7.6 + 촛불 자산 다시 그림·월드맵 노드 상징 그림 32개](art-director/2026-11-19-ux2-art-review-r2.md) |
