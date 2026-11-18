@@ -251,8 +251,8 @@
    },
    {
     "id": "soot",
-    "ko": "마나 빚",
-    "en": "Mana Debt",
+    "ko": "그을음",
+    "en": "Soot",
     "color": "#B9A99A",
     "board_mark": "wick_bar_soot",
     "icon": "soot"
@@ -2283,8 +2283,8 @@
    "rows": [
     {
      "n": 5,
-     "visible_ratio": 0.62,
-     "step_px": 50.8
+     "visible_ratio": 0.711,
+     "step_px": 58.3
     },
     {
      "n": 6,
@@ -2318,8 +2318,8 @@
    "rows": [
     {
      "n": 5,
-     "visible_ratio": 0.62,
-     "step_px": 58.3
+     "visible_ratio": 0.716,
+     "step_px": 67.3
     },
     {
      "n": 6,
@@ -2353,18 +2353,18 @@
    "rows": [
     {
      "n": 5,
-     "visible_ratio": 0.62,
-     "step_px": 43.4
+     "visible_ratio": 0.92,
+     "step_px": 64.4
     },
     {
      "n": 6,
-     "visible_ratio": 0.62,
-     "step_px": 43.4
+     "visible_ratio": 0.759,
+     "step_px": 53.1
     },
     {
      "n": 7,
-     "visible_ratio": 0.62,
-     "step_px": 43.4
+     "visible_ratio": 0.632,
+     "step_px": 44.3
     },
     {
      "n": 8,
@@ -2388,18 +2388,18 @@
    "rows": [
     {
      "n": 5,
-     "visible_ratio": 0.62,
-     "step_px": 86.8
+     "visible_ratio": 0.92,
+     "step_px": 128.8
     },
     {
      "n": 6,
-     "visible_ratio": 0.62,
-     "step_px": 86.8
+     "visible_ratio": 0.804,
+     "step_px": 112.6
     },
     {
      "n": 7,
-     "visible_ratio": 0.62,
-     "step_px": 86.8
+     "visible_ratio": 0.67,
+     "step_px": 93.8
     },
     {
      "n": 8,
@@ -2583,17 +2583,17 @@
    "hand_scale_ratio": 1.6,
    "token_size_px": 24,
    "name_band_pattern_opacity_ratio": 0.28,
-   "place_r2": "왼쪽 열: 마나 판 바로 아래(x 8, y = 마나 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %",
+   "place_r2": "왼쪽 열: 심지 판 바로 아래(x 8, y = 심지 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %",
    "type_spine_w_px": 14,
    "faction_strip_w_px": 6,
    "fan_visible_min_ratio": 0.29,
-   "fan_rule": "부채꼴 간격 = min(카드 폭 × 0.62, (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)"
+   "fan_rule": "부채꼴 간격 = min(카드 폭 × 0.92(원래 조작 식), (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)"
   },
   "hierarchy": [
    {
     "rank": 1,
     "what": "비용",
-    "where": "왼쪽 위 세로 마나 판",
+    "where": "왼쪽 위 세로 심지 판",
     "size_px": 34,
     "note": "손패에서 1.6배"
    },
@@ -2657,7 +2657,7 @@
      "id": "no_mana",
      "key": "toast_no_wicks",
      "flash": "my_wicks: 모자란 칸 수만큼 빈 막대에 붉은 테두리",
-     "pre": "손패에서 미리: 마나 판 어둡게 + 아래 붉은 밑줄"
+     "pre": "손패에서 미리: 심지 판 어둡게 + 아래 붉은 밑줄"
     },
     {
      "id": "board_full",
@@ -2674,7 +2674,7 @@
     {
      "id": "summon_sick",
      "key": "toast_cant_attack_yet",
-     "flash": "그 소환수의 꺼진 마나 심지가 2회 깜빡",
+     "flash": "그 소환수의 꺼진 심지 심지가 2회 깜빡",
      "pre": "꺼진 심지 아이콘 상시"
     },
     {
@@ -2722,7 +2722,9 @@
    }
   },
   "hand_compare": {
-   "spread_on": "tap_hand",
+   "deprecated": "폐기: 요청자 피드백 \"원래 조작이 더 좋았습니다\" — 펼침 없음, 정렬 버튼(손패 옆 48 px)만 유지",
+   "spread_on": "none(원래: 탭 = 들기 + 확대)",
+   "sort_place": "세로 = 가운데 띠 안 내 덱 왼쪽 / 가로 = 오른쪽 기둥 안 덱 위",
    "sort_modes": [
     "cost",
     "family"

@@ -190,7 +190,7 @@ export function checkTutorial(w, h, lay) {
 // ── 부채꼴 손패 겹침 검사 (UX r2, 2026-11-18): 겹친 카드의 보이는 부분에 유형 신호(왼쪽 기둥 + 표지)가 남는지 ──
 export function handFan(lay, n) {
   const H = lay.E.hand, cw = H.card_w;
-  const step = n > 1 ? Math.min(cw * 0.62, (H.w - cw * 1.35) / (n - 1)) : 0;
+  const step = n > 1 ? Math.min(cw * 0.92, (H.w - cw * 1.35) / (n - 1)) : 0; // 원래 조작 식(요청자 피드백으로 복귀)
   const span = step * (n - 1), x0 = H.x + (H.w - span - cw) / 2;
   return Array.from({ length: n }, (_, i) => ({ x: x0 + i * step, visible_w: i === n - 1 ? cw : step }));
 }

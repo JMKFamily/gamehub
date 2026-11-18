@@ -79,7 +79,7 @@ export const keywords = [
   { id: 'anchor',       ko: '속박',       en: 'Bind',       color: '#9DB2BF', board_mark: 'chain_overlay', icon: 'anchor' },
   { id: 'kindle',       ko: '주문 위력',     en: 'Empower',       color: '#FF9A4D', board_mark: 'corner_value', icon: 'kindle' },
   { id: 'sealwrit',     ko: '덫',   en: 'Snare',     color: '#D9875A', board_mark: 'hero_seal_slot', icon: 'sealwrit' },
-  { id: 'soot',         ko: '마나 빚',   en: 'Mana Debt',         color: '#B9A99A', board_mark: 'wick_bar_soot', icon: 'soot' },
+  { id: 'soot',         ko: '그을음',   en: 'Soot',         color: '#B9A99A', board_mark: 'wick_bar_soot', icon: 'soot' },
   { id: 'wake',         ko: '후속',   en: 'Follow-up',         color: '#9EE6E0', board_mark: 'glow_when_active', icon: 'wake' },
   { id: 'salvage',      ko: '골라잡기',     en: 'Pick',      color: '#E0B866', board_mark: 'none_after_play', icon: 'salvage' },
   { id: 'swell',        ko: '성장',   en: 'Grow',        color: '#4FC9EC', board_mark: 'corner_icon', icon: 'swell' },
@@ -336,12 +336,12 @@ export const cardKinds = {
   weapon: { ko: '무기',   top: '오른쪽 위 한 모서리 깨짐',    bottom: '칼자루 판(가로 날밑 + 공격 | 내구도)',  edge: '아래 가장자리 곧음' },
 };
 export const badge = { full_size_px: 34, hand_scale_ratio: 1.6, token_size_px: 24, name_band_pattern_opacity_ratio: 0.28,
-  place_r2: '왼쪽 열: 마나 판 바로 아래(x 8, y = 마나 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %', type_spine_w_px: 14, faction_strip_w_px: 6,
-  fan_visible_min_ratio: 0.29, fan_rule: '부채꼴 간격 = min(카드 폭 × 0.62, (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)' };
+  place_r2: '왼쪽 열: 심지 판 바로 아래(x 8, y = 심지 판 아래 + 6). 손패 모드 54 px → 카드 폭의 0~25 %', type_spine_w_px: 14, faction_strip_w_px: 6,
+  fan_visible_min_ratio: 0.29, fan_rule: '부채꼴 간격 = min(카드 폭 × 0.92(원래 조작 식), (손패 폭 − 카드 폭 × 1.35) / (n − 1)). 겹친 카드의 보이는 왼쪽 띠 ≥ 카드 폭 × 0.29(표지 오른쪽 끝 0.25 + 여유)' };
 
 // 정보 위계(읽히는 순서 = 크기·대비 순서). 숫자는 확대 보기 250 px 기준 글자/도형 크기
 export const hierarchy = [
-  { rank: 1, what: '비용', where: '왼쪽 위 세로 마나 판', size_px: 34, note: '손패에서 1.6배' },
+  { rank: 1, what: '비용', where: '왼쪽 위 세로 심지 판', size_px: 34, note: '손패에서 1.6배' },
   { rank: 2, what: '공격 | 체력', where: '아래 가운데 스탯 판', size_px: 30, note: '손패 1.45배, 필드 칸 폭 × 0.26' },
   { rank: 3, what: '유형(색·모양·무늬)', where: '오른쪽 위 유형 표지 34 px + 이름 띠 색·무늬', size_px: 34, note: '손패 1.6배' },
   { rank: 4, what: '카드 종류', where: '판 실루엣(모서리·아래 판·아래 가장자리)', size_px: null, note: '' },
@@ -354,10 +354,10 @@ export const hierarchy = [
 export const denyFeedback = {
   common: { shake_ms: 120, shake_px: 5, chip_ms: 1200, chip_bg: '#2A1712', chip_border: '#FF6F5E', chip_ink: '#F2EEE4', chip_font_px: 13, sfx: 'ui_deny', return_card_ms: 180 },
   reasons: [
-    { id: 'no_mana',        key: 'toast_no_wicks',        flash: 'my_wicks: 모자란 칸 수만큼 빈 막대에 붉은 테두리', pre: '손패에서 미리: 마나 판 어둡게 + 아래 붉은 밑줄' },
+    { id: 'no_mana',        key: 'toast_no_wicks',        flash: 'my_wicks: 모자란 칸 수만큼 빈 막대에 붉은 테두리', pre: '손패에서 미리: 심지 판 어둡게 + 아래 붉은 밑줄' },
     { id: 'board_full',     key: 'toast_circle_full',     flash: 'my_slots 5칸 테두리 동시 깜빡 1회', pre: '필드가 가득하면 손패 소환수 카드의 스탯 판 테두리 점선' },
     { id: 'no_target',      key: 'toast_no_target',       flash: '카드 위 ⊘ 표시 + 가능한 대상 없음 칩', pre: '대상 없는 주문은 손패에서 어둡게' },
-    { id: 'summon_sick',    key: 'toast_cant_attack_yet', flash: '그 소환수의 꺼진 마나 심지가 2회 깜빡', pre: '꺼진 심지 아이콘 상시' },
+    { id: 'summon_sick',    key: 'toast_cant_attack_yet', flash: '그 소환수의 꺼진 심지 심지가 2회 깜빡', pre: '꺼진 심지 아이콘 상시' },
     { id: 'anchored',       key: 'toast_anchored',        flash: '사슬 표시 흔들림', pre: '사슬 상시' },
     { id: 'must_hit_guard', key: 'toast_must_hit_breakwater', flash: '막아야 할 상대 소환수(벽 표시) 테두리 2회 깜빡', pre: '공격 화살표가 그 소환수 쪽으로만 붙음' },
     { id: 'hidden',         key: 'toast_seamist_untargetable', flash: '안개 표시가 일렁임', pre: '대상 고를 때 안개 소환수는 흐리게' },
@@ -369,7 +369,7 @@ export const denyFeedback = {
 };
 
 // 손패 비교: 탭 = 2줄 펼침(세로) / 한 줄(가로). 펼침에서는 이름 한 줄 + 비용·스탯·유형 표지가 모두 보이고, 정렬 버튼(비용순·유형순) 48 px
-export const handCompare = { spread_on: 'tap_hand', sort_modes: ['cost', 'family'], sort_button_px: 48, show_name_in_spread: true, dim_unplayable_ratio: 0.6 };
+export const handCompare = { deprecated: '폐기: 요청자 피드백 "원래 조작이 더 좋았습니다" — 펼침 없음, 정렬 버튼(손패 옆 48 px)만 유지', spread_on: 'none(원래: 탭 = 들기 + 확대)', sort_place: '세로 = 가운데 띠 안 내 덱 왼쪽 / 가로 = 오른쪽 기둥 안 덱 위', sort_modes: ['cost', 'family'], sort_button_px: 48, show_name_in_spread: true, dim_unplayable_ratio: 0.6 };
 
 // 튜토리얼 안내 패널·가리킴 규격 (단계 표는 lore reviews/terms/lore-writer.md, 위치는 layout.mjs tutorialSlots)
 export const tutorialUi = {
