@@ -123,7 +123,7 @@ for (const line of lore.split('\n')) {
   const cols = line.split('|').map((x) => x.trim());
   const ki = cols.findIndex((x) => /^`(tut|guide)_[a-z0-9_]+`$/.test(x));
   if (ki < 0) continue;
-  const ko = cols[cols.length - 3], en = cols[cols.length - 2], key = cols[ki];
+  const four = cols.length - 2 === 4; const ko = four ? cols[2] : cols[cols.length - 3], en = four ? cols[3] : cols[cols.length - 2], key = cols[ki];
   tutRows++;
   if (len(ko) > TUTMAX.ko) fail(`10-lore ${key}: ko ${len(ko)}자 (60자 초과)`);
   for (const sen of ko.split(/(?<=[.!?])\s+/)) if (len(sen) > TUTMAX.sentence) fail(`10-lore ${key}: 한 문장 ${len(sen)}자 (35자 초과)`);
@@ -182,6 +182,49 @@ for (const c of cards) {
   if (arcs !== 7) fail(`5-5 스토리 순서 ${arcs}개 (7개여야 함)`);
 }
 
+// 13. 월드맵(lore/worldmap.json, 2026-11-19): 지역·노드 필수 필드, 본문 2~4문장·ko 60~160자·en 320자 이하,
+//     제목 ko 14자·en 40자 이하, 카드 연결 3장(존재·지역 세력과 같음, 공용 지역은 neutral 우선), 여는 조건 형식, 금지어·옛 용어 0
+const wm = JSON.parse(readFileSync(join(here, 'worldmap.json'), 'utf8'));
+let wmNodes = 0;
+{
+  const regions = new Map(wm.regions.map((r) => [r.id, r]));
+  const ids = new Set(wm.nodes.map((n) => n.id));
+  const cardIds = new Map(cards.map((c) => [c.id, c]));
+  if (regions.size < 6 || regions.size > 8) fail(`월드맵 지역 ${regions.size}개 (6~8)`);
+  if (!ids.has(wm.start_node)) fail('월드맵 start_node 없음');
+  for (const r of wm.regions) for (const k of ['id', 'owner', 'name_ko', 'name_en', 'x', 'y', 'map_hint']) if (r[k] === undefined || r[k] === '') fail(`월드맵 지역 ${r.id}: ${k} 없음`);
+  const textCheck = (where, ko, en) => {
+    const k2 = strip(ko), e2 = strip(en);
+    for (const w of BANNED_KO) if (k2.includes(w)) fail(`${where}: 금지어 "${w}"`);
+    for (const w of BANNED_EN) if (new RegExp(`\\b${w}\\b`, 'i').test(e2)) fail(`${where}: 금지어 "${w}"`);
+    for (const w of STORY_OLD_KO) if (k2.includes(w)) fail(`${where}: 옛 용어 "${w}"`);
+    for (const w of STORY_OLD_EN) if (new RegExp(`\\b${w}\\b`, 'i').test(e2)) fail(`${where}: 옛 용어 "${w}"`);
+    if (/마나|\bmana\b/i.test(k2 + ' ' + e2)) fail(`${where}: "마나" 대신 심지`);
+  };
+  for (const r of wm.regions) textCheck(`월드맵 지역 ${r.id}`, r.name_ko, r.name_en);
+  for (const n of wm.nodes) {
+    wmNodes++;
+    for (const k of ['id', 'region', 'order', 'title_ko', 'title_en', 'body_ko', 'body_en', 'unlock', 'cards', 'x', 'y', 'map_hint']) if (n[k] === undefined || n[k] === '') fail(`월드맵 ${n.id}: ${k} 없음`);
+    const r = regions.get(n.region); if (!r) { fail(`월드맵 ${n.id}: 지역 ${n.region} 없음`); continue; }
+    const bl = len(n.body_ko), sc = sentences(n.body_ko).length;
+    if (bl < 60 || bl > 160) fail(`월드맵 ${n.id}: body_ko ${bl}자 (60~160)`);
+    if (sc < 2 || sc > 4) fail(`월드맵 ${n.id}: body_ko ${sc}문장 (2~4)`);
+    if (len(n.body_en) > 320) fail(`월드맵 ${n.id}: body_en ${len(n.body_en)}자`);
+    if (len(n.title_ko) > 14 || len(n.title_en) > 40) fail(`월드맵 ${n.id}: 제목 길이`);
+    textCheck(`월드맵 ${n.id}`, `${n.title_ko} ${n.body_ko}`, `${n.title_en} ${n.body_en}`);
+    if (!Array.isArray(n.cards) || n.cards.length !== 3) fail(`월드맵 ${n.id}: 카드 연결 3장이어야 함`);
+    for (const id of n.cards || []) { const c = cardIds.get(id); if (!c) fail(`월드맵 ${n.id}: 카드 ${id} 없음`); else if (r.owner !== 'neutral' && c.owner !== r.owner) fail(`월드맵 ${n.id}: 카드 ${id} 세력 ${c.owner} ≠ 지역 ${r.owner}`); }
+    const u = n.unlock || {}; const T = wm.unlock_types || {};
+    if (!(u.type in T)) fail(`월드맵 ${n.id}: 여는 조건 ${u.type} 모름`);
+    if (u.type === 'node' && !ids.has(u.prev)) fail(`월드맵 ${n.id}: prev ${u.prev} 없음`);
+    if (u.type === 'win_hero' && !OWNERS.includes(u.hero)) fail(`월드맵 ${n.id}: hero ${u.hero}`);
+    if (u.type === 'collect_owner' && !OWNERS.includes(u.owner)) fail(`월드맵 ${n.id}: owner ${u.owner}`);
+    if (u.type === 'regions_done') for (const rr of u.regions || []) if (!regions.has(rr)) fail(`월드맵 ${n.id}: 지역 ${rr} 없음`);
+  }
+  // 지역마다 order 1부터 빠짐없이
+  for (const r of wm.regions) { const os = wm.nodes.filter((n) => n.region === r.id).map((n) => n.order).sort((a, b) => a - b); if (!os.length || os.some((o, i) => o !== i + 1)) fail(`월드맵 지역 ${r.id}: 노드 순서 ${os}`); }
+}
+
 const branchCount = {};
 for (const c of cards) branchCount[c.branch] = (branchCount[c.branch] || 0) + 1;
 const rar = {};
@@ -193,7 +236,7 @@ console.log('갈래별', JSON.stringify(branchCount));
 console.log('희귀도', JSON.stringify(rar));
 console.log('키워드 등장', JSON.stringify(kw), '평균', kwAvg.toFixed(1));
 console.log('10-lore 키 표', loreRows, '행 / 튜토리얼·안내', tutRows, '단계 / 용어 사전', glossRows, '행');
-console.log('카드 스토리', storyN, '장');
+console.log('카드 스토리', storyN, '장 / 월드맵 지역', wm.regions.length, '노드', wmNodes);
 console.log('concept 56자 초과(경고)', longText.length ? longText.join(', ') : '없음');
 if (errors.length) { console.log('실패', errors.length); for (const e of errors) console.log(' -', e); process.exit(1); }
 console.log('결과: 통과');

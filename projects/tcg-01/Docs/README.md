@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | lore-writer | UX 흥미 | [월드맵 스토리(지역 8·노드 30)·덱 그림 튜토리얼·로비 문구](lore-writer/2026-11-19-ux2-worldmap.md) |
 | 2026-11-18 | orchestrator | 피드백 | [검수 피드백 반영 후 게이트 재확인 8.26·O7·O8](orchestrator/2026-11-18-feedback-gate.md) |
 | 2026-11-18 | qa-engineer | terms r4 | [terms r4(87834b3): 세로 튜토리얼 버튼·BGM 통과, 성능 A/B 회귀 확인 안 됨(부하로 절대값 보류), 기술 8.0 PASS](qa-engineer/2026-11-18-terms-qa-r4.md) |
 | 2026-11-18 | ux-reviewer | 검수 피드백 r3 | [조작 원복·심지 복귀 뒤 UX 확인: r2 판정 유지, 정렬 버튼이 덱 수를 덮음 minor, 8.0 PASS](ux-reviewer/2026-11-18-ux-review-r3.md) |

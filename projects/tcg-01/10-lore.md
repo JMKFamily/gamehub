@@ -572,6 +572,38 @@ balance 1-2 최종 매트릭스(교환 평가형 AI, 쌍당 2000판, 52 % 이상
 | **AI 연습 / Practice** | AI 영웅과 연습 | AI 대전·튜토리얼 |
 | **스토리 / Story** (제목 「썰물 연대기 / Ebb Chronicle」) | 영웅 6명의 이야기 결투(각 3~5판). 마지막 장은 흑조의 정체 | 혼자 하기 |
 
+### 7-6. 월드맵 스토리 (2026-11-19 요청자 지시: "스토리는 이미지가 중요합니다. 이야기를 노출하되 월드맵을 탐험하며 나아가는 느낌을 주세요.")
+
+메뉴 "스토리"는 **노해 지도**로 열립니다. 정본 데이터는 `lore/worldmap.json`(지역 8, 노드 30)이고, 검사기가 필드·길이·금지어·카드 연결을 확인합니다.
+
+- **지도 구성**: 마른 바다 바닥 전체가 한 장의 지도입니다.
+  - 가운데: 맹약 시장(시작)
+  - 북쪽: 제7수조 / 북동쪽: 붉은 사구 / 남동쪽: 녹슨 갈비뼈
+  - 남쪽 해구: 잠긴 성가대 / 서쪽 옛 해안: 등불 서고 / 북서쪽: 안개 띠
+  - 시장 남쪽: 흑조의 균열(처음엔 안개에 가려 있다가 마지막에 드러남)
+- **탐험 흐름**:
+  1. 시작 노드 `wm_bare_1`(마른 바다의 아침)을 읽으면 여섯 세력 지역의 첫 노드가 모두 열려, 어느 방향으로든 길을 고를 수 있습니다.
+  2. 지역마다 4노드가 이어지며, 5-5 세력 이야기 줄기를 따라갑니다.
+  3. 노드마다 그 장면에 해당하는 카드 스토리 3장이 연결되어 있어, 노드를 읽고 "관련 카드 이야기"로 이어 읽습니다.
+- **여는 조건**(제안, balance 확정):
+  - 1번 노드: 시작 노드 읽기
+  - 2번 노드: 그 영웅으로 1승
+  - 3번 노드: 그 세력 카드 12종 보유
+  - 4번 노드: 그 영웅으로 3승
+  - 균열 1: 여섯 지역 완료 / 균열 2: AI 3단계 이상 상대 1승
+- **화면 문구 규칙**: 노드 본문은 2~4문장, ko 60~160자, en 320자 이하입니다. 세계관 고유어(맹약·흑조·대썰물·참이름)는 이야기 문장이라 허용하고, 화면 기능어는 쉬운 용어와 심지를 씁니다.
+
+| 지역 | 노드 순서(제목) |
+|---|---|
+| 노해 맹약 시장 | 마른 바다의 아침 → 소금 맹약 → 갯것들의 길 → 멈춘 조수 시계 |
+| 염관 고원 · 제7수조 | 제7수조의 점호 → 소금을 두른 벽 → 약탈자의 먼지 → 마지막 수조의 서약 |
+| 붉은 사구 | 모래게 위의 아이들 → 마른 강을 따라 → 모래 위 잔치 → 붉은 깃발이 오른 날 |
+| 녹슨 갈비뼈 | 움직이지 않는 것은 부품 → 작업장의 불 → 싸우면서 장 보기 → 해일 기관 |
+| 잠긴 성가대 | 물에 털어놓는 고해 → 짠 숨의 노래 → 이사 가는 사람들 → 종이 다시 울린 밤 |
+| 등불 서고 | 열람 허가 → 봉인과 먹물 올가미 → 번개 증명 → 봉쇄령과 대주해서 |
+| 안개 띠 | 이름을 버린 날 → 가면 공방 → 소매 속 바늘 → 빈 문패의 주인 |
+| 흑조의 균열 | 젖은 소금 → 흑조의 전령 |
+
 ---
 
 ## 8. UI 텍스트 전체 키 표 (ko / en)
@@ -1047,6 +1079,100 @@ round-2 추가 키(dev 요청·리뷰):
 |---|---|---|
 | `menu_glossary` | 용어 사전 | Glossary |
 | `glossary_common_names` | 흔히 부르는 말 | Also called |
+
+### 8-14. UX 흥미 키 (2026-11-19 요청자 지시 "UX를 흥미롭게")
+
+심지 표현과 쉬운 용어를 유지합니다. 덱 그림 튜토리얼과 월드맵 조건 글은 8-7·8-12 글 한도(한 단계 60자, 한 문장 35자, 영어 110자)를 따릅니다.
+
+**월드맵**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `worldmap_title` | 노해 지도 | Map of the Bare | 스토리 메뉴 제목 |
+| `worldmap_progress` | 탐험 {n}/{total} | Explored {n}/{total} | 상단 진행도 |
+| `worldmap_continue` | 이어서 탐험 | Continue exploring | 가장 최근 열린 노드로 이동 |
+| `worldmap_region_locked` | 안개에 가려 아직 보이지 않습니다 | Still hidden in the fog | 잠긴 지역 탭 |
+| `worldmap_node_new` | 새 이야기 | New story | 열렸지만 안 읽은 노드 표시 |
+| `worldmap_node_read` | 읽음 | Read | 읽은 노드 |
+| `worldmap_node_open` | 읽기 | Read | 노드 패널 버튼 |
+| `worldmap_related_cards` | 관련 카드 이야기 | Related card stories | 노드 패널 아래 카드 3장 |
+| `worldmap_reward` | 탐험 보상 받기 | Claim exploration reward | 노드 보상(있으면) |
+| `worldmap_cond_prev` | 먼저 읽을 이야기: {title} | Read first: {title} | 잠긴 노드 조건 |
+| `worldmap_cond_win_any` | 결투 {n}번 이기기 | Win {n} duels | 〃 |
+| `worldmap_cond_win_hero` | {hero}(으)로 결투 {n}번 이기기 | Win {n} duels as {hero} | 〃 |
+| `worldmap_cond_collect` | {faction} 카드 {n}종 모으기 | Collect {n} {faction} cards | 〃 |
+| `worldmap_cond_win_tier` | {tier} 상대를 {n}번 이기기 | Beat a {tier} opponent {n} times | 〃 |
+| `worldmap_cond_regions` | 여섯 지역의 이야기를 모두 읽기 | Finish the stories of all six regions | 〃 |
+| `worldmap_rift_reveal` | 시장 아래 소금 바닥이 갈라졌습니다 | The salt floor beneath the market has split | 균열 지역이 드러날 때 한 번 |
+
+**덱 그림 튜토리얼(덱 화면 첫 진입, 한 단계씩 그림과 함께, 8-12 규칙)**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `guide_deck_1` | 덱은 카드 30장입니다. 아래 띠가 30칸 차면 결투할 수 있습니다. | A Deck is 30 cards. Fill the 30 slots below to duel. | 그림: 30칸 띠 |
+| `guide_deck_2` | 같은 카드는 2장까지, 전설 카드는 1장만 넣습니다. | Up to 2 copies of a card, only 1 of a Legendary. | 그림: 카드 2장 겹침 + 전설 1장 |
+| `guide_deck_3` | 카드 위 표지가 유형입니다. 뽑기·강화·약화·즉시 타격·공격하며 뽑기. | The badge on top shows its type: Draw, Buff, Debuff, Strike, Attack-and-draw. | 그림: 유형 표지 5개 |
+| `guide_deck_4` | 심지 곡선을 보세요. 싼 카드가 많으면 초반이 편합니다. | Check the Wick curve. More cheap cards make the early game easier. | 그림: 심지 곡선 막대 |
+| `guide_deck_5` | 필터로 골라 보고, 막히면 나머지 채우기를 누르세요. | Use filters to browse. Stuck? Press Auto-fill. | 그림: 필터 칸 + 나머지 채우기 버튼 |
+
+**메인 로비 퀘스트 위젯**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `quest_widget_title` | 오늘의 퀘스트 | Today's Quests | 로비에 항상 보이는 칸 |
+| `quest_widget_progress` | {cur}/{max} | {cur}/{max} | 진행 막대 숫자 |
+| `quest_widget_done` | 완료! 보상 받기 | Done! Claim reward | 완료된 퀘스트 |
+| `quest_widget_all_done` | 오늘 퀘스트를 모두 마쳤습니다 | All of today's quests are done | 모두 완료 |
+| `quest_widget_refresh` | 새 퀘스트까지 {h}시간 | New quests in {h}h | 다음 갱신 |
+
+**시즌 보상 트랙(로비 위젯, 이미지화) — 세계관 포장: 마른 바다 바닥에서 깊은 곳으로 내려가는 길**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `season_name_1` | 시즌 1 · 젖은 소금 | Season 1 · Wet Salt | 시즌 이름 |
+| `season_widget_title` | 시즌 보상 트랙 | Season Reward Track | 로비 위젯 제목 |
+| `season_widget_level` | {n}단계 | Step {n} | 현재 단계 |
+| `season_widget_next` | 다음 보상까지 트랙 경험치 {n} | {n} Track XP to next reward | 진행 막대 아래 |
+| `season_widget_claim` | 받을 보상 {n}개 | {n} rewards to claim | 받지 않은 보상 |
+| `season_band_1` | 모래톱 | Sandbar | 1~10단계 구간 이름(그림: 얕은 소금 평원) |
+| `season_band_2` | 조개 둔덕 | Shell Mound | 11~20단계(조개무덤 언덕) |
+| `season_band_3` | 진주 여울 | Pearl Shoal | 21~30단계(진주 빛 웅덩이) |
+| `season_band_4` | 산호 벼랑 | Coral Cliff | 31~40단계(붉은 산호 절벽) |
+| `season_band_5` | 심해 | The Deep | 41~50단계(검푸른 해구 바닥) |
+
+**전투 상대 실력(쉬움부터 고름, balance가 단계 수 확정 — 4단계 제안)**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `ai_tier_1_name` | 모래 위 견습 | Sand Apprentice | 1단계 이름 |
+| `ai_tier_1_sub` | 쉬움 · 처음이라면 여기부터 | Easy · Start here | 쉬운 부제 |
+| `ai_tier_2_name` | 시장 결투꾼 | Market Duelist | 2단계 |
+| `ai_tier_2_sub` | 보통 | Normal | 〃 |
+| `ai_tier_3_name` | 소금 노장 | Salt Veteran | 3단계 |
+| `ai_tier_3_sub` | 어려움 | Hard | 〃 |
+| `ai_tier_4_name` | 흑조의 그림자 | Blacktide Shade | 4단계 |
+| `ai_tier_4_sub` | 매우 어려움 | Very Hard | 〃 |
+| `ai_tier_locked` | 앞 단계를 이기면 열립니다 | Beat the previous tier to unlock | 잠긴 단계 |
+
+**카드 팩 연속·모두 열기**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `crate_open_next` | 다음 팩 열기 ({n} 남음) | Open next pack ({n} left) | 한 팩 공개 뒤 |
+| `crate_open_all` | 모두 열기 ({n}팩) | Open all ({n} packs) | 팩 목록·공개 뒤 |
+| `crate_open_all_confirm` | {n}팩을 한 번에 엽니다. 결과를 모아서 보여 줍니다. | Open {n} packs at once. Results are shown together. | 모두 열기 확인 |
+| `crate_skip_anim` | 연출 건너뛰기 | Skip animation | 공개 연출 중 |
+| `crate_summary_title` | 개봉 결과 | Pack results | 모두 열기 뒤 요약 |
+| `crate_summary_new` | 새 카드 {n}장 | {n} new cards | 요약 줄 |
+| `crate_summary_dup` | 경험치로 바뀐 카드 {n}장 | {n} cards turned into EXP | 요약 줄 |
+| `crate_summary_best` | 가장 귀한 카드 | Best pull | 요약 맨 위 강조 |
+
+**수집 "이야기" 버튼(평소엔 카드 한 장에 효과까지, 이야기 볼 때만 카드가 왼쪽으로)**
+
+| 키 | ko | en | 쓰는 곳 |
+|---|---|---|---|
+| `collection_story_open` | 이야기 보기 | View story | 수집 카드 크게 보기의 버튼 |
+| `collection_story_close` | 카드로 돌아가기 | Back to card | 이야기 펼친 상태에서 |
 
 ---
 
