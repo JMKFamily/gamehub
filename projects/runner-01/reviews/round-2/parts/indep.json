@@ -1,0 +1,297 @@
+{
+  "source": "harness/benchmarks/djmax-judgement.md 7-2 의사코드를 새로 짠 함수 vs games/reverbound/js/combo.js pctOf·gradeOf",
+  "boundary": [
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 0,
+      "expected_by_hand": 100,
+      "indep": 100,
+      "build": 100,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 25,
+      "expected_by_hand": 100,
+      "indep": 100,
+      "build": 100,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 25.001,
+      "expected_by_hand": 90,
+      "indep": 90,
+      "build": 90,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 50,
+      "expected_by_hand": 90,
+      "indep": 90,
+      "build": 90,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 50.001,
+      "expected_by_hand": 80,
+      "indep": 80,
+      "build": 80,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 66.666,
+      "expected_by_hand": 80,
+      "indep": 80,
+      "build": 80,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 66.668,
+      "expected_by_hand": 70,
+      "indep": 70,
+      "build": 70,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 83.333,
+      "expected_by_hand": 70,
+      "indep": 70,
+      "build": 70,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 83.334,
+      "expected_by_hand": 60,
+      "indep": 60,
+      "build": 60,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 100,
+      "expected_by_hand": 60,
+      "indep": 60,
+      "build": 60,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 100.001,
+      "expected_by_hand": 50,
+      "indep": 50,
+      "build": 50,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 106.66,
+      "expected_by_hand": 50,
+      "indep": 50,
+      "build": 50,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 106.661,
+      "expected_by_hand": 40,
+      "indep": 40,
+      "build": 40,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 133.299,
+      "expected_by_hand": 10,
+      "indep": 10,
+      "build": 10,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 133.3,
+      "expected_by_hand": 10,
+      "indep": 10,
+      "build": 10,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "L1 탭0",
+      "W": 133.3,
+      "d": 133.5,
+      "expected_by_hand": 0,
+      "indep": 0,
+      "build": 0,
+      "grade_build": 3,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 0,
+      "expected_by_hand": 100,
+      "indep": 100,
+      "build": 100,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 25,
+      "expected_by_hand": 100,
+      "indep": 100,
+      "build": 100,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 25.001,
+      "expected_by_hand": 90,
+      "indep": 90,
+      "build": 90,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 50,
+      "expected_by_hand": 90,
+      "indep": 90,
+      "build": 90,
+      "grade_build": 1,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 50.001,
+      "expected_by_hand": 80,
+      "indep": 80,
+      "build": 80,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 66.666,
+      "expected_by_hand": 80,
+      "indep": 80,
+      "build": 80,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 66.668,
+      "expected_by_hand": 70,
+      "indep": 70,
+      "build": 70,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 83.333,
+      "expected_by_hand": 70,
+      "indep": 70,
+      "build": 70,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 83.334,
+      "expected_by_hand": 60,
+      "indep": 60,
+      "build": 60,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 100,
+      "expected_by_hand": 60,
+      "indep": 60,
+      "build": 60,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 100,
+      "expected_by_hand": 60,
+      "indep": 60,
+      "build": 60,
+      "grade_build": 2,
+      "ok": true
+    },
+    {
+      "tap": "좁은 창 탭",
+      "W": 100,
+      "d": 100.2,
+      "expected_by_hand": 0,
+      "indep": 0,
+      "build": 0,
+      "grade_build": 3,
+      "ok": true
+    }
+  ],
+  "sweep": {
+    "checked": 6383928,
+    "mismatch": 0,
+    "tol_zone": 6570,
+    "examples": []
+  },
+  "tick_delta": {
+    "checked": 31898,
+    "mismatch": 0
+  },
+  "boundary_ok": true,
+  "seconds": 2.1
+}

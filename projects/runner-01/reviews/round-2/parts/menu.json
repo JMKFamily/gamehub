@@ -1,0 +1,363 @@
+{
+  "runs": [
+    {
+      "run": 1,
+      "res": "1280x720@1",
+      "first_tap_unlock": {
+        "max_ms": 102.8,
+        "loaf": [
+          {
+            "dur": 101,
+            "block": 39,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 211.3,
+        "loaf": [
+          {
+            "dur": 223,
+            "block": 165,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::186"
+            ]
+          },
+          {
+            "dur": 130,
+            "block": 0,
+            "top": []
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 23.2,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 63,
+        "loaf": [
+          {
+            "dur": 62,
+            "block": 7,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 17.2,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 61.6,
+        "loaf": [
+          {
+            "dur": 60,
+            "block": 6,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::45",
+              "FrameRequestCallback@::5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": 1,
+      "res": "640x360@3",
+      "first_tap_unlock": {
+        "max_ms": 102.8,
+        "loaf": [
+          {
+            "dur": 102,
+            "block": 40,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 181.9,
+        "loaf": [
+          {
+            "dur": 193,
+            "block": 135,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::158"
+            ]
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 25,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 62.5,
+        "loaf": [
+          {
+            "dur": 62,
+            "block": 7,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 18.2,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 62,
+        "loaf": [
+          {
+            "dur": 61,
+            "block": 6,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::44",
+              "FrameRequestCallback@::5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": 2,
+      "res": "1280x720@1",
+      "first_tap_unlock": {
+        "max_ms": 103.1,
+        "loaf": [
+          {
+            "dur": 102,
+            "block": 39,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 206,
+        "loaf": [
+          {
+            "dur": 218,
+            "block": 161,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::182"
+            ]
+          },
+          {
+            "dur": 135,
+            "block": 0,
+            "top": []
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 23,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 63.1,
+        "loaf": [
+          {
+            "dur": 62,
+            "block": 4,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 20,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 61.6,
+        "loaf": [
+          {
+            "dur": 60,
+            "block": 6,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::44",
+              "FrameRequestCallback@::5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": 2,
+      "res": "640x360@3",
+      "first_tap_unlock": {
+        "max_ms": 101.5,
+        "loaf": [
+          {
+            "dur": 100,
+            "block": 39,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 184.7,
+        "loaf": [
+          {
+            "dur": 196,
+            "block": 138,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::159"
+            ]
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 22.8,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 62.9,
+        "loaf": [
+          {
+            "dur": 62,
+            "block": 7,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 17.7,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 60.6,
+        "loaf": [
+          {
+            "dur": 60,
+            "block": 5,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::43",
+              "FrameRequestCallback@::5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": 3,
+      "res": "1280x720@1",
+      "first_tap_unlock": {
+        "max_ms": 104.3,
+        "loaf": [
+          {
+            "dur": 103,
+            "block": 40,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 213.8,
+        "loaf": [
+          {
+            "dur": 226,
+            "block": 169,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::190"
+            ]
+          },
+          {
+            "dur": 134,
+            "block": 0,
+            "top": []
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 23.7,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 63,
+        "loaf": [
+          {
+            "dur": 62,
+            "block": 7,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 17.2,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 61.9,
+        "loaf": [
+          {
+            "dur": 61,
+            "block": 6,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::44",
+              "FrameRequestCallback@::5"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "run": 3,
+      "res": "640x360@3",
+      "first_tap_unlock": {
+        "max_ms": 102.6,
+        "loaf": [
+          {
+            "dur": 101,
+            "block": 39,
+            "top": []
+          }
+        ]
+      },
+      "title_to_levels": {
+        "max_ms": 184.6,
+        "loaf": [
+          {
+            "dur": 198,
+            "block": 140,
+            "top": [
+              "BUTTON#btnLevels.onclick@main.js::158"
+            ]
+          }
+        ]
+      },
+      "levels_to_title": {
+        "max_ms": 23.1,
+        "loaf": []
+      },
+      "title_to_settings": {
+        "max_ms": 69.1,
+        "loaf": [
+          {
+            "dur": 68,
+            "block": 13,
+            "top": []
+          }
+        ]
+      },
+      "settings_to_title": {
+        "max_ms": 18.1,
+        "loaf": []
+      },
+      "play_start": {
+        "max_ms": 61.3,
+        "loaf": [
+          {
+            "dur": 60,
+            "block": 5,
+            "top": [
+              "BUTTON#btnPlay.onclick@main.js::44"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_over_all": 213.8,
+  "pass_le100": false,
+  "seconds": 36.8
+}

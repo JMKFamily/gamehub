@@ -628,18 +628,24 @@ try {
     const jobs = [];
     for (const id of ids) jobs.push(() => runBots([SK_N, 'skilled_sd25', id, 0]).then((o) => ['skilled', id, o[id]]));
     for (const id of ids) jobs.push(() => runBots([BAL_N, 'child_sd70', id, BAL_SESS]).then((o) => ['child', id, o[id]]));
-    const child = {}, skilled = {}, fallback = {};
-    for (const [k, id, o] of await pool(jobs)) (k === 'child' ? child : skilled)[id] = o;
+    // (round-2 1-4 추가) 결정 14: 12세 프로젝트 대표 봇 novice_sd50 — σ70과 같은 표본(BAL_N + BAL_SESS 세션)
+    for (const id of ids) jobs.push(() => runBots([BAL_N, 'novice_sd50', id, BAL_SESS]).then((o) => ['novice', id, o[id]]));
+    let child = {}, skilled = {}, fallback = {}, novice = {};
+    // --bal-reuse: 같은 폴더의 parts/balance.json raw(봇 출력)를 다시 읽어 판정만 다시 계산 (표본·시드 같음, 재실행 안 함)
+    const REUSE = args.includes('--bal-reuse') && existsSync(join(PARTS, 'balance.json'));
+    if (REUSE) ({ child, skilled, fallback, novice } = JSON.parse(readFileSync(join(PARTS, 'balance.json'), 'utf8')).raw);
+    else for (const [k, id, o] of await pool(jobs)) ({ child, skilled, novice })[k][id] = o;
     const thin = ids.filter((id) => (skilled[id]?.skilled_sd25?.deaths ?? 0) < 20);
-    if (thin.length) for (const [, id, o] of await pool(thin.map((id) => () => runBots([SK_N, 'novice_sd50', id, 0]).then((o) => ['n50', id, o[id]])))) fallback[id] = o;
+    if (thin.length && !REUSE) for (const [, id, o] of await pool(thin.map((id) => () => runBots([SK_N, 'novice_sd50', id, 0]).then((o) => ['n50', id, o[id]])))) fallback[id] = o;
 
+    const pEx = (o, n) => (o && Number.isFinite(o.deaths) ? 1 - o.deaths / n : o?.clear_rate); // (round-2 1-4) clear_rate 3자리 반올림 대신 사망 수로
     const contMed = (p) => (p >= 1 ? 1 : p > 0 ? Math.log(0.5) / Math.log(1 - p) : Infinity);
     const r3 = (v) => (Number.isFinite(v) ? +v.toFixed(3) : null);
     const per = ids.map((id) => {
       const c = child[id].child_sd70, s = skilled[id].skilled_sd25, f = fallback[id]?.novice_sd50;
       const cluster = f ? { profile: 'novice_sd50', share: f.top_death_cluster_share, x: f.top_death_x, deaths: f.deaths, sd25_deaths: s.deaths }
         : { profile: 'skilled_sd25', share: s.top_death_cluster_share, x: s.top_death_x, deaths: s.deaths };
-      return { id, taps: child[id].taps, min_window_ms: child[id].min_window_ms, child_clear_rate: c.clear_rate, child_cont_median: r3(contMed(c.clear_rate)),
+      return { id, taps: child[id].taps, min_window_ms: child[id].min_window_ms, child_clear_rate: c.clear_rate, child_p_exact: +pEx(c, BAL_N).toFixed(5), child_cont_median: r3(contMed(pEx(c, BAL_N))),
         child_int_median: c.median_first_clear, child_session: c.session_first_clear, skilled_clear_rate: s.clear_rate, cluster, cluster_pass: cluster.share <= 0.30 };
     });
     const by = Object.fromEntries(per.map((r) => [r.id, r]));
@@ -666,13 +672,32 @@ try {
         strict_monotonic_L3_to_last: from3.length === LEVELS.length - 2 && from3.every((v, k) => k === 0 || (v != null && from3[k - 1] != null && v > from3[k - 1])),
         reference_session_median: ts && { m1: sm(id1), m3: sm(id3), ...ts, level10: sm(idL), ratio: r3(sm(idL) / ts.extrapolated_level6) } };
     }
+    // (round-2 1-4 추가) 프로필별 같은 곡선 판정 (B30·B10): σ50 대표 봇(결정 14), σ70 참고, σ25 참고
+    const curve = (src, pk, n) => {
+      const rows = ids.map((id) => { const o = src[id]?.[pk]; return o ? { id, p: +pEx(o, n).toFixed(5), cont_median: r3(contMed(pEx(o, n))), int_median: o.median_first_clear, session_median: o.session_first_clear?.median ?? null, session_p75: o.session_first_clear?.p75 ?? null, over_cap: o.session_first_clear?.over_cap ?? null, mean_progress: o.mean_progress } : { id, p: null, cont_median: null }; });
+      const lv = rows.map((r, k) => ({ ...r, le30: r.cont_median != null && r.cont_median <= 30, ratio_to_prev: k && r.cont_median != null && rows[k - 1].cont_median ? +(r.cont_median / rows[k - 1].cont_median).toFixed(3) : null, le2x: !k || (r.cont_median != null && rows[k - 1].cont_median != null && r.cont_median <= 2 * rows[k - 1].cont_median) }));
+      const m = Object.fromEntries(lv.map((r) => [r.id, r.cont_median]));
+      let b10x = null;
+      if (m[id1] != null && m[id3] != null && m[idL] != null && LEVELS.length >= 4) {
+        const t = extrap(m[id1], m[id3]), ratio = m[idL] / t.extrapolated_level6;
+        const from3 = lv.filter((r) => +r.id >= +id3).map((r) => r.cont_median);
+        b10x = { m1: m[id1], m3: m[id3], ...t, level10: m[idL], ratio: r3(ratio), band: [+(t.extrapolated_level6 * 0.8).toFixed(3), +(t.extrapolated_level6 * 1.2).toFixed(3)], within_20pct: Math.abs(ratio - 1) <= 0.2,
+          strict_monotonic_L3_to_last: from3.length === LEVELS.length - 2 && from3.every((v, k) => k === 0 || (v != null && from3[k - 1] != null && v > from3[k - 1])),
+          monotonic_breaks: lv.filter((r, k) => k && +r.id > +id3 - 0 && r.cont_median != null && lv[k - 1].cont_median != null && r.cont_median <= lv[k - 1].cont_median).map((r) => r.id) };
+      }
+      return { profile: pk, levels: lv, B30: { pass: lv.every((r) => r.le30 && r.le2x), le30_fail: lv.filter((r) => !r.le30).map((r) => r.id), le2x_fail: lv.filter((r) => !r.le2x).map((r) => r.id) }, B10: b10x };
+    };
+    const profilesCurve = { novice_sd50: curve(novice, 'novice_sd50', BAL_N), child_sd70: curve(child, 'child_sd70', BAL_N), skilled_sd25: curve(skilled, 'skilled_sd25', SK_N) };
     const res = { quick: QUICK, note: QUICK ? 'quick 표본: 도구 동작 확인용, 판정에 쓰지 않음' : null,
-      samples: { child_sd70_attempts_per_level: BAL_N, child_sd70_sessions_per_level: BAL_SESS, session_cap: 300, skilled_sd25_attempts_per_level: SK_N, sd50_fallback_levels: thin },
+      representative_bot: 'novice_sd50 (criteria 대상 연령 절 결정 14, 12세). 아래 B30·B10은 기존 σ70 기준(빌드가 맞춰진 기준), profiles_curve.novice_sd50이 결정 14 기준',
+      profiles_curve: profilesCurve,
+      samples: { child_sd70_attempts_per_level: BAL_N, child_sd70_sessions_per_level: BAL_SESS, novice_sd50_attempts_per_level: BAL_N, novice_sd50_sessions_per_level: BAL_SESS, session_cap: 300, skilled_sd25_attempts_per_level: SK_N, sd50_fallback_levels: thin },
       jobs: JOBS, seconds: +((Date.now() - t0) / 1000).toFixed(1),
       per_level: per, B30: { pass: b30.every((r) => r.le30 && r.le2x), levels: b30 }, B10: b10,
-      SK: { pass: per.every((r) => r.cluster_pass), threshold: 0.30, window_t: 6 }, raw: { child, skilled, fallback } };
+      SK: { pass: per.every((r) => r.cluster_pass), threshold: 0.30, window_t: 6 }, raw: { child, skilled, fallback, novice } };
     save('balance', res);
     console.log('balance', JSON.stringify({ seconds: res.seconds, samples: res.samples, B30: res.B30.pass, B10: b10 && { target: b10.extrapolated_level6, level10: b10.level10, ratio: b10.ratio, within: b10.within_20pct, strict: b10.strict_monotonic_L3_to_last }, SK: res.SK.pass }));
+    for (const [pk, cv] of Object.entries(profilesCurve)) console.log(`  [${pk}] B30 ${cv.B30.pass} (30회 초과 ${cv.B30.le30_fail.join(',') || '-'}, 2배 초과 ${cv.B30.le2x_fail.join(',') || '-'}) B10 ${cv.B10 && JSON.stringify({ target: cv.B10.extrapolated_level6, l10: cv.B10.level10, ratio: cv.B10.ratio, within: cv.B10.within_20pct, strict: cv.B10.strict_monotonic_L3_to_last })} | ${cv.levels.map((r) => `${r.id}:${r.cont_median}`).join(' ')}`);
     for (const r of per) console.log(`  ${r.id} σ70 p=${r.child_clear_rate} 연속중앙 ${r.child_cont_median} 세션중앙 ${r.child_session?.median} | 몰림 ${r.cluster.profile} ${r.cluster.share} (사망 ${r.cluster.deaths})`);
   }
 } finally {

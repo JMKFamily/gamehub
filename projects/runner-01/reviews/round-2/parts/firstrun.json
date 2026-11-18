@@ -1,0 +1,348 @@
+{
+  "definition": "들리는 박 = 예약 시각(start when) + 탭 순간 autoNow(outputLatency+baseLatency). 사람 = 들리는 박 + X ms에 실제 마우스(CDP) 누름. 자기 일관 측정(게임 값으로 들리는 박 계산) 안 씀",
+  "runs": [
+    {
+      "name": "direct_fast",
+      "emptyStorageAtStart": true,
+      "timeline": [
+        {
+          "tag": "첫 탭 직후",
+          "auto_ms": 10,
+          "comp_ms": 10,
+          "runComp_ms": 0,
+          "autoNow_ms": 10,
+          "pending": false,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 3,
+          "offset": 0
+        },
+        {
+          "tag": "달리기 누른 직후",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 0,
+          "autoNow_ms": 74,
+          "pending": true,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 131.5,
+          "offset": 0
+        },
+        {
+          "tag": "첫 시도 시작",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 74,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 348.2,
+          "offset": 0
+        },
+        {
+          "tag": "2번째 시도",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 74,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "playing",
+          "attempts": 2,
+          "sinceCtx_ms": 5809,
+          "offset": 0
+        }
+      ],
+      "check": {
+        "first_runComp_ms": 74,
+        "autoNow_at_first_ms": 74,
+        "offset_ms": 0,
+        "first_minus_autoNow_minus_offset_ms": 0,
+        "second_runComp_ms": 74,
+        "second_minus_autoNow_ms": 0,
+        "ok_pm10": true
+      }
+    },
+    {
+      "name": "direct_normal",
+      "emptyStorageAtStart": true,
+      "timeline": [
+        {
+          "tag": "첫 탭 직후",
+          "auto_ms": 10,
+          "comp_ms": 10,
+          "runComp_ms": 0,
+          "autoNow_ms": 10,
+          "pending": false,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 3.4,
+          "offset": 0
+        },
+        {
+          "tag": "달리기 누른 직후",
+          "auto_ms": 82,
+          "comp_ms": 82,
+          "runComp_ms": 82,
+          "autoNow_ms": 82,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 1056.3,
+          "offset": 0
+        },
+        {
+          "tag": "첫 시도 시작",
+          "auto_ms": 82,
+          "comp_ms": 82,
+          "runComp_ms": 82,
+          "autoNow_ms": 82,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 1058.4,
+          "offset": 0
+        },
+        {
+          "tag": "2번째 시도",
+          "auto_ms": 82,
+          "comp_ms": 82,
+          "runComp_ms": 82,
+          "autoNow_ms": 82,
+          "pending": false,
+          "state": "playing",
+          "attempts": 2,
+          "sinceCtx_ms": 6513.4,
+          "offset": 0
+        }
+      ],
+      "check": {
+        "first_runComp_ms": 82,
+        "autoNow_at_first_ms": 82,
+        "offset_ms": 0,
+        "first_minus_autoNow_minus_offset_ms": 0,
+        "second_runComp_ms": 82,
+        "second_minus_autoNow_ms": 0,
+        "ok_pm10": true
+      }
+    },
+    {
+      "name": "calib_fast",
+      "emptyStorageAtStart": true,
+      "timeline": [
+        {
+          "tag": "첫 탭 직후",
+          "auto_ms": 10,
+          "comp_ms": 10,
+          "runComp_ms": 0,
+          "autoNow_ms": 10,
+          "pending": false,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 3.1,
+          "offset": 0
+        },
+        {
+          "tag": "보정 테스트 누른 직후",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 0,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "settings",
+          "attempts": 0,
+          "sinceCtx_ms": 203.3,
+          "offset": 0
+        },
+        {
+          "tag": "L1 첫 시도",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 74,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 5542.7,
+          "offset": 0
+        }
+      ],
+      "calib": {
+        "beats_scheduled": 9,
+        "taps": 7,
+        "tap_minus_heard_median_ms": -1.5,
+        "tap_minus_heard_range_ms": [
+          -1.7,
+          -1.4
+        ],
+        "autoNow_at_taps_ms": [
+          74
+        ],
+        "game_auto_at_taps_ms": [
+          74
+        ],
+        "comp_at_test_start_ms": 74,
+        "saved_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "offset_err_ms": 0,
+        "ok_pm10": true,
+        "shown": "0 ms"
+      },
+      "l1": {
+        "runComp_ms": 74,
+        "autoNow_ms": 74,
+        "saved_offset_ms": 0,
+        "runComp_minus_autoNow_ms": 0,
+        "should_be_ms": 0,
+        "double_correction_ms": 0,
+        "ok_pm10": true
+      }
+    },
+    {
+      "name": "calib_normal",
+      "emptyStorageAtStart": true,
+      "timeline": [
+        {
+          "tag": "첫 탭 직후",
+          "auto_ms": 10,
+          "comp_ms": 10,
+          "runComp_ms": 0,
+          "autoNow_ms": 10,
+          "pending": false,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 3.3,
+          "offset": 0
+        },
+        {
+          "tag": "보정 테스트 누른 직후",
+          "auto_ms": 82,
+          "comp_ms": 82,
+          "runComp_ms": 0,
+          "autoNow_ms": 82,
+          "pending": false,
+          "state": "settings",
+          "attempts": 0,
+          "sinceCtx_ms": 1494.5,
+          "offset": 0
+        },
+        {
+          "tag": "L1 첫 시도",
+          "auto_ms": 82,
+          "comp_ms": 82,
+          "runComp_ms": 82,
+          "autoNow_ms": 82,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 6833.9,
+          "offset": 0
+        }
+      ],
+      "calib": {
+        "beats_scheduled": 9,
+        "taps": 7,
+        "tap_minus_heard_median_ms": -1.7,
+        "tap_minus_heard_range_ms": [
+          -1.7,
+          -1.6
+        ],
+        "autoNow_at_taps_ms": [
+          82
+        ],
+        "game_auto_at_taps_ms": [
+          82
+        ],
+        "comp_at_test_start_ms": 82,
+        "saved_offset_ms": 0,
+        "expected_offset_ms": 0,
+        "offset_err_ms": 0,
+        "ok_pm10": true,
+        "shown": "0 ms"
+      },
+      "l1": {
+        "runComp_ms": 82,
+        "autoNow_ms": 82,
+        "saved_offset_ms": 0,
+        "runComp_minus_autoNow_ms": 0,
+        "should_be_ms": 0,
+        "double_correction_ms": 0,
+        "ok_pm10": true
+      }
+    },
+    {
+      "name": "calib_normal_late60",
+      "emptyStorageAtStart": true,
+      "timeline": [
+        {
+          "tag": "첫 탭 직후",
+          "auto_ms": 10,
+          "comp_ms": 10,
+          "runComp_ms": 0,
+          "autoNow_ms": 10,
+          "pending": false,
+          "state": "title",
+          "attempts": 0,
+          "sinceCtx_ms": 3.2,
+          "offset": 0
+        },
+        {
+          "tag": "보정 테스트 누른 직후",
+          "auto_ms": 74,
+          "comp_ms": 74,
+          "runComp_ms": 0,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "settings",
+          "attempts": 0,
+          "sinceCtx_ms": 1503.3,
+          "offset": 0
+        },
+        {
+          "tag": "L1 첫 시도",
+          "auto_ms": 74,
+          "comp_ms": 134,
+          "runComp_ms": 134,
+          "autoNow_ms": 74,
+          "pending": false,
+          "state": "playing",
+          "attempts": 1,
+          "sinceCtx_ms": 6845,
+          "offset": 60
+        }
+      ],
+      "calib": {
+        "beats_scheduled": 9,
+        "taps": 7,
+        "tap_minus_heard_median_ms": 58.4,
+        "tap_minus_heard_range_ms": [
+          58.3,
+          58.5
+        ],
+        "autoNow_at_taps_ms": [
+          74
+        ],
+        "game_auto_at_taps_ms": [
+          74
+        ],
+        "comp_at_test_start_ms": 74,
+        "saved_offset_ms": 60,
+        "expected_offset_ms": 60,
+        "offset_err_ms": 0,
+        "ok_pm10": true,
+        "shown": "+60 ms"
+      },
+      "l1": {
+        "runComp_ms": 134,
+        "autoNow_ms": 74,
+        "saved_offset_ms": 60,
+        "runComp_minus_autoNow_ms": 60,
+        "should_be_ms": 60,
+        "double_correction_ms": 0,
+        "ok_pm10": true
+      }
+    }
+  ],
+  "seconds": 33.7
+}

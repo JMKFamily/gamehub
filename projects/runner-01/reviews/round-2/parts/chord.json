@@ -1,0 +1,50 @@
+{
+  "level": "01",
+  "theme": "level1",
+  "vols": "musicVol 0.8 / sfxVol 0.8 (기본 설정 80/80)",
+  "music_only": {
+    "peak": 0.34751,
+    "peak_db": -9.18,
+    "rms_db_active": -25.34
+  },
+  "music_first_0p6s": {
+    "peak": 0.21151,
+    "peak_db": -13.49,
+    "rms_db_active": -24.98
+  },
+  "combo_10": {
+    "peak": 0.05083,
+    "peak_db": -25.88,
+    "rms_db_active": -42.6
+  },
+  "combo_20": {
+    "peak": 0.05318,
+    "peak_db": -25.49,
+    "rms_db_active": -43.76
+  },
+  "death": {
+    "peak": 0.03375,
+    "peak_db": -29.43,
+    "rms_db_active": -43.27
+  },
+  "new_best": {
+    "peak": 0.11205,
+    "peak_db": -19.01,
+    "rms_db_active": -32.9
+  },
+  "menu": {
+    "peak": 0.02413,
+    "peak_db": -32.35,
+    "rms_db_active": -45.02
+  },
+  "relative_to_music_peak_db": {
+    "music_only": 0,
+    "music_first_0p6s": -4.31,
+    "combo_10": -16.7,
+    "combo_20": -16.31,
+    "death": -20.25,
+    "new_best": -9.83,
+    "menu": -23.17
+  },
+  "seconds": 5.9
+}

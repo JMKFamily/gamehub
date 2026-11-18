@@ -1,0 +1,158 @@
+{
+  "practice": {
+    "placed": true,
+    "cp_tick": 4800,
+    "cp_x": 208.19999999999013,
+    "dead_x": 217.04849999998962,
+    "after_restart": {
+      "state": "playing",
+      "tick": 4811,
+      "x": 208.6771249999901,
+      "attempts": 2
+    },
+    "restart_at_checkpoint": true,
+    "practice_end_state": "clear",
+    "save_02": {
+      "best": 0,
+      "bestPractice": 100,
+      "cleared": false,
+      "attempts": 0
+    },
+    "counts_as_clear": false,
+    "wait_s": 1.1300000000000001
+  },
+  "save": {
+    "best_after_death": 8.637152777777702,
+    "after_clear": {
+      "best": 100,
+      "bestPractice": 0,
+      "cleared": true,
+      "attempts": 2,
+      "bestCombo": 15,
+      "clearAttempts": 2,
+      "bestAccuracy": 100
+    },
+    "after_reload": {
+      "02": {
+        "best": 0,
+        "bestPractice": 100,
+        "cleared": false,
+        "attempts": 0
+      },
+      "01": {
+        "best": 100,
+        "bestPractice": 0,
+        "cleared": true,
+        "attempts": 2,
+        "bestCombo": 15,
+        "clearAttempts": 2,
+        "bestAccuracy": 100
+      }
+    },
+    "persisted": true
+  },
+  "locks_fresh": [
+    {
+      "cls": "cell",
+      "text": "1새벽 조율장가시를 넘어요최고 0%",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "2줄다리 야시장상자에 올라요",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "3폭풍 종탑발판으로 높이!",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "4빗방울 계단얇은 판에 올라요",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "5바람 기찻길분홍 문은 빨라요",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "6비눗방울 언덕고리에서 또 톡!",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "7고드름 동굴위 가시는 기다려요",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "8달팽이 정원하늘색 문은 느려요",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "9구름 사다리다 섞였어요!",
+      "disabled": null
+    },
+    {
+      "cls": "cell",
+      "text": "10해돋이 무대마지막 무대!",
+      "disabled": null
+    }
+  ],
+  "level_cards": {
+    "cards": 10,
+    "level_count": 10,
+    "match": true
+  },
+  "pause_button": {
+    "state": "paused",
+    "player": {
+      "x": 11.277499999999966,
+      "y": 0,
+      "vy": 0,
+      "grounded": true
+    }
+  },
+  "resume_countdown_ms": 1248,
+  "background": {
+    "state": "paused",
+    "tick_advanced": 0,
+    "audio": "suspended",
+    "bgText": true,
+    "after_visible": {
+      "state": "paused",
+      "audio": "suspended"
+    }
+  },
+  "blur": "paused",
+  "mute": {
+    "gains_before": [
+      0.8,
+      0.8,
+      0.8,
+      0.158,
+      0
+    ],
+    "gains_after": [
+      0.8,
+      0,
+      0,
+      0.158,
+      0,
+      0.158,
+      0
+    ],
+    "settings_after_reload": {
+      "music": 80,
+      "sfx": 80,
+      "offset": 0,
+      "shake": true,
+      "triggerSfx": false,
+      "muted": true
+    }
+  }
+}

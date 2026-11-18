@@ -1,0 +1,516 @@
+{
+  "n_per_level_profile": 200,
+  "cases": 6010,
+  "chunk_s": 1,
+  "modes": {
+    "on": {
+      "total": 6010,
+      "by": {
+        "01/child_sd70": {
+          "n": 200,
+          "clear": 57,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/novice_sd50": {
+          "n": 200,
+          "clear": 154,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/child_sd70": {
+          "n": 200,
+          "clear": 34,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/novice_sd50": {
+          "n": 200,
+          "clear": 131,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/child_sd70": {
+          "n": 200,
+          "clear": 21,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/novice_sd50": {
+          "n": 200,
+          "clear": 89,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/child_sd70": {
+          "n": 200,
+          "clear": 20,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/novice_sd50": {
+          "n": 200,
+          "clear": 102,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/child_sd70": {
+          "n": 200,
+          "clear": 13,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/novice_sd50": {
+          "n": 200,
+          "clear": 96,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/skilled_sd25": {
+          "n": 200,
+          "clear": 199,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/child_sd70": {
+          "n": 200,
+          "clear": 6,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/novice_sd50": {
+          "n": 200,
+          "clear": 67,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/skilled_sd25": {
+          "n": 200,
+          "clear": 199,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/child_sd70": {
+          "n": 200,
+          "clear": 8,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/novice_sd50": {
+          "n": 200,
+          "clear": 65,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/skilled_sd25": {
+          "n": 200,
+          "clear": 198,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/child_sd70": {
+          "n": 200,
+          "clear": 6,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/novice_sd50": {
+          "n": 200,
+          "clear": 79,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/skilled_sd25": {
+          "n": 200,
+          "clear": 197,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/child_sd70": {
+          "n": 200,
+          "clear": 9,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/novice_sd50": {
+          "n": 200,
+          "clear": 55,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/skilled_sd25": {
+          "n": 200,
+          "clear": 195,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/child_sd70": {
+          "n": 200,
+          "clear": 14,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/novice_sd50": {
+          "n": 200,
+          "clear": 73,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/skilled_sd25": {
+          "n": 200,
+          "clear": 190,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        }
+      },
+      "mismatch_recorded": 0,
+      "mismatch_full": 0,
+      "recorded_ne_full": 0,
+      "pct_ne_ref": 0,
+      "acc_ne_ref": 0,
+      "pct_to_grade_mismatch": 0,
+      "judged": 86504,
+      "attempt_boundary_crossed": 0,
+      "examples": []
+    },
+    "combo_off": {
+      "total": 6010,
+      "by": {
+        "01/child_sd70": {
+          "n": 200,
+          "clear": 57,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/novice_sd50": {
+          "n": 200,
+          "clear": 154,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "01/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/child_sd70": {
+          "n": 200,
+          "clear": 34,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/novice_sd50": {
+          "n": 200,
+          "clear": 131,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "02/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/child_sd70": {
+          "n": 200,
+          "clear": 21,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/novice_sd50": {
+          "n": 200,
+          "clear": 89,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "03/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/child_sd70": {
+          "n": 200,
+          "clear": 20,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/novice_sd50": {
+          "n": 200,
+          "clear": 102,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/skilled_sd25": {
+          "n": 200,
+          "clear": 200,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "04/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/child_sd70": {
+          "n": 200,
+          "clear": 13,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/novice_sd50": {
+          "n": 200,
+          "clear": 96,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/skilled_sd25": {
+          "n": 200,
+          "clear": 199,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "05/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/child_sd70": {
+          "n": 200,
+          "clear": 6,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/novice_sd50": {
+          "n": 200,
+          "clear": 67,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/skilled_sd25": {
+          "n": 200,
+          "clear": 199,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "06/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/child_sd70": {
+          "n": 200,
+          "clear": 8,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/novice_sd50": {
+          "n": 200,
+          "clear": 65,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/skilled_sd25": {
+          "n": 200,
+          "clear": 198,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "07/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/child_sd70": {
+          "n": 200,
+          "clear": 6,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/novice_sd50": {
+          "n": 200,
+          "clear": 79,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/skilled_sd25": {
+          "n": 200,
+          "clear": 197,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "08/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/child_sd70": {
+          "n": 200,
+          "clear": 9,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/novice_sd50": {
+          "n": 200,
+          "clear": 55,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/skilled_sd25": {
+          "n": 200,
+          "clear": 195,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "09/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/child_sd70": {
+          "n": 200,
+          "clear": 14,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/novice_sd50": {
+          "n": 200,
+          "clear": 73,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/skilled_sd25": {
+          "n": 200,
+          "clear": 190,
+          "mm_rec": 0,
+          "mm_full": 0
+        },
+        "10/perfect": {
+          "n": 1,
+          "clear": 1,
+          "mm_rec": 0,
+          "mm_full": 0
+        }
+      },
+      "mismatch_recorded": 0,
+      "mismatch_full": 0,
+      "recorded_ne_full": 0,
+      "pct_ne_ref": 0,
+      "acc_ne_ref": 0,
+      "pct_to_grade_mismatch": 0,
+      "judged": 86504,
+      "attempt_boundary_crossed": 0,
+      "examples": []
+    }
+  },
+  "seconds": 549.8
+}

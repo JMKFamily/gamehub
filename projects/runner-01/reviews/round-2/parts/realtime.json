@@ -1,0 +1,126 @@
+{
+  "runs": [
+    {
+      "level": "01",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 15,
+      "taps_total": 15,
+      "send_err_ms": {
+        "mean": 1.31,
+        "max": 4.07
+      }
+    },
+    {
+      "level": "02",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 24,
+      "taps_total": 24,
+      "send_err_ms": {
+        "mean": 1.59,
+        "max": 3.93
+      }
+    },
+    {
+      "level": "03",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 16,
+      "taps_total": 16,
+      "send_err_ms": {
+        "mean": 1.4,
+        "max": 3.87
+      }
+    },
+    {
+      "level": "04",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 25,
+      "taps_total": 25,
+      "send_err_ms": {
+        "mean": 1.41,
+        "max": 3.8
+      }
+    },
+    {
+      "level": "05",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 20,
+      "taps_total": 20,
+      "send_err_ms": {
+        "mean": 1.45,
+        "max": 4.3
+      }
+    },
+    {
+      "level": "06",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 18,
+      "taps_total": 18,
+      "send_err_ms": {
+        "mean": 2.22,
+        "max": 3.7
+      }
+    },
+    {
+      "level": "07",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 22,
+      "taps_total": 22,
+      "send_err_ms": {
+        "mean": 1.58,
+        "max": 4.03
+      }
+    },
+    {
+      "level": "08",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 25,
+      "taps_total": 25,
+      "send_err_ms": {
+        "mean": 1.55,
+        "max": 3.9
+      }
+    },
+    {
+      "level": "09",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 27,
+      "taps_total": 27,
+      "send_err_ms": {
+        "mean": 1.29,
+        "max": 3.5
+      }
+    },
+    {
+      "level": "10",
+      "throttle": 1,
+      "state": "clear",
+      "progress": 100,
+      "taps_sent": 27,
+      "taps_total": 27,
+      "send_err_ms": {
+        "mean": 1.5,
+        "max": 4.03
+      }
+    }
+  ],
+  "audio": "running",
+  "quick": false
+}

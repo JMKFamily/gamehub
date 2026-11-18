@@ -1,0 +1,38 @@
+{
+  "?test=1": {
+    "console": 0,
+    "pageerrors": 0,
+    "failed": 0,
+    "external": 0
+  },
+  "(normal)": {
+    "console": 0,
+    "pageerrors": 0,
+    "failed": 0,
+    "external": 0
+  },
+  "?lang=en": {
+    "console": 0,
+    "pageerrors": 0,
+    "failed": 0,
+    "external": 0
+  },
+  "lang_auto": {
+    "ko-KR": {
+      "lang": "ko",
+      "html_lang": "ko"
+    },
+    "en-US": {
+      "lang": "en",
+      "html_lang": "en"
+    },
+    "pass": true
+  },
+  "log": {
+    "console": [],
+    "pageerrors": [],
+    "failed": [],
+    "external": [],
+    "requests": 106
+  }
+}

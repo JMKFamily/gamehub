@@ -1,0 +1,2930 @@
+{
+  "langs": [
+    "ko",
+    "en"
+  ],
+  "targets": {
+    "ko-360x640": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "시작",
+          "x": 70,
+          "y": 279,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨",
+          "x": 70,
+          "y": 353,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "설정",
+          "x": 70,
+          "y": 415,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "일반 모드",
+          "x": 90,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "연습 모드",
+          "x": 211,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1새벽 조율장가시를 넘어요최고 0%",
+          "x": 20,
+          "y": 86,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2줄다리 야시장상자에 올라요최고 0%",
+          "x": 184,
+          "y": 86,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3폭풍 종탑발판으로 높이!최고 0%",
+          "x": 20,
+          "y": 195,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4빗방울 계단얇은 판에 올라요최고 0%",
+          "x": 184,
+          "y": 195,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5바람 기찻길분홍 문은 빨라요최고 0%",
+          "x": 20,
+          "y": 304,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6비눗방울 언덕고리에서 또 톡!최고 0%",
+          "x": 184,
+          "y": 304,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7고드름 동굴위 가시는 기다려요최고 0%",
+          "x": 20,
+          "y": 413,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8달팽이 정원하늘색 문은 느려요최고 0%",
+          "x": 184,
+          "y": 413,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9구름 사다리다 섞였어요!최고 0%",
+          "x": 20,
+          "y": 522,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10해돋이 무대마지막 무대!최고 0%",
+          "x": 184,
+          "y": 522,
+          "w": 156,
+          "h": 101
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 61,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 111,
+          "y": 139,
+          "w": 130.7,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 256,
+          "y": 139,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 139,
+          "y": 201,
+          "w": 186.7,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 114,
+          "y": 263,
+          "w": 136,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "눌러서 맞춰 봐요",
+          "x": 32,
+          "y": 352,
+          "w": 183.5,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "켜짐",
+          "x": 256,
+          "y": 410,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "꺼짐",
+          "x": 256,
+          "y": 468,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "기록 지우기",
+          "x": 32,
+          "y": 526,
+          "w": 148.3,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 304,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 304,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "계속",
+          "x": 59,
+          "y": 217,
+          "w": 242.3,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "처음부터",
+          "x": 59,
+          "y": 291,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "연습 모드꺼짐",
+          "x": 59,
+          "y": 353,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 59,
+          "y": 415,
+          "w": 242.3,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "다음 레벨",
+          "x": 70,
+          "y": 353,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "다시 하기",
+          "x": 70,
+          "y": 427,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 70,
+          "y": 489,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    },
+    "ko-412x915": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "시작",
+          "x": 96,
+          "y": 416,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨",
+          "x": 96,
+          "y": 490,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "설정",
+          "x": 96,
+          "y": 552,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "일반 모드",
+          "x": 116,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "연습 모드",
+          "x": 237,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1새벽 조율장가시를 넘어요최고 0%",
+          "x": 20,
+          "y": 86,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2줄다리 야시장상자에 올라요최고 0%",
+          "x": 210,
+          "y": 86,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3폭풍 종탑발판으로 높이!최고 0%",
+          "x": 20,
+          "y": 250,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4빗방울 계단얇은 판에 올라요최고 0%",
+          "x": 210,
+          "y": 250,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5바람 기찻길분홍 문은 빨라요최고 0%",
+          "x": 20,
+          "y": 414,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6비눗방울 언덕고리에서 또 톡!최고 0%",
+          "x": 210,
+          "y": 414,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7고드름 동굴위 가시는 기다려요최고 0%",
+          "x": 20,
+          "y": 578,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8달팽이 정원하늘색 문은 느려요최고 0%",
+          "x": 210,
+          "y": 578,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9구름 사다리다 섞였어요!최고 0%",
+          "x": 20,
+          "y": 742,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10해돋이 무대마지막 무대!최고 0%",
+          "x": 210,
+          "y": 742,
+          "w": 182,
+          "h": 156
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 198,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 129,
+          "y": 276,
+          "w": 165.3,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 308,
+          "y": 276,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 157,
+          "y": 338,
+          "w": 221.3,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 131,
+          "y": 400,
+          "w": 170.7,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "눌러서 맞춰 봐요",
+          "x": 32,
+          "y": 489,
+          "w": 183.5,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "켜짐",
+          "x": 308,
+          "y": 547,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "꺼짐",
+          "x": 308,
+          "y": 605,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "기록 지우기",
+          "x": 32,
+          "y": 663,
+          "w": 148.3,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 356,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 356,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "계속",
+          "x": 85,
+          "y": 354,
+          "w": 242.3,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "처음부터",
+          "x": 85,
+          "y": 428,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "연습 모드꺼짐",
+          "x": 85,
+          "y": 490,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 85,
+          "y": 552,
+          "w": 242.3,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "다음 레벨",
+          "x": 96,
+          "y": 491,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "다시 하기",
+          "x": 96,
+          "y": 565,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 96,
+          "y": 627,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    },
+    "ko-640x360": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "시작",
+          "x": 210,
+          "y": 140,
+          "w": 220,
+          "h": 56
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨",
+          "x": 210,
+          "y": 206,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "설정",
+          "x": 210,
+          "y": 268,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "일반 모드",
+          "x": 230,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "연습 모드",
+          "x": 351,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1새벽 조율장가시를 넘어요최고 0%",
+          "x": 22,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2줄다리 야시장상자에 올라요최고 0%",
+          "x": 143,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3폭풍 종탑발판으로 높이!최고 0%",
+          "x": 264,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4빗방울 계단얇은 판에 올라요최고 0%",
+          "x": 385,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5바람 기찻길분홍 문은 빨라요최고 0%",
+          "x": 506,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6비눗방울 언덕고리에서 또 톡!최고 0%",
+          "x": 22,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7고드름 동굴위 가시는 기다려요최고 0%",
+          "x": 143,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8달팽이 정원하늘색 문은 느려요최고 0%",
+          "x": 264,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9구름 사다리다 섞였어요!최고 0%",
+          "x": 385,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10해돋이 무대마지막 무대!최고 0%",
+          "x": 506,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 25,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 105,
+          "y": 93,
+          "w": 122,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 241,
+          "y": 93,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 430,
+          "y": 93,
+          "w": 178,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 108,
+          "y": 150,
+          "w": 127.3,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "눌러서 맞춰 봐요",
+          "x": 30,
+          "y": 231,
+          "w": 183.5,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "켜짐",
+          "x": 538,
+          "y": 231,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "꺼짐",
+          "x": 241,
+          "y": 285,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "기록 지우기",
+          "x": 327,
+          "y": 285,
+          "w": 148.3,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 584,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 584,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "계속",
+          "x": 199,
+          "y": 78,
+          "w": 242.3,
+          "h": 56
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "처음부터",
+          "x": 199,
+          "y": 144,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "연습 모드꺼짐",
+          "x": 199,
+          "y": 206,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 199,
+          "y": 268,
+          "w": 242.3,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "다음 레벨",
+          "x": 64,
+          "y": 247,
+          "w": 158.3,
+          "h": 52
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "다시 하기",
+          "x": 232,
+          "y": 247,
+          "w": 158.3,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 400,
+          "y": 247,
+          "w": 176.3,
+          "h": 52
+        }
+      ]
+    },
+    "ko-1280x720": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "시작",
+          "x": 530,
+          "y": 335,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨",
+          "x": 530,
+          "y": 409,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "설정",
+          "x": 530,
+          "y": 471,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "일반 모드",
+          "x": 550,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "연습 모드",
+          "x": 671,
+          "y": 16,
+          "w": 121.3,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1새벽 조율장가시를 넘어요최고 0%",
+          "x": 22,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2줄다리 야시장상자에 올라요최고 0%",
+          "x": 272,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3폭풍 종탑발판으로 높이!최고 0%",
+          "x": 522,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4빗방울 계단얇은 판에 올라요최고 0%",
+          "x": 772,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5바람 기찻길분홍 문은 빨라요최고 0%",
+          "x": 1022,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6비눗방울 언덕고리에서 또 톡!최고 0%",
+          "x": 22,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7고드름 동굴위 가시는 기다려요최고 0%",
+          "x": 272,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8달팽이 정원하늘색 문은 느려요최고 0%",
+          "x": 522,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9구름 사다리다 섞였어요!최고 0%",
+          "x": 772,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10해돋이 무대마지막 무대!최고 0%",
+          "x": 1022,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 101,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 533,
+          "y": 179,
+          "w": 285.3,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 832,
+          "y": 179,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 561,
+          "y": 241,
+          "w": 341.3,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 535,
+          "y": 303,
+          "w": 290.7,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "눌러서 맞춰 봐요",
+          "x": 376,
+          "y": 392,
+          "w": 183.5,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "켜짐",
+          "x": 832,
+          "y": 450,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "꺼짐",
+          "x": 832,
+          "y": 508,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "기록 지우기",
+          "x": 376,
+          "y": 566,
+          "w": 148.3,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 1224,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 1224,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "계속",
+          "x": 519,
+          "y": 265,
+          "w": 242.3,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "처음부터",
+          "x": 519,
+          "y": 339,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "연습 모드꺼짐",
+          "x": 519,
+          "y": 401,
+          "w": 242.3,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 519,
+          "y": 463,
+          "w": 242.3,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "다음 레벨",
+          "x": 530,
+          "y": 401,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "다시 하기",
+          "x": 530,
+          "y": 475,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "레벨 고르기",
+          "x": 530,
+          "y": 537,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    },
+    "en-360x640": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Play",
+          "x": 70,
+          "y": 279,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 70,
+          "y": 353,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Settings",
+          "x": 70,
+          "y": 415,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "Normal",
+          "x": 100,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "Practice",
+          "x": 211,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1Dawn Tuning YardJump the spik",
+          "x": 20,
+          "y": 86,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2Wirebridge Night MarketClimb ",
+          "x": 184,
+          "y": 86,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3Storm BelfryBounce up highBes",
+          "x": 20,
+          "y": 195,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4Raindrop StepsHop on thin led",
+          "x": 184,
+          "y": 195,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5Windy RailwayPink gates go fa",
+          "x": 20,
+          "y": 304,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6Bubble HillTap again in rings",
+          "x": 184,
+          "y": 304,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7Icicle CaveWait under top spi",
+          "x": 20,
+          "y": 413,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8Snail GardenBlue gates go slo",
+          "x": 184,
+          "y": 413,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9Cloud LadderAll mixed up!Best",
+          "x": 20,
+          "y": 522,
+          "w": 156,
+          "h": 101
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10Sunrise StageThe last stage!",
+          "x": 184,
+          "y": 522,
+          "w": 156,
+          "h": 101
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 61,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 111,
+          "y": 139,
+          "w": 130.7,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 256,
+          "y": 139,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 139,
+          "y": 201,
+          "w": 186.7,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 114,
+          "y": 263,
+          "w": 136,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "Tap to test",
+          "x": 32,
+          "y": 352,
+          "w": 145,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "On",
+          "x": 256,
+          "y": 410,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "Off",
+          "x": 256,
+          "y": 468,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "Reset progress",
+          "x": 32,
+          "y": 526,
+          "w": 173.7,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 304,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 304,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Continue",
+          "x": 68,
+          "y": 217,
+          "w": 224.5,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Restart",
+          "x": 68,
+          "y": 291,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "PracticeOff",
+          "x": 68,
+          "y": 353,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 68,
+          "y": 415,
+          "w": 224.5,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Next",
+          "x": 70,
+          "y": 353,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Again",
+          "x": 70,
+          "y": 427,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 70,
+          "y": 489,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    },
+    "en-412x915": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Play",
+          "x": 96,
+          "y": 416,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 96,
+          "y": 490,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Settings",
+          "x": 96,
+          "y": 552,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "Normal",
+          "x": 126,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "Practice",
+          "x": 237,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1Dawn Tuning YardJump the spik",
+          "x": 20,
+          "y": 86,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2Wirebridge Night MarketClimb ",
+          "x": 210,
+          "y": 86,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3Storm BelfryBounce up highBes",
+          "x": 20,
+          "y": 250,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4Raindrop StepsHop on thin led",
+          "x": 210,
+          "y": 250,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5Windy RailwayPink gates go fa",
+          "x": 20,
+          "y": 414,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6Bubble HillTap again in rings",
+          "x": 210,
+          "y": 414,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7Icicle CaveWait under top spi",
+          "x": 20,
+          "y": 578,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8Snail GardenBlue gates go slo",
+          "x": 210,
+          "y": 578,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9Cloud LadderAll mixed up!Best",
+          "x": 20,
+          "y": 742,
+          "w": 182,
+          "h": 156
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10Sunrise StageThe last stage!",
+          "x": 210,
+          "y": 742,
+          "w": 182,
+          "h": 156
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 198,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 129,
+          "y": 276,
+          "w": 165.3,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 308,
+          "y": 276,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 157,
+          "y": 338,
+          "w": 221.3,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 131,
+          "y": 400,
+          "w": 170.7,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "Tap to test",
+          "x": 32,
+          "y": 489,
+          "w": 145,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "On",
+          "x": 308,
+          "y": 547,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "Off",
+          "x": 308,
+          "y": 605,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "Reset progress",
+          "x": 32,
+          "y": 663,
+          "w": 173.7,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 356,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 356,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Continue",
+          "x": 94,
+          "y": 354,
+          "w": 224.5,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Restart",
+          "x": 94,
+          "y": 428,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "PracticeOff",
+          "x": 94,
+          "y": 490,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 94,
+          "y": 552,
+          "w": 224.5,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Next",
+          "x": 96,
+          "y": 491,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Again",
+          "x": 96,
+          "y": 565,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 96,
+          "y": 627,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    },
+    "en-640x360": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Play",
+          "x": 210,
+          "y": 140,
+          "w": 220,
+          "h": 56
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 210,
+          "y": 206,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Settings",
+          "x": 210,
+          "y": 268,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "Normal",
+          "x": 240,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "Practice",
+          "x": 351,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1Dawn Tuning YardJump the spik",
+          "x": 22,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2Wirebridge Night MarketClimb ",
+          "x": 143,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3Storm BelfryBounce up highBes",
+          "x": 264,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4Raindrop StepsHop on thin led",
+          "x": 385,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5Windy RailwayPink gates go fa",
+          "x": 506,
+          "y": 80,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6Bubble HillTap again in rings",
+          "x": 22,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7Icicle CaveWait under top spi",
+          "x": 143,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8Snail GardenBlue gates go slo",
+          "x": 264,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9Cloud LadderAll mixed up!Best",
+          "x": 385,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10Sunrise StageThe last stage!",
+          "x": 506,
+          "y": 216,
+          "w": 113,
+          "h": 128
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 25,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 105,
+          "y": 93,
+          "w": 122,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 241,
+          "y": 93,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 430,
+          "y": 93,
+          "w": 178,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 108,
+          "y": 150,
+          "w": 127.3,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "Tap to test",
+          "x": 30,
+          "y": 231,
+          "w": 145,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "On",
+          "x": 538,
+          "y": 231,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "Off",
+          "x": 241,
+          "y": 285,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "Reset progress",
+          "x": 327,
+          "y": 285,
+          "w": 173.7,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 584,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 584,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Continue",
+          "x": 208,
+          "y": 78,
+          "w": 224.5,
+          "h": 56
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Restart",
+          "x": 208,
+          "y": 144,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "PracticeOff",
+          "x": 208,
+          "y": 206,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 208,
+          "y": 268,
+          "w": 224.5,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Next",
+          "x": 119,
+          "y": 247,
+          "w": 120.9,
+          "h": 52
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Again",
+          "x": 250,
+          "y": 247,
+          "w": 129.6,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 389,
+          "y": 247,
+          "w": 131.7,
+          "h": 52
+        }
+      ]
+    },
+    "en-1280x720": {
+      "title": [
+        {
+          "id": "hubLink",
+          "tag": "a",
+          "cls": "hubLink",
+          "text": "⌂",
+          "x": 12,
+          "y": 10,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "btnPlay",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Play",
+          "x": 530,
+          "y": 335,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "btnLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 530,
+          "y": 409,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "btnSettings",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Settings",
+          "x": 530,
+          "y": 471,
+          "w": 220,
+          "h": 52
+        }
+      ],
+      "levels": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 16,
+          "y": 14,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "modeNormal",
+          "tag": "button",
+          "cls": "on",
+          "text": "Normal",
+          "x": 560,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": "modePractice",
+          "tag": "button",
+          "cls": "",
+          "text": "Practice",
+          "x": 671,
+          "y": 16,
+          "w": 110.7,
+          "h": 48
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "1Dawn Tuning YardJump the spik",
+          "x": 22,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "2Wirebridge Night MarketClimb ",
+          "x": 272,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "3Storm BelfryBounce up highBes",
+          "x": 522,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "4Raindrop StepsHop on thin led",
+          "x": 772,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "5Windy RailwayPink gates go fa",
+          "x": 1022,
+          "y": 86,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "6Bubble HillTap again in rings",
+          "x": 22,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "7Icicle CaveWait under top spi",
+          "x": 272,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "8Snail GardenBlue gates go slo",
+          "x": 522,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "9Cloud LadderAll mixed up!Best",
+          "x": 772,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        },
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "card",
+          "text": "10Sunrise StageThe last stage!",
+          "x": 1022,
+          "y": 371,
+          "w": 236,
+          "h": 271
+        }
+      ],
+      "settings": [
+        {
+          "id": null,
+          "tag": "button",
+          "cls": "btn back",
+          "text": "←",
+          "x": 28,
+          "y": 101,
+          "w": 52,
+          "h": 52
+        },
+        {
+          "id": "sMusic",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 533,
+          "y": 179,
+          "w": 285.3,
+          "h": 48
+        },
+        {
+          "id": "bMute",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "",
+          "x": 832,
+          "y": 179,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "sSfx",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 561,
+          "y": 241,
+          "w": 341.3,
+          "h": 48
+        },
+        {
+          "id": "sOffset",
+          "tag": "input",
+          "cls": "",
+          "text": "",
+          "x": 535,
+          "y": 303,
+          "w": 290.7,
+          "h": 48
+        },
+        {
+          "id": "bOffsetTest",
+          "tag": "button",
+          "cls": "btn small",
+          "text": "Tap to test",
+          "x": 376,
+          "y": 392,
+          "w": 145,
+          "h": 48
+        },
+        {
+          "id": "bShake",
+          "tag": "button",
+          "cls": "tog on",
+          "text": "On",
+          "x": 832,
+          "y": 450,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bTrig",
+          "tag": "button",
+          "cls": "tog",
+          "text": "Off",
+          "x": 832,
+          "y": 508,
+          "w": 72,
+          "h": 48
+        },
+        {
+          "id": "bReset",
+          "tag": "button",
+          "cls": "btn danger small",
+          "text": "Reset progress",
+          "x": 376,
+          "y": 566,
+          "w": 173.7,
+          "h": 48
+        }
+      ],
+      "play_practice": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 1224,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        }
+      ],
+      "pause": [
+        {
+          "id": "pauseBtn",
+          "tag": "button",
+          "cls": "iconBtn",
+          "text": "",
+          "x": 1224,
+          "y": 6,
+          "w": 48,
+          "h": 48
+        },
+        {
+          "id": "pResume",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Continue",
+          "x": 528,
+          "y": 265,
+          "w": 224.5,
+          "h": 64
+        },
+        {
+          "id": "pRestart",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Restart",
+          "x": 528,
+          "y": 339,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pPractice",
+          "tag": "button",
+          "cls": "btn",
+          "text": "PracticeOff",
+          "x": 528,
+          "y": 401,
+          "w": 224.5,
+          "h": 52
+        },
+        {
+          "id": "pQuit",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 528,
+          "y": 463,
+          "w": 224.5,
+          "h": 52
+        }
+      ],
+      "clear": [
+        {
+          "id": "cNext",
+          "tag": "button",
+          "cls": "btn primary",
+          "text": "Next",
+          "x": 530,
+          "y": 401,
+          "w": 220,
+          "h": 64
+        },
+        {
+          "id": "cRetry",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Again",
+          "x": 530,
+          "y": 475,
+          "w": 220,
+          "h": 52
+        },
+        {
+          "id": "cLevels",
+          "tag": "button",
+          "cls": "btn",
+          "text": "Levels",
+          "x": 530,
+          "y": 537,
+          "w": 220,
+          "h": 52
+        }
+      ]
+    }
+  },
+  "small": {
+    "ko-360x640": {},
+    "ko-412x915": {},
+    "ko-640x360": {},
+    "ko-1280x720": {},
+    "en-360x640": {},
+    "en-412x915": {},
+    "en-640x360": {},
+    "en-1280x720": {}
+  }
+}

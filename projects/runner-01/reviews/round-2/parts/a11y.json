@@ -1,0 +1,166 @@
+{
+  "tool": "CDP Accessibility.getFullAXTree (ignored 제외) + locator.ariaSnapshot()",
+  "langs": {
+    "ko": {
+      "title": [
+        "link \"hub\"",
+        "heading \"잔향 질주\"",
+        "button \"시작\"",
+        "button \"레벨\"",
+        "button \"설정\""
+      ],
+      "levels": [
+        "button \"back\"",
+        "button \"일반 모드\"",
+        "button \"연습 모드\"",
+        "button \"1. 새벽 조율장\"",
+        "meter \"1. 이어서 잘 뛴 최고 기록\" valuetext= now=15",
+        "button \"2. 줄다리 야시장\"",
+        "meter \"2. 이어서 잘 뛴 최고 기록\" valuetext= now=24",
+        "button \"3. 폭풍 종탑\"",
+        "button \"4. 빗방울 계단\"",
+        "button \"5. 바람 기찻길\"",
+        "button \"6. 비눗방울 언덕\"",
+        "button \"7. 고드름 동굴\"",
+        "button \"8. 달팽이 정원\"",
+        "button \"9. 구름 사다리\"",
+        "button \"10. 해돋이 무대\""
+      ],
+      "levels_aria": "- button \"back\": ←\n- button \"일반 모드\"\n- button \"연습 모드\"\n- button \"1. 새벽 조율장\":\n  - text: \"1\"\n  - img\n  - text: 새벽 조율장 가시를 넘어요\n  - img\n  - text: 최고 100% 클리어\n- meter \"1. 이어서 잘 뛴 최고 기록\"\n- button \"2. 줄다리 야시장\":\n  - text: \"2\"\n  - img\n  - img\n  - text: 줄다리 야시장 상자에 올라요\n  - img\n  - text: 최고 100% 클리어\n- meter \"2. 이어서 잘 뛴 최고 기록\"\n- button \"3. 폭풍 종탑\":\n  - text: \"3\"\n  - img\n  - img\n  - img\n  - text: 폭풍 종탑 발판으로 높이!\n  - img\n  - text: 최고 0%\n- button \"4. 빗방울 계단\":\n  - text: \"4\"\n  - img\n  - img\n  - img\n  - text: 빗방울 계단 얇은 판에 올라요\n  - img\n  - text: 최고 0%\n- button \"5. 바람 기찻길\":\n  - text: \"5\"\n  - img\n  - img\n  - img\n  - text: 바람 기찻길 분홍 문은 빨라요\n  - img\n  - text: 최고 0%\n- button \"6. 비눗방울 언덕\":\n  - text: \"6\"\n  - img\n  - img\n  - img\n  - img\n  - text: 비눗방울 언덕 고리에서 또 톡!\n  - img\n  - text: 최고 0%\n- button \"7. 고드름 동굴\":\n  - text: \"7\"\n  - img\n  - img\n  - img\n  - img\n  - text: 고드름 동굴 위 가시는 기다려요\n  - img\n  - text: 최고 0%\n- button \"8. 달팽이 정원\":\n  - text: \"8\"\n  - img\n  - img\n  - img\n  - img\n  - text: 달팽이 정원 하늘색 문은 느려요\n  - img\n  - text: 최고 0%\n- button \"9. 구름 사다리\":\n  - text: \"9\"\n  - img\n  - img\n  - img\n  - img\n  - img\n  - text: 구름 사다리 다 섞였어요!\n  - img\n  - text: 최고 0%\n- button \"10. 해돋이 무대\":\n  - text: \"10\"\n  - img\n  - img\n  - img\n  - img\n  - img\n  - text: 해돋이 무대 마지막 무대!\n  - img\n  - text: 최고 0%",
+      "card_meter_count": 2,
+      "card_buttons": 10,
+      "play": {
+        "combo_dom": {
+          "combo": 4,
+          "valuenow": "4",
+          "valuetext": "4",
+          "label": "이어서 잘 뛴 수",
+          "hidden": false
+        },
+        "ax_meters": [
+          "meter \"이어서 잘 뛴 수\" now=4 text="
+        ],
+        "ax_buttons": [
+          "pause"
+        ],
+        "canvas": [
+          "Canvas \"game\""
+        ],
+        "combo_meter_in_tree": true
+      },
+      "clear": {
+        "accuracy_hook": 100,
+        "ax": [
+          "StaticText \"이어서 잘 뛰어요!\"",
+          "heading \"새벽이 밝았어요!\"",
+          "button \"다음 레벨\"",
+          "button \"다시 하기\"",
+          "button \"레벨 고르기\"",
+          "StaticText \"새벽이 밝았어요!\"",
+          "StaticText \"잘했어요!\"",
+          "StaticText \"2번 만에 성공!\"",
+          "meter \"박자를 맞힌 정도\" now=100 text=",
+          "meter \"가장 많이 이어서 잘 뛴 수\" now=15 text=",
+          "StaticText \"다음 레벨\"",
+          "StaticText \"다시 하기\"",
+          "StaticText \"레벨 고르기\""
+        ],
+        "accuracy_in_tree": true,
+        "aria": "- heading \"새벽이 밝았어요!\" [level=2]\n- paragraph: 잘했어요!\n- paragraph: 2번 만에 성공!\n- meter \"박자를 맞힌 정도\"\n- meter \"가장 많이 이어서 잘 뛴 수\"\n- button \"다음 레벨\"\n- button \"다시 하기\"\n- button \"레벨 고르기\""
+      },
+      "pause": [
+        "button \"pause\"",
+        "heading \"잠깐 멈춤\"",
+        "button \"계속\"",
+        "button \"처음부터\"",
+        "button \"연습 모드 꺼짐\"",
+        "button \"레벨 고르기\""
+      ],
+      "aria_hidden_with_label": [
+        "div#combo.combo hidden: 이어서 잘 뛴 수"
+      ],
+      "unnamed_buttons": []
+    },
+    "en": {
+      "title": [
+        "link \"hub\"",
+        "heading \"Reverbound\"",
+        "button \"Play\"",
+        "button \"Levels\"",
+        "button \"Settings\""
+      ],
+      "levels": [
+        "button \"back\"",
+        "button \"Normal\"",
+        "button \"Practice\"",
+        "button \"1. Dawn Tuning Yard\"",
+        "meter \"1. Most jumps in a row\" valuetext= now=15",
+        "button \"2. Wirebridge Night Market\"",
+        "meter \"2. Most jumps in a row\" valuetext= now=24",
+        "button \"3. Storm Belfry\"",
+        "button \"4. Raindrop Steps\"",
+        "button \"5. Windy Railway\"",
+        "button \"6. Bubble Hill\"",
+        "button \"7. Icicle Cave\"",
+        "button \"8. Snail Garden\"",
+        "button \"9. Cloud Ladder\"",
+        "button \"10. Sunrise Stage\""
+      ],
+      "levels_aria": "- button \"back\": ←\n- button \"Normal\"\n- button \"Practice\"\n- button \"1. Dawn Tuning Yard\":\n  - text: \"1\"\n  - img\n  - text: Dawn Tuning Yard Jump the spikes\n  - img\n  - text: Best 100% Cleared\n- meter \"1. Most jumps in a row\"\n- button \"2. Wirebridge Night Market\":\n  - text: \"2\"\n  - img\n  - img\n  - text: Wirebridge Night Market Climb the boxes\n  - img\n  - text: Best 100% Cleared\n- meter \"2. Most jumps in a row\"\n- button \"3. Storm Belfry\":\n  - text: \"3\"\n  - img\n  - img\n  - img\n  - text: Storm Belfry Bounce up high\n  - img\n  - text: Best 0%\n- button \"4. Raindrop Steps\":\n  - text: \"4\"\n  - img\n  - img\n  - img\n  - text: Raindrop Steps Hop on thin ledges\n  - img\n  - text: Best 0%\n- button \"5. Windy Railway\":\n  - text: \"5\"\n  - img\n  - img\n  - img\n  - text: Windy Railway Pink gates go fast\n  - img\n  - text: Best 0%\n- button \"6. Bubble Hill\":\n  - text: \"6\"\n  - img\n  - img\n  - img\n  - img\n  - text: Bubble Hill Tap again in rings\n  - img\n  - text: Best 0%\n- button \"7. Icicle Cave\":\n  - text: \"7\"\n  - img\n  - img\n  - img\n  - img\n  - text: Icicle Cave Wait under top spikes\n  - img\n  - text: Best 0%\n- button \"8. Snail Garden\":\n  - text: \"8\"\n  - img\n  - img\n  - img\n  - img\n  - text: Snail Garden Blue gates go slow\n  - img\n  - text: Best 0%\n- button \"9. Cloud Ladder\":\n  - text: \"9\"\n  - img\n  - img\n  - img\n  - img\n  - img\n  - text: Cloud Ladder All mixed up!\n  - img\n  - text: Best 0%\n- button \"10. Sunrise Stage\":\n  - text: \"10\"\n  - img\n  - img\n  - img\n  - img\n  - img\n  - text: Sunrise Stage The last stage!\n  - img\n  - text: Best 0%",
+      "card_meter_count": 2,
+      "card_buttons": 10,
+      "play": {
+        "combo_dom": {
+          "combo": 4,
+          "valuenow": "4",
+          "valuetext": "4",
+          "label": "Good jumps in a row",
+          "hidden": false
+        },
+        "ax_meters": [
+          "meter \"Good jumps in a row\" now=4 text="
+        ],
+        "ax_buttons": [
+          "pause"
+        ],
+        "canvas": [
+          "Canvas \"game\""
+        ],
+        "combo_meter_in_tree": true
+      },
+      "clear": {
+        "accuracy_hook": 100,
+        "ax": [
+          "StaticText \"Great jumps, keep going!\"",
+          "heading \"Morning is here!\"",
+          "button \"Next\"",
+          "button \"Again\"",
+          "button \"Levels\"",
+          "StaticText \"Morning is here!\"",
+          "StaticText \"Great job!\"",
+          "StaticText \"Done in 2 tries!\"",
+          "meter \"How well you hit the beat\" now=100 text=",
+          "meter \"Most good jumps in a row\" now=15 text=",
+          "StaticText \"Next\"",
+          "StaticText \"Again\"",
+          "StaticText \"Levels\""
+        ],
+        "accuracy_in_tree": true,
+        "aria": "- heading \"Morning is here!\" [level=2]\n- paragraph: Great job!\n- paragraph: Done in 2 tries!\n- meter \"How well you hit the beat\"\n- meter \"Most good jumps in a row\"\n- button \"Next\"\n- button \"Again\"\n- button \"Levels\""
+      },
+      "pause": [
+        "button \"pause\"",
+        "heading \"Paused\"",
+        "button \"Continue\"",
+        "button \"Restart\"",
+        "button \"Practice Off\"",
+        "button \"Levels\""
+      ],
+      "aria_hidden_with_label": [
+        "div#combo.combo hidden: Good jumps in a row"
+      ],
+      "unnamed_buttons": []
+    }
+  },
+  "seconds": 17.7
+}

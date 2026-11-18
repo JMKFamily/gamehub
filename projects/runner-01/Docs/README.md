@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-17 | qa-engineer | round-2 1-4 | [round-2 QA (기술 7.0 REVISE, 성능 1% low 빌드 원인 확정·메뉴 전환, 재판정·지연 보정 0 불일치, σ50 표·L10 외삽 실패)](qa-engineer/2026-11-17-1-4-round2-qa.md) |
 | 2026-11-17 | game-developer | round-2 | [콤보 빌드 (콤보 줄·판정 이름·%·결과 화면, art 확정값 반영·임시값 0, 소리 지연 안정 대기)](game-developer/2026-11-17-r2-combo-build.md) |
 | 2026-11-17 | balance-designer | round-2 | [퍼센트 판정·판정 이름 (judge_pct 계산, 정확도 분포, 판정 이름·결과 화면 문구, combo-ref 창 버그 수정)](balance-designer/2026-11-17-r2-percent.md) |
 | 2026-11-17 | art-director | round-2 | [아트·사운드 수정 (round-1 이슈 1~8, 레벨 4~10 팔레트·기믹·곡, 콤보·판정 이름·% 표시)](art-director/2026-11-17-r2-art-fixes.md) |
