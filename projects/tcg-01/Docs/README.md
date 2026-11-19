@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | orchestrator | UX2 | [UX2 게이트(8.005·UX 8.5, 성능 major 열림, O9)](orchestrator/2026-11-19-ux2-gate.md) |
+| 2026-11-19 | qa-engineer | UX2 r5 | [UX2 r5(5469426): 실판 승리→단계 승수·촛불 통과, 대전 1% low A/B 0.75배 major, 기술 7.0 REVISE](qa-engineer/2026-11-19-ux2-qa-r5.md) |
 | 2026-11-19 | qa-engineer | UX2 r4 | [UX2 r4(a4448d5): 대전 1% low A/B 0.74배(6쌍) major, 촛불 연출·비용 초 통과, 기술 7.0 REVISE](qa-engineer/2026-11-19-ux2-qa-r4.md) |
 | 2026-11-19 | qa-engineer | UX2 r3 | [UX2 r3(36a3e50): 회귀 항목 통과, 대전 1% low A/B 0.65배 major, 기술 7.0 REVISE](qa-engineer/2026-11-19-ux2-qa-r3.md) |
 | 2026-11-19 | ux-reviewer | ux2 r3 | [UX2 짧은 재판정: 12항목 모두 통과, 퀘스트 중복 해소, 8.5 PASS](ux-reviewer/2026-11-19-ux2-review-r3.md) |

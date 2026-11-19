@@ -1,0 +1,55 @@
+{
+ "log": {
+  "console": [],
+  "pageerrors": [],
+  "failed": [],
+  "external": [],
+  "requests": 564
+ },
+ "rate": 6,
+ "q": "",
+ "runs": [
+  {
+   "run": 1,
+   "tutorial_steps_shown": [
+    "tut_mana",
+    "tut_board",
+    "tut_defense",
+    "tut_keyword",
+    "tut_play_creature",
+    "tut_end",
+    "tut_play_spell",
+    "tut_attack",
+    "tut_ability",
+    "tut_health"
+   ],
+   "seconds": 108.906,
+   "battle": {
+    "frames": 6483,
+    "avg_fps": 59.8,
+    "low1_fps": 43.9,
+    "max_ms": 50,
+    "over_33": 7
+   },
+   "big_moments": {
+    "n": 0,
+    "kinds": []
+   },
+   "menu": {
+    "title→dock(첫 탭)": 200,
+    "dock→heroes": 116.5,
+    "heroes→dock": 16.8,
+    "dock→collection": 166.6,
+    "collection→dock": 100.1,
+    "dock→crates": 183.3,
+    "crate open": 49.9,
+    "→market": 116.7,
+    "→decks": 66.5,
+    "→lobby(dock)": 33.4,
+    "→worldmap(첫)": 16.8,
+    "→lobby 다시": 16.8,
+    "dock→heroes→battle(첫 물때)": 250
+   }
+  }
+ ]
+}
