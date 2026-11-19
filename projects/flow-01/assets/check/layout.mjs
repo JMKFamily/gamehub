@@ -7,7 +7,8 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MARKS, MARK_STROKE_UNIT, STAR, FINGER } from './shapes.mjs';
+import { MARKS as MARKS6, MARKS_EXT, MARK_STROKE_UNIT, STAR, FINGER } from './shapes.mjs';
+const MARKS = { ...MARKS6, ...MARKS_EXT }; // r3: 쌍 16개 표지(앞 6개 + 어려운 판 10개)
 import { loadLevels, CARD_CELL } from './tutorial.mjs';
 import { mix } from './color.mjs';
 
@@ -207,7 +208,7 @@ function map(W, H) {
 function hardPage(W, H, k, portrait, titleH, starsH, barH, pagerH, btn, edge) {
   const gd = Math.round(PARAM.gate_d * k), gs = Math.round(PARAM.gate_star * k), ringR = Math.round(gd / 2 + gs * 0.9 + 4), gates = [];
   if (portrait) { const y0 = titleH + starsH + ringR + 12, y1 = H - barH - pagerH - ringR - 8; for (let i = 0; i < 5; i++) gates.push([Math.round(W * (i % 2 ? 0.68 : 0.32)), Math.round(y0 + ((y1 - y0) * i) / 4)]); }
-  else { const x0 = ringR + 24 * k, x1 = W - ringR - 24 * k, top = titleH + starsH, avail = H - barH - pagerH - 8 - top; for (let i = 0; i < 5; i++) gates.push([Math.round(x0 + ((x1 - x0) * i) / 4), Math.round(top + avail * (i % 2 ? 0.70 : 0.30))]); }
+  else { const x0 = ringR + 16 * k, x1 = W - ringR - 16 * k, top = titleH + starsH, avail = H - barH - pagerH - 8 - top; for (let i = 0; i < 5; i++) gates.push([Math.round(x0 + ((x1 - x0) * i) / 4), Math.round(top + avail / 2 + (avail / 2 - ringR - 6) * (i % 2 ? 0.5 : -0.5))]); } // 가로: 한 줄(높이가 낮아 지그재그 폭을 줄임)
   return { gates, gate_d: gd, ring: { r: ringR, star_px: gs, n: 10, start_deg: -90 }, title_key: 'hard_title', unlock_every_stars: 10,
     states: { locked: '옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음',
       open: '흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)', cleared: '열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)' },
@@ -218,14 +219,16 @@ function hardPage(W, H, k, portrait, titleH, starsH, barH, pagerH, btn, edge) {
 // ---------- r3 넓은 판(어려운 판, 기본의 최대 4배 = 12x12, 쌍 ≤ 16 가정) ----------
 export const BOARDS_WIDE = [[8, 8], [9, 9], [10, 10], [12, 8], [8, 12], [12, 12]];
 function playWide(W, H, cols, rows) {
-  const fit = play(W, H, cols, rows), k = fit.k, P = PARAM;
-  const o = { ...fit, wide: true, fit_cell: fit.cell };
-  if (fit.cell >= P.cell_min) { o.camera = null; return o; }
+  const fit0 = play(W, H, cols, rows), k = fit0.k, P = PARAM;
+  if (fit0.cell >= P.cell_min) return { ...fit0, wide: true, fit_cell: fit0.cell, camera: null };
+  const fit = play(W, H, 12, 12); // 화면 틀(viewport·채움 막대·판정·버튼)은 모든 넓은 판에서 같게 = 12x12 기준 틀
+  const o = { ...fit, board_size: [cols, rows], wide: true, fit_cell: fit0.cell };
   const pc = Math.round(P.wide_cell * Math.min(k, 1.2));
   const vp = fit.portrait ? R(P.side_margin, fit.board.y, W - 2 * P.side_margin, fit.buttons.undo.y - 8 - fit.board.y) : R(fit.board.x, fit.board.y, fit.board.w, fit.board.h);
+  o.viewport_rule = '판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)';
   o.cell = pc; o.board_full = { w: Math.round(pc * (cols + 2 * P.board_pad_of_cell)), h: Math.round(pc * (rows + 2 * P.board_pad_of_cell)) };
   o.viewport = vp; o.board = vp;
-  o.visible_cells = [+(vp.w / pc).toFixed(1), +(vp.h / pc).toFixed(1)];
+  o.visible_cells = [+Math.min(cols, vp.w / pc).toFixed(1), +Math.min(rows, vp.h / pc).toFixed(1)];
   // 미니맵: 세로 = 위 HUD 쌍 점 줄 자리, 가로 = 오른쪽 기둥 위 쌍 점 격자 자리(쌍 점 줄은 넓은 판에서 미니맵으로 바뀜)
   const box = fit.portrait ? R(fit.pair_row.x0, 4, fit.pair_row.x1 - fit.pair_row.x0, Math.round(P.hud_h * k) - 8) : R(fit.pillars.right.x + 8, Math.round(P.edge * k), fit.pillars.right.w - 16, Math.round(120 * k));
   const mc = Math.floor(Math.min(box.w / cols, box.h / rows));
@@ -296,10 +299,10 @@ function guardianScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k), gap = Math.round(12 * k);
   const fB = Math.round(16 * k), fL = Math.round(18 * k), fS = Math.round(PARAM.small_font * k), tw = Math.round(64 * k);
   const ts = {}, ctl = {};
-  ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'guardian_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
+  ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'settings_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
   const close = R(col.x + col.w - btn, edge, btn, btn, { icon: 'close', key: 'btn_close' });
   let y = edge + btn + gap;
-  ts.guardian_intro = textBlock(col.x, y, col.w, 'guardian_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
+  ts.guardian_intro = textBlock(col.x, y, col.w, 'settings_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
   const row = (key, note) => {
     ts[key] = { ...textBlock(col.x, y, col.w - tw - 12, key, fL, 1, { align: 'left', valign: 'middle' }), h: btn }; ctl[key] = R(col.x + col.w - tw, y, tw, btn, { kind: 'toggle', key }); y += btn + 4;
     if (note) { ts[note] = textBlock(col.x, y, col.w, note, fS, 4, { align: 'left', color: 'inkSoft' }); y += ts[note].h + 4; }
@@ -316,7 +319,7 @@ function guardianScreen(W, H) {
   const bw2 = Math.max(btn, Math.ceil(Math.max(...['confirm_yes', 'confirm_no'].flatMap((kk) => strs(kk).map(([, v]) => textW(v, fL)))) + 32));
   const ch = 20 + cText.h + 16 + btn + 20, cy = Math.round((H - ch) / 2); cText.y = cy + 20;
   const confirm = { card: R(cx, cy, cwid, ch), text: cText, no: R(cx + cwid / 2 - 6 - bw2, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_no', font_px: fL, _rule: '먼저 포커스' }), yes: R(cx + cwid / 2 + 6, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_yes', font_px: fL }) };
-  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: '어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.', scroll_hint: { fade_px: Math.round(24 * k), chevron_px: Math.round(20 * k), _rule: 'r2 S6: 내용이 화면보다 길면 아래 가장자리 24k px 을 바탕색으로 옅게 덮고(미리 그린 띠, 그라디언트 1장) 가운데 아래꺾쇠(inkSoft 20k)를 둠. 끝까지 내리면 둘 다 숨김. 스크롤 막대는 브라우저 기본 그대로 보이게(overflow-y: auto, 숨기지 않음).' }, buttons: { close }, controls: ctl, text_slots: ts, confirm };
+  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: 'r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.', scroll_hint: { fade_px: Math.round(24 * k), chevron_px: Math.round(20 * k), _rule: 'r2 S6: 내용이 화면보다 길면 아래 가장자리 24k px 을 바탕색으로 옅게 덮고(미리 그린 띠, 그라디언트 1장) 가운데 아래꺾쇠(inkSoft 20k)를 둠. 끝까지 내리면 둘 다 숨김. 스크롤 막대는 브라우저 기본 그대로 보이게(overflow-y: auto, 숨기지 않음).' }, buttons: { close }, controls: ctl, text_slots: ts, confirm };
 }
 function errorScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), big = Math.round(72 * k);
@@ -445,6 +448,14 @@ export const RENDER = {
   svg_raster: '카드 그림(tutorial/*.svg)·지도 완료 노드 미니 그림·잠긴 노드 실루엣·별·아이콘: 부팅(또는 지도 첫 진입 전 유휴 시간)에 <img src=Blob URL> + await img.decode() 로 래스터, 이후 같은 <img> 재사용. 카드는 will-change: opacity, 닫힘은 opacity·transform 만',
   map_first: '타이틀 첫 탭의 오디오 잠금 해제는 지도 그리기와 다른 프레임(requestAnimationFrame 다음)으로 나눔. 지도 노드 10개 미니 그림은 부팅 유휴 시간에 미리 래스터(챕터 페이지는 지금·양옆 페이지만)',
   dpr_cap: '캔버스 DPR 최대 2(DPR 3 화면도 2로 그림, CSS 크기는 그대로)',
+  wide_r3: {
+    board_cache: '넓은 판(카메라 있음) 판 캐시 = 판 전체 1장(12x12 × 56 px × DPR 2 ≈ 1360² px ≈ 7.4 MB). 한 장이 2048x2048(16 MB) 를 넘으면 512 px 타일로 나눠 보이는 타일 ± 1 줄만 만듦. 캐시 층(판·선·미니맵) 합계 ≤ 32 MB',
+    camera: '카메라 이동 = 판·선 캐시를 translate 로만 옮김(다시 그리기 없음). 전체 보기 ↔ 플레이 확대 300 ms 는 scale transform 1번 + 끝난 프레임에 그 배율로 캐시 다시 만들기 1회',
+    dirty: '선·tint 는 바뀐 칸 사각형만 지우고 다시 그림(쌍 전체 다시 그리기 금지). 선 위 표지(5칸마다)·끝점 비트맵은 쌍마다 미리 그림',
+    fx_limit: '색 물결·조각·빛 번짐은 viewport 안 칸만, 동시에 조각 ≤ 48개, 물결 칸 ≤ 화면 안 칸 수. 전체 보기에서는 물결 대신 판 전체 tint 150 ms',
+    minimap: '미니맵 캔버스 1장(칸 × 미니맵 칸 px), 연결·끊김 때 그 쌍 칸만 칠함. 보이는 곳 테두리는 DOM 상자(transform)로 — 캔버스 다시 그리기 없음',
+    text: '판정 이름·% 규칙 그대로(비트맵·값 바뀔 때만). 매 프레임 글자·테두리(stroke) 금지',
+  },
   svg_assets: '에셋 SVG 는 그라디언트·필터·mask 없음(tutorial.mjs 검사: 그라디언트 0). app-icon 만 예외(빌드에서 안 씀)',
 };
 
@@ -531,6 +542,25 @@ function check(L) {
     fits(`${id} 카드 글`, cd.text);
     const cardCell = (cd.art.w / 480) * CARD_CELL; if (cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot < 16) bad(`${id} 그림 카드 속 표지 ${(cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1)} px < 16`);
     table.push({ id, cell: o.cell, mark: o.px.mark, line: o.px.line_w, card_mark: +(cardCell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1) });
+  }
+  // r3 넓은 판: 플레이 칸 ≥ 48(목표 56), 보이는 칸 ≥ 5 x 5, 미니맵 칸 ≥ 3 px·누름 자리 ≥ 48·화면 안·버튼·판정·채움 막대·viewport 와 겹침 0, 전체 보기 칸은 그리기 없음
+  for (const [rk, boards] of Object.entries(L.play_wide)) for (const [bk, o] of Object.entries(boards)) {
+    const id = `넓은 판 ${rk} ${bk}`;
+    if (!o.camera) { if (o.cell < PARAM.cell_min) bad(`${id} 칸 ${o.cell} < 48 인데 카메라 없음`); continue; }
+    if (o.cell < PARAM.cell_min) bad(`${id} 플레이 칸 ${o.cell} < 48`);
+    if (o.visible_cells[0] < PARAM.wide_min_visible || o.visible_cells[1] < PARAM.wide_min_visible) bad(`${id} 보이는 칸 ${o.visible_cells} < ${PARAM.wide_min_visible}`);
+    if (o.camera.modes.overview.draw !== false) bad(`${id} 전체 보기(칸 ${o.fit_cell})에서 그리기 허용`);
+    const mm = o.minimap; if (mm.cell < PARAM.minimap_cell_min) bad(`${id} 미니맵 칸 ${mm.cell} < ${PARAM.minimap_cell_min}`);
+    if (mm.hit.w < 48 || mm.hit.h < 48) bad(`${id} 미니맵 누름 자리 < 48`);
+    if (!inside(o.viewport, o.W, o.H)) bad(`${id} viewport 화면 밖`); if (!inside(mm, o.W, o.H)) bad(`${id} 미니맵 화면 밖`);
+    const others = [...Object.entries(o.buttons), ['fill_bar', o.fill_bar.row], ['viewport', o.viewport], ...Object.entries(o.text_slots).filter(([, s]) => s.shared_with !== 'judge')];
+    for (const [n, b] of others) if (overlap(mm.hit, b, 2)) bad(`${id} 미니맵이 ${n} 와 겹침`);
+    for (const [n, b] of Object.entries(o.buttons)) if (overlap(o.viewport, b, 4)) bad(`${id} viewport 가 버튼 ${n} 와 4 px 안`);
+    if (overlap(o.viewport, o.fill_bar.row, 0)) bad(`${id} viewport 가 채움 막대와 겹침`);
+    for (const [sn, s] of Object.entries(o.text_slots)) if (overlap(o.viewport, s, 0)) bad(`${id} viewport 가 글 자리 ${sn} 와 겹침`);
+    if (o.portrait && overlap(o.viewport, R(o.judge.x_min, o.judge.y, o.judge.x_max - o.judge.x_min, o.judge.h), 0)) bad(`${id} viewport 가 판정 띠와 겹침`);
+    if (o.cell * PARAM.dot_d_of_cell * PARAM.mark_of_dot < 16) bad(`${id} 표지 < 16`);
+    table.push({ id: `wide ${rk} ${bk}`, cell: o.cell, mark: +(o.cell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1), line: +(o.cell * PARAM.line_w_of_cell).toFixed(1), card_mark: `전체 ${o.fit_cell} · 보임 ${o.visible_cells.join('x')} · 미니맵 ${mm.cell}` });
   }
   for (const [rk, m] of Object.entries(L.map)) {
     if (m.node_d < 48) bad(`지도 ${rk} 노드 < 48`);
@@ -687,14 +717,6 @@ function mapMockup(m) {
   });
   s += buttonSVG(m.buttons.settings) + buttonSVG(m.buttons.sound);
   { const pg = m.pager; s += buttonSVG(pg.prev) + buttonSVG(pg.next); const st = ['pathTodo', 'pathDone', 'nodeLocked', 'nodeLocked', 'nodeLocked', 'nodeLocked']; for (let i = 0; i < pg.dots.n; i++) { const r = pg.dots.d / 2 * (i < 2 ? 1 : 0.75); s += `<circle cx="${pg.dots.x + pg.dots.d / 2 + i * pg.dots.pitch}" cy="${pg.cy}" r="${r}" fill="${i === 0 ? C.star : C[st[i]]}"/>`; } }
-@@@END
-@@@FILE layout.mjs
-@@@OLD
-    writeFileSync(join(md, `map-${W}x${H}.svg`), mapMockup(L.map[`${W}x${H}`]));
-@@@NEW
-    writeFileSync(join(md, `map-${W}x${H}.svg`), mapMockup(L.map[`${W}x${H}`]));
-    writeFileSync(join(md, `map-hard-${W}x${H}.svg`), hardMockup(L.map[`${W}x${H}`]));
-    writeFileSync(join(md, `play-wide-${W}x${H}.svg`), wideMockup(L.play_wide[`${W}x${H}`]['12x12']));
   for (let i = 0; i < 10; i++) { const x = m.stars.x + m.stars.w / 2 - 4.5 * m.stars.pitch + i * m.stars.pitch, y = m.stars.y + m.stars.h / 2; s += i < 2 ? `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="${C.star}" stroke="${C.starEdge}" stroke-width="0.12" stroke-linejoin="round"/>` : `<path d="${STAR}" transform="translate(${x} ${y}) scale(${m.stars.star_px / 2})" fill="${C.nodeLocked}" stroke="${C.pathTodo}" stroke-width="0.12"/>`; }
   s += `<text x="${W / 2}" y="${m.title.y + m.title.h * 0.7}" text-anchor="middle" font-size="${m.title.font_px}" font-weight="700" fill="${C.ink}">${STR.map_screen?.ko || ''}</text>`;
   s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">지도 ${W}x${H} · 챕터 2 페이지(점: 1 = 다 깸 별색, 2 = 지금) · 노드 ${m.node_d}px · 1~4 완료, 5 풀다 나감, 6~10 잠김(판 크기 실루엣)</text></svg>`;
@@ -715,7 +737,7 @@ function hardMockup(m) {
   return s;
 }
 function wideMockup(o) {
-  const C = PAL.common, { W, H } = o, vp = o.viewport, c = o.cell;
+  const C = PAL.common, { W, H } = o, vp = o.viewport || o.board, c = o.cell;
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="system-ui, sans-serif">` + bg(W, H, 'hard3');
   s += `<clipPath id="vp"><rect x="${vp.x}" y="${vp.y}" width="${vp.w}" height="${vp.h}" rx="${c * 0.3}"/></clipPath><g clip-path="url(#vp)"><rect x="${vp.x}" y="${vp.y}" width="${vp.w}" height="${vp.h}" fill="${C.board}"/>`;
   const ox = vp.x - c * 2.3, oy = vp.y - c * 1.6; // 카메라 예: 판 (2.3, 1.6) 칸부터 보임
@@ -723,10 +745,10 @@ function wideMockup(o) {
   s += `<polyline points="${ox + 0.5 * c},${oy + 1.5 * c} ${ox + 3.5 * c},${oy + 1.5 * c} ${ox + 3.5 * c},${oy + 3.5 * c}" fill="none" stroke="${PAL.pairs_ext[0].hex}" stroke-width="${c * 0.48}" stroke-linecap="round" stroke-linejoin="round"/></g>`;
   s += `<rect x="${vp.x}" y="${vp.y}" width="${vp.w}" height="${vp.h}" rx="${c * 0.3}" fill="none" stroke="${C.boardEdge}" stroke-width="1.5"/>`;
   const fz = c * 1.2; s += `<rect x="${vp.x}" y="${vp.y}" width="${vp.w}" height="${vp.h}" fill="none" stroke="#F29" stroke-dasharray="4 4" opacity="0.5"/><rect x="${vp.x + fz}" y="${vp.y + fz}" width="${vp.w - 2 * fz}" height="${vp.h - 2 * fz}" fill="none" stroke="#F29" stroke-dasharray="2 6" opacity="0.5"/>`;
-  const mm = o.minimap; s += `<rect x="${mm.x - 2}" y="${mm.y - 2}" width="${mm.w + 4}" height="${mm.h + 4}" rx="4" fill="${C.board}" stroke="${C.boardEdge}"/><rect x="${mm.x}" y="${mm.y}" width="${mm.w}" height="${mm.h}" fill="${C.tile}"/><rect x="${mm.x}" y="${mm.y}" width="${mm.cell * 7}" height="${mm.cell * 4}" fill="${PAL.pairs_ext[0].tint}"/><rect x="${(mm.x + 2.3 * mm.cell).toFixed(1)}" y="${(mm.y + 1.6 * mm.cell).toFixed(1)}" width="${(mm.cell * o.visible_cells[0]).toFixed(1)}" height="${(mm.cell * o.visible_cells[1]).toFixed(1)}" rx="2" fill="none" stroke="${C.ink}" stroke-width="2"/>`;
+  const mm = o.minimap || { x: -999, y: -999, w: 0, h: 0, cell: 0 }; if (o.minimap) s += `<rect x="${mm.x - 2}" y="${mm.y - 2}" width="${mm.w + 4}" height="${mm.h + 4}" rx="4" fill="${C.board}" stroke="${C.boardEdge}"/><rect x="${mm.x}" y="${mm.y}" width="${mm.w}" height="${mm.h}" fill="${C.tile}"/><rect x="${mm.x}" y="${mm.y}" width="${mm.cell * 7}" height="${mm.cell * 4}" fill="${PAL.pairs_ext[0].tint}"/><rect x="${(mm.x + 2.3 * mm.cell).toFixed(1)}" y="${(mm.y + 1.6 * mm.cell).toFixed(1)}" width="${(mm.cell * o.visible_cells[0]).toFixed(1)}" height="${(mm.cell * o.visible_cells[1]).toFixed(1)}" rx="2" fill="none" stroke="${C.ink}" stroke-width="2"/>`;
   for (const b of Object.values(o.buttons)) s += buttonSVG(b);
   const fb = o.fill_bar; s += `<rect x="${fb.bar.x}" y="${fb.bar.y}" width="${fb.bar.w}" height="${fb.bar.h}" rx="${fb.bar.h / 2}" fill="${C.tile}"/><rect x="${fb.bar.x}" y="${fb.bar.y}" width="${Math.round(fb.bar.w * 0.18)}" height="${fb.bar.h}" rx="${fb.bar.h / 2}" fill="${mix(PAL.themes.hard3.top, C.ink, 0.55)}"/>`;
-  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">넓은 판 12x12 ${W}x${H} · 칸 ${c}px(전체 보기 ${o.fit_cell}px) · 보이는 칸 ${o.visible_cells.join('x')} · 분홍 점선 = 따라가기 가장자리 1.2칸 · 위 = 미니맵(검은 테두리 = 보이는 곳)</text></svg>`;
+  s += `<text x="6" y="${H - 4}" font-size="10" fill="${C.inkSoft}">넓은 판 12x12 ${W}x${H} · 칸 ${c}px(전체 보기 ${o.fit_cell}px) · ${o.camera ? '보이는 칸 ' + o.visible_cells.join('x') : '카메라 없음(판 전체가 칸 ≥ 48로 들어감)'} · 분홍 점선 = 따라가기 가장자리 1.2칸 · 위 = 미니맵(검은 테두리 = 보이는 곳)</text></svg>`;
   return s;
 }
 function slotsMockup(o, label) { // 타이틀·보호자·오류: 자리 + 한국어 글
@@ -768,6 +790,8 @@ if (args.includes('--write') || !existsSync(OUT)) {
   for (const [W, H] of RES) {
     writeFileSync(join(md, `play-${W}x${H}.svg`), playMockup(L.play[`${W}x${H}`]['6x6']));
     writeFileSync(join(md, `map-${W}x${H}.svg`), mapMockup(L.map[`${W}x${H}`]));
+    writeFileSync(join(md, `map-hard-${W}x${H}.svg`), hardMockup(L.map[`${W}x${H}`]));
+    writeFileSync(join(md, `play-wide-${W}x${H}.svg`), wideMockup(L.play_wide[`${W}x${H}`]['12x12']));
     writeFileSync(join(md, `result-${W}x${H}.svg`), resultMockup(L.result[`${W}x${H}`]));
     writeFileSync(join(md, `title-${W}x${H}.svg`), slotsMockup(L.title[`${W}x${H}`], '타이틀'));
     writeFileSync(join(md, `guardian-${W}x${H}.svg`), slotsMockup(L.guardian[`${W}x${H}`], '보호자'));

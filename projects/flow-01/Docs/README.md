@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | game-developer | round-3 준비 성능 4차-2 | [K1·K2 기준: 층 증분 갱신·결과 DOM 미리 — 드래그 36~48, 완료 30~40, 판 시작 15~20(미달), 메뉴 전환 ≤ 83 ms](game-developer/2026-11-19-r3-perf4.md) |
+| 2026-11-19 | art-director | round-3 기획 | [넓은 판 카메라·미니맵(칸 ≥ 48), 쌍 16개 색·모양, 어려운 판 문 5개, 보호자 고지 제거, 넓은 판 그리기 규칙](art-director/2026-11-19-r3-plan.md) |
 | 2026-11-19 | lore-writer | round-3 기획 | [보호자 고지 지움(guardian_hold 삭제, settings_title·settings_intro), 큰 그림 5단계 이름·해금 안내·별 meter, 키 126·9-9 PASS](lore-writer/2026-11-19-r3-plan.md) |
 | 2026-11-19 | game-developer | round-3 준비 성능 4차 | [가라앉은 층(움직이지 않는 쌍 비트맵)·캐시: 긴 프레임 7~9개, 전체 1% low 21 미달 — 오디오 컨텍스트 판단 필요](game-developer/2026-11-19-r3-perf4.md) |
 | 2026-11-19 | game-developer | round-2 성능 3차 | [큰 영역 페인트 정리·지도/결과 상시 레이어: 메뉴 전환 ≤ 67 ms, 전체 1% low 18.4 미달 — 남은 긴 프레임 표는 DEV_NOTES](game-developer/2026-11-19-r2-perf3.md) |

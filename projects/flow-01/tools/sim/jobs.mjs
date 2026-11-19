@@ -8,6 +8,9 @@ import { mixSeed } from '../core/rng.mjs';
 import { generate } from '../gen/generate.mjs';
 import { countSolutions } from '../gen/solve.mjs';
 import { makePuzzle } from '../core/board.mjs';
+import { deduceRun, D1, D2 } from './deduce.mjs';
+import { generateBig } from '../gen/generate-big.mjs';
+import { countSolutionsEdge } from '../gen/solve-edge.mjs';
 
 // 숙련 봇 헛 이동 몰림(verify K1 과 같은 규칙): 첫 nsk 회 숙련 봇 헛 이동 비율 < minRate 면 중간 봇, 표본은 헛 이동 ≥ minWaste 또는 20·nsk 회까지
 function wasteOf(L, P, seedOf, nsk, adapt, minWaste) {
@@ -65,6 +68,19 @@ const JOBS = {
     const waste = new Array(L.pairs.length).fill(0); let n = 0, tw = 0;
     while (tw < minWaste && n < maxRuns) { for (let k = 0; k < 500; k++, n++) { const x = solveRun(L, SKILLED, mixSeed(seed, 313, n)); x.colorMoves.forEach((c, i) => { waste[i] += Math.max(0, c - 1); }); } tw = waste.reduce((a, b) => a + b, 0); }
     return { ...out, sk_n: n, sk_waste: tw, sk_conc: tw ? +(Math.max(...waste) / tw).toFixed(3) : 0 };
+  },
+  // round-3: 추론 봇 D1/D2 헛 이동(틀린 찍기) 분포. L 이 없으면 cfg·seed 로 만듦(big = gen-2)
+  deduce({ L, cfg, seed, big, runs, bots = ['D1'], uniqueCheck = false }) {
+    if (!L) { const g = big ? generateBig(cfg, seed) : generate(cfg, seed); if (!g) return { seed, ok: false }; L = g.level; }
+    if (uniqueCheck && countSolutionsEdge(L, { limit: 2, maxNodes: 2e7 }).count !== 1) return { seed, ok: false, why: 'unique' };
+    const out = { seed, ok: true, pairs: L.pairs.length };
+    for (const b of bots) {
+      const P = b === 'D2' ? D2 : D1, w = []; let f = 0;
+      for (let k = 0; k < runs; k++) { const r = deduceRun(L, P, mixSeed(seed, 4242, k)); w.push(r.wrong); if (!r.solved) f++; }
+      const st = moveStats(w);
+      out[b] = { w: +st.cmedian.toFixed(3), p90: st.p90, fail: f };
+    }
+    return out;
   },
   // ext-pick 후보 하나: 아이 봇 runs 회 + 몰림
   pickMeasure({ L, seed, runs, nsk, minRate, minWaste }) {

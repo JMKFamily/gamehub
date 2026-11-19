@@ -46,6 +46,12 @@
   "pager_dot": 12,
   "pager_pitch": 22,
   "chapters": 5,
+  "pages": 6,
+  "wide_cell": 56,
+  "wide_min_visible": 5,
+  "minimap_cell_min": 3,
+  "gate_d": 76,
+  "gate_star": 10,
   "map_node": 64,
   "result_board_of_S": 0.46,
   "small_font": 14,
@@ -59,7 +65,17 @@
    "star": "M0 -0.94 L0.27 -0.312 L0.951 -0.249 L0.437 0.202 L0.588 0.869 L0 0.52 L-0.588 0.869 L-0.437 0.202 L-0.951 -0.249 L-0.27 -0.312 Z",
    "triangle": "M0 -0.90 L0.90 0.66 L-0.90 0.66 Z",
    "moon": "M0.882 0.261 A0.92 0.92 0 1 1 -0.004 -0.92 A0.74 0.74 0 0 0 0.882 0.261 Z",
-   "square": "M-0.58 -0.74 L0.58 -0.74 Q0.74 -0.74 0.74 -0.58 L0.74 0.58 Q0.74 0.74 0.58 0.74 L-0.58 0.74 Q-0.74 0.74 -0.74 0.58 L-0.74 -0.58 Q-0.74 -0.74 -0.58 -0.74 Z"
+   "square": "M-0.58 -0.74 L0.58 -0.74 Q0.74 -0.74 0.74 -0.58 L0.74 0.58 Q0.74 0.74 0.58 0.74 L-0.58 0.74 Q-0.74 0.74 -0.74 0.58 L-0.74 -0.58 Q-0.74 -0.74 -0.58 -0.74 Z",
+   "diamond": "M0 -0.92 L0.78 0 L0 0.92 L-0.78 0 Z",
+   "plus": "M-0.26 -0.86 L0.26 -0.86 L0.26 -0.26 L0.86 -0.26 L0.86 0.26 L0.26 0.26 L0.26 0.86 L-0.26 0.86 L-0.26 0.26 L-0.86 0.26 L-0.86 -0.26 L-0.26 -0.26 Z",
+   "hexagon": "M0.762 0.44 L0 0.88 L-0.762 0.44 L-0.762 -0.44 L0 -0.88 L0.762 -0.44 Z",
+   "drop": "M0 -0.92 C0.34 -0.46 0.70 -0.08 0.70 0.26 A0.70 0.70 0 1 1 -0.70 0.26 C-0.70 -0.08 -0.34 -0.46 0 -0.92 Z",
+   "leaf": "M-0.80 0.80 C-0.84 -0.28 -0.24 -0.86 0.86 -0.86 C0.86 0.22 0.30 0.82 -0.80 0.80 Z",
+   "cloud": "M-0.58 0.56 A0.40 0.40 0 0 1 -0.64 -0.16 A0.46 0.46 0 0 1 0.16 -0.50 A0.42 0.42 0 0 1 0.80 0.04 A0.28 0.28 0 0 1 0.64 0.56 Z",
+   "flower": "M0 -0.28 A0.34 0.34 0 1 1 0.28 0 A0.34 0.34 0 1 1 0 0.28 A0.34 0.34 0 1 1 -0.28 0 A0.34 0.34 0 1 1 0 -0.28 Z",
+   "bolt": "M0.22 -0.92 L-0.62 0.12 L-0.06 0.12 L-0.26 0.92 L0.62 -0.18 L0.06 -0.18 Z",
+   "house": "M0 -0.90 L0.84 -0.14 L0.84 0.80 L-0.84 0.80 L-0.84 -0.14 Z",
+   "hourglass": "M-0.72 -0.86 L0.72 -0.86 L0.12 0 L0.72 0.86 L-0.72 0.86 L-0.12 0 Z"
   },
   "_rule": "표지 반지름 = px.mark/2. fill + 같은 색 stroke(lineWidth = stroke_unit, 단위 좌표), lineJoin round. 색 = common.white."
  },
@@ -3998,6 +4014,5968 @@
    }
   }
  },
+ "play_wide": {
+  "360x640": {
+   "8x8": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     8,
+     8
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 41.38,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 455,
+     "h": 455
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 182,
+     "y": 4,
+     "w": 56,
+     "h": 56,
+     "cell": 7,
+     "hit": {
+      "x": 182,
+      "y": 4,
+      "w": 56,
+      "h": 56
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "9x9": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     9,
+     9
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 36.84,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 511,
+     "h": 511
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 183,
+     "y": 5,
+     "w": 54,
+     "h": 54,
+     "cell": 6,
+     "hit": {
+      "x": 183,
+      "y": 5,
+      "w": 54,
+      "h": 54
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "10x10": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     10,
+     10
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 33.2,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 567,
+     "h": 567
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 185,
+     "y": 7,
+     "w": 50,
+     "h": 50,
+     "cell": 5,
+     "hit": {
+      "x": 185,
+      "y": 7,
+      "w": 50,
+      "h": 50
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x8": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     12,
+     8
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 27.72,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 679,
+     "h": 455
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 168,
+     "y": 4,
+     "w": 84,
+     "h": 56,
+     "cell": 7,
+     "hit": {
+      "x": 168,
+      "y": 4,
+      "w": 84,
+      "h": 56
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "8x12": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     8,
+     12
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 31.85,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 455,
+     "h": 679
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 194,
+     "y": 8,
+     "w": 32,
+     "h": 48,
+     "cell": 4,
+     "hit": {
+      "x": 186,
+      "y": 8,
+      "w": 48,
+      "h": 48
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x12": {
+    "W": 360,
+    "H": 640,
+    "k": 1,
+    "portrait": true,
+    "board_size": [
+     12,
+     12
+    ],
+    "cell": 56,
+    "board": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "grid": {
+     "x": 13.66,
+     "y": 192.66,
+     "cell": 27.72
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 8,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 16,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 156,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 296,
+      "y": 576,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 72,
+     "x1": 348,
+     "cy": 32,
+     "d": 36,
+     "pitch": 44,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 25,
+      "y": 171,
+      "w": 310,
+      "h": 16
+     },
+     "bar": {
+      "x": 25,
+      "y": 176,
+      "w": 270,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 301,
+      "y": 171,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "portrait_band",
+     "y": 95,
+     "h": 70,
+     "w": 126,
+     "x_min": 8,
+     "x_max": 352,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 95,
+      "w": 328,
+      "h": 70,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 397,
+      "w": 360,
+      "h": 243
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 13.3,
+     "dot_d": 20.5,
+     "mark": 9.4,
+     "ring_d": 23.8,
+     "ring_w": 1.4,
+     "tile_inset": 1.4,
+     "tile_r": 6.1,
+     "start_hit_extra": 6.9,
+     "step_hysteresis": 5.5
+    },
+    "card": {
+     "x": 12,
+     "y": 224,
+     "w": 336,
+     "h": 270,
+     "art": {
+      "x": 12,
+      "y": 224,
+      "w": 336,
+      "h": 224,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 22,
+      "y": 448,
+      "w": 316,
+      "h": 36,
+      "font_px": 20,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 27.72,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 679,
+     "h": 679
+    },
+    "viewport": {
+     "x": 12,
+     "y": 191,
+     "w": 336,
+     "h": 377
+    },
+    "visible_cells": [
+     6,
+     6.7
+    ],
+    "minimap": {
+     "x": 186,
+     "y": 8,
+     "w": 48,
+     "h": 48,
+     "cell": 4,
+     "hit": {
+      "x": 186,
+      "y": 8,
+      "w": 48,
+      "h": 48
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 27.72,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   }
+  },
+  "412x915": {
+   "8x8": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     8,
+     8
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 47.78,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 520,
+     "h": 520
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8
+    ],
+    "minimap": {
+     "x": 208,
+     "y": 5,
+     "w": 64,
+     "h": 64,
+     "cell": 8,
+     "hit": {
+      "x": 208,
+      "y": 5,
+      "w": 64,
+      "h": 64
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "9x9": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     9,
+     9
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 42.54,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 584,
+     "h": 584
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8.2
+    ],
+    "minimap": {
+     "x": 208,
+     "y": 5,
+     "w": 63,
+     "h": 63,
+     "cell": 7,
+     "hit": {
+      "x": 208,
+      "y": 5,
+      "w": 63,
+      "h": 63
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "10x10": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     10,
+     10
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 38.34,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 648,
+     "h": 648
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8.2
+    ],
+    "minimap": {
+     "x": 210,
+     "y": 7,
+     "w": 60,
+     "h": 60,
+     "cell": 6,
+     "hit": {
+      "x": 210,
+      "y": 7,
+      "w": 60,
+      "h": 60
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x8": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     12,
+     8
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 32.01,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 776,
+     "h": 520
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8
+    ],
+    "minimap": {
+     "x": 192,
+     "y": 5,
+     "w": 96,
+     "h": 64,
+     "cell": 8,
+     "hit": {
+      "x": 192,
+      "y": 5,
+      "w": 96,
+      "h": 64
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "8x12": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     8,
+     12
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 47.78,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 520,
+     "h": 776
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8.2
+    ],
+    "minimap": {
+     "x": 220,
+     "y": 7,
+     "w": 40,
+     "h": 60,
+     "cell": 5,
+     "hit": {
+      "x": 216,
+      "y": 7,
+      "w": 48,
+      "h": 60
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x12": {
+    "W": 412,
+    "H": 915,
+    "k": 1.1444444444444444,
+    "portrait": true,
+    "board_size": [
+     12,
+     12
+    ],
+    "cell": 64,
+    "board": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "grid": {
+     "x": 13.92,
+     "y": 308.92,
+     "cell": 32.01
+    },
+    "buttons": {
+     "map": {
+      "x": 14,
+      "y": 9,
+      "w": 55,
+      "h": 55,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 179,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 339,
+      "y": 842,
+      "w": 55,
+      "h": 55,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "row",
+     "x0": 81,
+     "x1": 398,
+     "cy": 37,
+     "d": 41,
+     "pitch": 50,
+     "align": "center",
+     "_rule": "쌍 수 n 개를 [x0,x1] 가운데 정렬, 간격 pitch",
+     "replaced_by": "minimap"
+    },
+    "fill_bar": {
+     "row": {
+      "x": 28,
+      "y": 284,
+      "w": 356,
+      "h": 19
+     },
+     "bar": {
+      "x": 28,
+      "y": 290,
+      "w": 312,
+      "h": 7,
+      "radius": 3.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 346,
+      "y": 284,
+      "w": 38,
+      "h": 19,
+      "font_px": 15,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 26,
+     "rule": "portrait_band",
+     "y": 199,
+     "h": 79,
+     "w": 140,
+     "x_min": 8,
+     "x_max": 404,
+     "name_px": [
+      43,
+      38,
+      32
+     ],
+     "_rule": "판정 띠 = 채움 막대 줄 바로 위. 가로 가운데 = 연결된 짝 점의 x 를 [x_min + w/2, x_max − w/2]로 자름. 판 안·선·점·손가락 위에 그리지 않음(손은 아래에서 옴)."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 16,
+      "y": 199,
+      "w": 380,
+      "h": 79,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge",
+      "coexists_with_card": false
+     }
+    },
+    "thumb": {
+     "zone": {
+      "x": 0,
+      "y": 567,
+      "w": 412,
+      "h": 348
+     },
+     "_rule": "세로: 손가락·손바닥이 누른 점의 아래쪽을 가림. 판정 이름·쌍 점 줄·튜토리얼 글은 위쪽에, 빈칸 신호는 손을 뗀 뒤."
+    },
+    "px": {
+     "line_w": 15.4,
+     "dot_d": 23.7,
+     "mark": 10.9,
+     "ring_d": 27.5,
+     "ring_w": 1.6,
+     "tile_inset": 1.6,
+     "tile_r": 7,
+     "start_hit_extra": 8,
+     "step_hysteresis": 6.4
+    },
+    "card": {
+     "x": 12,
+     "y": 346,
+     "w": 388,
+     "h": 311,
+     "art": {
+      "x": 12,
+      "y": 346,
+      "w": 388,
+      "h": 259,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 23,
+      "y": 604,
+      "w": 366,
+      "h": 41,
+      "font_px": 23,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 23,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 32.01,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 776,
+     "h": 776
+    },
+    "viewport": {
+     "x": 12,
+     "y": 307,
+     "w": 388,
+     "h": 527
+    },
+    "visible_cells": [
+     6.1,
+     8.2
+    ],
+    "minimap": {
+     "x": 210,
+     "y": 7,
+     "w": 60,
+     "h": 60,
+     "cell": 5,
+     "hit": {
+      "x": 210,
+      "y": 7,
+      "w": 60,
+      "h": 60
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 32.01,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 64,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   }
+  },
+  "640x360": {
+   "8x8": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     8,
+     8
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 38.92,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 455,
+     "h": 455
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 499,
+     "y": 12,
+     "w": 120,
+     "h": 120,
+     "cell": 15,
+     "hit": {
+      "x": 499,
+      "y": 12,
+      "w": 120,
+      "h": 120
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "9x9": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     9,
+     9
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 34.65,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 511,
+     "h": 511
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 501,
+     "y": 14,
+     "w": 117,
+     "h": 117,
+     "cell": 13,
+     "hit": {
+      "x": 501,
+      "y": 14,
+      "w": 117,
+      "h": 117
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "10x10": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     10,
+     10
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 31.23,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 567,
+     "h": 567
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 499,
+     "y": 12,
+     "w": 120,
+     "h": 120,
+     "cell": 12,
+     "hit": {
+      "x": 499,
+      "y": 12,
+      "w": 120,
+      "h": 120
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x8": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     12,
+     8
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 28.38,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 679,
+     "h": 455
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 487,
+     "y": 24,
+     "w": 144,
+     "h": 96,
+     "cell": 12,
+     "hit": {
+      "x": 487,
+      "y": 24,
+      "w": 144,
+      "h": 96
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "8x12": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     8,
+     12
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 26.07,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 455,
+     "h": 679
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 519,
+     "y": 12,
+     "w": 80,
+     "h": 120,
+     "cell": 10,
+     "hit": {
+      "x": 519,
+      "y": 12,
+      "w": 80,
+      "h": 120
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   },
+   "12x12": {
+    "W": 640,
+    "H": 360,
+    "k": 1,
+    "portrait": false,
+    "board_size": [
+     12,
+     12
+    ],
+    "cell": 56,
+    "board": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "grid": {
+     "x": 163.56,
+     "y": 33.56,
+     "cell": 26.07
+    },
+    "fill_bar": {
+     "row": {
+      "x": 175,
+      "y": 12,
+      "w": 290,
+      "h": 16
+     },
+     "bar": {
+      "x": 175,
+      "y": 17,
+      "w": 250,
+      "h": 6,
+      "radius": 3,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 431,
+      "y": 12,
+      "w": 34,
+      "h": 16,
+      "font_px": 13,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     },
+     "right": {
+      "x": 478,
+      "y": 0,
+      "w": 162,
+      "h": 360
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 12,
+      "y": 12,
+      "w": 48,
+      "h": 48,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 12,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 580,
+      "y": 228,
+      "w": 48,
+      "h": 48,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 580,
+      "y": 300,
+      "w": 48,
+      "h": 48,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 486,
+     "x1": 632,
+     "y0": 30,
+     "d": 36,
+     "pitch": 44,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬.",
+     "replaced_by": "minimap"
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 23,
+     "rule": "landscape_pillar",
+     "h": 70,
+     "w": 126,
+     "name_px": [
+      38,
+      33,
+      28
+     ],
+     "left": {
+      "cx": 81,
+      "y_min": 68,
+      "y_max": 222
+     },
+     "right": {
+      "cx": 559,
+      "y_min": 100,
+      "y_max": 150
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 68,
+      "w": 146,
+      "h": 224,
+      "font_px": 18,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      },
+      {
+       "x": 499,
+       "y": 198,
+       "w": 141,
+       "h": 162
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 12.5,
+     "dot_d": 19.3,
+     "mark": 8.9,
+     "ring_d": 22.4,
+     "ring_w": 1.3,
+     "tile_inset": 1.3,
+     "tile_r": 5.7,
+     "start_hit_extra": 6.5,
+     "step_hysteresis": 5.2
+    },
+    "card": {
+     "x": 76,
+     "y": 32,
+     "w": 408,
+     "h": 316,
+     "art": {
+      "x": 76,
+      "y": 32,
+      "w": 408,
+      "h": 272,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 86,
+      "y": 304,
+      "w": 388,
+      "h": 34,
+      "font_px": 18,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 20,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 26.07,
+    "viewport_rule": "판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)",
+    "board_full": {
+     "w": 679,
+     "h": 679
+    },
+    "viewport": {
+     "x": 162,
+     "y": 32,
+     "w": 316,
+     "h": 316
+    },
+    "visible_cells": [
+     5.6,
+     5.6
+    ],
+    "minimap": {
+     "x": 499,
+     "y": 12,
+     "w": 120,
+     "h": 120,
+     "cell": 10,
+     "hit": {
+      "x": 499,
+      "y": 12,
+      "w": 120,
+      "h": 120
+     },
+     "draws": "칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리",
+     "cache": "미니맵 캔버스 1장, 바뀐 칸만 다시 칠함",
+     "tap": "전체 보기 켜기/끄기",
+     "drag": "보이는 곳 옮기기(손가락 = 테두리 가운데)",
+     "_rule": "쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임."
+    },
+    "camera": {
+     "modes": {
+      "overview": {
+       "cell": 26.07,
+       "draw": false,
+       "_rule": "판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)"
+      },
+      "play": {
+       "cell": 56,
+       "draw": true
+      }
+     },
+     "start": "overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play",
+     "follow": {
+      "edge_zone_of_cell": 1.2,
+      "dwell_ms": 200,
+      "max_cells_per_s": 8,
+      "ease": "out",
+      "_rule": "드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤"
+     },
+     "jump": {
+      "ms": 300,
+      "when": [
+       "되돌리기·처음부터·도움 손가락",
+       "미니맵 누름",
+       "overview 에서 누름"
+      ],
+      "_rule": "바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감"
+     },
+     "clamp": "판 바깥으로 0.5칸 넘게 나가지 않음",
+     "gesture": "두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 \"여기서 시작\" 안내(이동 아님)",
+     "render": "판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음"
+    }
+   }
+  },
+  "1280x720": {
+   "8x8": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     8,
+     8
+    ],
+    "cell": 82.14,
+    "board": {
+     "x": 307,
+     "y": 41,
+     "w": 667,
+     "h": 667
+    },
+    "grid": {
+     "x": 311.43,
+     "y": 45.93,
+     "cell": 82.14
+    },
+    "fill_bar": {
+     "row": {
+      "x": 334,
+      "y": 12,
+      "w": 613,
+      "h": 25
+     },
+     "bar": {
+      "x": 334,
+      "y": 20,
+      "w": 558,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 898,
+      "y": 12,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     },
+     "right": {
+      "x": 974,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 981.5,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 153,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1127,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 291,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 39.4,
+     "dot_d": 60.8,
+     "mark": 28,
+     "ring_d": 70.6,
+     "ring_w": 4.1,
+     "tile_inset": 4.1,
+     "tile_r": 18.1,
+     "start_hit_extra": 20.5,
+     "step_hysteresis": 16.4
+    },
+    "card": {
+     "x": 260,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 260,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 275,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 82.14,
+    "camera": null
+   },
+   "9x9": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     9,
+     9
+    ],
+    "cell": 73.14,
+    "board": {
+     "x": 307,
+     "y": 41,
+     "w": 667,
+     "h": 667
+    },
+    "grid": {
+     "x": 310.89,
+     "y": 45.39,
+     "cell": 73.14
+    },
+    "fill_bar": {
+     "row": {
+      "x": 334,
+      "y": 12,
+      "w": 613,
+      "h": 25
+     },
+     "bar": {
+      "x": 334,
+      "y": 20,
+      "w": 558,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 898,
+      "y": 12,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     },
+     "right": {
+      "x": 974,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 981.5,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 153,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1127,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 291,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 35.1,
+     "dot_d": 54.1,
+     "mark": 24.9,
+     "ring_d": 62.9,
+     "ring_w": 3.7,
+     "tile_inset": 3.7,
+     "tile_r": 16.1,
+     "start_hit_extra": 18.3,
+     "step_hysteresis": 14.6
+    },
+    "card": {
+     "x": 260,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 260,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 275,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 73.14,
+    "camera": null
+   },
+   "10x10": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     10,
+     10
+    ],
+    "cell": 65.91,
+    "board": {
+     "x": 306,
+     "y": 41,
+     "w": 667,
+     "h": 667
+    },
+    "grid": {
+     "x": 310.45,
+     "y": 44.95,
+     "cell": 65.91
+    },
+    "fill_bar": {
+     "row": {
+      "x": 333,
+      "y": 12,
+      "w": 613,
+      "h": 25
+     },
+     "bar": {
+      "x": 333,
+      "y": 20,
+      "w": 558,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 898,
+      "y": 12,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 306,
+      "h": 720
+     },
+     "right": {
+      "x": 974,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 981.5,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 153,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1127,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 290,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 31.6,
+     "dot_d": 48.8,
+     "mark": 22.4,
+     "ring_d": 56.7,
+     "ring_w": 3.3,
+     "tile_inset": 3.3,
+     "tile_r": 14.5,
+     "start_hit_extra": 16.5,
+     "step_hysteresis": 13.2
+    },
+    "card": {
+     "x": 259,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 259,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 274,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 65.91,
+    "camera": null
+   },
+   "12x8": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     12,
+     8
+    ],
+    "cell": 73.1,
+    "board": {
+     "x": 197,
+     "y": 78,
+     "w": 886,
+     "h": 594
+    },
+    "grid": {
+     "x": 201.39,
+     "y": 82.09,
+     "cell": 73.1
+    },
+    "fill_bar": {
+     "row": {
+      "x": 232,
+      "y": 49,
+      "w": 816,
+      "h": 25
+     },
+     "bar": {
+      "x": 232,
+      "y": 57,
+      "w": 761,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 999,
+      "y": 49,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 197,
+      "h": 720
+     },
+     "right": {
+      "x": 1083,
+      "y": 0,
+      "w": 197,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 1091,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 99,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1182,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 181,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 35.1,
+     "dot_d": 54.1,
+     "mark": 24.9,
+     "ring_d": 62.9,
+     "ring_w": 3.7,
+     "tile_inset": 3.7,
+     "tile_r": 16.1,
+     "start_hit_extra": 18.3,
+     "step_hysteresis": 14.6
+    },
+    "card": {
+     "x": 280,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 280,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 295,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 73.1,
+    "camera": null
+   },
+   "8x12": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     8,
+     12
+    ],
+    "cell": 55.03,
+    "board": {
+     "x": 417,
+     "y": 41,
+     "w": 447,
+     "h": 667
+    },
+    "grid": {
+     "x": 419.87,
+     "y": 44.3,
+     "cell": 55.03
+    },
+    "fill_bar": {
+     "row": {
+      "x": 435,
+      "y": 12,
+      "w": 411,
+      "h": 25
+     },
+     "bar": {
+      "x": 435,
+      "y": 20,
+      "w": 356,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 796,
+      "y": 12,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 417,
+      "h": 720
+     },
+     "right": {
+      "x": 863,
+      "y": 0,
+      "w": 417,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 871.4339933993399,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 208,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1072,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 401,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 26.4,
+     "dot_d": 40.7,
+     "mark": 18.7,
+     "ring_d": 47.3,
+     "ring_w": 2.8,
+     "tile_inset": 2.8,
+     "tile_r": 12.1,
+     "start_hit_extra": 13.8,
+     "step_hysteresis": 11
+    },
+    "card": {
+     "x": 150,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 150,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 165,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 55.03,
+    "camera": null
+   },
+   "12x12": {
+    "W": 1280,
+    "H": 720,
+    "k": 1.5,
+    "portrait": false,
+    "board_size": [
+     12,
+     12
+    ],
+    "cell": 55.03,
+    "board": {
+     "x": 307,
+     "y": 41,
+     "w": 667,
+     "h": 667
+    },
+    "grid": {
+     "x": 309.8,
+     "y": 44.3,
+     "cell": 55.03
+    },
+    "fill_bar": {
+     "row": {
+      "x": 334,
+      "y": 12,
+      "w": 613,
+      "h": 25
+     },
+     "bar": {
+      "x": 334,
+      "y": 20,
+      "w": 558,
+      "h": 9,
+      "radius": 4.5,
+      "track": "common.tile",
+      "fill": "mix(지금 판 바탕 top, common.ink, 0.55) — 쌍 색 아님"
+     },
+     "pct": {
+      "x": 898,
+      "y": 12,
+      "w": 49,
+      "h": 25,
+      "font_px": 20,
+      "color": "inkSoft",
+      "align": "right"
+     },
+     "counts": "connected_pairs_cells_only",
+     "anim_ms": 200,
+     "ease": "out",
+     "_rule": "판 채움 = 연결된 쌍이 칠한 칸 / 판 칸(G3 그대로). 막대 길이가 주 신호, % 는 작게. 늘 보임, 연결·끊김 때 200 ms 로 늘고 줆. 판 완료 때 100 % 에서 150 ms 밝아졌다 그대로(번쩍임 없음, 밝기 변화 ≤ 20 %). % 글자는 값이 바뀔 때만 다시 그림. aria-hidden."
+    },
+    "pillars": {
+     "left": {
+      "x": 0,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     },
+     "right": {
+      "x": 974,
+      "y": 0,
+      "w": 307,
+      "h": 720
+     }
+    },
+    "buttons": {
+     "map": {
+      "x": 18,
+      "y": 18,
+      "w": 72,
+      "h": 72,
+      "icon": "map",
+      "key": "btn_map"
+     },
+     "undo": {
+      "x": 18,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "undo"
+     },
+     "help": {
+      "x": 1190,
+      "y": 522,
+      "w": 72,
+      "h": 72,
+      "icon": "help"
+     },
+     "restart": {
+      "x": 1190,
+      "y": 630,
+      "w": 72,
+      "h": 72,
+      "icon": "restart"
+     }
+    },
+    "pair_row": {
+     "kind": "grid3",
+     "x0": 981.5,
+     "x1": 1272,
+     "y0": 40,
+     "d": 43,
+     "pitch": 53,
+     "cols": 3,
+     "_rule": "오른쪽 기둥 위: 한 줄 3개, 넘치면 다음 줄(최대 2줄). 기둥 가운데 정렬."
+    },
+    "judge": {
+     "pct": "fill_bar 로 옮김(r2 H3)",
+     "g1_star_px": 34,
+     "rule": "landscape_pillar",
+     "h": 105,
+     "w": 181,
+     "name_px": [
+      57,
+      50,
+      42
+     ],
+     "left": {
+      "cx": 153,
+      "y_min": 98,
+      "y_max": 517
+     },
+     "right": {
+      "cx": 1127,
+      "y_min": 123,
+      "y_max": 409
+     },
+     "side_rule": "2x + 1 < cols → left, 아니면 right",
+     "_rule": "판정 자리 = 방금 연결된 짝 점(손을 뗀 쪽 점)의 열 x 로 기둥을 고름: 2x + 1 < cols 면 왼쪽 기둥, 아니면 오른쪽 기둥. 폭이 홀수인 판(폭 5)의 가운데 열 x = 2 는 오른쪽 기둥(L3~L6 가운데 열 점, 검사 J1). 세로 가운데 = 그 점의 y 를 [y_min + h/2, y_max + h/2]로 자름. 판 위에 그리지 않음."
+    },
+    "text_slots": {
+     "board_text": {
+      "x": 8,
+      "y": 98,
+      "w": 291,
+      "h": 524,
+      "font_px": 27,
+      "max_lines": 4,
+      "align": "center",
+      "used_by": [
+       "tut_drag",
+       "gap_left"
+      ],
+      "shared_with": "judge.left",
+      "coexists_with_card": false,
+      "_rule": "왼쪽 기둥 가운데. 판정 왼쪽 자리와 시간으로 나뉨(튜토리얼 글 = 첫 연결 전, 빈칸 글 = 3번째 숨 쉬기에만). 판정 이름이 오면 gap_left 글은 그 프레임에 숨김."
+     }
+    },
+    "thumb": {
+     "zones": [
+      {
+       "x": 0,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      },
+      {
+       "x": 998,
+       "y": 396,
+       "w": 282,
+       "h": 324
+      }
+     ],
+     "_rule": "가로: 두 엄지가 아래 양 모서리에서 들어옴. 버튼은 기둥 아래(엄지 닿는 곳), 판정 자리는 기둥 가운데 위쪽."
+    },
+    "px": {
+     "line_w": 26.4,
+     "dot_d": 40.7,
+     "mark": 18.7,
+     "ring_d": 47.3,
+     "ring_w": 2.8,
+     "tile_inset": 2.8,
+     "tile_r": 12.1,
+     "start_hit_extra": 13.8,
+     "step_hysteresis": 11
+    },
+    "card": {
+     "x": 260,
+     "y": 102,
+     "w": 720,
+     "h": 546,
+     "art": {
+      "x": 260,
+      "y": 102,
+      "w": 720,
+      "h": 480,
+      "svg": "tutorial/card-fill.svg | card-hole.svg (480x320, 비율 그대로 꽉 채움)"
+     },
+     "text": {
+      "x": 275,
+      "y": 582,
+      "w": 690,
+      "h": 51,
+      "font_px": 27,
+      "max_lines": 2,
+      "align": "center",
+      "used_by": [
+       "card_fill",
+       "card_hole"
+      ]
+     },
+     "radius": 30,
+     "bg": "그 레벨 바탕 top(= 그림 바탕, 이음매 없음)",
+     "edge": "common.boardEdge 1.5 px + 그림자 투명도 ≤ 0.10 흐림 1개(미리 그린 상자, 매 프레임 그림자 다시 계산 금지)",
+     "auto_close_ms": 6000,
+     "auto_close_source": "balance.json auto_close_ms(원본)",
+     "close_ms": 200,
+     "input_through_on_close": true,
+     "_rule": "그림 카드(새 요소 소개): 판 가운데 위에 뜸. 설명 글은 카드 안 아래 띠(r2 S3 — 판 밖 board_text 를 쓰지 않음). 누르거나 balance.json auto_close_ms(6 s) 뒤 닫힘(r2 S29). 닫히기 시작한 프레임부터 판 누름은 판으로 감(S8). 카드 그림은 부팅 때 <img>(Blob URL) + decode() 로 미리 래스터(r2 성능)."
+    },
+    "wide": true,
+    "fit_cell": 55.03,
+    "camera": null
+   }
+  }
+ },
  "map": {
   "360x640": {
    "W": 360,
@@ -4049,22 +10027,24 @@
    "pager": {
     "cy": 540,
     "dots": {
-     "x": 130,
+     "x": 119,
      "y": 534,
-     "w": 100,
+     "w": 122,
      "h": 12,
-     "n": 5,
+     "n": 6,
      "d": 12,
      "pitch": 22,
      "hit": {
-      "x": 124,
+      "x": 113,
       "y": 516,
-      "w": 112,
+      "w": 134,
       "h": 48
-     }
+     },
+     "last_is_hard": true,
+     "hard_dot": "r3: 6번째 점 = 작은 별 모양(star 면, 첫 문이 열리기 전에는 nodeLocked 면)"
     },
     "prev": {
-     "x": 68,
+     "x": 57,
      "y": 516,
      "w": 48,
      "h": 48,
@@ -4072,7 +10052,7 @@
      "key": "btn_page_prev"
     },
     "next": {
-     "x": 244,
+     "x": 255,
      "y": 516,
      "w": 48,
      "h": 48,
@@ -4128,8 +10108,7 @@
      "h": 48,
      "icon": "settings",
      "key": "btn_settings",
-     "hold_ms": 1500,
-     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
+     "_rule": "r3 규약: 설정 = 일반 버튼(한 번 누르면 설정 화면). 길게 누르기·\"어른은 …\" 안내 글 없음."
     },
     "sound": {
      "x": 12,
@@ -4141,21 +10120,59 @@
      "_rule": "켬/끔, aria-pressed"
     }
    },
-   "text_slots": {
-    "guardian_hold": {
-     "x": 12,
-     "y": 580,
-     "w": 280,
-     "h": 48,
-     "font_px": 14,
-     "max_lines": 2,
-     "align": "right",
-     "used_by": [
-      "guardian_hold"
+   "text_slots": {},
+   "_r3": "보호자 안내 글 자리(guardian_hold) 제거 — 규약(옵션에 어른 도움 고지 없음)",
+   "hard": {
+    "gates": [
+     [
+      115,
+      143
      ],
-     "color": "inkSoft",
-     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
-    }
+     [
+      245,
+      221
+     ],
+     [
+      115,
+      298
+     ],
+     [
+      245,
+      376
+     ],
+     [
+      115,
+      453
+     ]
+    ],
+    "gate_d": 76,
+    "ring": {
+     "r": 51,
+     "star_px": 10,
+     "n": 10,
+     "start_deg": -90
+    },
+    "title_key": "hard_title",
+    "unlock_every_stars": 10,
+    "states": {
+     "locked": "옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음",
+     "open": "흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)",
+     "cleared": "열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)"
+    },
+    "unlock_motion": {
+     "star_fill_ms": 60,
+     "star_pop": [
+      0,
+      1.25,
+      1
+     ],
+     "gate_morph_ms": 320,
+     "sound": "node_open",
+     "haptic": "star",
+     "when": "누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음",
+     "reduced": "별 칸·문 바로 바뀜"
+    },
+    "_rule": "지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움)."
    },
    "path": {
     "w": 10,
@@ -4212,22 +10229,24 @@
    "pager": {
     "cy": 801,
     "dots": {
-     "x": 149,
+     "x": 137,
      "y": 794,
-     "w": 114,
+     "w": 139,
      "h": 14,
-     "n": 5,
+     "n": 6,
      "d": 14,
      "pitch": 25,
      "hit": {
-      "x": 143,
+      "x": 131,
       "y": 773,
-      "w": 126,
+      "w": 151,
       "h": 55
-     }
+     },
+     "last_is_hard": true,
+     "hard_dot": "r3: 6번째 점 = 작은 별 모양(star 면, 첫 문이 열리기 전에는 nodeLocked 면)"
     },
     "prev": {
-     "x": 80,
+     "x": 68,
      "y": 773,
      "w": 55,
      "h": 55,
@@ -4235,7 +10254,7 @@
      "key": "btn_page_prev"
     },
     "next": {
-     "x": 277,
+     "x": 290,
      "y": 773,
      "w": 55,
      "h": 55,
@@ -4291,8 +10310,7 @@
      "h": 55,
      "icon": "settings",
      "key": "btn_settings",
-     "hold_ms": 1500,
-     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
+     "_rule": "r3 규약: 설정 = 일반 버튼(한 번 누르면 설정 화면). 길게 누르기·\"어른은 …\" 안내 글 없음."
     },
     "sound": {
      "x": 14,
@@ -4304,21 +10322,59 @@
      "_rule": "켬/끔, aria-pressed"
     }
    },
-   "text_slots": {
-    "guardian_hold": {
-     "x": 14,
-     "y": 846,
-     "w": 321,
-     "h": 55,
-     "font_px": 16,
-     "max_lines": 2,
-     "align": "right",
-     "used_by": [
-      "guardian_hold"
+   "text_slots": {},
+   "_r3": "보호자 안내 글 자리(guardian_hold) 제거 — 규약(옵션에 어른 도움 고지 없음)",
+   "hard": {
+    "gates": [
+     [
+      132,
+      160
      ],
-     "color": "inkSoft",
-     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
-    }
+     [
+      280,
+      296
+     ],
+     [
+      132,
+      432
+     ],
+     [
+      280,
+      568
+     ],
+     [
+      132,
+      704
+     ]
+    ],
+    "gate_d": 87,
+    "ring": {
+     "r": 57,
+     "star_px": 11,
+     "n": 10,
+     "start_deg": -90
+    },
+    "title_key": "hard_title",
+    "unlock_every_stars": 10,
+    "states": {
+     "locked": "옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음",
+     "open": "흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)",
+     "cleared": "열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)"
+    },
+    "unlock_motion": {
+     "star_fill_ms": 60,
+     "star_pop": [
+      0,
+      1.25,
+      1
+     ],
+     "gate_morph_ms": 320,
+     "sound": "node_open",
+     "haptic": "star",
+     "when": "누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음",
+     "reduced": "별 칸·문 바로 바뀜"
+    },
+    "_rule": "지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움)."
    },
    "path": {
     "w": 11,
@@ -4375,22 +10431,24 @@
    "pager": {
     "cy": 260,
     "dots": {
-     "x": 270,
+     "x": 259,
      "y": 254,
-     "w": 100,
+     "w": 122,
      "h": 12,
-     "n": 5,
+     "n": 6,
      "d": 12,
      "pitch": 22,
      "hit": {
-      "x": 264,
+      "x": 253,
       "y": 236,
-      "w": 112,
+      "w": 134,
       "h": 48
-     }
+     },
+     "last_is_hard": true,
+     "hard_dot": "r3: 6번째 점 = 작은 별 모양(star 면, 첫 문이 열리기 전에는 nodeLocked 면)"
     },
     "prev": {
-     "x": 208,
+     "x": 197,
      "y": 236,
      "w": 48,
      "h": 48,
@@ -4398,7 +10456,7 @@
      "key": "btn_page_prev"
     },
     "next": {
-     "x": 384,
+     "x": 395,
      "y": 236,
      "w": 48,
      "h": 48,
@@ -4454,8 +10512,7 @@
      "h": 48,
      "icon": "settings",
      "key": "btn_settings",
-     "hold_ms": 1500,
-     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
+     "_rule": "r3 규약: 설정 = 일반 버튼(한 번 누르면 설정 화면). 길게 누르기·\"어른은 …\" 안내 글 없음."
     },
     "sound": {
      "x": 12,
@@ -4467,21 +10524,59 @@
      "_rule": "켬/끔, aria-pressed"
     }
    },
-   "text_slots": {
-    "guardian_hold": {
-     "x": 12,
-     "y": 300,
-     "w": 560,
-     "h": 48,
-     "font_px": 14,
-     "max_lines": 2,
-     "align": "right",
-     "used_by": [
-      "guardian_hold"
+   "text_slots": {},
+   "_r3": "보호자 안내 글 자리(guardian_hold) 제거 — 규약(옵션에 어른 도움 고지 없음)",
+   "hard": {
+    "gates": [
+     [
+      67,
+      145
      ],
-     "color": "inkSoft",
-     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
-    }
+     [
+      194,
+      160
+     ],
+     [
+      320,
+      145
+     ],
+     [
+      447,
+      160
+     ],
+     [
+      573,
+      145
+     ]
+    ],
+    "gate_d": 76,
+    "ring": {
+     "r": 51,
+     "star_px": 10,
+     "n": 10,
+     "start_deg": -90
+    },
+    "title_key": "hard_title",
+    "unlock_every_stars": 10,
+    "states": {
+     "locked": "옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음",
+     "open": "흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)",
+     "cleared": "열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)"
+    },
+    "unlock_motion": {
+     "star_fill_ms": 60,
+     "star_pop": [
+      0,
+      1.25,
+      1
+     ],
+     "gate_morph_ms": 320,
+     "sound": "node_open",
+     "haptic": "star",
+     "when": "누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음",
+     "reduced": "별 칸·문 바로 바뀜"
+    },
+    "_rule": "지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움)."
    },
    "path": {
     "w": 10,
@@ -4538,22 +10633,24 @@
    "pager": {
     "cy": 572,
     "dots": {
-     "x": 565,
+     "x": 549,
      "y": 563,
-     "w": 150,
+     "w": 183,
      "h": 18,
-     "n": 5,
+     "n": 6,
      "d": 18,
      "pitch": 33,
      "hit": {
-      "x": 559,
+      "x": 543,
       "y": 536,
-      "w": 162,
+      "w": 195,
       "h": 72
-     }
+     },
+     "last_is_hard": true,
+     "hard_dot": "r3: 6번째 점 = 작은 별 모양(star 면, 첫 문이 열리기 전에는 nodeLocked 면)"
     },
     "prev": {
-     "x": 479,
+     "x": 463,
      "y": 536,
      "w": 72,
      "h": 72,
@@ -4561,7 +10658,7 @@
      "key": "btn_page_prev"
     },
     "next": {
-     "x": 729,
+     "x": 746,
      "y": 536,
      "w": 72,
      "h": 72,
@@ -4617,8 +10714,7 @@
      "h": 72,
      "icon": "settings",
      "key": "btn_settings",
-     "hold_ms": 1500,
-     "_rule": "보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)"
+     "_rule": "r3 규약: 설정 = 일반 버튼(한 번 누르면 설정 화면). 길게 누르기·\"어른은 …\" 안내 글 없음."
     },
     "sound": {
      "x": 18,
@@ -4630,21 +10726,59 @@
      "_rule": "켬/끔, aria-pressed"
     }
    },
-   "text_slots": {
-    "guardian_hold": {
-     "x": 18,
-     "y": 630,
-     "w": 1164,
-     "h": 72,
-     "font_px": 21,
-     "max_lines": 2,
-     "align": "right",
-     "used_by": [
-      "guardian_hold"
+   "text_slots": {},
+   "_r3": "보호자 안내 글 자리(guardian_hold) 제거 — 규약(옵션에 어른 도움 고지 없음)",
+   "hard": {
+    "gates": [
+     [
+      99,
+      262
      ],
-     "color": "inkSoft",
-     "_rule": "톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게)."
-    }
+     [
+      370,
+      383
+     ],
+     [
+      640,
+      262
+     ],
+     [
+      911,
+      383
+     ],
+     [
+      1181,
+      262
+     ]
+    ],
+    "gate_d": 114,
+    "ring": {
+     "r": 75,
+     "star_px": 15,
+     "n": 10,
+     "start_deg": -90
+    },
+    "title_key": "hard_title",
+    "unlock_every_stars": 10,
+    "states": {
+     "locked": "옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음",
+     "open": "흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)",
+     "cleared": "열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)"
+    },
+    "unlock_motion": {
+     "star_fill_ms": 60,
+     "star_pop": [
+      0,
+      1.25,
+      1
+     ],
+     "gate_morph_ms": 320,
+     "sound": "node_open",
+     "haptic": "star",
+     "when": "누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음",
+     "reduced": "별 칸·문 바로 바뀜"
+    },
+    "_rule": "지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움)."
    },
    "path": {
     "w": 15,
@@ -5418,9 +11552,9 @@
     "x": 16,
     "w": 328
    },
-   "content_h": 881,
+   "content_h": 943,
    "scroll": true,
-   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "_rule": "r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.",
    "scroll_hint": {
     "fade_px": 24,
     "chevron_px": 20,
@@ -5439,7 +11573,7 @@
    "controls": {
     "settings_sound": {
      "x": 280,
-     "y": 480,
+     "y": 542,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5447,7 +11581,7 @@
     },
     "settings_vibrate": {
      "x": 280,
-     "y": 540,
+     "y": 602,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5455,7 +11589,7 @@
     },
     "settings_motion": {
      "x": 280,
-     "y": 659,
+     "y": 721,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5463,7 +11597,7 @@
     },
     "lang_ko": {
      "x": 16,
-     "y": 749,
+     "y": 811,
      "w": 105,
      "h": 48,
      "kind": "text_button",
@@ -5472,7 +11606,7 @@
     },
     "lang_en": {
      "x": 133,
-     "y": 749,
+     "y": 811,
      "w": 105,
      "h": 48,
      "kind": "text_button",
@@ -5481,7 +11615,7 @@
     },
     "settings_reset": {
      "x": 16,
-     "y": 821,
+     "y": 883,
      "w": 171,
      "h": 48,
      "kind": "text_button",
@@ -5499,7 +11633,7 @@
      "font_px": 22,
      "max_lines": 1,
      "used_by": [
-      "guardian_title"
+      "settings_title"
      ],
      "align": "left",
      "weight": 800,
@@ -5509,18 +11643,18 @@
      "x": 16,
      "y": 72,
      "w": 328,
-     "h": 396,
+     "h": 458,
      "font_px": 16,
      "max_lines": 24,
      "used_by": [
-      "guardian_intro"
+      "settings_intro"
      ],
      "align": "left",
      "_rule": "r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤"
     },
     "settings_sound": {
      "x": 16,
-     "y": 480,
+     "y": 542,
      "w": 252,
      "h": 48,
      "font_px": 18,
@@ -5533,7 +11667,7 @@
     },
     "settings_vibrate": {
      "x": 16,
-     "y": 540,
+     "y": 602,
      "w": 252,
      "h": 48,
      "font_px": 18,
@@ -5546,7 +11680,7 @@
     },
     "vibrate_note": {
      "x": 16,
-     "y": 592,
+     "y": 654,
      "w": 328,
      "h": 55,
      "font_px": 14,
@@ -5559,7 +11693,7 @@
     },
     "settings_motion": {
      "x": 16,
-     "y": 659,
+     "y": 721,
      "w": 252,
      "h": 48,
      "font_px": 18,
@@ -5572,7 +11706,7 @@
     },
     "settings_lang": {
      "x": 16,
-     "y": 719,
+     "y": 781,
      "w": 328,
      "h": 24,
      "font_px": 18,
@@ -5630,9 +11764,9 @@
     "x": 16,
     "w": 380
    },
-   "content_h": 1002,
+   "content_h": 1072,
    "scroll": true,
-   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "_rule": "r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.",
    "scroll_hint": {
     "fade_px": 27,
     "chevron_px": 23,
@@ -5651,7 +11785,7 @@
    "controls": {
     "settings_sound": {
      "x": 323,
-     "y": 542,
+     "y": 612,
      "w": 73,
      "h": 55,
      "kind": "toggle",
@@ -5659,7 +11793,7 @@
     },
     "settings_vibrate": {
      "x": 323,
-     "y": 611,
+     "y": 681,
      "w": 73,
      "h": 55,
      "kind": "toggle",
@@ -5667,7 +11801,7 @@
     },
     "settings_motion": {
      "x": 323,
-     "y": 747,
+     "y": 817,
      "w": 73,
      "h": 55,
      "kind": "toggle",
@@ -5675,7 +11809,7 @@
     },
     "lang_ko": {
      "x": 16,
-     "y": 850,
+     "y": 920,
      "w": 117,
      "h": 55,
      "kind": "text_button",
@@ -5684,7 +11818,7 @@
     },
     "lang_en": {
      "x": 145,
-     "y": 850,
+     "y": 920,
      "w": 117,
      "h": 55,
      "kind": "text_button",
@@ -5693,7 +11827,7 @@
     },
     "settings_reset": {
      "x": 16,
-     "y": 933,
+     "y": 1003,
      "w": 194,
      "h": 55,
      "kind": "text_button",
@@ -5711,7 +11845,7 @@
      "font_px": 25,
      "max_lines": 1,
      "used_by": [
-      "guardian_title"
+      "settings_title"
      ],
      "align": "left",
      "weight": 800,
@@ -5721,18 +11855,18 @@
      "x": 16,
      "y": 83,
      "w": 380,
-     "h": 445,
+     "h": 515,
      "font_px": 18,
      "max_lines": 24,
      "used_by": [
-      "guardian_intro"
+      "settings_intro"
      ],
      "align": "left",
      "_rule": "r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤"
     },
     "settings_sound": {
      "x": 16,
-     "y": 542,
+     "y": 612,
      "w": 295,
      "h": 55,
      "font_px": 21,
@@ -5745,7 +11879,7 @@
     },
     "settings_vibrate": {
      "x": 16,
-     "y": 611,
+     "y": 681,
      "w": 295,
      "h": 55,
      "font_px": 21,
@@ -5758,7 +11892,7 @@
     },
     "vibrate_note": {
      "x": 16,
-     "y": 670,
+     "y": 740,
      "w": 380,
      "h": 63,
      "font_px": 16,
@@ -5771,7 +11905,7 @@
     },
     "settings_motion": {
      "x": 16,
-     "y": 747,
+     "y": 817,
      "w": 295,
      "h": 55,
      "font_px": 21,
@@ -5784,7 +11918,7 @@
     },
     "settings_lang": {
      "x": 16,
-     "y": 816,
+     "y": 886,
      "w": 380,
      "h": 28,
      "font_px": 21,
@@ -5842,9 +11976,9 @@
     "x": 40,
     "w": 560
    },
-   "content_h": 696,
+   "content_h": 738,
    "scroll": true,
-   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "_rule": "r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.",
    "scroll_hint": {
     "fade_px": 24,
     "chevron_px": 20,
@@ -5863,7 +11997,7 @@
    "controls": {
     "settings_sound": {
      "x": 536,
-     "y": 313,
+     "y": 355,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5871,7 +12005,7 @@
     },
     "settings_vibrate": {
      "x": 536,
-     "y": 373,
+     "y": 415,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5879,7 +12013,7 @@
     },
     "settings_motion": {
      "x": 536,
-     "y": 474,
+     "y": 516,
      "w": 64,
      "h": 48,
      "kind": "toggle",
@@ -5887,7 +12021,7 @@
     },
     "lang_ko": {
      "x": 40,
-     "y": 564,
+     "y": 606,
      "w": 105,
      "h": 48,
      "kind": "text_button",
@@ -5896,7 +12030,7 @@
     },
     "lang_en": {
      "x": 157,
-     "y": 564,
+     "y": 606,
      "w": 105,
      "h": 48,
      "kind": "text_button",
@@ -5905,7 +12039,7 @@
     },
     "settings_reset": {
      "x": 40,
-     "y": 636,
+     "y": 678,
      "w": 171,
      "h": 48,
      "kind": "text_button",
@@ -5923,7 +12057,7 @@
      "font_px": 22,
      "max_lines": 1,
      "used_by": [
-      "guardian_title"
+      "settings_title"
      ],
      "align": "left",
      "weight": 800,
@@ -5933,18 +12067,18 @@
      "x": 40,
      "y": 72,
      "w": 560,
-     "h": 229,
+     "h": 271,
      "font_px": 16,
      "max_lines": 24,
      "used_by": [
-      "guardian_intro"
+      "settings_intro"
      ],
      "align": "left",
      "_rule": "r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤"
     },
     "settings_sound": {
      "x": 40,
-     "y": 313,
+     "y": 355,
      "w": 484,
      "h": 48,
      "font_px": 18,
@@ -5957,7 +12091,7 @@
     },
     "settings_vibrate": {
      "x": 40,
-     "y": 373,
+     "y": 415,
      "w": 484,
      "h": 48,
      "font_px": 18,
@@ -5970,7 +12104,7 @@
     },
     "vibrate_note": {
      "x": 40,
-     "y": 425,
+     "y": 467,
      "w": 560,
      "h": 37,
      "font_px": 14,
@@ -5983,7 +12117,7 @@
     },
     "settings_motion": {
      "x": 40,
-     "y": 474,
+     "y": 516,
      "w": 484,
      "h": 48,
      "font_px": 18,
@@ -5996,7 +12130,7 @@
     },
     "settings_lang": {
      "x": 40,
-     "y": 534,
+     "y": 576,
      "w": 560,
      "h": 24,
      "font_px": 18,
@@ -6054,9 +12188,9 @@
     "x": 220,
     "w": 840
    },
-   "content_h": 1039,
+   "content_h": 1101,
    "scroll": true,
-   "_rule": "어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.",
+   "_rule": "r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.",
    "scroll_hint": {
     "fade_px": 36,
     "chevron_px": 30,
@@ -6075,7 +12209,7 @@
    "controls": {
     "settings_sound": {
      "x": 964,
-     "y": 470,
+     "y": 532,
      "w": 96,
      "h": 72,
      "kind": "toggle",
@@ -6083,7 +12217,7 @@
     },
     "settings_vibrate": {
      "x": 964,
-     "y": 560,
+     "y": 622,
      "w": 96,
      "h": 72,
      "kind": "toggle",
@@ -6091,7 +12225,7 @@
     },
     "settings_motion": {
      "x": 964,
-     "y": 709,
+     "y": 771,
      "w": 96,
      "h": 72,
      "kind": "toggle",
@@ -6099,7 +12233,7 @@
     },
     "lang_ko": {
      "x": 220,
-     "y": 841,
+     "y": 903,
      "w": 141,
      "h": 72,
      "kind": "text_button",
@@ -6108,7 +12242,7 @@
     },
     "lang_en": {
      "x": 373,
-     "y": 841,
+     "y": 903,
      "w": 141,
      "h": 72,
      "kind": "text_button",
@@ -6117,7 +12251,7 @@
     },
     "settings_reset": {
      "x": 220,
-     "y": 949,
+     "y": 1011,
      "w": 240,
      "h": 72,
      "kind": "text_button",
@@ -6135,7 +12269,7 @@
      "font_px": 33,
      "max_lines": 1,
      "used_by": [
-      "guardian_title"
+      "settings_title"
      ],
      "align": "left",
      "weight": 800,
@@ -6145,18 +12279,18 @@
      "x": 220,
      "y": 108,
      "w": 840,
-     "h": 344,
+     "h": 406,
      "font_px": 24,
      "max_lines": 24,
      "used_by": [
-      "guardian_intro"
+      "settings_intro"
      ],
      "align": "left",
      "_rule": "r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤"
     },
     "settings_sound": {
      "x": 220,
-     "y": 470,
+     "y": 532,
      "w": 732,
      "h": 72,
      "font_px": 27,
@@ -6169,7 +12303,7 @@
     },
     "settings_vibrate": {
      "x": 220,
-     "y": 560,
+     "y": 622,
      "w": 732,
      "h": 72,
      "font_px": 27,
@@ -6182,7 +12316,7 @@
     },
     "vibrate_note": {
      "x": 220,
-     "y": 636,
+     "y": 698,
      "w": 840,
      "h": 55,
      "font_px": 21,
@@ -6195,7 +12329,7 @@
     },
     "settings_motion": {
      "x": 220,
-     "y": 709,
+     "y": 771,
      "w": 732,
      "h": 72,
      "font_px": 27,
@@ -6208,7 +12342,7 @@
     },
     "settings_lang": {
      "x": 220,
-     "y": 799,
+     "y": 861,
      "w": 840,
      "h": 36,
      "font_px": 27,
@@ -6825,6 +12959,14 @@
   "svg_raster": "카드 그림(tutorial/*.svg)·지도 완료 노드 미니 그림·잠긴 노드 실루엣·별·아이콘: 부팅(또는 지도 첫 진입 전 유휴 시간)에 <img src=Blob URL> + await img.decode() 로 래스터, 이후 같은 <img> 재사용. 카드는 will-change: opacity, 닫힘은 opacity·transform 만",
   "map_first": "타이틀 첫 탭의 오디오 잠금 해제는 지도 그리기와 다른 프레임(requestAnimationFrame 다음)으로 나눔. 지도 노드 10개 미니 그림은 부팅 유휴 시간에 미리 래스터(챕터 페이지는 지금·양옆 페이지만)",
   "dpr_cap": "캔버스 DPR 최대 2(DPR 3 화면도 2로 그림, CSS 크기는 그대로)",
+  "wide_r3": {
+   "board_cache": "넓은 판(카메라 있음) 판 캐시 = 판 전체 1장(12x12 × 56 px × DPR 2 ≈ 1360² px ≈ 7.4 MB). 한 장이 2048x2048(16 MB) 를 넘으면 512 px 타일로 나눠 보이는 타일 ± 1 줄만 만듦. 캐시 층(판·선·미니맵) 합계 ≤ 32 MB",
+   "camera": "카메라 이동 = 판·선 캐시를 translate 로만 옮김(다시 그리기 없음). 전체 보기 ↔ 플레이 확대 300 ms 는 scale transform 1번 + 끝난 프레임에 그 배율로 캐시 다시 만들기 1회",
+   "dirty": "선·tint 는 바뀐 칸 사각형만 지우고 다시 그림(쌍 전체 다시 그리기 금지). 선 위 표지(5칸마다)·끝점 비트맵은 쌍마다 미리 그림",
+   "fx_limit": "색 물결·조각·빛 번짐은 viewport 안 칸만, 동시에 조각 ≤ 48개, 물결 칸 ≤ 화면 안 칸 수. 전체 보기에서는 물결 대신 판 전체 tint 150 ms",
+   "minimap": "미니맵 캔버스 1장(칸 × 미니맵 칸 px), 연결·끊김 때 그 쌍 칸만 칠함. 보이는 곳 테두리는 DOM 상자(transform)로 — 캔버스 다시 그리기 없음",
+   "text": "판정 이름·% 규칙 그대로(비트맵·값 바뀔 때만). 매 프레임 글자·테두리(stroke) 금지"
+  },
   "svg_assets": "에셋 SVG 는 그라디언트·필터·mask 없음(tutorial.mjs 검사: 그라디언트 0). app-icon 만 예외(빌드에서 안 씀)"
  }
 }

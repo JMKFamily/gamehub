@@ -31,3 +31,14 @@ export const EXT_SLOTS = ext.map((e) => { const f = FAMILIES.find((s) => s.id ==
 export const SLOTS = [...BASE_SLOTS, ...EXT_SLOTS];
 // 생성 시드 = slot 기본 + i (i = 0, 1, 2, …). 고른 시드는 levels-picks.json 에 기록.
 export const SEED_BASE = (slotId) => 1000000 * Number(slotId);
+
+// round-3 어려운 난이도 5단계 판 설정(gen-2 generate-big). 기본 판 = 6x6(36칸, 일반 레벨 최대 판) → 넓이 ≤ 4배 = 144칸(12x12).
+// 쌍(선) ≥ 10, ≤ 16(색 16개 = art 팔레트·모양 표지 확장 한도). 시드 = HARD_SEED_BASE(단계) + i
+export const HARD_STAGES = [
+  { stage: 1, width: 9, height: 9, pairsMin: 10, pairsMax: 12, holes: 0 },
+  { stage: 2, width: 10, height: 10, pairsMin: 11, pairsMax: 14, holes: 0 },
+  { stage: 3, width: 11, height: 11, pairsMin: 12, pairsMax: 15, holes: 0 },
+  { stage: 4, width: 12, height: 12, pairsMin: 12, pairsMax: 16, holes: 0 },
+  { stage: 5, width: 12, height: 12, pairsMin: 13, pairsMax: 16, holes: 0 },
+];
+export const HARD_SEED_BASE = (stage) => 70000000 + 1000000 * stage;

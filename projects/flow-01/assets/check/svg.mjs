@@ -4,12 +4,13 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MARKS, MARK_STROKE_UNIT, STAR, FINGER } from './shapes.mjs';
+import { MARKS as MARKS6, MARKS_EXT, MARK_STROKE_UNIT, STAR, FINGER } from './shapes.mjs';
+const MARKS = { ...MARKS6, ...MARKS_EXT };
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const A = resolve(HERE, '..');
 const PAL = JSON.parse(readFileSync(join(A, 'palette.json'), 'utf8'));
-const C = PAL.common, PAIRS = PAL.pairs;
+const C = PAL.common, PAIRS = [...PAL.pairs, ...(PAL.pairs_ext || [])]; // r3: 쌍 16개(앞 6 + 어려운 판 10)
 const LINE = 0.48, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22;
 const svg = (w, h, body, extra = '') => `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"${extra}>${body}</svg>\n`;
 const mark = (x, y, size, m, fill = C.white) => `<path d="${MARKS[m]}" transform="translate(${+x.toFixed(2)} ${+y.toFixed(2)}) scale(${+(size / 2).toFixed(3)})" fill="${fill}" stroke="${fill}" stroke-width="${MARK_STROKE_UNIT}" stroke-linejoin="round"/>`;
@@ -49,7 +50,9 @@ PAIRS.forEach((p, i) => {
   // r2 H3: 결과 쌍 점 줄의 "속 빈" 점(한 번에 잇지 못한 쌍) = 흰 면 + 쌍 색 테두리(지름의 0.12) + 쌍 색 표지. 꽉 찬 점 = connected 점 + 반짝임
   files[`marks/mark-${p.key}-${p.mark}-hollow.svg`] = svg(100, 100, `<circle cx="50" cy="50" r="${(100 * DOT) / 2 - 4.4}" fill="${C.white}" stroke="${p.hex}" stroke-width="8.8"/>` + mark(50, 50, 100 * DOT * MARK, p.mark, p.hex));
 });
-files['marks/marks-sheet.svg'] = svg(640, 120, `<rect width="640" height="120" fill="${C.board}"/>` + PAIRS.map((p, i) => dot(55 + i * 106, 60, 100, i)).join(''));
+files['marks/marks-sheet.svg'] = svg(640, 120, `<rect width="640" height="120" fill="${C.board}"/>` + PAIRS.slice(0, 6).map((p, i) => dot(55 + i * 106, 60, 100, i)).join(''));
+// r3: 16쌍 표 — 위 줄 점, 아래 줄 얇은 선(0.48칸) + 선 위 흰 표지(넓은 판 규칙). 흑백·색약 눈 확인용
+files['marks/marks-sheet-16.svg'] = svg(16 * 70 + 20, 170, `<rect width="${16 * 70 + 20}" height="170" fill="${C.board}"/>` + PAIRS.map((p, i) => { const x = 45 + i * 70; return dot(x, 45, 64, i) + `<rect x="${x - 32}" y="95" width="64" height="64" rx="14" fill="${p.tint}"/><path d="M${x} 100 V154" stroke="${p.hex}" stroke-width="${64 * LINE}" stroke-linecap="round"/>` + mark(x, 127, 64 * 0.26, p.mark); }).join(''));
 
 // 2) 아이콘 (48x48, ink 선 굵기 4, 둥근 끝)
 const st = `fill="none" stroke="${C.ink}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"`;

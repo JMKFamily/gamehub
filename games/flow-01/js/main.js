@@ -775,6 +775,7 @@ function updatePlay(dt) {
     const t = clock - PS.doneAt;
     if (t >= D.bal.haptics_ms.complete_delay_ms && !PS.cSound) { PS.cSound = true; sfx('complete', { k: PS.pz.k }); if (S.vibrate) H.complete(clock); if (!RM()) PS.g.connectLog.forEach((cl, j) => PS.bands.push({ t: PS.doneAt + 150 + j * 80, ms: fx.connect_band_ms, c: cl.color, cells: PS.g.paths[cl.color].slice().reverse() })); }
     if (t >= 420 && !PS.cParts && !RM()) { PS.cParts = true; const own = B.ownerGrid(PS.pz, PS.g.paths), all = PS.g.paths.flat(); for (let k = 0; k < 12; k++) { const cell = all[Math.floor(PS.rng() * all.length)]; PS.particles.push({ t: clock, ms: 500, cell, rise: true, c: own[cell], s: 0.1 + PS.rng() * 0.05, dx: (PS.rng() - 0.5) * 0.4 }); } }
+    if (t >= 600 && !PS.rPrep && state === 'play') prepareResult();
     if (t >= D.bal.complete.next_screen_after_s * 1000 && state === 'play') openResult();
   }
 }
@@ -947,18 +948,31 @@ function liveSet(paths) {
   PS.tintOff = PS.tintOff.filter((o) => t - o.t < M.disconnect.ms);
   return live;
 }
+// 쌍의 그림(칠한 칸·선·표지·점·고리)은 모두 그 쌍의 칸 안에 들어감 → 쌍 하나를 빼거나 넣을 때 그 칸들만 지우고 다시 그림(전체 다시 그리기 없음, r3 성능 4차-2)
 function settledLayer(paths, live) {
-  const key = [PS.lv.id, VW, VH, dpr, PS.dots.join(''), live.join(''), paths.map((p, c) => (live[c] ? '' : p.join(','))).join('|')].join('#');
-  if (PS.settled && PS.settled.key === key) return PS.settled;
-  const b = boardCache, L = PL, cell = L.cell, ins = D.lay.param.tile_inset_of_cell * cell, tr = D.lay.param.tile_r_of_cell * cell;
-  let lay = PS.settled && PS.settled.w === b.w && PS.settled.h === b.h ? PS.settled : null;
-  if (!lay) { const [c, x] = offscreen(b.w, b.h, dpr); lay = { c, x: b.x, y: b.y, w: b.w, h: b.h, g: x }; }
-  const g = lay.g; g.setTransform(dpr, 0, 0, dpr, -b.x * dpr, -b.y * dpr); g.clearRect(b.x, b.y, b.w, b.h);
-  const C = D.pal.common;
-  paths.forEach((p, c) => { if (live[c] || !PS.dots[c]) return; g.fillStyle = colorOf(c).tint; for (const i of p) { const [x, y] = cc(i), w = cell - 2 * ins; g.beginPath(); rrect(g, x - w / 2, y - w / 2, w, w, tr); g.fill(); } });
-  paths.forEach((p, c) => { if (live[c] || p.length < 2) return; strokePoly(g, p.map(cc), L.px.line_w, colorOf(c).hex, 1); if (PS.dots[c] && p.length >= 3) { const [mx, my] = cc(p[Math.floor((p.length - 1) / 2)]), mk = SP.lineMarks[c]; g.drawImage(mk.c, mx - mk.s / 2, my - mk.s / 2, mk.s, mk.s); } });
-  PS.pz.pairs.forEach((pr, c) => { if (live[c]) return; const sp = SP.dots[c], col = colorOf(c); for (const e of [pr.a, pr.b]) { const [x, y] = cc(e); if (PS.dots[c]) { g.strokeStyle = col.hex; g.lineWidth = L.px.ring_w; g.beginPath(); g.arc(x, y, L.px.ring_d / 2, 0, 7); g.stroke(); } g.drawImage(sp.c, x - sp.s / 2, y - sp.s / 2, sp.s, sp.s); } });
-  lay.key = key; PS.settled = lay; return lay;
+  const b = boardCache, L = PL, cell = L.cell;
+  let lay = PS.settled;
+  if (!lay || lay.key !== [PS.lv.id, VW, VH, dpr, b.w, b.h].join('|')) {
+    const [c, x] = offscreen(b.w, b.h, dpr); lay = PS.settled = { c, g: x, x: b.x, y: b.y, w: b.w, h: b.h, key: [PS.lv.id, VW, VH, dpr, b.w, b.h].join('|'), have: PS.pz.pairs.map(() => null) };
+    x.setTransform(dpr, 0, 0, dpr, -b.x * dpr, -b.y * dpr);
+  }
+  const g = lay.g, ins = D.lay.param.tile_inset_of_cell * cell, tr = D.lay.param.tile_r_of_cell * cell;
+  const cellsOfPair = (c, p) => { const s = new Set(p); s.add(PS.pz.pairs[c].a); s.add(PS.pz.pairs[c].b); return s; };
+  const clearCells = (set) => { for (const i of set) { const x = grid.originX + (i % PS.lv.width) * cell, y = grid.originY + ((i / PS.lv.width) | 0) * cell; g.clearRect(x, y, cell, cell); } };
+  for (let c = 0; c < PS.pz.k; c++) {
+    const want = live[c] ? null : paths[c].join(',') + '|' + (PS.dots[c] ? 1 : 0), have = lay.have[c];
+    if (want === (have && have.k)) continue;
+    if (have) clearCells(have.cells);
+    if (!want) { lay.have[c] = null; continue; }
+    const p = paths[c], col = colorOf(c), on = PS.dots[c];
+    if (on) { g.fillStyle = col.tint; for (const i of p) { const [x, y] = cc(i), w = cell - 2 * ins; g.beginPath(); rrect(g, x - w / 2, y - w / 2, w, w, tr); g.fill(); } }
+    if (p.length >= 2) strokePoly(g, p.map(cc), L.px.line_w, col.hex, 1);
+    if (on && p.length >= 3) { const [mx, my] = cc(p[Math.floor((p.length - 1) / 2)]), mk = SP.lineMarks[c]; g.drawImage(mk.c, mx - mk.s / 2, my - mk.s / 2, mk.s, mk.s); }
+    const sp = SP.dots[c];
+    for (const e of [PS.pz.pairs[c].a, PS.pz.pairs[c].b]) { const [x, y] = cc(e); if (on) { g.strokeStyle = col.hex; g.lineWidth = L.px.ring_w; g.beginPath(); g.arc(x, y, L.px.ring_d / 2, 0, 7); g.stroke(); } g.drawImage(sp.c, x - sp.s / 2, y - sp.s / 2, sp.s, sp.s); }
+    lay.have[c] = { k: want, cells: cellsOfPair(c, p) };
+  }
+  return lay;
 }
 function drawFinger(F, part) {
   if (!F || F.alpha <= 0) return;
@@ -1003,10 +1017,17 @@ function rowFrame() {
 
 // ---------------------------------------------------------------- 결과 (r2 H3: 쌍 점 줄 꽉 찬/속 빈 + %, 순서 연출)
 let RL = null;
+// 결과 화면 DOM 은 완료 연출 중(t 400)에 미리 채움(결과 레이어는 opacity 0) → t 1000 에는 화면만 바꿈(r3 성능 4차-2)
 function openResult() {
-  const R = PS.result, lv = PS.lv;
+  if (!PS.rPrep) prepareResult();
   show('result');
   PS.resultAt = clock; PS.rs = {};
+  layoutResult();
+  resultFrame();
+}
+function prepareResult() {
+  PS.rPrep = true;
+  const R = PS.result, lv = PS.lv;
   $('rName').innerHTML = '<b></b>'; setText($('rName').firstChild, T(lv.name_key));
   const last = PS.i === D.levels.length - 1, chEnd = !last && lv.order % D.bal.chapters.size === 0;
   const titleKey = last ? 'clear_last' : chEnd ? 'clear_chapter' : R.star ? 'clear_star' : `clear_title_${((lv.order - 1) % 3) + 1}`;
@@ -1021,8 +1042,8 @@ function openResult() {
   $('rBest').textContent = ''; $('rBest').appendChild(svgImgEl(icon('new_best'))); $('rBest').setAttribute('aria-label', T('result_new_best')); setHidden($('rBest'), true);
   setHidden($('rNext'), last);
   idleLate(() => prewarmCard(PS.i + 1), 2500); prewarmLevel(PS.i + 1);
+  PS.resultAt = 1e15; PS.rs = {}; // 아직 안 보임
   layoutResult();
-  resultFrame();
 }
 function layoutResult() {
   if (!PS || !PS.result) return;
