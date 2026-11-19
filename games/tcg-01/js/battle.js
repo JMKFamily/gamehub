@@ -22,7 +22,7 @@ export function pickScreen(vw, vh) {
 
 export class Battle {
   constructor(root, o) {
-    Battle.candleVars(); setTimeout(() => Battle.candleVars(), 1200); // 촛불 바탕(구운 PNG가 생기면 바꿔 끼움)
+    Battle.candleImgs(); setTimeout(() => { Battle.candleImgs(); for (const sd of Object.values(this.sideEls || {})) { const C = sd.bars && sd.bars[0].parentNode._cv; if (C) this.drawCandles(C); } }, 1200); // 촛불 그림(구운 PNG가 생기면 바꿔 끼움)
     this.root = root; this.o = o;
     this.human = o.human ?? null; // 사람 자리(0|1) 또는 null(AI 대 AI)
     this.auto = this.human == null || !!o.autoplay;
@@ -113,7 +113,10 @@ export class Battle {
       const wn = h('b', { class: 'wpill', style: `left:${wr.x + wr.w - 34}px;top:${wr.y - 17}px` }); // r4: 촛불 층 밖(글이 바뀌어도 촛불 그림을 다시 칠하지 않게)
       { // 촛불 2줄 × 5(art ux2.candle.size_px.rule_r2): 폭 = min((띠 폭 − 12)/5, 띠 높이/2 × 20/48), 높이 = 폭 × 2.4
         const rows = wr.candle_rows || 2, cw = Math.min((wr.w - 12) / 5, (wr.h / rows) * 20 / 48), ch = Math.min(cw * 2.4, wr.h / rows);
-        Object.assign(wicks.style, { display: 'grid', gridTemplateColumns: `repeat(5, ${cw}px)`, gridAutoRows: `${ch}px`, columnGap: '3px', rowGap: '0px', alignContent: 'center' }); }
+        Object.assign(wicks.style, { display: 'grid', gridTemplateColumns: `repeat(5, ${cw}px)`, gridAutoRows: `${ch}px`, columnGap: '3px', rowGap: '0px', alignContent: 'center' });
+        // r5 성능: 촛불 10자루 = 캔버스 한 장(상태가 바뀔 때·켜고 끄는 ≤ 500 ms 동안만 다시 그림). 빈 칸 <i>는 위치·안내 대상용(그리지 않음)
+        const dpr = (window.devicePixelRatio || 1) * this.k, cv2 = h('canvas', { class: 'candCv', width: Math.ceil(wr.w * dpr), height: Math.ceil(wr.h * dpr) });
+        wicks.appendChild(cv2); wicks._cv = { el: cv2, dpr, cw, ch, oy: (wr.h - rows * ch) / 2, st: Array.from({ length: 10 }, () => ({ base: 'empty', a: 0, a0: 0, a1: 0, t0: 0, d: 0, dur: 1, sm: 1, smT0: -1 })) }; }
       wrap.appendChild(wicks); wrap.appendChild(wn);
       const cr = R[side + '_calling'];
       const call = h('button', { class: 'callBtn', type: 'button', 'data-k': side === 'my' ? 'power' : 'epower', 'aria-label': t(`hero_${hs}_power`), style: `--fac:${f.primary};left:${cr.x}px;top:${cr.y}px;width:${cr.w}px;height:${cr.h}px` },
@@ -285,18 +288,40 @@ export class Battle {
   renderCandles(se, P, instant, spare) {
     const CA = D.art.ux2.candle, ex = CA.extinguish, re = CA.relight_turn_start || { per_candle_stagger_ms: 30, flame_in_ms: 160 };
     const want = se.bars.map((_, i) => (i < P.overloadNow ? 'soot' : i < P.overloadNow + P.mana ? 'lit' : i < P.maxMana ? 'spent' : spare && i === 9 ? 'spare' : 'empty'));
-    const off = [], on = [];
+    const C = se.bars[0].parentNode._cv; if (!C) return;
+    const off = [], on = []; let changed = false;
     se.bars.forEach((b, i) => {
-      const w = want[i]; if (b._st === w) return;
-      const base = w === 'lit' ? (b._st === 'soot' ? 'soot' : 'spent') : w;
-      b.dataset.st = base; /* 바탕 = CSS 배경(구운 PNG), 상태만 바꿈 — r3 성능: img src 교체·해독 제거 */
-      if (w === 'lit' && b._st !== 'lit') on.push(b); else if (b._st === 'lit' && w !== 'lit') off.push(b);
+      const w = want[i]; if (b._st === w) return; changed = true;
+      C.st[i].base = w === 'lit' ? (b._st === 'soot' ? 'soot' : 'spent') : w;
+      if (w === 'lit' && b._st !== 'lit') on.push(i); else if (b._st === 'lit' && w !== 'lit') off.push(i);
       b._st = w;
     });
-    // r3 성능: JS 트윈 없이 CSS 전환만(클래스 + 지연). 끌 때 오른쪽부터 40 ms 간격(불꽃 140, 연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격
-    const sc = instant ? 0 : G.scale * (G.fast ? 0.5 : 1);
-    off.reverse().forEach((b, k) => { const d = Math.min(k * ex.per_candle_stagger_ms, ex.total_max_ms - ex.smoke_in_ms) * sc; b.style.setProperty('--fd', d + 'ms'); b.style.setProperty('--fo', ex.flame_out_ms * sc + 'ms'); b.classList.remove('lit'); b.classList.add('smoke'); });
-    on.forEach((b, k) => { b.style.setProperty('--fd', k * re.per_candle_stagger_ms * sc + 'ms'); b.style.setProperty('--fo', re.flame_in_ms * sc + 'ms'); b.classList.remove('smoke'); b.classList.add('lit'); });
+    if (!changed) return;
+    // 끌 때 오른쪽부터 40 ms 간격(불꽃 140, 연기 160, 전체 ≤ 500 ms), 켤 때 30 ms 간격. 입력 잠금 0
+    const sc = instant ? 0 : G.scale * (G.fast ? 0.5 : 1), now = performance.now();
+    off.reverse().forEach((i, k) => { const q = C.st[i], d = Math.min(k * ex.per_candle_stagger_ms, ex.total_max_ms - ex.smoke_in_ms) * sc; Object.assign(q, { a0: q.a, a1: 0, t0: now + d, dur: Math.max(1, ex.flame_out_ms * sc), smT0: sc ? now + d : -1, smDur: Math.max(1, ex.smoke_in_ms * sc) }); });
+    on.forEach((i, k) => { const q = C.st[i]; Object.assign(q, { a0: q.a, a1: 1, t0: now + k * re.per_candle_stagger_ms * sc, dur: Math.max(1, re.flame_in_ms * sc), smT0: -1 }); });
+    this.drawCandles(C);
+  }
+  // 캔버스 그리기: 바탕(상태 그림) + 불꽃(투명도) + 연기(바탕 0.4 → 1). 전환 중일 때만 다음 프레임을 예약
+  drawCandles(C) {
+    const IM = Battle.candleImgs(), x = C.el.getContext('2d'), now = performance.now(); let busy = false;
+    x.setTransform(C.dpr, 0, 0, C.dpr, 0, 0); x.clearRect(0, 0, C.el.width, C.el.height);
+    C.st.forEach((q, i) => {
+      const px = (i % 5) * (C.cw + 3), py = C.oy + Math.floor(i / 5) * C.ch;
+      if (q.a !== q.a1) { const u = Math.min(1, Math.max(0, (now - q.t0) / q.dur)); q.a = now < q.t0 ? q.a0 : q.a0 + (q.a1 - q.a0) * u; if (u < 1) busy = true; else q.a = q.a1; }
+      let ba = 1; if (q.smT0 >= 0) { const u = (now - q.smT0) / q.smDur; if (u < 1) { ba = now < q.smT0 ? 1 : 0.4 + 0.6 * Math.max(0, u); busy = true; } else q.smT0 = -1; }
+      const b = IM[q.base]; if (b && b.complete) { x.globalAlpha = ba; x.drawImage(b, px, py, C.cw, C.ch); }
+      if (q.a > 0.01 && IM.lit && IM.lit.complete) { x.globalAlpha = q.a; x.drawImage(IM.lit, px, py, C.cw, C.ch); }
+    });
+    x.globalAlpha = 1;
+    if (busy) { if (!C.raf) C.raf = requestAnimationFrame(() => { C.raf = 0; this.drawCandles(C); }); }
+  }
+  static candleImgs() {
+    if (Battle._ci && Battle._ci.ok) return Battle._ci.m;
+    const m = {}; let ok = true;
+    for (const k of ['spent', 'soot', 'spare', 'empty', 'lit']) { const u = assetURL(`candle-${k}.svg`); const old = Battle._ci && Battle._ci.m[k]; if (old && old.src.endsWith(u.split('/').pop()) && old.src.startsWith(u.slice(0, 5))) { m[k] = old; } else { const im = new Image(); im.src = u; m[k] = im; } if (!u.startsWith('blob:')) ok = false; }
+    Battle._ci = { m, ok }; return m;
   }
   keyOf(inst) { return inst.cid + '|' + inst.costMod + '|' + inst.atkMod + '|' + inst.hpMod + '|' + inst.dmgMod + '|' + (inst.system ? 1 : 0); }
   posOfUid(uid) {

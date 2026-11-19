@@ -78,7 +78,7 @@ function idleBake() {
   if (!baking) return;
   const ric = window.requestIdleCallback || ((f) => setTimeout(() => f({ timeRemaining: () => 10 }), 30));
   ric(async (dl) => {
-    if (dl.timeRemaining() > 8 && performance.now() - LAST_INPUT > 1200) { // r4: 탭 직후(화면 전환 중)에는 굽지 않음
+    if (dl.timeRemaining() > 8 && (performance.now() - LAST_INPUT > 2500 || document.querySelector('#battle.show'))) { // r4: 탭 직후(화면 전환 중)에는 굽지 않음
       const k = bakeQ.shift();
       if (k.startsWith('a:')) { const n = k.slice(2), sz = pxOf(n, [64, 64]); await bake(k, 'assets/' + n, sz[0], sz[1]); }
       else if (k.startsWith('b:')) { const [f, br] = k.slice(2).split('|'); await bake(k, badgeURL(f, br), BAKE.badge[0], BAKE.badge[1]); }

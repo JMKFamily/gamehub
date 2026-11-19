@@ -188,7 +188,7 @@ window.__game = {
     go(Q.get('screen') || 'title');
     warmAllIdle();
     // 그림 굽기는 첫 탭 1.5 s 뒤 쉬는 시간에(r3 성능: 타이틀 → 로비 첫 탭 프레임과 겹치지 않게). 재질 무늬가 먼저
-    addEventListener('pointerdown', () => setTimeout(bakeMenuAssets, 1500), { once: true });
+    addEventListener('pointerdown', () => setTimeout(bakeMenuAssets, 4000), { once: true }); /* r5: 메뉴 그림 굽기는 첫 화면 전환들이 끝난 뒤 */
     // 첫 탭 3 s 뒤부터 쉬는 시간에 입문·표준 덱 카드 그림을 한 장씩 구워 둠(대전 직전 굽기 부담을 줄임)
     addEventListener('pointerdown', () => setTimeout(() => bakeForBattle([...new Set([...D.starters, ...D.decks].flatMap((d) => d.cards))]), 3000), { once: true });
     requestAnimationFrame(frame);
