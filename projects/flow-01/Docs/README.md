@@ -4,6 +4,11 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | ux-reviewer | 1-5 | [round-3 UX 리뷰: 5/6·7.5·REVISE(major 1·minor 3), round-1 이슈 12/12 해결(막힘 튕김·툭, 두 % 모양 구분), 16쌍 전체 보기 색약 겹침(deutan 별-다이아 ΔE 3.5)·넓은 판 첫 안내 없음](ux-reviewer/2026-11-19-1-5-round3-review.md) |
+| 2026-11-19 | balance-designer | 1-5 | [round-3 밸런스 리뷰: 11/12·7.5·REVISE(major 2·minor 3), 규약 B9 4 %·T·H 곡선 통과·101파일 빌드 일치, 도움 무제한으로 별 관문 무력화·별 10 → H1 이음 D1 포화 미측정](balance-designer/2026-11-19-1-5-round3-review.md) |
+| 2026-11-19 | lore-writer | 1-5 | [round-3 세계관·텍스트 리뷰: 8.0·REVISE(major 1·minor 4), round-1 이슈 5/5 해결·126키 하드코딩 0·보호자 고지 0, 장 2~5 바탕이 장 이름과 안 맞음·큰 그림 테마 이원화](lore-writer/2026-11-19-1-5-round3-review.md) |
+| 2026-11-19 | art-director | 1-5 | [round-3 시각·사운드 리뷰: 12/13·8.3·PASS(minor 6), round-1 이슈 7개 모두 해결, D54 승인, 지도 페이지 바탕 미적용·7쌍 이상 완료 화음 규칙 없음(QA #1 데이터 쪽)](art-director/2026-11-19-1-5-round3-review.md) |
+| 2026-11-19 | benchmark-analyst | 1-5 | [round-3 게임 감각 리뷰: 11/11·7.5·REVISE(major 1·minor 1), round-1 이슈 4건 해결·해당 없음, 원작 규칙 회귀 0·grep 0, 큰 그림 전체 보기에서 긋기 불가(원작 큰 판 감각·조작 1가지)](benchmark-analyst/2026-11-19-1-5-round3-review.md) |
 | 2026-11-19 | game-developer | round-3 핫픽스 | [7쌍 이상 완료 화음 TypeError·초점 경고 수정, 판 캐시 유휴 줄 그리기·다음 판 미리, 다음 쌍 카메라 — 판 시작·완료 1% low 미달](game-developer/2026-11-19-r3-hotfix.md) |
 | 2026-11-19 | qa-engineer | 1-4 | [QA round-3: 기술 품질 7.0·REVISE(major 3·minor 2), 빌드 = 시뮬 16,500판 불일치 0·완벽 입력 100/100, 해금·보호자 고지 0 통과, 큰 그림 완료 화음 TypeError·aria-hidden 경고, K2 플레이 1% low 34~40](qa-engineer/2026-11-19-1-4-round3-qa.md) |
 | 2026-11-19 | game-developer | round-3 구현 | [큰 그림 5단계(문 페이지·누적 별 해금)·넓은 판 카메라·미니맵·쌍 16·설정 일반 버튼, selfcheck 일반 50 + 어려운 50 ALL PASS, 판 시작 1% low 미달](game-developer/2026-11-19-r3-build.md) |
