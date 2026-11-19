@@ -1,0 +1,180 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr1",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1561,
+     "avg": 59.3,
+     "low1": 26.4,
+     "max_ms": 100,
+     "over33": 5
+    },
+    "level_start_transition": {
+     "frames": 279,
+     "avg": 58.9,
+     "low1": 20,
+     "max_ms": 50,
+     "over33": 2
+    },
+    "dragging_juice": {
+     "frames": 410,
+     "avg": 60,
+     "low1": 59.5,
+     "max_ms": 16.8,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 410,
+     "avg": 59.9,
+     "low1": 47.8,
+     "max_ms": 33.3,
+     "over33": 0
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 16.8,
+    "map_to_play_L6": 50,
+    "result_to_map_1": 50,
+    "map_to_play_L7": 16.8,
+    "result_to_map_2": 33.2,
+    "map_to_play_L8": 16.8,
+    "result_next_L9": 16.8,
+    "play_to_map": 33.4,
+    "map_page_turn": 33.3
+   },
+   "input_to_cell": {
+    "n": 88,
+    "frames_max": 1,
+    "ms_median": 6.9,
+    "ms_p95": 8.9,
+    "ms_max": 16.5
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   },
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 81.3
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.4,
+    "max_ms": 16.9,
+    "over33": 0,
+    "audio_ctx_ms": 78.8
+   },
+   "valid": true
+  },
+  {
+   "config": "412x915 dpr2",
+   "run": 0,
+   "windows": {
+    "all": {
+     "frames": 1565,
+     "avg": 59.2,
+     "low1": 24.3,
+     "max_ms": 133.4,
+     "over33": 6
+    },
+    "level_start_transition": {
+     "frames": 279,
+     "avg": 58.9,
+     "low1": 24,
+     "max_ms": 50,
+     "over33": 2
+    },
+    "dragging_juice": {
+     "frames": 414,
+     "avg": 60,
+     "low1": 59.3,
+     "max_ms": 16.9,
+     "over33": 0
+    },
+    "complete_fx_result": {
+     "frames": 409,
+     "avg": 59.7,
+     "low1": 39.9,
+     "max_ms": 33.4,
+     "over33": 0
+    }
+   },
+   "menu_longest_frame_ms": {
+    "title_to_map": 16.8,
+    "map_to_play_L6": 50,
+    "result_to_map_1": 50.1,
+    "map_to_play_L7": 16.8,
+    "result_to_map_2": 33.2,
+    "map_to_play_L8": 16.8,
+    "result_next_L9": 16.8,
+    "play_to_map": 33.3,
+    "map_page_turn": 33.4
+   },
+   "input_to_cell": {
+    "n": 88,
+    "frames_max": 1,
+    "ms_median": 7,
+    "ms_p95": 8.9,
+    "ms_max": 9.5
+   },
+   "end": {
+    "state": "map",
+    "page": 1
+   },
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 78.9
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 96.2
+   },
+   "valid": true
+  }
+ ],
+ "flow": "title→map(ch1) → L6 노드(카드 닫고 풀기) → 결과 지도 → L7 노드 → 결과 지도 → L8 노드 → 결과 지도 → 장 ▶ 넘김 (결과 ▶ 는 blocker 라 제외)",
+ "blank_control": [
+  {
+   "config": "412x915 dpr1",
+   "frames": 399,
+   "avg": 60,
+   "low1": 59.5,
+   "max_ms": 16.8,
+   "over33": 0
+  },
+  {
+   "config": "412x915 dpr2",
+   "frames": 399,
+   "avg": 60,
+   "low1": 59.5,
+   "max_ms": 16.8,
+   "over33": 0
+  }
+ ],
+ "log": {
+  "console": [
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>",
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#pMap>\nAncestor with aria-hidden: <div.screen pre#play>",
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>",
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#pMap>\nAncestor with aria-hidden: <div.screen pre#play>"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 606
+ }
+}

@@ -66,6 +66,102 @@
    "shade": "#0C6B80"
   }
  ],
+ "pairs_ext": [
+  {
+   "key": "p7",
+   "name_ko": "주황",
+   "name_en": "orange",
+   "hex": "#C25A14",
+   "mark": "diamond",
+   "tint": "#F2DBCB",
+   "shade": "#904B22"
+  },
+  {
+   "key": "p8",
+   "name_ko": "밤색",
+   "name_en": "brown",
+   "hex": "#6B4E2E",
+   "mark": "plus",
+   "tint": "#DED8D1",
+   "shade": "#554334"
+  },
+  {
+   "key": "p9",
+   "name_ko": "분홍",
+   "name_en": "pink",
+   "hex": "#C2357F",
+   "mark": "hexagon",
+   "tint": "#F2D3E3",
+   "shade": "#90326B"
+  },
+  {
+   "key": "p10",
+   "name_ko": "남색",
+   "name_en": "navy",
+   "hex": "#13306B",
+   "mark": "drop",
+   "tint_t": 0.68,
+   "tint": "#B3BDD0",
+   "shade": "#192E5D"
+  },
+  {
+   "key": "p11",
+   "name_ko": "올리브",
+   "name_en": "olive",
+   "hex": "#5C6B00",
+   "mark": "leaf",
+   "tint": "#DBDEC7",
+   "shade": "#4B5714"
+  },
+  {
+   "key": "p12",
+   "name_ko": "제비꽃",
+   "name_en": "violet",
+   "hex": "#7A3FB0",
+   "mark": "cloud",
+   "tint": "#E2D5EE",
+   "shade": "#5F398C"
+  },
+  {
+   "key": "p13",
+   "name_ko": "회색",
+   "name_en": "gray",
+   "hex": "#4A5568",
+   "mark": "flower",
+   "tint_t": 0.66,
+   "tint": "#C1C5CC",
+   "shade": "#3E485B"
+  },
+  {
+   "key": "p14",
+   "name_ko": "청록",
+   "name_en": "dark teal",
+   "hex": "#0B6E6E",
+   "mark": "bolt",
+   "tint": "#C9DFDF",
+   "shade": "#14595F"
+  },
+  {
+   "key": "p15",
+   "name_ko": "벽돌",
+   "name_en": "brick",
+   "hex": "#B5452B",
+   "mark": "house",
+   "tint": "#EFD6D0",
+   "shade": "#873D32"
+  },
+  {
+   "key": "p16",
+   "name_ko": "하늘색",
+   "name_en": "sky",
+   "hex": "#3D7DD6",
+   "mark": "hourglass",
+   "tint_t": 0.66,
+   "tint": "#BDD3F1",
+   "shade": "#3663A6"
+  }
+ ],
+ "wide_line_mark_every_cells": 5,
  "slot_rotation": {
   "applies": "레벨 order ≥ 11 이고 쌍 수 3 또는 4",
   "map": "color_slot i → pairs[by_level[order][쌍 수][i]] (색·모양 표지·tint·shade 모두 그 pairs 항목)",
@@ -725,6 +821,56 @@
    "lore": "지도·결과",
    "top": "#F3EEFB",
    "bottom": "#E4EEFA"
+  },
+  "hard1": {
+   "lore": "구름 위 산책",
+   "top": "#E6F1FF",
+   "bottom": "#F3EEFB",
+   "decor": {
+    "shape": "arc",
+    "count": 3
+   },
+   "hard": 1
+  },
+  "hard2": {
+   "lore": "숲속 오두막",
+   "top": "#E3F3E6",
+   "bottom": "#F4F1E2",
+   "decor": {
+    "shape": "wave",
+    "count": 2
+   },
+   "hard": 2
+  },
+  "hard3": {
+   "lore": "바닷속 정원",
+   "top": "#DCEFF4",
+   "bottom": "#E7EEFB",
+   "decor": {
+    "shape": "wave",
+    "count": 3
+   },
+   "hard": 3
+  },
+  "hard4": {
+   "lore": "별빛 놀이공원",
+   "top": "#F1E6F7",
+   "bottom": "#E5EAF9",
+   "decor": {
+    "shape": "ring",
+    "count": 4
+   },
+   "hard": 4
+  },
+  "hard5": {
+   "lore": "달나라 여행",
+   "top": "#E8E6F6",
+   "bottom": "#F4EEF6",
+   "decor": {
+    "shape": "ring",
+    "count": 3
+   },
+   "hard": 5
   },
   "level11": {
    "lore": "챕터 2(rain) 1",

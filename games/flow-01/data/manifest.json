@@ -52,6 +52,58 @@
   "49-level49.json",
   "50-level50.json"
  ],
+ "hard": [
+  "H1-01.json",
+  "H1-02.json",
+  "H1-03.json",
+  "H1-04.json",
+  "H1-05.json",
+  "H1-06.json",
+  "H1-07.json",
+  "H1-08.json",
+  "H1-09.json",
+  "H1-10.json",
+  "H2-01.json",
+  "H2-02.json",
+  "H2-03.json",
+  "H2-04.json",
+  "H2-05.json",
+  "H2-06.json",
+  "H2-07.json",
+  "H2-08.json",
+  "H2-09.json",
+  "H2-10.json",
+  "H3-01.json",
+  "H3-02.json",
+  "H3-03.json",
+  "H3-04.json",
+  "H3-05.json",
+  "H3-06.json",
+  "H3-07.json",
+  "H3-08.json",
+  "H3-09.json",
+  "H3-10.json",
+  "H4-01.json",
+  "H4-02.json",
+  "H4-03.json",
+  "H4-04.json",
+  "H4-05.json",
+  "H4-06.json",
+  "H4-07.json",
+  "H4-08.json",
+  "H4-09.json",
+  "H4-10.json",
+  "H5-01.json",
+  "H5-02.json",
+  "H5-03.json",
+  "H5-04.json",
+  "H5-05.json",
+  "H5-06.json",
+  "H5-07.json",
+  "H5-08.json",
+  "H5-09.json",
+  "H5-10.json"
+ ],
  "icons": [
   "icon-close",
   "icon-filled",
@@ -85,11 +137,11 @@
   },
   "data/balance.json": {
    "from": "projects/flow-01/balance.json",
-   "sha256": "4cfd4583103774d325fa1b7068e2e16a4417900bc41685af42cc966e799a679a"
+   "sha256": "52ab4d60906ff50c477627d2b65d75e14450ad822da4695669076dedc3cd32ce"
   },
   "data/strings.json": {
    "from": "projects/flow-01/strings.json",
-   "sha256": "0e140b23bf86179c5c73d881d2a2760cc4f4f17c39af3e64a9c46187f97df89e"
+   "sha256": "bb8e119257b96fb05aa172fd799cb31ca71e972e482a1aa027263e0824d1f413"
   },
   "data/levels/01-level1.json": {
    "from": "projects/flow-01/levels/01-level1.json",
@@ -109,195 +161,395 @@
   },
   "data/levels/05-level5.json": {
    "from": "projects/flow-01/levels/05-level5.json",
-   "sha256": "c4c55d5b4a04b61c92f39e7e783766a7e15bdecc682507c1b05f251fa6642be3"
+   "sha256": "4cdf2c11a3225dab8d1e0e338a7d652a0cb1d058168f76f9c3c698c9d91cb5ea"
   },
   "data/levels/06-level6.json": {
    "from": "projects/flow-01/levels/06-level6.json",
-   "sha256": "eb551fd6c9fe8ebe7aea265dd12d98bf0b97aef3ce3b72f269caea6e54103680"
+   "sha256": "94dc91dd7e5f5a4f3e146378f43f441c4acf7f3af83c73838aa3e1c691b491b7"
   },
   "data/levels/07-level7.json": {
    "from": "projects/flow-01/levels/07-level7.json",
-   "sha256": "cc4e4b8c5f66c9836ccb7d092e250760bca165ddaa61948b76449d04b701bb34"
+   "sha256": "28516c13636ee3651b20b0748a84705301c70483e786e3378018e731bf6c302f"
   },
   "data/levels/08-level8.json": {
    "from": "projects/flow-01/levels/08-level8.json",
-   "sha256": "0d6a12cbb07aa78ba7d02bd64a3e0c3d5c3e1711dcd27f3fb18e3ad620ae4600"
+   "sha256": "b03852356db94ebd5c8a0b7670a6da1a416ab55e40b18699e2298a4ec39b2e0d"
   },
   "data/levels/09-level9.json": {
    "from": "projects/flow-01/levels/09-level9.json",
-   "sha256": "914c9ab320a66fadfbbbcad772a79577477689a388c89346679494c666e4b70c"
+   "sha256": "2719a02666b72afca5bc48510fb8caeae698eb483ed61c95a9ea319a5c78960e"
   },
   "data/levels/10-level10.json": {
    "from": "projects/flow-01/levels/10-level10.json",
-   "sha256": "2a0545281d0651bfb6893d98bdf7c1b4d432b2f28da3ec36277f032bc7fba0c1"
+   "sha256": "ddd006e1518377ec0ae81b3faa872cd601c508960e98b15355cc72b405baac1c"
   },
   "data/levels/11-level11.json": {
    "from": "projects/flow-01/levels/11-level11.json",
-   "sha256": "d00e718189de4a557bdea263889b3640c0d6380885a087dc141385b935267230"
+   "sha256": "29117381fa6420f1fa95674f9007d5a3af464ceca9cdfa021d18b635ca704f6e"
   },
   "data/levels/12-level12.json": {
    "from": "projects/flow-01/levels/12-level12.json",
-   "sha256": "837176c2b37d691b2a7cf2719a78b70f6c2ebef2e50bddc69de0fc83742e324a"
+   "sha256": "b7484de849f62b6b8b638bc506186caefc3ef10e6b195d2d53f55d274c8c6ef4"
   },
   "data/levels/13-level13.json": {
    "from": "projects/flow-01/levels/13-level13.json",
-   "sha256": "68f01a7366186c8ab621e31f38cb776ca738f2f3d1110324e79889d2e5013d70"
+   "sha256": "f4ebcd20ae8fc32e683d6e5c2a16014d19cd6ee91a14d533d840e36acfce91a8"
   },
   "data/levels/14-level14.json": {
    "from": "projects/flow-01/levels/14-level14.json",
-   "sha256": "9fc5fb1022bae5c7aaedec39077f0c23a492b160dd6ee61181b1ff1f622765e1"
+   "sha256": "9f640c40e7d55909ec328bbd4f925d05abae7b1ad5b7bd3f5b496ba74cc7698f"
   },
   "data/levels/15-level15.json": {
    "from": "projects/flow-01/levels/15-level15.json",
-   "sha256": "a6ad57cb98e88625eb5d904685134d5782a7059792d5e54d76c2f3cf4af69981"
+   "sha256": "3c282e0a33a61dfa0899f6354f8cf7baf4032dc8896f81e484bdf49e6b5fb605"
   },
   "data/levels/16-level16.json": {
    "from": "projects/flow-01/levels/16-level16.json",
-   "sha256": "feb1e4dd6606a4961050a456b920a427da35045a2f6f7442bcfcf2e6fa8d4516"
+   "sha256": "e08cc92fef87aa689ebbcc7e0cbacf0cc702594c0029ed2686cae02557062fae"
   },
   "data/levels/17-level17.json": {
    "from": "projects/flow-01/levels/17-level17.json",
-   "sha256": "6538d58b44f9cac00c666e5783dda6894260320e6c6597d6723cb6cb6dfab4ba"
+   "sha256": "eaf27e87f01c663f37275e7e73acdc1f618ab249ba67112f7920dc54912bc732"
   },
   "data/levels/18-level18.json": {
    "from": "projects/flow-01/levels/18-level18.json",
-   "sha256": "8c61f8cf2296123db454c3e17bf1bc4a702a1e5b27c32024169c0a3e28d5f723"
+   "sha256": "dc25db8fec016f57a72cdbe50a0a9fa28ae0c15c0dba6a9d57e517af09fdfd47"
   },
   "data/levels/19-level19.json": {
    "from": "projects/flow-01/levels/19-level19.json",
-   "sha256": "71445b1539ead1b61273a72938b2e9fccdc317017a3bbd727763d4311b732eaf"
+   "sha256": "17bcc25e29e8e42c7005c545000b5cc80a98d5bf9a2cbcd22db305a337d8d5ff"
   },
   "data/levels/20-level20.json": {
    "from": "projects/flow-01/levels/20-level20.json",
-   "sha256": "77d9a1efc69e42b12775141bdb581e05db008eff486b88c8108e903952db9410"
+   "sha256": "6c243727afb5783b9d4eabd2e556f96187ab282aeeafd008fe22c2d524f9a86e"
   },
   "data/levels/21-level21.json": {
    "from": "projects/flow-01/levels/21-level21.json",
-   "sha256": "6d9a54db0558bf95dddad771fd1feda21455356aead0565f8bbecb0250e46edf"
+   "sha256": "d49f614a32d33caee7b3e086f1ccb678dd16a87550c33cfc03720a11754d3fc9"
   },
   "data/levels/22-level22.json": {
    "from": "projects/flow-01/levels/22-level22.json",
-   "sha256": "b82015557d8f954c2aef8bccce320229127da7177c9c449a582a88794e9930df"
+   "sha256": "c1eb56aea3322e8116a709b981ab0149fe92ee5a6e304def0b42c771e6be4bb1"
   },
   "data/levels/23-level23.json": {
    "from": "projects/flow-01/levels/23-level23.json",
-   "sha256": "0bbe6d4832f96aae17a55df332fbda1253feed567a96b19eb7bb683f684f9138"
+   "sha256": "016b6fad015f9a566d662ea17acbb552bca0a5a6a827debf5df7a1c166a30970"
   },
   "data/levels/24-level24.json": {
    "from": "projects/flow-01/levels/24-level24.json",
-   "sha256": "e9a5d93010df1d899319593bfb8b6fd02f162c224f1d881750604c89465ad6e7"
+   "sha256": "799e5c715f3442a7484440447a4140eb9f0b81594cbe54581d25256c6816989c"
   },
   "data/levels/25-level25.json": {
    "from": "projects/flow-01/levels/25-level25.json",
-   "sha256": "43295eee7b75fe97f1907b948ca77e6155fc20f2d33628425fc430bfcaf37a9f"
+   "sha256": "365b0e32dbc67054275601f8b9efd4cf214e0a3602fe0a0f7969f1de2305f1a5"
   },
   "data/levels/26-level26.json": {
    "from": "projects/flow-01/levels/26-level26.json",
-   "sha256": "12fed48d51c901f05b73ef549bcfb24e48d5a673c201310e1e04c5609382f73d"
+   "sha256": "6288eefc9fe2ceb338e55a3fb301d7c3def7740315c33a243c084684d9bf4854"
   },
   "data/levels/27-level27.json": {
    "from": "projects/flow-01/levels/27-level27.json",
-   "sha256": "a8129135c1a370b4ae06fb9eaa2a5b24d96243bdd9c7838da0cfbff76a4b80ef"
+   "sha256": "6c3b81373ef2a2d08d4d5869bf2c0bb487145a351edc7a9b30ead100b4815374"
   },
   "data/levels/28-level28.json": {
    "from": "projects/flow-01/levels/28-level28.json",
-   "sha256": "ff1452a561a46f7723c39c015e69079beca463f71b863bafe1b8486a5517b865"
+   "sha256": "bb4f29e55a156420a131c7afa57ecd1b68ed02063aeb1de4aad688a2139cd195"
   },
   "data/levels/29-level29.json": {
    "from": "projects/flow-01/levels/29-level29.json",
-   "sha256": "8c27e7196af3c4dc3a6a54edc408f57c0ac9e3a8c521528b73578c515c239bf7"
+   "sha256": "de949086207cb3dec8c679db7e7f4128ddcc9ab899c43c196c0c152e37a1cfe4"
   },
   "data/levels/30-level30.json": {
    "from": "projects/flow-01/levels/30-level30.json",
-   "sha256": "6a1c9380fcf1163f8019180248349d7c44aaf53274478ac39bc01274ac051449"
+   "sha256": "e77632df2f29539f3ec760e110c2c6ffd6f1753770789e36dfe9454c895f382d"
   },
   "data/levels/31-level31.json": {
    "from": "projects/flow-01/levels/31-level31.json",
-   "sha256": "b8455ba4ed5ca92e68954f706c6158e9697c7a2740c9cc43e00977d6f263d181"
+   "sha256": "85fe449b70aeb1aab6e9f753dd64c240e5f4a39c8cb838fb0cad9ba2f7350fa0"
   },
   "data/levels/32-level32.json": {
    "from": "projects/flow-01/levels/32-level32.json",
-   "sha256": "79c6b29ddc86fceaad81f8de9dc6cb2de38948618aea3e313ae59284c5e70c64"
+   "sha256": "5e2900dc6d6b3488acb856dc27007a0e34d89fc24b26b2048c561df8ee2bb839"
   },
   "data/levels/33-level33.json": {
    "from": "projects/flow-01/levels/33-level33.json",
-   "sha256": "8ab15fc0939542df7ec9da52e0ed9f2c2d339bde7b17357f240624746f87c1a9"
+   "sha256": "942e723b608f9fa142ad1a80b40f26ca5e2c5bae349797c97282ee7137f34a93"
   },
   "data/levels/34-level34.json": {
    "from": "projects/flow-01/levels/34-level34.json",
-   "sha256": "d1deb40a9041cf061db54f596a7022d20ef8ae236b8fa68b3c3de8f8513fa5d2"
+   "sha256": "23084b3b19241bb53829aecc4295d4fd62c310fce021b029a06c6d46f4cd0bc7"
   },
   "data/levels/35-level35.json": {
    "from": "projects/flow-01/levels/35-level35.json",
-   "sha256": "597de3ac1064fad941d6b894ecfeaaaca6e01f561fae81d895cfb30c6985c572"
+   "sha256": "41ecd69e635b5c4b2a587621e51d2454f61248f79de6c294ecdb4f5ad09ee027"
   },
   "data/levels/36-level36.json": {
    "from": "projects/flow-01/levels/36-level36.json",
-   "sha256": "1c8d224f8e86cefebd6e0a0e3da641f033edfb5b221b31d2ab9dd8a4403ef214"
+   "sha256": "ed5ca17b6ab6fe18b18fdd778217a8e45d68d9f82e57b687df622334ad68ce21"
   },
   "data/levels/37-level37.json": {
    "from": "projects/flow-01/levels/37-level37.json",
-   "sha256": "7890baf36ab5c9948eb314956a9e2e8900e81901eb07ad21aaa87a6a390abdb8"
+   "sha256": "6c3dbf9c5b0478c4a27abd898a2320a8d344b7445b25b5ac6602836614aa6234"
   },
   "data/levels/38-level38.json": {
    "from": "projects/flow-01/levels/38-level38.json",
-   "sha256": "9b64115971a2976cece97f5134295b9cdeaeb5cdacb9385f80340bd99a9cbfc0"
+   "sha256": "a8ce6fbb69e3608ff5b016cfd8e572fedf44f6f8da29743610dfad512465f804"
   },
   "data/levels/39-level39.json": {
    "from": "projects/flow-01/levels/39-level39.json",
-   "sha256": "be190df162a8bbbe2906ca7bac5a9fea25b6c293aa6fd855b4b36b89794dbcc8"
+   "sha256": "c2dc59c818acdc933c6a0a22280184bdb9f84732b0e6c4389bb61d1c124baafe"
   },
   "data/levels/40-level40.json": {
    "from": "projects/flow-01/levels/40-level40.json",
-   "sha256": "c3b187fba7b0e60e8b1b03363e0a6b14b19d867b68e83a7a9ad94bac8a3b1530"
+   "sha256": "de5b116262f6a0dd121f206bcd5738508a2b241d549527c631e188c2826994b0"
   },
   "data/levels/41-level41.json": {
    "from": "projects/flow-01/levels/41-level41.json",
-   "sha256": "948c80753e57e1754dc6b6264a0648437c6a5d1a2521f782ee6c0e332b179f13"
+   "sha256": "5b43bbace455f76e0d57f8caecf3c422d8735fb2b143fd97a8927e76fda75381"
   },
   "data/levels/42-level42.json": {
    "from": "projects/flow-01/levels/42-level42.json",
-   "sha256": "4b2cb246fcd3cb4179492d8296afac8f8012d2d1dec3e6ca1b2088c66a4855c7"
+   "sha256": "7f4c2b7084ee266d74772373d7de1e7838390b5a254bf36a73d76fe9ea2df40d"
   },
   "data/levels/43-level43.json": {
    "from": "projects/flow-01/levels/43-level43.json",
-   "sha256": "5001340272438e7463892afcac6eabd0f7abfee5577f02143914c882533bbab1"
+   "sha256": "54067d4b93a39bdd42f906d84a2564e2f9a55b5092134bdef12bac13d6bb80ef"
   },
   "data/levels/44-level44.json": {
    "from": "projects/flow-01/levels/44-level44.json",
-   "sha256": "4947613d6b83686b6656e2903189e953c6d2341e7b16c21c0699d1c9b607d147"
+   "sha256": "e64024fcce41638022cfb5ca5af29c15e80c0346e1ce9547458ec1dfeedd4ef9"
   },
   "data/levels/45-level45.json": {
    "from": "projects/flow-01/levels/45-level45.json",
-   "sha256": "4cec218788bc650de62fca2b375874619d978e26024d8d543551ca506044f8da"
+   "sha256": "662616dc2a3812ad84c1b9279a50df4ab3059468f137c32e4435157d71eb519c"
   },
   "data/levels/46-level46.json": {
    "from": "projects/flow-01/levels/46-level46.json",
-   "sha256": "f48c025c6ca6c6219195a105c9b2aee31ab4aa703c28f2f3df8ee2875a3c7542"
+   "sha256": "a6a5d8af2752db1a3ef74aced4ec29bcba620f7399c568125e919e3b53dced81"
   },
   "data/levels/47-level47.json": {
    "from": "projects/flow-01/levels/47-level47.json",
-   "sha256": "6c98fa8dfbfe6324dd90c9200dd46786bc825e60e248ecbed0107b3e2b6bb1ed"
+   "sha256": "1e48c25887c6037c56d85ca303f05270b9d46bdd1f8e8852457e8b67a8653209"
   },
   "data/levels/48-level48.json": {
    "from": "projects/flow-01/levels/48-level48.json",
-   "sha256": "09588d864ad95bb753cbda5d5cf663467f248da35b043666ed9050e386a9e9ba"
+   "sha256": "9a901f81119956698af0c2f12f49d64ba822a5a99a1c117426a7041bbbba2886"
   },
   "data/levels/49-level49.json": {
    "from": "projects/flow-01/levels/49-level49.json",
-   "sha256": "7b487cc40c9e5885b7e864774203b6f5732dc00c5cfcf2f3c6be5f448cbedd0a"
+   "sha256": "d5326fdbc531b9772e6e818bba099b972c299f9406b8e97fee7ebd08750ee649"
   },
   "data/levels/50-level50.json": {
    "from": "projects/flow-01/levels/50-level50.json",
-   "sha256": "0486c64bbe9464627a006469a2e4bc9381e83ab8a02ba1d8e4160de214af8e28"
+   "sha256": "ce4aa353626aaaf7d1459280f456efcca3cfb4015ff314a68edec700194e8871"
+  },
+  "data/levels-hard/H1-01.json": {
+   "from": "projects/flow-01/levels-hard/H1-01.json",
+   "sha256": "7cbd4aaabb9c51183795406f72f7f3421e8c590127dc81af550fb698aad99944"
+  },
+  "data/levels-hard/H1-02.json": {
+   "from": "projects/flow-01/levels-hard/H1-02.json",
+   "sha256": "8572fa36f84a1a8fe0ddc26f1a15405437ec159a8894e6b984d837fbf5561eb1"
+  },
+  "data/levels-hard/H1-03.json": {
+   "from": "projects/flow-01/levels-hard/H1-03.json",
+   "sha256": "6d4c5a7c82504aa349caa8ea9da4dedf8b88d53f0fd3522b92405e4d824c20b0"
+  },
+  "data/levels-hard/H1-04.json": {
+   "from": "projects/flow-01/levels-hard/H1-04.json",
+   "sha256": "dfad96719ddbfe6cbaebd51a3ce45779ecd6d63ee755fd86e052357911b6de90"
+  },
+  "data/levels-hard/H1-05.json": {
+   "from": "projects/flow-01/levels-hard/H1-05.json",
+   "sha256": "db1ba8e73f0e4833489f5afcfe08741c140bad97c75bb58a924936a41d22d2e4"
+  },
+  "data/levels-hard/H1-06.json": {
+   "from": "projects/flow-01/levels-hard/H1-06.json",
+   "sha256": "c9c76d127e6240b9c5b95433a0d3792b8bcb4cacd3c00659add5cda9992bda0a"
+  },
+  "data/levels-hard/H1-07.json": {
+   "from": "projects/flow-01/levels-hard/H1-07.json",
+   "sha256": "07e7bb04e82e06e5e6e488a4567ae4c18afbdf8409f584479cd29f0ebf1f15ca"
+  },
+  "data/levels-hard/H1-08.json": {
+   "from": "projects/flow-01/levels-hard/H1-08.json",
+   "sha256": "2f269d579c4d022012e322f525d0372b0ba18332fad76490dcf3b69f66dfd996"
+  },
+  "data/levels-hard/H1-09.json": {
+   "from": "projects/flow-01/levels-hard/H1-09.json",
+   "sha256": "9cdd63711ed0ce0bd2e9a98f01885cc165a045165fb81a61845fe9ae482b86b5"
+  },
+  "data/levels-hard/H1-10.json": {
+   "from": "projects/flow-01/levels-hard/H1-10.json",
+   "sha256": "330ba46cea79461f74013e000cc2429c3cab7ddf91ca6d91c35e3ab5fd5ae7de"
+  },
+  "data/levels-hard/H2-01.json": {
+   "from": "projects/flow-01/levels-hard/H2-01.json",
+   "sha256": "1bf9db845b7aa1bff7eda47f68a223a9d359d739342cda370c72b1af3704e7a7"
+  },
+  "data/levels-hard/H2-02.json": {
+   "from": "projects/flow-01/levels-hard/H2-02.json",
+   "sha256": "d33ae99db617c6579045e914d02733ef1a61af9285fe160a600fa10ed49ca7ca"
+  },
+  "data/levels-hard/H2-03.json": {
+   "from": "projects/flow-01/levels-hard/H2-03.json",
+   "sha256": "401f82e5d76e5e22b16bab7634fe1e9794fad55fc58ba83a6b36dd97e01cdaf0"
+  },
+  "data/levels-hard/H2-04.json": {
+   "from": "projects/flow-01/levels-hard/H2-04.json",
+   "sha256": "a97f05b5300e5bebeb19f2d98bd2ea0bcacbda6db202f367fb57ce04809f8da7"
+  },
+  "data/levels-hard/H2-05.json": {
+   "from": "projects/flow-01/levels-hard/H2-05.json",
+   "sha256": "5ccc6e522491108b74169f9dceb73700ce8fbaa826e8f8b30e75615e840a5980"
+  },
+  "data/levels-hard/H2-06.json": {
+   "from": "projects/flow-01/levels-hard/H2-06.json",
+   "sha256": "1ca53e574fdb387474a66952b22d77708b6e00b9cd591340edb7ce6e67d24f39"
+  },
+  "data/levels-hard/H2-07.json": {
+   "from": "projects/flow-01/levels-hard/H2-07.json",
+   "sha256": "bfe0552b96f0e6b8475b2fef839a30f4b8e6f311a27fa3046eafb415bfd94def"
+  },
+  "data/levels-hard/H2-08.json": {
+   "from": "projects/flow-01/levels-hard/H2-08.json",
+   "sha256": "28a7cce992cdcdd7a5c8054a308fc2e6f2f3febc7ccc8794a43bb0bb090a512f"
+  },
+  "data/levels-hard/H2-09.json": {
+   "from": "projects/flow-01/levels-hard/H2-09.json",
+   "sha256": "b19a972b4da3fc7a6b2bfb4a8714cdb78ba245f397f3627aef3416646e139094"
+  },
+  "data/levels-hard/H2-10.json": {
+   "from": "projects/flow-01/levels-hard/H2-10.json",
+   "sha256": "49fdd7802e6326140eaeb9211198113ddade2551dbdfdcde6e846155c23741a1"
+  },
+  "data/levels-hard/H3-01.json": {
+   "from": "projects/flow-01/levels-hard/H3-01.json",
+   "sha256": "def463c0ba98e46824ff7500b89a4ba0c772f497ea43a6c05a03809d7238de79"
+  },
+  "data/levels-hard/H3-02.json": {
+   "from": "projects/flow-01/levels-hard/H3-02.json",
+   "sha256": "0abb30ca144ae6908d09dbc9da4cd374158bb6d1396dff82cabdcf058bf2b6cb"
+  },
+  "data/levels-hard/H3-03.json": {
+   "from": "projects/flow-01/levels-hard/H3-03.json",
+   "sha256": "8b0e696d8a8ce745f35665e8c006a1d555c84d6c87a540ff74cf1b4c2bd7f6ec"
+  },
+  "data/levels-hard/H3-04.json": {
+   "from": "projects/flow-01/levels-hard/H3-04.json",
+   "sha256": "c604f2834ef5b22d392cc25a88be0c6ba1923493c1a42eef5647b6c6612611f3"
+  },
+  "data/levels-hard/H3-05.json": {
+   "from": "projects/flow-01/levels-hard/H3-05.json",
+   "sha256": "df798ab82a711567071a18e83cd0de6ae49a17e9b7a99158198d96fa10390197"
+  },
+  "data/levels-hard/H3-06.json": {
+   "from": "projects/flow-01/levels-hard/H3-06.json",
+   "sha256": "75e31a38f868dc9dc33023ae21bb2a42716382edd720980df545186bd17abbf0"
+  },
+  "data/levels-hard/H3-07.json": {
+   "from": "projects/flow-01/levels-hard/H3-07.json",
+   "sha256": "9a88b5065207d2d25197e2dfe81e7400fe146642ba75c2a182e0574214e4f3d1"
+  },
+  "data/levels-hard/H3-08.json": {
+   "from": "projects/flow-01/levels-hard/H3-08.json",
+   "sha256": "efb1a99e67a0c6d6a82512551f010a8ac89f8eaec0d7f2fa49df1d1f2dbf8e3d"
+  },
+  "data/levels-hard/H3-09.json": {
+   "from": "projects/flow-01/levels-hard/H3-09.json",
+   "sha256": "fa6688ced558d3c06a0c137e772546b26e0aa4c99dd12125a82b5f0876b1087c"
+  },
+  "data/levels-hard/H3-10.json": {
+   "from": "projects/flow-01/levels-hard/H3-10.json",
+   "sha256": "36cb706b72001456b76f94ec09a9ded8491c65f0f88eae2eb8a904d2e215076a"
+  },
+  "data/levels-hard/H4-01.json": {
+   "from": "projects/flow-01/levels-hard/H4-01.json",
+   "sha256": "c181c2e46bd56f9519601f6aa7083d9419d671579fd63cda6452eed4bc5efbe4"
+  },
+  "data/levels-hard/H4-02.json": {
+   "from": "projects/flow-01/levels-hard/H4-02.json",
+   "sha256": "e760351c7b866033012f45601f990d428c200de8db61f5b758610b2be67b8d1b"
+  },
+  "data/levels-hard/H4-03.json": {
+   "from": "projects/flow-01/levels-hard/H4-03.json",
+   "sha256": "a65a01376860c32661777f928fb98886b436c0a88e4eae865f9e185c5c2669c7"
+  },
+  "data/levels-hard/H4-04.json": {
+   "from": "projects/flow-01/levels-hard/H4-04.json",
+   "sha256": "838ee7e1ac7ef7a50dcb43ecc9a4781ed6f488d601609567df9d4514a1c15f46"
+  },
+  "data/levels-hard/H4-05.json": {
+   "from": "projects/flow-01/levels-hard/H4-05.json",
+   "sha256": "affe7f177b312f674971a765491d546541749ea81fa3571b980e59395aebea4b"
+  },
+  "data/levels-hard/H4-06.json": {
+   "from": "projects/flow-01/levels-hard/H4-06.json",
+   "sha256": "60aec69224f36f4eb6e9dcdb4e1d7d872f5d7fdd63eeba590c8bd5b73980ff9d"
+  },
+  "data/levels-hard/H4-07.json": {
+   "from": "projects/flow-01/levels-hard/H4-07.json",
+   "sha256": "1881c1b277e4224abeee7a3a975714570821256ef8fdd5d171ed4890176877c7"
+  },
+  "data/levels-hard/H4-08.json": {
+   "from": "projects/flow-01/levels-hard/H4-08.json",
+   "sha256": "a53eeebe8893df62e9a1173598777226d9e62463d933cd57ebf36cb86f11dfc8"
+  },
+  "data/levels-hard/H4-09.json": {
+   "from": "projects/flow-01/levels-hard/H4-09.json",
+   "sha256": "589066578b725a2aff375b70ef70a22b6733377c4c341896f317dd4ad7bf6a76"
+  },
+  "data/levels-hard/H4-10.json": {
+   "from": "projects/flow-01/levels-hard/H4-10.json",
+   "sha256": "5afec4872657686e51ae67b56a6e9fb86c99e90cd269e1cb4ce6e9b24241df1a"
+  },
+  "data/levels-hard/H5-01.json": {
+   "from": "projects/flow-01/levels-hard/H5-01.json",
+   "sha256": "b04542a0785407931b2869a9f90ffaa3ac510957f68baf51f5976d132a0147b2"
+  },
+  "data/levels-hard/H5-02.json": {
+   "from": "projects/flow-01/levels-hard/H5-02.json",
+   "sha256": "6a4c8546c48bdffb2db44baf04d60d4262912533ae596577db18d5bc3a90f97b"
+  },
+  "data/levels-hard/H5-03.json": {
+   "from": "projects/flow-01/levels-hard/H5-03.json",
+   "sha256": "5252d3cb1a9fe32383b2130c8efe5d5cfc755a742979c7afa2ac272c44fa2982"
+  },
+  "data/levels-hard/H5-04.json": {
+   "from": "projects/flow-01/levels-hard/H5-04.json",
+   "sha256": "2f66d56e5261e594dcf5d5fc17341d236da2c9183a95aee165e5a98eae30946f"
+  },
+  "data/levels-hard/H5-05.json": {
+   "from": "projects/flow-01/levels-hard/H5-05.json",
+   "sha256": "6b88fe3ec19c9100d2ba7fdfd52903e1af25c7e653e517fb3353c9e7cf582e62"
+  },
+  "data/levels-hard/H5-06.json": {
+   "from": "projects/flow-01/levels-hard/H5-06.json",
+   "sha256": "44b3525816f82fe830150f7382b86bf3ced450c184b4a095e5b06474c1e04d14"
+  },
+  "data/levels-hard/H5-07.json": {
+   "from": "projects/flow-01/levels-hard/H5-07.json",
+   "sha256": "6c3163fc0d6af6d750e59cf31df93c2e87425cd64d9e4d47a81d4e361d8ca5e8"
+  },
+  "data/levels-hard/H5-08.json": {
+   "from": "projects/flow-01/levels-hard/H5-08.json",
+   "sha256": "eb020d88a8b99954ef4c60a46934038bc7c3166ca1c926fdb42f5d9a1b0c8b12"
+  },
+  "data/levels-hard/H5-09.json": {
+   "from": "projects/flow-01/levels-hard/H5-09.json",
+   "sha256": "4b6f8efdae70fd7166b2d37971c3590894d73d2eebc096ff02e1dcdd42fecdfa"
+  },
+  "data/levels-hard/H5-10.json": {
+   "from": "projects/flow-01/levels-hard/H5-10.json",
+   "sha256": "c87e7d2e0a8b1a26b7e20333564ee02472220466d4a8a0616edb45e46c3433c4"
   },
   "data/palette.json": {
    "from": "projects/flow-01/assets/palette.json",
-   "sha256": "fe5df08d892a418100f2282e1f25b018c766de1a01a3aae89743b20e1891c0a5"
+   "sha256": "a7c39b5db45aa1c91f199bcb1fdc4533e9b419ff5f705788e02ace461ea1c57b"
   },
   "data/layout.json": {
    "from": "projects/flow-01/assets/layout.json",
-   "sha256": "6cb6f4d2eba8c7abbb7b64b52e4bc94177dafb4b542b8d3f176c60224ff2ff28"
+   "sha256": "f039fd0db01aca538084a2161668a1932fc31cf70bcb78aeac979fa9d96e7099"
   },
   "data/sound.json": {
    "from": "projects/flow-01/assets/sound.json",
@@ -397,7 +649,7 @@
   },
   "data/tutorial/card-hole.svg": {
    "from": "projects/flow-01/assets/tutorial/card-hole.svg",
-   "sha256": "fd09f97e9a4d26f1649249f4a3f8fd175b2cdca767710f80b9b2c368747b225d"
+   "sha256": "97d6ed1064c8e57d97a0c68890dad95a55cfddf1f765dd4e79cda03fc73ef865"
   }
  }
 }

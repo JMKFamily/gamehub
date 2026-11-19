@@ -22,7 +22,9 @@ const PARAM = {
   fill_bar_h: 6, fill_pct_font: 13, // r2 H3: 플레이 중 채움 = 판 바로 위 가는 막대 + 오른쪽 끝 작은 %
   judge_star_of_name: 0.6, // r2 S15: 1단 판정 이름 위 작은 별(이름 글자 크기의 0.6배)
   result_dot: 28, result_dot_pitch: 36, // r2 H3: 결과 쌍 점 줄
-  pager_dot: 12, pager_pitch: 22, chapters: 5, // r2 50스테이지: 챕터 페이지 점
+  pager_dot: 12, pager_pitch: 22, chapters: 5, pages: 6, // r2 50스테이지: 챕터 페이지 점. r3: 6번째 페이지 = 어려운 판 문 5개
+  wide_cell: 56, wide_min_visible: 5, minimap_cell_min: 3, // r3 넓은 판: 플레이 칸(× min(k,1.2)), 보이는 칸 ≥ 5, 미니맵 칸 ≥ 3 px
+  gate_d: 76, gate_star: 10, // r3 어려운 판 문 지름·별 칸 크기(× k)
   map_node: 64, result_board_of_S: 0.46,
   small_font: 14, level_name_font: 16, // 보호자 안내·guardian_hold / 결과 레벨 이름 띠
 };
@@ -165,9 +167,9 @@ function map(W, H) {
     const top = titleH + starsH, avail = H - barH - pagerH - 8 - top; for (let i = 0; i < 10; i++) nodes.push([Math.round(x0 + ((x1 - x0) * i) / 9), Math.round(top + avail * (i % 2 ? 0.72 : 0.28))]);
   }
   const fs = Math.round(PARAM.small_font * k);
-  const settings = R(W - edge - btn, H - edge - btn, btn, btn, { icon: 'settings', key: 'btn_settings', hold_ms: 1500, _rule: '보호자: 1.5 s 길게 누르기. 아래 오른쪽(바로 왼쪽에 guardian_hold 글)' });
-  const pcy = H - barH - pagerH / 2, pd = Math.round(PARAM.pager_dot * k), pp = Math.round(PARAM.pager_pitch * k), dotsW = (PARAM.chapters - 1) * pp + pd;
-  const pager = { cy: Math.round(pcy), dots: R(W / 2 - dotsW / 2, pcy - pd / 2, dotsW, pd, { n: PARAM.chapters, d: pd, pitch: pp, hit: R(W / 2 - dotsW / 2 - 6, pcy - btn / 2, dotsW + 12, btn) }),
+  const settings = R(W - edge - btn, H - edge - btn, btn, btn, { icon: 'settings', key: 'btn_settings', _rule: 'r3 규약: 설정 = 일반 버튼(한 번 누르면 설정 화면). 길게 누르기·"어른은 …" 안내 글 없음.' });
+  const pcy = H - barH - pagerH / 2, pd = Math.round(PARAM.pager_dot * k), pp = Math.round(PARAM.pager_pitch * k), dotsW = (PARAM.pages - 1) * pp + pd;
+  const pager = { cy: Math.round(pcy), dots: R(W / 2 - dotsW / 2, pcy - pd / 2, dotsW, pd, { n: PARAM.pages, d: pd, pitch: pp, hit: R(W / 2 - dotsW / 2 - 6, pcy - btn / 2, dotsW + 12, btn), last_is_hard: true, hard_dot: 'r3: 6번째 점 = 작은 별 모양(star 면, 첫 문이 열리기 전에는 nodeLocked 면)' }),
     prev: R(W / 2 - dotsW / 2 - 14 - btn, pcy - btn / 2, btn, btn, { icon: 'page_prev', key: 'btn_page_prev' }), next: R(W / 2 + dotsW / 2 + 14, pcy - btn / 2, btn, btn, { icon: 'page_next', key: 'btn_page_next' }),
     swipe: { min_px: Math.round(48 * k), max_ms: 600 }, turn_ms: 260, ease: 'out',
     _rule: '한 페이지 = 한 챕터(10노드, 지금 지도 배치 그대로). 처음 열면 "다음" 노드가 있는 챕터. ◀▶ 또는 좌우 밀기(≥ 48k px, ≤ 600 ms)로 넘김, 260 ms 옆으로 밀려남(동작 줄이기면 겹쳐 흐려짐 150 ms). 점 5개: 지금 = pathDone 면 지름 1.0, 다른 열린 챕터 = pathTodo 면, 다 깬 챕터 = star 면, 잠긴 챕터 = nodeLocked 면 + 지름 0.75. 점을 누르면 그 챕터로. 첫 챕터에서 ◀, 마지막에서 ▶ 는 숨김(자리는 비움). 잠긴 챕터도 넘겨 볼 수 있음(노드 전부 잠김 실루엣, 누르면 아무 일 없음). 글·숫자 없음, 대체 글 aria_chapters·btn_page_prev·btn_page_next(lore). 페이지마다 바탕 = 그 챕터 1번째 레벨 바탕(menu 대신, 챕터 색 가족이 보임).' };
@@ -175,8 +177,54 @@ function map(W, H) {
     stars: R(W / 2 - 5 * Math.round(19 * k), titleH - 2, 10 * Math.round(19 * k), starsH, { star_px: Math.round(16 * k), pitch: Math.round(19 * k), css: '#mStars svg { width: star_px; height: star_px }(인라인 SVG 원본 48 px 그대로 그리지 않음, r2 E6/S19). 별 사이 = pitch − star_px', _rule: '지금 챕터에서 모은 별 10칸 줄(글·숫자 없음): 받은 별 = star 면, 아직 = star_empty(옅은 실선 면, r2 — 점선 아님). 대체 글 aria_map_stars.' }),
     node_states: { locked: 'node-locked.svg: nodeLocked 원 + 그 레벨 판 크기(width x height) 옅은 타일 격자 실루엣(nodeLockedMark 투명도 0.35, 격자 폭 = 노드 지름의 0.53, r2 S10). 자물쇠 그림 없음. 누르면 120 ms 옆으로 2k px 살짝 흔들림(소리 없음, r2 S30 — 아래 motion.map.locked_tap)', next: 'node-open.svg: 흰 원 + nodeOpenEdge 테두리 + ▶, 1.6 s 주기 1.0 ↔ 1.06 숨 쉼', partial: 'node-partial.svg: next 와 같고 테두리 바깥에 칠한 칸 비율만큼 pathDone 호(12시부터 시계 방향, 숫자 없음) — 풀다 나간 판의 최고 판 채움(연결된 쌍이 칠한 칸 기준, G3)', done: '그 판 정답의 미니 그림(둥근 네모 판 + tint 칸 + 선, 점 생략). 미니 그림 둘레 4k px 띠 = 그 레벨 바탕 top 색 + boardEdge(결과 화면 레벨 이름 띠와 같은 색, G7)', star: 'done + 오른쪽 위 작은 별(노드 지름 0.32)' },
     buttons: { settings, sound: R(edge, edge, btn, btn, { icon: 'sound_on', key: 'settings_sound', _rule: '켬/끔, aria-pressed' }) },
-    text_slots: { guardian_hold: { ...R(edge, settings.y, settings.x - 8 - edge, btn), font_px: fs, max_lines: 2, align: 'right', used_by: ['guardian_hold'], color: 'inkSoft', _rule: '톱니 바로 왼쪽, 오른쪽 정렬·세로 가운데. 늘 보임(작게).' } },
+    text_slots: {}, _r3: '보호자 안내 글 자리(guardian_hold) 제거 — 규약(옵션에 어른 도움 고지 없음)',
+    hard: hardPage(W, H, k, portrait, titleH, starsH, barH, pagerH, btn, edge),
     path: { w: Math.round(10 * k), _rule: '노드 가운데를 잇는 Catmull-Rom 곡선(장력 0.5). 지나온 구간 pathDone, 앞 구간 pathTodo, 끝 둥글게.' } };
+}
+
+// ---------- r3 어려운 판 문 페이지 (지도 6번째 페이지) ----------
+function hardPage(W, H, k, portrait, titleH, starsH, barH, pagerH, btn, edge) {
+  const gd = Math.round(PARAM.gate_d * k), gs = Math.round(PARAM.gate_star * k), ringR = Math.round(gd / 2 + gs * 0.9 + 4), gates = [];
+  if (portrait) { const y0 = titleH + starsH + ringR + 12, y1 = H - barH - pagerH - ringR - 8; for (let i = 0; i < 5; i++) gates.push([Math.round(W * (i % 2 ? 0.68 : 0.32)), Math.round(y0 + ((y1 - y0) * i) / 4)]); }
+  else { const x0 = ringR + 16 * k, x1 = W - ringR - 16 * k, top = titleH + starsH, avail = H - barH - pagerH - 8 - top; for (let i = 0; i < 5; i++) gates.push([Math.round(x0 + ((x1 - x0) * i) / 4), Math.round(top + avail / 2 + (avail / 2 - ringR - 6) * (i % 2 ? 0.5 : -0.5))]); } // 가로: 한 줄(높이가 낮아 지그재그 폭을 줄임)
+  return { gates, gate_d: gd, ring: { r: ringR, star_px: gs, n: 10, start_deg: -90 }, title_key: 'hard_title', unlock_every_stars: 10,
+    states: { locked: '옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음',
+      open: '흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)', cleared: '열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)' },
+    unlock_motion: { star_fill_ms: 60, star_pop: [0, 1.25, 1], gate_morph_ms: 320, sound: 'node_open', haptic: 'star', when: '누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음', reduced: '별 칸·문 바로 바뀜' },
+    _rule: '지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움).' };
+}
+
+// ---------- r3 넓은 판(어려운 판, 기본의 최대 4배 = 12x12, 쌍 ≤ 16 가정) ----------
+const BOARDS_WIDE = [[8, 8], [9, 9], [10, 10], [12, 8], [8, 12], [12, 12]];
+function playWide(W, H, cols, rows) {
+  const fit0 = play(W, H, cols, rows), k = fit0.k, P = PARAM;
+  if (fit0.cell >= P.cell_min) return { ...fit0, wide: true, fit_cell: fit0.cell, camera: null };
+  const fit = play(W, H, 12, 12); // 화면 틀(viewport·채움 막대·판정·버튼)은 모든 넓은 판에서 같게 = 12x12 기준 틀
+  const o = { ...fit, board_size: [cols, rows], wide: true, fit_cell: fit0.cell };
+  const pc = Math.round(P.wide_cell * Math.min(k, 1.2));
+  const vp = fit.portrait ? R(P.side_margin, fit.board.y, W - 2 * P.side_margin, fit.buttons.undo.y - 8 - fit.board.y) : R(fit.board.x, fit.board.y, fit.board.w, fit.board.h);
+  o.viewport_rule = '판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)';
+  o.cell = pc; o.board_full = { w: Math.round(pc * (cols + 2 * P.board_pad_of_cell)), h: Math.round(pc * (rows + 2 * P.board_pad_of_cell)) };
+  o.viewport = vp; o.board = vp;
+  o.visible_cells = [+Math.min(cols, vp.w / pc).toFixed(1), +Math.min(rows, vp.h / pc).toFixed(1)];
+  // 미니맵: 세로 = 위 HUD 쌍 점 줄 자리, 가로 = 오른쪽 기둥 위 쌍 점 격자 자리(쌍 점 줄은 넓은 판에서 미니맵으로 바뀜)
+  const box = fit.portrait ? R(fit.pair_row.x0, 4, fit.pair_row.x1 - fit.pair_row.x0, Math.round(P.hud_h * k) - 8) : R(fit.pillars.right.x + 8, Math.round(P.edge * k), fit.pillars.right.w - 16, Math.round(120 * k));
+  const mc = Math.floor(Math.min(box.w / cols, box.h / rows));
+  const mm = R(box.x + (box.w - mc * cols) / 2, box.y + (box.h - mc * rows) / 2, mc * cols, mc * rows, { cell: mc });
+  o.minimap = { ...mm, hit: R(mm.x - Math.max(0, (48 - mm.w) / 2), mm.y - Math.max(0, (48 - mm.h) / 2), Math.max(48, mm.w), Math.max(48, mm.h)),
+    draws: '칸 = 연결된 쌍 tint, 끝점 = 쌍 색 1칸, 나머지 tile. 지금 보이는 곳 = ink 2 px 둥근 테두리', cache: '미니맵 캔버스 1장, 바뀐 칸만 다시 칠함',
+    tap: '전체 보기 켜기/끄기', drag: '보이는 곳 옮기기(손가락 = 테두리 가운데)', _rule: '쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임.' };
+  o.pair_row = { ...fit.pair_row, replaced_by: 'minimap' };
+  // 세로: 판 아래 글 자리가 viewport 에 들어가므로 판정 띠를 같이 씀
+  if (fit.portrait) o.text_slots = { board_text: { ...R(16, fit.judge.y, W - 32, fit.judge.h), font_px: fit.text_slots.board_text.font_px, max_lines: 2, align: 'center', used_by: ['tut_drag', 'gap_left'], shared_with: 'judge', coexists_with_card: false } };
+  o.camera = {
+    modes: { overview: { cell: fit.cell, draw: false, _rule: '판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)' }, play: { cell: pc, draw: true } },
+    start: 'overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play',
+    follow: { edge_zone_of_cell: 1.2, dwell_ms: 200, max_cells_per_s: 8, ease: 'out', _rule: '드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤' },
+    jump: { ms: 300, when: ['되돌리기·처음부터·도움 손가락', '미니맵 누름', 'overview 에서 누름'], _rule: '바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감' },
+    clamp: '판 바깥으로 0.5칸 넘게 나가지 않음', gesture: '두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 "여기서 시작" 안내(이동 아님)',
+    render: '판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음' };
+  return o;
 }
 
 // ---------- 결과 화면 ----------
@@ -229,10 +277,10 @@ function guardianScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), btn = Math.round(PARAM.btn * k), edge = Math.round(PARAM.edge * k), gap = Math.round(12 * k);
   const fB = Math.round(16 * k), fL = Math.round(18 * k), fS = Math.round(PARAM.small_font * k), tw = Math.round(64 * k);
   const ts = {}, ctl = {};
-  ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'guardian_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
+  ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'settings_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
   const close = R(col.x + col.w - btn, edge, btn, btn, { icon: 'close', key: 'btn_close' });
   let y = edge + btn + gap;
-  ts.guardian_intro = textBlock(col.x, y, col.w, 'guardian_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
+  ts.guardian_intro = textBlock(col.x, y, col.w, 'settings_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
   const row = (key, note) => {
     ts[key] = { ...textBlock(col.x, y, col.w - tw - 12, key, fL, 1, { align: 'left', valign: 'middle' }), h: btn }; ctl[key] = R(col.x + col.w - tw, y, tw, btn, { kind: 'toggle', key }); y += btn + 4;
     if (note) { ts[note] = textBlock(col.x, y, col.w, note, fS, 4, { align: 'left', color: 'inkSoft' }); y += ts[note].h + 4; }
@@ -249,7 +297,7 @@ function guardianScreen(W, H) {
   const bw2 = Math.max(btn, Math.ceil(Math.max(...['confirm_yes', 'confirm_no'].flatMap((kk) => strs(kk).map(([, v]) => textW(v, fL)))) + 32));
   const ch = 20 + cText.h + 16 + btn + 20, cy = Math.round((H - ch) / 2); cText.y = cy + 20;
   const confirm = { card: R(cx, cy, cwid, ch), text: cText, no: R(cx + cwid / 2 - 6 - bw2, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_no', font_px: fL, _rule: '먼저 포커스' }), yes: R(cx + cwid / 2 + 6, cy + ch - 20 - btn, bw2, btn, { key: 'confirm_yes', font_px: fL }) };
-  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: '어른 화면: 글이 화면보다 길면 세로 스크롤(아이 화면 아님). 닫기 ✕ 는 머리 줄에 고정.', scroll_hint: { fade_px: Math.round(24 * k), chevron_px: Math.round(20 * k), _rule: 'r2 S6: 내용이 화면보다 길면 아래 가장자리 24k px 을 바탕색으로 옅게 덮고(미리 그린 띠, 그라디언트 1장) 가운데 아래꺾쇠(inkSoft 20k)를 둠. 끝까지 내리면 둘 다 숨김. 스크롤 막대는 브라우저 기본 그대로 보이게(overflow-y: auto, 숨기지 않음).' }, buttons: { close }, controls: ctl, text_slots: ts, confirm };
+  return { W, H, k, bg: 'menu', column: col, content_h: y, scroll: y > H, _rule: 'r3: 설정 화면(이름은 호환 위해 guardian 그대로). 지도 톱니 한 번 누름으로 열림, 길게 누르기·보호자 도움 고지 없음. 글이 화면보다 길면 세로 스크롤. 닫기 ✕ 는 머리 줄에 고정.', scroll_hint: { fade_px: Math.round(24 * k), chevron_px: Math.round(20 * k), _rule: 'r2 S6: 내용이 화면보다 길면 아래 가장자리 24k px 을 바탕색으로 옅게 덮고(미리 그린 띠, 그라디언트 1장) 가운데 아래꺾쇠(inkSoft 20k)를 둠. 끝까지 내리면 둘 다 숨김. 스크롤 막대는 브라우저 기본 그대로 보이게(overflow-y: auto, 숨기지 않음).' }, buttons: { close }, controls: ctl, text_slots: ts, confirm };
 }
 function errorScreen(W, H) {
   const k = kOf(W, H), col = column(W, H, k), big = Math.round(72 * k);
@@ -261,5 +309,5 @@ function errorScreen(W, H) {
   return { W, H, k, bg: 'menu', _rule: '불러오는 중 = head 자리에 loading 글만. 실패 = load_error + load_error_detail + ↻ 버튼(btn_reload, 부트 블록 인라인 그림 = icon-restart 경로).', text_slots: { head, detail }, buttons: { reload: R(W / 2 - big / 2, y, big, big, { icon: 'restart', key: 'btn_reload' }) } };
 }
 
-return { PARAM, kOf, textW, play, map, result, titleScreen, guardianScreen, errorScreen };
+return { PARAM, kOf, textW, play, playWide, map, result, titleScreen, guardianScreen, errorScreen };
 }

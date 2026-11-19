@@ -35,6 +35,9 @@ const Bm = await import(pathToFileURL(join(PROJ, 'tools/core/board.mjs')).href);
 const LAYOUT = JSON.parse(readFileSync(join(PROJ, 'assets/layout.json'), 'utf8'));
 const BAL = JSON.parse(readFileSync(join(PROJ, 'balance.json'), 'utf8'));
 const LEVELS = readdirSync(join(PROJ, 'levels')).filter((f) => f.endsWith('.json')).sort().map((f) => JSON.parse(readFileSync(join(PROJ, 'levels', f), 'utf8')));
+// r3: 어려운 판 5단계 × 10(훅 색인 50~99)
+const HARD = readdirSync(join(PROJ, 'levels-hard')).filter((f) => f.endsWith('.json')).sort().map((f) => JSON.parse(readFileSync(join(PROJ, 'levels-hard', f), 'utf8'))).sort((a, b) => a.stage - b.stage || a.stage_pos - b.stage_pos);
+const ALL = LEVELS.concat(HARD);
 const solOf = (lv) => lv.pairs.map((p) => lv.solution.find((s) => s.id === p.id).path);
 
 let bad = 0;
@@ -91,6 +94,7 @@ const G = (p, f, a) => p.evaluate(f, a);
     const [W, H] = rk.split('x').map(Number);
     for (const bk of Object.keys(LAYOUT.play[rk])) { const [cc, rr] = bk.split('x').map(Number); const got = await G(p, ([W, H, cc, rr]) => window.__game.calcLayout(W, H, cc, rr), [W, H, cc, rr]); cmp(LAYOUT.play[rk][bk], got.play, `play.${rk}.${bk}`);
       if (bk === '4x4') for (const s of ['map', 'result', 'title', 'guardian', 'error']) cmp(LAYOUT[s][rk], got[s], `${s}.${rk}`); }
+    for (const bk of Object.keys(LAYOUT.play_wide[rk])) { const [cc, rr] = bk.split('x').map(Number); const got = await G(p, ([W, H, cc, rr]) => window.__game.calcLayout(W, H, cc, rr), [W, H, cc, rr]); cmp(LAYOUT.play_wide[rk][bk], got.playWide, `play_wide.${rk}.${bk}`); }
   }
   if (diff) fail(`배치 식 ≠ layout.json ${diff}/${n}`); else ok(`배치 식 = layout.json (${n}개 값)`);
   await c.close();
@@ -113,10 +117,10 @@ const G = (p, f, a) => p.evaluate(f, a);
   const exp1 = Math.floor((100 * (l1.pairs.length - 1)) / l1.pairs.length);
   if (nb.r1.accuracyPct !== exp1 || nb.r1.star || nb.vis1 || nb.r2.accuracyPct !== 100 || !nb.r2.newBest || !nb.vis2) fail('결과 %·신기록 ' + JSON.stringify(nb)); else ok(`결과 %: 한 쌍을 되돌려 다시 이음 → ${exp1} %·별 없음, 다음 판 100 % → 신기록 표지`);
   const hookCount = await G(p, () => window.__game.levelCount);
-  if (hookCount !== LEVELS.length) fail(`훅 levelCount ${hookCount} ≠ 레벨 파일 ${LEVELS.length}`); else ok(`훅 levelCount = ${hookCount}`);
+  if (hookCount !== ALL.length) fail(`훅 levelCount ${hookCount} ≠ 레벨 파일 ${ALL.length}(일반 ${LEVELS.length} + 어려운 ${HARD.length})`); else ok(`훅 levelCount = ${hookCount} (일반 ${LEVELS.length} + 어려운 ${HARD.length})`);
   const replay = [];
-  for (let i = 0; i < LEVELS.length; i++) {
-    const lv = LEVELS[i];
+  for (let i = 0; i < ALL.length; i++) {
+    const lv = ALL[i];
     await G(p, (i) => { window.__game.loadLevel(i); window.__game.closeCard(); window.__game.step(300); }, i);
     const sol = solOf(lv);
     for (let k = 0; k < sol.length; k++) {
@@ -126,7 +130,7 @@ const G = (p, f, a) => p.evaluate(f, a);
       if (!j || j.grade !== 1) fail(`L${lv.order} 쌍 ${k} 판정 ${j && j.grade} (1단 기대)`);
     }
     const s = await G(p, () => ({ b: window.__game.board, r: window.__game.result, moves: window.__game.moves, log: window.__game.dragLog, st: window.__game.state }));
-    if (!s.b.completed || !s.r || s.r.accuracyPct !== 100 || !s.r.star || s.moves !== lv.pairs.length) fail(`L${lv.order} 완료 ${s.b.completed} % ${s.r && s.r.accuracyPct} 별 ${s.r && s.r.star} 이동 ${s.moves}`);
+    if (!s.b.completed || !s.r || s.r.accuracyPct !== 100 || !s.r.star || s.moves !== lv.pairs.length) fail(`L${lv.order || lv.id} 완료 ${s.b.completed} % ${s.r && s.r.accuracyPct} 별 ${s.r && s.r.star} 이동 ${s.moves}`);
     // 완료 1.0 s 잠금 → 결과
     const lockOk = await G(p, () => { const g = window.__game; const a = g.drag([[0, 0], [0, 1]]).pressed === false; g.step(990); const b = g.state === 'play'; g.step(30); return a && b && g.state === 'result'; });
     if (!lockOk) fail(`L${lv.order} 완료 잠금 1.0 s → 결과 화면 전환 아님`);
@@ -140,7 +144,7 @@ const G = (p, f, a) => p.evaluate(f, a);
     replay.push(g.completed && g.moves === s.moves && Bm.isStar(g));
     if (!replay[i]) fail(`L${lv.order} 드래그 기록 재판정 불일치`);
   }
-  ok(`${LEVELS.length}레벨 생성 답 드래그 → 완료·별·결과 100 %·1단, 재판정 일치 ${replay.filter(Boolean).length}/${LEVELS.length}`);
+  ok(`일반 ${LEVELS.length} + 어려운 ${HARD.length}판 생성 답 드래그 → 완료·별·결과 100 %·1단, 재판정 일치 ${replay.filter(Boolean).length}/${ALL.length}`);
 
   // 규칙 확인
   const l2 = LEVELS[1];
@@ -265,6 +269,36 @@ const G = (p, f, a) => p.evaluate(f, a);
   await c.close();
 }
 
+// r3 넓은 판: 1280x720 실제 마우스로 12x12(H4-01) 풀기, 412x915 카메라(전체 보기 → 누름 확대, 미니맵 누름 → 전체 보기), 문 페이지 해금
+{
+  const { c, p } = await open(1280, 720, '');
+  const hi = LEVELS.length + HARD.findIndex((h) => h.id === 'H4-01'), lv = HARD.find((h) => h.id === 'H4-01');
+  await G(p, (i) => window.__game.loadLevel(i), hi); await p.waitForTimeout(400);
+  const gr = await G(p, () => window.__game.layout.grid);
+  const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
+  for (const path of solOf(lv)) { const [x0, y0] = at(path[0]); await p.mouse.move(x0, y0); await p.mouse.down(); for (const q of path.slice(1)) { const [x, y] = at(q); await p.mouse.move(x, y, { steps: 2 }); } await p.mouse.up(); }
+  const r = await G(p, () => window.__game.result);
+  if (!r || !r.star || r.accuracyPct !== 100) fail('넓은 판 12x12 실제 마우스(1280x720) ' + JSON.stringify(r)); else ok('넓은 판 H4-01(12x12·16쌍) 실제 마우스 → 별·100 %');
+  await c.close();
+}
+{
+  const stars = {}; for (const lv of LEVELS.slice(0, 10)) stars[lv.id] = { done: true, star: true, bestPct: 100, bestFill: 100 };
+  const { c, p } = await open(412, 915, '', { store: { v: 1, sound: true, vibrate: true, motion: false, lang: null, levels: stars } });
+  const hi = LEVELS.length; // H1-01
+  await G(p, (i) => window.__game.loadLevel(i), hi); await p.waitForTimeout(400);
+  const cam0 = await G(p, () => window.__game.camera);
+  const box = await G(p, () => window.__game.layout.play.viewport);
+  await p.mouse.click(box.x + box.w / 2, box.y + box.h / 2); await p.waitForTimeout(500);
+  const cam1 = await G(p, () => window.__game.camera);
+  const mm = await p.locator('#pMiniWrap').boundingBox(); await p.mouse.click(mm.x + mm.width / 2, mm.y + mm.height / 2); await p.waitForTimeout(500);
+  const cam2 = await G(p, () => window.__game.camera);
+  if (!cam0 || cam0.mode !== 'overview' || cam1.mode !== 'play' || cam1.s !== 1 || cam2.mode !== 'overview') fail('카메라 ' + JSON.stringify([cam0, cam1, cam2])); else ok('넓은 판 카메라: 전체 보기 → 누름 확대(칸 56) → 미니맵 누름 → 전체 보기');
+  await G(p, () => { window.__game.toMap(5); }); await p.waitForTimeout(400);
+  const gates = await p.evaluate(() => [...document.querySelectorAll('.node.gate')].map((b) => b.dataset.state));
+  if (gates.length !== 5 || gates[0] !== 'next' || gates[1] !== 'locked') fail('문 페이지(별 10개) ' + gates); else ok('지도 6번째 페이지 문 5개, 별 10개 → 1단계 열림·2단계 잠김');
+  await c.close();
+}
+
 // 불러오기 오류 화면: 데이터 하나가 실패해도 글·↻ 그림(인라인)이 보이고 html lang·제목이 그 언어
 {
   const c = await browser.newContext({ viewport: { width: 360, height: 640 }, locale: 'en-US' });
@@ -373,6 +407,7 @@ for (const [W, H] of RES) {
       await G(p, (paths) => { const g = window.__game; g.loadLevel(1); g.closeCard(); g.step(300); for (const c of paths) g.drag(c); g.step(630 + 2 * 2600 + 250); }, straight); await shot(p, `${tag}-play-L2-gap.png`);
     }
     await G(p, (s6) => { const g = window.__game; g.loadLevel(5); g.closeCard(); g.step(300); for (const c of s6) g.drag(c); g.step(1000 + 2200); }, s6); await checkUi(p, tag + ' result'); if (shots) await shot(p, `${tag}-result.png`);
+    if (lang === 'ko') { await G(p, (i) => { const g = window.__game; g.loadLevel(i); g.step(400); }, LEVELS.length + 30); await shot(p, `${tag}-play-hard-overview.png`); await G(p, (cells) => { const g = window.__game; g.drag(cells); g.step(400); }, solOf(HARD[30])[0]); await checkUi(p, tag + ' play-hard'); await shot(p, `${tag}-play-hard-play.png`); await G(p, () => { window.__game.toMap(5); window.__game.step(400); }); await shot(p, `${tag}-map-gates.png`); }
     await G(p, () => { window.__game.toGuardian(); window.__game.step(400); }); await checkUi(p, tag + ' guardian'); if (shots && (W === 360 || W === 640)) await shot(p, `${tag}-guardian.png`);
     await c.close();
   }

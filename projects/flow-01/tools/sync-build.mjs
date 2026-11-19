@@ -28,13 +28,15 @@ pairs.push(['tools/core/board.mjs', 'js/board.js'], ['tools/core/rng.mjs', 'js/r
 pairs.push(['balance.json', 'data/balance.json'], ['strings.json', 'data/strings.json']);
 const levelFiles = readdirSync(join(PROJ, 'levels')).filter((f) => /^\d\d-level\d+\.json$/.test(f)).sort();
 for (const f of levelFiles) pairs.push([`levels/${f}`, `data/levels/${f}`]);
+const hardFiles = existsSync(join(PROJ, 'levels-hard')) ? readdirSync(join(PROJ, 'levels-hard')).filter((f) => /^H[0-9]-[0-9][0-9][.]json$/.test(f)).sort() : [];
+for (const f of hardFiles) pairs.push([`levels-hard/${f}`, `data/levels-hard/${f}`]);
 for (const f of ['palette.json', 'layout.json', 'sound.json', 'finger.svg', 'logo-mark.svg']) pairs.push([`assets/${f}`, `data/${f}`]);
 const icons = readdirSync(join(PROJ, 'assets/icons')).filter((f) => f.endsWith('.svg')).sort();
 for (const f of icons) pairs.push([`assets/icons/${f}`, `data/icons/${f}`]);
 for (const f of ['card-fill.svg', 'card-hole.svg']) pairs.push([`assets/tutorial/${f}`, `data/tutorial/${f}`]);
 
 let bad = 0;
-const manifest = { _source: 'projects/flow-01/tools/sync-build.mjs 생성. 손으로 고치지 않음', levels: levelFiles, icons: icons.map((f) => f.replace(/\.svg$/, '')), files: {} };
+const manifest = { _source: 'projects/flow-01/tools/sync-build.mjs 생성. 손으로 고치지 않음', levels: levelFiles, hard: hardFiles, icons: icons.map((f) => f.replace(/\.svg$/, '')), files: {} };
 for (const [src, dst] of pairs) {
   const b = readFileSync(join(PROJ, src));
   manifest.files[dst] = { from: `projects/flow-01/${src}`, sha256: sha(b) };
@@ -67,7 +69,7 @@ for (const f of levelFiles) {
     const body = src.slice(a, b).replace(/^export /gm, '');
     const out = '// 생성 파일: projects/flow-01/tools/sync-build.mjs 가 assets/check/layout.mjs 의 배치 식을 그대로 떼어 감쌈. 손으로 고치지 않음.\n' +
       '// STR = strings.json, BAL_CARD_CLOSE = balance.json rule_card.auto_close_ms (layout.mjs 와 같은 입력)\n' +
-      'export function makeLayout(STR, BAL_CARD_CLOSE) {\n' + body + 'return { PARAM, kOf, textW, play, map, result, titleScreen, guardianScreen, errorScreen };\n}\n';
+      'export function makeLayout(STR, BAL_CARD_CLOSE) {\n' + body + 'return { PARAM, kOf, textW, play, playWide, map, result, titleScreen, guardianScreen, errorScreen };\n}\n';
     const p = join(GAME, 'js/layout.js');
     if (CHECK) { if (!existsSync(p) || readFileSync(p, 'utf8') !== out) { bad++; console.log('DIFF js/layout.js ≠ layout.mjs 배치 식'); } }
     else writeFileSync(p, out);

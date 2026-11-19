@@ -41,15 +41,14 @@
   <button id="mPrev" class="ib" type="button"></button>
   <div id="mTabs" role="tablist"></div>
   <button id="mNext" class="ib" type="button"></button>
-  <p id="mHold" class="slot soft small" aria-hidden="true"></p>
-  <button id="mGear" class="ib" type="button" aria-describedby="mHoldSr"><span class="hold" aria-hidden="true"></span></button>
-  <span id="mHoldSr" class="sr"></span>
+  <button id="mGear" class="ib" type="button"></button>
 </div>
 
 <div id="play" class="screen">
   <h2 id="pName" class="sr"></h2>
   <button id="pMap" class="ib" type="button"></button>
   <div id="pPairs" role="meter" aria-valuemin="0"></div>
+  <div id="pMiniWrap" hidden aria-hidden="true"><canvas id="pMini"></canvas><i id="pMiniView"></i></div>
   <div id="pFill" aria-hidden="true"><i id="pFillTrack"><b id="pFillBar"></b></i><span id="pFillPct"></span></div>
   <button id="pUndo" class="ib" type="button"></button>
   <button id="pHelp" class="ib" type="button"></button>
@@ -70,6 +69,7 @@
   <button id="rMap" class="ib" type="button"></button>
   <button id="rNext" class="ib big" type="button"></button>
   <button id="rAgain" class="ib" type="button"></button>
+  <div id="rLive" class="sr" aria-live="polite"></div>
 </div>
 
 <div id="guardian" class="screen">
