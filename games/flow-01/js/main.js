@@ -79,7 +79,7 @@ let trans = null;
 let lastScreenAt = 0;
 function show(name) {
   state = name; lastScreenAt = performance.now();
-  for (const s of SCREENS) { const el = $(s), on = s === name; el.classList.toggle('show', on); if (s === 'map' || s === 'result') { el.classList.toggle('pre', !on); el.inert = !on; if (!on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden'); } }
+  for (const s of SCREENS) { const el = $(s), on = s === name; el.classList.toggle('show', on); if (s === 'map' || s === 'result' || s === 'play') { el.classList.toggle('pre', !on); el.inert = !on; if (!on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden'); } }
   $('boot').classList.remove('show');
   cv.style.visibility = name === 'play' || name === 'result' ? 'visible' : 'hidden';
   trans = name === 'result' ? null : { el: $(name), t0: clock, ms: D.lay.motion.screen.ms };
@@ -448,7 +448,7 @@ function layoutPlay() {
   PS.dotSvgs = PS.cols.map((col) => ({ full: resultDotSVG(col, true), hollow: resultDotSVG(col, false) }));
   const sp0 = SP;
   // 유휴 시간에 조금씩(한 번에 한 쌍) — 한 프레임을 길게 만들지 않음
-  const jobs = PS.cols.map((_, c) => () => { [0, 1, 2].forEach((gi) => judgeSprite(c, gi)); svgImg(PS.dotSvgs[c].full); svgImg(PS.dotSvgs[c].hollow); });
+  const jobs = PS.cols.flatMap((_, c) => [0, 1, 2].map((gi) => () => judgeSprite(c, gi)).concat([() => { svgImg(PS.dotSvgs[c].full); svgImg(PS.dotSvgs[c].hollow); }])); // 한 번에 비트맵 하나
   // 판정 이름 비트맵은 유휴 줄에서 미리(못 했으면 첫 연결 때 그 하나만 그림, 글꼴은 부팅 때 데움 → 약 7 ms)
   // 판 시작 120 ms 뒤부터 40 ms 마다 한 쌍(드래그 중이면 미룸) — 연결 순간 처음 그리는 비용(6배에서 수십 ms)을 없앰
   const run = () => { if (SP !== sp0 || !jobs.length) return; if (PS && PS.drag) { setTimeout(run, 60); return; } jobs.shift()(); setTimeout(run, 40); };
@@ -824,14 +824,18 @@ function drawPlay() {
     if (u > 0 && u < 1) { const s = 1 + (fx.complete_board_scale - 1) * ease.bump(u), cx = L.board.x + L.board.w / 2, cy = L.board.y + L.board.h / 2; ctx.translate(cx, cy); ctx.scale(s, s); ctx.translate(-cx, -cy); }
   }
   ctx.drawImage(boardCache.canvas, boardCache.x, boardCache.y, boardCache.w, boardCache.h);
-  ctx.globalAlpha = 1;
   const paths = curPaths(), pz = PS.pz, ins = D.lay.param.tile_inset_of_cell * cell, tr = D.lay.param.tile_r_of_cell * cell;
+  // r3 성능 4차: 움직이지 않는 쌍(칠한 칸·선·표지·점·고리)은 "가라앉은 층" 비트맵 한 장에 모아 두고 바뀔 때만 다시 그림 → 판이 넓고 쌍이 많아도 프레임 비용은 움직이는 쌍만큼
+  const live = liveSet(paths);
+  const st = settledLayer(paths, live);
+  if (st) ctx.drawImage(st.c, st.x, st.y, st.w, st.h);
+  ctx.globalAlpha = 1;
   const tile = (i, color, a, scale = 1) => { const [x, y] = cc(i); const w = (cell - 2 * ins) * scale; ctx.globalAlpha = a * ta; ctx.fillStyle = color; ctx.beginPath(); rrect(ctx, x - w / 2, y - w / 2, w, w, tr * scale); ctx.fill(); ctx.globalAlpha = 1; };
   for (const off of PS.tintOff) { const u = (clock - off.t) / M.disconnect.ms; if (u >= 1) continue; for (const i of off.cells) if (!PS.dots[off.c] || !paths[off.c].includes(i)) tile(i, colorOf(off.c).tint, 1 - u); }
-  PS.tintOff = PS.tintOff.filter((o) => clock - o.t < M.disconnect.ms);
   // tint(+ 판 완료 색 물결: 마지막 연결 칸에서 맨해튼 거리 × 45 ms, 1.06배·쌍 색 15 %)
   const W = PS.wave, wx = W ? W.from % PS.lv.width : 0, wy = W ? (W.from / PS.lv.width) | 0 : 0;
   paths.forEach((p, c) => {
+    if (!live[c]) return;
     const on = PS.tintOn[c]; if (!on || !PS.dots[c]) return;
     const seq = p[p.length - 1] === on.end ? p.slice().reverse() : p, col = colorOf(c);
     seq.forEach((i, r) => {
@@ -867,6 +871,7 @@ function drawPlay() {
   // 선(+ 머리 스프링·칸 진입 튐·막힘 튕김) + 연결된 선 가운데 흰 표지(r2 S27)
   const dr = PS.drag, bo = PS.bounce && clock - PS.bounce.t < M.blocked.ms ? PS.bounce : null;
   paths.forEach((p, c) => {
+    if (!live[c]) return;
     let pts = p.map(cc);
     const dragging = dr && dr.d.started && !dr.d.done && dr.d.c === c;
     if (dragging && pts.length && !B.isConnected(pz, c, p)) {
@@ -897,6 +902,7 @@ function drawPlay() {
   PS.glows = PS.glows.filter((g) => clock - g.t < gl.ms);
   // 점(비트맵) + 고리
   pz.pairs.forEach((p, c) => {
+    if (!live[c]) return;
     const col = colorOf(c), sp = SP.dots[c];
     for (const cell0 of [p.a, p.b]) {
       let [x, y] = cc(cell0);
@@ -925,6 +931,34 @@ function drawPlay() {
   ctx.restore();
   for (const f of [PS.tut, PS.help]) drawFinger(fingerAt(f, clock), 'hand');
   drawJudge();
+}
+// 움직이는 쌍: 끄는 쌍, 이번 드래그에서 잘린 쌍, 연결·풀림 연출 중, 점 튐·고리·막힘 중. 판 전환·완료 연출 중이면 모두
+function liveSet(paths) {
+  const M = D.lay.motion, t = clock, k = PS.pz.k, live = new Array(k).fill(false);
+  const all = !!(PS.trans || (PS.doneAt != null && t - PS.doneAt < 1300) || PS.wave && t - PS.wave.t < 900);
+  const dr = PS.drag;
+  for (let c = 0; c < k; c++) {
+    if (all) { live[c] = true; continue; }
+    const on = PS.tintOn[c], pr = PS.pz.pairs[c];
+    live[c] = !!((dr && dr.d.started && !dr.d.done && dr.d.c === c) || paths[c] !== PS.g.paths[c] || (on && t - on.t < 500) || t - ((PS.ringAt || {})[c] ?? -1e9) < M.connect.ring_ms + 20 ||
+      PS.pop.has('dot' + pr.a) || PS.pop.has('dot' + pr.b) || (PS.bounce && t - PS.bounce.t < M.blocked.ms + 20 && (PS.bounce.cell === pr.a || PS.bounce.cell === pr.b)));
+  }
+  for (const o of PS.tintOff) if (t - o.t < M.disconnect.ms) live[o.c] = true;
+  PS.tintOff = PS.tintOff.filter((o) => t - o.t < M.disconnect.ms);
+  return live;
+}
+function settledLayer(paths, live) {
+  const key = [PS.lv.id, VW, VH, dpr, PS.dots.join(''), live.join(''), paths.map((p, c) => (live[c] ? '' : p.join(','))).join('|')].join('#');
+  if (PS.settled && PS.settled.key === key) return PS.settled;
+  const b = boardCache, L = PL, cell = L.cell, ins = D.lay.param.tile_inset_of_cell * cell, tr = D.lay.param.tile_r_of_cell * cell;
+  let lay = PS.settled && PS.settled.w === b.w && PS.settled.h === b.h ? PS.settled : null;
+  if (!lay) { const [c, x] = offscreen(b.w, b.h, dpr); lay = { c, x: b.x, y: b.y, w: b.w, h: b.h, g: x }; }
+  const g = lay.g; g.setTransform(dpr, 0, 0, dpr, -b.x * dpr, -b.y * dpr); g.clearRect(b.x, b.y, b.w, b.h);
+  const C = D.pal.common;
+  paths.forEach((p, c) => { if (live[c] || !PS.dots[c]) return; g.fillStyle = colorOf(c).tint; for (const i of p) { const [x, y] = cc(i), w = cell - 2 * ins; g.beginPath(); rrect(g, x - w / 2, y - w / 2, w, w, tr); g.fill(); } });
+  paths.forEach((p, c) => { if (live[c] || p.length < 2) return; strokePoly(g, p.map(cc), L.px.line_w, colorOf(c).hex, 1); if (PS.dots[c] && p.length >= 3) { const [mx, my] = cc(p[Math.floor((p.length - 1) / 2)]), mk = SP.lineMarks[c]; g.drawImage(mk.c, mx - mk.s / 2, my - mk.s / 2, mk.s, mk.s); } });
+  PS.pz.pairs.forEach((pr, c) => { if (live[c]) return; const sp = SP.dots[c], col = colorOf(c); for (const e of [pr.a, pr.b]) { const [x, y] = cc(e); if (PS.dots[c]) { g.strokeStyle = col.hex; g.lineWidth = L.px.ring_w; g.beginPath(); g.arc(x, y, L.px.ring_d / 2, 0, 7); g.stroke(); } g.drawImage(sp.c, x - sp.s / 2, y - sp.s / 2, sp.s, sp.s); } });
+  lay.key = key; PS.settled = lay; return lay;
 }
 function drawFinger(F, part) {
   if (!F || F.alpha <= 0) return;

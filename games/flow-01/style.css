@@ -35,7 +35,7 @@ body.notext .slot, body.notext .band, body.notext .tb, body.notext .mlab { color
 #result { background: linear-gradient(var(--bgTop), var(--bgBot)); }
 .screen { will-change: opacity, transform; }
 /* 지도·결과는 늘 DOM·레이어로 두고(미리 그려 둠) 안 보일 때 opacity 0 — 처음 보일 때 페인트 비용 없음 */
-#map.pre, #result.pre { display: block; opacity: 0 !important; z-index: -1; }
+#map.pre, #result.pre, #play.pre { display: block; opacity: 0 !important; z-index: -1; }
 .pre, .pre * { pointer-events: none !important; }
 #title { pointer-events: auto; cursor: pointer; }
 #title h1 { font-weight: 800; }

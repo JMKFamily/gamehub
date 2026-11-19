@@ -4,6 +4,8 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | lore-writer | round-3 기획 | [보호자 고지 지움(guardian_hold 삭제, settings_title·settings_intro), 큰 그림 5단계 이름·해금 안내·별 meter, 키 126·9-9 PASS](lore-writer/2026-11-19-r3-plan.md) |
+| 2026-11-19 | game-developer | round-3 준비 성능 4차 | [가라앉은 층(움직이지 않는 쌍 비트맵)·캐시: 긴 프레임 7~9개, 전체 1% low 21 미달 — 오디오 컨텍스트 판단 필요](game-developer/2026-11-19-r3-perf4.md) |
 | 2026-11-19 | game-developer | round-2 성능 3차 | [큰 영역 페인트 정리·지도/결과 상시 레이어: 메뉴 전환 ≤ 67 ms, 전체 1% low 18.4 미달 — 남은 긴 프레임 표는 DEV_NOTES](game-developer/2026-11-19-r2-perf3.md) |
 | 2026-11-19 | game-developer | round-2 성능 2차 | [판 캐시·비트맵 전역 캐시·다음 판 미리, 오디오 조용할 때: 시작 창 최장 66.7 ms, 전체 1% low 15~20 미달(판정은 QA --blank-pair)](game-developer/2026-11-19-r2-perf2.md) |
 | 2026-11-19 | game-developer | round-2 성능 | [유휴 그리기 requestIdleCallback·지도 노드 캔버스화·카드 불러오기 때 비트맵: 메뉴 전환 ≤ 100 ms(DPR2)·끄는 중 59.5, 전체 1% low 16 미달](game-developer/2026-11-19-r2-perf.md) |

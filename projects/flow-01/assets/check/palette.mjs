@@ -7,6 +7,7 @@ import { writeFileSync, readFileSync, existsSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadLevels } from './tutorial.mjs';
+import { MARKS, MARKS_EXT } from './shapes.mjs';
 import { contrast, mix, de2000, simulate, luminance, lab, hue } from './color.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -21,6 +22,20 @@ const PAIRS = [
   { key: 'p4', name_ko: '초록', name_en: 'green',  hex: '#1E7640', mark: 'triangle' },
   { key: 'p5', name_ko: '보라', name_en: 'purple', hex: '#B64DE0', mark: 'moon' },
   { key: 'p6', name_ko: '하늘', name_en: 'teal',   hex: '#00899E', mark: 'square' },
+];
+// r3 어려운 판(쌍 ≤ 16): 쌍 7~16. 색만으로 16개를 한눈에 가르는 것은 색약·흑백에서 불가능 → **모양 표지가 주 구분**(16개 모두 다른 모양), 색은 정상 시각 ΔE00 ≥ 10(16색 전체)·대비 규칙은 기본 6색과 같게.
+// 넓은 판에서는 선 위 흰 표지를 5칸마다 하나씩(긴 선도 중간에서 누구 선인지 보임). 1~50판은 쓰지 않음.
+const PAIRS_EXT = [
+  { key: 'p7', name_ko: '주황', name_en: 'orange', hex: '#C25A14', mark: 'diamond' },
+  { key: 'p8', name_ko: '밤색', name_en: 'brown', hex: '#6B4E2E', mark: 'plus' },
+  { key: 'p9', name_ko: '분홍', name_en: 'pink', hex: '#C2357F', mark: 'hexagon' },
+  { key: 'p10', name_ko: '남색', name_en: 'navy', hex: '#13306B', mark: 'drop', tint_t: 0.68 },
+  { key: 'p11', name_ko: '올리브', name_en: 'olive', hex: '#5C6B00', mark: 'leaf' },
+  { key: 'p12', name_ko: '제비꽃', name_en: 'violet', hex: '#7A3FB0', mark: 'cloud' },
+  { key: 'p13', name_ko: '회색', name_en: 'gray', hex: '#4A5568', mark: 'flower', tint_t: 0.66 },
+  { key: 'p14', name_ko: '청록', name_en: 'dark teal', hex: '#0B6E6E', mark: 'bolt' },
+  { key: 'p15', name_ko: '벽돌', name_en: 'brick', hex: '#B5452B', mark: 'house' },
+  { key: 'p16', name_ko: '하늘색', name_en: 'sky', hex: '#3D7DD6', mark: 'hourglass', tint_t: 0.66 },
 ];
 const COMMON = {
   ink: '#262B40',        // 아이콘·글자·손가락 외곽선
@@ -58,6 +73,12 @@ const THEMES = {
   level09: { lore: '무지개 들판',   top: '#E0F0FB', bottom: '#FDF6D9', decor: { shape: 'arc', count: 3 } },
   level10: { lore: '노을 하늘',     top: '#FFE1CC', bottom: '#ECE3F8', decor: { shape: 'ring', count: 3, only_on_complete: true } },
   menu:    { lore: '지도·결과',     top: '#F3EEFB', bottom: '#E4EEFA' },
+  // r3 어려운 판 5단계 바탕(어린이 친화, 밝은 바탕 유지 — 대비 규칙). 문 페이지 = hard1
+  hard1: { lore: '구름 위 산책',   top: '#E6F1FF', bottom: '#F3EEFB', decor: { shape: 'arc', count: 3 }, hard: 1 },
+  hard2: { lore: '숲속 오두막',    top: '#E3F3E6', bottom: '#F4F1E2', decor: { shape: 'wave', count: 2 }, hard: 2 },
+  hard3: { lore: '바닷속 정원',    top: '#DCEFF4', bottom: '#E7EEFB', decor: { shape: 'wave', count: 3 }, hard: 3 },
+  hard4: { lore: '별빛 놀이공원',  top: '#F1E6F7', bottom: '#E5EAF9', decor: { shape: 'ring', count: 4 }, hard: 4 },
+  hard5: { lore: '달나라 여행',    top: '#E8E6F6', bottom: '#F4EEF6', decor: { shape: 'ring', count: 3 }, hard: 5 },
 };
 // r2 50스테이지(10개씩 5챕터): 챕터 c(2~5)의 i번째 레벨(전체 번호 (c−1)·10 + i) 바탕 = 1챕터 i번째(아침 → 노을 하루 흐름) 바탕에 챕터 색을 24 % 섞음.
 // 챕터마다 한 색 가족(1 맑은 날 = 지금 그대로 · 2 비 = 하늘 파랑 · 3 가을 = 살구 · 4 눈 = 얼음 청록 · 5 밤 = 옅은 라벤더, 밤도 밝은 바탕 — 대비 규칙 때문) + 챕터 안에서는 하루 흐름 그대로. 장식 도형도 i번째와 같음. 챕터 수가 바뀌면 CHAPTER_TINT 만 늘림.
@@ -95,6 +116,8 @@ function build() {
       '빨강·검정 바탕·네온 발광·✕ 표시는 실패 표시로 쓰지 않음(실패 개념 없음). 빈칸 신호는 gapGlow(빈칸 점 계열 회청색, r2 S28).',
     ],
     pairs,
+    pairs_ext: PAIRS_EXT.map((p) => ({ ...p, tint: mix(p.hex, COMMON.board, p.tint_t ?? DERIVE.tint_t), shade: mix(p.hex, COMMON.ink, DERIVE.shade_t) })),
+    wide_line_mark_every_cells: 5,
     slot_rotation: slotRotation(pairs),
     common: COMMON,
     themes: THEMES,
@@ -179,6 +202,17 @@ function check(P) {
       for (let i = 0; i < u.length; i++) for (let j = i + 1; j < u.length; j++) for (const kd of ['protan', 'deutan', 'tritan']) { const d = de2000(simulate(pairs[u[i]].hex, kd), simulate(pairs[u[j]].hex, kd)); if (d < 10) ok(false, `L${l.order} ${kd} ${pairs[u[i]].key}-${pairs[u[j]].key} ΔE00 ${d.toFixed(1)} < 10`); }
       const key = [...u].sort().join(); if (prevSet === key && prevOrder === l.order - 1) ok(false, `L${l.order} 색 묶음이 L${l.order - 1} 와 같음`); prevSet = key; prevOrder = l.order; }
     lines.push(`슬롯 돌려쓰기: 레벨 ${rot}개(3쌍 후보 ${SR.candidates[3]}·4쌍 후보 ${SR.candidates[4]}), 색약 3종 ΔE00 ≥ 10, 이웃 같은 묶음 0`); } }
+  // r3 쌍 7~16(어려운 판): 대비는 기본 6색과 같은 기준, 16색 정상 ΔE00 ≥ 10, 모양 16개 모두 다름, 얇은 선 색약 대비 ≥ 2.0
+  { const ext = P.pairs_ext || [], all = [...pairs, ...ext]; if (ext.length < 10) ok(false, `쌍 색 ${all.length}개 < 16`);
+    for (const p of ext) { ok(contrast(p.hex, C.board) >= 3, `${p.key} 점·선 / 판 < 3`); ok(contrast(p.hex, C.tile) >= 3, `${p.key} 선 / 빈칸 타일 ${contrast(p.hex, C.tile).toFixed(2)} < 3`); ok(contrast(p.hex, p.tint) >= 2.4, `${p.key} 선 / tint < 2.4`); ok(contrast(p.hex, C.white) >= 3, `${p.key} 흰 표지 / 점 < 3`);
+      ok(de2000(p.tint, C.tile) >= 8, `${p.key} 칠한 칸 / 빈칸 ΔE00 < 8`); for (const [k, v] of [...bgs.filter(([k]) => k.startsWith('hard') || k.startsWith('menu')), ['board', C.board]]) { ok(contrast(p.shade, v) >= 4.5, `${p.key} 판정 이름 글자 / ${k} < 4.5`); }
+      for (const kd of ['protan', 'deutan', 'tritan']) for (const [n, v] of [['tint', p.tint], ['tile', C.tile]]) { const c = contrast(simulate(p.hex, kd), simulate(v, kd)); ok(c >= 2.0, `${kd} ${p.key} 선 / ${n} ${c.toFixed(2)} < 2.0`); } }
+    let mn = 99, mp = ''; for (let i = 0; i < all.length; i++) for (let j = i + 1; j < all.length; j++) { const d = de2000(all[i].hex, all[j].hex); if (d < mn) { mn = d; mp = all[i].key + '-' + all[j].key; } }
+    ok(mn >= 10, `16색 정상 시각 ΔE00 최소 ${mn.toFixed(1)} (${mp}) < 10`);
+    const marks = all.map((p) => p.mark); if (new Set(marks).size !== marks.length) ok(false, '쌍 표지 모양이 겹침');
+    for (const m of marks) if (!MARKS[m] && !MARKS_EXT[m]) ok(false, `표지 ${m} 경로 없음`);
+    for (const t of ['hard1', 'hard2', 'hard3', 'hard4', 'hard5']) if (!P.themes[t]) ok(false, `바탕 ${t} 없음`);
+    lines.push(`쌍 16개: 정상 ΔE00 최소 ${mn.toFixed(1)} (${mp}), 모양 16개 모두 다름(주 구분), 어려운 판 선 표지 ${P.wide_line_mark_every_cells}칸마다`); }
   ok(contrast(C.fingerEdge, C.finger) >= 7, `손가락 외곽선 / 면 < 7`);
   // E2. 구멍 칸(바탕이 보임) vs 빈칸 타일: 가운데 점 + 타일 모양이 주 구분. 색 차는 참고로 적고, 너무 같으면(ΔE00 < 2) 실패
   for (const [k, t] of Object.entries(P.themes)) for (const v of [t.top, t.bottom]) { const d = de2000(v, C.tile); ok(d >= 2, `${k} 구멍(바탕 ${v}) / 빈칸 타일 ΔE00 ${d.toFixed(1)} < 2`); }
