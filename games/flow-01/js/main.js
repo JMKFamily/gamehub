@@ -336,6 +336,8 @@ function buildMap() {
   buildTabs(L);
   idle(() => prewarmPage(mapPage + 1)); idle(() => prewarmPage(mapPage - 1));
   { const ni = D.levels.findIndex((_, j) => { const s = nodeState(j); return s === 'next' || s === 'partial'; }); if (ni >= 0) { idleLate(() => prewarmCard(ni), 1500); prewarmLevel(ni); } }
+  // r4: 이 페이지의 열린 판(최대 3개, 다음 판 먼저)을 유휴 시간에 순서대로 준비 — 넓은 판 판 캐시 포함
+  if (mapPage === D.chapters.length && mapHard) cs.idx.filter((i) => nodeState(i) !== 'locked').slice(0, 2).forEach((i) => prewarmLevel(i)); // 넓은 판 페이지에서만(일반 판은 다음 판 하나)
 }
 // 장 넘김: ◀ 점 6개 ▶ (탭 = 장 5 + 어려운 판 1)
 function buildTabs(L) {
@@ -442,7 +444,25 @@ let gearHold = 0;
 let PS = null;
 const colorOf = (c) => PS.cols[c];
 // split = true(화면 버튼): 준비(판 캐시·비트맵)와 화면 바꾸기를 다른 프레임으로 나눠 가장 긴 프레임을 줄임(r2 S2)
+// r4 성능: 화면 버튼으로 판을 열 때는 누른 프레임에서 아무것도 하지 않고, 다음 프레임들에 조각으로(판 상태 → 판 캐시 몇 줄씩 → 배치·비트맵 → 화면 바꾸기)
+let startTok = 0;
 function startLevel(i, via = null, split = false) {
+  if (!split) return startLevelNow(i, via, false);
+  const tok = ++startTok, lv = D.levels[i];
+  const gen = (function* () {
+    yield;
+    const L = layoutFor(lv), k = [lv.id, window.innerWidth, window.innerHeight, dpr, L.cell, L.board.w].join('|');
+    let e = BDC.get(k);
+    if (!e) { const pz = B.makePuzzle(lv), th = themeOf(lv); e = { gen: boardCacheSteps({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => { const save = PS; PS = { theme: th }; try { drawDecor(o, L); } finally { PS = save; } }) }; BDC.set(k, e); }
+    while (e.gen) { const x = e.gen.next(); if (x.done) { BDC.set(k, x.value); break; } yield; }
+    for (const col of colorsOf(lv)) colSprites(col, L);
+    yield;
+    startLevelNow(i, via, true);
+  })();
+  const pump = () => { if (tok !== startTok) return; requestAnimationFrame(() => setTimeout(() => { if (tok !== startTok) return; if (!gen.next().done) pump(); }, 0)); };
+  pump();
+}
+function startLevelNow(i, via = null, split = false) {
   const lv = D.levels[i];
   const pz = B.makePuzzle(lv);
   const g = B.newGame(pz, { cut: D.bal.input.cut_enabled });
@@ -461,9 +481,10 @@ function startLevel(i, via = null, split = false) {
     if (PS.trans) PS.trans.t0 = clock;
     // 카드 "뜬 뒤 400 ms 무시" 시계는 전환 연출이 끝난 때부터(r2 핫픽스, QA 이슈 5)
     if (PS.card) PS.card.t = clock + (PS.trans && !RM() ? (PS.trans.kind === 'grow' ? D.lay.motion.level_transition.ms : 200) : 0);
-    show('play'); syncPairs(true); drawPlay(); // 첫 프레임 미리 그리기
+    show('play'); if (!split) { syncPairs(true); drawPlay(); } // 첫 프레임 미리 그리기
   };
-  if (split) { layoutPlay(); requestAnimationFrame(() => requestAnimationFrame(finish)); } else finish();
+  // split: 배치·첫 그림은 이 조각에서(플레이 레이어는 아직 opacity 0), 화면 바꾸기 프레임은 클래스 토글만(r4)
+  if (split) { layoutPlay(); syncPairs(true); drawPlay(); requestAnimationFrame(() => setTimeout(() => requestAnimationFrame(() => { finish(); dirty = false; }), 0)); } else finish();
 }
 const cellsOf = (arr) => arr.map(([x, y]) => y * PS.lv.width + x);
 let PL = null, boardCache = null, grid = null, SP = null;
@@ -543,9 +564,11 @@ function judgeSprite(c, gi) {
 }
 // 판 시작 비용 줄이기(r2 성능 2차): 판 캐시·쌍 색 비트맵·판정 이름 비트맵을 (레벨·화면·dpr)/(색·크기) 로 전역 캐시하고, 다음 판 것을 지도·결과 유휴 시간에 미리 만듦
 const SPC = new Map(), BDC = new Map();
+function bdcTrim(keep) { const ks = [...BDC.keys()]; while (ks.length > 4) { const k = ks.shift(); if (k !== keep) BDC.delete(k); } }
 function levelBoard(lv, L) {
   const k = [lv.id, VW, VH, dpr, L.cell, L.board.w].join('|'); let b = BDC.get(k);
   if (b && b.gen) { const save = PS; PS = { theme: themeOf(lv) }; try { let x; while (!(x = b.gen.next()).done); b = x.value; } finally { PS = save; } BDC.set(k, b); }
+  bdcTrim(k);
   if (!b) { const pz = B.makePuzzle(lv), th = themeOf(lv), save = PS; PS = { theme: th }; try { b = buildBoardCache({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => drawDecor(o, L)); } finally { PS = save; } BDC.set(k, b); }
   return b;
 }
@@ -571,7 +594,7 @@ function prewarmLevel(i) {
   // 판 캐시는 유휴 시간에 몇 줄씩(12x12 도 한 프레임을 길게 만들지 않음)
   { const k = [lv.id, window.innerWidth, window.innerHeight, dpr, L.cell, L.board.w].join('|');
     if (!BDC.has(k)) { const pz = B.makePuzzle(lv), th = themeOf(lv); const e = { gen: boardCacheSteps({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => { const save = PS; PS = { theme: th }; try { drawDecor(o, L); } finally { PS = save; } }) }; BDC.set(k, e);
-      const step = () => { const cur = BDC.get(k); if (cur !== e) return; const x = e.gen.next(); if (x.done) BDC.set(k, x.value); else idle(step); }; idle(step); } }
+      const step = () => { const cur = BDC.get(k); if (cur !== e) return; const x = e.gen.next(); if (x.done) { BDC.set(k, x.value); bdcTrim(k); } else idle(step); }; idle(step); } }
   for (const col of cols) { idle(() => colSprites(col, L)); for (const gi of [0, 1, 2]) idle(() => nameSprite(col, gi, L)); }
 }
 function drawDecor(o, L) {
@@ -1238,6 +1261,7 @@ function prepareResult() {
 }
 function layoutResult() {
   if (!PS || !PS.result) return;
+  { const k = [VW, VH, dpr, lang].join('|'); if (PS.rLaid === k) return; PS.rLaid = k; } // r4: 미리 채운 결과 DOM 을 화면 바꾸기 때 다시 쓰지 않음
   const L = (RL = LY.result(VW, VH)), lv = PS.lv;
   const ln = L.level_name; place($('rName'), ln); setStyle($('rName'), 'fontSize', ln.font_px + 'px');
   const band = $('rName').firstChild; if (band) { setStyle(band, 'background', PS.theme.top); setStyle(band, 'padding', `0 ${Math.round(12 * L.k)}px`); setStyle(band, 'lineHeight', (ln.h - 3) + 'px'); }

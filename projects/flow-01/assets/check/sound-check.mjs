@@ -56,7 +56,7 @@ function addLayer(buf, t0, L, baseDb, busDb, playF) {
 }
 function render(name, playF, len = 1.6) {
   const def = S.sounds[name]; const buf = new Float32Array(Math.round(len * SR)); const busDb = S.buses[def.bus].db;
-  if (def.pitch === 'chord') { const k = playF; for (let j = 0; j < k; j++) for (const L of def.layers) addLayer(buf, (j * def.arp_ms) / 1000, L, def.db, busDb, S.ladder_hz[j]); }
+  if (def.pitch === 'chord') { const k = Math.min(playF, def.voices_max ?? 99); if (k > S.ladder_hz.length) throw new Error(`화음 목소리 ${k} > 사다리 음 ${S.ladder_hz.length}`); for (let j = 0; j < k; j++) for (const L of def.layers) addLayer(buf, (j * def.arp_ms) / 1000, L, def.db, busDb, S.ladder_hz[j]); }
   else for (const L of def.layers) addLayer(buf, 0, L, def.db, busDb, playF);
   return buf;
 }
@@ -78,7 +78,7 @@ const bufs = {};
 for (const [name, def] of Object.entries(S.sounds)) {
   if (def.pitch === 'ladder') S.ladder_hz.forEach((f, i) => { bufs[`${name}@${i + 1}`] = render(name, f); meas(`${name}@${i + 1}`, bufs[`${name}@${i + 1}`]); });
   else if (def.pitch === 'tick') S.tick_hz.forEach((f, i) => meas(`${name}@${i + 1}`, render(name, f, 0.3)));
-  else if (def.pitch === 'chord') for (let k = 3; k <= 6; k++) { bufs[`${name}@k${k}`] = render(name, k, 2.0); meas(`${name}@k${k}`, bufs[`${name}@k${k}`]); }
+  else if (def.pitch === 'chord') for (let k = 3; k <= 16; k++) { bufs[`${name}@k${k}`] = render(name, k, 2.0); meas(`${name}@k${k}`, bufs[`${name}@k${k}`]); }
   else meas(name, render(name, null));
 }
 const amb = renderAmbient(); meas('ambient', amb);
@@ -117,6 +117,10 @@ else { const b = M.bump, minConnRms = Math.min(...conn.map(([, v]) => v.rms_db))
   if (!(b.peak_db <= minConn - 6)) bad(`S8 bump 최고 ${b.peak_db} > 연결음 ${minConn.toFixed(2)} − 6`);
   if (!(b.rms_db <= minConnRms - 6)) bad(`S8 bump RMS ${b.rms_db} > 연결음 RMS ${minConnRms.toFixed(2)} − 6`);
   for (const L of S.sounds.bump.layers) { if (!((L.f ?? 999) <= 220)) bad('S8 bump 시작 음 > 220 Hz'); if ((L.env.a || 0) + L.env.decay > 120) bad('S8 bump 길이 > 120 ms'); } }
+// S9 (r4 T7): 쌍 16개 판 — 화음 목소리 ≤ 6·사다리 밖 음 없음(k 3~16 렌더 성공), k ≥ 6 화음은 k = 6 과 같은 크기, 연결 16번째 음 = 사다리 안
+if (!(S.sounds.complete.voices_max <= S.ladder_hz.length)) bad('S9 complete.voices_max > 사다리 음 수');
+for (let k = 7; k <= 16; k++) if (Math.abs(M[`complete@k${k}`].peak_db - M['complete@k6'].peak_db) > 0.01) bad(`S9 화음 k${k} 크기가 k6 과 다름`);
+for (let n = 1; n <= 16; n++) if (!S.ladder_hz[Math.min(n, 6) - 1]) bad(`S9 연결 ${n}번째 음 없음`);
 if (!(M.ambient.peak_db <= minConn - 12)) bad(`S5 배경음 ${M.ambient.peak_db} > 연결음 ${minConn.toFixed(2)} − 12`);
 
 for (const [k, v] of rows) console.log(`${k.padEnd(44)} peak ${String(v.peak_db).padStart(7)} dBFS${v.rms_db !== undefined ? `   rms100 ${String(v.rms_db).padStart(7)}` : ''}`);
@@ -133,5 +137,5 @@ if (wi >= 0) {
   for (const [k, b] of Object.entries(bufs)) wav(b, join(dir, k.replace(/[@]/g, '_') + '.wav'));
   wav(amb, join(dir, 'ambient.wav')); console.log('wav →', dir);
 }
-console.log(fail ? `소리 검사 실패 ${fail}건` : `소리 검사 통과 (S1~S8, 등급 RMS 계단 최소 ${M.grade_rms_step_min_db} dB, 막힘 툭 −${M.bump_margin_db} dB)`);
+console.log(fail ? `소리 검사 실패 ${fail}건` : `소리 검사 통과 (S1~S9, 쌍 16 화음 k3~16, 등급 RMS 계단 최소 ${M.grade_rms_step_min_db} dB, 막힘 툭 −${M.bump_margin_db} dB)`);
 process.exit(fail ? 1 : 0);

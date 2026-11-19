@@ -7,7 +7,7 @@
 import { makeRng } from '../core/rng.mjs';
 
 export const DEDUCE_VERSION = 'deduce-1.0.0';
-export const D1 = { name: 'D1', color: false, probe: 0, maxWrong: 400 };
+export const D1 = { name: 'D1', color: false, probe: 0, maxWrong: 5000 }; // round-4: 400 → 5000(넓은 판 D1 이 400 에 붙어 L10 → H1 이음을 못 쟀음, T4). 중앙값 < 400 인 판은 값이 같음
 export const D2 = { name: 'D2', color: true, probe: 24, maxWrong: 400 };
 
 export function deduceRun(level, P, seed) {

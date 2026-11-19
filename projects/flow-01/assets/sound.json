@@ -148,7 +148,9 @@
       "decay": 700
      }
     }
-   ]
+   ],
+   "voices_max": 6,
+   "_voices": "r4 T7: 화음 목소리 수 = min(쌍 수, 6) — 쌍 7~16 판도 ladder_hz 6음까지만(그 이상은 겹쳐 시끄러워지고 배열 밖). arp 간격·크기 그대로"
   },
   "tick": {
    "bus": "sfx",
@@ -534,6 +536,46 @@
     "peak_db": -12.68,
     "rms_db": -22.99
    },
+   "complete@k7": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k8": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k9": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k10": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k11": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k12": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k13": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k14": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k15": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
+   "complete@k16": {
+    "peak_db": -12.68,
+    "rms_db": -22.99
+   },
    "tick@1": {
     "peak_db": -30.37,
     "rms_db": -47.07
@@ -600,5 +642,6 @@
    "grade_rms_step_min_db": 2.04,
    "bump_margin_db": 13.09
   }
- }
+ },
+ "ladder_rule": "r4 T7: n번째 연결(그 판에서 이은 순서) 음 = ladder_hz[min(n, 6) − 1]. 7번째부터는 맨 위 음 유지(16쌍 판도 같음). 결과 쌍 점 줄의 작은 음도 같은 규칙, 6개까지만"
 }

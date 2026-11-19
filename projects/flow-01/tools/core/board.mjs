@@ -7,7 +7,7 @@
 // 칸 번호: idx = y * W + x (x 오른쪽, y 아래). 레벨 JSON 의 좌표는 [x, y].
 // 상태는 모두 일반 배열·숫자라 JSON 으로 저장·복원할 수 있습니다(snapshot/restore).
 
-export const CORE_VERSION = '1.2.0'; // 1.2.0(round-2 H2): 처음부터 = 새 시도(이동 수·판정 기록 0), 바로 다음 되돌리기 = 처음부터 취소. 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2)
+export const CORE_VERSION = '1.3.0'; // 1.3.0(round-4 M2): rules.helpBreaksOneShot 이면 도움을 본 쌍은 한 번에 이은 쌍에서 빠짐(별·% 반영, 처음부터로 지워지지 않음). 1.2.0(round-2 H2): 처음부터 = 새 시도(이동 수·판정 기록 0), 바로 다음 되돌리기 = 처음부터 취소. 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2)
 
 // ---------------------------------------------------------------- 판
 export function makePuzzle(level) {
@@ -74,10 +74,11 @@ const clonePaths = (P) => P.map((p) => p.slice());
 
 // ---------------------------------------------------------------- 게임 상태
 // rules.cut: 다른 색 선을 지나가면 자름(기본 켬, 20-balance 3-1 R5)
+// rules.helpBreaksOneShot: 도움(손가락 힌트)으로 답 길을 본 쌍은 한 번에 이은 쌍으로 세지 않음(round-4 M2: L5 이후·어려운 판 true, L1~L4 false)
 export function newGame(pz, rules = {}) {
   return {
     pz,
-    rules: { cut: true, ...rules },
+    rules: { cut: true, helpBreaksOneShot: false, ...rules },
     paths: pz.pairs.map(() => []),
     moves: 0,                         // 이동 수 (20-balance 4-1)
     colorMoves: pz.pairs.map(() => 0), // 색마다 이동 수 (그 색을 끈 "세는 이동" 수)
@@ -86,6 +87,7 @@ export function newGame(pz, rules = {}) {
     undoStack: [],
     connectLog: [],                   // {color, moves, colorMoves, grade} — 표시층용 기록(판정에 쓰지 않음)
     resetUndo: null,                  // 처음부터 직전 전체 상태(H2). 처음부터 바로 다음 되돌리기만 씀, 판이 바뀌면 지움
+    helped: pz.pairs.map(() => false), // 이 판(게임)에서 도움으로 답 길을 본 쌍(M2). 처음부터·되돌리기로 지워지지 않음 — 새 게임(결과 ↻·지도에서 다시)에서만 새로
   };
 }
 
@@ -267,11 +269,15 @@ export function previewGrade(g, d, bounds) {
 export const fillPct = (pz, paths) => Math.floor((100 * coveredCells(pz, paths)) / pz.cellCount);
 // 한 번에 이은 쌍(G2): 완료 때 그 색 이동 수 = 1 인 쌍. 연결 뒤 풀렸다가 그 색을 다시 그어(다른 색 이동이나
 // 되돌리기 뒤라 새 이동으로 세어짐; 처음부터는 새 시도라 0 부터 다시) 이으면 그 색 이동 수 ≥ 2 → 한 번에 아님. 같은 색을 이어서 고쳐 그은 것은
-// 같은 이동(20-balance 4절)이라 한 번에 유지. 이 정의라서 % 100 ⇔ 이동 수 = 쌍 수 ⇔ 별 ⇔ 모두 1단.
-export const oneShotPairs = (g) => g.colorMoves.filter((m) => m === 1).length;
+// 같은 이동(20-balance 4절)이라 한 번에 유지. 이 정의라서 % 100 ⇔ 이동 수 = 쌍 수 ⇔ 별 ⇔ 모두 1단(도움을 안 봤을 때). 도움을 본 쌍(M2, rules.helpBreaksOneShot)은 1단이어도 한 번에서 빠지고 별 없음 — % 100 ⇔ 별 은 그대로.
+// 도움 표시(M2): 빌드가 도움 손가락을 띄울 때 그 쌍 번호로 부름. 판 상태·이동 수는 바꾸지 않음
+export function markHelped(g, c) { if (c >= 0 && c < g.pz.k) g.helped[c] = true; }
+const countsHelp = (g) => g.rules.helpBreaksOneShot;
+export const oneShotMask = (g) => g.colorMoves.map((m, c) => m === 1 && !(countsHelp(g) && g.helped[c]));
+export const oneShotPairs = (g) => oneShotMask(g).filter(Boolean).length;
 // 결과 % = ⌊100 · 한 번에 이은 쌍 / 쌍 수⌋ (G2)
 export const accuracyPct = (g) => Math.floor((100 * oneShotPairs(g)) / g.pz.k);
-export const isStar = (g) => g.completed && g.moves === g.pz.k;
+export const isStar = (g) => g.completed && g.moves === g.pz.k && !(countsHelp(g) && g.helped.some(Boolean));
 
 export function displayLayer(g, d = null, bounds) {
   const paths = d && d.started && !d.done ? d.work : g.paths;
@@ -283,6 +289,8 @@ export function displayLayer(g, d = null, bounds) {
     accuracyPct: g.completed ? accuracyPct(g) : null,            // 결과 화면
     star: isStar(g),
     oneShotPairs: g.completed ? oneShotPairs(g) : null,       // 결과 % 의 분자(별도 표지는 두지 않음, G2)
+    oneShotMask: g.completed ? oneShotMask(g) : null,         // 결과 쌍 점 줄: true = 꽉 찬 점, false = 속 빈 점(다시 그었거나 도움을 본 쌍, H3·M2)
+    helped: g.helped.slice(),
   };
 }
 

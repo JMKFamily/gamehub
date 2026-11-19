@@ -6,12 +6,13 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MARKS, MARK_STROKE_UNIT, FINGER, STAR } from './shapes.mjs';
+import { MARKS as MARKS6, MARKS_EXT, MARK_STROKE_UNIT, FINGER, STAR } from './shapes.mjs';
+const MARKS = { ...MARKS6, ...MARKS_EXT };
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const A = resolve(HERE, '..'), ROOT = resolve(A, '..');
 const PAL = JSON.parse(readFileSync(join(A, 'palette.json'), 'utf8'));
-const C = PAL.common, PAIRS = PAL.pairs;
+const C = PAL.common, PAIRS = [...PAL.pairs, ...(PAL.pairs_ext || [])];
 const LINE = 0.48, DOT = 0.74, MARK = 0.46, RING = 0.86, RING_W = 0.05, TILE_IN = 0.05, TILE_R = 0.22, PAD = 0.06, BOARD_R = 0.30, TILE_DOT = 0.07;
 const CUT_FADE = 0.08; // 잘라 보기: 잘린 쪽으로 판이 이만큼(칸) 더 이어지다 옅어짐(둘레 선 없음). r2: 0.12 → 0.08, 그라디언트 → 단색 덮개(그리기 비용↓)
 export const CARD_CELL = 68; // 카드(480x320) 속 칸. r2 S20: 72 → 68(좌우 여백 대칭, 오른쪽 창이 카드 끝에 붙지 않게). layout.mjs 카드 표지 검사가 읽음
@@ -22,7 +23,7 @@ const key = ([x, y]) => x + ',' + y;
 export function loadLevels(dir = join(ROOT, 'levels')) {
   return readdirSync(dir).filter((n) => n.endsWith('.json')).map((n) => ({ file: n, ...JSON.parse(readFileSync(join(dir, n), 'utf8')) })).sort((a, b) => a.order - b.order);
 }
-const themeOf = (lv) => PAL.themes[`level${String(lv.order).padStart(2, '0')}`];
+const themeOf = (lv) => PAL.themes[lv._theme || `level${String(lv.order).padStart(2, '0')}`];
 const pathOf = (lv, id) => lv.solution.find((s) => s.id === id).path;
 const slotOf = (lv, id) => lv.pairs.find((p) => p.id === id).color_slot;
 
@@ -175,6 +176,25 @@ export function buildAll(levels) {
     const body = cc.body;
     files['tutorial/card-hole.svg'] = svg(480, 320, body);
   }
+  // r4 H1-01·T14 넓은 판 그림 카드: ① 전체 보기에서 끝점을 누름 → ② 손을 떼지 않은 채 그 자리가 확대 → ③ 그대로 이어 긋기(위 오른쪽 작은 미니맵 = 보이는 곳)
+  const hp = join(ROOT, 'levels-hard', 'H1-01.json');
+  if (existsSync(hp)) { const lv = { ...JSON.parse(readFileSync(hp, 'utf8')), _theme: 'hard1' }, th = themeOf(lv);
+    const P0 = lv.solution[0], a = P0.path[0], cOv = 13.2, cZ = 40, gap = 30;
+    const wOv = lv.width * cOv * 1.12, win = pickWindow(lv, [a]), wZ = win.w * cZ + 2 * CUT_FADE * cZ, m = (480 - wOv - 2 * wZ - 2 * gap) / 2, oy = 70;
+    let body = `<rect width="480" height="320" fill="${th.top}"/>`;
+    const ov = drawBoard(lv, m, oy, cOv, { x0: 0, y0: 0, w: lv.width, h: lv.height }, {}, 'w0');
+    body += ov.s + `<circle cx="${f(ov.cx(a[0]))}" cy="${f(ov.cy(a[1]))}" r="${f(cOv * 1.1)}" fill="none" stroke="${C.ink}" stroke-width="2" opacity="0.45"/>` + finger(ov.cx(a[0]), ov.cy(a[1]), cOv * 2.2, false);
+    const x2 = m + wOv + gap, z1 = drawBoard(lv, x2, oy, cZ, win, {}, 'w1');
+    body += z1.s + `<rect x="${f(x2 - 3)}" y="${f(oy - 3)}" width="${f(z1.w + 6)}" height="${f(z1.h + 6)}" rx="10" fill="none" stroke="${C.pathDone}" stroke-width="2.5" stroke-dasharray="6 5"/>` + finger(z1.cx(a[0]), z1.cy(a[1]), cZ, false);
+    const x3 = x2 + wZ + gap, drawn = P0.path.slice(0, 3).filter(([x, y]) => x >= win.x0 && x < win.x0 + win.w && y >= win.y0 && y < win.y0 + win.h);
+    const z2 = drawBoard(lv, x3, oy, cZ, win, { lines: { [P0.id]: drawn } }, 'w2'); const hd = drawn.at(-1);
+    body += z2.s + finger(z2.cx(hd[0]) , z2.cy(hd[1]), cZ, false);
+    const mmc = 4, mmx = x3 + z2.w - lv.width * mmc - 4, mmy = oy - lv.height * mmc - 8; body += `<rect x="${mmx}" y="${mmy}" width="${lv.width * mmc}" height="${lv.height * mmc}" fill="${C.tile}" stroke="${C.boardEdge}"/><rect x="${mmx + win.x0 * mmc}" y="${mmy + win.y0 * mmc}" width="${win.w * mmc}" height="${win.h * mmc}" fill="none" stroke="${C.ink}" stroke-width="1.5"/>`;
+    body += chevron(m + wOv + gap / 2, oy + 60, 22) + chevron(x2 + wZ + gap / 2, oy + 60, 22);
+    // 손을 떼지 않음 = 세 그림 아래를 잇는 한 줄 띠
+    body += `<path d="M${f(m + wOv / 2)} 286 H${f(x3 + wZ / 2)}" stroke="${C.inkSoft}" stroke-width="5" stroke-linecap="round" opacity="0.5"/><circle cx="${f(m + wOv / 2)}" cy="286" r="7" fill="${C.inkSoft}"/><circle cx="${f(x3 + wZ / 2)}" cy="286" r="7" fill="none" stroke="${C.inkSoft}" stroke-width="3"/>`;
+    files['tutorial/card-wide.svg'] = svg(480, 320, body); info.wide = { level: 'H1-01', pair: P0.id, window: win, margin: f(m) };
+  }
   // 구멍 있는 레벨 판 그림(외곽선 파내기 규칙 확인용 목업, 정답 상태)
   for (const lv of levels.filter((l) => l.holes.length)) {
     const cell = 56, b = drawBoard(lv, 16, 16, cell, { x0: 0, y0: 0, w: lv.width, h: lv.height }, allSolved(lv), `m${lv.order}`);
@@ -220,7 +240,7 @@ if (import.meta.url === `file:///${process.argv[1].replace(/\\/g, '/').replace(/
   if (args.includes('--write')) for (const [p, s] of Object.entries(files)) { mkdirSync(dirname(join(A, p)), { recursive: true }); writeFileSync(join(A, p), s); }
   const out = checkData(levels, info);
   for (const [p, s] of Object.entries(files)) if (!existsSync(join(A, p)) || readFileSync(join(A, p), 'utf8') !== s) out.push(`FAIL ${p} 가 지금 레벨 데이터로 만든 그림과 다름 (node assets/check/tutorial.mjs --write)`);
-  for (const [n, m] of [['card-fill', info.fill?.margin], ['card-hole', info.hole?.margin]]) if (!(m >= 8)) out.push(`FAIL ${n} 좌우 여백 ${m} < 8 (창이 카드 끝에 붙음, r2 S20)`);
+  for (const [n, m] of [['card-fill', info.fill?.margin], ['card-hole', info.hole?.margin], ['card-wide', info.wide?.margin ?? 99]]) if (!(m >= 8)) out.push(`FAIL ${n} 좌우 여백 ${m} < 8 (창이 카드 끝에 붙음, r2 S20)`);
   for (const [p, s] of Object.entries(files)) if (/Gradient/.test(s)) out.push(`FAIL ${p} 그라디언트 사용 (r2 성능: 단색만)`);
   for (const n of ['tutorial/tut-l1-demo-storyboard.svg', 'tutorial/card-fill.svg', 'tutorial/card-hole.svg']) if (!files[n]) out.push(`FAIL ${n} 를 만들 레벨 데이터 없음`);
   console.log(`시연 L${info.demo?.level} ${info.demo?.pair} ${JSON.stringify(info.demo?.path)}${info.demo?.flip ? ' (손 뒤집음)' : ''}`);

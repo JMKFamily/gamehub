@@ -4,8 +4,8 @@
  "_source": "근거는 20-balance.md(절 번호는 각 _note). 판정 규칙은 tools/core/board.mjs(빌드가 그대로 복사)가 원본이고 이 파일은 그 모듈이 받는 값과 연출 수치입니다. lore·art 문서는 숫자 대신 20-balance 절을 참조합니다.",
  "core": {
   "module": "tools/core/board.mjs",
-  "core_version": "1.2.0",
-  "_note": "빌드는 이 파일을 games/flow-01/ 로 복사해 import. 고치면 core_version 을 올리고 verify-levels 재실행(20-balance 3절). 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2). 1.2.0(round-2 H2): 처음부터 = 새 시도(이동 수·판정 기록 0, 별 다시 가능), 처음부터 바로 다음 되돌리기 = 처음부터 취소(이동 수도 함께 돌아옴)."
+  "core_version": "1.3.0",
+  "_note": "빌드는 이 파일을 games/flow-01/ 로 복사해 import. 고치면 core_version 을 올리고 verify-levels 재실행(20-balance 3절). 1.1.0(1-2 2차): 판 채움 % = 연결된 쌍의 칸만(G3), 결과 % = 한 번에 이은 쌍 / 쌍 수(G2). 1.2.0(round-2 H2): 처음부터 = 새 시도(이동 수·판정 기록 0, 별 다시 가능), 처음부터 바로 다음 되돌리기 = 처음부터 취소(이동 수도 함께 돌아옴). 1.3.0(round-4 M2): rules.helpBreaksOneShot — 도움으로 답 길을 본 쌍은 한 번에 이은 쌍에서 빠짐(별 없음·% 감소), 처음부터로 지워지지 않음, markHelped(g, 쌍)."
  },
  "board": {
   "max_cells_long_side_L1_L5": 5,
@@ -281,7 +281,21 @@
   "draws_line": false,
   "affects_moves": false,
   "target": "one_pair_not_matching_solution",
-  "_note": "20-balance 10-2. 도움 버튼 숨 쉼 신호 둘: (1) 30 s 동안 판이 안 바뀜(모든 레벨) (2) round-3: L5~L50·어려운 50판은 이 시도 이동 수 ≥ moves_trigger_by_level 값(= 쌍 수 + max(6, ⌈2·D2 헛 이동⌉), verify H1 이 같은 식으로 계산), L1~L4 는 시간 신호만. 이동 신호는 시도마다 한 번(도움을 누르면 그 시도에서는 다시 안 켬, 처음부터 = 새 시도면 다시 셈, 처음부터 취소면 원래 상태로). 누르면 손가락이 아직 답과 다른 쌍(안 이은 쌍 + 답과 다른 길로 이은 쌍) 하나의 답 길을 보여 줌(그려 주지 않음, 이동 수 영향 없음). 숨 쉬기만 하고 손가락이 저절로 나오지 않음. 난이도 측정은 도움 없이."
+  "_note": "20-balance 10-2. 도움 버튼 숨 쉼 신호 둘: (1) 30 s 동안 판이 안 바뀜(모든 레벨) (2) L5~L50 은 쌍 수 + max(6, ⌈D1 헛 이동⌉)(round-4 T12: 보통 어른 중앙값만큼 헤맬 때), 어려운 판은 쌍 수 + max(6, ⌈2·D2 헛 이동⌉) 이상이면 숨 쉼(moves_trigger_by_level, verify H1 이 같은 식으로 계산), L1~L4 는 시간 신호만. 이동 신호는 시도마다 한 번(도움을 누르면 그 시도에서는 다시 안 켬, 처음부터 = 새 시도면 다시 셈, 처음부터 취소면 원래 상태로). 누르면 손가락이 아직 답과 다른 쌍(안 이은 쌍 + 답과 다른 길로 이은 쌍) 하나의 답 길을 보여 줌(그려 주지 않음, 이동 수 영향 없음). 숨 쉬기만 하고 손가락이 저절로 나오지 않음. 난이도 측정은 도움 없이.",
+  "breaks_one_shot": {
+   "levels_from": "05",
+   "hard": true,
+   "child_zone_levels": [
+    "01",
+    "02",
+    "03",
+    "04"
+   ],
+   "call": "board.mjs markHelped(g, 쌍 번호) — 도움 손가락을 띄우는 순간",
+   "kept_on_reset": true,
+   "cleared_on": "new_game(결과 ↻·지도에서 다시 들어옴)",
+   "_note": "round-4 M2: L5 이후·어려운 판에서 도움을 본 쌍은 결과 점 줄에서 속 빈 점(displayLayer.oneShotMask false), 그 판 별 없음, % = 한 번에(도움 안 본) 이은 쌍 / 쌍 수. L1~L4(5~6세 구간)는 도움을 봐도 별 그대로. 새 게임에서만 지워짐(처음부터로 지우고 같은 판을 다시 그리는 지름길 막음)"
+  }
  },
  "tutorial": {
   "level": "01",
@@ -311,7 +325,7 @@
   "skilled_waste_concentration_max_frac": 0.3,
   "skilled_concentration_min_pairs": 4,
   "skilled_concentration_even_share_mult": 1.5,
-  "_note": "20-balance 7절. m̃L = 5~6세 대리 봇 이동 수 연속 중앙값. T = m̃1·r⁵, r = (m̃3/m̃1)^½, m̃10 ∈ [0.8T, 1.2T]. 숙련 봇 몰림 한도 = max(30 %, 1.5/쌍 수): 쌍 5~6 → 30 %, 쌍 4 → 37.5 %, 쌍 3 → 정보만(20-balance 7-4). 몰림은 헛 이동 ≥ 2000회까지 표본을 늘려 재고(최대 20만 회), 숙련 봇 헛 이동 비율 < 1 %/회면 중간 봇으로 잼. max_fail_frac_L11_L50(round-2): 아이 봇이 200 이동 상한 안에 못 푼 실행 비율 한도. L1~L10 은 0 그대로, L11~L50 은 ≤ 0.2 %(상한은 봇이 포기하는 줄이지 풀 수 없다는 뜻이 아님 — 완벽 입력 V5 로 풀 수 있음을 따로 확인).",
+  "_note": "20-balance 7절. m̃L = 5~6세 대리 봇 이동 수 연속 중앙값. T = m̃1·r⁵, r = (m̃3/m̃1)^½, m̃10 ∈ [0.8T, 1.2T]. 숙련 봇 몰림 한도 = max(30 %, 1.5/쌍 수): 쌍 5~6 → 30 %, 쌍 4 → 37.5 %, 쌍 3 → 정보만(20-balance 7-4). 몰림은 헛 이동 ≥ 2000회까지 표본을 늘려 재고(최대 20만 회), 숙련 봇 헛 이동 비율 < 1 %/회면 중간 봇으로 잼. (round-4 I1 다시 적기) 아이 봇 못 푼 실행 0 은 L1~L4(5~6세 구간)만 판정. L5 이후는 5~6세 구간 밖이라 아이 봇이 200 이동 안에 못 푸는 것이 정상(정보), 풀 수 있음은 V5 완벽 입력으로 확인. round-2 의 L11~L50 ≤ 0.2 % 한도(max_fail_frac_L11_L50)는 없앰.",
   "skilled_min_waste_rate": 0.01,
   "concentration_min_waste_events": 2000,
   "chapters": {
@@ -327,8 +341,7 @@
    "end_band_frac": 0.2,
    "strict_monotone_within_chapter": true,
    "_note": "20-balance 8-5(round-2 스테이지 50개). 10개씩 5챕터. 챕터 c 끝 목표 E_c = T·(25/T)^((c−1)/4)(E1 = T = 기존 L10 목표, E5 = 25 라 +20 % 띠 위 끝 = 30 이동 한도). 챕터 시작 = 0.75·E_(c−1) 숨 고르기 톱니(앞 챕터 끝 m̃ 대비 0.6~0.95배), 챕터 안 엄격 단조, 챕터 끝 m̃ ∈ E_c ±20 %. 30 이동·직전 2배 한도는 50개 모두."
-  },
-  "max_fail_frac_L11_L50": 0.002
+  }
  },
  "bots": {
   "child": {
@@ -513,7 +526,26 @@
     ]
    ],
    "band_frac": 0.2,
-   "max_wrong_median": 30
+   "max_wrong_median": 30,
+   "r4": {
+    "h1_metric": "D1",
+    "h1_start_frac_of_L10": 0.5,
+    "h1_end_D1": 2600,
+    "h2_start_D2": 2,
+    "stage_start_frac": 0.75,
+    "stage_start_band": [
+     0.65,
+     0.85
+    ],
+    "stage_end_D2": [
+     6,
+     11,
+     17,
+     22
+    ],
+    "max_p90_over_median": 10,
+    "_note": "round-4(T4·T10·T11): 단계 1 = 이음 단계(D1 지표, 6x6 선 10 → 7x7 → 8x8 → 9x9, 이웃 비 ≤ 2, H1-01 = L10 D1 의 0.5배 숨 고르기). 단계 2~5 = D2 지표, 단계 3~5 시작 = 앞 단계 끝의 0.75배(0.65~0.85), 찍기 판(D2 p90 > 10·중앙값) 제외."
+   }
   },
   "deduce_runs": 2000,
   "deduce_seed_rule": "mixSeed(verify.seed, 4243, 판 생성 시드) → D1 은 mixSeed(그것, 1, 회차), D2 는 mixSeed(그것, 2, 회차)",

@@ -4,6 +4,9 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | game-developer | round-4 성능 | [판 열기 조각화·캐시 LRU·containment — 판 시작 17·완료 30~34(K2 미달), 남은 프레임 표, 성능 판정은 QA --blank-pair](game-developer/2026-11-19-r4-perf.md) |
+| 2026-11-19 | art-director | round-4 기획 | [누른 채 확대 → 이어 긋기(칸 48), 16쌍 색약 재배치(ΔE<10 쌍 0), 장 바탕 45 %·장식, 큰 그림 카드·결과·해금, 화음 6목소리](art-director/2026-11-19-r4-plan.md) |
+| 2026-11-19 | lore-writer | round-4 기획 | [M2 도움 설명 한 줄, M3 큰 그림 이름 원본·palette 맞춤 표, card_wide(넓은 판 첫 안내), 잠긴 문 보조 글·문 페이지 meter 숨김, 키 127·9-9 PASS](lore-writer/2026-11-19-r4-plan.md) |
 | 2026-11-19 | qa-engineer | 1-6 | [round-3 점수 집계: 가중 7.710 게이트 실패(기술 7.0 → 핫픽스 반영 7.5), blocker 0·major 6·minor 19, 엇갈림 E1~E4, criteria 6줄 덧붙임](qa-engineer/2026-11-19-1-6-round3-score.md) |
 | 2026-11-19 | ux-reviewer | 1-5 | [round-3 UX 리뷰: 5/6·7.5·REVISE(major 1·minor 3), round-1 이슈 12/12 해결(막힘 튕김·툭, 두 % 모양 구분), 16쌍 전체 보기 색약 겹침(deutan 별-다이아 ΔE 3.5)·넓은 판 첫 안내 없음](ux-reviewer/2026-11-19-1-5-round3-review.md) |
 | 2026-11-19 | balance-designer | 1-5 | [round-3 밸런스 리뷰: 11/12·7.5·REVISE(major 2·minor 3), 규약 B9 4 %·T·H 곡선 통과·101파일 빌드 일치, 도움 무제한으로 별 관문 무력화·별 10 → H1 이음 D1 포화 미측정](balance-designer/2026-11-19-1-5-round3-review.md) |

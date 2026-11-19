@@ -70,7 +70,7 @@ for (const slot of SLOTS) {
   mkdirSync(HD, { recursive: true });
   for (const f of readdirSync(HD)) if (/^H\d-\d\d\.json$/.test(f)) unlinkSync(join(HD, f));
   for (const s of HARD_SLOTS_PENDING()) {
-    const cfg = HARD_STAGES[s.stage - 1];
+    const cfg = s.cfg || HARD_STAGES[s.stage - 1]; // round-4: 판마다 생성 설정(단계 1 이음 판은 6x6·7x7·8x8)
     const g = generateBig(cfg, s.seed);
     if (!g) throw new Error(`${s.id}: 생성 실패`);
     const L = g.level;
@@ -78,7 +78,9 @@ for (const slot of SLOTS) {
     const level = {
       schema_version: 1, id: s.id, stage: s.stage, stage_pos: s.stage_pos, stage_key: `hard${s.stage}_name`,
       width: L.width, height: L.height, holes: L.holes, pairs: L.pairs, solution: L.solution,
-      new_element: 'none',
+      new_element: s.id === 'H1-01' ? 'hard_mode' : 'none',
+      // round-4 T4: 큰 그림 첫 판 그림 카드(선이 10개 이상 + 판이 커지고 화면이 따라감을 그림으로). 그림 art, 글 lore
+      hard_card: s.id === 'H1-01' ? { text_key: 'card_hard', svg: 'tutorial/card-hard.svg', note: '큰 그림 첫 진입 카드: 선 10개 이상·판이 점점 넓어짐(뒤 판부터 화면이 손가락을 따라감). L2·L6 카드와 같은 시간 규칙(balance.json rule_card)' } : null,
       structure: structureMetrics(L),
       generator: { version: GEN_BIG_VERSION, core_version: CORE_VERSION, seed: s.seed, attempts: g.attempts, params: cfg, independent_note: '원작 판을 보지 않고 시드 생성(gen-2). 같은 시드·생성기 버전이면 같은 판' },
     };

@@ -1,5 +1,5 @@
 {
-  "_meta": { "ko": "flow-01 텍스트 원본(1-1 2026-11-17, 1-2 수정 2026-11-18, round-2 기획 수정 2026-11-18, round-3 기획 2026-11-19). 키 표는 10-lore.md 9절과 같음. 빌드는 이 파일만 읽음.", "en": "flow-01 string source (1-1 2026-11-17, revised 1-2 and round-2 plan 2026-11-18, round-3 plan 2026-11-19). Same keys as 10-lore.md section 9. The build reads only this file." },
+  "_meta": { "ko": "flow-01 텍스트 원본(1-1 2026-11-17, 1-2 수정 2026-11-18, round-2 기획 수정 2026-11-18, round-3·4 기획 2026-11-19). 키 표는 10-lore.md 9절과 같음. 빌드는 이 파일만 읽음.", "en": "flow-01 string source (1-1 2026-11-17, revised 1-2 and round-2 plan 2026-11-18, round-3/4 plan 2026-11-19). Same keys as 10-lore.md section 9. The build reads only this file." },
   "title": { "ko": "짝꿍색칠", "en": "Pairpaint" },
   "tagline": { "ko": "같은 색끼리 이어요", "en": "Join the matching colors" },
   "tap_to_start": { "ko": "눌러서 시작", "en": "Tap to start" },
@@ -84,6 +84,7 @@
   "tut_drag": { "ko": "같은 색 점까지 끌어요", "en": "Drag to the same color" },
   "card_fill": { "ko": "빈칸도 다 칠해요", "en": "Fill every square" },
   "card_hole": { "ko": "구멍은 안 칠해도 돼요", "en": "Holes stay empty" },
+  "card_wide": { "ko": "누른 채 이어 그어요", "en": "Hold to zoom, keep drawing" },
 
   "aria_board": { "ko": "같은 색 점을 이어요", "en": "Join the matching dots" },
   "aria_pairs": { "ko": "이은 색 수", "en": "Colors joined" },
@@ -114,7 +115,7 @@
   "btn_settings": { "ko": "설정", "en": "Settings" },
   "btn_close": { "ko": "닫기", "en": "Close" },
   "settings_title": { "ko": "설정", "en": "Settings" },
-  "settings_intro": { "ko": "같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐이에요. 시간 제한과 실패가 없어서 천천히 생각해도 돼요. 결과 화면의 숫자(%)는 한 번에 이은 색의 비율이에요. 예: 5쌍 중 4쌍을 한 번에 이으면 80%. 모두 한 번에 이으면 별을 받아요(100%). 한 색을 그리다가 다른 색을 긋고 돌아와 이어 그리거나, 이었던 선을 지우거나 되돌린 뒤 다시 이은 색은 한 번에 이은 것으로 세지 않아요. 다른 색을 건드리기 전에 같은 색을 고쳐 그리는 것은 한 번으로 세어요. 결과 화면 점 줄의 꽉 찬 점은 한 번에 이은 색, 속 빈 점은 다시 그은 색이에요. 처음부터(↻)를 누르면 새로 시작해 별을 다시 받을 수 있어요. 놀이 중 가는 막대와 작은 숫자는 판을 칠한 만큼이에요. 별을 10개 모을 때마다 큰 그림이 하나씩 열려요(모두 5개). 큰 그림은 색이 10가지 이상이고 판이 아주 넓은 어려운 판이에요.", "en": "Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of colors joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A color is not joined in one go if it was drawn in parts with another color in between, or erased or undone and drawn again. Fixing the same color before touching another one still counts as one go. On the result screen, a filled dot is a color joined in one go and a hollow dot is one drawn again. Start over (↻) begins a fresh try, so the star can be earned again. During play, the thin bar and small number show how much of the board is filled. Every 10 stars opens one Big Picture (5 in all). Big Pictures are hard boards with 10 or more colors and much more room." },
+  "settings_intro": { "ko": "같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐이에요. 시간 제한과 실패가 없어서 천천히 생각해도 돼요. 결과 화면의 숫자(%)는 한 번에 이은 색의 비율이에요. 예: 5쌍 중 4쌍을 한 번에 이으면 80%. 모두 한 번에 이으면 별을 받아요(100%). 한 색을 그리다가 다른 색을 긋고 돌아와 이어 그리거나, 이었던 선을 지우거나 되돌린 뒤 다시 이은 색은 한 번에 이은 것으로 세지 않아요. 다른 색을 건드리기 전에 같은 색을 고쳐 그리는 것은 한 번으로 세어요. 다섯 번째 판부터(큰 그림 포함)는 도와줘(손가락 그림 버튼)로 길을 본 색도 한 번에 이은 것으로 세지 않아요. 결과 화면 점 줄의 꽉 찬 점은 한 번에 이은 색, 속 빈 점은 다시 그었거나 도움을 받은 색이에요. 처음부터(↻)를 누르면 새로 시작해 별을 다시 받을 수 있어요. 놀이 중 가는 막대와 작은 숫자는 판을 칠한 만큼이에요. 별을 10개 모을 때마다 큰 그림이 하나씩 열려요(모두 5개). 큰 그림은 색이 10가지 이상이고 판이 아주 넓은 어려운 판이에요.", "en": "Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of colors joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A color is not joined in one go if it was drawn in parts with another color in between, or erased or undone and drawn again. Fixing the same color before touching another one still counts as one go. From board 5 on, including Big Pictures, a color whose path was shown by Show me does not count as one go either. On the result screen, a filled dot is a color joined in one go and a hollow dot is one drawn again or helped. Start over (↻) begins a fresh try, so the star can be earned again. During play, the thin bar and small number show how much of the board is filled. Every 10 stars opens one Big Picture (5 in all). Big Pictures are hard boards with 10 or more colors and much more room." },
   "settings_sound": { "ko": "소리", "en": "Sound" },
   "settings_vibrate": { "ko": "진동", "en": "Vibration" },
   "vibrate_note": { "ko": "진동은 지원하는 기기(주로 안드로이드)에서만 나요. 진동이 없어도 소리와 그림으로 모두 알 수 있어요.", "en": "Vibration works only on supported devices (mostly Android). Sound and pictures show everything without it." },

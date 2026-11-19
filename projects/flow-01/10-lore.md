@@ -4,6 +4,7 @@
 - 수정: 2026-11-18, 단계 1-2 2차 — 오케스트레이터 F4·F5(1-1)·G1~G7(1-2) 반영, 처리표 `reviews/plan-1-2/lore-writer-response.md`.
 - 수정: 2026-11-18, round-2 기획 수정 — 결정 H2·H3·H4, score.md S5·S9·S14·S25·S26(E4). 처리표 `reviews/round-1/lore-writer-r2-plan.md`.
 - 수정: 2026-11-19, round-3 기획 — 요청자 규약(대상 18세까지 점증, 어린이 친화 톤 유지·선정성 금지, 옵션에 보호자 도움 고지 없음)과 어려운 난이도 5단계(큰 그림). 처리표 `reviews/round-3/lore-writer-plan.md`.
+- 수정: 2026-11-19, round-4 기획 — 결정 M1(넓은 판 누른 채 확대 → 이어 긋기)·M2(L5 이후 도움 쓴 쌍은 한 번에 아님)·M3(큰 그림 이름 = lore 원본), round-3 LW2~LW5. 처리표 `reviews/round-3/lore-writer-r4-plan.md`.
 - 입력: `00-benchmark.md`(0·10·12·13·16-2절 중심), `Docs/orchestrator/2026-11-17-1-0-kickoff.md`(공통 지시 1~10), `harness/criteria.md`(세계관·텍스트, 대상 연령, 게임 감각 마지막 두 줄), `harness/insights.md`, `harness/benchmarks/djmax-judgement.md` 7-3절. 구조 참고(읽기만): `projects/rhythm-02/10-lore.md`.
 - 원본 보호: 원작(선 잇기 판 채우기 퍼즐 앱)과 참고 모던 게임 4개(00-benchmark 10-1 R1~R4)의 이름·캐릭터·설정·문구를 쓰지 않았습니다. 이 문서의 이름·문구는 모두 새로 만든 것이고, 시스템 UI 문구 몇 개(`tap_to_start`·`loading` 등)만 허브 공통 UX로 일부러 다른 GameHub 게임과 같게 둡니다(10절).
 - 소유권: 판 크기·쌍 수·이동 수 정의·연출 시간 같은 **수치는 `20-balance.md`·`balance.json`·`levels/`**, 색·모양·연출·소리·아이콘은 **`30-art.md`**가 기준입니다. 이 문서는 숫자를 정하지 않습니다.
@@ -193,13 +194,18 @@
 | 5 | `hard5_name` | 커다란 벽화 / Giant Mural | 최대 4배 | 크림 → 벽돌빛 연살구. 넓은 네모 1개 | 마지막·가장 넓은 판 |
 
 - **해금 안내는 그림이 주, 글은 보조**: 잠긴 큰 그림은 자물쇠 + 별 10칸 고리(지금 모은 별만큼 채워짐, 숫자 글 없음). 채워지는 순간 결과 화면에서 큰 그림 표지가 튀며 열리고(주스 연출, art), 보조 글 `hard_unlocked`를 결과 화면 진입 live에 이어 한 번 읽음(새 live 자리 아님). 지도에서 잠긴 큰 그림을 누르면 고리가 한 번 숨 쉬고 `hard_locked` 보조 글이 잠깐(글 자리는 art).
+- **단계당 판 10개(round-4, balance)**: `H1-01`~`H5-10`. 한 단계의 10판은 모두 그 단계 이름 `hardN_name`을 씀(결과 이름 띠·플레이 `.sr` 제목). 판마다 이름을 따로 두지 않음.
+- **이름 = lore 원본(round-4 M3)**: 화면 글·대체 글의 원본은 이 표와 `strings.json`. art `palette.json themes.hardN.lore`는 이 이름 글자 그대로, 바탕 색·장식은 위 "시각 힌트" 열에 맞춥니다(옛 바탕 테마 "구름 위 산책·숲속 오두막·바닷속 정원·별빛 놀이공원·달나라 여행"은 쓰지 않음). 장 2~5 바탕도 7-2 장 이름·도형(물방울·잎·육각형·초승달)에 맞춥니다(T5, art).
+- **잠긴 문 누름 반응(round-4, LW3)**: 잠긴 큰 그림 문을 누르면 ① 별 고리가 한 번 숨 쉬고 채워진 칸이 반짝임(주 신호) ② `hard_locked` "별을 더 모아요"를 문 페이지 제목 아래 글 자리에 약 2초 보이는 글로(보조, 글 자리는 art). 낭독은 하지 않음(버튼 이름에 이미 들어 있음, live 두 곳 규칙). 해금 순간은 결과 화면에서 문 그림이 열리는 짧은 연출 + `hard_unlocked`(art·dev).
+- **문 페이지 meter(round-4, LW5)**: 큰 그림 문 페이지는 장이 아니라 `aria_page_stars` meter를 숨김(`hidden`). 전체 별 `aria_map_stars`(max = 일반 50 + 큰 그림 50 = 100)와 잠긴 문 옆 `aria_hard_need`만 남김.
 - **큰 그림 자리**: 장 고르기 탭의 맨 끝 탭 = `hard_title`(6번째 탭). 그 안 노드 5개, 노드 이름 = `hardN_name` + ", " + 상태 키(잠김은 `node_locked` 대신 `hard_locked`, 열린 뒤는 `node_next`·`node_partial`·`node_done`·`node_star`).
 - 큰 그림 판 결과 제목 = `clear_hard`(별이면 별 표지 함께). 플레이 화면 `.sr` 제목 = `hardN_name`.
 
-### 7-5. 넓은 판 조작 안내 (round-3, art 설계에 따름)
+### 7-5. 넓은 판 조작 안내 (round-3, round-4 M1로 확정)
 
 - 조작은 드래그 1가지 원칙. art가 **판 전체를 화면에 맞추고 끄는 선 끝을 따라 화면이 저절로 옮겨 가는** 방식(새 몸짓 없음)이면 **문구 키 없음** — 손가락 시연 그림으로 충분.
-- art가 확대·이동 몸짓(두 손가락 등)이나 확대 버튼을 넣기로 정하면 그때 키를 더함(예비 키를 미리 두지 않는 규칙, 8절 12). 안: 버튼 대체 글 `btn_zoom_in` "크게 보기 / Zoom in"·`btn_zoom_out` "작게 보기 / Zoom out", 첫 큰 그림 카드 `card_wide` "넓은 판은 옮겨 봐요 / Move to see more" + 손가락이 판을 옮기는 그림.
+- **round-4 확정(M1)**: 전체 보기 칸이 48 px 이상인 화면은 바로 긋기(안내 없음). 그 밖에는 **전체 보기에서 누른 채로 그 자리 중심 확대 → 손을 떼지 않고 이어 긋기**. 새 몸짓이 아니라 "누르고 끌기" 안의 변화라 확대·축소 버튼 키는 두지 않음. 첫 안내 = 그림 카드 `card_wide`(9-3): **H1-01 첫 진입, 확대가 필요한 화면에서만** 1번. 그림: 전체 보기 판 → 손가락이 실제 첫 쌍 점을 꾹 누름 → 그 자리 중심으로 판이 커짐 → 손을 떼지 않고 짝 점까지 끌어 이음 → 작은 반짝임. 손가락은 L1 시연과 같은 그림.
+- (round-3 기록) art가 확대·이동 몸짓(두 손가락 등)이나 확대 버튼을 넣기로 정하면 그때 키를 더함(예비 키를 미리 두지 않는 규칙, 8절 12). 안: 버튼 대체 글 `btn_zoom_in` "크게 보기 / Zoom in"·`btn_zoom_out` "작게 보기 / Zoom out", 첫 큰 그림 카드 `card_wide` "넓은 판은 옮겨 봐요 / Move to see more" + 손가락이 판을 옮기는 그림.
 
 - 레벨 이름은 rhythm-01(꽃밭·바닷가·노을 언덕 등)·runner-01(달팽이 정원 등)·rhythm-02 레벨 이름과 글자까지 같은 것이 없습니다(9-9 ⑦).
 - 진행 지도 노드는 완성 판 미니 그림이 주 구분이고(00-benchmark 10-4), 레벨 이름은 대체 글·결과 화면 보조 글입니다. 지도 바탕은 메뉴 바탕 하나(30-art 5-2)이고, 하루 흐름(아침 → 노을)은 **레벨 바탕 색에서만** 보입니다(노드 미니 그림·결과 화면 이름 띠가 그 판 바탕색을 씀).
@@ -221,7 +227,7 @@
 9. **부트 키**(`title`·`loading`·`load_error`·`load_error_detail`·`btn_reload`)는 빌드 스크립트가 두 언어로 `index.html` 부트 블록에 넣고, 언어를 정한 직후 `document.documentElement.lang`·`document.title`(= 그 언어 `title`)을 바꿉니다. ↻ 그림도 부트 블록에 인라인(criteria 세계관 rhythm-02 줄).
 10. 치환 자리 없음. 숫자 글(결과 %, 플레이 중 판 채움 % — F4 확정)은 따로 그리고 문장 안에 끼우지 않으며 판정 이름과 한 줄로 붙이지 않습니다("최고야 100%" 금지).
 11. **클리어 문구 선택 규칙**(round-2 50판, round-3 큰 그림): 큰 그림 → `clear_hard` / L50 → `clear_last` / L10·20·30·40(장 마지막) → `clear_chapter`(둘 다 별이면 별 표지 함께) / 별(100 %) → `clear_star` / 그 밖 → `clear_title_n`, n = ((레벨 번호 − 1) mod 3) + 1. 무작위가 아니라 레벨로 정해 QA 스크린샷이 재현됩니다.
-12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. 126개 키는 모두 쓰는 키입니다(예비 키 없음). 쓰지 않게 되면 DEV_NOTES에 이유(criteria).
+12. 빌드는 `strings.json`만 읽고 코드에 문구를 쓰지 않습니다. 127개 키는 모두 쓰는 키입니다(예비 키 없음). 쓰지 않게 되면 DEV_NOTES에 이유(criteria).
 13. **플레이 화면 숨은 제목(round-2, S9)**: `#play` 첫 요소로 화면에 안 보이는 제목(`.sr` 클래스 `h2`, 글 = 그 판 `levelN_name`, 새 키 없음)을 둡니다. 판에 들어갈 때 바뀌고 live로 읽지 않습니다(초점이 제목에 가면 읽힘). 판 캔버스 이름(`aria_board`)에 레벨 이름을 붙이지 않습니다(4항 "키 두 개를 잇는 곳은 지도 노드뿐" 유지).
 14. **막힘(round-2 H4)은 대체 글·낭독 없음**: 막힘 "툭" 소리와 작은 튕겨 나옴은 그림·소리 신호로만 두고 `aria-live`로 읽지 않으며 키도 두지 않습니다(6항 live 두 곳 유지). 이유: 막힘은 자주 나고 실패가 아니라 "이쪽은 안 돼"이므로, 낭독하면 끄는 동안 말이 연타됨(insights 콤보 대체 글 원칙). 스크린 리더 사용자는 판을 직접 끌지 않고 `aria_board`·`aria_pairs`로 상태를 봄.
 15. **플레이 중 채움 막대(round-2 H3)**: 판 위 가는 막대 + 작은 %는 계속 `aria-hidden`(키 없음, 판정마다 읽지 않는 규칙). 값은 판 상태에서 바로 나오고, 대체 글 쪽 진행은 `aria_pairs`가 맡습니다.
@@ -306,11 +312,11 @@
 | `node_done` | aria | 다 칠했어요 | All filled | 완료(완성 미니 그림) |
 | `node_star` | aria | 한 번에 다 칠했어요 | Filled in one go | 완료 + 별(미니 그림 옆 작은 별) |
 | `aria_best_fill` | aria | 칠한 만큼 | How much is filled | `node_partial` 노드의 progressbar(0~100 = 연결된 쌍이 칠한 칸 기준 최고 판 채움 %, valuetext 없음). **버튼 밖 형제 요소**(8절 5) |
-| `aria_map_stars` | aria | 모은 별 | Stars collected | 지도 화면 전체 별 모음 표지 meter(round-2: max 50, round-3: 큰 그림 별도 세면 max = 50 + 그 수 — balance 확정, 큰 그림 해금은 이 누적 별로 판단, valuetext 숫자만). 화면 글 없음 |
+| `aria_map_stars` | aria | 모은 별 | Stars collected | 지도 화면 전체 별 모음 표지 meter(round-2: max 50, round-3·4: 큰 그림 50판 별까지 max 100(balance·빌드), 큰 그림 해금은 이 누적 별로 판단, valuetext 숫자만). 화면 글 없음 |
 | `aria_chapters` | aria | 색칠책 장 고르기 | Pick a page | 장 탭 묶음(`role="tablist"`) 이름. 탭 = `chapterN_name`, 선택 = `aria-selected`. 쓸어 넘기기도 같은 동작 |
 | `btn_page_prev` | aria | 앞 장 | Previous page | ◀ 그림 버튼(첫 장에서는 숨김, `aria-disabled` 대신 없앰) |
 | `btn_page_next` | aria | 다음 장 | Next page | ▶ 그림 버튼(마지막 장에서는 숨김). 잠긴 장으로도 넘어가 볼 수 있음(잠금 그림만) |
-| `aria_page_stars` | aria | 이 장에서 모은 별 | Stars on this page | 지금 장 별 표지 meter(min 0, max = 그 장 판 수 10, valuenow = 그 장 별 수, valuetext 숫자만). 화면은 작은 별 그림 + 채워진 수만큼(숫자 글 없음) |
+| `aria_page_stars` | aria | 이 장에서 모은 별 | Stars on this page | round-4: 큰 그림 문 페이지에서는 숨김(값 없음, 7-4). 지금 장 별 표지 meter(min 0, max = 그 장 판 수 10, valuenow = 그 장 별 수, valuetext 숫자만). 화면은 작은 별 그림 + 채워진 수만큼(숫자 글 없음) |
 | `hard_title` | 화면 | 큰 그림 | Big Pictures | round-3: 장 고르기 맨 끝 탭 이름 + 그 장 제목 글. 탭 그림 = 넓은 판 실루엣 |
 | `hard1_name` | 화면 | 모자이크 타일 | Mosaic Tiles | 큰 그림 노드 이름 앞부분 + 결과 화면 이름 띠 + 플레이 `.sr` 제목(7-4). 별 10개에 열림. 키 이름은 balance 확정 전 가정 |
 | `hard2_name` | 화면 | 조각보 이불 | Patchwork Quilt | 같음(별 20개) |
@@ -321,13 +327,14 @@
 | `aria_hard_need` | aria | 여는 데 필요한 별 | Stars to open it | 잠긴 큰 그림 노드의 별 고리 meter. **버튼 밖 형제 요소**(8절 5). min 0, max = 그 단계 해금 별 수(10·20·30·40·50), valuenow = 지금 누적 별(max까지), valuetext 숫자만 |
 | `hard_unlocked` | ★ | 큰 그림이 열렸어요! | A big picture opened! | 누적 별이 10의 배수에 닿은 결과 화면에서 큰 그림 표지가 열리는 그림과 함께 보조 글 1번. 결과 화면 진입 live에 이어 읽음 |
 
-### 9-3. 튜토리얼·그림 카드 (3개) — 그림이 주, 글은 보조
+### 9-3. 튜토리얼·그림 카드 (4개) — 그림이 주, 글은 보조
 
 | 키 | 구분 | KR | EN | 레벨 | 그림 힌트 (글을 못 읽어도) |
 |---|---|---|---|---|---|
 | `tut_drag` | ★ | 같은 색 점까지 끌어요 | Drag to the same color | L1 | 레벨 시작 잠깐 뒤 손가락이 L1 **실제 첫 쌍**(빨강·하트, `tutorial.demo_drag`) 점을 누르고 답 길을 칸마다 따라 짝 점까지 끈 뒤 잠깐 머물고 사라짐(지나간 칸에 옅은 선이 함께 그려졌다 사라짐, 판은 바뀌지 않음). 짧게 쉬고 반복하고, 두 번 뒤에는 조금 길게 쉼. **아이 손이 판에 처음 닿으면 손가락은 그 자리에서 사라지고**, 판이 오래 그대로면 한 번 더 나옴. 글은 아이가 처음 한 쌍을 이을 때 사라짐. 손가락은 그 점 기준 위치. 시간 값(시작 0.5 s·칸당 0.26 s·쉼 1.2 s·2회 뒤 3 s·다시 보임 8 s 등)은 `balance.json tutorial`·`layout.json motion.tutorial`이 원본 |
 | `card_fill` | ★ | 빈칸도 다 칠해요 | Fill every square | L2 | 카드(L2 왼쪽 위 부분, 실제 색·표지): 맞닿은 노랑·별 점 두 개를 곧게 이었더니 왼쪽 위 모서리 빈칸 2개가 숨 쉼 → 손가락이 노랑 선을 빈칸 쪽으로 돌려 이어 판이 꽉 참 → 작은 반짝임(실제 판 완료와 같은 색 조각, ✓ 아님). 빈칸 자리 = `levels/02 fill_card.empty_cells` |
 | `card_hole` | ★ | 구멍은 안 칠해도 돼요 | Holes stay empty | L6 | 카드(L6 첫 구멍 둘레 부분, 실제 색·표지): 판 안쪽, 칸이 없는 구멍(바탕 물빛이 보임) 옆으로 선들이 지나가고, 구멍만 빈 채 판이 다 칠해짐 → 작은 반짝임(✓ 아님). 구멍 자리·둘레 쌍 = `levels/06 hole_card.first_hole`(G1 재선정 결과를 art가 읽어 그림) |
+| `card_wide` | ★ | 누른 채 이어 그어요 | Hold to zoom, keep drawing | H1-01 | round-4(M1, LW4): 넓은 판 첫 진입 카드(확대가 필요한 화면에서만). 전체 보기 판에서 손가락이 실제 첫 쌍 점을 꾹 누름 → 그 자리 중심 확대 → 떼지 않고 짝 점까지 끌어 이음 → 작은 반짝임(✓ 아님). 카드 id = 이 키(`balance.json`·`levels-hard`) |
 
 - 레벨당 새 요소 1개 이하. L3·L5·L7·L9(판 커짐·색 추가)는 새 규칙이 아니라 카드를 두지 않습니다(balance가 카드가 필요하다고 정하면 키를 더함). 카드 id는 이 키 이름 그대로 `balance.json`·`levels/*.json`에 씁니다.
 
@@ -343,7 +350,7 @@
 | `judge_3_name` | ★ | 해냈어 | Yay! | 판정 이름 3단(세 번 이상). 작은 글자, 회색·빨강 금지 |
 | `btn_undo` | aria | 한 번 되돌리기 | Undo | ↶ 그림 버튼 |
 | `btn_restart` | aria | 처음부터 | Start over | ↻ 그림 버튼(판이 부드럽게 비워짐). round-2 H2: 누르면 **새 시도**(이동 수·판정 기록 0, 별 다시 가능), 바로 다음 되돌리기는 처음부터를 취소. 글은 그대로 — "처음부터 / Start over"가 이미 "새로 시작" 뜻이고 결과 화면 `btn_again`(다시 칠하기)과 같은 새 시도라 맞음. "새로 시작"으로 바꾸면 `tap_to_start`(눌러서 시작)와 헷갈려 바꾸지 않음. live 낭독 없음 |
-| `btn_help` | aria | 도와줘 | Show me | 도움 그림 버튼(30초 변화 없으면 숨 쉼, 누르면 정답 선 하나 시연). 결제·광고 없음 |
+| `btn_help` | aria | 도와줘 | Show me | round-4 M2: L5 이후·큰 그림에서 도움으로 길을 본 쌍은 한 번에 아님(결과 점 줄 속 빈 점, 그 판 별 없음, L1~L4는 그대로). 화면에 따로 글 없음 — 설정 설명 `settings_intro` 한 줄과 속 빈 점 그림이 이유를 보임. 도움 그림 버튼(30초 변화 없으면 숨 쉼, 누르면 정답 선 하나 시연). 결제·광고 없음 |
 | `btn_map` | aria | 지도로 | Map | 플레이·결과 화면의 지도 그림 버튼 |
 
 ### 9-5. 판 완료·결과 (14개)
@@ -372,7 +379,7 @@
 | `btn_settings` | aria | 설정 | Settings | 지도 구석 톱니 그림 버튼. round-3: 한 번 누르면 설정 화면(길게 누르기·`aria-describedby` 없음, 옛 보호자 안내 키 지움) |
 | `btn_close` | aria | 닫기 | Close | 설정 화면 ✕ |
 | `settings_title` | 화면 | 설정 | Settings | 설정 화면 제목(dialog 이름). round-3: 옛 "보호자 설정 / For grown-ups"를 바꿈 |
-| `settings_intro` | 설명 | 같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐이에요. 시간 제한과 실패가 없어서 천천히 생각해도 돼요. 결과 화면의 숫자(%)는 한 번에 이은 색의 비율이에요. 예: 5쌍 중 4쌍을 한 번에 이으면 80%. 모두 한 번에 이으면 별을 받아요(100%). 한 색을 그리다가 다른 색을 긋고 돌아와 이어 그리거나, 이었던 선을 지우거나 되돌린 뒤 다시 이은 색은 한 번에 이은 것으로 세지 않아요. 다른 색을 건드리기 전에 같은 색을 고쳐 그리는 것은 한 번으로 세어요. 결과 화면 점 줄의 꽉 찬 점은 한 번에 이은 색, 속 빈 점은 다시 그은 색이에요. 처음부터(↻)를 누르면 새로 시작해 별을 다시 받을 수 있어요. 놀이 중 가는 막대와 작은 숫자는 판을 칠한 만큼이에요. 별을 10개 모을 때마다 큰 그림이 하나씩 열려요(모두 5개). 큰 그림은 색이 10가지 이상이고 판이 아주 넓은 어려운 판이에요. | Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of colors joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A color is not joined in one go if it was drawn in parts with another color in between, or erased or undone and drawn again. Fixing the same color before touching another one still counts as one go. On the result screen, a filled dot is a color joined in one go and a hollow dot is one drawn again. Start over (↻) begins a fresh try, so the star can be earned again. During play, the thin bar and small number show how much of the board is filled. Every 10 stars opens one Big Picture (5 in all). Big Pictures are hard boards with 10 or more colors and much more room. | 설정 화면 게임 설명. round-3: 옛 보호자 설명을 바꿈 — 누구나 읽는 존댓말 톤("~해요"), 보호자·어른 낱말 없음, 큰 그림 해금 한 줄 추가. round-2 E4 내용(한 번에 정의·% 붙여 쓰기·점 줄·처음부터·막대) 유지 |
+| `settings_intro` | 설명 | 같은 색 점을 선으로 잇고, 빈칸 없이 판을 칠하면 끝나는 퍼즐이에요. 시간 제한과 실패가 없어서 천천히 생각해도 돼요. 결과 화면의 숫자(%)는 한 번에 이은 색의 비율이에요. 예: 5쌍 중 4쌍을 한 번에 이으면 80%. 모두 한 번에 이으면 별을 받아요(100%). 한 색을 그리다가 다른 색을 긋고 돌아와 이어 그리거나, 이었던 선을 지우거나 되돌린 뒤 다시 이은 색은 한 번에 이은 것으로 세지 않아요. 다른 색을 건드리기 전에 같은 색을 고쳐 그리는 것은 한 번으로 세어요. 다섯 번째 판부터(큰 그림 포함)는 도와줘(손가락 그림 버튼)로 길을 본 색도 한 번에 이은 것으로 세지 않아요. 결과 화면 점 줄의 꽉 찬 점은 한 번에 이은 색, 속 빈 점은 다시 그었거나 도움을 받은 색이에요. 처음부터(↻)를 누르면 새로 시작해 별을 다시 받을 수 있어요. 놀이 중 가는 막대와 작은 숫자는 판을 칠한 만큼이에요. 별을 10개 모을 때마다 큰 그림이 하나씩 열려요(모두 5개). 큰 그림은 색이 10가지 이상이고 판이 아주 넓은 어려운 판이에요. | Join each pair of matching dots with a line and fill every square to finish. There is no timer and no way to fail, so take your time. The % on the result screen is the share of colors joined in one go: 4 of 5 pairs makes 80%, and all pairs in one go makes 100% and earns a star. A color is not joined in one go if it was drawn in parts with another color in between, or erased or undone and drawn again. Fixing the same color before touching another one still counts as one go. From board 5 on, including Big Pictures, a color whose path was shown by Show me does not count as one go either. On the result screen, a filled dot is a color joined in one go and a hollow dot is one drawn again or helped. Start over (↻) begins a fresh try, so the star can be earned again. During play, the thin bar and small number show how much of the board is filled. Every 10 stars opens one Big Picture (5 in all). Big Pictures are hard boards with 10 or more colors and much more room. | 설정 화면 게임 설명. round-3: 옛 보호자 설명을 바꿈("~해요" 톤, 보호자·어른 낱말 없음, 큰 그림 해금). round-4 M2: L5 이후 도움 한 줄 + 속 빈 점 뜻에 "도움" 추가 |
 | `settings_sound` | 화면 | 소리 | Sound | 설정 화면 스위치 + **지도 소리 켬/끔 그림 버튼 이름**(새 키 없이, 상태는 `aria-pressed`) |
 | `settings_vibrate` | 화면 | 진동 | Vibration | 스위치 |
 | `vibrate_note` | 설명 | 진동은 지원하는 기기(주로 안드로이드)에서만 나요. 진동이 없어도 소리와 그림으로 모두 알 수 있어요. | Vibration works only on supported devices (mostly Android). Sound and pictures show everything without it. | 진동 스위치 아래 작은 글(00-benchmark 10-5) |
@@ -395,7 +402,7 @@
 | `btn_reload` | aria | 다시 불러오기 | Reload | **부트 키**. ↻ 그림 버튼(그림 인라인) |
 | `store_short` | 스토어 | 같은 색 점을 이어 판을 칠해요! 빈칸 없이 다 채우면 완성. 시간 제한 없는 손가락 하나 퍼즐. | Join matching dots and fill every square! No timer, one finger, calm puzzles. | 스토어 짧은 설명(80자 이내) |
 
-**합계: 3 + 76 + 3 + 10 + 14 + 15 + 5 = 126개** (round-3: 큰 그림 10개 추가, 보호자 안내 키 지움, 설정 제목·설명 키 이름 바꿈) / (round-2: `result_dots` 1개 추가, 50판 확장으로 장 이름 5·레벨 이름 40·레벨 선택 4·`clear_chapter` 1 추가) (`_meta` 제외, 9-9 검사로 확인).
+**합계: 3 + 76 + 4 + 10 + 14 + 15 + 5 = 127개** (round-4: `card_wide` 추가) / (round-3: 큰 그림 10개 추가, 보호자 안내 키 지움, 설정 제목·설명 키 이름 바꿈) / (round-2: `result_dots` 1개 추가, 50판 확장으로 장 이름 5·레벨 이름 40·레벨 선택 4·`clear_chapter` 1 추가) (`_meta` 제외, 9-9 검사로 확인).
 
 **키를 두지 않은 것(그림으로 대신)**
 - 실패·틀림·막힘·잘림 문구 없음(실패가 없는 게임).
@@ -410,6 +417,7 @@
 - 정함(round-2): `guardian_intro` 고쳐 씀(E4), `judge_2_name.en` = "Nice!", 결과 점 줄 `result_dots` 추가(H3, 키 67개), 플레이 화면 `.sr` 제목 = `levelN_name`(8절 13), 막힘 낭독 없음(H4, 8절 14), 채움 막대 aria-hidden(H3, 8절 15), `btn_restart` 글 유지(H2).
 - 정함(round-2 요청자 추가 지시): 50판·5장 이름(7-2·7-3), 레벨 선택 키 4개, `clear_chapter`, `clear_last` = L50(키 117개). 장·레벨 키 이름(`chapterN_name`·`levelN_name`)은 balance 확정 전 가정 — balance가 다른 키 규칙·장 구조를 정하면 그대로 따름. 새 기믹 카드 키는 balance 확정 후.
 - 정함(round-3): 보호자 고지 지움(옛 길게 누르기 안내 키 삭제, 설정 = 일반 톱니 버튼 한 번 누름), 설정 제목·설명 키를 `settings_title`·`settings_intro`로 바꿈, 구분 "어른" → "설명", 큰 그림 5단계 키 10개(키 126개). `hardN_name`은 balance 확정 전 가정. 넓은 판 조작 키는 art가 몸짓·버튼을 정할 때만(7-5).
+- 정함(round-4): M1 `card_wide`(키 127개, 확대 버튼 키 없음), M2 `settings_intro` 도움 한 줄, M3 큰 그림 이름 = lore 원본(art palette가 맞춤), 잠긴 문 보조 글 보이기, 문 페이지 `aria_page_stars` 숨김.
 - 아직 바뀔 수 있음: 카드 수(balance가 다른 레벨에도 카드를 두면 키 추가), L6 첫 구멍 자리(G1 재선정 — 문구 `card_hole`은 그대로), art가 결과 레벨 이름 자리를 못 두면 `levelN_name` 결과 쪽 쓰임은 aria로만(G7 대안).
 
 ### 9-9. 문서 표 = `strings.json` 확인 (node)
@@ -433,6 +441,8 @@ node -e 'const fs=require("fs"),md=fs.readFileSync("10-lore.md","utf8"),js=JSON.
 **검사 결과 (2026-11-18, round-2 50판 추가 지시):** `doc 117 json 117 | max ko 12 en 5 | same-as-other 16 (common만 허용) | PASS`. 새 키 50개(장 5·레벨 40·레벨 선택 4·`clear_chapter`), `clear_last` 바뀜. 겹침 16번째는 `btn_reload` "Reload"(reverbound가 17:55에 추가) — 부트 공통 UI라 common에 넣음. 새 이름 100개는 레포 전체(games·projects의 json·md·js·html 624개) 글자 대조 겹침 0(첫 안 L43 "등불 골목 / Lantern Lane"이 다른 게임과 같아 "초롱불 마을 / Paper Lantern Town"으로 바꿈).
 
 **검사 결과 (2026-11-19, round-3 기획):** `doc 126 json 126 | max ko 12 en 5 | same-as-other 15 (common만 허용) | PASS`. 새 키 11개(큰 그림 10 + `settings_title`), 지운 키 3개 이름(`guardian_hold`·`guardian_title`·`guardian_intro`). `settings_title` "설정 / Settings"는 다른 게임과 같은 공통 UI라 common에 넣음. 새 이름 레포 전체 대조(906개 파일) 겹침은 `settings_title`뿐. strings.json에 보호자·어른·grown 낱말 0.
+
+**검사 결과 (2026-11-19, round-4 기획):** `doc 127 json 127 | max ko 12 en 5 | same-as-other 15 (common만 허용) | PASS`. 새 키 `card_wide`(KR 11자 / EN 5단어, 레포 대조 겹침 0), 바뀐 글 `settings_intro`(M2).
 
 ## 10. 다른 게임과의 구분
 

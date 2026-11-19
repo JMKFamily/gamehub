@@ -111,3 +111,6 @@ body.notext .slot, body.notext .band, body.notext .tb, body.notext .mlab { color
 #pMiniWrap { position: absolute; pointer-events: auto; touch-action: none; cursor: pointer; }
 #pMini { position: absolute; border-radius: 4px; }
 #pMiniView { position: absolute; display: block; border: 2px solid var(--ink); border-radius: 4px; box-sizing: border-box; pointer-events: none; will-change: transform; }
+/* r4 성능: 화면마다 레이아웃·스타일·페인트를 가둬 화면 바꾸기(클래스 토글) 때 다시 계산 범위를 줄임 */
+.screen { contain: layout style paint; }
+#result, #map, #play { contain: strict; }

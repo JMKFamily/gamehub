@@ -45,7 +45,8 @@ const PARAM = {
   judge_star_of_name: 0.6, // r2 S15: 1단 판정 이름 위 작은 별(이름 글자 크기의 0.6배)
   result_dot: 28, result_dot_pitch: 36, // r2 H3: 결과 쌍 점 줄
   pager_dot: 12, pager_pitch: 22, chapters: 5, pages: 6, // r2 50스테이지: 챕터 페이지 점. r3: 6번째 페이지 = 어려운 판 문 5개
-  wide_cell: 56, wide_min_visible: 5, minimap_cell_min: 3, // r3 넓은 판: 플레이 칸(× min(k,1.2)), 보이는 칸 ≥ 5, 미니맵 칸 ≥ 3 px
+  wide_cell: 48, wide_min_visible: 5, overview_dot_of_cell: 0.9, overview_dot_min: 26, overview_mark_min: 14, // r4 M1: 확대 칸 56 → 48(한 화면에 더 많은 칸). M4: 전체 보기 끝점 ≥ 0.9칸·≥ 26 px, 표지 ≥ 14 px
+  minimap_cell_min: 3, // r3 넓은 판: 플레이 칸(× min(k,1.2)), 보이는 칸 ≥ 5, 미니맵 칸 ≥ 3 px
   gate_d: 76, gate_star: 10, // r3 어려운 판 문 지름·별 칸 크기(× k)
   map_node: 64, result_board_of_S: 0.46,
   small_font: 14, level_name_font: 16, // 보호자 안내·guardian_hold / 결과 레벨 이름 띠
@@ -212,23 +213,34 @@ function hardPage(W, H, k, portrait, titleH, starsH, barH, pagerH, btn, edge) {
   return { gates, gate_d: gd, ring: { r: ringR, star_px: gs, n: 10, start_deg: -90 }, title_key: 'hard_title', unlock_every_stars: 10,
     states: { locked: '옅은 원(nodeLocked) + 그 단계 판 크기 실루엣(넓은 격자) + 둘레 별 칸 10개(star_empty 옅은 면). 모은 별이 그 문 구간(10·(i−1) ~ 10·i)에 든 만큼 둘레 별 칸이 star 면으로 참(12시부터 시계 방향). 자물쇠·숫자 없음',
       open: '흰 원 + 그 단계 테마 top 색 테두리 5k + ▶ + 둘레 별 칸 10개 모두 star. 숨 쉼 1.0 ↔ 1.05(1.6 s)', cleared: '열린 문 + 가운데 ▶ 대신 그 단계에서 모은 별 비율만큼 호(pathDone)' },
-    unlock_motion: { star_fill_ms: 60, star_pop: [0, 1.25, 1], gate_morph_ms: 320, sound: 'node_open', haptic: 'star', when: '누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음', reduced: '별 칸·문 바로 바뀜' },
+    locked_tap: { ms: 160, kind: '문이 좌우로 3k px 두 번 흔들리고 아직 빈 별 칸이 한 번 옅게 반짝(120 ms, 밝기 ≤ 20 %)', sound: 'bump' },
+    unlock_motion: { star_fill_ms: 60, ring_close: '마지막 별 칸이 찰 때 둘레 고리가 이어지며 한 바퀴 빛 띠(300 ms)', gate_shape: '잠긴 문(옅은 원 + 격자) → 격자 칸이 가운데부터 단계 테마 색으로 물들고(240 ms) → 흰 원 + ▶ 로 바뀜', star_pop: [0, 1.25, 1], gate_morph_ms: 320, sound: 'node_open', haptic: 'star', when: '누적 별이 10의 배수를 넘긴 뒤 지도로 돌아올 때. 6번째 점이 별 색으로 120 ms 튀고, 그 페이지에 오면 남은 별 칸이 60 ms 간격으로 차고 → 문이 열림(320 ms). 자동으로 페이지를 넘기지 않음', reduced: '별 칸·문 바로 바뀜' },
     _rule: '지도 6번째 페이지: 어려운 판 5단계 문(글 없이). 별 10·20·30·40·50개마다 문 하나씩 열림(요청자 2026-11-19). 문을 누르면 그 단계 레벨 페이지(지도 노드 배치 그대로, 바탕 = hard 테마). 제목 자리는 lore hard_title(없으면 비움).' };
 }
 
 // ---------- r3 넓은 판(어려운 판, 기본의 최대 4배 = 12x12, 쌍 ≤ 16 가정) ----------
-export const BOARDS_WIDE = [[8, 8], [9, 9], [10, 10], [12, 8], [8, 12], [12, 12]];
+export const BOARDS_WIDE = [[9, 9], [10, 10], [11, 11], [12, 12]]; // r4: balance levels-hard 확정 크기(9x9 10판·10x10 10판·11x11 10판·12x12 20판, 쌍 ≤ 16)
 function playWide(W, H, cols, rows) {
   const fit0 = play(W, H, cols, rows), k = fit0.k, P = PARAM;
-  if (fit0.cell >= P.cell_min) return { ...fit0, wide: true, fit_cell: fit0.cell, camera: null };
+  if (fit0.cell >= P.cell_min) return { ...fit0, wide: true, fit_cell: fit0.cell, camera: null, _rule: 'r4 M1 ①: 전체 보기 칸 ≥ 48 → 카메라·미니맵 없이 바로 긋기' };
   const fit = play(W, H, 12, 12); // 화면 틀(viewport·채움 막대·판정·버튼)은 모든 넓은 판에서 같게 = 12x12 기준 틀
   const o = { ...fit, board_size: [cols, rows], wide: true, fit_cell: fit0.cell };
-  const pc = Math.round(P.wide_cell * Math.min(k, 1.2));
-  const vp = fit.portrait ? R(P.side_margin, fit.board.y, W - 2 * P.side_margin, fit.buttons.undo.y - 8 - fit.board.y) : R(fit.board.x, fit.board.y, fit.board.w, fit.board.h);
+  const pc = P.wide_cell;
+  // r4 T16·T17: 세로는 판정 띠·채움 막대를 HUD 바로 아래로 올려 viewport 를 키움. viewport 폭·높이는 칸의 배수(쉴 때 반쪽 칸·반쪽 점 없음)
+  if (fit.portrait) { const hudH = Math.round(P.hud_h * k), dy = (hudH + 6) - fit.judge.y; o.judge = { ...fit.judge, y: fit.judge.y + dy };
+    const sh = (r) => ({ ...r, y: r.y + dy }); o.fill_bar = { ...fit.fill_bar, row: sh(fit.fill_bar.row), bar: sh(fit.fill_bar.bar), pct: sh(fit.fill_bar.pct) }; }
+  else { const { right, ...rest } = fit.judge; o.judge = { ...rest, side_rule: '넓은 판 가로: 늘 왼쪽 기둥(오른쪽 기둥 위는 미니맵, r4 T18 — 빌드 D54 와 같음)', left_only: true }; }
+  const top = fit.portrait ? o.fill_bar.row.y + o.fill_bar.row.h + 4 : fit.board.y, bot = fit.portrait ? fit.buttons.undo.y - 8 : fit.board.y + fit.board.h;
+  const x0 = fit.portrait ? P.side_margin : fit.board.x, x1 = fit.portrait ? W - P.side_margin : fit.board.x + fit.board.w;
+  const vw = Math.floor((x1 - x0) / pc) * pc, vh = Math.floor((bot - top) / pc) * pc;
+  const vp = R((x0 + x1) / 2 - vw / 2, top, vw, vh, { snap: 'cell' });
+  const ovDot = Math.max(P.overview_dot_of_cell * fit0.cell, P.overview_dot_min), ovMark = Math.max(P.overview_mark_min, ovDot * P.mark_of_dot);
+  o.overview = { cell: fit0.cell, dot_d: +ovDot.toFixed(1), mark: +ovMark.toFixed(1), mark_of_dot: +(ovMark / ovDot).toFixed(2), ring: false, line_w_of_cell: P.line_w_of_cell, align: 'top_center',
+    _rule: 'r4 M4: 전체 보기에서는 끝점을 칸보다 크게(칸 × 0.9 이상, 26 px 이상, 이웃 칸으로 넘쳐도 됨 — 점이 맨 위 층) 그리고 흰 표지 ≥ 14 px. 판은 viewport 위쪽에 붙임(r4 T17: 채움 막대와 판 사이 빈틈 없음).' };
   o.viewport_rule = '판 크기와 관계없이 같은 틀. 판이 viewport 보다 작은 쪽 축은 가운데 정렬(카메라는 큰 쪽 축만 움직임)';
   o.cell = pc; o.board_full = { w: Math.round(pc * (cols + 2 * P.board_pad_of_cell)), h: Math.round(pc * (rows + 2 * P.board_pad_of_cell)) };
   o.viewport = vp; o.board = vp;
-  o.visible_cells = [+Math.min(cols, vp.w / pc).toFixed(1), +Math.min(rows, vp.h / pc).toFixed(1)];
+  o.visible_cells = [Math.min(cols, Math.round(vp.w / pc)), Math.min(rows, Math.round(vp.h / pc))];
   // 미니맵: 세로 = 위 HUD 쌍 점 줄 자리, 가로 = 오른쪽 기둥 위 쌍 점 격자 자리(쌍 점 줄은 넓은 판에서 미니맵으로 바뀜)
   const box = fit.portrait ? R(fit.pair_row.x0, 4, fit.pair_row.x1 - fit.pair_row.x0, Math.round(P.hud_h * k) - 8) : R(fit.pillars.right.x + 8, Math.round(P.edge * k), fit.pillars.right.w - 16, Math.round(120 * k));
   const mc = Math.floor(Math.min(box.w / cols, box.h / rows));
@@ -238,17 +250,35 @@ function playWide(W, H, cols, rows) {
     tap: '전체 보기 켜기/끄기', drag: '보이는 곳 옮기기(손가락 = 테두리 가운데)', _rule: '쌍 점 줄 대신. 끝까지 이은 쌍 수는 채움 막대·미니맵 tint 로 보임.' };
   o.pair_row = { ...fit.pair_row, replaced_by: 'minimap' };
   // 세로: 판 아래 글 자리가 viewport 에 들어가므로 판정 띠를 같이 씀
-  if (fit.portrait) o.text_slots = { board_text: { ...R(16, fit.judge.y, W - 32, fit.judge.h), font_px: fit.text_slots.board_text.font_px, max_lines: 2, align: 'center', used_by: ['tut_drag', 'gap_left'], shared_with: 'judge', coexists_with_card: false } };
+  if (fit.portrait) o.text_slots = { board_text: { ...R(16, o.judge.y, W - 32, o.judge.h), font_px: fit.text_slots.board_text.font_px, max_lines: 2, align: 'center', used_by: ['tut_drag', 'gap_left'], shared_with: 'judge', coexists_with_card: false } };
   o.camera = {
-    modes: { overview: { cell: fit.cell, draw: false, _rule: '판 전체가 viewport 에 들어감(칸 < 48 이라 그리기 없음). 판을 누르면 그 점을 가운데로 play 로 확대(300 ms)' }, play: { cell: pc, draw: true } },
-    start: 'overview 를 보여 주고 첫 누름 = 확대(그리지 않음). 이후 play',
+    modes: { overview: { cell: fit0.cell, draw: 'press_zoom_continue', _rule: 'r4 M1: 전체 보기에서 누르면(점·선 끝을 누른 경우) 손을 떼지 않은 채 그 자리를 가운데로 칸 48 로 확대(220 ms) → 확대가 끝난 프레임부터 같은 드래그로 그대로 이어 긋기. 확대 중 손가락 움직임은 모아 두었다가 확대 뒤 손가락 아래 칸으로 이어 붙임(칸을 건너뛰면 지나간 칸을 순서대로 채움). 빈칸·구멍을 누르면 확대만(그리지 않음). 손을 떼면 플레이 확대 그대로' }, play: { cell: pc, draw: true } },
+    start: '레벨은 전체 보기로 시작. 누름 한 번 = 확대 + 긋기 시작(누름 수를 늘리지 않음)', zoom_ms: 220,
+    direct_when: '전체 보기 칸 ≥ 48 인 화면(예: 1280x720 12x12)은 camera = null → 전체 보기에서 바로 긋기(M1 ①)',
     follow: { edge_zone_of_cell: 1.2, dwell_ms: 200, max_cells_per_s: 8, ease: 'out', _rule: '드래그 중 손가락이 viewport 가장자리 1.2칸 안에 200 ms 머물면 그쪽으로 따라감(가장자리에 가까울수록 빨리, 최대 8칸/s). 선은 손가락 아래 칸을 따름 → 화면이 밀리며 선이 이어짐. 손을 떼면 멈춤' },
-    jump: { ms: 300, when: ['되돌리기·처음부터·도움 손가락', '미니맵 누름', 'overview 에서 누름'], _rule: '바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감' },
+    jump: { ms: 300, when: ['되돌리기·처음부터·도움 손가락', '미니맵 누름', '다음 쌍(D61)'], _rule: '바뀐 선·도움 쌍이 보이도록 카메라가 옮겨 감. 되돌리기·처음부터도 jump(r4 T14)' },
+    snap: { ms: 120, _rule: '따라가기가 멈추면 가장 가까운 칸 경계로 맞춤(쉴 때 반쪽 칸 없음, r4 T17)' },
+    back_to_overview: '미니맵 누름 또는 2.5 s 동안 손을 안 대면 전체 보기로 돌아가지 않음(자동 전환 없음) — 미니맵 누름만',
     clamp: '판 바깥으로 0.5칸 넘게 나가지 않음', gesture: '두 손가락 확대·이동 없음(조작 = 드래그 1가지). 빈칸에서 시작한 드래그는 지금처럼 "여기서 시작" 안내(이동 아님)',
     render: '판 캐시를 transform(translate)으로만 옮김 — 카메라 이동 중 판 다시 그리기 없음' };
+  o.card = { ...fit.card, art: { ...fit.card.art, svg: 'tutorial/card-wide.svg (H1-01 데이터로 생성: 전체 보기 누름 → 누른 채 확대 → 이어 긋기 + 미니맵)' }, text: { ...fit.card.text, used_by: STR.card_wide ? ['card_wide'] : [], key_note: 'lore card_wide' }, levels: ['H1-01'], _rule: 'r4 H1-01·T14: 큰 그림 첫 판 첫 진입에 한 번. 상자·닫힘 규칙은 일반 카드와 같음(balance rule_card 시간)' };
   return o;
 }
 
+// ---------- r4 T19 큰 그림 결과(쌍 ≤ 16): 미니 판 크게, 쌍 점 2줄 × 8 ----------
+function resultWide(W, H) {
+  const r = result(W, H), k = r.k, portrait = H >= W, S = Math.min(W, H);
+  const bs = Math.round(S * (portrait ? 0.58 : 0.56)), d = Math.round(24 * k), pitch = Math.round(30 * k), rowW = 7 * pitch + d;
+  const o = { ...r, mini_board: portrait ? R((W - bs) / 2, r.mini_board.y, bs, bs) : R(Math.round(W * 0.30 - bs / 2), Math.round((H - bs) / 2), bs, bs) };
+  const sz = Math.round((portrait ? 64 : 46) * k), cx = portrait ? W / 2 : r.star.x + r.star.w / 2;
+  const sy = portrait ? o.mini_board.y + bs + 12 : r.title.y + r.title.h + 6;
+  o.star = R(cx - sz / 2, sy, sz, sz, { _rule: r.star._rule });
+  o.pair_dots = R(cx - rowW / 2, sy + sz + 6, rowW, 2 * d + 6, { d, pitch, per_row: 8, rows: 2, max: 16, align: 'center', full: r.pair_dots.full, hollow: r.pair_dots.hollow, order: r.pair_dots.order, anim: '왼쪽 위부터 50 ms 간격(16쌍 = 800 ms), 꽉 찬 점마다 작은 음은 6개까지만(그 뒤는 소리 없음)', _rule: 'r4 T19: 큰 그림 결과. 쌍 9~16은 둘째 줄.' });
+  o.pct = R(cx - 60 * k, o.pair_dots.y + o.pair_dots.h + 4, 120 * k, (portrait ? 32 : 26) * k, { ...r.pct, x: Math.round(cx - 60 * k), y: Math.round(o.pair_dots.y + o.pair_dots.h + 4), font_px: Math.round((portrait ? 20 : 17) * k) });
+  o.new_best = R(o.pct.x + o.pct.w + 4, o.pct.y + (o.pct.h - r.new_best.h) / 2, r.new_best.w, r.new_best.h, { ...r.new_best, x: Math.round(o.pct.x + o.pct.w + 4), y: Math.round(o.pct.y + (o.pct.h - r.new_best.h) / 2) });
+  o.gate_badge = R(o.mini_board.x + bs - Math.round(40 * k), o.mini_board.y - Math.round(12 * k), Math.round(52 * k), Math.round(52 * k), { _rule: 'r4 T15: 이번 판으로 누적 별이 10의 배수를 넘었으면 미니 판 오른쪽 위에 작은 문 그림이 별 칸 10개가 차며 열림(별이 튄 뒤 300 ms, 600 ms, node_open 소리). 아니면 없음' });
+  return o;
+}
 // ---------- 결과 화면 ----------
 // 세로: 레벨 이름 띠 → 클리어 제목 → 미니 판 → 별 → %(+ new_best 표지) → 버튼 / 가로: 왼쪽 미니 판, 오른쪽 기둥에 같은 순서
 function result(W, H) {
@@ -302,7 +332,7 @@ function guardianScreen(W, H) {
   ts.guardian_title = { ...textBlock(col.x, edge, col.w - btn - 8, 'settings_title', Math.round(22 * k), 1, { align: 'left', weight: 800, valign: 'middle' }), h: btn };
   const close = R(col.x + col.w - btn, edge, btn, btn, { icon: 'close', key: 'btn_close' });
   let y = edge + btn + gap;
-  ts.guardian_intro = textBlock(col.x, y, col.w, 'settings_intro', fB, 24, { align: 'left', _rule: 'r2: lore 고쳐 쓰기(E4)로 길어짐 → 최대 24줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
+  ts.guardian_intro = textBlock(col.x, y, col.w, 'settings_intro', fB, 32, { align: 'left', _rule: 'r2·r4: lore 고쳐 쓰기로 길어짐 → 최대 32줄, 넘치면 화면 세로 스크롤' }); y += ts.guardian_intro.h + gap;
   const row = (key, note) => {
     ts[key] = { ...textBlock(col.x, y, col.w - tw - 12, key, fL, 1, { align: 'left', valign: 'middle' }), h: btn }; ctl[key] = R(col.x + col.w - tw, y, tw, btn, { kind: 'toggle', key }); y += btn + 4;
     if (note) { ts[note] = textBlock(col.x, y, col.w, note, fS, 4, { align: 'left', color: 'inkSoft' }); y += ts[note].h + 4; }
@@ -339,12 +369,12 @@ export const HOLE_RULE = {
 };
 
 function buildLayout() {
-  const play_ = {}, wide_ = {}, map_ = {}, res_ = {}, title_ = {}, guard_ = {}, err_ = {};
+  const resw_ = {}, play_ = {}, wide_ = {}, map_ = {}, res_ = {}, title_ = {}, guard_ = {}, err_ = {};
   for (const [W, H] of RES) {
     const key = `${W}x${H}`;
     play_[key] = {}; for (const [c, r] of BOARDS) play_[key][`${c}x${r}`] = play(W, H, c, r);
     wide_[key] = {}; for (const [c, r] of BOARDS_WIDE) wide_[key][`${c}x${r}`] = playWide(W, H, c, r);
-    map_[key] = map(W, H); res_[key] = result(W, H); title_[key] = titleScreen(W, H); guard_[key] = guardianScreen(W, H); err_[key] = errorScreen(W, H);
+    map_[key] = map(W, H); res_[key] = result(W, H); resw_[key] = resultWide(W, H); title_[key] = titleScreen(W, H); guard_[key] = guardianScreen(W, H); err_[key] = errorScreen(W, H);
   }
   return {
     schema_version: 1,
@@ -353,7 +383,7 @@ function buildLayout() {
     marks: { stroke_unit: MARK_STROKE_UNIT, paths: MARKS, _rule: '표지 반지름 = px.mark/2. fill + 같은 색 stroke(lineWidth = stroke_unit, 단위 좌표), lineJoin round. 색 = common.white.' },
     star_path: STAR,
     finger: { ...FINGER, size_of_cell: 1.0, _rule: '손가락 끝(tip) = 시연 위치. 크기 1칸. 세로 화면에서 손은 오른쪽 아래, 점이 판 오른쪽 끝 열이면 x 를 뒤집음.' },
-    play: play_, play_wide: wide_, map: map_, result: res_, title: title_, guardian: guard_, error: err_,
+    play: play_, play_wide: wide_, map: map_, result_wide: resw_, result: res_, title: title_, guardian: guard_, error: err_,
     hole_rule: HOLE_RULE,
     motion: MOTION,
     render: RENDER,
@@ -549,7 +579,14 @@ function check(L) {
     if (!o.camera) { if (o.cell < PARAM.cell_min) bad(`${id} 칸 ${o.cell} < 48 인데 카메라 없음`); continue; }
     if (o.cell < PARAM.cell_min) bad(`${id} 플레이 칸 ${o.cell} < 48`);
     if (o.visible_cells[0] < PARAM.wide_min_visible || o.visible_cells[1] < PARAM.wide_min_visible) bad(`${id} 보이는 칸 ${o.visible_cells} < ${PARAM.wide_min_visible}`);
-    if (o.camera.modes.overview.draw !== false) bad(`${id} 전체 보기(칸 ${o.fit_cell})에서 그리기 허용`);
+    if (o.card.text.used_by.length) fits(`${id} 넓은 판 카드 글`, o.card.text); else soft(`${id} card_wide 글 없음(lore)`);
+    if (o.camera.modes.overview.draw !== 'press_zoom_continue') bad(`${id} 전체 보기 누름 = 확대 + 이어 긋기가 아님`);
+    if (o.cell !== 48) bad(`${id} 확대 칸 ${o.cell} ≠ 48 (M1)`);
+    { const ov = o.overview; if (ov.dot_d < 26 - 0.05 || ov.dot_d < 0.9 * o.fit_cell - 0.05) bad(`${id} 전체 보기 끝점 ${ov.dot_d} < max(26, 0.9칸)`); if (ov.mark < 14) bad(`${id} 전체 보기 표지 ${ov.mark} < 14`); if (ov.mark_of_dot > 0.62) bad(`${id} 전체 보기 표지가 점에 비해 큼 ${ov.mark_of_dot}`); }
+    if (o.viewport.w % o.cell || o.viewport.h % o.cell) bad(`${id} viewport ${o.viewport.w}x${o.viewport.h} 가 칸 ${o.cell} 의 배수가 아님(반쪽 칸)`);
+    if (!o.portrait && o.judge.right) bad(`${id} 가로 넓은 판에 오른쪽 판정 자리(미니맵과 겹침, D54)`);
+    if (!o.portrait) { const s = o.judge.left; if (overlap(R(s.cx - o.judge.w / 2, s.y_min, o.judge.w, s.y_max - s.y_min + o.judge.h), o.minimap.hit, 2)) bad(`${id} 판정 왼쪽 자리가 미니맵과 겹침`); }
+    if (o.portrait && o.viewport.y - (o.fill_bar.row.y + o.fill_bar.row.h) > 12) bad(`${id} 채움 막대와 판 사이 ${o.viewport.y - (o.fill_bar.row.y + o.fill_bar.row.h)} px (T17)`);
     const mm = o.minimap; if (mm.cell < PARAM.minimap_cell_min) bad(`${id} 미니맵 칸 ${mm.cell} < ${PARAM.minimap_cell_min}`);
     if (mm.hit.w < 48 || mm.hit.h < 48) bad(`${id} 미니맵 누름 자리 < 48`);
     if (!inside(o.viewport, o.W, o.H)) bad(`${id} viewport 화면 밖`); if (!inside(mm, o.W, o.H)) bad(`${id} 미니맵 화면 밖`);
@@ -560,7 +597,7 @@ function check(L) {
     for (const [sn, s] of Object.entries(o.text_slots)) if (overlap(o.viewport, s, 0)) bad(`${id} viewport 가 글 자리 ${sn} 와 겹침`);
     if (o.portrait && overlap(o.viewport, R(o.judge.x_min, o.judge.y, o.judge.x_max - o.judge.x_min, o.judge.h), 0)) bad(`${id} viewport 가 판정 띠와 겹침`);
     if (o.cell * PARAM.dot_d_of_cell * PARAM.mark_of_dot < 16) bad(`${id} 표지 < 16`);
-    table.push({ id: `wide ${rk} ${bk}`, cell: o.cell, mark: +(o.cell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1), line: +(o.cell * PARAM.line_w_of_cell).toFixed(1), card_mark: `전체 ${o.fit_cell} · 보임 ${o.visible_cells.join('x')} · 미니맵 ${mm.cell}` });
+    table.push({ id: `wide ${rk} ${bk}`, cell: o.cell, mark: +(o.cell * PARAM.dot_d_of_cell * PARAM.mark_of_dot).toFixed(1), line: +(o.cell * PARAM.line_w_of_cell).toFixed(1), card_mark: `전체 ${o.fit_cell}(점 ${o.overview.dot_d}·표지 ${o.overview.mark}) · 보임 ${o.visible_cells.join('x')} · 미니맵 ${mm.cell}` });
   }
   for (const [rk, m] of Object.entries(L.map)) {
     if (m.node_d < 48) bad(`지도 ${rk} 노드 < 48`);
@@ -592,9 +629,10 @@ function check(L) {
       if (10 * m.stars.pitch > m.stars.w + 0.5) bad(`지도 ${rk} 별 10칸(${10 * m.stars.pitch}) 이 별 줄(${m.stars.w}) 보다 넓음`);
       for (const key of m.title.chapter_keys) if (STR[key]) for (const [lang, v] of strs(key)) if (textW(v, m.title.font_px) > m.title.w) bad(`지도 ${rk} ${key}.${lang} 제목 넘침`); }
   }
-  for (const [rk, r] of Object.entries(L.result)) {
+  for (const [rk, r] of [...Object.entries(L.result), ...Object.entries(L.result_wide).map(([a, b]) => ['큰 그림 ' + a, b])]) {
     const items = [['mini', r.mini_board], ['star', r.star], ['pair_dots', r.pair_dots], ['pct', r.pct], ['new_best', r.new_best], ['title', r.title], ['level_name', r.level_name], ...Object.entries(r.buttons)];
-    if (r.pair_dots.d * PARAM.mark_of_dot < 12) bad(`결과 ${rk} 쌍 점 표지 ${(r.pair_dots.d * PARAM.mark_of_dot).toFixed(1)} px < 12`);
+    if (r.pair_dots.d * PARAM.mark_of_dot < (r.pair_dots.rows ? 11 : 12)) bad(`결과 ${rk} 쌍 점 표지 ${(r.pair_dots.d * PARAM.mark_of_dot).toFixed(1)} px 작음`);
+    if (r.gate_badge) { if (!inside(r.gate_badge, r.W, r.H)) bad(`결과 ${rk} 문 그림 화면 밖`); for (const [n, b] of Object.entries(r.buttons)) if (overlap(r.gate_badge, b, 4)) bad(`결과 ${rk} 문 그림이 ${n} 와 겹침`); }
     if (r.pair_dots.pitch - r.pair_dots.d < 6) bad(`결과 ${rk} 쌍 점 간격 < 6`);
     fits(`결과 ${rk} 제목`, r.title); fits(`결과 ${rk} 레벨 이름`, { ...r.level_name, w: r.level_name.w - Math.round(24 * r.k) });
     for (const [n, b] of items) if (!inside(b, r.W, r.H)) bad(`결과 ${rk} ${n} 화면 밖`);

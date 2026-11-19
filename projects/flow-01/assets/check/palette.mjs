@@ -25,18 +25,19 @@ const PAIRS = [
 ];
 // r3 어려운 판(쌍 ≤ 16): 쌍 7~16. 색만으로 16개를 한눈에 가르는 것은 색약·흑백에서 불가능 → **모양 표지가 주 구분**(16개 모두 다른 모양), 색은 정상 시각 ΔE00 ≥ 10(16색 전체)·대비 규칙은 기본 6색과 같게.
 // 넓은 판에서는 선 위 흰 표지를 5칸마다 하나씩(긴 선도 중간에서 누구 선인지 보임). 1~50판은 쓰지 않음.
+// r4 M4: 16색 재배치 — 정상·protan·deutan·tritan 네 가지 모두에서 16색 120쌍 ΔE00 ≥ 10(탐색 결과 최소 10.06). 색만으로 모자란 곳은 **명도 계단**(아주 어두운 색 ↔ 중간 색)으로 벌림. 흑백은 모양이 맡음.
 const PAIRS_EXT = [
-  { key: 'p7', name_ko: '주황', name_en: 'orange', hex: '#C25A14', mark: 'diamond' },
-  { key: 'p8', name_ko: '밤색', name_en: 'brown', hex: '#6B4E2E', mark: 'plus' },
-  { key: 'p9', name_ko: '분홍', name_en: 'pink', hex: '#C2357F', mark: 'hexagon' },
-  { key: 'p10', name_ko: '남색', name_en: 'navy', hex: '#13306B', mark: 'drop', tint_t: 0.68 },
-  { key: 'p11', name_ko: '올리브', name_en: 'olive', hex: '#5C6B00', mark: 'leaf' },
-  { key: 'p12', name_ko: '제비꽃', name_en: 'violet', hex: '#7A3FB0', mark: 'cloud' },
-  { key: 'p13', name_ko: '회색', name_en: 'gray', hex: '#4A5568', mark: 'flower', tint_t: 0.66 },
-  { key: 'p14', name_ko: '청록', name_en: 'dark teal', hex: '#0B6E6E', mark: 'bolt' },
-  { key: 'p15', name_ko: '벽돌', name_en: 'brick', hex: '#B5452B', mark: 'house' },
-  { key: 'p16', name_ko: '하늘색', name_en: 'sky', hex: '#3D7DD6', mark: 'hourglass', tint_t: 0.66 },
-];
+  { key: 'p7', name_ko: '까망', name_en: 'ink black', hex: '#001100', mark: 'diamond' },
+  { key: 'p8', name_ko: '회색', name_en: 'gray', hex: '#555555', mark: 'bolt' },
+  { key: 'p9', name_ko: '고동', name_en: 'dark brown', hex: '#442200', mark: 'hexagon' },
+  { key: 'p10', name_ko: '가지', name_en: 'eggplant', hex: '#220044', mark: 'drop' },
+  { key: 'p11', name_ko: '감청', name_en: 'navy', hex: '#000099', mark: 'leaf' },
+  { key: 'p12', name_ko: '녹슨 주황', name_en: 'rust', hex: '#AA3300', mark: 'cloud' },
+  { key: 'p13', name_ko: '연보라회색', name_en: 'mauve', hex: '#886677', mark: 'flower' },
+  { key: 'p14', name_ko: '진청록', name_en: 'deep teal', hex: '#003333', mark: 'plus' },
+  { key: 'p15', name_ko: '자두', name_en: 'plum', hex: '#884477', mark: 'hourglass' },
+  { key: 'p16', name_ko: '갈색', name_en: 'brown', hex: '#554433', mark: 'house' },
+].map((p) => ({ tint_t: 0.72, ...p }));
 const COMMON = {
   ink: '#262B40',        // 아이콘·글자·손가락 외곽선
   inkSoft: '#5B6178',    // 보조 글자(레벨 번호·%)
@@ -73,20 +74,25 @@ const THEMES = {
   level09: { lore: '무지개 들판',   top: '#E0F0FB', bottom: '#FDF6D9', decor: { shape: 'arc', count: 3 } },
   level10: { lore: '노을 하늘',     top: '#FFE1CC', bottom: '#ECE3F8', decor: { shape: 'ring', count: 3, only_on_complete: true } },
   menu:    { lore: '지도·결과',     top: '#F3EEFB', bottom: '#E4EEFA' },
-  // r3 어려운 판 5단계 바탕(어린이 친화, 밝은 바탕 유지 — 대비 규칙). 문 페이지 = hard1
-  hard1: { lore: '구름 위 산책',   top: '#E6F1FF', bottom: '#F3EEFB', decor: { shape: 'arc', count: 3 }, hard: 1 },
-  hard2: { lore: '숲속 오두막',    top: '#E3F3E6', bottom: '#F4F1E2', decor: { shape: 'wave', count: 2 }, hard: 2 },
-  hard3: { lore: '바닷속 정원',    top: '#DCEFF4', bottom: '#E7EEFB', decor: { shape: 'wave', count: 3 }, hard: 3 },
-  hard4: { lore: '별빛 놀이공원',  top: '#F1E6F7', bottom: '#E5EAF9', decor: { shape: 'ring', count: 4 }, hard: 4 },
-  hard5: { lore: '달나라 여행',    top: '#E8E6F6', bottom: '#F4EEF6', decor: { shape: 'ring', count: 3 }, hard: 5 },
+  // r4 M3: 지도 페이지 바탕 = 장·큰 그림마다(메뉴 바탕에 그 장 색 35 %)
+  map1: { lore: '지도 1장 맑은 날', top: '#FFF1DA', bottom: '#F3EEFB' },
+  map2: { lore: '지도 2장 비 오는 날', top: '#E3ECF8', bottom: '#E4EEFA' }, map3: { lore: '지도 3장 가을 나들이', top: '#F8E9DA', bottom: '#F3EEF5' },
+  map4: { lore: '지도 4장 눈 오는 날', top: '#EDF5F9', bottom: '#E2F0F4' }, map5: { lore: '지도 5장 반짝반짝 밤', top: '#E8E3F7', bottom: '#E1E8F8' },
+  map_hard: { lore: '지도 큰 그림 문 페이지', top: '#F6EEE2', bottom: '#EEEAF8' },
+  // r3 어려운 판 5단계 바탕(어린이 친화, 밝은 바탕 유지 — 대비 규칙). r4 M3: 이름 = lore hard1~5_name(모자이크 타일·조각보 이불·무늬 양탄자·스테인드글라스·커다란 벽화). 문 페이지 = map_hard
+  hard1: { lore: '모자이크 타일',   top: '#E6F1FF', bottom: '#F3EEFB', decor: { shape: 'arc', count: 3 }, hard: 1 },
+  hard2: { lore: '조각보 이불',    top: '#E3F3E6', bottom: '#F4F1E2', decor: { shape: 'wave', count: 2 }, hard: 2 },
+  hard3: { lore: '무늬 양탄자',    top: '#DCEFF4', bottom: '#E7EEFB', decor: { shape: 'wave', count: 3 }, hard: 3 },
+  hard4: { lore: '스테인드글라스',  top: '#F1E6F7', bottom: '#E5EAF9', decor: { shape: 'ring', count: 4 }, hard: 4 },
+  hard5: { lore: '커다란 벽화',    top: '#E8E6F6', bottom: '#F4EEF6', decor: { shape: 'ring', count: 3 }, hard: 5 },
 };
 // r2 50스테이지(10개씩 5챕터): 챕터 c(2~5)의 i번째 레벨(전체 번호 (c−1)·10 + i) 바탕 = 1챕터 i번째(아침 → 노을 하루 흐름) 바탕에 챕터 색을 24 % 섞음.
 // 챕터마다 한 색 가족(1 맑은 날 = 지금 그대로 · 2 비 = 하늘 파랑 · 3 가을 = 살구 · 4 눈 = 얼음 청록 · 5 밤 = 옅은 라벤더, 밤도 밝은 바탕 — 대비 규칙 때문) + 챕터 안에서는 하루 흐름 그대로. 장식 도형도 i번째와 같음. 챕터 수가 바뀌면 CHAPTER_TINT 만 늘림.
-export const CHAPTER_TINT = [null, { key: 'rain', hex: '#D3E6F8' }, { key: 'autumn', hex: '#F8E2C8' }, { key: 'snow', hex: '#DDF0F4' }, { key: 'night', hex: '#E2DDF7' }]; // lore 챕터 이름(비 오는 날·가을 나들이·눈 오는 날·반짝반짝 밤)에 맞춘 색 가족
-const CH_MIX = 0.24;
+export const CHAPTER_TINT = [null, { key: 'rain', name: '비 오는 날', hex: '#D6E5F6', decor: 'streak' }, { key: 'autumn', name: '가을 나들이', hex: '#FAE8D2', decor: 'blob' }, { key: 'snow', name: '눈 오는 날', hex: '#E4F2F6', decor: 'dotfield' }, { key: 'night', name: '반짝반짝 밤', hex: '#E8E5F7', decor: 'twinkle' }]; // r4 M3: lore 장 이름(10-lore·strings chapterN_name)에 맞춘 색 + 장마다 다른 장식(빗줄기·둥근 잎덩이·눈송이 점·반짝 점)
+const CH_MIX = 0.45; // r4 M3: 24 → 45 %, 장 이름 분위기가 보이게
 for (let c = 2; c <= CHAPTER_TINT.length; c++) for (let i = 1; i <= 10; i++) {
   const base = THEMES[`level${String(i).padStart(2, '0')}`], t = CHAPTER_TINT[c - 1];
-  THEMES[`level${String((c - 1) * 10 + i).padStart(2, '0')}`] = { lore: `챕터 ${c}(${t.key}) ${i}`, chapter: c, top: mix(base.top, t.hex, CH_MIX), bottom: mix(base.bottom, t.hex, CH_MIX), decor: base.decor };
+  THEMES[`level${String((c - 1) * 10 + i).padStart(2, '0')}`] = { lore: `${t.name} ${i}`, chapter: c, top: mix(base.top, t.hex, CH_MIX), bottom: mix(base.bottom, t.hex, CH_MIX), decor: { shape: t.decor, count: 2 + (i % 3) } };
 }
 for (let i = 1; i <= 10; i++) THEMES[`level${String(i).padStart(2, '0')}`].chapter = 1;
 const DERIVE = { tint_t: 0.78, shade_t: 0.32 }; // tint = 쌍 색과 흰색 78 % 섞음(칠한 칸), shade = ink와 32 % 섞음(판정 이름 글자)
@@ -191,7 +197,10 @@ function check(P) {
   ok(contrast(C.gapGlow, C.tile) >= 3, `빈칸 신호색 / 타일 ${contrast(C.gapGlow, C.tile).toFixed(2)} < 3`);
   for (const kind of ['normal', 'tritan']) for (const [n, v] of [['star', C.star], ...pairs.map((p) => [p.key + ' tint', p.tint])]) { const d = de2000(simulate(C.gapGlow, kind), simulate(v, kind)); ok(d >= 20, `${kind} 빈칸 신호색 / ${n} ΔE00 ${d.toFixed(1)} < 20`); }
   // r2 S33: 판 장식 도형은 쌍 표지 모양(하트·동그라미·별·세모·달·네모)과 겹치지 않음
-  for (const [k, t] of Object.entries(P.themes)) if (t.decor && !['arc', 'wave', 'ring'].includes(t.decor.shape)) ok(false, `${k} decor ${t.decor.shape} 가 쌍 표지 모양과 겹침 (arc·wave·ring 만)`);
+  for (const [k, t] of Object.entries(P.themes)) if (t.decor && !['arc', 'wave', 'ring', 'streak', 'blob', 'dotfield', 'twinkle'].includes(t.decor.shape)) ok(false, `${k} decor ${t.decor.shape} 가 쌍 표지 모양과 겹침`);
+  // r4 M3: 장 2~5 장식은 장마다 다르고 1장과도 다름
+  { const sh = [2, 3, 4, 5].map((c) => P.themes[`level${String((c - 1) * 10 + 1).padStart(2, '0')}`]?.decor?.shape); if (new Set(sh).size !== 4 || sh.some((x) => ['arc', 'wave', 'ring'].includes(x))) ok(false, `장 2~5 장식 ${sh} 가 장마다 다르지 않음`); }
+  for (const pg of ['map1', 'map2', 'map3', 'map4', 'map5', 'map_hard']) if (!P.themes[pg]) ok(false, `지도 페이지 바탕 ${pg} 없음`);
   // r2 얇은 선(요청자 2026-11-18): 선(쌍 색) / 칠한 칸(tint)·빈칸 타일 대비를 색약 3종 시뮬레이션에서도 ≥ 2.0, 선끼리 ΔE00 은 위 쌍 색 행렬과 같음(선 = 쌍 색)
   for (const kind of ['normal', 'protan', 'deutan', 'tritan']) for (const p of pairs) for (const [n, v] of [['tint', p.tint], ['tile', C.tile]]) { const c = contrast(simulate(p.hex, kind), simulate(v, kind)); ok(c >= 2.0, `${kind} ${p.key} 선 / ${n} 대비 ${c.toFixed(2)} < 2.0 (얇은 선)`); }
   if (Object.keys(P.themes).filter((k) => /^level\d\d$/.test(k)).length < 50) ok(false, `레벨 바탕 ${Object.keys(P.themes).length - 1}개 < 50 (5챕터)`);
@@ -209,6 +218,11 @@ function check(P) {
       for (const kd of ['protan', 'deutan', 'tritan']) for (const [n, v] of [['tint', p.tint], ['tile', C.tile]]) { const c = contrast(simulate(p.hex, kd), simulate(v, kd)); ok(c >= 2.0, `${kd} ${p.key} 선 / ${n} ${c.toFixed(2)} < 2.0`); } }
     let mn = 99, mp = ''; for (let i = 0; i < all.length; i++) for (let j = i + 1; j < all.length; j++) { const d = de2000(all[i].hex, all[j].hex); if (d < mn) { mn = d; mp = all[i].key + '-' + all[j].key; } }
     ok(mn >= 10, `16색 정상 시각 ΔE00 최소 ${mn.toFixed(1)} (${mp}) < 10`);
+    // r4 M4: 색약 3종에서도 16색 120쌍 모두 ΔE00 ≥ 10
+    let cvdBad = 0, cvdMin = 99, cvdWhere = ''; for (const kd of ['protan', 'deutan', 'tritan']) for (let i = 0; i < all.length; i++) for (let j = i + 1; j < all.length; j++) { const d = de2000(simulate(all[i].hex, kd), simulate(all[j].hex, kd)); if (d < cvdMin) { cvdMin = d; cvdWhere = `${kd} ${all[i].key}-${all[j].key}`; } if (d < 10) { cvdBad++; ok(false, `${kd} ${all[i].key}-${all[j].key} ΔE00 ${d.toFixed(1)} < 10 (16쌍)`); } }
+    lines.push(`16쌍 색약 3종 ΔE00 < 10 쌍 ${cvdBad}개, 최소 ${cvdMin.toFixed(2)} (${cvdWhere})`);
+    // r4 AD5: 비슷한 겉모양 두 쌍(십자-꽃, 물방울-동그라미)은 서로 다른 명도 계단에 둠
+    for (const [a, b] of [['plus', 'flower'], ['drop', 'circle']]) { const pa = all.find((p) => p.mark === a), pb = all.find((p) => p.mark === b); const dL = Math.abs(lab(pa.hex)[0] - lab(pb.hex)[0]); ok(dL >= 15, `${a}(${pa.key})-${b}(${pb.key}) 비슷한 모양인데 L* 차 ${dL.toFixed(1)} < 15`); }
     const marks = all.map((p) => p.mark); if (new Set(marks).size !== marks.length) ok(false, '쌍 표지 모양이 겹침');
     for (const m of marks) if (!MARKS[m] && !MARKS_EXT[m]) ok(false, `표지 ${m} 경로 없음`);
     for (const t of ['hard1', 'hard2', 'hard3', 'hard4', 'hard5']) if (!P.themes[t]) ok(false, `바탕 ${t} 없음`);
