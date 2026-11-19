@@ -1,0 +1,254 @@
+{
+ "save": {
+  "before": {
+   "01": {
+    "done": true,
+    "star": true,
+    "bestPct": 100,
+    "bestFill": 100
+   },
+   "02": {
+    "done": false,
+    "star": false,
+    "bestPct": null,
+    "bestFill": 75
+   }
+  },
+  "after": {
+   "01": {
+    "done": true,
+    "star": true,
+    "bestPct": 100,
+    "bestFill": 100
+   },
+   "02": {
+    "done": false,
+    "star": false,
+    "bestPct": null,
+    "bestFill": 75
+   }
+  },
+  "same": true,
+  "map_nodes": [
+   "star",
+   "partial",
+   "locked",
+   "locked"
+  ]
+ },
+ "background": {
+  "audio_before": "none",
+  "audio_hidden": "none",
+  "audio_back": "running",
+  "clock_advance_hidden_ms": 0,
+  "clock_advance_after_ms": 516.7,
+  "state": "play"
+ },
+ "mute": {
+  "after_click": {
+   "audio": "suspended",
+   "sound": false,
+   "pressed": "false"
+  },
+  "after_reload": {
+   "audio": "none",
+   "sound": false
+  },
+  "unmute": {
+   "audio": "none",
+   "sound": true
+  }
+ },
+ "hook_vs_normal": {
+  "compare": [
+   {
+    "screen": "map",
+    "diff_px": 1081,
+    "frac": 0.00287,
+    "maxd": 176
+   },
+   {
+    "screen": "card",
+    "diff_px": 2461,
+    "frac": 0.00653,
+    "maxd": 204
+   },
+   {
+    "screen": "partial",
+    "diff_px": 1758,
+    "frac": 0.00466,
+    "maxd": 204
+   },
+   {
+    "screen": "result",
+    "diff_px": 0,
+    "frac": 0,
+    "maxd": 0
+   }
+  ],
+  "card_timer": {
+   "auto_close_ms": 6000,
+   "shown": true,
+   "after_real_ms": 6500,
+   "still_after_real": true,
+   "closed_after_game_ms": 6300,
+   "after_game": false
+  }
+ },
+ "dom": [
+  {
+   "nodes": 10,
+   "gBtns": 6,
+   "pairs": 3,
+   "rBoardSvg": 0,
+   "screensShown": 1,
+   "all": 226
+  },
+  {
+   "nodes": 10,
+   "gBtns": 6,
+   "pairs": 3,
+   "rBoardSvg": 0,
+   "screensShown": 1,
+   "all": 227
+  },
+  {
+   "nodes": 10,
+   "gBtns": 6,
+   "pairs": 3,
+   "rBoardSvg": 0,
+   "screensShown": 1,
+   "all": 227
+  },
+  {
+   "nodes": 10,
+   "gBtns": 6,
+   "pairs": 3,
+   "rBoardSvg": 0,
+   "screensShown": 1,
+   "all": 227
+  },
+  {
+   "nodes": 10,
+   "gBtns": 6,
+   "pairs": 3,
+   "rBoardSvg": 0,
+   "screensShown": 1,
+   "all": 227
+  }
+ ],
+ "r2": {
+  "S7": {
+   "clock": 0,
+   "card_shown": true,
+   "pressed_after_close": true,
+   "moves": 1
+  },
+  "S8": {
+   "card_before_400ms_tap_still": true,
+   "card_at_450": true,
+   "drag_right_after_close": true,
+   "moves": 1
+  },
+  "H2": {
+   "before": 2,
+   "after_restart": {
+    "moves": 0,
+    "empty": true
+   },
+   "undo_cancels_restart": {
+    "moves": 2,
+    "dots": 2
+   },
+   "undo_after_new_drag": {
+    "moves": 1,
+    "empty": true
+   },
+   "star_after_restart": true
+  },
+  "S13": {
+   "connect_sounds": 1,
+   "path_len": 3
+  },
+  "H4": {
+   "level": 1,
+   "first": 1,
+   "repeat_same_time": 0,
+   "after_300ms": 1,
+   "moves": 0,
+   "haptic_added": 0
+  },
+  "help": {
+   "trigger": 11,
+   "below": {
+    "moves": 9,
+    "help": false
+   },
+   "at_or_above": {
+    "moves": 12,
+    "help": true
+   },
+   "after_press": false,
+   "after_more_moves_same_attempt": false,
+   "after_restart": false,
+   "L1_no_trigger": {
+    "moves": 30,
+    "help": false
+   }
+  },
+  "colors": {
+   "levels": 100,
+   "mismatch": 0,
+   "bad": []
+  },
+  "chapters": {
+   "ch2_empty": [
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ],
+   "locked_click_state": "map",
+   "ch2_after_ch1_done": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ],
+   "turnPage": 2,
+   "title": "가을 나들이"
+  }
+ },
+ "aria": {
+  "ko": {
+   "map": "- button \"소리\" [pressed]:\n  - img\n- heading \"맑은 날\" [level=2]\n- meter \"이 장에서 모은 별\"\n- meter \"모은 별\"\n- list:\n  - listitem:\n    - button \"햇살 마당, 한 번에 다 칠했어요\"\n  - listitem:\n    - button \"튤립 화분, 다 칠했어요\"\n  - listitem:\n    - button \"물놀이 해변, 칠하다 멈췄어요\"\n    - progressbar \"칠한 만큼\"\n  - listitem:\n    - button \"구불구불 숲, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"과일 가게, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"징검다리 연못, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"큰 꽃정원, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"돌담 길, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"무지개 들판, 아직 잠겨 있어요\" [disabled]\n  - listitem:\n    - button \"노을 하늘, 아직 잠겨 있어요\" [disabled]\n- tablist \"색칠책 장 고르기\":\n  - tab \"맑은 날\" [selected]\n  - tab \"비 오는 날, 아직 잠겨 있어요\"\n  - tab \"가을 나들이, 아직 잠겨 있어요\"\n  - tab \"눈 오는 날, 아직 잠겨 있어요\"\n  - tab \"반짝반짝 밤, 아직 잠겨 있어요\"\n  - tab \"큰 그림, 아직 잠겨 있어요\"\n- button \"다음 장\":\n  - img\n- button \"설정\":\n  - img",
+   "play": "- heading \"튤립 화분\" [level=2]\n- button \"지도로\":\n  - img\n- meter \"이은 색 수\"\n- button \"한 번 되돌리기\":\n  - img\n- button \"도와줘\":\n  - img\n- button \"처음부터\":\n  - img\n- paragraph",
+   "result": "- paragraph: 튤립 화분\n- heading \"한 번에 다 했어요!\" [level=2]\n- img \"다 칠한 표시\"\n- img \"별을 받았어요\"\n- meter \"한 번에 이은 색 수\"\n- meter \"한 번에 이은 정도\"\n- img \"지난번보다 잘했어요\"\n- button \"지도로\":\n  - img\n- button \"다음 판\":\n  - img\n- button \"다시 칠하기\":\n  - img",
+   "body_has_canvas_label": true
+  },
+  "en": {
+   "map": "- button \"Sound\" [pressed]:\n  - img\n- heading \"Sunny Days\" [level=2]\n- meter \"Stars on this page\"\n- meter \"Stars collected\"\n- list:\n  - listitem:\n    - button \"Sunny Yard, Filled in one go\"\n  - listitem:\n    - button \"Tulip Pots, All filled\"\n  - listitem:\n    - button \"Splash Beach, Partly filled\"\n    - progressbar \"How much is filled\"\n  - listitem:\n    - button \"Winding Woods, Not open yet\" [disabled]\n  - listitem:\n    - button \"Fruit Stand, Not open yet\" [disabled]\n  - listitem:\n    - button \"Stepping Stone Pond, Not open yet\" [disabled]\n  - listitem:\n    - button \"Big Blossom Park, Not open yet\" [disabled]\n  - listitem:\n    - button \"Stone Wall Lane, Not open yet\" [disabled]\n  - listitem:\n    - button \"Rainbow Meadow, Not open yet\" [disabled]\n  - listitem:\n    - button \"Sunset Sky, Not open yet\" [disabled]\n- tablist \"Pick a page\":\n  - tab \"Sunny Days\" [selected]\n  - tab \"Rainy Days, Not open yet\"\n  - tab \"Autumn Walk, Not open yet\"\n  - tab \"Snowy Days, Not open yet\"\n  - tab \"Twinkly Night, Not open yet\"\n  - tab \"Big Pictures, Not open yet\"\n- button \"Next page\":\n  - img\n- button \"Settings\":\n  - img",
+   "play": "- heading \"Tulip Pots\" [level=2]\n- button \"Map\":\n  - img\n- meter \"Colors joined\"\n- button \"Undo\":\n  - img\n- button \"Show me\":\n  - img\n- button \"Start over\":\n  - img\n- paragraph",
+   "result": "- paragraph: Tulip Pots\n- heading \"All in one go!\" [level=2]\n- img \"Board filled\"\n- img \"You got a star!\"\n- meter \"Colors joined in one go\"\n- meter \"Joined in one go\"\n- img \"Better than last time!\"\n- button \"Map\":\n  - img\n- button \"Next board\":\n  - img\n- button \"Paint again\":\n  - img",
+   "body_has_canvas_label": true
+  }
+ },
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 2937
+ }
+}

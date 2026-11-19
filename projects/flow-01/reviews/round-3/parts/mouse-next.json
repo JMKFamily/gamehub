@@ -1,0 +1,1267 @@
+{
+ "gen": [
+  {
+   "id": "01",
+   "star": true,
+   "pct": 100,
+   "moves": 3,
+   "replay_match": true
+  },
+  {
+   "id": "02",
+   "star": true,
+   "pct": 100,
+   "moves": 3,
+   "replay_match": true
+  },
+  {
+   "id": "03",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "04",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "05",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "06",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "07",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "08",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "09",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "10",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "11",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "12",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "13",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "14",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "15",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "16",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "17",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "18",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "19",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "20",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "21",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "22",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "23",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "24",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "25",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "26",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "27",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "28",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "29",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "30",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "31",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "32",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "33",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "34",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "35",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "36",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "37",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "38",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "39",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "40",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "41",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "42",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "43",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "44",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay_match": true
+  },
+  {
+   "id": "45",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "46",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "47",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "48",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  },
+  {
+   "id": "49",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay_match": true
+  },
+  {
+   "id": "50",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay_match": true
+  }
+ ],
+ "bot": [
+  {
+   "id": "01",
+   "k": 0,
+   "sim_moves": 3,
+   "build_moves": 3,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 1,
+   "sim_moves": 3,
+   "build_moves": 3,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 2,
+   "sim_moves": 5,
+   "build_moves": 5,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 3,
+   "sim_moves": 5,
+   "build_moves": 5,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 4,
+   "sim_moves": 3,
+   "build_moves": 3,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 5,
+   "sim_moves": 3,
+   "build_moves": 3,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 6,
+   "sim_moves": 3,
+   "build_moves": 3,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "01",
+   "k": 7,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 0,
+   "sim_moves": 4,
+   "build_moves": 4,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 1,
+   "sim_moves": 10,
+   "build_moves": 10,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 2,
+   "sim_moves": 5,
+   "build_moves": 5,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 3,
+   "sim_moves": 5,
+   "build_moves": 5,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 4,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 5,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 6,
+   "sim_moves": 4,
+   "build_moves": 4,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "02",
+   "k": 7,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 0,
+   "sim_moves": 4,
+   "build_moves": 4,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 1,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 2,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 3,
+   "sim_moves": 12,
+   "build_moves": 12,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 4,
+   "sim_moves": 5,
+   "build_moves": 5,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 5,
+   "sim_moves": 8,
+   "build_moves": 8,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 6,
+   "sim_moves": 6,
+   "build_moves": 6,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  },
+  {
+   "id": "03",
+   "k": 7,
+   "sim_moves": 8,
+   "build_moves": 8,
+   "done": true,
+   "match": true,
+   "rec_match": true
+  }
+ ],
+ "timing": [
+  {
+   "card_taps": 2,
+   "card_game_ms_until_closed": 633,
+   "card_close_to_press_ms": 12,
+   "level_completed": "01",
+   "early_click_state": "result",
+   "done_to_result_ms": 993,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1418,
+   "next_press_accepted": true,
+   "card": true,
+   "done_to_next_press_ms": 2097
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "02",
+   "early_click_state": "result",
+   "done_to_result_ms": 974,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1418,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1462
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "03",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 984,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "04",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1418,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 2,
+   "card_game_ms_until_closed": 650,
+   "card_close_to_press_ms": 25,
+   "level_completed": "05",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": true,
+   "done_to_next_press_ms": 2096
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "06",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1419,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1464
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "07",
+   "early_click_state": "result",
+   "done_to_result_ms": 978,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1450
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "08",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1428,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "09",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "10",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1421,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "11",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1422,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "12",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "13",
+   "early_click_state": "result",
+   "done_to_result_ms": 972,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1460
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "14",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "15",
+   "early_click_state": "result",
+   "done_to_result_ms": 994,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1463
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "16",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "17",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "18",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "19",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1416,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "20",
+   "early_click_state": "result",
+   "done_to_result_ms": 980,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1416,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1452
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "21",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1419,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1463
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "22",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "23",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1446
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "24",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "25",
+   "early_click_state": "result",
+   "done_to_result_ms": 975,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1445
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "26",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1446
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "27",
+   "early_click_state": "result",
+   "done_to_result_ms": 993,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1416,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "28",
+   "early_click_state": "result",
+   "done_to_result_ms": 972,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1460
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "29",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "30",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "31",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1447
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "32",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "33",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "34",
+   "early_click_state": "result",
+   "done_to_result_ms": 975,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1445
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "35",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "36",
+   "early_click_state": "result",
+   "done_to_result_ms": 974,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1411,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1444
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "37",
+   "early_click_state": "result",
+   "done_to_result_ms": 989,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1412,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1461
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "38",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1416,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1466
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "39",
+   "early_click_state": "result",
+   "done_to_result_ms": 978,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1450
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "40",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "41",
+   "early_click_state": "result",
+   "done_to_result_ms": 995,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "42",
+   "early_click_state": "result",
+   "done_to_result_ms": 994,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "43",
+   "early_click_state": "result",
+   "done_to_result_ms": 976,
+   "done_to_result_clock_ms": 984,
+   "next_click_at_ms": 1416,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1465
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "44",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1449
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "45",
+   "early_click_state": "result",
+   "done_to_result_ms": 993,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "46",
+   "early_click_state": "result",
+   "done_to_result_ms": 977,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1448
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "47",
+   "early_click_state": "result",
+   "done_to_result_ms": 992,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1415,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1463
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "48",
+   "early_click_state": "result",
+   "done_to_result_ms": 993,
+   "done_to_result_clock_ms": 1000,
+   "next_click_at_ms": 1414,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1464
+  },
+  {
+   "card_taps": 0,
+   "card_game_ms_until_closed": null,
+   "card_close_to_press_ms": null,
+   "level_completed": "49",
+   "early_click_state": "result",
+   "done_to_result_ms": 975,
+   "done_to_result_clock_ms": 983,
+   "next_click_at_ms": 1413,
+   "next_press_accepted": true,
+   "card": false,
+   "done_to_next_press_ms": 1463
+  }
+ ],
+ "restart": {
+  "moves_before": 2,
+  "undo_moves": 2,
+  "undo_dots": [
+   true,
+   false,
+   false,
+   false
+  ],
+  "restart_moves": 0,
+  "restart_empty": true,
+  "drag_after_restart_ms": 374,
+  "drag_after_restart_connected": true,
+  "moves_after": 1,
+  "reset_clear_ms_balance": 250
+ },
+ "wide": [
+  {
+   "id": "H1-01",
+   "camera": true,
+   "star": false,
+   "pct": null,
+   "moves": 8,
+   "pairs": 12,
+   "done": false
+  },
+  {
+   "id": "H4-01",
+   "camera": true,
+   "star": false,
+   "pct": null,
+   "moves": 6,
+   "pairs": 16,
+   "done": false
+  },
+  {
+   "id": "H5-10",
+   "camera": true,
+   "star": false,
+   "pct": null,
+   "moves": 5,
+   "pairs": 15,
+   "done": false
+  }
+ ],
+ "balance": {
+  "input_lock_s": 1,
+  "result_buttons_after_ms": 1280
+ },
+ "via": "result ▶",
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 394
+ }
+}

@@ -1,0 +1,358 @@
+{
+ "rows": [
+  {
+   "key": "connect_g1@1",
+   "build_peak": -7.69,
+   "art_peak": -7.73,
+   "d_peak": 0.04,
+   "build_rms": -16.24,
+   "art_rms": -16.22,
+   "d_rms": -0.02
+  },
+  {
+   "key": "connect_g1@2",
+   "build_peak": -7.73,
+   "art_peak": -7.66,
+   "d_peak": -0.07,
+   "build_rms": -16.23,
+   "art_rms": -16.21,
+   "d_rms": -0.02
+  },
+  {
+   "key": "connect_g1@3",
+   "build_peak": -7.66,
+   "art_peak": -7.76,
+   "d_peak": 0.1,
+   "build_rms": -16.23,
+   "art_rms": -16.22,
+   "d_rms": -0.01
+  },
+  {
+   "key": "connect_g1@4",
+   "build_peak": -7.66,
+   "art_peak": -7.73,
+   "d_peak": 0.07,
+   "build_rms": -16.21,
+   "art_rms": -16.22,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g1@5",
+   "build_peak": -7.8,
+   "art_peak": -7.68,
+   "d_peak": -0.12,
+   "build_rms": -16.22,
+   "art_rms": -16.22,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g1@6",
+   "build_peak": -7.71,
+   "art_peak": -7.82,
+   "d_peak": 0.11,
+   "build_rms": -16.22,
+   "art_rms": -16.23,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g2@1",
+   "build_peak": -9.19,
+   "art_peak": -9.23,
+   "d_peak": 0.04,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g2@2",
+   "build_peak": -9.23,
+   "art_peak": -9.16,
+   "d_peak": -0.07,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g2@3",
+   "build_peak": -9.16,
+   "art_peak": -9.26,
+   "d_peak": 0.1,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g2@4",
+   "build_peak": -9.16,
+   "art_peak": -9.23,
+   "d_peak": 0.07,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g2@5",
+   "build_peak": -9.3,
+   "art_peak": -9.18,
+   "d_peak": -0.12,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g2@6",
+   "build_peak": -9.21,
+   "art_peak": -9.32,
+   "d_peak": 0.11,
+   "build_rms": -18.27,
+   "art_rms": -18.27,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g3@1",
+   "build_peak": -10.69,
+   "art_peak": -10.73,
+   "d_peak": 0.04,
+   "build_rms": -20.43,
+   "art_rms": -20.44,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g3@2",
+   "build_peak": -10.73,
+   "art_peak": -10.66,
+   "d_peak": -0.07,
+   "build_rms": -20.43,
+   "art_rms": -20.44,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g3@3",
+   "build_peak": -10.66,
+   "art_peak": -10.76,
+   "d_peak": 0.1,
+   "build_rms": -20.43,
+   "art_rms": -20.44,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g3@4",
+   "build_peak": -10.66,
+   "art_peak": -10.73,
+   "d_peak": 0.07,
+   "build_rms": -20.43,
+   "art_rms": -20.44,
+   "d_rms": 0.01
+  },
+  {
+   "key": "connect_g3@5",
+   "build_peak": -10.8,
+   "art_peak": -10.68,
+   "d_peak": -0.12,
+   "build_rms": -20.44,
+   "art_rms": -20.44,
+   "d_rms": 0
+  },
+  {
+   "key": "connect_g3@6",
+   "build_peak": -10.71,
+   "art_peak": -10.82,
+   "d_peak": 0.11,
+   "build_rms": -20.44,
+   "art_rms": -20.44,
+   "d_rms": 0
+  },
+  {
+   "key": "complete@k3",
+   "build_peak": -12.87,
+   "art_peak": -12.7,
+   "d_peak": -0.17,
+   "build_rms": -23.01,
+   "art_rms": -22.99,
+   "d_rms": -0.02
+  },
+  {
+   "key": "complete@k4",
+   "build_peak": -12.65,
+   "art_peak": -12.7,
+   "d_peak": 0.05,
+   "build_rms": -23.01,
+   "art_rms": -22.99,
+   "d_rms": -0.02
+  },
+  {
+   "key": "complete@k5",
+   "build_peak": -12.4,
+   "art_peak": -12.7,
+   "d_peak": 0.3,
+   "build_rms": -23.01,
+   "art_rms": -22.99,
+   "d_rms": -0.02
+  },
+  {
+   "key": "complete@k6",
+   "build_peak": -12.4,
+   "art_peak": -12.68,
+   "d_peak": 0.28,
+   "build_rms": -23.01,
+   "art_rms": -22.99,
+   "d_rms": -0.02
+  },
+  {
+   "key": "tick@1",
+   "build_peak": -30.11,
+   "art_peak": -30.37,
+   "d_peak": 0.26,
+   "build_rms": -47.07,
+   "art_rms": -47.07,
+   "d_rms": 0
+  },
+  {
+   "key": "tick@2",
+   "build_peak": -30.28,
+   "art_peak": -30.04,
+   "d_peak": -0.24,
+   "build_rms": -47.08,
+   "art_rms": -47.07,
+   "d_rms": -0.01
+  },
+  {
+   "key": "tick@3",
+   "build_peak": -30.13,
+   "art_peak": -30.31,
+   "d_peak": 0.18,
+   "build_rms": -47.07,
+   "art_rms": -47.07,
+   "d_rms": 0
+  },
+  {
+   "key": "tick@4",
+   "build_peak": -30.18,
+   "art_peak": -30.07,
+   "d_peak": -0.11,
+   "build_rms": -47.08,
+   "art_rms": -47.07,
+   "d_rms": -0.01
+  },
+  {
+   "key": "tick@5",
+   "build_peak": -30.21,
+   "art_peak": -30.04,
+   "d_peak": -0.17,
+   "build_rms": -47.08,
+   "art_rms": -47.07,
+   "d_rms": -0.01
+  },
+  {
+   "key": "grab",
+   "build_peak": -26.13,
+   "art_peak": -26.32,
+   "d_peak": 0.19,
+   "build_rms": -41.43,
+   "art_rms": -41.42,
+   "d_rms": -0.01
+  },
+  {
+   "key": "cut",
+   "build_peak": -24.21,
+   "art_peak": -24.47,
+   "d_peak": 0.26,
+   "build_rms": -37.07,
+   "art_rms": -37.1,
+   "d_rms": 0.03
+  },
+  {
+   "key": "gap_hint",
+   "build_peak": -18.04,
+   "art_peak": -18.03,
+   "d_peak": -0.01,
+   "build_rms": -24.64,
+   "art_rms": -24.64,
+   "d_rms": 0
+  },
+  {
+   "key": "undo",
+   "build_peak": -24.25,
+   "art_peak": -24.1,
+   "d_peak": -0.15,
+   "build_rms": -36.83,
+   "art_rms": -36.84,
+   "d_rms": 0.01
+  },
+  {
+   "key": "restart",
+   "build_peak": -22.11,
+   "art_peak": -22.03,
+   "d_peak": -0.08,
+   "build_rms": -31.31,
+   "art_rms": -31.31,
+   "d_rms": 0
+  },
+  {
+   "key": "ui_tap",
+   "build_peak": -22.35,
+   "art_peak": -22.13,
+   "d_peak": -0.22,
+   "build_rms": -38.01,
+   "art_rms": -38.01,
+   "d_rms": 0
+  },
+  {
+   "key": "node_open",
+   "build_peak": -16.64,
+   "art_peak": -16.61,
+   "d_peak": -0.03,
+   "build_rms": -26.31,
+   "art_rms": -26.31,
+   "d_rms": 0
+  },
+  {
+   "key": "star",
+   "build_peak": -12.71,
+   "art_peak": -12.45,
+   "d_peak": -0.26,
+   "build_rms": -21.87,
+   "art_rms": -21.87,
+   "d_rms": 0
+  },
+  {
+   "key": "bump",
+   "build_peak": -24.36,
+   "art_peak": -23.91,
+   "d_peak": -0.45,
+   "build_rms": -37.98,
+   "art_rms": -37.84,
+   "d_rms": -0.14
+  },
+  {
+   "key": "ambient",
+   "build_peak": -27.7,
+   "art_peak": -27.72,
+   "d_peak": 0.02,
+   "build_rms": -61.6,
+   "art_rms": -61.48,
+   "d_rms": -0.12
+  }
+ ],
+ "max_abs_diff_db": 0.45,
+ "build_rules": {
+  "grade_rms_step_min_db": 2.03,
+  "s1_margin_db": 1.6,
+  "s1_max_other": "complete@k5",
+  "s2_margin_db": 19.31,
+  "s5_margin_db": 16.9
+ },
+ "art_margins": {
+  "s7_grade_rms_step_db": 2.04,
+  "s1_db": 1.63,
+  "s2_db": 19.22,
+  "s5_db": 16.9,
+  "s8_bump_db": 13.09
+ },
+ "log": {
+  "console": [],
+  "failed": [],
+  "external": [],
+  "requests": 285
+ }
+}

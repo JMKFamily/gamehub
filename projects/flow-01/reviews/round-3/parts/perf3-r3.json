@@ -1,0 +1,259 @@
+{
+ "runs": [
+  {
+   "config": "412x915 dpr1",
+   "valid": false,
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 76.2
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 59.8,
+    "low1": 44.4,
+    "max_ms": 34,
+    "over33": 1,
+    "audio_ctx_ms": 93.3
+   },
+   "all": {
+    "frames": 3787,
+    "avg": 59.5,
+    "low1": 32.1,
+    "max_ms": 116.6,
+    "over33": 11
+   },
+   "play": {
+    "frames": 3038,
+    "avg": 59.8,
+    "low1": 42.7,
+    "max_ms": 50,
+    "over33": 5
+   },
+   "start_restart": {
+    "frames": 345,
+    "avg": 58.3,
+    "low1": 22.5,
+    "max_ms": 50,
+    "over33": 4
+   },
+   "drag": {
+    "frames": 2147,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.9,
+    "over33": 0
+   },
+   "complete": {
+    "frames": 546,
+    "avg": 59.8,
+    "low1": 42.7,
+    "max_ms": 50,
+    "over33": 1
+   },
+   "menu": {
+    "title_to_map": 16.8,
+    "map_to_L6_card": 50,
+    "result_to_map": 33.3,
+    "map_to_L7": 16.8,
+    "result_next_L8": 33.4,
+    "restart": 16.9,
+    "result_to_map_2": 33.3,
+    "page_turns": [
+     16.8,
+     33.4,
+     33.4,
+     33.2,
+     50
+    ],
+    "gate_to_stage4": 66.6,
+    "map_to_H4_01": 50,
+    "wide_zoom": 16.8
+   },
+   "menu_max": 66.6,
+   "end": {
+    "state": "play",
+    "star": null,
+    "level": 80
+   },
+   "pageerrors": []
+  },
+  {
+   "config": "412x915 dpr2",
+   "valid": true,
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 107.4
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 80.4
+   },
+   "all": {
+    "frames": 3778,
+    "avg": 59.5,
+    "low1": 31.2,
+    "max_ms": 116.7,
+    "over33": 7
+   },
+   "play": {
+    "frames": 3022,
+    "avg": 59.7,
+    "low1": 39,
+    "max_ms": 100,
+    "over33": 4
+   },
+   "start_restart": {
+    "frames": 341,
+    "avg": 57.6,
+    "low1": 13.9,
+    "max_ms": 100,
+    "over33": 3
+   },
+   "drag": {
+    "frames": 2135,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.9,
+    "over33": 0
+   },
+   "complete": {
+    "frames": 546,
+    "avg": 59.8,
+    "low1": 42.6,
+    "max_ms": 50.1,
+    "over33": 1
+   },
+   "menu": {
+    "title_to_map": 16.8,
+    "map_to_L6_card": 66.6,
+    "result_to_map": 33.3,
+    "map_to_L7": 16.8,
+    "result_next_L8": 16.8,
+    "restart": 16.8,
+    "result_to_map_2": 33.3,
+    "page_turns": [
+     33.3,
+     33.3,
+     33.3,
+     16.8,
+     33.3
+    ],
+    "gate_to_stage4": 66.6,
+    "map_to_H4_01": 100,
+    "wide_zoom": 16.8
+   },
+   "menu_max": 100,
+   "end": {
+    "state": "play",
+    "star": null,
+    "level": 80
+   },
+   "pageerrors": []
+  },
+  {
+   "config": "412x915 dpr3",
+   "valid": true,
+   "blank_pre": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 90.1
+   },
+   "blank_post": {
+    "frames": 399,
+    "avg": 60,
+    "low1": 59.5,
+    "max_ms": 16.8,
+    "over33": 0,
+    "audio_ctx_ms": 78.8
+   },
+   "all": {
+    "frames": 3779,
+    "avg": 59.4,
+    "low1": 29.1,
+    "max_ms": 116.7,
+    "over33": 12
+   },
+   "play": {
+    "frames": 3025,
+    "avg": 59.6,
+    "low1": 35.2,
+    "max_ms": 83.3,
+    "over33": 6
+   },
+   "start_restart": {
+    "frames": 340,
+    "avg": 57.5,
+    "low1": 15,
+    "max_ms": 83.3,
+    "over33": 5
+   },
+   "drag": {
+    "frames": 2141,
+    "avg": 59.9,
+    "low1": 54.4,
+    "max_ms": 33.3,
+    "over33": 0
+   },
+   "complete": {
+    "frames": 544,
+    "avg": 59.6,
+    "low1": 33.2,
+    "max_ms": 66.7,
+    "over33": 1
+   },
+   "menu": {
+    "title_to_map": 16.8,
+    "map_to_L6_card": 66.6,
+    "result_to_map": 33.4,
+    "map_to_L7": 16.8,
+    "result_next_L8": 33.3,
+    "restart": 16.8,
+    "result_to_map_2": 33.3,
+    "page_turns": [
+     33.3,
+     33.2,
+     50,
+     16.8,
+     33.4
+    ],
+    "gate_to_stage4": 50,
+    "map_to_H4_01": 83.3,
+    "wide_zoom": 16.8
+   },
+   "menu_max": 83.3,
+   "end": {
+    "state": "result",
+    "star": true,
+    "level": 80
+   },
+   "pageerrors": []
+  }
+ ],
+ "min_blank_low1": 50,
+ "log": {
+  "console": [
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>",
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>",
+   "[412x915?lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#rMap>\nAncestor with aria-hidden: <div.screen pre#result>",
+   "[412x915?lang=ko] error: TypeError: Failed to execute 'setValueAtTime' on 'AudioParam': The provided float value is non-finite.\n    at Audio._layer (http://127.0.0.1:8740/games/flow-01/js/audio.js:37:17)\n    at Audio.play (http://127.0.0.1:8740/games/flow-01/js/audio.js:61:66)\n    at sfx (http://127.0.0.1:8740/games/flow-01/js/main.js:114:36)\n    at updatePlay (http://127.0.0.1:8740/games/flow-01/js/main.js:942:84)\n    at advance (http://127.0.0.1:8740/games/flow-01/js/main.js:1380:47)\n    at frameBody (http://127.0.0.1:8740/games/flow-01/js/main.js:1375:34)\n    at frame (http://127.0.0.1:8740/games/flow-01/js/main.js:1371:9)"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 970
+ }
+}

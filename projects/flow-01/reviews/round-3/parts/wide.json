@@ -1,0 +1,2147 @@
+{
+ "screens": [
+  {
+   "tag": "360x640-ko",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "360x640-ko",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "360x640-ko",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -31.17708333333337,
+    "s": 0.6575342465753424,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    54,
+    54
+   ]
+  },
+  {
+   "tag": "360x640-ko",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 31.360000000000014,
+    "y": 162,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    54,
+    54
+   ]
+  },
+  {
+   "tag": "360x640-ko",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -41.427083333333314,
+    "s": 0.4948453608247423,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    48,
+    48
+   ]
+  },
+  {
+   "tag": "360x640-ko",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 87.36000000000001,
+    "y": 330,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    48,
+    48
+   ]
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -31.17708333333337,
+    "s": 0.6575342465753424,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    54,
+    54
+   ]
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 31.360000000000014,
+    "y": 162,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    54,
+    54
+   ]
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -41.427083333333314,
+    "s": 0.4948453608247423,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    48,
+    48
+   ]
+  },
+  {
+   "tag": "360x640-en",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 87.36000000000001,
+    "y": 330,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    48,
+    48
+   ]
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -104.60824742268039,
+    "s": 0.6643835616438356,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    63,
+    63
+   ]
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 33.84,
+    "y": 89,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    63,
+    63
+   ]
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -139,
+    "s": 0.5,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    60,
+    60
+   ]
+  },
+  {
+   "tag": "412x915-ko",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 97.83999999999997,
+    "y": 281,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    60,
+    60
+   ]
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -104.60824742268039,
+    "s": 0.6643835616438356,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    63,
+    63
+   ]
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 33.84,
+    "y": 89,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    63,
+    63
+   ]
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": -139,
+    "s": 0.5,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    60,
+    60
+   ]
+  },
+  {
+   "tag": "412x915-en",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 97.83999999999997,
+    "y": 281,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    60,
+    60
+   ]
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": 0,
+    "s": 0.6183953033268101,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    117,
+    117
+   ]
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 41.360000000000014,
+    "y": 223,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    117,
+    117
+   ]
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": 0,
+    "s": 0.4653902798232695,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    120,
+    120
+   ]
+  },
+  {
+   "tag": "640x360-ko",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 97.36000000000001,
+    "y": 391,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    120,
+    120
+   ]
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "H1-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": 0,
+    "s": 0.6183953033268101,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    117,
+    117
+   ]
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "H1-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 41.360000000000014,
+    "y": 223,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    117,
+    117
+   ]
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "H4-01-overview",
+   "camera": {
+    "mode": "overview",
+    "x": 0,
+    "y": 0,
+    "s": 0.4653902798232695,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    120,
+    120
+   ]
+  },
+  {
+   "tag": "640x360-en",
+   "scr": "H4-01-play",
+   "camera": {
+    "mode": "play",
+    "x": 97.36000000000001,
+    "y": 391,
+    "s": 1,
+    "anim": false
+   },
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": [
+    120,
+    120
+   ]
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "H1-01-overview",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "H1-01-play",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "H4-01-overview",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-ko",
+   "scr": "H4-01-play",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "gates",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "stage1",
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "H1-01-overview",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "H1-01-play",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "H4-01-overview",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  },
+  {
+   "tag": "1280x720-en",
+   "scr": "H4-01-play",
+   "camera": null,
+   "over": [],
+   "small": [],
+   "outside": [],
+   "minimap": null
+  }
+ ],
+ "cells": [
+  {
+   "tag": "360x640-ko",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 36.8,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "360x640-ko",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 27.7,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "360x640-en",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 36.8,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "360x640-en",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 27.7,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "412x915-ko",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 42.5,
+   "play_cell_px": 64
+  },
+  {
+   "tag": "412x915-ko",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 32,
+   "play_cell_px": 64
+  },
+  {
+   "tag": "412x915-en",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 42.5,
+   "play_cell_px": 64
+  },
+  {
+   "tag": "412x915-en",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 32,
+   "play_cell_px": 64
+  },
+  {
+   "tag": "640x360-ko",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 34.6,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "640x360-ko",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 26.1,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "640x360-en",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": true,
+   "overview_cell_px": 34.6,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "640x360-en",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": true,
+   "overview_cell_px": 26.1,
+   "play_cell_px": 56
+  },
+  {
+   "tag": "1280x720-ko",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": false,
+   "overview_cell_px": 73.1,
+   "play_cell_px": 73.1
+  },
+  {
+   "tag": "1280x720-ko",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": false,
+   "overview_cell_px": 55,
+   "play_cell_px": 55
+  },
+  {
+   "tag": "1280x720-en",
+   "id": "H1-01",
+   "size": "9x9",
+   "camera": false,
+   "overview_cell_px": 73.1,
+   "play_cell_px": 73.1
+  },
+  {
+   "tag": "1280x720-en",
+   "id": "H4-01",
+   "size": "12x12",
+   "camera": false,
+   "overview_cell_px": 55,
+   "play_cell_px": 55
+  }
+ ],
+ "unlock": [
+  {
+   "stars": 9,
+   "total": 9,
+   "open_gates": 0,
+   "expect": 0,
+   "ok": true
+  },
+  {
+   "stars": 10,
+   "total": 10,
+   "open_gates": 1,
+   "expect": 1,
+   "ok": true
+  },
+  {
+   "stars": 19,
+   "total": 19,
+   "open_gates": 1,
+   "expect": 1,
+   "ok": true
+  },
+  {
+   "stars": 20,
+   "total": 20,
+   "open_gates": 2,
+   "expect": 2,
+   "ok": true
+  },
+  {
+   "stars": 29,
+   "total": 29,
+   "open_gates": 2,
+   "expect": 2,
+   "ok": true
+  },
+  {
+   "stars": 30,
+   "total": 30,
+   "open_gates": 3,
+   "expect": 3,
+   "ok": true
+  },
+  {
+   "stars": 39,
+   "total": 39,
+   "open_gates": 3,
+   "expect": 3,
+   "ok": true
+  },
+  {
+   "stars": 40,
+   "total": 40,
+   "open_gates": 4,
+   "expect": 4,
+   "ok": true
+  },
+  {
+   "stars": 49,
+   "total": 49,
+   "open_gates": 4,
+   "expect": 4,
+   "ok": true
+  },
+  {
+   "stars": 50,
+   "total": 50,
+   "open_gates": 5,
+   "expect": 5,
+   "ok": true
+  }
+ ],
+ "settings": [
+  {
+   "tag": "360x640-ko",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "360x640-en",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "412x915-ko",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "412x915-en",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "640x360-ko",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "640x360-en",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "1280x720-ko",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  },
+  {
+   "tag": "1280x720-en",
+   "opened_by_one_click": true,
+   "notice_hits": []
+  }
+ ],
+ "perfect": [
+  {
+   "id": "01",
+   "star": true,
+   "pct": 100,
+   "moves": 3,
+   "replay": true
+  },
+  {
+   "id": "02",
+   "star": true,
+   "pct": 100,
+   "moves": 3,
+   "replay": true
+  },
+  {
+   "id": "03",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "04",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "05",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "06",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "07",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "08",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "09",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "10",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "11",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "12",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "13",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "14",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "15",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "16",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "17",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "18",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "19",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "20",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "21",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "22",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "23",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "24",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "25",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "26",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "27",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "28",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "29",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "30",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "31",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "32",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "33",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "34",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "35",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "36",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "37",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "38",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "39",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "40",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "41",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "42",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "43",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "44",
+   "star": true,
+   "pct": 100,
+   "moves": 6,
+   "replay": true
+  },
+  {
+   "id": "45",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "46",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "47",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "48",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "49",
+   "star": true,
+   "pct": 100,
+   "moves": 4,
+   "replay": true
+  },
+  {
+   "id": "50",
+   "star": true,
+   "pct": 100,
+   "moves": 5,
+   "replay": true
+  },
+  {
+   "id": "H1-01",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H1-02",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H1-03",
+   "star": true,
+   "pct": 100,
+   "moves": 10,
+   "replay": true
+  },
+  {
+   "id": "H1-04",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H1-05",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H1-06",
+   "star": true,
+   "pct": 100,
+   "moves": 10,
+   "replay": true
+  },
+  {
+   "id": "H1-07",
+   "star": true,
+   "pct": 100,
+   "moves": 10,
+   "replay": true
+  },
+  {
+   "id": "H1-08",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H1-09",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H1-10",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H2-01",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H2-02",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H2-03",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H2-04",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H2-05",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H2-06",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H2-07",
+   "star": true,
+   "pct": 100,
+   "moves": 12,
+   "replay": true
+  },
+  {
+   "id": "H2-08",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H2-09",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H2-10",
+   "star": true,
+   "pct": 100,
+   "moves": 11,
+   "replay": true
+  },
+  {
+   "id": "H3-01",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H3-02",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H3-03",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H3-04",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H3-05",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H3-06",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H3-07",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H3-08",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H3-09",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H3-10",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H4-01",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H4-02",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H4-03",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H4-04",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H4-05",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H4-06",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H4-07",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H4-08",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H4-09",
+   "star": true,
+   "pct": 100,
+   "moves": 13,
+   "replay": true
+  },
+  {
+   "id": "H4-10",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H5-01",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H5-02",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H5-03",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H5-04",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H5-05",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H5-06",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  },
+  {
+   "id": "H5-07",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H5-08",
+   "star": true,
+   "pct": 100,
+   "moves": 14,
+   "replay": true
+  },
+  {
+   "id": "H5-09",
+   "star": true,
+   "pct": 100,
+   "moves": 16,
+   "replay": true
+  },
+  {
+   "id": "H5-10",
+   "star": true,
+   "pct": 100,
+   "moves": 15,
+   "replay": true
+  }
+ ],
+ "asserts": [
+  {
+   "tag": "360x640-ko gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "360x640-ko stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "360x640-ko H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "360x640-en gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "360x640-en stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "360x640-en H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "412x915-ko gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "412x915-ko stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "412x915-ko H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "412x915-en gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "412x915-en stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "412x915-en H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "640x360-ko gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "640x360-ko stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "640x360-ko H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "640x360-en gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "640x360-en stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "640x360-en H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "1280x720-ko gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "1280x720-ko stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "1280x720-ko H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  },
+  {
+   "tag": "1280x720-en gates 12 stars",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "1280x720-en stage1 order",
+   "ok": true,
+   "info": [
+    "next",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked",
+    "locked"
+   ]
+  },
+  {
+   "tag": "1280x720-en H4-01 star",
+   "ok": true,
+   "info": {
+    "accuracyPct": 100,
+    "star": true,
+    "oneShotPairs": 16,
+    "moves": 16,
+    "pairs": 16,
+    "newBest": false,
+    "firstDone": true,
+    "oneShot": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "unlocked": false
+   }
+  }
+ ],
+ "shots": [
+  "360x640-ko-map-gates.png",
+  "360x640-ko-map-stage1.png",
+  "360x640-ko-play-H1-01-overview.png",
+  "360x640-ko-play-H1-01-play.png",
+  "360x640-ko-play-H4-01-overview.png",
+  "360x640-ko-play-H4-01-play.png",
+  "360x640-ko-result-H4-01.png",
+  "360x640-ko-settings.png",
+  "360x640-en-map-gates.png",
+  "360x640-en-map-stage1.png",
+  "360x640-en-play-H1-01-overview.png",
+  "360x640-en-play-H1-01-play.png",
+  "360x640-en-play-H4-01-overview.png",
+  "360x640-en-play-H4-01-play.png",
+  "360x640-en-result-H4-01.png",
+  "360x640-en-settings.png",
+  "412x915-ko-map-gates.png",
+  "412x915-ko-map-stage1.png",
+  "412x915-ko-play-H1-01-overview.png",
+  "412x915-ko-play-H1-01-play.png",
+  "412x915-ko-play-H4-01-overview.png",
+  "412x915-ko-play-H4-01-play.png",
+  "412x915-ko-result-H4-01.png",
+  "412x915-ko-settings.png",
+  "412x915-en-map-gates.png",
+  "412x915-en-map-stage1.png",
+  "412x915-en-play-H1-01-overview.png",
+  "412x915-en-play-H1-01-play.png",
+  "412x915-en-play-H4-01-overview.png",
+  "412x915-en-play-H4-01-play.png",
+  "412x915-en-result-H4-01.png",
+  "412x915-en-settings.png",
+  "640x360-ko-map-gates.png",
+  "640x360-ko-map-stage1.png",
+  "640x360-ko-play-H1-01-overview.png",
+  "640x360-ko-play-H1-01-play.png",
+  "640x360-ko-play-H4-01-overview.png",
+  "640x360-ko-play-H4-01-play.png",
+  "640x360-ko-result-H4-01.png",
+  "640x360-ko-settings.png",
+  "640x360-en-map-gates.png",
+  "640x360-en-map-stage1.png",
+  "640x360-en-play-H1-01-overview.png",
+  "640x360-en-play-H1-01-play.png",
+  "640x360-en-play-H4-01-overview.png",
+  "640x360-en-play-H4-01-play.png",
+  "640x360-en-result-H4-01.png",
+  "640x360-en-settings.png",
+  "1280x720-ko-map-gates.png",
+  "1280x720-ko-map-stage1.png",
+  "1280x720-ko-play-H1-01-overview.png",
+  "1280x720-ko-play-H1-01-play.png",
+  "1280x720-ko-play-H4-01-overview.png",
+  "1280x720-ko-play-H4-01-play.png",
+  "1280x720-ko-result-H4-01.png",
+  "1280x720-ko-settings.png",
+  "1280x720-en-map-gates.png",
+  "1280x720-en-map-stage1.png",
+  "1280x720-en-play-H1-01-overview.png",
+  "1280x720-en-play-H1-01-play.png",
+  "1280x720-en-play-H4-01-overview.png",
+  "1280x720-en-play-H4-01-play.png",
+  "1280x720-en-result-H4-01.png",
+  "1280x720-en-settings.png"
+ ],
+ "stage_order": [
+  "done",
+  "next",
+  "locked",
+  "locked"
+ ],
+ "locked_gate_click": {
+  "page": 5,
+  "gatesShown": 5
+ },
+ "log": {
+  "console": [
+   "[360x640?test=1&lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[360x640?test=1&lang=en] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[412x915?test=1&lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[412x915?test=1&lang=en] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[640x360?test=1&lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[640x360?test=1&lang=en] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[1280x720?test=1&lang=ko] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>",
+   "[1280x720?test=1&lang=en] warning: Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.\nElement with focus: <button.ib#mGear>\nAncestor with aria-hidden: <div.screen pre#map>"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 4393
+ }
+}

@@ -1,0 +1,279 @@
+{
+ "cases": 24,
+ "mismatch": 0,
+ "tainted": false,
+ "samples": [
+  {
+   "level": "H1-01",
+   "k": 0,
+   "fillPct": 40,
+   "shown": "40%",
+   "bar": 40,
+   "tinted": 33,
+   "exp": 33,
+   "pctFromPixels": 40,
+   "wrong": []
+  },
+  {
+   "level": "H1-01",
+   "k": 1,
+   "fillPct": 81,
+   "shown": "81%",
+   "bar": 81,
+   "tinted": 66,
+   "exp": 66,
+   "pctFromPixels": 81,
+   "wrong": []
+  },
+  {
+   "level": "H1-01",
+   "k": 2,
+   "fillPct": 48,
+   "shown": "48%",
+   "bar": 48,
+   "tinted": 39,
+   "exp": 39,
+   "pctFromPixels": 48,
+   "wrong": []
+  },
+  {
+   "level": "H1-01",
+   "k": 3,
+   "fillPct": 70,
+   "shown": "70%",
+   "bar": 70,
+   "tinted": 57,
+   "exp": 57,
+   "pctFromPixels": 70,
+   "wrong": []
+  },
+  {
+   "level": "H1-01",
+   "k": 4,
+   "fillPct": 88,
+   "shown": "88%",
+   "bar": 88,
+   "tinted": 72,
+   "exp": 72,
+   "pctFromPixels": 88,
+   "wrong": []
+  },
+  {
+   "level": "H1-01",
+   "k": 5,
+   "fillPct": 64,
+   "shown": "64%",
+   "bar": 64,
+   "tinted": 52,
+   "exp": 52,
+   "pctFromPixels": 64,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 0,
+   "fillPct": 44,
+   "shown": "44%",
+   "bar": 44,
+   "tinted": 44,
+   "exp": 44,
+   "pctFromPixels": 44,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 1,
+   "fillPct": 39,
+   "shown": "39%",
+   "bar": 39,
+   "tinted": 39,
+   "exp": 39,
+   "pctFromPixels": 39,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 2,
+   "fillPct": 60,
+   "shown": "60%",
+   "bar": 60,
+   "tinted": 60,
+   "exp": 60,
+   "pctFromPixels": 60,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 3,
+   "fillPct": 60,
+   "shown": "60%",
+   "bar": 60,
+   "tinted": 60,
+   "exp": 60,
+   "pctFromPixels": 60,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 4,
+   "fillPct": 45,
+   "shown": "45%",
+   "bar": 45,
+   "tinted": 45,
+   "exp": 45,
+   "pctFromPixels": 45,
+   "wrong": []
+  },
+  {
+   "level": "H2-06",
+   "k": 5,
+   "fillPct": 74,
+   "shown": "74%",
+   "bar": 74,
+   "tinted": 74,
+   "exp": 74,
+   "pctFromPixels": 74,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 0,
+   "fillPct": 45,
+   "shown": "45%",
+   "bar": 45,
+   "tinted": 66,
+   "exp": 66,
+   "pctFromPixels": 45,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 1,
+   "fillPct": 56,
+   "shown": "56%",
+   "bar": 56,
+   "tinted": 81,
+   "exp": 81,
+   "pctFromPixels": 56,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 2,
+   "fillPct": 47,
+   "shown": "47%",
+   "bar": 47,
+   "tinted": 68,
+   "exp": 68,
+   "pctFromPixels": 47,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 3,
+   "fillPct": 38,
+   "shown": "38%",
+   "bar": 38,
+   "tinted": 55,
+   "exp": 55,
+   "pctFromPixels": 38,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 4,
+   "fillPct": 22,
+   "shown": "22%",
+   "bar": 22,
+   "tinted": 33,
+   "exp": 33,
+   "pctFromPixels": 22,
+   "wrong": []
+  },
+  {
+   "level": "H4-01",
+   "k": 5,
+   "fillPct": 59,
+   "shown": "59%",
+   "bar": 59,
+   "tinted": 86,
+   "exp": 86,
+   "pctFromPixels": 59,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 0,
+   "fillPct": 63,
+   "shown": "63%",
+   "bar": 63,
+   "tinted": 92,
+   "exp": 92,
+   "pctFromPixels": 63,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 1,
+   "fillPct": 51,
+   "shown": "51%",
+   "bar": 51,
+   "tinted": 74,
+   "exp": 74,
+   "pctFromPixels": 51,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 2,
+   "fillPct": 56,
+   "shown": "56%",
+   "bar": 56,
+   "tinted": 81,
+   "exp": 81,
+   "pctFromPixels": 56,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 3,
+   "fillPct": 54,
+   "shown": "54%",
+   "bar": 54,
+   "tinted": 79,
+   "exp": 79,
+   "pctFromPixels": 54,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 4,
+   "fillPct": 61,
+   "shown": "61%",
+   "bar": 61,
+   "tinted": 89,
+   "exp": 89,
+   "pctFromPixels": 61,
+   "wrong": []
+  },
+  {
+   "level": "H5-10",
+   "k": 5,
+   "fillPct": 73,
+   "shown": "73%",
+   "bar": 73,
+   "tinted": 106,
+   "exp": 106,
+   "pctFromPixels": 73,
+   "wrong": []
+  }
+ ],
+ "log": {
+  "console": [
+   "[1280x720?test=1] warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently"
+  ],
+  "failed": [],
+  "external": [],
+  "requests": 284
+ }
+}
