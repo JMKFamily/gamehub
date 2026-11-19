@@ -69,18 +69,25 @@ const JOBS = {
     while (tw < minWaste && n < maxRuns) { for (let k = 0; k < 500; k++, n++) { const x = solveRun(L, SKILLED, mixSeed(seed, 313, n)); x.colorMoves.forEach((c, i) => { waste[i] += Math.max(0, c - 1); }); } tw = waste.reduce((a, b) => a + b, 0); }
     return { ...out, sk_n: n, sk_waste: tw, sk_conc: tw ? +(Math.max(...waste) / tw).toFixed(3) : 0 };
   },
+  // round-3: 추론 봇 D1/D2 헛 이동(seedBase 를 주면 verify 와 같은 시드 = mixSeed(verify.seed, 4243, 판 생성 시드) → 판 고유 값, 자리와 무관)
   // round-3: 추론 봇 D1/D2 헛 이동(틀린 찍기) 분포. L 이 없으면 cfg·seed 로 만듦(big = gen-2)
-  deduce({ L, cfg, seed, big, runs, bots = ['D1'], uniqueCheck = false }) {
+  deduce({ L, cfg, seed, big, runs, bots = ['D1'], uniqueCheck = false, seedBase = null }) {
     if (!L) { const g = big ? generateBig(cfg, seed) : generate(cfg, seed); if (!g) return { seed, ok: false }; L = g.level; }
     if (uniqueCheck && countSolutionsEdge(L, { limit: 2, maxNodes: 2e7 }).count !== 1) return { seed, ok: false, why: 'unique' };
     const out = { seed, ok: true, pairs: L.pairs.length };
     for (const b of bots) {
       const P = b === 'D2' ? D2 : D1, w = []; let f = 0;
-      for (let k = 0; k < runs; k++) { const r = deduceRun(L, P, mixSeed(seed, 4242, k)); w.push(r.wrong); if (!r.solved) f++; }
+      for (let k = 0; k < runs; k++) { const r = deduceRun(L, P, seedBase != null ? mixSeed(seedBase, b === 'D2' ? 2 : 1, k) : mixSeed(seed, 4242, k)); w.push(r.wrong); if (!r.solved) f++; }
       const st = moveStats(w);
       out[b] = { w: +st.cmedian.toFixed(3), p90: st.p90, fail: f };
     }
     return out;
+  },
+  // round-3 verify HV4: 길 찾기 검증기(sound) 를 스레드에서(넓은 판은 판당 수 초~수십 초)
+  soundCheck({ L, maxNodes }) {
+    const t = Date.now();
+    const r = countSolutions(makePuzzle(L), { limit: 2, mode: 'sound', maxNodes });
+    return { count: r.count, aborted: r.aborted, nodes: r.nodes, ms: Date.now() - t, sol: r.solutions[0] || null };
   },
   // ext-pick 후보 하나: 아이 봇 runs 회 + 몰림
   pickMeasure({ L, seed, runs, nsk, minRate, minWaste }) {

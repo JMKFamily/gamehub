@@ -19,13 +19,15 @@
 //   C1 콤보·이름·% 켜고 끈 봇 결과 불일치 0   C2 % 100 ⇔ 별 ⇔ 모든 색 1단 (모든 봇 실행)   K1 숙련 봇(헛 이동 < 20 이면 중간 봇) 헛 이동 한 쌍 몰림 ≤ 30 %(쌍 ≥ 4)
 //   (정보) T1 함정 검증기(trap) 가 레벨에서 내는 답 수
 
-import { readFileSync, readdirSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as B from './core/board.mjs';
 import { countSolutions, samePathSet } from './gen/solve.mjs';
 import { generate } from './gen/generate.mjs';
-import { SLOTS } from './levels-config.mjs';
+import { SLOTS, HARD_STAGES } from './levels-config.mjs';
+import { generateBig } from './gen/generate-big.mjs';
+import { countSolutionsEdge } from './gen/solve-edge.mjs';
 import { solveRun, moveStats, CHILD, SKILLED, MID } from './sim/bots.mjs';
 import { mixSeed } from './core/rng.mjs';
 import { runJobs } from './sim/jobs.mjs';
@@ -168,7 +170,7 @@ for (const L of levels) {
   const n = Number(L.id);
   // V1
   const long = Math.max(L.width, L.height);
-  const capLong = n <= 5 ? bal.board.max_cells_long_side_L1_L5 : bal.board.max_cells_long_side_any;
+  const capLong = n <= bal.curve_r3.child_zone.levels.length ? bal.board.max_cells_long_side_L1_L5 : bal.board.max_cells_long_side_any; // round-3: 5x5 이하는 구간 K(L1~L4)
   // G5: 칸 px 원본 = assets/layout.json play.<해상도>.<W>x<H>.cell (여백 12 px·판 패딩·HUD·판정 띠를 넣은 실제 배치)
   let minPx = Infinity, missing = [];
   for (const [w, h] of bal.board.check_resolutions) {
@@ -227,8 +229,8 @@ for (const L of levels) {
   const pairsUp = lv10.map((l, i) => (i && l.pairs.length > levels[i - 1].pairs.length ? l.id : null)).filter(Boolean);
   const sizeUp = lv10.map((l, i) => (i && l.width * l.height > lv10[i - 1].width * lv10[i - 1].height ? l.id : null)).filter(Boolean);
   const both = pairsUp.filter((x) => sizeUp.includes(x));
-  const sameLevelNew = lv10.filter((l) => pairsUp.includes(l.id) && !['more_colors', 'bigger_board', 'holes'].includes(l.new_element));
-  check('V6b', both.every((id) => ['03', '07', '06'].includes(id)) && sameLevelNew.length === 0, `쌍 수 증가 L${pairsUp.join(',')} / 판 증가 L${sizeUp.join(',')}: 같은 레벨에 겹친 곳 ${both.join(',') || '없음'}(판 커짐·구멍 소개 레벨만 허용)`);
+  const sameLevelNew = lv10.slice(0, bal.curve_r3.child_zone.levels.length).filter((l) => pairsUp.includes(l.id) && !['more_colors', 'bigger_board', 'holes'].includes(l.new_element));
+  check('V6b', both.every((id) => ['bigger_board', 'holes'].includes(lv10.find((l) => l.id === id).new_element)) && sameLevelNew.length === 0, `쌍 수 증가 L${pairsUp.join(',')} / 판 증가 L${sizeUp.join(',')}: 같은 레벨에 겹친 곳 ${both.join(',') || '없음'}(판 커짐·구멍 소개 레벨만 허용)`);
 }
 // V10 레벨 11~50(round-2): 새 기믹 없음(구멍만, 이미 L6 소개), 판 ≤ 6x6·쌍 ≤ 6, 챕터 구조 = balance.json chapters, 판 중복 없음
 {
@@ -265,12 +267,57 @@ for (const L of levels) {
   check('V9', okKeys && okHole && levels.every((l) => !('name_placeholder' in l)), `카드 글 키 tut_drag/card_fill/card_hole, L${L6?.id} first_hole [${fh}] = 실제 구멍·판 안쪽 ${!!okHole}, 화면 글 필드(name_placeholder) 없음`);
 }
 
+// ---------------------------------------------------------------- round-3 어려운 5단계 판(levels-hard/)
+// 검증: HV1 판 크기 ≤ 기본 판(6x6) 넓이 4배·쌍 10~16, HV2 답 덮개·선 길이 ≥ 3, HV3 독립 검증기 2(solve-edge: 변 켬/끔 제약) 유일해 + 답 = 생성 답,
+//       HV4 길 찾기 검증기(solve.mjs sound) 도 유일해(노드 상한에 걸리면 정보), HV5 완벽 입력 → 별, HV8 시드 재현(gen-2)
+//       E0 독립 검증기 2 자체 확인: 가지치기 0 열거(none)와 답 수가 같음(5x5 무작위 판 300개, 답 여러 개인 판 포함) + 일반 50판 답 일치
+const hardLevels = existsSync(join(PROJECT, 'levels-hard')) ? readdirSync(join(PROJECT, 'levels-hard')).filter((f) => /^H\d-\d\d\.json$/.test(f)).sort().map((f) => JSON.parse(readFileSync(join(PROJECT, 'levels-hard', f), 'utf8'))) : [];
+const hardRows = [];
+{
+  let agree = 0, multi = 0, tot = 0;
+  for (let i = 0; i < 300; i++) {
+    const g = generate({ width: 5, height: 5, pairs: 4, allowSelfAdjacent: true }, 777000 + i); if (!g) continue; tot++;
+    const a = countSolutions(B.makePuzzle(g.level), { limit: 3, mode: 'none' }).count, b = countSolutionsEdge(g.level, { limit: 3 }).count;
+    if (a === b) agree++; if (a > 1) multi++;
+  }
+  const lvOk = levels.every((L) => { const r = countSolutionsEdge(L); return r.count === 1 && JSON.stringify(r.solutions[0]) === JSON.stringify(L.solution.map((s) => s.path.map(([x, y]) => y * L.width + x))); });
+  check('E0', agree === tot && multi > 0 && lvOk, `독립 검증기 2 = 가지치기 0 열거: ${agree}/${tot}판 답 수 일치(답 2개 이상 판 ${multi}개 포함), 일반 ${levels.length}판 답 일치 ${lvOk}`);
+}
+const BASE_AREA = 36;
+const ids = hardLevels.map((l) => l.id);
+check('HV0', hardLevels.length === bal.curve_r3.hard_zone.boards_per_stage * 5 && hardLevels.every((l) => l.stage >= 1 && l.stage <= 5 && l.stage_key === `hard${l.stage}_name`), `어려운 판 ${hardLevels.length}개(5단계 × ${bal.curve_r3.hard_zone.boards_per_stage}), id ${ids[0]}~${ids[ids.length - 1]}, 단계 이름 키 hardN_name`);
+const hardSigs = new Set();
+const soundOut = await runJobs(hardLevels.map((L) => ({ name: 'soundCheck', arg: { L, maxNodes: QUICK ? 3e5 : 3e6 } })));
+for (const [hi, L] of hardLevels.entries()) {
+  const pz = B.makePuzzle(L), area = L.width * L.height;
+  hardSigs.add(JSON.stringify([L.width, L.height, L.pairs.map((p) => [p.a, p.b])]));
+  check(`HV1-${L.id}`, area <= 4 * BASE_AREA && pz.k >= 10 && pz.k <= 16, `${L.width}x${L.height}(넓이 ${area} = 기본 판 ${(area / BASE_AREA).toFixed(2)}배 ≤ 4), 쌍 ${pz.k} ∈ [10, 16]`);
+  const sol = L.solution.map((s) => s.path.map(([x, y]) => y * L.width + x));
+  const seen = new Uint8Array(pz.n); let okCover = true;
+  sol.forEach((p, c) => { if (p[0] !== pz.pairs[c].a || p[p.length - 1] !== pz.pairs[c].b) okCover = false; for (let i = 0; i < p.length; i++) { if (seen[p[i]] || pz.hole[p[i]]) okCover = false; seen[p[i]] = 1; if (i && !B.adjacent(pz, p[i - 1], p[i])) okCover = false; } });
+  check(`HV2-${L.id}`, okCover && seen.reduce((a, b) => a + b, 0) === pz.cellCount && Math.min(...sol.map((p) => p.length)) >= 3, `답 덮개 ${pz.cellCount}칸, 선 길이 ≥ 3`);
+  let t0 = Date.now();
+  const e = countSolutionsEdge(L, { limit: 2, maxNodes: 5e7 });
+  const eMs = Date.now() - t0;
+  check(`HV3-${L.id}`, e.count === 1 && !e.aborted && JSON.stringify(e.solutions[0]) === JSON.stringify(sol), `독립 검증기 2(변 제약): 답 ${e.count}개, 답 = 생성 답, 노드 ${e.nodes}, ${eMs} ms`);
+  const s = { ...soundOut[hi], solutions: [soundOut[hi].sol] }, sMs = soundOut[hi].ms;
+  if (s.aborted) check(`HV4-${L.id}`, true, `(정보) 길 찾기 검증기(sound): ${s.nodes} 노드에서 중단(${sMs} ms) → HV3 단독`, true);
+  else check(`HV4-${L.id}`, s.count === 1 && samePathSet(s.solutions[0], sol), `길 찾기 검증기(sound)도 답 ${s.count}개, 같은 답(노드 ${s.nodes}, ${sMs} ms)`);
+  const g = B.newGame(pz); for (const p of sol) B.playDrag(g, p);
+  check(`HV5-${L.id}`, g.completed && g.moves === pz.k && B.isStar(g), `완벽 입력 → 완료·이동 ${g.moves} = 쌍 ${pz.k}·별`);
+  const re = generateBig(HARD_STAGES[L.stage - 1], L.generator.seed);
+  check(`HV8-${L.id}`, re && JSON.stringify(re.level.pairs) === JSON.stringify(L.pairs) && JSON.stringify(re.level.solution) === JSON.stringify(L.solution), `시드 ${L.generator.seed} → 같은 판(gen-2)`);
+}
+check('HV9', hardSigs.size === hardLevels.length, `어려운 판 서로 다름 ${hardSigs.size}/${hardLevels.length}`);
+
 // ---------------------------------------------------------------- B: 봇
 check('B0', ['eps', 'p_cut', 'cut_cost', 'p_continue', 'edge_bonus', 'lookahead', 'max_moves', 'max_drags'].every((k) => bal.bots.child[k] === CHILD[k] && bal.bots.skilled[k] === SKILLED[k]), 'balance.json bots = sim/bots.mjs CHILD·SKILLED');
 
 // 봇 실행은 레벨마다 스레드 풀(sim/jobs.mjs)로 나눠 돌림. 시드는 (SEED, 시드 번호, 레벨 번호, 회차)로만 정해져 스레드 수와 무관(결정적)
 const tB = Date.now();
-const jobOut = await runJobs(levels.map((L, li) => ({ name: 'verifyLevel', arg: { L, li, SEED, NSEEDS, NCH, NSK, QUICK, c1N: QUICK ? 100 : 1000, minRate: DF.skilled_min_waste_rate, minWaste: DF.concentration_min_waste_events } })));
+// round-3: 구간 T(L5~L50) 아이 봇은 B9(m̃ > 30) 확인용이라 시드당 200회, 몰림은 정보라 숙련 봇 1000회(늘리지 않음)
+const inK = (li) => li < bal.curve_r3.child_zone.levels.length;
+const jobOut = await runJobs(levels.map((L, li) => ({ name: 'verifyLevel', arg: { L, li, SEED, NSEEDS, NCH: inK(li) || QUICK ? NCH : 200, NSK: inK(li) || QUICK ? NSK : 1000, QUICK: QUICK || !inK(li), c1N: QUICK ? 100 : li < bal.curve_r3.child_zone.levels.length ? 1000 : 200, minRate: DF.skilled_min_waste_rate, minWaste: DF.concentration_min_waste_events } })));
 const perSeed = Array.from({ length: NSEEDS }, (_, s) => jobOut.map((o) => o.perSeed[s])); // [seed][level] = cmedian
 const stats = jobOut.map((o) => o.stats);
 const trapCnt = jobOut.map((o) => o.trap), failCnt = jobOut.map((o) => o.fail), runsOf = jobOut.map((o) => o.runs);
@@ -280,74 +327,93 @@ const r = Math.sqrt(m[2] / m[0]);
 const T = m[0] * r ** 5;
 levels.forEach((L, i) => Object.assign(lvRows[i], { chapter: L.chapter, m: +m[i].toFixed(3), median_int: stats[i].median, mean: +stats[i].mean.toFixed(2), p90: stats[i].p90, max: stats[i].max, trap_pct: +((100 * trapCnt[i]) / runsOf[i]).toFixed(1), fail: failCnt[i], runs: runsOf[i] }));
 const BI = QUICK; // quick 이면 B 는 정보
-check('B1', m.every((x) => x <= DF.max_moves_any_level), `모든 레벨(${m.length}개) m̃ ≤ ${DF.max_moves_any_level}: 최대 ${f2(Math.max(...m))}`, BI);
-const ratios = m.map((x, i) => (i ? x / m[i - 1] : null));
-check('B2', ratios.every((x) => x == null || x <= DF.max_ratio_to_previous), `직전 대비 ≤ ${DF.max_ratio_to_previous}배: 최대 ${f2(Math.max(...ratios.filter((x) => x != null)))}`, BI);
-const m1 = m.slice(0, 10);
-const mono = m1.slice(DF.strict_monotone_from - 1).every((x, i, a) => i === 0 || x > a[i - 1]);
-check('B3', mono, `L3~L10 엄격 단조(연속 중앙값): ${m1.slice(2).map(f2).join(' < ')}`, BI);
-check('B3b', m[1] > m[0] && m[2] > m[1], `L1 < L2 < L3: ${m.slice(0, 3).map(f2).join(' < ')}`, BI);
-check('B4', m[9] >= (1 - DF.L10_band_frac) * T && m[9] <= (1 + DF.L10_band_frac) * T, `L10 ${f2(m[9])} ∈ [${f2(0.8 * T)}, ${f2(1.2 * T)}] (T = m̃1·r⁵ = ${f2(T)}, r = ${r.toFixed(3)}, 편차 ${((m[9] / T - 1) * 100).toFixed(1)} %)`, BI);
-// 챕터 2~5 (20-balance 8-5): 챕터 끝 E_c = T·(E5/T)^((c−1)/4) ±20 %, 챕터 시작 = 앞 챕터 끝의 0.6~0.95배(숨 고르기), 챕터 안 엄격 단조
-const CHD = DF.chapters;
-const chapterEnd = (c) => T * (CHD.last_end_target_moves / T) ** ((c - 1) / (CHD.count - 1));
-const chapterRows = [];
-for (let c = 2; c <= CHD.count && levels.length >= c * CHD.size; c++) {
-  const a = (c - 1) * CHD.size, seg = m.slice(a, a + CHD.size), E = chapterEnd(c), endM = seg[seg.length - 1], prevEnd = m[a - 1];
-  const monoC = seg.every((x, i) => i === 0 || x > seg[i - 1]);
-  const startFrac = seg[0] / prevEnd;
-  const okEnd = endM >= (1 - CHD.end_band_frac) * E && endM <= (1 + CHD.end_band_frac) * E;
-  const okStart = startFrac >= CHD.start_band_vs_prev_end[0] && startFrac <= CHD.start_band_vs_prev_end[1];
-  chapterRows.push({ chapter: c, start: +seg[0].toFixed(3), end: +endM.toFixed(3), E: +E.toFixed(3), end_dev_pct: +((endM / E - 1) * 100).toFixed(1), start_frac: +startFrac.toFixed(3) });
-  check(`B3c-${c}`, monoC, `챕터 ${c}(L${a + 1}~L${a + CHD.size}) 안 엄격 단조: ${seg.map(f2).join(' < ')}`, BI);
-  check(`B4c-${c}`, okEnd, `챕터 ${c} 끝 L${a + CHD.size} ${f2(endM)} ∈ [${f2((1 - CHD.end_band_frac) * E)}, ${f2((1 + CHD.end_band_frac) * E)}] (E${c} = ${f2(E)}, 편차 ${((endM / E - 1) * 100).toFixed(1)} %)`, BI);
-  check(`B4s-${c}`, okStart, `챕터 ${c} 시작 L${a + 1} ${f2(seg[0])} = 앞 챕터 끝 ${f2(prevEnd)} 의 ${startFrac.toFixed(2)}배 ∈ [${CHD.start_band_vs_prev_end.join(', ')}] (숨 고르기)`, BI);
-}
-const devs = perSeed.map((row) => { const rr = Math.sqrt(row[2] / row[0]); const TT = row[0] * rr ** 5; return row[9] / TT - 1; });
-const devMean = devs.reduce((a, b) => a + b, 0) / devs.length;
-const devSd = Math.sqrt(devs.reduce((a, b) => a + (b - devMean) ** 2, 0) / devs.length);
-check('B5', Math.abs(devMean) <= DF.L10_band_frac && devs.every((x) => Math.abs(x) <= DF.L10_band_frac), `시드 ${NSEEDS}개 × ${NCH}회: L10/T 편차 평균 ${(devMean * 100).toFixed(1)} %, sd ${(devSd * 100).toFixed(1)} %, 범위 ${(Math.min(...devs) * 100).toFixed(1)} ~ ${(Math.max(...devs) * 100).toFixed(1)} %`, BI);
-// B8(정보, criteria flow-01 round-1): 시드 각각에서 단조(1챕터 L3~L10, 챕터 2~5 안)인 시드 수
+// ---- round-3 곡선(20-balance 8-7, balance.json curve_r3): 구간 K = 아이 봇, T = 추론 봇 D1, H = 추론 봇 D2
+const CV = bal.curve_r3, NZ = CV.normal_zone, HZ = CV.hard_zone;
+const KZ = CV.child_zone.levels.length;
+const devs = perSeed.map((row) => { const rr = Math.sqrt(row[2] / row[0]); return row[9] / (row[0] * rr ** 5) - 1; });
+// B1 구간 K: 아이 봇 m̃ ≤ 30, 직전 2배 이하, L1 < L2 < … < L4, L1 기준(B6)
+const mK = m.slice(0, KZ);
+check('B1', mK.every((x) => x <= CV.child_zone.max_child_moves), `구간 K(L1~L${KZ}) 아이 봇 m̃ ≤ ${CV.child_zone.max_child_moves}: ${mK.map(f2).join(' / ')}`, BI);
+check('B2', mK.every((x, i) => i === 0 || x <= DF.max_ratio_to_previous * mK[i - 1]), `구간 K 직전 대비 ≤ ${DF.max_ratio_to_previous}배: 최대 ${f2(Math.max(...mK.map((x, i) => (i ? x / mK[i - 1] : 0))))}`, BI);
+check('B3', mK.every((x, i) => i === 0 || x > mK[i - 1]), `구간 K 엄격 단조: ${mK.map(f2).join(' < ')}`, BI);
+// B9 5~6세 구간 < 5 %: 아이 봇 m̃ ≤ 30 인 판 = L1~L4 뿐, 볼륨(일반 + 어려운) 대비 비율
 {
-  const segs = [[2, 10]]; for (let c = 2; c * CHD.size <= levels.length; c++) segs.push([(c - 1) * CHD.size, c * CHD.size]);
-  const okSeeds = perSeed.filter((row) => segs.every(([a, b]) => row.slice(a, b).every((x, i, s) => i === 0 || x > s[i - 1]))).length;
-  let minGap = Infinity; for (const row of perSeed) for (const [a, b] of segs) for (let i = a + 1; i < b; i++) minGap = Math.min(minGap, row[i] - row[i - 1]);
-  check('B8', true, `(정보) 시드 ${NSEEDS}개 각각 단조: ${okSeeds}/${NSEEDS}, 시드별 이웃 차 최소 ${f2(minGap)}`, true);
+  const playable = m.map((x, i) => (x <= CV.child_zone.max_child_moves ? i + 1 : null)).filter(Boolean);
+  const vol = levels.length + hardLevels.length;
+  const frac = playable.length / vol;
+  const okSet = playable.length === KZ && playable.every((x, i) => x === i + 1);
+  check('B9', okSet && frac < CV.child_zone.max_volume_frac && vol === CV.volume_boards, `아이 봇 m̃ ≤ 30 인 판 ${playable.length}개(L${playable.join(',L')}) / 볼륨 ${vol}판 = ${(frac * 100).toFixed(1)} % < ${CV.child_zone.max_volume_frac * 100} %, L${KZ + 1}~L${levels.length} 아이 봇 m̃ 최소 ${f2(Math.min(...m.slice(KZ)))} > 30`, BI);
 }
-const l1trap = trapCnt[0] / runsOf[0];
-check('B6', m[0] <= DF.L1_max_moves && l1trap <= DF.L1_max_empty_trap_frac, `L1 m̃1 ${f2(m[0])} ≤ ${DF.L1_max_moves}, 빈칸 함정 거침 ${(l1trap * 100).toFixed(1)} % ≤ 50 %`, BI);
-check('B7', failCnt.every((x, i) => (i < 10 ? x === 0 : x / runsOf[i] <= DF.max_fail_frac_L11_L50)), `상한(200 이동) 안에 못 푼 실행: L1~L10 ${failCnt.slice(0, 10).reduce((a, b) => a + b, 0)}회(= 0), L11~L50 최대 ${(Math.max(...failCnt.slice(10).map((x, i) => x / runsOf[i + 10]), 0) * 100).toFixed(3)} % ≤ ${DF.max_fail_frac_L11_L50 * 100} %, 총 ${failCnt.reduce((a, b) => a + b, 0)}회(0 아닌 레벨: ${failCnt.map((x, i) => (x ? `L${i + 1}:${x}` : null)).filter(Boolean).join(' ') || '없음'})`, BI);
+// 추론 봇 값(판 고유 시드, 자리와 무관)
+const dOut = await runJobs([...levels, ...hardLevels].map((L) => ({ name: 'deduce', arg: { L, seed: L.generator.seed, runs: QUICK ? 200 : CV.deduce_runs, bots: ['D1', 'D2'], seedBase: mixSeed(SEED, 4243, L.generator.seed) } })));
+const d1 = dOut.slice(0, levels.length).map((o) => o.D1.w), d2n = dOut.slice(0, levels.length).map((o) => o.D2.w);
+const d2h = dOut.slice(levels.length).map((o) => o.D2.w), d1h = dOut.slice(levels.length).map((o) => o.D1.w);
+levels.forEach((L, i) => Object.assign(lvRows[i], { D1: d1[i], D2: d2n[i] }));
+// 구간 T(L5~L50): D1 헛 이동. 챕터 1 은 L5~L10, 챕터 c 끝 E_c = E1·(E5/E1)^((c−1)/4) ±20 %, 시작 = 앞 끝의 0.6~0.95배, 챕터 안 엄격 단조, 직전 2배 이하
+const chEnd = (c) => NZ.chapter1_end_target * (NZ.last_end_target / NZ.chapter1_end_target) ** ((c - 1) / 4);
+const chapterRows = [];
+for (let c = 1; c <= 5; c++) {
+  const a = c === 1 ? KZ : (c - 1) * 10, b = c * 10, seg = d1.slice(a, b), E = chEnd(c), endM = seg[seg.length - 1];
+  const mono = seg.every((x, i) => i === 0 || x > seg[i - 1]);
+  const okEnd = endM >= (1 - NZ.end_band_frac) * E && endM <= (1 + NZ.end_band_frac) * E;
+  const sf = c === 1 ? null : seg[0] / d1[a - 1];
+  const okStart = c === 1 || (sf >= NZ.start_band_vs_prev_end[0] && sf <= NZ.start_band_vs_prev_end[1]);
+  chapterRows.push({ chapter: c, start: seg[0], end: endM, E: +E.toFixed(2), end_dev_pct: +((endM / E - 1) * 100).toFixed(1), start_frac: sf == null ? null : +sf.toFixed(3) });
+  check(`T-${c}`, mono && okEnd && okStart, `챕터 ${c}(L${a + 1}~L${b}) D1 헛 이동 엄격 단조 ${mono}: ${seg.map(f2).join(' < ')} / 끝 ${f2(endM)} ∈ E${c} ${f2(E)} ±20 % ${okEnd}${c > 1 ? ` / 시작 = 앞 끝의 ${sf.toFixed(2)}배 ${okStart}` : ''}`, BI);
+}
+check('T-2x', d1.slice(KZ).every((x, i, s) => i === 0 || x <= DF.max_ratio_to_previous * s[i - 1]), `구간 T D1 직전 대비 ≤ 2배: 최대 ${f2(Math.max(...d1.slice(KZ).map((x, i, s) => (i ? x / s[i - 1] : 0))))}`, BI);
+check('T-in', d1[KZ] > d1[KZ - 1], `구간 K → T 이음: D1 L${KZ} ${f2(d1[KZ - 1])} < L${KZ + 1} ${f2(d1[KZ])}`, BI);
+// 구간 H(어려운 5단계): D2 헛 이동. 단계 s 안 엄격 단조, 끝 ∈ 범위 위끝 ±20 %, 단계 끝끼리 증가, 마지막 ≤ 30, 못 풂 ≤ 5 %
+const stageRows = [];
+for (let s = 1; s <= 5; s++) {
+  const idx = hardLevels.map((L, i) => (L.stage === s ? i : -1)).filter((i) => i >= 0);
+  if (!idx.length) { check(`H-${s}`, false, `단계 ${s} 판 없음`); continue; }
+  const seg = idx.map((i) => d2h[i]), [lo, hi] = HZ.stage_ranges[s - 1], endM = seg[seg.length - 1];
+  const mono = seg.every((x, i) => i === 0 || x > seg[i - 1]);
+  const okEnd = endM >= (1 - HZ.band_frac) * hi && endM <= (1 + HZ.band_frac) * hi;
+  const fails = idx.map((i) => dOut[levels.length + i].D2.fail / (QUICK ? 200 : CV.deduce_runs));
+  stageRows.push({ stage: s, start: seg[0], end: endM, target_end: hi, boards: seg.length, D1_min: Math.min(...idx.map((i) => d1h[i])), max_fail: Math.max(...fails) });
+  check(`H-${s}`, seg.length === HZ.boards_per_stage && mono && okEnd && Math.max(...fails) <= 0.05, `단계 ${s}(${seg.length}판) D2 헛 이동 엄격 단조 ${mono}: ${seg.map(f2).join(' < ')} / 끝 ${f2(endM)} ∈ ${hi} ±20 % ${okEnd} / D2 못 풂 최대 ${(Math.max(...fails) * 100).toFixed(1)} %`, BI);
+}
+check('H-up', stageRows.every((x, i) => i === 0 || (x.end > stageRows[i - 1].end && x.start >= stageRows[i - 1].start)) && Math.max(...d2h) <= HZ.max_wrong_median, `단계 끝 D2 증가 ${stageRows.map((x) => f2(x.end)).join(' < ')}, 최대 ${f2(Math.max(...d2h))} ≤ ${HZ.max_wrong_median}`, BI);
+check('H-in', Math.min(...d1h) >= d1[levels.length - 1] * 0.8, `(정보) 구간 T → H 이음: 어려운 판 D1 최소 ${f2(Math.min(...d1h))}, L50 D1 ${f2(d1[levels.length - 1])}`, true);
+check('B6', m[0] <= DF.L1_max_moves && trapCnt[0] / runsOf[0] <= DF.L1_max_empty_trap_frac, `L1 m̃1 ${f2(m[0])} ≤ ${DF.L1_max_moves}, 빈칸 함정 거침 ${((trapCnt[0] / runsOf[0]) * 100).toFixed(1)} % ≤ 50 %`, BI);
+check('B7', failCnt.slice(0, KZ).every((x) => x === 0), `구간 K 아이 봇 못 푼 실행 ${failCnt.slice(0, KZ).join('/')}(= 0). 구간 T 는 아이 봇이 못 푸는 것이 정상(5~6세 구간 밖, 정보: 레벨당 ${runsOf[KZ]}회 중 최대 ${Math.max(...failCnt.slice(KZ))}회)`, BI);
+check('B8', true, `(정보) 시드 ${NSEEDS}개 각각 단조(구간 K): ${perSeed.filter((row) => row.slice(0, KZ).every((x, i, s) => i === 0 || x > s[i - 1])).length}/${NSEEDS}`, true);
 check('C2', c2bad === 0, `% 100 ⇔ 별 ⇔ 모든 색 1단: 완료 실행 ${c2runs}회 중 불일치 ${c2bad}`);
 {
   const bad = jobOut.reduce((a, o) => a + o.c1bad, 0), n = jobOut.reduce((a, o) => a + o.c1n, 0);
   check('C1', bad === 0, `콤보(쌍 점 줄)·판정 이름·% 계산을 켠 실행과 끈 실행: ${n}쌍 중 불일치 ${bad}(이동 수·완료·드래그 열 모두 비교)`);
 }
-// K1 숙련 봇 몰림: 헛 이동 = 그 색 이동 수 − 1. 숙련 봇 헛 이동 비율 < DF.skilled_min_waste_rate 면 중간 봇(sim/jobs.mjs concentration)
+// K1 숙련 봇 몰림(F1): 구간 K 만 판정(5~6세가 한 곳에서 막히는 불공정 방지). 구간 T·H 는 열쇠 자리가 곧 퍼즐 난이도라 정보로만(20-balance 8-7)
 levels.forEach((L, li) => {
   const w = jobOut[li].k1, bot = w.bot;
   Object.assign(lvRows[li], { skilled_m: +w.skilledM.toFixed(2), conc_bot: bot, waste: w.tw, conc_pct: +(w.conc * 100).toFixed(1), waste_by_pair: w.waste.join('/') });
-  const applies = L.pairs.length >= DF.skilled_concentration_min_pairs && w.tw >= 20;
+  const applies = li < KZ && L.pairs.length >= DF.skilled_concentration_min_pairs && w.tw >= 20;
   const lim = Math.max(DF.skilled_waste_concentration_max_frac, DF.skilled_concentration_even_share_mult / L.pairs.length);
-  check(`K1-${L.id}`, !applies || w.conc <= lim, `${bot === 'skilled' ? '숙련' : `중간(숙련 헛 이동 비율 ${(w.skilledRate * 100).toFixed(2)} % < ${DF.skilled_min_waste_rate * 100} %)`} 봇 ${w.n}회 실행, 헛 이동 ${w.tw}회(쌍별 ${w.waste.join('/')}), 한 쌍 몰림 ${(w.conc * 100).toFixed(1)} %${applies ? ` ≤ ${(lim * 100).toFixed(1)} %${L.pairs.length < 5 ? ' (쌍 4개: 고른 몫 25 % × 1.5)' : ''}` : ` (정보: 쌍 ${L.pairs.length}개는 고르게 나눠도 ${(100 / L.pairs.length).toFixed(0)} % 라 30 % 기준을 적용할 수 없음)`}`, !applies || QUICK);
+  check(`K1-${L.id}`, !applies || w.conc <= lim, `${li < KZ ? '' : '(정보, 구간 T) '}${bot === 'skilled' ? '숙련' : '중간'} 봇 ${w.n}회, 헛 이동 ${w.tw}회, 한 쌍 몰림 ${(w.conc * 100).toFixed(1)} %${applies ? ` ≤ ${(lim * 100).toFixed(1)} %` : ''}`, !applies || QUICK);
 });
-// 도움 이동 수 신호(20-balance 10-2): p90 > 30 인 레벨은 ⌈1.5·m̃⌉. balance.json 값과 대조(quick 은 정보)
+// 도움 이동 수 신호(20-balance 10-2, round-3): 구간 K 없음(시간 신호만, L1~L4 p90 ≤ 20), 구간 T·H = 쌍 수 + max(6, ⌈2·D2⌉)
 const helpSuggest = {};
-levels.forEach((L, i) => { if (stats[i].p90 > DF.max_moves_any_level) helpSuggest[L.id] = Math.ceil(1.5 * m[i]); });
+levels.forEach((L, i) => { if (i >= KZ) helpSuggest[L.id] = L.pairs.length + Math.max(6, Math.ceil(2 * d2n[i])); });
+hardLevels.forEach((L, i) => { helpSuggest[L.id] = L.pairs.length + Math.max(6, Math.ceil(2 * d2h[i])); });
 {
   const cur = bal.help.moves_trigger_by_level || {};
   const key = (o) => JSON.stringify(Object.keys(o).sort().map((k) => [k, o[k]]));
-  check('H1', key(helpSuggest) === key(cur) || true, `도움 이동 수 신호(p90 > 30 레벨, ⌈1.5·m̃⌉) → balance.json help.moves_trigger_by_level 에 옮겨 적는 값(전체 실행 뒤 갱신, 같음 ${key(helpSuggest) === key(cur)}): 계산 ${JSON.stringify(helpSuggest)}`, QUICK);
+  check('H1', key(helpSuggest) === key(cur), `도움 이동 수 신호(쌍 수 + max(6, ⌈2·D2⌉)) = balance.json help.moves_trigger_by_level(${Object.keys(helpSuggest).length}개)`, QUICK);
 }
+hardLevels.forEach((L, i) => hardRows.push({ id: L.id, stage: L.stage, size: `${L.width}x${L.height}`, pairs: L.pairs.length, D1: d1h[i], D2: d2h[i], D2_p90: dOut[levels.length + i].D2.p90, D2_fail: dOut[levels.length + i].D2.fail }));
 const botSec = ((Date.now() - tB) / 1000).toFixed(1);
 
 // ---------------------------------------------------------------- 출력
 const fails = results.filter((x) => !x.ok && !x.info);
-const report = { quick: QUICK, seed: SEED, runs_child_per_level: NCH * NSEEDS, runs_skilled: NSK, m: m.map((x) => +x.toFixed(3)), r: +r.toFixed(4), T: +T.toFixed(3), L10_band: [+(0.8 * T).toFixed(3), +(1.2 * T).toFixed(3)], seed_devs_pct: devs.map((x) => +(x * 100).toFixed(2)), per_seed_m: perSeed.map((row) => row.map((x) => +x.toFixed(3))), chapters: chapterRows, help_suggest: helpSuggest, levels: lvRows, results, verdict: fails.length ? 'FAIL' : 'ALL PASS', bot_seconds: +botSec };
+const report = { quick: QUICK, seed: SEED, runs_child_per_level: NCH * NSEEDS, runs_skilled: NSK, m: m.map((x) => +x.toFixed(3)), r: +r.toFixed(4), T: +T.toFixed(3), L10_band: [+(0.8 * T).toFixed(3), +(1.2 * T).toFixed(3)], seed_devs_pct: devs.map((x) => +(x * 100).toFixed(2)), per_seed_m: perSeed.map((row) => row.map((x) => +x.toFixed(3))), chapters: chapterRows, stages: stageRows, hard: hardRows, help_suggest: helpSuggest, levels: lvRows, results, verdict: fails.length ? 'FAIL' : 'ALL PASS', bot_seconds: +botSec };
 mkdirSync(join(HERE, 'out'), { recursive: true });
 writeFileSync(join(HERE, 'out', QUICK ? 'verify-report-quick.json' : 'verify-report.json'), JSON.stringify(report, null, 1));
 if (JSON_OUT) { console.log(JSON.stringify(report, null, 1)); process.exit(fails.length ? 1 : 0); }
 for (const x of results) console.log(`${x.ok ? 'PASS' : x.info ? 'INFO' : 'FAIL'} ${x.id.padEnd(7)} ${x.msg}`);
 console.log('\n레벨 | 판 | 쌍 | 구멍 | 최소 칸 px | 선 길이 | m̃(연속) | 정수 중앙값 | 평균 | p90 | 빈칸 함정 % | 숙련 m̃ | 몰림 봇 | 몰림 %');
+for (const x of stageRows) console.log(`단계 ${x.stage}: D2 ${f2(x.start)} → ${f2(x.end)} (끝 목표 ${x.target_end}), D1 최소 ${f2(x.D1_min)}`);
 for (const x of chapterRows) console.log(`챕터 ${x.chapter}: 시작 m̃ ${f2(x.start)}(앞 끝의 ${x.start_frac}배), 끝 m̃ ${f2(x.end)}, 끝 목표 E ${f2(x.E)}, 편차 ${x.end_dev_pct} %`);
 for (const x of lvRows) console.log(`${x.id} | ${x.size} | ${x.pairs} | ${x.holes} | ${x.min_cell_px} | ${x.line_lengths} | ${f2(x.m)} | ${x.median_int} | ${f2(x.mean)} | ${x.p90} | ${x.trap_pct} | ${f2(x.skilled_m)} | ${x.conc_bot} | ${x.conc_pct}`);
 console.log(`\nr = ${r.toFixed(3)}, T = ${f2(T)}, L10 허용 [${f2(0.8 * T)}, ${f2(1.2 * T)}], 봇 ${botSec} s${QUICK ? ' (quick: B·K 는 정보)' : ''}`);

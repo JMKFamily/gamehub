@@ -60,3 +60,29 @@ for (const slot of SLOTS) {
   writeFileSync(join(LV, file), JSON.stringify(level, null, 1) + '\n');
   console.log(`${file}: ${L.width}x${L.height} 쌍 ${L.pairs.length} 구멍 ${L.holes.length} 시드 ${seed}`);
 }
+
+// ---------------------------------------------------------------- round-3 어려운 5단계(levels-hard/H<단계>-<번호>.json)
+{
+  const { HARD_STAGES, HARD_SLOTS_PENDING } = await import('./levels-config.mjs');
+  const { generateBig, GEN_BIG_VERSION } = await import('./gen/generate-big.mjs');
+  const { countSolutionsEdge } = await import('./gen/solve-edge.mjs');
+  const HD = join(PROJECT, 'levels-hard');
+  mkdirSync(HD, { recursive: true });
+  for (const f of readdirSync(HD)) if (/^H\d-\d\d\.json$/.test(f)) unlinkSync(join(HD, f));
+  for (const s of HARD_SLOTS_PENDING()) {
+    const cfg = HARD_STAGES[s.stage - 1];
+    const g = generateBig(cfg, s.seed);
+    if (!g) throw new Error(`${s.id}: 생성 실패`);
+    const L = g.level;
+    if (countSolutionsEdge(L, { limit: 2 }).count !== 1) throw new Error(`${s.id}: 유일하지 않음`);
+    const level = {
+      schema_version: 1, id: s.id, stage: s.stage, stage_pos: s.stage_pos, stage_key: `hard${s.stage}_name`,
+      width: L.width, height: L.height, holes: L.holes, pairs: L.pairs, solution: L.solution,
+      new_element: 'none',
+      structure: structureMetrics(L),
+      generator: { version: GEN_BIG_VERSION, core_version: CORE_VERSION, seed: s.seed, attempts: g.attempts, params: cfg, independent_note: '원작 판을 보지 않고 시드 생성(gen-2). 같은 시드·생성기 버전이면 같은 판' },
+    };
+    writeFileSync(join(HD, `${s.id}.json`), JSON.stringify(level, null, 1) + '\n');
+    console.log(`${s.id}.json: ${L.width}x${L.height} 쌍 ${L.pairs.length} 시드 ${s.seed}`);
+  }
+}

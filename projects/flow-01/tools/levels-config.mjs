@@ -28,7 +28,12 @@ export const FAMILIES = [
 ];
 export const FAMILY_SEED_BASE = (fid) => 50000000 + 1000000 * (fid.charCodeAt(0) - 64);
 export const EXT_SLOTS = ext.map((e) => { const f = FAMILIES.find((s) => s.id === e.family) || BASE_SLOTS.find((s) => s.id === e.family); return { ...f, id: e.id, chapter: e.chapter, chapter_pos: e.chapter_pos, family: e.family, seed: e.seed, new_element: 'none', new_element_ko: e.chapter_pos === 1 ? '없음(챕터 시작 숨 고르기)' : '없음(배치로 난이도)' }; });
-export const SLOTS = [...BASE_SLOTS, ...EXT_SLOTS];
+// round-3: tools/levels-r3.json 이 있으면 L1~L4 는 그대로(5~6세 구간), L5~L50 은 r3 배정(gen-1 가족·시드), 어려운 판은 HARD_SLOTS(gen-2)
+const R3 = new URL('./levels-r3.json', import.meta.url);
+const r3 = existsSync(R3) ? JSON.parse(readFileSync(R3, 'utf8')) : null;
+const R3_NORMAL = (r3?.normal || []).map((e) => { const f = FAMILIES.find((s) => s.id === e.family) || BASE_SLOTS.find((s) => s.id === e.family); return { ...f, id: e.id, chapter: e.chapter, chapter_pos: e.chapter_pos, family: e.family, seed: e.seed, new_element: e.id === '05' ? 'bigger_board' : e.id === '06' ? 'holes' : 'none', new_element_ko: e.id === '05' ? '판 커짐(6x6)' : e.id === '06' ? '구멍 칸(판 모양 변화, 그림 카드)' : '없음(배치로 난이도)' }; });
+export const SLOTS = R3_NORMAL.length ? [...BASE_SLOTS.slice(0, 4), ...R3_NORMAL] : [...BASE_SLOTS, ...EXT_SLOTS];
+export const HARD_SLOTS_PENDING = () => (r3?.hard || []);
 // 생성 시드 = slot 기본 + i (i = 0, 1, 2, …). 고른 시드는 levels-picks.json 에 기록.
 export const SEED_BASE = (slotId) => 1000000 * Number(slotId);
 

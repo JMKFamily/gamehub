@@ -8,13 +8,22 @@
  "name_key": "level7_name",
  "width": 6,
  "height": 6,
- "holes": [],
+ "holes": [
+  [
+   3,
+   1
+  ],
+  [
+   0,
+   5
+  ]
+ ],
  "pairs": [
   {
    "id": "c1",
    "color_slot": 0,
    "a": [
-    3,
+    2,
     1
    ],
    "b": [
@@ -26,32 +35,8 @@
    "id": "c2",
    "color_slot": 1,
    "a": [
-    2,
-    2
-   ],
-   "b": [
-    3,
-    4
-   ]
-  },
-  {
-   "id": "c3",
-   "color_slot": 2,
-   "a": [
-    0,
-    5
-   ],
-   "b": [
     5,
-    5
-   ]
-  },
-  {
-   "id": "c4",
-   "color_slot": 3,
-   "a": [
-    4,
-    4
+    0
    ],
    "b": [
     4,
@@ -59,14 +44,50 @@
    ]
   },
   {
+   "id": "c3",
+   "color_slot": 2,
+   "a": [
+    4,
+    0
+   ],
+   "b": [
+    0,
+    0
+   ]
+  },
+  {
+   "id": "c4",
+   "color_slot": 3,
+   "a": [
+    5,
+    4
+   ],
+   "b": [
+    5,
+    2
+   ]
+  },
+  {
    "id": "c5",
    "color_slot": 4,
    "a": [
-    4,
-    5
+    0,
+    1
    ],
    "b": [
-    2,
+    5,
+    5
+   ]
+  },
+  {
+   "id": "c6",
+   "color_slot": 5,
+   "a": [
+    4,
+    2
+   ],
+   "b": [
+    1,
     1
    ]
   }
@@ -76,8 +97,12 @@
    "id": "c1",
    "path": [
     [
-     3,
+     2,
      1
+    ],
+    [
+     2,
+     2
     ],
     [
      3,
@@ -93,20 +118,16 @@
    "id": "c2",
    "path": [
     [
-     2,
-     2
+     5,
+     0
     ],
     [
-     2,
-     3
+     5,
+     1
     ],
     [
-     2,
-     4
-    ],
-    [
-     3,
-     4
+     4,
+     1
     ]
    ]
   },
@@ -114,35 +135,7 @@
    "id": "c3",
    "path": [
     [
-     0,
-     5
-    ],
-    [
-     0,
-     4
-    ],
-    [
-     0,
-     3
-    ],
-    [
-     0,
-     2
-    ],
-    [
-     0,
-     1
-    ],
-    [
-     0,
-     0
-    ],
-    [
-     1,
-     0
-    ],
-    [
-     2,
+     4,
      0
     ],
     [
@@ -150,32 +143,16 @@
      0
     ],
     [
-     4,
+     2,
      0
     ],
     [
-     5,
+     1,
      0
     ],
     [
-     5,
-     1
-    ],
-    [
-     5,
-     2
-    ],
-    [
-     5,
-     3
-    ],
-    [
-     5,
-     4
-    ],
-    [
-     5,
-     5
+     0,
+     0
     ]
    ]
   },
@@ -183,20 +160,16 @@
    "id": "c4",
    "path": [
     [
-     4,
+     5,
      4
     ],
     [
-     4,
+     5,
      3
     ],
     [
-     4,
+     5,
      2
-    ],
-    [
-     4,
-     1
     ]
    ]
   },
@@ -204,11 +177,27 @@
    "id": "c5",
    "path": [
     [
-     4,
-     5
+     0,
+     1
     ],
     [
-     3,
+     0,
+     2
+    ],
+    [
+     0,
+     3
+    ],
+    [
+     0,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
      5
     ],
     [
@@ -216,12 +205,45 @@
      5
     ],
     [
-     1,
+     3,
      5
     ],
     [
-     1,
+     4,
+     5
+    ],
+    [
+     5,
+     5
+    ]
+   ]
+  },
+  {
+   "id": "c6",
+   "path": [
+    [
+     4,
+     2
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     4,
      4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     3
     ],
     [
      1,
@@ -234,46 +256,42 @@
     [
      1,
      1
-    ],
-    [
-     2,
-     1
     ]
    ]
   }
  ],
- "new_element": "bigger_board",
- "new_element_ko": "판 커짐(6x6)",
+ "new_element": "none",
+ "new_element_ko": "없음(배치로 난이도)",
  "tutorial": null,
  "fill_card": null,
  "hole_card": null,
  "structure": {
   "size": "6x6",
-  "cells": 36,
-  "pairs": 5,
-  "holes": 0,
+  "cells": 34,
+  "pairs": 6,
+  "holes": 2,
   "min_len": 3,
-  "max_len": 16,
-  "mean_len": 7.2,
-  "bends": 5,
-  "illusion": 0,
-  "detour_cells": 0,
-  "edge_cells": 20,
+  "max_len": 10,
+  "mean_len": 5.67,
+  "bends": 10,
+  "illusion": 1,
+  "detour_cells": 4,
+  "edge_cells": 19,
   "shortest_trap_combos": 0,
-  "solver_nodes": 58
+  "solver_nodes": 32
  },
  "generator": {
   "version": "gen-1.0.0",
   "core_version": "1.2.0",
-  "seed": 7000403,
-  "candidate_index": 403,
-  "family": "07",
-  "attempts": 558,
+  "seed": 57000363,
+  "candidate_index": null,
+  "family": "G",
+  "attempts": 98,
   "params": {
    "width": 6,
    "height": 6,
-   "pairs": 5,
-   "holes": 0,
+   "pairs": 6,
+   "holes": 2,
    "minLen": 3,
    "allowSelfAdjacent": false
   },
