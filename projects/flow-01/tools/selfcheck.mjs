@@ -273,12 +273,19 @@ const G = (p, f, a) => p.evaluate(f, a);
 {
   const { c, p } = await open(1280, 720, '');
   const hi = LEVELS.length + HARD.findIndex((h) => h.id === 'H4-01'), lv = HARD.find((h) => h.id === 'H4-01');
+  // 오디오 켠 일반 모드로 큰 그림 판 완료(테스트 모드가 건너뛰는 완료 화음·진동 경로, r3 핫픽스)
+  await p.mouse.click(640, 600); await p.waitForFunction(() => window.__game.audioState === 'running', null, { timeout: 8000 }).catch(() => fail('큰 그림 판 전 오디오가 켜지지 않음'));
   await G(p, (i) => window.__game.loadLevel(i), hi); await p.waitForTimeout(400);
   const gr = await G(p, () => window.__game.layout.grid);
   const at = ([x, y]) => [gr.originX + (x + 0.5) * gr.cellPx, gr.originY + (y + 0.5) * gr.cellPx];
   for (const path of solOf(lv)) { const [x0, y0] = at(path[0]); await p.mouse.move(x0, y0); await p.mouse.down(); for (const q of path.slice(1)) { const [x, y] = at(q); await p.mouse.move(x, y, { steps: 2 }); } await p.mouse.up(); }
   const r = await G(p, () => window.__game.result);
-  if (!r || !r.star || r.accuracyPct !== 100) fail('넓은 판 12x12 실제 마우스(1280x720) ' + JSON.stringify(r)); else ok('넓은 판 H4-01(12x12·16쌍) 실제 마우스 → 별·100 %');
+  await p.waitForTimeout(2500);
+  const after = await G(p, () => ({ st: window.__game.state, au: window.__game.audioState, snd: window.__game.sfxLog.includes('complete') }));
+  if (!r || !r.star || r.accuracyPct !== 100 || after.st !== 'result' || after.au !== 'running' || !after.snd) fail('넓은 판 12x12 실제 마우스·오디오(1280x720) ' + JSON.stringify([r, after])); else ok('넓은 판 H4-01(12x12·16쌍) 실제 마우스·오디오 켬 → 별·100 %·완료 화음·결과 화면(콘솔 에러는 아래 합계)');
+  // 결과 '지도' → 톱니(설정): 숨기는 화면에 초점이 남아 aria-hidden 경고가 나지 않는지(콘솔 합계에 포함)
+  await G(p, () => {}); await p.waitForTimeout(400);
+  { const b = await p.locator('#rMap').boundingBox(); await p.mouse.click(b.x + b.width / 2, b.y + b.height / 2); await p.waitForTimeout(600); const g2 = await p.locator('#mGear').boundingBox(); await p.mouse.click(g2.x + g2.width / 2, g2.y + g2.height / 2); await p.waitForTimeout(600); const st2 = await G(p, () => window.__game.state); if (st2 !== 'guardian') fail('결과 지도 → 톱니 → 설정 아님 ' + st2); else ok('결과 지도 → 톱니 한 번 → 설정 화면'); }
   await c.close();
 }
 {

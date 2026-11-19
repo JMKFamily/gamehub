@@ -8,7 +8,7 @@ import { makeLayout } from './layout.js';
 import { Audio } from './audio.js';
 import { Haptics } from './haptics.js';
 import * as ST from './store.js';
-import { buildBoardCache, offscreen, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, svgBitmap, bitmapEl, prebakeBitmap, idle, idleLate, setIdleGate, mix, ease, clamp01, rrect } from './render.js';
+import { buildBoardCache, boardCacheSteps, offscreen, dotSprite, markSprite, glowSprite, circleSprite, textSprite, subPolyline, strokePoly, miniBoardSVG, svgImg, svgImgEl, svgBitmap, bitmapEl, prebakeBitmap, idle, idleLate, setIdleGate, mix, ease, clamp01, rrect } from './render.js';
 
 const Q = new URLSearchParams(location.search);
 const TEST = Q.get('test') === '1';
@@ -84,6 +84,8 @@ const SCREENS = ['title', 'map', 'play', 'result', 'guardian'];
 let trans = null;
 let lastScreenAt = 0;
 function show(name) {
+  // r3 핫픽스: 숨길 화면 안에 초점이 있으면 먼저 옮김(aria-hidden 안 초점 경고 방지) — 새 화면의 첫 버튼, 없으면 body
+  { const ae = document.activeElement, to = $(name); if (ae && ae !== document.body && to && !to.contains(ae)) { const f = to.querySelector('button:not([disabled]):not([aria-disabled="true"])'); to.classList.add('show'); to.classList.remove('pre'); to.inert = false; to.removeAttribute('aria-hidden'); if (f) f.focus({ preventScroll: true }); else ae.blur(); } }
   state = name; lastScreenAt = performance.now();
   for (const s of SCREENS) { const el = $(s), on = s === name; el.classList.toggle('show', on); if (s === 'map' || s === 'result' || s === 'play') { el.classList.toggle('pre', !on); el.inert = !on; if (!on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden'); } }
   $('boot').classList.remove('show');
@@ -543,6 +545,7 @@ function judgeSprite(c, gi) {
 const SPC = new Map(), BDC = new Map();
 function levelBoard(lv, L) {
   const k = [lv.id, VW, VH, dpr, L.cell, L.board.w].join('|'); let b = BDC.get(k);
+  if (b && b.gen) { const save = PS; PS = { theme: themeOf(lv) }; try { let x; while (!(x = b.gen.next()).done); b = x.value; } finally { PS = save; } BDC.set(k, b); }
   if (!b) { const pz = B.makePuzzle(lv), th = themeOf(lv), save = PS; PS = { theme: th }; try { b = buildBoardCache({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => drawDecor(o, L)); } finally { PS = save; } BDC.set(k, b); }
   return b;
 }
@@ -556,11 +559,19 @@ function nameSprite(col, gi, L) {
   if (!s) { s = textSprite(T(D.bal.judge.name_keys[gi]), L.judge.name_px[gi], FONT, col.shade, C.white, dpr, gi === 0 ? { px: L.judge.g1_star_px, path: D.starPath, fill: C.star, edge: C.starEdge } : null); SPC.set(k, s); }
   return s;
 }
+// 판 배치(넓은 판이면 카메라용 판 좌표 배치) — layoutPlay 와 같은 식
+function layoutFor(lv) {
+  const P = D.lay.param; let L = LY.play(window.innerWidth, window.innerHeight, lv.width, lv.height);
+  if (lv.hard) { const Wd = LY.playWide(window.innerWidth, window.innerHeight, lv.width, lv.height); if (Wd.camera) { const pc = Wd.cell, pad = P.board_pad_of_cell * pc; L = { ...Wd, board: { x: 0, y: 0, w: Wd.board_full.w, h: Wd.board_full.h }, grid: { x: pad, y: pad }, cell: pc }; L.px = { line_w: pc * P.line_w_of_cell, dot_d: pc * P.dot_d_of_cell, mark: pc * P.dot_d_of_cell * P.mark_of_dot, ring_d: pc * P.ring_of_cell, ring_w: pc * P.ring_w_of_cell }; } }
+  return L;
+}
 function prewarmLevel(i) {
   const lv = D.levels[i]; if (!lv) return;
-  if (lv.hard) return; // 넓은 판은 판 열 때 만듦(카메라 판 좌표)
-  const L = LY.play(window.innerWidth, window.innerHeight, lv.width, lv.height), cols = colorsOf(lv);
-  idle(() => levelBoard(lv, L));
+  const L = layoutFor(lv), cols = colorsOf(lv);
+  // 판 캐시는 유휴 시간에 몇 줄씩(12x12 도 한 프레임을 길게 만들지 않음)
+  { const k = [lv.id, window.innerWidth, window.innerHeight, dpr, L.cell, L.board.w].join('|');
+    if (!BDC.has(k)) { const pz = B.makePuzzle(lv), th = themeOf(lv); const e = { gen: boardCacheSteps({ L, lv, P: D.lay.param, C: D.pal.common, pz }, dpr, (o) => { const save = PS; PS = { theme: th }; try { drawDecor(o, L); } finally { PS = save; } }) }; BDC.set(k, e);
+      const step = () => { const cur = BDC.get(k); if (cur !== e) return; const x = e.gen.next(); if (x.done) BDC.set(k, x.value); else idle(step); }; idle(step); } }
   for (const col of cols) { idle(() => colSprites(col, L)); for (const gi of [0, 1, 2]) idle(() => nameSprite(col, gi, L)); }
 }
 function drawDecor(o, L) {
@@ -674,6 +685,16 @@ function miniFrame() {
   const w = Math.min(mm.w, (vp.w / c.s) * sx), h = Math.min(mm.h, (vp.h / c.s) * sy), x = Math.max(0, Math.min(mm.w - w, c.x * sx)), y = Math.max(0, Math.min(mm.h - h, c.y * sy));
   setStyle(v, 'width', w.toFixed(1) + 'px'); setStyle(v, 'height', h.toFixed(1) + 'px'); setStyle(v, 'transform', `translate(${x.toFixed(1)}px,${y.toFixed(1)}px)`);
 }
+// 넓은 판: 한 쌍을 이으면 아직 안 이은 쌍의 끝점이 화면에 하나도 없을 때 가장 가까운 끝점으로 카메라 이동(r3 핫픽스)
+function camNextPair() {
+  const c = PS.cam; if (!c || c.mode !== 'play') return;
+  const vp = camVp(), vis = (i) => { const [x, y] = toScreen(...cc(i)); return x > vp.x && x < vp.x + vp.w && y > vp.y && y < vp.y + vp.h; };
+  const ends = []; PS.pz.pairs.forEach((p, k) => { if (!PS.dots[k]) ends.push(p.a, p.b); });
+  if (!ends.length || ends.some(vis)) return;
+  const [hx, hy] = [c.x + vp.w / 2, c.y + vp.h / 2]; let best = ends[0], bd = 1e18;
+  for (const e of ends) { const [x, y] = cc(e), d = (x - hx) ** 2 + (y - hy) ** 2; if (d < bd) { bd = d; best = e; } }
+  camCenterOn(best);
+}
 // 넓은 판 선 위 표지: 5칸마다(끝점 제외), 보통 판은 가운데 한 칸
 function markCells(p) {
   if (!PS.cam) return p.length >= 3 ? [p[Math.floor((p.length - 1) / 2)]] : [];
@@ -738,6 +759,7 @@ function onUp(id = 1) {
   PS.drag = null; PS.head = null;
   PS.lastRelease = clock;
   if (r.changed) boardChanged();
+  if (PS.cam && r.connected && !PS.g.completed) camNextPair();
   syncPairs();
   return r;
 }
@@ -939,7 +961,7 @@ function updatePlay(dt) {
   // 판 완료 시간표
   if (PS.doneAt != null) {
     const t = clock - PS.doneAt;
-    if (t >= D.bal.haptics_ms.complete_delay_ms && !PS.cSound) { PS.cSound = true; sfx('complete', { k: PS.pz.k }); if (S.vibrate) H.complete(clock); if (!RM()) PS.g.connectLog.forEach((cl, j) => PS.bands.push({ t: PS.doneAt + 150 + j * 80, ms: fx.connect_band_ms, c: cl.color, cells: PS.g.paths[cl.color].slice().reverse() })); }
+    if (t >= D.bal.haptics_ms.complete_delay_ms && !PS.cSound) { PS.cSound = true; sfx('complete', { k: PS.pz.k }); if (S.vibrate) H.complete(clock); if (!RM()) PS.g.connectLog.forEach((cl, j) => PS.bands.push({ t: PS.doneAt + 150 + j * Math.min(80, 480 / Math.max(1, PS.g.connectLog.length)), ms: fx.connect_band_ms, c: cl.color, cells: PS.g.paths[cl.color].slice().reverse() })); }
     if (t >= 420 && !PS.cParts && !RM()) { PS.cParts = true; const own = B.ownerGrid(PS.pz, PS.g.paths), all = PS.g.paths.flat(); for (let k = 0; k < 12; k++) { const cell = all[Math.floor(PS.rng() * all.length)]; PS.particles.push({ t: clock, ms: 500, cell, rise: true, c: own[cell], s: 0.1 + PS.rng() * 0.05, dx: (PS.rng() - 0.5) * 0.4 }); } }
     if (t >= 600 && !PS.rPrep && state === 'play') prepareResult();
     if (t >= D.bal.complete.next_screen_after_s * 1000 && state === 'play') openResult();
@@ -1236,9 +1258,9 @@ function resultFrame() {
   const t = clock - PS.resultAt, R = PS.result, Mo = D.lay.motion, st = Mo.result, rs = PS.rs;
   const slide = RM() ? 1 : ease.out(clamp01(t / 280));
   setStyle($('result'), 'transform', slide >= 1 ? '' : `translateY(${((1 - slide) * VH).toFixed(1)}px)`);
-  const n = R.pairs, dotsEnd = 300 + 80 * (n - 1) + 180;
+  const n = R.pairs, gap = Math.min(80, 400 / Math.max(1, n - 1)), dotsEnd = 300 + gap * (n - 1) + 180; // 쌍이 많으면 간격을 줄여 %·별이 늦지 않게(점 줄 ≤ 0.9 s)
   [...$('rDots').children].forEach((sp, c) => {
-    const u = clamp01((t - 300 - 80 * c) / 180);
+    const u = clamp01((t - 300 - gap * c) / 180);
     const s = RM() ? (t >= 300 ? 1 : 0) : u <= 0 ? 0 : u < 0.6 ? (u / 0.6) * 1.15 : 1.15 - 0.15 * ((u - 0.6) / 0.4);
     setStyle(sp, 'transform', s >= 1 && u >= 1 ? '' : `scale(${s.toFixed(3)})`);
     if (u > 0 && !rs['d' + c]) { rs['d' + c] = 1; if (R.oneShot[c]) sfx('connect_g3', { pitch: D.snd.ladder_hz[Math.min(c, D.snd.ladder_hz.length - 1)], db: -6 }); }

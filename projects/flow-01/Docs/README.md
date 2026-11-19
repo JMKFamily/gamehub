@@ -4,6 +4,7 @@
 
 | 날짜 | 역할 | 단계 | 제목 |
 |---|---|---|---|
+| 2026-11-19 | game-developer | round-3 핫픽스 | [7쌍 이상 완료 화음 TypeError·초점 경고 수정, 판 캐시 유휴 줄 그리기·다음 판 미리, 다음 쌍 카메라 — 판 시작·완료 1% low 미달](game-developer/2026-11-19-r3-hotfix.md) |
 | 2026-11-19 | qa-engineer | 1-4 | [QA round-3: 기술 품질 7.0·REVISE(major 3·minor 2), 빌드 = 시뮬 16,500판 불일치 0·완벽 입력 100/100, 해금·보호자 고지 0 통과, 큰 그림 완료 화음 TypeError·aria-hidden 경고, K2 플레이 1% low 34~40](qa-engineer/2026-11-19-1-4-round3-qa.md) |
 | 2026-11-19 | game-developer | round-3 구현 | [큰 그림 5단계(문 페이지·누적 별 해금)·넓은 판 카메라·미니맵·쌍 16·설정 일반 버튼, selfcheck 일반 50 + 어려운 50 ALL PASS, 판 시작 1% low 미달](game-developer/2026-11-19-r3-build.md) |
 | 2026-11-19 | balance-designer | round-3 기획 | [곡선 재설계(5~6세 구간 L1~L4 = 4 %, 추론 봇 D1·D2), L5~L50 교체, 어려운 5단계 × 10판(9x9~12x12·쌍 10~16, gen-2·독립 검증기 2), 별 100, 전체 실행 ALL PASS](balance-designer/2026-11-19-r3-plan.md) |

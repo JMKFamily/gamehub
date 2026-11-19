@@ -57,11 +57,12 @@ export class Audio {
     const t0 = this.ctx.currentTime + 0.005 + (opt.delayMs || 0) / 1000;
     const bus = this.bus[s.bus] || this.master;
     if (s.pitch === 'chord') {
-      const k = opt.k || 1;
-      for (let i = 0; i < k; i++) for (const L of s.layers) this._layer(L, this.S.ladder_hz[i], t0 + (i * s.arp_ms) / 1000, s.db, bus);
+      // r3 핫픽스: 쌍이 사다리 음 수(6)보다 많아도 표 안의 음만 — 음 수는 최대 사다리 길이, 높이는 쌍 수와 무관
+      const lad = this.S.ladder_hz, k = Math.max(1, Math.min(opt.k || 1, lad.length));
+      for (let i = 0; i < k; i++) for (const L of s.layers) this._layer(L, lad[i], t0 + (i * s.arp_ms) / 1000, s.db, bus);
       return;
     }
-    const f0 = opt.pitch || 440;
+    const f0 = Number.isFinite(opt.pitch) ? opt.pitch : 440;
     for (const L of s.layers) this._layer(L, f0, t0, s.db + (opt.db || 0), bus);
   }
   connect(grade, connectedCount) {

@@ -25,7 +25,9 @@ export function offscreen(w, h, dpr) {
 
 // 판 카드 + 타일 + 구멍(layout.json hole_rule) + 바탕 장식(판 뒤). 경계선이 구멍 둘레를 따라가도록
 // 바깥(판⊕e − 구멍⊖e)에 선 색, 안(판⊖e − 구멍⊕e)에 판 색을 겹침. 결과 = 판 둘레 margin 만큼 큰 비트맵 1장.
-export function buildBoardCache(S, dpr, decor) {
+// 한 번에 다 그리기(buildBoardCache) 또는 유휴 시간에 몇 줄씩(boardCacheSteps, r3 핫픽스: 12x12 판을 여러 프레임에)
+export function buildBoardCache(S, dpr, decor) { const g = boardCacheSteps(S, dpr, decor); let x; while (!(x = g.next()).done); return x.value; }
+export function* boardCacheSteps(S, dpr, decor) {
   const { L, lv, P, C, pz } = S;
   const b = L.board, cell = L.cell, e = 0.75, pad = Math.ceil(cell * 0.6);
   const ox = b.x - pad, oy = b.y - pad, W = b.w + 2 * pad, H = b.h + 2 * pad;
@@ -47,12 +49,17 @@ export function buildBoardCache(S, dpr, decor) {
   for (const r of holeRects(e)) { fx.beginPath(); rrect(fx, ...r); fx.fill(); }
   fx.globalCompositeOperation = 'source-over';
   const ins = P.tile_inset_of_cell * cell, tr = P.tile_r_of_cell * cell;
-  for (let y = 0; y < lv.height; y++) for (let x = 0; x < lv.width; x++) {
-    if (pz.hole[y * lv.width + x]) continue;
-    const X = L.grid.x + x * cell, Y = L.grid.y + y * cell;
-    fx.fillStyle = C.tile; fx.beginPath(); rrect(fx, X + ins, Y + ins, cell - 2 * ins, cell - 2 * ins, tr); fx.fill();
-    fx.fillStyle = C.tileDot; fx.beginPath(); fx.arc(X + cell / 2, Y + cell / 2, (P.tile_dot_of_cell * cell) / 2, 0, 7); fx.fill();
+  yield;
+  for (let y = 0; y < lv.height; y++) {
+    for (let x = 0; x < lv.width; x++) {
+      if (pz.hole[y * lv.width + x]) continue;
+      const X = L.grid.x + x * cell, Y = L.grid.y + y * cell;
+      fx.fillStyle = C.tile; fx.beginPath(); rrect(fx, X + ins, Y + ins, cell - 2 * ins, cell - 2 * ins, tr); fx.fill();
+      fx.fillStyle = C.tileDot; fx.beginPath(); fx.arc(X + cell / 2, Y + cell / 2, (P.tile_dot_of_cell * cell) / 2, 0, 7); fx.fill();
+    }
+    if (y % 3 === 2) yield;
   }
+  yield;
   const [out, o] = mk();
   if (decor) decor(o);
   o.save(); o.setTransform(1, 0, 0, 1, 0, 0);
